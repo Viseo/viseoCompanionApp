@@ -1,9 +1,10 @@
 /**
  * Created by AAB3605 on 13/02/2017.
  */
-import React, { Component } from 'react';
-import { View, Text, Navigator } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, Navigator} from 'react-native';
 import Home from './scenes/home';
+import Authentication from './scenes/authentication';
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -13,8 +14,31 @@ export default class ViseoCompanion extends Component {
     }
 
     render() {
+        const routes = [
+            {title: 'Home'},
+            {title: 'Authentication'},
+        ];
         return (
-            <Home />
-        );
+            <Navigator
+                initialRoute={routes[0]}
+                renderScene={(route, navigator) => {
+                    if(route.title === 'Home') {
+                        return (
+                            <Home
+                                onForward={() => {
+                                    navigator.push({
+                                        title: 'Authentication'
+                                    });
+                                }}
+                            />
+                        );
+                    } else if(route.title === 'Authentication') {
+                        return (
+                            <Authentication />
+                        );
+                    }
+                }}
+            />
+        )
     }
 }

@@ -2,18 +2,25 @@
  * Created by AAB3605 on 13/02/2017.
  */
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableHighlight } from 'react-native';
 
-export default class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
+class Home extends Component {
 
     render() {
         return (
             <View>
-                <Text>Home Page</Text>
+                <Text>Welcome to the {this.props.title} page</Text>
+
+                <TouchableHighlight onPress={this.props.onForward}>
+                    <Text>Please click here to login</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight onPress={this.props.onBack}>
+                    <Text>Tap me to go back</Text>
+                </TouchableHighlight>
             </View>
         )
     }
 }
+
+export default Home;
