@@ -34,7 +34,6 @@ export default class Authentication extends Component {
     render() {
         return (
             <View>
-                /* */
                 <View>
                     <View style={styles.topbar}>
                         <Text style={styles.viseocompanion}> VISEO COMPANION </Text>

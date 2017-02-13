@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {View, Text, Navigator, BackAndroid} from 'react-native';
 import Home from './scenes/home';
 import Authentication from './scenes/authentication';
+import ListEvents from "./scenes/listEvents";
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -31,6 +32,7 @@ export default class ViseoCompanion extends Component {
         const routes = [
             {title: 'Home'},
             {title: 'Authentication'},
+            {title: 'ListEvents'},
         ];
         return (
             <Navigator
@@ -45,11 +47,20 @@ export default class ViseoCompanion extends Component {
                                         title: 'Authentication'
                                     });
                                 }}
+                                onPrint={() => {
+                                    navigator.push({
+                                        title: 'ListEvents'
+                                    });
+                                }}
                             />
                         );
                     } else if(route.title === 'Authentication') {
                         return (
                             <Authentication />
+                        );
+                    } else if(route.title === 'ListEvents') {
+                        return (
+                            <ListEvents />
                         );
                     }
                 }}

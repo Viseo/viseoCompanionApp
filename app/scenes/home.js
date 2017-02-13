@@ -18,6 +18,10 @@ class Home extends Component {
                 <TouchableHighlight onPress={this.props.onBack}>
                     <Text>Tap me to go back</Text>
                 </TouchableHighlight>
+
+                <TouchableHighlight onPress={this.props.onPrint}>
+                    <Text>Tap me to print the event list</Text>
+                </TouchableHighlight>
             </View>
         )
     }
