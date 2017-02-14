@@ -1,12 +1,12 @@
 /**
  * Created by AAB3605 on 13/02/2017.
  */
-import React, {Component} from "react";
-import {View, Text, Navigator, BackAndroid} from "react-native";
-import Home from "./scenes/home";
-import Authentication from "./scenes/authentication";
+import React, {Component} from 'react';
+import {View, Text, Navigator, BackAndroid} from 'react-native';
+import Home from './scenes/home';
+import Authentication from './scenes/signIn';
 import ListEvents from "./scenes/listEvents";
-import Event from "./scenes/event";
+//import Event from "./scenes/event";
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -32,7 +32,7 @@ export default class ViseoCompanion extends Component {
     render() {
         const routes = [
             {title: 'Home'},
-            {title: 'Authentication'},
+            {title: 'SignIn'},
             {title: 'ListEvents'},
             {title: 'Event'},
         ];
@@ -46,7 +46,7 @@ export default class ViseoCompanion extends Component {
                             <Home
                                 onForward={() => {
                                     navigator.push({
-                                        title: 'Authentication'
+                                        title: 'SignIn'
                                     });
                                 }}
                                 onPrint={() => {
@@ -56,7 +56,7 @@ export default class ViseoCompanion extends Component {
                                 }}
                             />
                         );
-                    } else if(route.title === 'Authentication') {
+                    } else if(route.title === 'SignIn') {
                         return (
                             <Authentication />
                         );
