@@ -1,11 +1,12 @@
 /**
  * Created by AAB3605 on 13/02/2017.
  */
-import React, {Component} from 'react';
-import {View, Text, Navigator, BackAndroid} from 'react-native';
-import Home from './scenes/home';
-import Authentication from './scenes/authentication';
+import React, {Component} from "react";
+import {View, Text, Navigator, BackAndroid} from "react-native";
+import Home from "./scenes/home";
+import Authentication from "./scenes/authentication";
 import ListEvents from "./scenes/listEvents";
+import Event from "./scenes/event";
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ export default class ViseoCompanion extends Component {
             {title: 'Home'},
             {title: 'Authentication'},
             {title: 'ListEvents'},
+            {title: 'Event'},
         ];
         return (
             <Navigator
@@ -60,7 +62,24 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'ListEvents') {
                         return (
-                            <ListEvents />
+                            <ListEvents
+                                onForward = {(event, email) => {
+                                    navigator.push({
+                                        title :'Event',
+                                        passProps: {
+                                            event,
+                                            email,
+                                        },
+                                    });
+                                }}
+                            />
+                        );
+                    } else if(route.title === 'Event') {
+                        return (
+                            <Event
+                                event={this.props.event}
+                                email={this.props.email}
+                            />
                         );
                     }
                 }}
