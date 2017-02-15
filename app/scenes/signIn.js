@@ -18,10 +18,10 @@ import {
     Dimensions,
     Button,
     Alert,
-    TouchableHighlight
+    TouchableHighlight,
 } from "react-native";
 
-export default class Authentication extends Component {
+export default class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,6 +29,8 @@ export default class Authentication extends Component {
             password: '',
             errorType: ''
         };
+
+        this.onPressSignUp = this.onPressSignUp.bind(this);
     }
 
     onPressLearnMore() {
@@ -37,7 +39,7 @@ export default class Authentication extends Component {
 
     onPressSignUp() {
         this.props.navigator.push({
-           title: 'signUp'
+           title: 'SignUp'
         });
     }
 
@@ -99,7 +101,7 @@ export default class Authentication extends Component {
                         </View>
                         <View style={{flex:1, padding:5}}>
                             <Button
-                                onPress={this.onPressLearnMore}
+                                onPress={this.onPressSignUp}
                                 title="Sign up"
                                 color="#bdaebf"
                                 accessibilityLabel="Learn more about this purple button"
