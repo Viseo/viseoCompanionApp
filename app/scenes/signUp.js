@@ -20,7 +20,7 @@ import {
     TouchableHighlight,
 } from "react-native";
 import * as util from './../util';
-import settings from './../config/settings';
+import * as db from './../db';
 
 export default class SignUp extends React.Component {
 
@@ -36,53 +36,6 @@ export default class SignUp extends React.Component {
 
         this.onPressSignIn = this.onPressSignIn.bind(this);
         this.onPressSignUp = this.onPressSignUp.bind(this);
-    }
-
-    async addUser(email, password) {
-        try {
-            let response = await fetch(settings.SERVER_API_URL + 'account/addAccount', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "email": email,
-                    "password": password
-                })
-            });
-
-            let responseJson = await response.json();
-            if(responseJson) {
-                return true;
-            }
-        } catch (error) {
-            console.warn(error);
-        }
-
-        return false;
-    }
-
-    async doesUserAlreadyExist(email) {
-        try {
-            let response = await fetch(settings.SERVER_API_URL + 'account/checkAccount', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "email": email
-                })
-            });
-
-            let responseJson = await response.json();
-            if(responseJson) {
-                return false;
-            }
-        } catch (error) {
-            console.warn(error);
-        }
-
-        return true;
     }
 
     isPasswordValid(password) {
@@ -104,11 +57,11 @@ export default class SignUp extends React.Component {
             this.setState({errorMessage: "The passwords don't match."});
         } else {
             try {
-                let userAlreadyExists = await this.doesUserAlreadyExist(this.state.email);
+                let userAlreadyExists = await db.hasUser(this.state.email);
                 if(userAlreadyExists) {
                     this.setState({errorMessage: 'This email is already used.'});
                 } else {
-                    let userAddedSuccessfully = await this.addUser(this.state.email, this.state.password);
+                    let userAddedSuccessfully = await db.addUser(this.state.email, this.state.password);
                     if(userAddedSuccessfully) {
                         this.props.navigator.push({
                             title: 'Home'
