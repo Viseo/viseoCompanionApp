@@ -29,17 +29,48 @@ export default class SignUp extends React.Component {
 
         this.state = {
             email: '',
+            isEmailValid: true,
             password: '',
-            passwordVerification: '',
-            errorMessage:''
+            isPasswordValid: true,
+            passwordCheck: '',
+            isPasswordCheckValid: true,
+            isFormCompletelyFilled: true,
+            errorMessage: ''
         }
 
+        this.onChangeEmailText = this.onChangeEmailText.bind(this);
+        this.onChangePasswordText = this.onChangePasswordText.bind(this);
+        this.onChangePasswordCheckText = this.onChangePasswordCheckText.bind(this);
         this.onPressSignIn = this.onPressSignIn.bind(this);
         this.onPressSignUp = this.onPressSignUp.bind(this);
     }
 
-    isPasswordValid(password) {
-        return password.length >= 6 ? true : false;
+    onChangeEmailText(text) {
+        this.setState({
+            email: text,
+            isEmailValid: util.isEmailValid(text),
+            isFormCompletelyFilled: true
+        });
+    }
+
+    onChangePasswordText(text) {
+        let isPasswordValid =  util.isPasswordValid(text) || !text.length;
+
+        this.setState({
+            password: text,
+            isPasswordValid: isPasswordValid,
+            isFormCompletelyFilled: true
+        });
+    }
+
+    onChangePasswordCheckText(text) {
+        let isPasswordCheckValid =  this.state.password === text || !text.length;
+
+        this.setState({
+            passwordCheck: text,
+            isPasswordCheckValid: isPasswordCheckValid,
+            isFormCompletelyFilled: true
+        });
     }
 
     onPressSignIn() {
@@ -47,21 +78,24 @@ export default class SignUp extends React.Component {
     }
 
     async onPressSignUp() {
-        if (util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordVerification)) {
-            this.setState({errorMessage: 'Please fill all the fields.'});
+        this.setState({errorMessage: ''});
+
+        if (util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)) {
+            this.setState({isFormCompletelyFilled: false});
         } else if (!util.isEmailValid(this.state.email)) {
-            this.setState({errorMessage: 'This is not a valid email.'});
-        } else if (!this.isPasswordValid(this.state.password)) {
-            this.setState({errorMessage: 'The password must contain at least 6 characters.'});
-        } else if (this.state.password !== this.state.passwordVerification) {
-            this.setState({errorMessage: "The passwords don't match."});
+            this.setState({isEmailValid: false});
+        } else if (!util.isPasswordValid(this.state.password)) {
+            this.setState({isPasswordValid: false});
+        } else if (this.state.password !== this.state.passwordCheck) {
+            this.setState({isPasswordCheckValid: false});
         } else {
             try {
                 let userAlreadyExists = await db.hasUser(this.state.email);
                 if(userAlreadyExists) {
                     this.setState({errorMessage: 'This email is already used.'});
                 } else {
-                    let userAddedSuccessfully = await db.addUser(this.state.email, this.state.password);
+                    let email = this.state.email.toLowerCase();
+                    let userAddedSuccessfully = await db.addUser(email, this.state.password);
                     if(userAddedSuccessfully) {
                         this.props.navigator.push({
                             title: 'Home'
@@ -77,6 +111,15 @@ export default class SignUp extends React.Component {
     }
 
     render() {
+        // Messages to help the user fill the form
+        // Only relevant ones are showed
+        // Several messages can be showed at the same time (in the following order)
+        let emailMessage = !this.state.isEmailValid ? <Text style={styles.errorInfo}>This is not a valid email.</Text> : null;
+        let passwordMessage = !this.state.isPasswordValid ? <Text style={styles.errorInfo}>The password must contain at least 6 characters.</Text> : null;
+        let passwordCheckMessage = !this.state.isPasswordCheckValid ? <Text style={styles.errorInfo}>{"The passwords don't match."}</Text> : null;
+        let missingFieldsMessage = !this.state.isFormCompletelyFilled ? <Text style={styles.errorInfo}>Please fill all the fields.</Text> : null;
+        let errorMessage = this.state.errorMessage.length > 0 ? <Text style={styles.errorInfo}>{this.state.errorMessage}</Text> : null;
+
         return (
         <View style={{flex:1, justifyContent: 'center', marginBottom:100}}><ScrollView>
             <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
@@ -92,20 +135,26 @@ export default class SignUp extends React.Component {
                 {/* User email input */}
                 <View>
                     <TextInput
-                        style={{textAlign: 'center'}}
+                        style={[
+                            styles.textInput,
+                            !this.state.isEmailValid && styles.invalidFormat
+                            ]}
                         placeholder="Email"
                         keyboardType="email-address"
                         autoCorrect={false}
                         selectTextOnFocus={true}
                         underlineColorAndroid={"white"}
-                        onChangeText={(text) => this.setState({email: text})}
+                        onChangeText={this.onChangeEmailText}
                     />
                 </View>
 
                 {/* User password input */}
                 <View >
                     <TextInput
-                        style={{textAlign: 'center'}}
+                        style={[
+                            styles.textInput,
+                            !this.state.isPasswordValid && styles.invalidFormat
+                            ]}
                         placeholder="Password"
                         password={true}
                         autoCorrect={false}
@@ -113,14 +162,17 @@ export default class SignUp extends React.Component {
                         underlineColorAndroid={"white"}
                         minLength={6}
                         secureTextEntry={true}
-                        onChangeText={(text) => this.setState({password: text})}
+                        onChangeText={this.onChangePasswordText}
                     />
                 </View>
 
                 {/* User password verification input */}
                 <View >
                     <TextInput
-                        style={{textAlign: 'center'}}
+                        style={[
+                            styles.textInput,
+                            !this.state.isPasswordCheckValid && styles.invalidFormat
+                            ]}
                         placeholder="Verify password"
                         password={true}
                         autoCorrect={false}
@@ -128,15 +180,17 @@ export default class SignUp extends React.Component {
                         underlineColorAndroid={"white"}
                         minLength={6}
                         secureTextEntry={true}
-                        onChangeText={(text) => this.setState({passwordVerification: text})}
+                        onChangeText={this.onChangePasswordCheckText}
                     />
                 </View>
 
-                {/* Display error messages */}
+                {/* Display error messages to help the user fill out the form */}
                 <View>
-                    <Text style={{textAlign: 'center', fontSize: 12, color: 'brown', fontStyle: 'italic'}}>
-                        {this.state.errorMessage}
-                    </Text>
+                    {emailMessage}
+                    {passwordMessage}
+                    {passwordCheckMessage}
+                    {missingFieldsMessage}
+                    {errorMessage}
                 </View>
 
                 {/* SIGN IN and SIGN UP buttons */}
@@ -161,3 +215,23 @@ export default class SignUp extends React.Component {
         );
     }
 }
+
+var styles = StyleSheet.create({
+    errorInfo: {
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'brown',
+        fontStyle: 'italic'
+    },
+    invalidFormat: {
+        borderColor: 'crimson',
+        borderWidth: 1
+    },
+    textInput: {
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 10,
+        fontSize: 18,
+        textAlign: 'center'
+    }
+});
