@@ -20,6 +20,7 @@ import {
     Alert,
     TouchableHighlight,
 } from "react-native";
+import * as util from './../util.js';
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -27,14 +28,19 @@ export default class SignIn extends Component {
         this.state = {
             email: '',
             password: '',
-            errorType: ''
+            errorMessage: ''
         };
 
+        this.onPressSignIn = this.onPressSignIn.bind(this);
         this.onPressSignUp = this.onPressSignUp.bind(this);
     }
 
-    onPressLearnMore() {
-        Alert.alert('Button has been pressed!');
+    async onPressSignIn() {
+        if (util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordVerification)) {
+            this.setState({errorMessage: 'Please fill all the fields.'});
+        } else if (!util.isEmailValid(this.state.email)) {
+            this.setState({errorMessage: 'This is not a valid email.'});
+        }
     }
 
     onPressSignUp() {
@@ -77,8 +83,9 @@ export default class SignIn extends Component {
                             password={true}
                             autoCorrect={false}
                             selectTextOnFocus={true}
+                            secureTextEntry={true}
                             underlineColorAndroid={"white"}
-                            minLength={5}
+                            minLength={6}
                         />
                     </View>
 
@@ -93,10 +100,9 @@ export default class SignIn extends Component {
                     <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
                         <View style={{flex:1, padding:5}}>
                             <Button
-                                onPress={this.onPressLearnMore}
+                                onPress={this.onPressSignIn}
                                 title="Sign in"
                                 color="#841584"
-                                accessibilityLabel="Learn more about this purple button"
                             />
                         </View>
                         <View style={{flex:1, padding:5}}>
@@ -104,7 +110,6 @@ export default class SignIn extends Component {
                                 onPress={this.onPressSignUp}
                                 title="Sign up"
                                 color="#bdaebf"
-                                accessibilityLabel="Learn more about this purple button"
                             />
                         </View>
                     </View>

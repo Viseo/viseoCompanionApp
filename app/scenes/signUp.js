@@ -19,8 +19,8 @@ import {
     Alert,
     TouchableHighlight,
 } from "react-native";
-
-const localUrl = 'http://10.33.179.112:8080/api/';
+import * as util from './../util';
+import settings from './../config/settings';
 
 export default class SignUp extends React.Component {
 
@@ -39,11 +39,8 @@ export default class SignUp extends React.Component {
     }
 
     async addUser(email, password) {
-        console.warn('Add user:');
-        console.warn(this.state.email);
-        console.warn(this.state.password);
         try {
-            let response = await fetch(localUrl + 'account/addAccount', {
+            let response = await fetch(settings.SERVER_API_URL + 'account/addAccount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,17 +52,19 @@ export default class SignUp extends React.Component {
             });
 
             let responseJson = await response.json();
-
-            if(responseJson)
+            if(responseJson) {
                 return true;
+            }
         } catch (error) {
             console.warn(error);
         }
+
+        return false;
     }
 
     async doesUserAlreadyExist(email) {
         try {
-            let response = await fetch(localUrl + 'account/checkAccount', {
+            let response = await fetch(settings.SERVER_API_URL + 'account/checkAccount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -86,22 +85,6 @@ export default class SignUp extends React.Component {
         return true;
     }
 
-    hasEmptyField() {
-        if (
-            this.state.email == '' ||
-            this.state.password == '' ||
-            this.state.passwordVerification == '') {
-            return true;
-        }
-
-        return false;
-    }
-
-    isEmailValid(email) {
-        var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return regex.test(email);
-    };
-
     isPasswordValid(password) {
         return password.length >= 6 ? true : false;
     }
@@ -111,9 +94,9 @@ export default class SignUp extends React.Component {
     }
 
     async onPressSignUp() {
-        if (this.hasEmptyField()) {
+        if (util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordVerification)) {
             this.setState({errorMessage: 'Please fill all the fields.'});
-        } else if (!this.isEmailValid(this.state.email)) {
+        } else if (!util.isEmailValid(this.state.email)) {
             this.setState({errorMessage: 'This is not a valid email.'});
         } else if (!this.isPasswordValid(this.state.password)) {
             this.setState({errorMessage: 'The password must contain at least 6 characters.'});
@@ -125,7 +108,14 @@ export default class SignUp extends React.Component {
                 if(userAlreadyExists) {
                     this.setState({errorMessage: 'This email is already used.'});
                 } else {
-                    await this.addUser(this.state.email, this.state.password);
+                    let userAddedSuccessfully = await this.addUser(this.state.email, this.state.password);
+                    if(userAddedSuccessfully) {
+                        this.props.navigator.push({
+                            title: 'Home'
+                        });
+                    } else {
+                        this.setState({errorMessage: 'Sign up failed. There was a problem with the server.'});
+                    }
                 }
             } catch (error) {
                 console.warn("Couldn't sign up.");
@@ -168,7 +158,8 @@ export default class SignUp extends React.Component {
                         autoCorrect={false}
                         selectTextOnFocus={true}
                         underlineColorAndroid={"white"}
-                        minLength={5}
+                        minLength={6}
+                        secureTextEntry={true}
                         onChangeText={(text) => this.setState({password: text})}
                     />
                 </View>
@@ -182,7 +173,8 @@ export default class SignUp extends React.Component {
                         autoCorrect={false}
                         selectTextOnFocus={true}
                         underlineColorAndroid={"white"}
-                        minLength={5}
+                        minLength={6}
+                        secureTextEntry={true}
                         onChangeText={(text) => this.setState({passwordVerification: text})}
                     />
                 </View>
@@ -208,7 +200,6 @@ export default class SignUp extends React.Component {
                             onPress={this.onPressSignUp}
                             title="Sign up"
                             color="#841584"
-                            accessibilityLabel="Learn more about this purple button"
                         />
                     </View>
                 </View>
