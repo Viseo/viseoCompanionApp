@@ -96,7 +96,7 @@ export default class SignUp extends React.Component {
                     let userAddedSuccessfully = await db.addUser(email, this.state.password);
                     if (userAddedSuccessfully) {
                         this.props.navigator.push({
-                            title: 'Home'
+                            title: 'TestScene'
                         });
                     } else {
                         this.setState({errorMessage: 'Sign up failed. There was a problem with the server.'});

@@ -51,6 +51,16 @@ export async function checkCredentials(email, password) {
     return false;
 }
 
+export async function getEvents() {
+    try {
+        let response = await fetch(settings.EVENT_API_URL + '/readEvent');
+        let events = await response.json();
+        return events;
+    } catch(error) {
+        console.warn('Could get events: ' + error);
+    }
+}
+
 export async function hasUser(email) {
     try {
         let response = await fetch(settings.SERVER_API_URL + 'account/checkAccount', {

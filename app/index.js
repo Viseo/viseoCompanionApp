@@ -3,11 +3,11 @@
  */
 import React, {Component} from 'react';
 import {View, Text, Navigator, BackAndroid} from 'react-native';
-import Home from './scenes/home';
+import TestScene from './scenes/testScene';
 import SignIn from './scenes/signIn';
 import SignUp from './scenes/signUp';
 import RecoverPassword from './scenes/recoverPassword';
-import ListEvents from "./scenes/listEvents";
+import Home from "./scenes/home";
 //import Event from "./scenes/event";
 
 export default class ViseoCompanion extends Component {
@@ -37,17 +37,17 @@ export default class ViseoCompanion extends Component {
             {title: 'SignIn'},
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
-            {title: 'ListEvents'},
+            {title: 'TestScene'},
             {title: 'Event'},
         ];
         return (
             <Navigator
-                initialRoute={routes[1]}
+                initialRoute={routes[0]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
-                    if(route.title === 'Home') {
+                    if(route.title === 'TestScene') {
                         return (
-                            <Home
+                            <TestScene
                                 onForward={() => {
                                     navigator.push({
                                         title: 'SignIn'
@@ -55,7 +55,7 @@ export default class ViseoCompanion extends Component {
                                 }}
                                 onPrint={() => {
                                     navigator.push({
-                                        title: 'ListEvents'
+                                        title: 'Home'
                                     });
                                 }}
                             />
@@ -72,9 +72,9 @@ export default class ViseoCompanion extends Component {
                         return (
                             <RecoverPassword navigator={navigator} {...route.passProps}/>
                         );
-                    } else if(route.title === 'ListEvents') {
+                    } else if(route.title === 'Home') {
                         return (
-                            <ListEvents
+                            <Home
                                 onForward = {(event, email) => {
                                     navigator.push({
                                         title :'Event',
