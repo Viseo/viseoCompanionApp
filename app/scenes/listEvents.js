@@ -1,7 +1,6 @@
 /**
  * Created by LMA3606 on 13/02/2017.
  */
-
 import React, {Component} from "react";
 import {
     Animated,
@@ -16,9 +15,11 @@ import {
     TouchableOpacity,
     ListView,
     Dimensions,
-    RefreshControl,
+    RefreshControl
 } from "react-native";
-import settings from "../config/settings"
+import ActionButton from "react-native-action-button";
+import Icon from "react-native-vector-icons/Ionicons";
+import settings from "../config/settings";
 
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
 
@@ -36,7 +37,7 @@ function addZero(i){
     return i;
 }
 
-export default class ListEvents extends React.Component {
+export default class ListEvents extends Component {
 
     constructor(props) {
         super(props);
@@ -66,20 +67,15 @@ export default class ListEvents extends React.Component {
             .done();
     }
 
-
-    _pressRow(event, email) {
-        this.props.navigator.push({
-            id: 'eventdetails',
-            passProps: {
-                event,
-                email,
-            },
-        })
-    }
-
     _onRefresh() {
         this.setState({refreshing: true});
         this.fetchData()
+    }
+
+    onAddEvent() {
+        this.props.navigator.push({
+            title: 'AddEvent'
+        });
     }
 
     render() {
@@ -93,7 +89,7 @@ export default class ListEvents extends React.Component {
             <View>
                 <View style={styles.topbar}>
                     <View style={styles.menu0}>
-                        <Image source={require("../images/Menu-52.png")} style={styles.icon}/>
+                        <Image source={require("../images/Menu.png")} style={styles.icon}/>
                     </View>
                     <Text style={styles.viseocompanion}> VISEO COMPANION </Text>
                 </View>
@@ -114,6 +110,13 @@ export default class ListEvents extends React.Component {
                         renderRow={this.renderRow.bind(this)}
                     />
                 </ScrollView>
+
+                {/*Create event button*/}
+                <ActionButton buttonColor="rgba(231,76,60,1)">
+                    <ActionButton.Item buttonColor='#9b59b6' title="New event" onPress={this.props.onAddEventClicked}>
+                        <Icon name="md-create" style={styles.actionButtonIcon}/>
+                    </ActionButton.Item>
+                </ActionButton>
             </View>
         );
     }
@@ -131,7 +134,7 @@ export default class ListEvents extends React.Component {
     renderRow(event) {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={ () => this._pressRow(event,this.props.email)}>
+                <TouchableOpacity onPress={ () => this.props.onEventClicked(event,this.props.email)}>
                     <View style={styles.rectangle}>
                         <View style={styles.leftRectangle}>
                             <Text style={styles.date}> {new Date(event.date).getDate()}</Text>
@@ -140,7 +143,7 @@ export default class ListEvents extends React.Component {
                                 style={styles.date}> {new Date(event.date).getHours()}h{addZero(new Date(event.date).getMinutes())}</Text>
                         </View>
                         <View style={styles.rightRectangle}>
-                            <Text style={styles.name}> {ThreePoints(event.event) } </Text>
+                            <Text style={styles.name}> {ThreePoints(event.name) } </Text>
                             <Text style={styles.location}> {event.lieu} </Text>
                             <Text style={styles.location}> {ThreePoints(event.motclefs)} </Text>
                         </View>
@@ -287,5 +290,11 @@ const styles = StyleSheet.create({
 
     scrollView: {
         height: 0.85 * deviceHeight,
+    },
+
+    actionButtonIcon: {
+        fontSize: 24,
+        height: 22,
+        color: 'white',
     },
 });
