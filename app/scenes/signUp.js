@@ -48,23 +48,21 @@ export default class SignUp extends React.Component {
     onChangeEmailText(text) {
         this.setState({
             email: text,
-            isEmailValid: util.isEmailValid(text),
+            isEmailValid: util.isPasswordValid(text) || !text.length,
             isFormCompletelyFilled: true
         });
     }
 
     onChangePasswordText(text) {
-        let isPasswordValid =  util.isPasswordValid(text) || !text.length;
-
         this.setState({
             password: text,
-            isPasswordValid: isPasswordValid,
+            isPasswordValid: util.isPasswordValid(text) || !text.length,
             isFormCompletelyFilled: true
         });
     }
 
     onChangePasswordCheckText(text) {
-        let isPasswordCheckValid =  this.state.password === text || !text.length;
+        let isPasswordCheckValid = this.state.password === text || !text.length;
 
         this.setState({
             passwordCheck: text,
@@ -91,12 +89,12 @@ export default class SignUp extends React.Component {
         } else {
             try {
                 let userAlreadyExists = await db.hasUser(this.state.email);
-                if(userAlreadyExists) {
+                if (userAlreadyExists) {
                     this.setState({errorMessage: 'This email is already used.'});
                 } else {
                     let email = this.state.email.toLowerCase();
                     let userAddedSuccessfully = await db.addUser(email, this.state.password);
-                    if(userAddedSuccessfully) {
+                    if (userAddedSuccessfully) {
                         this.props.navigator.push({
                             title: 'Home'
                         });
@@ -114,104 +112,112 @@ export default class SignUp extends React.Component {
         // Messages to help the user fill the form
         // Only relevant ones are showed
         // Several messages can be showed at the same time (in the following order)
-        let emailMessage = !this.state.isEmailValid ? <Text style={styles.errorInfo}>This is not a valid email.</Text> : null;
-        let passwordMessage = !this.state.isPasswordValid ? <Text style={styles.errorInfo}>The password must contain at least 6 characters.</Text> : null;
-        let passwordCheckMessage = !this.state.isPasswordCheckValid ? <Text style={styles.errorInfo}>{"The passwords don't match."}</Text> : null;
-        let missingFieldsMessage = !this.state.isFormCompletelyFilled ? <Text style={styles.errorInfo}>Please fill all the fields.</Text> : null;
-        let errorMessage = this.state.errorMessage.length > 0 ? <Text style={styles.errorInfo}>{this.state.errorMessage}</Text> : null;
+        let emailMessage = !this.state.isEmailValid ?
+            <Text style={styles.errorInfo}>This is not a valid email.</Text> : null;
+        let passwordMessage = !this.state.isPasswordValid ?
+            <Text style={styles.errorInfo}>The password must contain at least 6 characters.</Text> : null;
+        let passwordCheckMessage = !this.state.isPasswordCheckValid ?
+            <Text style={styles.errorInfo}>{"The passwords don't match."}</Text> : null;
+        let missingFieldsMessage = !this.state.isFormCompletelyFilled ?
+            <Text style={styles.errorInfo}>Please fill all the fields.</Text> : null;
+        let errorMessage = this.state.errorMessage.length > 0 ?
+            <Text style={styles.errorInfo}>{this.state.errorMessage}</Text> : null;
 
         return (
-        <View style={{flex:1, justifyContent: 'center', marginBottom:100}}><ScrollView>
-            <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
+            <View style={{flex:1, justifyContent: 'center', marginBottom:100}}>
+                <ScrollView>
+                    <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
 
-                {/* VISEO or SIGN UP logo */}
-                <View style={{alignItems: 'center', paddingBottom:50}}>
-                    <Image
-                        source={require('./../images/signUpLogo.png')}
-                        style={{width: 110, height: 110}}
-                    />
-                </View>
+                        {/* VISEO or SIGN UP logo */}
+                        <View style={{alignItems: 'center', paddingBottom:50}}>
+                            <Image
+                                source={require('./../images/signUpLogo.png')}
+                                style={{width: 110, height: 110}}
+                            />
+                        </View>
 
-                {/* User email input */}
-                <View>
-                    <TextInput
-                        style={[
+                        {/* User email input */}
+                        <View>
+                            <TextInput
+                                style={[
                             styles.textInput,
                             !this.state.isEmailValid && styles.invalidFormat
                             ]}
-                        placeholder="Email"
-                        keyboardType="email-address"
-                        autoCorrect={false}
-                        selectTextOnFocus={true}
-                        underlineColorAndroid={"white"}
-                        onChangeText={this.onChangeEmailText}
-                    />
-                </View>
+                                placeholder="Email"
+                                keyboardType="email-address"
+                                autoCorrect={false}
+                                selectTextOnFocus={true}
+                                underlineColorAndroid={"white"}
+                                onChangeText={this.onChangeEmailText}
+                            />
+                        </View>
 
-                {/* User password input */}
-                <View >
-                    <TextInput
-                        style={[
+                        {/* User password input */}
+                        <View >
+                            <TextInput
+                                style={[
                             styles.textInput,
                             !this.state.isPasswordValid && styles.invalidFormat
                             ]}
-                        placeholder="Password"
-                        password={true}
-                        autoCorrect={false}
-                        selectTextOnFocus={true}
-                        underlineColorAndroid={"white"}
-                        minLength={6}
-                        secureTextEntry={true}
-                        onChangeText={this.onChangePasswordText}
-                    />
-                </View>
+                                placeholder="Password"
+                                password={true}
+                                autoCorrect={false}
+                                selectTextOnFocus={true}
+                                underlineColorAndroid={"white"}
+                                minLength={6}
+                                secureTextEntry={true}
+                                onChangeText={this.onChangePasswordText}
+                            />
+                        </View>
 
-                {/* User password verification input */}
-                <View >
-                    <TextInput
-                        style={[
+                        {/* User password verification input */}
+                        <View >
+                            <TextInput
+                                style={[
                             styles.textInput,
                             !this.state.isPasswordCheckValid && styles.invalidFormat
                             ]}
-                        placeholder="Verify password"
-                        password={true}
-                        autoCorrect={false}
-                        selectTextOnFocus={true}
-                        underlineColorAndroid={"white"}
-                        minLength={6}
-                        secureTextEntry={true}
-                        onChangeText={this.onChangePasswordCheckText}
-                    />
-                </View>
+                                placeholder="Verify password"
+                                password={true}
+                                autoCorrect={false}
+                                selectTextOnFocus={true}
+                                underlineColorAndroid={"white"}
+                                minLength={6}
+                                secureTextEntry={true}
+                                onChangeText={this.onChangePasswordCheckText}
+                            />
+                        </View>
 
-                {/* Display error messages to help the user fill out the form */}
-                <View>
-                    {emailMessage}
-                    {passwordMessage}
-                    {passwordCheckMessage}
-                    {missingFieldsMessage}
-                    {errorMessage}
-                </View>
+                        {/* Display error messages to help the user fill out the form */}
+                        <View>
+                            {emailMessage}
+                            {passwordMessage}
+                            {passwordCheckMessage}
+                            {missingFieldsMessage}
+                            {errorMessage}
+                        </View>
 
-                {/* SIGN IN and SIGN UP buttons */}
-                <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
-                    <View style={{flex:1, padding:5}}>
-                        <Button
-                            onPress={this.onPressSignIn}
-                            title="Sign in"
-                            color="#bdaebf"
-                        />
+                        {/* SIGN IN and SIGN UP buttons */}
+                        <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
+                            <View style={{flex:1, padding:5}}>
+                                <Button
+                                    onPress={this.onPressSignUp}
+                                    title="Sign up"
+                                    color="#841584"
+                                />
+                            </View>
+                        </View>
+
+                        {/* Log in instead of creating a new account */}
+                        <TouchableHighlight onPress={this.onPressSignIn}>
+                            <Text
+                                style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
+                                Already have an account? Sign in
+                            </Text>
+                        </TouchableHighlight>
                     </View>
-                    <View style={{flex:1, padding:5}}>
-                        <Button
-                            onPress={this.onPressSignUp}
-                            title="Sign up"
-                            color="#841584"
-                        />
-                    </View>
-                </View>
-            </View></ScrollView>
-        </View>
+                </ScrollView>
+            </View>
         );
     }
 }
