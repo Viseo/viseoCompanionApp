@@ -31,8 +31,15 @@ export default class SignIn extends Component {
             errorMessage: ''
         };
 
+        this.onPressRecoverPassword = this.onPressRecoverPassword.bind(this);
         this.onPressSignIn = this.onPressSignIn.bind(this);
         this.onPressSignUp = this.onPressSignUp.bind(this);
+    }
+
+    onPressRecoverPassword() {
+        this.props.navigator.push({
+            title: 'RecoverPassword'
+        });
     }
 
     async onPressSignIn() {
@@ -91,7 +98,7 @@ export default class SignIn extends Component {
                         </View>
 
                         {/* Recover password */}
-                        <TouchableHighlight onPress={this.props.onForward}>
+                        <TouchableHighlight onPress={this.onPressRecoverPassword}>
                             <Text style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic'}}>
                                 Forgot password?
                             </Text>

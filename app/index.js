@@ -6,6 +6,7 @@ import {View, Text, Navigator, BackAndroid} from 'react-native';
 import Home from './scenes/home';
 import SignIn from './scenes/signIn';
 import SignUp from './scenes/signUp';
+import RecoverPassword from './scenes/recoverPassword';
 import ListEvents from "./scenes/listEvents";
 //import Event from "./scenes/event";
 
@@ -35,6 +36,7 @@ export default class ViseoCompanion extends Component {
             {title: 'Home'},
             {title: 'SignIn'},
             {title: 'SignUp'},
+            {title: 'RecoverPassword'},
             {title: 'ListEvents'},
             {title: 'Event'},
         ];
@@ -65,6 +67,10 @@ export default class ViseoCompanion extends Component {
                     } else if(route.title === 'SignUp') {
                         return (
                             <SignUp navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'RecoverPassword') {
+                        return (
+                            <RecoverPassword navigator={navigator} {...route.passProps}/>
                         );
                     } else if(route.title === 'ListEvents') {
                         return (
