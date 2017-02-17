@@ -20,6 +20,7 @@ import {
     Alert,
     TouchableHighlight,
 } from "react-native";
+import CheckBox from 'react-native-check-box'
 import * as util from './../util.js';
 
 export default class SignIn extends Component {
@@ -28,12 +29,20 @@ export default class SignIn extends Component {
         this.state = {
             email: '',
             password: '',
-            errorMessage: ''
+            errorMessage: '',
+            rememberUser: false
         };
 
+        this.onPressRememberMe = this.onPressRememberMe.bind(this);
         this.onPressRecoverPassword = this.onPressRecoverPassword.bind(this);
         this.onPressSignIn = this.onPressSignIn.bind(this);
         this.onPressSignUp = this.onPressSignUp.bind(this);
+    }
+
+    onPressRememberMe() {
+        this.setState({
+           rememberUser: !this.state.rememberUser
+        });
     }
 
     onPressRecoverPassword() {
@@ -97,14 +106,27 @@ export default class SignIn extends Component {
                             />
                         </View>
 
-                        {/* Recover password */}
-                        <TouchableHighlight onPress={this.onPressRecoverPassword}>
-                            <Text style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic'}}>
-                                Forgot password?
-                            </Text>
-                        </TouchableHighlight>
+                        <View style={{flexDirection: 'row', flex:1}}>
+                            {/* Remember user if this checkbox is checked */}
+                            <CheckBox
+                                style={{flex: 1, padding: 10}}
+                                onClick={this.onPressRememberMe}
+                                isChecked={false}
+                                rightText={"Remember me"}
+                            />
 
-                        {/* SIGN IN and SIGN UP buttons */}
+                            <View style={{flex:1, alignItems: 'flex-end'}}>
+                                {/* Recover password */}
+                                <TouchableHighlight onPress={this.onPressRecoverPassword}>
+                                    <Text
+                                        style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic'}}>
+                                        Forgot password?
+                                    </Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+
+                        {/* SIGN IN button */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
                             <View style={{flex:1, padding:5}}>
                                 <Button
@@ -115,7 +137,7 @@ export default class SignIn extends Component {
                             </View>
                         </View>
 
-                        {/* Create account */}
+                        {/* SIGN UP link */}
                         <TouchableHighlight onPress={this.onPressSignUp}>
                             <Text
                                 style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
