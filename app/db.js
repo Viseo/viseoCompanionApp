@@ -27,6 +27,30 @@ export async function addUser(email, password) {
     return false;
 }
 
+export async function checkCredentials(email, password) {
+    try {
+        let response = await fetch(settings.SERVER_API_URL + 'account/Authentification', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "email": email,
+                "password": password
+            })
+        });
+
+        let responseJson = await response.json();
+        if(responseJson) {
+            return true;
+        }
+    } catch (error) {
+        console.warn(error);
+    }
+
+    return false;
+}
+
 export async function hasUser(email) {
     try {
         let response = await fetch(settings.SERVER_API_URL + 'account/checkAccount', {

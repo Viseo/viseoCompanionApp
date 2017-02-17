@@ -21,6 +21,8 @@ import {
     TouchableHighlight,
 } from "react-native";
 import CheckBox from 'react-native-check-box'
+import formStyle from './../styles/form';
+import * as db from './../db';
 import * as util from './../util.js';
 
 export default class SignIn extends Component {
@@ -41,7 +43,7 @@ export default class SignIn extends Component {
 
     onPressRememberMe() {
         this.setState({
-           rememberUser: !this.state.rememberUser
+            rememberUser: !this.state.rememberUser
         });
     }
 
@@ -52,10 +54,26 @@ export default class SignIn extends Component {
     }
 
     async onPressSignIn() {
-        if (util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordVerification)) {
+        this.setState({errorMessage: ''});
+
+        if (util.hasEmptyElement(this.state.email, this.state.password)) {
             this.setState({errorMessage: 'Please fill all the fields.'});
         } else if (!util.isEmailValid(this.state.email)) {
             this.setState({errorMessage: 'This is not a valid email.'});
+        } else {
+            try {
+                this.setState({email: this.state.email.toLowerCase()});
+                let authenticationSuccessful = await db.checkCredentials(this.state.email, this.state.password);
+                if (authenticationSuccessful) {
+                    this.props.navigator.push({
+                        title: 'Home'
+                    });
+                } else {
+                    this.setState({errorMessage: 'The credentials you entered are not valid.'});
+                }
+            } catch (error) {
+                console.warn("Couldn't sign up: " + error);
+            }
         }
     }
 
@@ -83,6 +101,7 @@ export default class SignIn extends Component {
                         <View>
                             <TextInput
                                 style={{textAlign: 'center'}}
+                                onChangeText={(email) => this.setState({email})}
                                 placeholder="Email"
                                 keyboardType="email-address"
                                 autoCorrect={false}
@@ -95,6 +114,7 @@ export default class SignIn extends Component {
                         <View >
                             <TextInput
                                 style={{textAlign: 'center'}}
+                                onChangeText={(password) => this.setState({password})}
                                 placeholder="Password"
                                 ref={component=>this._textInput1=component}
                                 password={true}
@@ -125,6 +145,9 @@ export default class SignIn extends Component {
                                 </TouchableHighlight>
                             </View>
                         </View>
+
+                        {/* Display error messages to help the user fill out the form */}
+                        <Text style={formStyle.errorInfo}>{this.state.errorMessage}</Text>
 
                         {/* SIGN IN button */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
