@@ -49,6 +49,7 @@ export default class Home extends Component {
             }),
             loaded: false,
             refreshing: false,
+            hasEvents: false
         };
     }
 
@@ -64,11 +65,18 @@ export default class Home extends Component {
 
         // Load all events to be showed
         let events = await db.getEvents();
-        if (events) {
+        if(events.length) {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(events),
                 loaded: true,
-                refreshing: false
+                refreshing: false,
+                hasEvents: true
+            });
+        } else {
+            this.setState({
+                loaded: true,
+                hasEvents: false,
+                refreshing: false,
             });
         }
     }
@@ -79,11 +87,16 @@ export default class Home extends Component {
 
         // Show loading indicator until all events are loaded
         // Then show all events in chronological order
-        let eventList = this.state.loaded ? this.renderEvents() : this.renderLoadingIndicator();
+        let eventList;
+        if (this.state.loaded) {
+            eventList = this.state.hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
+        } else {
+            this.renderLoadingIndicator();
+        }
 
         // For now only the admin can create events through the admin page
         let allowEventCreation = false;
-        let createEventButton = allowEventCreation? this.renderCreateEventButton() : null;
+        let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
 
         return (
             <View>
@@ -96,43 +109,20 @@ export default class Home extends Component {
 
                 <Text style={styles.title}> Evénements:</Text>
 
-                {eventList}
-
-                {createEventButton}
-            </View>
-        );
-    }
-
-    renderLoadingIndicator() {
-        return (
-            <ActivityIndicator
-                animating={this.state.animating}
-                style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 8,height: 80}}
-                size="large"
-            />
-        );
-    }
-
-    renderEvents() {
-        return (
-            <ScrollView
-                refreshControl={
+                <ScrollView
+                    refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
                             onRefresh={this._onRefresh.bind(this)}
                         />
                     }
-                scrollEventThrottle={200}
-                style={styles.scrollView}>
-                <ListView
-                    navigator={this.props.navigator}
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderEventCard.bind(this)}
-                />
-            </ScrollView>
+                    scrollEventThrottle={200}
+                    style={styles.scrollView}>
+                    {eventList}
+                </ScrollView>
+
+                {createEventButton}
+            </View>
         );
     }
 
@@ -166,6 +156,38 @@ export default class Home extends Component {
                 </TouchableOpacity>
             </View>
 
+        );
+    }
+
+    renderEvents() {
+        return (
+            <ListView
+                navigator={this.props.navigator}
+                dataSource={this.state.dataSource}
+                renderRow={this.renderEventCard.bind(this)}
+            />
+        );
+    }
+
+    renderNoEventsToShow() {
+        return (
+            <Text>
+                Whoops... There's nothing to show.
+                Come back later!
+            </Text>
+        );
+    }
+
+    renderLoadingIndicator() {
+        return (
+            <ActivityIndicator
+                animating={this.state.animating}
+                style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: 8,height: 80}}
+                size="large"
+            />
         );
     }
 }

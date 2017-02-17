@@ -59,6 +59,8 @@ export async function getEvents() {
     } catch(error) {
         console.warn('Could get events: ' + error);
     }
+
+    return null;
 }
 
 export async function hasUser(email) {
