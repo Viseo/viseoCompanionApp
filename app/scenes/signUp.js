@@ -18,6 +18,7 @@ import {
     Button,
     Alert,
     TouchableHighlight,
+    Modal
 } from "react-native";
 import * as util from './../util';
 import * as db from './../db';
@@ -35,14 +36,26 @@ export default class SignUp extends React.Component {
             passwordCheck: '',
             isPasswordCheckValid: true,
             isFormCompletelyFilled: true,
-            errorMessage: ''
+            errorMessage: '',
+            modalVisible: false
         }
 
+        this.onAccountCreatedNotificationPressed = this.onAccountCreatedNotificationPressed.bind(this);
         this.onChangeEmailText = this.onChangeEmailText.bind(this);
         this.onChangePasswordText = this.onChangePasswordText.bind(this);
         this.onChangePasswordCheckText = this.onChangePasswordCheckText.bind(this);
         this.onPressSignIn = this.onPressSignIn.bind(this);
         this.onPressSignUp = this.onPressSignUp.bind(this);
+    }
+
+    onAccountCreatedNotificationPressed() {
+        this.setState({
+            modalVisible: false
+        });
+
+        this.props.navigator.push({
+            title: 'Home'
+        });
     }
 
     onChangeEmailText(text) {
@@ -95,9 +108,7 @@ export default class SignUp extends React.Component {
                     let email = this.state.email.toLowerCase();
                     let userAddedSuccessfully = await db.addUser(email, this.state.password);
                     if (userAddedSuccessfully) {
-                        this.props.navigator.push({
-                            title: 'TestScene'
-                        });
+                        this.setState({modalVisible: true});
                     } else {
                         this.setState({errorMessage: 'Sign up failed. There was a problem with the server.'});
                     }
@@ -197,6 +208,9 @@ export default class SignUp extends React.Component {
                             {errorMessage}
                         </View>
 
+                        {/* Notify the user when their account was created before redirecting to home page */}
+                        {this.renderAccountCreationPopout()}
+
                         {/* SIGN IN and SIGN UP buttons */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
                             <View style={{flex:1, padding:5}}>
@@ -217,6 +231,43 @@ export default class SignUp extends React.Component {
                         </TouchableHighlight>
                     </View>
                 </ScrollView>
+            </View>
+        );
+    }
+
+    renderAccountCreationPopout() {
+        return (
+            <View>
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.onAccountCreatedNotificationPressed;
+                    }}
+                >
+                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View
+                        style={{
+                            flex:1,
+                            justifyContent: 'center',
+                            alignItems:'center',
+                            backgroundColor: 'rgba(186, 242, 255, 1)'
+                        }}
+                    >
+                        <View>
+                            <Text style={{textAlign:'center'}}>
+                                {"Account created! \nLet's see what's happening around!\n\n"}
+                            </Text>
+                            <Button
+                                onPress={this.onAccountCreatedNotificationPressed}
+                                title="OK"
+                                color="#6ABEFF"
+                            />
+                        </View>
+                    </View>
+                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                </Modal>
             </View>
         );
     }
