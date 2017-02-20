@@ -21,7 +21,8 @@ import {
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import settings from "../config/settings";
-import * as db from './../db';
+import Event from './../components/event';
+import * as db from '../components/db';
 
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
 
@@ -149,8 +150,8 @@ export default class Home extends Component {
                         </View>
                         <View style={styles.rightRectangle}>
                             <Text style={styles.name}> {ThreePoints(event.name) } </Text>
-                            <Text style={styles.location}> {event.lieu} </Text>
-                            <Text style={styles.location}> {ThreePoints(event.motclefs)} </Text>
+                            <Text style={styles.location}> {event.location} </Text>
+                            <Text style={styles.location}> {ThreePoints(event.description)} </Text>
                         </View>
                     </View>
                 </TouchableOpacity>

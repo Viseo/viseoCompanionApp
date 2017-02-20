@@ -22,7 +22,7 @@ import {
 } from "react-native";
 import CheckBox from 'react-native-check-box'
 import formStyle from './../styles/form';
-import * as db from './../db';
+import * as db from '../components/db';
 import * as util from './../util.js';
 
 export default class SignIn extends Component {

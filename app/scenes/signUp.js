@@ -21,7 +21,7 @@ import {
     Modal
 } from "react-native";
 import * as util from './../util';
-import * as db from './../db';
+import * as db from '../components/db';
 
 export default class SignUp extends React.Component {
 

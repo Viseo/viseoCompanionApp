@@ -1,7 +1,8 @@
 /**
  * Created by AAB3605 on 16/02/2017.
  */
-import settings from './config/settings';
+import settings from '../config/settings';
+import Event from './event';
 
 export async function addUser(email, password) {
     try {
@@ -54,7 +55,20 @@ export async function checkCredentials(email, password) {
 export async function getEvents() {
     try {
         let response = await fetch(settings.EVENT_API_URL + '/readEvent');
-        let events = await response.json();
+        let eventsJson = await response.json();
+
+        let events = [];
+        for (let i = 0; i < eventsJson.length; i++){
+            let event = eventsJson[i];
+            events.push(new Event(
+                event.id,
+                event.name,
+                event.description,
+                event.datetime,
+                event.location
+            ));
+        }
+
         return events;
     } catch(error) {
         console.warn('Could get events: ' + error);
