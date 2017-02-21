@@ -21,7 +21,7 @@ import {
     TouchableHighlight,
 } from "react-native";
 import CheckBox from 'react-native-check-box'
-import formStyle from './../styles/form';
+import styles from './../styles/form';
 import * as db from '../components/db';
 import * as util from './../util.js';
 import strings from './../components/localizedStrings';
@@ -104,7 +104,7 @@ export default class SignIn extends Component {
                         {/* User email input */}
                         <View>
                             <TextInput
-                                style={{textAlign: 'center'}}
+                                style={styles.textInput}
                                 onChangeText={(email) => this.setState({email})}
                                 placeholder={strings.email}
                                 keyboardType="email-address"
@@ -117,7 +117,7 @@ export default class SignIn extends Component {
                         {/* User password input */}
                         <View >
                             <TextInput
-                                style={{textAlign: 'center'}}
+                                style={styles.textInput}
                                 onChangeText={(password) => this.setState({password})}
                                 placeholder={strings.password}
                                 ref={component=>this._textInput1=component}
@@ -151,7 +151,7 @@ export default class SignIn extends Component {
                         </View>
 
                         {/* Display error messages to help the user fill out the form */}
-                        <Text style={formStyle.errorInfo}>{this.state.errorMessage}</Text>
+                        <Text style={styles.errorInfo}>{this.state.errorMessage}</Text>
 
                         {/* SIGN IN button */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>

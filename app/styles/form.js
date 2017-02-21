@@ -17,10 +17,12 @@ export default StyleSheet.create({
         borderWidth: 1
     },
     textInput: {
-        borderColor: 'white',
-        borderWidth: 1,
+        borderWidth: 0,
         borderRadius: 10,
         fontSize: 18,
-        textAlign: 'center'
+        textAlign: 'center',
+        padding: 4,
+        height: 40,
+        marginBottom: 10,
     }
 });
