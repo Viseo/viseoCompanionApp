@@ -114,7 +114,8 @@ export default class SignUp extends React.Component {
                     }
                 }
             } catch (error) {
-                console.warn("Couldn't sign up.");
+                console.warn('signUp::onPressSignUp ' + error);
+                this.setState({errorMessage: "Couldn't sign up."});
             }
         }
     }

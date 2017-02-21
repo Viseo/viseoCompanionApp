@@ -22,7 +22,7 @@ export async function addUser(email, password) {
             return true;
         }
     } catch (error) {
-        console.warn(error);
+        console.warn('db::addUser ' + error);
     }
 
     return false;
@@ -46,7 +46,7 @@ export async function checkCredentials(email, password) {
             return true;
         }
     } catch (error) {
-        console.warn(error);
+        console.warn('db::checkCredentials ' + error);
     }
 
     return false;
@@ -71,7 +71,7 @@ export async function getEvents() {
 
         return events;
     } catch(error) {
-        console.warn('Could get events: ' + error);
+        console.warn('db::getEvents ' + error);
     }
 
     return null;
@@ -94,7 +94,8 @@ export async function hasUser(email) {
             return false;
         }
     } catch (error) {
-        console.warn(error);
+        console.warn('db::hasUser ' + error);
+        return false;
     }
 
     return true;
