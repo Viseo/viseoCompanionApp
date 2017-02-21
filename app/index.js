@@ -15,7 +15,7 @@ export default class ViseoCompanion extends Component {
     constructor(props) {
         super(props);
 
-        strings.setLanguage('fr');
+        strings.setLanguage('en');
 
         this.navigator;
         this.state = {};
@@ -45,7 +45,7 @@ export default class ViseoCompanion extends Component {
         ];
         return (
             <Navigator
-                initialRoute={routes[0]}
+                initialRoute={routes[2]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'TestScene') {

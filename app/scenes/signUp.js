@@ -22,6 +22,7 @@ import {
 } from "react-native";
 import * as util from './../util';
 import * as db from '../components/db';
+import formStyle from './../styles/form';
 import strings from './../components/localizedStrings';
 
 export default class SignUp extends React.Component {
@@ -122,20 +123,6 @@ export default class SignUp extends React.Component {
     }
 
     render() {
-        // Messages to help the user fill the form
-        // Only relevant ones are showed
-        // Several messages can be showed at the same time (in the following order)
-        let emailMessage = !this.state.isEmailValid ?
-            <Text style={styles.errorInfo}>This is not a valid email.</Text> : null;
-        let passwordMessage = !this.state.isPasswordValid ?
-            <Text style={styles.errorInfo}>The password must contain at least 6 characters.</Text> : null;
-        let passwordCheckMessage = !this.state.isPasswordCheckValid ?
-            <Text style={styles.errorInfo}>{"The passwords don't match."}</Text> : null;
-        let missingFieldsMessage = !this.state.isFormCompletelyFilled ?
-            <Text style={styles.errorInfo}>Please fill all the fields.</Text> : null;
-        let errorMessage = this.state.errorMessage.length > 0 ?
-            <Text style={styles.errorInfo}>{this.state.errorMessage}</Text> : null;
-
         return (
             <View style={{flex:1, justifyContent: 'center', marginBottom:100}}>
                 <ScrollView>
@@ -153,8 +140,8 @@ export default class SignUp extends React.Component {
                         <View>
                             <TextInput
                                 style={[
-                            styles.textInput,
-                            !this.state.isEmailValid && styles.invalidFormat
+                            formStyle.textInput,
+                            !this.state.isEmailValid && formStyle.invalidFormat
                             ]}
                                 placeholder={strings.email}
                                 keyboardType="email-address"
@@ -169,8 +156,8 @@ export default class SignUp extends React.Component {
                         <View >
                             <TextInput
                                 style={[
-                            styles.textInput,
-                            !this.state.isPasswordValid && styles.invalidFormat
+                            formStyle.textInput,
+                            !this.state.isPasswordValid && formStyle.invalidFormat
                             ]}
                                 placeholder={strings.password}
                                 password={true}
@@ -187,8 +174,8 @@ export default class SignUp extends React.Component {
                         <View >
                             <TextInput
                                 style={[
-                            styles.textInput,
-                            !this.state.isPasswordCheckValid && styles.invalidFormat
+                            formStyle.textInput,
+                            !this.state.isPasswordCheckValid && formStyle.invalidFormat
                             ]}
                                 placeholder={strings.verifyPassword}
                                 password={true}
@@ -202,13 +189,7 @@ export default class SignUp extends React.Component {
                         </View>
 
                         {/* Display error messages to help the user fill out the form */}
-                        <View>
-                            {emailMessage}
-                            {passwordMessage}
-                            {passwordCheckMessage}
-                            {missingFieldsMessage}
-                            {errorMessage}
-                        </View>
+                        {this.renderFormFillingInformation()}
 
                         {/* Notify the user when their account was created before redirecting to home page */}
                         {this.renderAccountCreationPopout()}
@@ -273,24 +254,30 @@ export default class SignUp extends React.Component {
             </View>
         );
     }
-}
 
-var styles = StyleSheet.create({
-    errorInfo: {
-        textAlign: 'center',
-        fontSize: 12,
-        color: 'brown',
-        fontStyle: 'italic'
-    },
-    invalidFormat: {
-        borderColor: 'crimson',
-        borderWidth: 1
-    },
-    textInput: {
-        borderColor: 'white',
-        borderWidth: 1,
-        borderRadius: 10,
-        fontSize: 18,
-        textAlign: 'center'
+    renderFormFillingInformation() {
+        // Messages to help the user fill the form
+        // Only relevant ones are showed
+        // Several messages can be showed at the same time (in the following order)
+        let emailMessage = !this.state.isEmailValid ?
+            <Text style={formStyle.errorInfo}>{strings.invalidEmailFormat}</Text> : null;
+        let passwordMessage = !this.state.isPasswordValid ?
+            <Text style={formStyle.errorInfo}>{strings.invalidPasswordFormat}</Text> : null;
+        let passwordCheckMessage = !this.state.isPasswordCheckValid ?
+            <Text style={formStyle.errorInfo}>{strings.passwordsDontMatch}</Text> : null;
+        let missingFieldsMessage = !this.state.isFormCompletelyFilled ?
+            <Text style={formStyle.errorInfo}>{strings.missingFormFields}</Text> : null;
+        let errorMessage = this.state.errorMessage.length > 0 ?
+            <Text style={formStyle.errorInfo}>{this.state.errorMessage}</Text> : null;
+
+        return (
+            <View>
+                {emailMessage}
+                {passwordMessage}
+                {passwordCheckMessage}
+                {missingFieldsMessage}
+                {errorMessage}
+            </View>
+        );
     }
-});
+}
