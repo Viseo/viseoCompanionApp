@@ -57,4 +57,13 @@ export default class Event {
     set location(value) {
         this._location = value;
     }
+
+    getTime() {
+        let hours = new Date(this.date).getHours();
+        let minutes = new Date(this.date).getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        return hours + "h" + minutes;
+    }
 }

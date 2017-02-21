@@ -65,7 +65,7 @@ export async function getEvents() {
                 event.name,
                 event.description,
                 event.datetime,
-                event.location
+                event.place
             ));
         }
 

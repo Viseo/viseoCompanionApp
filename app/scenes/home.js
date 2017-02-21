@@ -20,10 +20,11 @@ import {
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-import settings from "../config/settings";
-import Event from './../components/event';
 import * as db from '../components/db';
+import cardStyle from './../styles/eventCard';
+import * as util from './../util.js';
 
+var maxEventDescriptionLength = 75;
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
 
 function ThreePoints(text) {
@@ -31,13 +32,6 @@ function ThreePoints(text) {
         text = text.substr(0, 25) + "...";
     }
     return text;
-}
-
-function addZero(i) {
-    if (i < 10) {
-        i = "0" + i;
-    }
-    return i;
 }
 
 export default class Home extends Component {
@@ -100,7 +94,7 @@ export default class Home extends Component {
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
 
         return (
-            <View>
+            <View style={{flex:1}}>
                 <View style={styles.topbar}>
                     <View style={styles.menu0}>
                         <Image source={require("../images/Menu.png")} style={styles.icon}/>
@@ -118,7 +112,8 @@ export default class Home extends Component {
                         />
                     }
                     scrollEventThrottle={200}
-                    style={styles.scrollView}>
+                    contentContainerStyle={{flex:1, backgroundColor: 'red', flexDirection:'column'}}
+                >
                     {eventList}
                 </ScrollView>
 
@@ -137,16 +132,76 @@ export default class Home extends Component {
         );
     }
 
+    /*
+    Layout showing an event card
+    The event card is a small card which shows the main information for a given event.
+     */
     renderEventCard(event) {
+        // Prepare the event description. If it's too long to be showed in the card,
+        // truncate it and append dots to let the user know there's more to read.
+        let eventDescription = event.description;
+        if(eventDescription.length > maxEventDescriptionLength) {
+            eventDescription = util.truncate(eventDescription, maxEventDescriptionLength);
+            eventDescription += '...';
+        }
+
         return (
-            <View style={styles.container}>
+            <View style={cardStyle.card}>
+                {/* First ROW: event name, date and time */}
+                <View
+                    style={{
+                        flex:1,
+                        flexDirection: 'row',
+                        alignItems: 'flex-end'
+                    }}
+                >
+                    {/* Display event NAME in bold in top left corner*/}
+                    <Text style={cardStyle.name}>
+                        {event.name}
+                    </Text>
+
+                    {/* Display event DATE in top right corner */}
+                    {/* Display event LOCATION in top right corner, next to the date */}
+                    <Text style={cardStyle.info}>
+                        {event.getTime()} at {event.location.toUpperCase()}
+                    </Text>
+                </View>
+
+                {/* Second ROW: event description*/}
+                <View
+                    style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'flex-start',
+                        paddingTop: 4
+                    }}
+                >
+                    <Text style={cardStyle.description}>
+                        {eventDescription}
+                    </Text>
+                </View>
+            </View>
+        );
+    }
+
+    renderEventCardWithOldStyle(event){
+        // Prepare the event description. If it's too long to be showed in the card,
+        // truncate it and append dots to let the user know there's more to read.
+        let eventDescription = event.description;
+        if(eventDescription.length > maxEventDescriptionLength) {
+            eventDescription = util.truncate(eventDescription, maxEventDescriptionLength);
+            eventDescription += '...';
+        }
+
+        return (
+            <View style={cardStyle.card}>
                 <TouchableOpacity onPress={ () => this.props.onEventClicked(event,this.props.email)}>
                     <View style={styles.rectangle}>
                         <View style={styles.leftRectangle}>
                             <Text style={styles.date}> {new Date(event.date).getDate()}</Text>
                             <Text style={styles.date}> {monthNames[new Date(event.date).getMonth()]}</Text>
                             <Text
-                                style={styles.date}> {new Date(event.date).getHours()}h{addZero(new Date(event.date).getMinutes())}</Text>
+                                style={styles.date}> {event.getTime()}</Text>
                         </View>
                         <View style={styles.rightRectangle}>
                             <Text style={styles.name}> {ThreePoints(event.name) } </Text>
@@ -156,13 +211,17 @@ export default class Home extends Component {
                     </View>
                 </TouchableOpacity>
             </View>
-
         );
     }
 
     renderEvents() {
         return (
             <ListView
+                contentContainerStyle={{
+                    flex:1,
+                    backgroundColor: 'green',
+                    justifyContent:'space-between'
+                }}
                 navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderEventCard.bind(this)}
@@ -255,7 +314,7 @@ const styles = StyleSheet.create({
 
     container: {
         borderRadius: 30,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
         flexDirection: 'column',
@@ -324,10 +383,6 @@ const styles = StyleSheet.create({
     description: {
         textAlign: 'left',
         color: 'black',
-    },
-
-    scrollView: {
-        height: 0.85 * deviceHeight,
     },
 
     actionButtonIcon: {

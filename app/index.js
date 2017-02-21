@@ -42,7 +42,7 @@ export default class ViseoCompanion extends Component {
         ];
         return (
             <Navigator
-                initialRoute={routes[0]}
+                initialRoute={routes[1]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'TestScene') {

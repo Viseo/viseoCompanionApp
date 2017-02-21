@@ -19,3 +19,10 @@ export function isEmailValid(email) {
 export function isPasswordValid(password) {
     return password.length >= 6 ? true : false;
 }
+
+export function truncate(text, maxLength) {
+    if (text.length > maxLength) {
+        text = text.substr(0, maxLength);
+    }
+    return text;
+}
