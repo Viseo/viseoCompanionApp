@@ -22,6 +22,7 @@ import {
 } from "react-native";
 import * as util from './../util';
 import * as db from '../components/db';
+import strings from './../components/localizedStrings';
 
 export default class SignUp extends React.Component {
 
@@ -155,7 +156,7 @@ export default class SignUp extends React.Component {
                             styles.textInput,
                             !this.state.isEmailValid && styles.invalidFormat
                             ]}
-                                placeholder="Email"
+                                placeholder={strings.email}
                                 keyboardType="email-address"
                                 autoCorrect={false}
                                 selectTextOnFocus={true}
@@ -171,7 +172,7 @@ export default class SignUp extends React.Component {
                             styles.textInput,
                             !this.state.isPasswordValid && styles.invalidFormat
                             ]}
-                                placeholder="Password"
+                                placeholder={strings.password}
                                 password={true}
                                 autoCorrect={false}
                                 selectTextOnFocus={true}
@@ -189,7 +190,7 @@ export default class SignUp extends React.Component {
                             styles.textInput,
                             !this.state.isPasswordCheckValid && styles.invalidFormat
                             ]}
-                                placeholder="Verify password"
+                                placeholder={strings.verifyPassword}
                                 password={true}
                                 autoCorrect={false}
                                 selectTextOnFocus={true}
@@ -217,7 +218,7 @@ export default class SignUp extends React.Component {
                             <View style={{flex:1, padding:5}}>
                                 <Button
                                     onPress={this.onPressSignUp}
-                                    title="Sign up"
+                                    title={strings.signUp}
                                     color="#841584"
                                 />
                             </View>
@@ -227,7 +228,7 @@ export default class SignUp extends React.Component {
                         <TouchableHighlight onPress={this.onPressSignIn}>
                             <Text
                                 style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
-                                Already have an account? Sign in
+                                {strings.signInLink}
                             </Text>
                         </TouchableHighlight>
                     </View>

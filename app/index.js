@@ -9,10 +9,13 @@ import SignUp from './scenes/signUp';
 import RecoverPassword from './scenes/recoverPassword';
 import Home from "./scenes/home";
 //import Event from "./scenes/event";
+import strings from './components/localizedStrings';
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
         super(props);
+
+        strings.setLanguage('fr');
 
         this.navigator;
         this.state = {};
@@ -42,7 +45,7 @@ export default class ViseoCompanion extends Component {
         ];
         return (
             <Navigator
-                initialRoute={routes[1]}
+                initialRoute={routes[0]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'TestScene') {

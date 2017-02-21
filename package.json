@@ -9,10 +9,11 @@
   "dependencies": {
     "react": "~15.4.0",
     "react-native": "0.41.2",
+    "react-native-action-button": "^2.0.22",
     "react-native-check-box": "^1.0.4",
     "react-native-checkbox": "^1.1.0",
-    "react-native-action-button": "^2.0.22",
     "react-native-datepicker": "^1.4.4",
+    "react-native-localization": "^0.1.26",
     "react-native-vector-icons": "^4.0.0"
   },
   "devDependencies": {

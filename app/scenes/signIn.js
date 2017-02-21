@@ -24,6 +24,7 @@ import CheckBox from 'react-native-check-box'
 import formStyle from './../styles/form';
 import * as db from '../components/db';
 import * as util from './../util.js';
+import strings from './../components/localizedStrings';
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -86,6 +87,9 @@ export default class SignIn extends Component {
     render() {
         return (
             <View style={{flex:1, justifyContent: 'center', marginBottom:100}}>
+                <Text>
+                    {strings.how}
+                </Text>
                 <ScrollView>
                     <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
 
@@ -102,7 +106,7 @@ export default class SignIn extends Component {
                             <TextInput
                                 style={{textAlign: 'center'}}
                                 onChangeText={(email) => this.setState({email})}
-                                placeholder="Email"
+                                placeholder={strings.email}
                                 keyboardType="email-address"
                                 autoCorrect={false}
                                 selectTextOnFocus={true}
@@ -115,7 +119,7 @@ export default class SignIn extends Component {
                             <TextInput
                                 style={{textAlign: 'center'}}
                                 onChangeText={(password) => this.setState({password})}
-                                placeholder="Password"
+                                placeholder={strings.password}
                                 ref={component=>this._textInput1=component}
                                 password={true}
                                 autoCorrect={false}
@@ -132,7 +136,7 @@ export default class SignIn extends Component {
                                 style={{flex: 1, padding: 10}}
                                 onClick={this.onPressRememberMe}
                                 isChecked={false}
-                                rightText={"Remember me"}
+                                rightText={strings.rememberMe}
                             />
 
                             <View style={{flex:1, alignItems: 'flex-end'}}>
@@ -140,7 +144,7 @@ export default class SignIn extends Component {
                                 <TouchableHighlight onPress={this.onPressRecoverPassword}>
                                     <Text
                                         style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic'}}>
-                                        Forgot password?
+                                        {strings.forgotPassword}
                                     </Text>
                                 </TouchableHighlight>
                             </View>
@@ -154,7 +158,7 @@ export default class SignIn extends Component {
                             <View style={{flex:1, padding:5}}>
                                 <Button
                                     onPress={this.onPressSignIn}
-                                    title="Sign in"
+                                    title={strings.signIn}
                                     color="#841584"
                                 />
                             </View>
@@ -164,7 +168,7 @@ export default class SignIn extends Component {
                         <TouchableHighlight onPress={this.onPressSignUp}>
                             <Text
                                 style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
-                                First time? Create an account
+                                {strings.createAccountLink}
                             </Text>
                         </TouchableHighlight>
                     </View>
