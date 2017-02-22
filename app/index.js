@@ -15,7 +15,7 @@ export default class ViseoCompanion extends Component {
     constructor(props) {
         super(props);
 
-        strings.setLanguage('en');
+        //strings.setLanguage('en');
 
         this.navigator;
         this.state = {};
