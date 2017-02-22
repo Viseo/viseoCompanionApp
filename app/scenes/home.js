@@ -94,7 +94,7 @@ export default class Home extends Component {
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
 
         return (
-            <View style={{flex:1}}>
+            <View style={{flex:1, marginTop:20}}>
                 <View style={styles.topbar}>
                     <View style={styles.menu0}>
                         <Image source={require("../images/Menu.png")} style={styles.icon}/>

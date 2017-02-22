@@ -66,8 +66,8 @@ export default class SignIn extends Component {
                 this.setState({email: this.state.email.toLowerCase()});
                 let authenticationSuccessful = await db.checkCredentials(this.state.email, this.state.password);
                 if (authenticationSuccessful) {
-                    this.props.navigator.push({
-                        title: 'TestScene'
+                    this.props.navigator.resetTo({
+                        title: 'Home'
                     });
                 } else {
                     this.setState({errorMessage: 'The credentials you entered are not valid.'});
@@ -86,7 +86,7 @@ export default class SignIn extends Component {
 
     render() {
         return (
-            <View style={{flex:1, justifyContent: 'center', marginBottom:100}}>
+            <View style={{flex:1, justifyContent: 'center'}}>
                 <Text>
                     {strings.how}
                 </Text>
@@ -111,6 +111,11 @@ export default class SignIn extends Component {
                                 autoCorrect={false}
                                 selectTextOnFocus={true}
                                 underlineColorAndroid={"white"}
+                                returnKeyType="next"
+                                autoCapitalize="none"
+                                onSubmitEditing={() => {
+                                    this.refs.password.focus();
+                                }}
                             />
                         </View>
 
@@ -120,13 +125,14 @@ export default class SignIn extends Component {
                                 style={styles.textInput}
                                 onChangeText={(password) => this.setState({password})}
                                 placeholder={strings.password}
-                                ref={component=>this._textInput1=component}
+                                ref="password"
                                 password={true}
                                 autoCorrect={false}
                                 selectTextOnFocus={true}
                                 secureTextEntry={true}
                                 underlineColorAndroid={"white"}
                                 minLength={6}
+                                returnKeyType="done"
                             />
                         </View>
 
@@ -165,7 +171,7 @@ export default class SignIn extends Component {
                         </View>
 
                         {/* SIGN UP link */}
-                        <TouchableHighlight onPress={this.onPressSignUp}>
+                        <TouchableHighlight onPress={this.onPressSignUp} underlayColor='transparent'>
                             <Text
                                 style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
                                 {strings.createAccountLink}

@@ -55,7 +55,7 @@ export default class SignUp extends React.Component {
             modalVisible: false
         });
 
-        this.props.navigator.push({
+        this.props.navigator.resetTo({
             title: 'Home'
         });
     }
@@ -124,7 +124,7 @@ export default class SignUp extends React.Component {
 
     render() {
         return (
-            <View style={{flex:1, justifyContent: 'center', marginBottom:100}}>
+            <View style={{flex:1, justifyContent: 'center'}}>
                 <ScrollView>
                     <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
 
@@ -149,6 +149,11 @@ export default class SignUp extends React.Component {
                                 selectTextOnFocus={true}
                                 underlineColorAndroid={"white"}
                                 onChangeText={this.onChangeEmailText}
+                                returnKeyType="next"
+                                autoCapitalize="none"
+                                onSubmitEditing={() => {
+                                    this.refs.password.focus();
+                                }}
                             />
                         </View>
 
@@ -159,6 +164,7 @@ export default class SignUp extends React.Component {
                             formStyle.textInput,
                             !this.state.isPasswordValid && formStyle.invalidFormat
                             ]}
+                                ref="password"
                                 placeholder={strings.password}
                                 password={true}
                                 autoCorrect={false}
@@ -167,6 +173,10 @@ export default class SignUp extends React.Component {
                                 minLength={6}
                                 secureTextEntry={true}
                                 onChangeText={this.onChangePasswordText}
+                                returnKeyType="next"
+                                onSubmitEditing={() => {
+                                    this.refs.passwordBis.focus();
+                                }}
                             />
                         </View>
 
@@ -177,6 +187,7 @@ export default class SignUp extends React.Component {
                             formStyle.textInput,
                             !this.state.isPasswordCheckValid && formStyle.invalidFormat
                             ]}
+                                ref="passwordBis"
                                 placeholder={strings.verifyPassword}
                                 password={true}
                                 autoCorrect={false}
@@ -185,6 +196,7 @@ export default class SignUp extends React.Component {
                                 minLength={6}
                                 secureTextEntry={true}
                                 onChangeText={this.onChangePasswordCheckText}
+                                returnKeyType="done"
                             />
                         </View>
 
@@ -206,9 +218,9 @@ export default class SignUp extends React.Component {
                         </View>
 
                         {/* Log in instead of creating a new account */}
-                        <TouchableHighlight onPress={this.onPressSignIn}>
+                        <TouchableHighlight onPress={this.onPressSignIn} underlayColor='transparent'>
                             <Text
-                                style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
+                                style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', paddingTop:15}}>
                                 {strings.signInLink}
                             </Text>
                         </TouchableHighlight>
