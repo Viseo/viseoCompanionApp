@@ -70,7 +70,7 @@ export default class Event extends React.Component {
     _showParticipation() {
         let REQUEST_URL7main = this.props.email;
         REQUEST_URL7 = REQUEST_URL7P1 + REQUEST_URL7main + REQUEST_URL7P2;
-        console.log(REQUEST_URL7);
+        console.log(REQUEST_URL7);// un beau commit
 
         // 1 get account id from email
         // /account/getIdAccount/ email /events'
