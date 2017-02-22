@@ -63,7 +63,7 @@ export default class SignUp extends React.Component {
     onChangeEmailText(text) {
         this.setState({
             email: text,
-            isEmailValid: util.isPasswordValid(text) || !text.length,
+            isEmailValid: util.isEmailValid(text) || !text.length,
             isFormCompletelyFilled: true
         });
     }
