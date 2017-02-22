@@ -67,7 +67,7 @@ export default class SignIn extends Component {
                 let authenticationSuccessful = await db.checkCredentials(this.state.email, this.state.password);
                 if (authenticationSuccessful) {
                     this.props.navigator.push({
-                        title: 'TestScene'
+                        title: 'Home'
                     });
                 } else {
                     this.setState({errorMessage: 'The credentials you entered are not valid.'});

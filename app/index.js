@@ -8,7 +8,7 @@ import SignIn from './scenes/signIn';
 import SignUp from './scenes/signUp';
 import RecoverPassword from './scenes/recoverPassword';
 import Home from "./scenes/home";
-//import Event from "./scenes/event";
+import Event from "./scenes/event";
 import strings from './components/localizedStrings';
 
 export default class ViseoCompanion extends Component {
@@ -45,7 +45,7 @@ export default class ViseoCompanion extends Component {
         ];
         return (
             <Navigator
-                initialRoute={routes[2]}
+                initialRoute={routes[1]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'TestScene') {
@@ -77,24 +77,11 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'Home') {
                         return (
-                            <Home
-                                onForward = {(event, email) => {
-                                    navigator.push({
-                                        title :'Event',
-                                        passProps: {
-                                            event,
-                                            email,
-                                        },
-                                    });
-                                }}
-                            />
+                            <Home navigator={navigator} {...route.passProps}/>
                         );
                     } else if(route.title === 'Event') {
                         return (
-                            <Event
-                                event={this.props.event}
-                                email={this.props.email}
-                            />
+                            <Event navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}

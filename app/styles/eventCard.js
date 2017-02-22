@@ -9,7 +9,8 @@ export default StyleSheet.create({
     card: {
         backgroundColor: '#ebffea',
         borderBottomWidth: 1,
-        flex:1,
+        //flex:1,
+        height: 100,
         alignItems:'stretch'
     },
     name: {

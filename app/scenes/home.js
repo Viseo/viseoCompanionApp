@@ -46,6 +46,8 @@ export default class Home extends Component {
             refreshing: false,
             hasEvents: false
         };
+
+        this.onPressEvent = this.onPressEvent.bind(this);
     }
 
     componentDidMount() {
@@ -60,7 +62,7 @@ export default class Home extends Component {
 
         // Load all events to be showed
         let events = await db.getEvents();
-        if(events.length) {
+        if (events.length) {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(events),
                 loaded: true,
@@ -74,6 +76,15 @@ export default class Home extends Component {
                 refreshing: false,
             });
         }
+    }
+
+    onPressEvent(event) {
+        this.props.navigator.push({
+            title: 'Event',
+            passProps : {
+                event
+            }
+        });
     }
 
     render() {
@@ -112,7 +123,7 @@ export default class Home extends Component {
                         />
                     }
                     scrollEventThrottle={200}
-                    contentContainerStyle={{flex:1, backgroundColor: 'red', flexDirection:'column'}}
+                    contentContainerStyle={{flex:1, flexDirection:'column'}}
                 >
                     {eventList}
                 </ScrollView>
@@ -133,14 +144,14 @@ export default class Home extends Component {
     }
 
     /*
-    Layout showing an event card
-    The event card is a small card which shows the main information for a given event.
+     Layout showing an event card
+     The event card is a small card which shows the main information for a given event.
      */
     renderEventCard(event) {
         // Prepare the event description. If it's too long to be showed in the card,
         // truncate it and append dots to let the user know there's more to read.
         let eventDescription = event.description;
-        if(eventDescription.length > maxEventDescriptionLength) {
+        if (eventDescription.length > maxEventDescriptionLength) {
             eventDescription = util.truncate(eventDescription, maxEventDescriptionLength);
             eventDescription += '...';
         }
@@ -184,18 +195,22 @@ export default class Home extends Component {
         );
     }
 
-    renderEventCardWithOldStyle(event){
+    renderEventCardWithOldStyle(event) {
         // Prepare the event description. If it's too long to be showed in the card,
         // truncate it and append dots to let the user know there's more to read.
         let eventDescription = event.description;
-        if(eventDescription.length > maxEventDescriptionLength) {
+        if (eventDescription.length > maxEventDescriptionLength) {
             eventDescription = util.truncate(eventDescription, maxEventDescriptionLength);
             eventDescription += '...';
         }
 
         return (
             <View style={cardStyle.card}>
-                <TouchableOpacity onPress={ () => this.props.onEventClicked(event,this.props.email)}>
+                <TouchableOpacity
+                    onPress={ () => {
+                        this.onPressEvent(event);
+                    }}
+                >
                     <View style={styles.rectangle}>
                         <View style={styles.leftRectangle}>
                             <Text style={styles.date}> {new Date(event.date).getDate()}</Text>
@@ -218,13 +233,10 @@ export default class Home extends Component {
         return (
             <ListView
                 contentContainerStyle={{
-                    flex:1,
-                    backgroundColor: 'green',
-                    justifyContent:'space-between'
                 }}
                 navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
-                renderRow={this.renderEventCard.bind(this)}
+                renderRow={this.renderEventCardWithOldStyle.bind(this)}
             />
         );
     }

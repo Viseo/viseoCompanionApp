@@ -17,6 +17,7 @@ import {
     Dimensions
 } from "react-native";
 import setting from "../config/settings";
+import CheckBox from 'react-native-check-box';
 
 let {
     height: deviceHeight,
@@ -70,12 +71,19 @@ export default class Event extends React.Component {
         let REQUEST_URL7main = this.props.email;
         REQUEST_URL7 = REQUEST_URL7P1 + REQUEST_URL7main + REQUEST_URL7P2;
         console.log(REQUEST_URL7);
+
+        // 1 get account id from email
+        // /account/getIdAccount/ email /events'
+
         fetch(REQUEST_URL7)
             .then((response) => response.json())
             .then((responseData1) => {
                 console.log(responseData1);
                 REQUEST_URL11 = REQUEST_URL11P1 + responseData1 + REQUEST_URL11P2 + this.props.event.id;
                 console.log(REQUEST_URL11);
+
+                // 2 did current user participate(is interested in?) to this event
+                // /account/doneParticipation/ response /events/ eventId
                 fetch(REQUEST_URL11)
                     .then((response) => response.json())
                     .then((responseData2) => {
@@ -86,6 +94,9 @@ export default class Event extends React.Component {
                         else {
                             REQUEST_URL10 = REQUEST_URL10P1 + responseData1 + REQUEST_URL10P2 + this.props.event.id;
                             console.log(REQUEST_URL10);
+
+                            // is participate checked
+                            // /account/getParticipation/ accountId /events/ eventIid
                             fetch(REQUEST_URL10)
                                 .then((response) => response.json())
                                 .then((responseData3) => {
@@ -149,88 +160,131 @@ export default class Event extends React.Component {
         }
     }
 
+    onPressParticipate() {
+
+    }
 
     render() {
-        let event = this.props.event;
-        let email = this.props.email;
         return (
             <View>
-                <View style={styles.topbar}>
-                    <View style={styles.menu0}>
-                        <Image
-                            source={require('../images/Menu.png')}
-                            style={styles.icon}/>
-                    </View>
-                    <Text style={styles.viseocompanion}> VISEO COMPANION </Text>
-                </View>
+                {this.renderHeader()}
+                {this.renderEventInfo()}
+            </View>
+        );
+    }
 
-                <View style={styles.titre_et_statutContainer}>
-                    <View style={styles.titre_et_statut}>
-                        <Text style={styles.title}>Evénement:</Text>
-                        <Text style={[{color:this.state.statut_color}]}>{this.state.statut}</Text>
-                    </View>
-                </View>
-                <View style={styles.maincontainer}>
-                    <View style={styles.container}>
-                        <ScrollView
-                            contentInset={{top : -50}}
-                            style={styles.scrollView}>
-                            <View style={styles.Rectangle1}>
-                                <View style={styles.leftRectangle1}>
-                                    <Text style={styles.text_titre}> Titre </Text>
-                                </View>
-                                <View style={styles.rightRectangle1}>
-                                    <Text style={styles.text}> {event.name + '\n' } </Text>
-                                </View>
-                            </View>
-                            <View style={styles.Rectangle1}>
-                                <View style={styles.leftRectangle1}>
-                                    <Text style={styles.text}> Date </Text>
-                                </View>
-                                <View style={styles.rightRectangle1}>
-                                    <Text
-                                        style={styles.text}> {new Date(event.date).getDate()}/{addZero(new Date(event.date).getMonth() + 1)}/{new Date(event.date).getFullYear()}
-                                        à {addZero(new Date(event.date).getHours())}h{addZero(new Date(event.date).getMinutes()) + '\n' } </Text>
-                                </View>
-                            </View>
-                            <View style={styles.Rectangle1}>
-                                <View style={styles.leftRectangle1}>
-                                    <Text style={styles.text}> Lieu </Text>
-                                </View>
-                                <View style={styles.rightRectangle1}>
-                                    <Text style={styles.text}> {event.lieu + '\n' } </Text>
-                                </View>
-                            </View>
-                            <View style={styles.Rectangle1}>
-                                <View style={styles.leftRectangle1}>
-                                    <Text style={styles.text}> Mot-clés </Text>
-                                </View>
-                                <View style={styles.rightRectangle1}>
-                                    <Text style={styles.text}> {event.motclefs + '\n' } </Text>
-                                </View>
-                            </View>
-                            <View style={styles.Rectangle2}>
-                                <Text style={styles.text}> Description </Text>
-                                <Text style={styles.textdescription}>{event.description} </Text>
-                            </View>
-                            <View style={styles.MapContainer}>
-                                <Image source={require('../images/sampleImage.jpg')} style={styles.carte}/>
-                            </View>
-                        </ScrollView>
+    renderEventInfo() {
+        let event = this.props.event;
 
-                        <View style={styles.bottomRect}>
-                            <View style={styles.ok_cross_ButtonContainer}>
-                                <TouchableOpacity onPress={() =>this._acceptEvent(true)}>
-                                    <Image source={require('../images/okButton.png')} style={styles.okButton}/>
-                                </TouchableOpacity>
-                                <View style={styles.separator}/>
-                                <TouchableOpacity onPress={() =>this._acceptEvent(false)}>
-                                    <Image source={require('../images/crossButton.png')} style={styles.crossButton}/>
-                                </TouchableOpacity>
-                            </View>
+        return (
+            <View style={styles.maincontainer}>
+                <View style={styles.container}>
+                    <ScrollView
+                        contentInset={{top : -50}}
+                        style={styles.scrollView}
+                    >
+                        {this.renderEventName(event.name)}
+                        {this.renderEventDate(event.date)}
+                        {this.renderEventLocation(event.location)}
+                        {this.renderEventKeywords('all keywords here')}
+                        {this.renderEventDescription(event.description)}
+
+                        <View style={styles.MapContainer}>
+                            <Image source={require('../images/sampleImage.jpg')} style={styles.carte}/>
                         </View>
-                    </View>
+                    </ScrollView>
+
+                    {this.renderParticipateToEventButton()}
                 </View>
+            </View>
+        );
+    }
+
+    renderEventDate(date) {
+        return (
+            <View style={styles.Rectangle1}>
+                <View style={styles.leftRectangle1}>
+                    <Text style={styles.text}> Date </Text>
+                </View>
+                <View style={styles.rightRectangle1}>
+                    <Text
+                        style={styles.text}> {new Date(date).getDate()}/{addZero(new Date(date).getMonth() + 1)}/{new Date(date).getFullYear()}
+                        à {addZero(new Date(date).getHours())}h{addZero(new Date(date).getMinutes()) + '\n' } </Text>
+                </View>
+            </View>
+        );
+    }
+
+    renderEventDescription(description) {
+        return (
+            <View style={styles.Rectangle2}>
+                <Text style={styles.text}> Description </Text>
+                <Text style={styles.textdescription}>{description} </Text>
+            </View>
+        );
+    }
+
+    renderEventKeywords(keywords) {
+        return (
+            <View style={styles.Rectangle1}>
+                <View style={styles.leftRectangle1}>
+                    <Text style={styles.text}> Mot-clés </Text>
+                </View>
+                <View style={styles.rightRectangle1}>
+                    <Text style={styles.text}> {keywords + '\n' } </Text>
+                </View>
+            </View>
+        );
+    }
+
+    renderEventLocation(location) {
+        return (
+            <View style={styles.Rectangle1}>
+                <View style={styles.leftRectangle1}>
+                    <Text style={styles.text}> Lieu </Text>
+                </View>
+                <View style={styles.rightRectangle1}>
+                    <Text style={styles.text}> {location + '\n' } </Text>
+                </View>
+            </View>
+        );
+    }
+
+    renderEventName(name) {
+        return (
+            <View style={styles.Rectangle1}>
+                <View style={styles.leftRectangle1}>
+                    <Text style={styles.text_titre}> Titre </Text>
+                </View>
+                <View style={styles.rightRectangle1}>
+                    <Text style={styles.text}> {name + '\n' } </Text>
+                </View>
+            </View>
+        );
+    }
+
+    renderHeader() {
+        return (
+            <View style={styles.topbar}>
+                <View style={styles.menu0}>
+                    <Image
+                        source={require('../images/Menu.png')}
+                        style={styles.icon}/>
+                </View>
+                <Text style={styles.viseocompanion}> VISEO COMPANION </Text>
+            </View>
+        );
+    }
+
+    renderParticipateToEventButton() {
+        return (
+            <View style={styles.bottomRect}>
+                <CheckBox
+                    style={{flex: 1, padding: 10}}
+                    onClick={this.onPressParticipate}
+                    isChecked={false}
+                    rightText={"Going"}
+                />
             </View>
         );
     }
