@@ -37,6 +37,7 @@ export default class SignIn extends Component {
             rememberUser: false
         };
 
+        this.autoSubmitFormWhenLastInputIsFilled = this.autoSubmitFormWhenLastInputIsFilled.bind(this);
         this.onPressRememberMe = this.onPressRememberMe.bind(this);
         this.onPressRecoverPassword = this.onPressRecoverPassword.bind(this);
         this.onPressSignIn = this.onPressSignIn.bind(this);
@@ -59,22 +60,25 @@ export default class SignIn extends Component {
         this.setState({errorMessage: ''});
 
         if (util.hasEmptyElement(this.state.email, this.state.password)) {
-            this.setState({errorMessage: 'Please fill all the fields.'});
-        } else if (!util.isEmailValid(this.state.email)) {
-            this.setState({errorMessage: 'This is not a valid email.'});
+            this.setState({errorMessage: strings.missingFormFields});
         } else {
             try {
                 this.setState({email: this.state.email.toLowerCase()});
                 let authenticationSuccessful = await db.checkCredentials(this.state.email, this.state.password);
-                if (authenticationSuccessful) {
+                console.log(authenticationSuccessful);
+                if (authenticationSuccessful == -1) {
+                    this.setState({errorMessage: strings.unableToReachServer});
+                } else if (authenticationSuccessful) {
                     this.props.navigator.resetTo({
                         title: 'Home'
                     });
-                } else {
-                    this.setState({errorMessage: 'The credentials you entered are not valid.'});
+                }
+                else {
+                    this.setState({errorMessage: strings.wrongCredentials});
                 }
             } catch (error) {
-                console.warn("Couldn't sign up: " + error);
+                console.warn('signIn::onPressSignIn ' + error);
+                this.setState({errorMessage: strings.unableToReachServer});
             }
         }
     }
@@ -83,6 +87,15 @@ export default class SignIn extends Component {
         this.props.navigator.push({
             title: 'SignUp'
         });
+    }
+
+    autoSubmitFormWhenLastInputIsFilled() {
+        if(this.state.email.length && this.state.password.length) {
+            this.onPressSignIn();
+            return true;
+        }
+
+        return false;
     }
 
     render() {
@@ -94,93 +107,137 @@ export default class SignIn extends Component {
                 <ScrollView>
                     <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
 
-                        {/* VISEO or AUTHENTICATION logo */}
-                        <View style={{alignItems: 'center', paddingBottom:50}}>
-                            <Image
-                                source={require('./../images/loginLogo.png')}
-                                style={{width: 110, height: 110}}
-                            />
-                        </View>
-
-                        {/* User email input */}
-                        <View>
-                            <TextInput
-                                style={styles.textInput}
-                                onChangeText={(email) => this.setState({email})}
-                                placeholder={strings.email}
-                                keyboardType="email-address"
-                                autoCorrect={false}
-                                selectTextOnFocus={true}
-                                underlineColorAndroid={"white"}
-                                returnKeyType="next"
-                                autoCapitalize="none"
-                                onSubmitEditing={() => {
-                                    this.refs.password.focus();
-                                }}
-                            />
-                        </View>
-
-                        {/* User password input */}
-                        <View >
-                            <TextInput
-                                style={styles.textInput}
-                                onChangeText={(password) => this.setState({password})}
-                                placeholder={strings.password}
-                                ref="password"
-                                password={true}
-                                autoCorrect={false}
-                                selectTextOnFocus={true}
-                                secureTextEntry={true}
-                                underlineColorAndroid={"white"}
-                                minLength={6}
-                                returnKeyType="done"
-                            />
-                        </View>
+                        {this.renderLogo()}
+                        {this.renderEmailInput()}
+                        {this.renderPasswordInput()}
 
                         <View style={{flexDirection: 'row', flex:1}}>
-                            {/* Remember user if this checkbox is checked */}
-                            <CheckBox
-                                style={{flex: 1, padding: 10}}
-                                onClick={this.onPressRememberMe}
-                                isChecked={false}
-                                rightText={strings.rememberMe}
-                            />
+                            {this.renderRememberPasswordCheckbox()}
 
                             <View style={{flex:1, alignItems: 'flex-end'}}>
-                                {/* Recover password */}
-                                <TouchableHighlight onPress={this.onPressRecoverPassword}>
-                                    <Text
-                                        style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic'}}>
-                                        {strings.forgotPassword}
-                                    </Text>
-                                </TouchableHighlight>
+                                {this.renderRecoverPassword()}
                             </View>
                         </View>
 
-                        {/* Display error messages to help the user fill out the form */}
-                        <Text style={styles.errorInfo}>{this.state.errorMessage}</Text>
-
-                        {/* SIGN IN button */}
-                        <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
-                            <View style={{flex:1, padding:5}}>
-                                <Button
-                                    onPress={this.onPressSignIn}
-                                    title={strings.signIn}
-                                    color="#841584"
-                                />
-                            </View>
-                        </View>
-
-                        {/* SIGN UP link */}
-                        <TouchableHighlight onPress={this.onPressSignUp} underlayColor='transparent'>
-                            <Text
-                                style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
-                                {strings.createAccountLink}
-                            </Text>
-                        </TouchableHighlight>
+                        {this.renderDisplayErrorMessages()}
+                        {this.renderSubmit()}
+                        {this.renderGoToSignUpForm()}
                     </View>
                 </ScrollView>
             </View>
         )
+    }
+
+    renderDisplayErrorMessages() {
+        return (
+            <Text style={styles.errorInfo}>{this.state.errorMessage}</Text>
+        );
+    }
+
+    renderEmailInput() {
+        return (
+            <View>
+                <TextInput
+                    style={styles.textInput}
+                    onChangeText={(email) => this.setState({email})}
+                    placeholder={strings.email}
+                    ref="email"
+                    keyboardType="email-address"
+                    autoCorrect={false}
+                    selectTextOnFocus={true}
+                    underlineColorAndroid={"white"}
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                    onSubmitEditing={() => {
+                            if(!this.autoSubmitFormWhenLastInputIsFilled())
+                                this.refs.password.focus();
+                        }
+                    }
+                />
+            </View>
+        );
+    }
+
+    renderGoToSignUpForm() {
+        return (
+            <TouchableHighlight onPress={this.onPressSignUp} underlayColor='transparent'>
+                <Text
+                    style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
+                    {strings.createAccountLink}
+                </Text>
+            </TouchableHighlight>
+        );
+    }
+
+    renderLogo() {
+        return (
+            <View style={{alignItems: 'center', paddingBottom:50}}>
+                <Image
+                    source={require('./../images/loginLogo.png')}
+                    style={{width: 110, height: 110}}
+                />
+            </View>
+        );
+    }
+
+    renderPasswordInput() {
+        return (
+            <View >
+                <TextInput
+                    style={styles.textInput}
+                    onChangeText={(password) => this.setState({password})}
+                    placeholder={strings.password}
+                    ref="password"
+                    password={true}
+                    autoCorrect={false}
+                    selectTextOnFocus={true}
+                    secureTextEntry={true}
+                    underlineColorAndroid={"white"}
+                    minLength={6}
+                    returnKeyType="done"
+                    onSubmitEditing={() => {
+                            if(!this.autoSubmitFormWhenLastInputIsFilled())
+                                this.refs.email.focus();
+                        }
+                    }
+                />
+            </View>
+        );
+    }
+
+    renderRecoverPassword() {
+        return (
+            <TouchableHighlight onPress={this.onPressRecoverPassword}>
+                <Text
+                    style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic'}}>
+                    {strings.forgotPassword}
+                </Text>
+            </TouchableHighlight>
+        );
+    }
+
+    renderRememberPasswordCheckbox() {
+        return (
+            <CheckBox
+                style={{flex: 1, padding: 10}}
+                onClick={this.onPressRememberMe}
+                isChecked={false}
+                rightText={strings.rememberMe}
+            />
+        );
+    }
+
+    renderSubmit() {
+        return (
+            <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
+                <View style={{flex:1, padding:5}}>
+                    <Button
+                        onPress={this.onPressSignIn}
+                        title={strings.signIn}
+                        color="#841584"
+                    />
+                </View>
+            </View>
+        );
     }
 }

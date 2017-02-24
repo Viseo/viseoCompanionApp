@@ -47,6 +47,7 @@ export async function checkCredentials(email, password) {
         }
     } catch (error) {
         console.warn('db::checkCredentials ' + error);
+        return -1;
     }
 
     return false;

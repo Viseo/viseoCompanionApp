@@ -105,21 +105,30 @@ export default class SignUp extends React.Component {
             try {
                 let userAlreadyExists = await db.hasUser(this.state.email);
                 if (userAlreadyExists) {
-                    this.setState({errorMessage: 'This email is already used.'});
+                    this.setState({errorMessage: strings.emailAlreadyUsed});
                 } else {
                     let email = this.state.email.toLowerCase();
                     let userAddedSuccessfully = await db.addUser(email, this.state.password);
                     if (userAddedSuccessfully) {
                         this.setState({modalVisible: true});
                     } else {
-                        this.setState({errorMessage: 'Sign up failed. There was a problem with the server.'});
+                        this.setState({errorMessage: strings.unableToReachServer});
                     }
                 }
             } catch (error) {
                 console.warn('signUp::onPressSignUp ' + error);
-                this.setState({errorMessage: "Couldn't sign up."});
+                this.setState({errorMessage: strings.unableToReachServer});
             }
         }
+    }
+
+    autoSubmitFormWhenLastInputIsFilled() {
+        if(this.state.email.length && this.state.password.length && this.state.passwordCheck.length) {
+            this.onPressSignUp();
+            return true;
+        }
+
+        return false;
     }
 
     render() {
@@ -197,6 +206,17 @@ export default class SignUp extends React.Component {
                                 secureTextEntry={true}
                                 onChangeText={this.onChangePasswordCheckText}
                                 returnKeyType="done"
+                                onSubmitEditing={() => {
+                                    console.warn('submit');
+                                        if (!util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)
+                                            && util.isEmailValid(this.state.email)
+                                            && util.isPasswordValid(this.state.password)
+                                            && this.state.password == this.state.passwordCheck) {
+                                            console.warn('inside');
+                                            this.autoSubmitFormWhenLastInputIsFilled();
+                                        }
+                                    }
+                                }
                             />
                         </View>
 
@@ -206,7 +226,7 @@ export default class SignUp extends React.Component {
                         {/* Notify the user when their account was created before redirecting to home page */}
                         {this.renderAccountCreationPopout()}
 
-                        {/* SIGN IN and SIGN UP buttons */}
+                        {/* SIGN UP button */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
                             <View style={{flex:1, padding:5}}>
                                 <Button
@@ -252,7 +272,7 @@ export default class SignUp extends React.Component {
                     >
                         <View>
                             <Text style={{textAlign:'center'}}>
-                                {"Account created! \nLet's see what's happening around!\n\n"}
+                                {strings.accountCreated}
                             </Text>
                             <Button
                                 onPress={this.onAccountCreatedNotificationPressed}

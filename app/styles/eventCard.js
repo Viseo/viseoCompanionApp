@@ -7,10 +7,11 @@ import {
 
 export default StyleSheet.create({
     card: {
-        backgroundColor: '#ebffea',
-        borderBottomWidth: 1,
+        backgroundColor: 'white',
+        //borderBottomWidth: 1,
         //flex:1,
-        height: 100,
+        //height: 100,
+        //marginBottom:3,
         alignItems:'stretch'
     },
     name: {
