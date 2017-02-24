@@ -29,8 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new ReactNativeLocalizationPackage(),
-            new VectorIconsPackage(),
-            new ReactNativeLocalizationPackage()
+            new VectorIconsPackage()
       );
     }
   };
