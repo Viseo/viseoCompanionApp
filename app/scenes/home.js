@@ -16,7 +16,8 @@ import {
     TouchableOpacity,
     ListView,
     Dimensions,
-    RefreshControl
+    RefreshControl,
+    Platform
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -76,6 +77,7 @@ export default class Home extends Component {
                 refreshing: false,
             });
         }
+
     }
 
     onPressEvent(event) {
@@ -105,15 +107,15 @@ export default class Home extends Component {
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
 
         return (
-            <View style={{flex:1, marginTop:20}}>
+            <View style={{flex:1, marginTop:(Platform.OS === 'ios') ? 20 : 0}}>
                 <View style={styles.topbar}>
                     <View style={styles.menu0}>
                         <Image source={require("../images/Menu.png")} style={styles.icon}/>
                     </View>
-                    <Text style={styles.viseocompanion}> VISEO COMPANION </Text>
+                    <Text style={styles.viseocompanion}>VISEO COMPANION</Text>
                 </View>
 
-                <Text style={styles.title}> Evénements:</Text>
+                {/*<Text style={styles.title}> Evénements:</Text>*/}
 
                 <ScrollView
                     refreshControl={
@@ -243,8 +245,8 @@ export default class Home extends Component {
 
     renderNoEventsToShow() {
         return (
-            <Text>
-                Whoops... There's nothing to show.
+            <Text style={styles.noEvent}>
+                Whoops... There's nothing to show.{"\n\n"}
                 Come back later!
             </Text>
         );
@@ -272,11 +274,17 @@ var {
 
 const styles = StyleSheet.create({
 
+    screen: {
+        height: (Platform.OS === 'ios') ? 200 : 100,
+    },
+
     topbar: {
         height: (1 / 13) * deviceHeight,
         backgroundColor: 'white',
-        /*justifyContent:'space-between',*/
+        // justifyContent:'space-between',
+        alignItems: 'center',
         flexDirection: 'row',
+        padding: 10,
     },
 
     menu: {
@@ -302,8 +310,6 @@ const styles = StyleSheet.create({
     },
 
     viseocompanion: {
-        justifyContent: 'center',
-        textAlign: 'center',
         fontSize: 20,
         color: 'blue',
     },
@@ -402,4 +408,11 @@ const styles = StyleSheet.create({
         height: 22,
         color: 'white',
     },
+
+    noEvent:{
+        textAlign: 'center',
+        fontSize: 20,
+        marginTop: 20,
+        color: '#707070',
+    }
 });
