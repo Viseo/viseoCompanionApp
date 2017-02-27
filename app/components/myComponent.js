@@ -13,6 +13,8 @@ export default class MyComponent extends React.Component {
     render() {
         return (
             <View>
+                <Text test="ok"></Text>
+                <Text test="ok">>I wonder if there will be any problems...</Text>
                 <Text>I wonder if there will be any problems...</Text>
             </View>
         );

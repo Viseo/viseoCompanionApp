@@ -13,4 +13,8 @@ describe('<MyComponent />', () => {
         expect(wrapper.length).to.equal(1);
         expect(wrapper.contains(<Text>I wonder if there will be any problems...</Text>)).to.equal(true);
     });
+    it('should render more stuff', () => {
+        const wrapper = shallow(<MyComponent />);
+        expect(wrapper.find(<Text></Text>).at(0).props().test).to.equal("ok");
+    });
 });

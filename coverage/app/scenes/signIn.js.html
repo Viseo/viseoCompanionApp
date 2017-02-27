@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app/scenes/signIn.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\index.html">All files</a> / <a href="index.html">app/scenes</a> signIn.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/23</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Created by AAB3605 on 13/02/2017.
+ */
+'use strict';
+<span class="cstat-no" title="statement not covered" >import React, {Component} from "react";</span>
+<span class="cstat-no" title="statement not covered" >import {</span>
+    AppRegistry,
+    StyleSheet,
+    Text,
+    TextInput,
+    Navigator,
+    Image,
+    NavMenu,
+    ScrollView,
+    View,
+    TouchableOpacity,
+    ListView,
+    Dimensions,
+    Button,
+    Alert,
+    TouchableHighlight,
+} from "react-native";
+<span class="cstat-no" title="statement not covered" >import CheckBox from 'react-native-check-box'</span>
+<span class="cstat-no" title="statement not covered" >import styles from './../styles/form';</span>
+<span class="cstat-no" title="statement not covered" >import * as db from '../components/db';</span>
+<span class="cstat-no" title="statement not covered" >import * as util from './../util.js';</span>
+<span class="cstat-no" title="statement not covered" >import strings from './../components/localizedStrings';</span>
+&nbsp;
+export default class SignIn extends Component {
+    constructor(props) <span class="cstat-no" title="statement not covered" >{</span>
+        super(props);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.state = {</span>
+            email: '',
+            password: '',
+            errorMessage: '',
+            rememberUser: false
+        };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.onPressRememberMe = this.onPressRememberMe.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >        this.onPressRecoverPassword = this.onPressRecoverPassword.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >        this.onPressSignIn = this.onPressSignIn.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >        this.onPressSignUp = this.onPressSignUp.bind(this);</span>
+    }
+&nbsp;
+    onPressRememberMe() {
+<span class="cstat-no" title="statement not covered" >        this.setState({</span>
+            rememberUser: !this.state.rememberUser
+        });
+    }
+&nbsp;
+    onPressRecoverPassword() {
+<span class="cstat-no" title="statement not covered" >        this.props.navigator.push({</span>
+            title: 'RecoverPassword'
+        });
+    }
+&nbsp;
+    async onPressSignIn() {
+        this.setState({errorMessage: ''});
+&nbsp;
+        if (util.hasEmptyElement(this.state.email, this.state.password)) {
+            this.setState({errorMessage: 'Please fill all the fields.'});
+        } else if (!util.isEmailValid(this.state.email)) {
+            this.setState({errorMessage: 'This is not a valid email.'});
+        } else {
+            try {
+                this.setState({email: this.state.email.toLowerCase()});
+                let authenticationSuccessful = await db.checkCredentials(this.state.email, this.state.password);
+                if (authenticationSuccessful) {
+<span class="cstat-no" title="statement not covered" >                    this.props.navigator.resetTo({</span>
+                        title: 'Home'
+                    });
+                } else {
+<span class="cstat-no" title="statement not covered" >                    this.setState({errorMessage: 'The credentials you entered are not valid.'});</span>
+                }
+            } catch (error) {
+                console.warn("Couldn't sign up: " + error);
+            }
+        }
+    }
+&nbsp;
+    onPressSignUp() {
+<span class="cstat-no" title="statement not covered" >        this.props.navigator.push({</span>
+            title: 'SignUp'
+        });
+    }
+&nbsp;
+    render() <span class="cstat-no" title="statement not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        return (</span>
+            &lt;View style={{flex:1, justifyContent: 'center'}}&gt;
+                &lt;Text&gt;
+                    {strings.how}
+                &lt;/Text&gt;
+                &lt;ScrollView&gt;
+                    &lt;View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}&gt;
+&nbsp;
+                        {/* VISEO or AUTHENTICATION logo */}
+                        &lt;View style={{alignItems: 'center', paddingBottom:50}}&gt;
+                            &lt;Image
+                                source={require('./../images/loginLogo.png')}
+                                style={{width: 110, height: 110}}
+                            /&gt;
+                        &lt;/View&gt;
+&nbsp;
+                        {/* User email input */}
+                        &lt;View&gt;
+                            &lt;TextInput
+                                style={styles.textInput}
+                                onChangeText={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>email) =&gt; this.setState({email})}</span>
+                                placeholder={strings.email}
+                                keyboardType="email-address"
+                                autoCorrect={false}
+                                selectTextOnFocus={true}
+                                underlineColorAndroid={"white"}
+                                returnKeyType="next"
+                                autoCapitalize="none"
+                                onSubmitEditing={<span class="fstat-no" title="function not covered" >() =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >                                    this.refs.password.focus();</span>
+                                }}
+                            /&gt;
+                        &lt;/View&gt;
+&nbsp;
+                        {/* User password input */}
+                        &lt;View &gt;
+                            &lt;TextInput
+                                style={styles.textInput}
+                                onChangeText={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>password) =&gt; this.setState({password})}</span>
+                                placeholder={strings.password}
+                                ref="password"
+                                password={true}
+                                autoCorrect={false}
+                                selectTextOnFocus={true}
+                                secureTextEntry={true}
+                                underlineColorAndroid={"white"}
+                                minLength={6}
+                                returnKeyType="done"
+                            /&gt;
+                        &lt;/View&gt;
+&nbsp;
+                        &lt;View style={{flexDirection: 'row', flex:1}}&gt;
+                            {/* Remember user if this checkbox is checked */}
+                            &lt;CheckBox
+                                style={{flex: 1, padding: 10}}
+                                onClick={this.onPressRememberMe}
+                                isChecked={false}
+                                rightText={strings.rememberMe}
+                            /&gt;
+&nbsp;
+                            &lt;View style={{flex:1, alignItems: 'flex-end'}}&gt;
+                                {/* Recover password */}
+                                &lt;TouchableHighlight onPress={this.onPressRecoverPassword}&gt;
+                                    &lt;Text
+                                        style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic'}}&gt;
+                                        {strings.forgotPassword}
+                                    &lt;/Text&gt;
+                                &lt;/TouchableHighlight&gt;
+                            &lt;/View&gt;
+                        &lt;/View&gt;
+&nbsp;
+                        {/* Display error messages to help the user fill out the form */}
+                        &lt;Text style={styles.errorInfo}&gt;{this.state.errorMessage}&lt;/Text&gt;
+&nbsp;
+                        {/* SIGN IN button */}
+                        &lt;View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}&gt;
+                            &lt;View style={{flex:1, padding:5}}&gt;
+                                &lt;Button
+                                    onPress={this.onPressSignIn}
+                                    title={strings.signIn}
+                                    color="#841584"
+                                /&gt;
+                            &lt;/View&gt;
+                        &lt;/View&gt;
+&nbsp;
+                        {/* SIGN UP link */}
+                        &lt;TouchableHighlight onPress={this.onPressSignUp} underlayColor='transparent'&gt;
+                            &lt;Text
+                                style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}&gt;
+                                {strings.createAccountLink}
+                            &lt;/Text&gt;
+                        &lt;/TouchableHighlight&gt;
+                    &lt;/View&gt;
+                &lt;/ScrollView&gt;
+            &lt;/View&gt;
+        )
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 27 2017 11:24:11 GMT+0100 (Paris, Madrid)
+</div>
+</div>
+<script src="..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\sorter.js"></script>
+</body>
+</html>
