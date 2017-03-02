@@ -83,7 +83,7 @@ export default class Home extends Component {
     onPressEvent(event) {
         this.props.navigator.push({
             title: 'Event',
-            passProps : {
+            passProps: {
                 event
             }
         });
@@ -125,7 +125,11 @@ export default class Home extends Component {
                         />
                     }
                     scrollEventThrottle={200}
-                    contentContainerStyle={{flex:1, flexDirection:'column'}}
+                    contentContainerStyle={{
+                        flex:1,
+                        flexDirection:'column',
+                        backgroundColor:'lightgrey'
+                    }}
                 >
                     {eventList}
                 </ScrollView>
@@ -207,7 +211,7 @@ export default class Home extends Component {
         }
 
         return (
-            <View style={cardStyle.card}>
+            <View>
                 <TouchableOpacity
                     onPress={ () => {
                         this.onPressEvent(event);
@@ -341,19 +345,16 @@ const styles = StyleSheet.create({
     loadingContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: 'white',
         flexDirection: 'row',
         height: deviceHeight
     },
 
     rectangle: {
-        width: 0.97 * deviceWidth,
-        height: 0.2 * deviceHeight,
+        width: 0.99 * deviceWidth,
+        height: 100,
         backgroundColor: 'white',
-        margin: 3,
-        borderRadius: 0,
-        borderWidth: 0.3,
-        borderColor: 'black',
+        marginBottom: 4,
         flexDirection: 'row',
     },
 
@@ -409,7 +410,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
-    noEvent:{
+    noEvent: {
         textAlign: 'center',
         fontSize: 20,
         marginTop: 20,

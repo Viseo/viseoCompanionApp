@@ -204,12 +204,12 @@ export default class Event extends React.Component {
         return (
             <View style={styles.Rectangle1}>
                 <View style={styles.leftRectangle1}>
-                    <Text style={styles.text}> Date </Text>
+                    <Text style={styles.label}> Date </Text>
                 </View>
                 <View style={styles.rightRectangle1}>
                     <Text
                         style={styles.text}> {new Date(date).getDate()}/{addZero(new Date(date).getMonth() + 1)}/{new Date(date).getFullYear()}
-                        à {addZero(new Date(date).getHours())}h{addZero(new Date(date).getMinutes()) + '\n' } </Text>
+                        {" à "} {addZero(new Date(date).getHours())}h{addZero(new Date(date).getMinutes()) + '\n' } </Text>
                 </View>
             </View>
         );
@@ -218,7 +218,7 @@ export default class Event extends React.Component {
     renderEventDescription(description) {
         return (
             <View style={styles.Rectangle2}>
-                <Text style={styles.text}> Description </Text>
+                <Text style={styles.label}> Description </Text>
                 <Text style={styles.textdescription}>{description} </Text>
             </View>
         );
@@ -228,7 +228,7 @@ export default class Event extends React.Component {
         return (
             <View style={styles.Rectangle1}>
                 <View style={styles.leftRectangle1}>
-                    <Text style={styles.text}> Mot-clés </Text>
+                    <Text style={styles.label}> Mot-clés </Text>
                 </View>
                 <View style={styles.rightRectangle1}>
                     <Text style={styles.text}> {keywords + '\n' } </Text>
@@ -241,7 +241,7 @@ export default class Event extends React.Component {
         return (
             <View style={styles.Rectangle1}>
                 <View style={styles.leftRectangle1}>
-                    <Text style={styles.text}> Lieu </Text>
+                    <Text style={styles.label}> Lieu </Text>
                 </View>
                 <View style={styles.rightRectangle1}>
                     <Text style={styles.text}> {location + '\n' } </Text>
@@ -425,6 +425,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'left',
         fontFamily: 'Cochin',
+        fontWeight:'bold'
     },
 
     text: {
@@ -432,6 +433,13 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'left',
         fontFamily: 'Cochin',
+    },
+    label: {
+        color: 'black',
+        fontSize: 15,
+        textAlign: 'left',
+        fontFamily: 'Cochin',
+        fontWeight: 'bold'
     },
 
     textdescription: {
