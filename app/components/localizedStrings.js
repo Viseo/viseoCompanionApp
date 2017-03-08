@@ -1,12 +1,14 @@
 /**
  * Created by AAB3605 on 21/02/2017.
  */
-import LocalizedStrings from 'react-native-localization';
+import LocalizedStrings from 'react-localization';
 
-export default new LocalizedStrings({
-    "en-US": {
+
+let strings = new LocalizedStrings({
+    "en": {
+
     },
-    en: {
+    "en-US": {
         accountCreated: "Account created! \nLet's see what's happening around!\n\n",
         createAccountLink:'First time? Create an account',
         email: 'Email',
@@ -45,3 +47,5 @@ export default new LocalizedStrings({
         wrongCredentials: 'Les informations fournies sont incorrectes.'
     }
 });
+
+export default strings;

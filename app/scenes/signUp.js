@@ -23,7 +23,7 @@ import {
 import * as util from './../util';
 import * as db from '../components/db';
 import formStyle from './../styles/form';
-import strings from './../components/localizedStrings';
+// import strings from './../components/localizedStrings';
 
 export default class SignUp extends React.Component {
 

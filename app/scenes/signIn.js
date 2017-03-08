@@ -101,9 +101,6 @@ export default class SignIn extends Component {
     render() {
         return (
             <View style={{flex:1, justifyContent: 'center'}}>
-                <Text>
-                    {strings.how}
-                </Text>
                 <ScrollView>
                     <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
 
