@@ -91,7 +91,6 @@ export default class Home extends Component {
 
     render() {
         var email = this.props.email;
-        console.log(email);
 
         // Show loading indicator until all events are loaded
         // Then show all events in chronological order
@@ -114,9 +113,6 @@ export default class Home extends Component {
                     </View>
                     <Text style={styles.viseocompanion}>VISEO COMPANION</Text>
                 </View>
-
-                {/*<Text style={styles.title}> Evénements:</Text>*/}
-
                 <ScrollView
                     refreshControl={
                         <RefreshControl
@@ -126,14 +122,11 @@ export default class Home extends Component {
                     }
                     scrollEventThrottle={200}
                     contentContainerStyle={{
-                        flex:1,
-                        flexDirection:'column',
                         backgroundColor:'lightgrey'
                     }}
                 >
                     {eventList}
                 </ScrollView>
-
                 {createEventButton}
             </View>
         );
