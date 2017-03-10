@@ -206,7 +206,7 @@ export default class SignIn extends Component {
         return (
             <TouchableHighlight onPress={this.onPressRecoverPassword}>
                 <Text
-                    style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic'}}>
+                    style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic',paddingRight:5}}>
                     {strings.forgotPassword}
                 </Text>
             </TouchableHighlight>
