@@ -25,7 +25,6 @@ import styles from './../styles/form';
 import * as db from '../components/db';
 import * as util from './../util.js';
 import strings from './../components/localizedStrings';
-import settings from './../config/settings';
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -57,29 +56,35 @@ export default class SignIn extends Component {
         });
     }
 
+    authenticateUser = async () => {
+        try {
+            this.setState({email: this.state.email.toLowerCase()});
+            let user = await db.authenticate(this.state.email, this.state.password);
+            const unabledToReachServerCode = -1;
+            if (user == unabledToReachServerCode) {
+                this.setState({errorMessage: strings.unableToReachServer});
+            } else if (user) {
+                this.props.navigator.resetTo({
+                    title: 'Home',
+                    passProps: {
+                        user
+                    }
+                });
+            } else {
+                this.setState({errorMessage: strings.wrongCredentials});
+            }
+        } catch (error) {
+            console.warn('signIn::authenticateUser ' + error);
+            this.setState({errorMessage: strings.unableToReachServer});
+        }
+    }
+
     async onPressSignIn() {
         this.setState({errorMessage: ''});
         if (util.hasEmptyElement(this.state.email, this.state.password)) {
             this.setState({errorMessage: strings.missingFormFields});
         } else {
-            try {
-                this.setState({email: this.state.email.toLowerCase()});
-                let authenticationSuccessful = await db.checkCredentials(this.state.email, this.state.password);
-                console.log(authenticationSuccessful);
-                if (authenticationSuccessful == -1) {
-                    this.setState({errorMessage: strings.unableToReachServer});
-                } else if (authenticationSuccessful) {
-                    this.props.navigator.resetTo({
-                        title: 'Home'
-                    });
-                }
-                else {
-                    this.setState({errorMessage: strings.wrongCredentials});
-                }
-            } catch (error) {
-                console.warn('signIn::onPressSignIn ' + error);
-                this.setState({errorMessage: strings.unableToReachServer});
-            }
+            this.authenticateUser();
         }
     }
 
@@ -90,7 +95,7 @@ export default class SignIn extends Component {
     }
 
     autoSubmitFormWhenLastInputIsFilled() {
-        if(this.state.email.length && this.state.password.length) {
+        if (this.state.email.length && this.state.password.length) {
             this.onPressSignIn();
             return true;
         }
@@ -136,7 +141,7 @@ export default class SignIn extends Component {
             <View>
                 <TextInput
                     style={styles.textInput}
-                    onChangeText={(email) => this.setState({email})}
+                    onChangeText={email => this.setState({email})}
                     placeholder={strings.email}
                     ref="email"
                     keyboardType="email-address"
@@ -182,7 +187,7 @@ export default class SignIn extends Component {
             <View >
                 <TextInput
                     style={styles.textInput}
-                    onChangeText={(password) => this.setState({password})}
+                    onChangeText={password => this.setState({password})}
                     placeholder={strings.password}
                     ref="password"
                     password={true}

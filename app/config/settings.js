@@ -21,7 +21,6 @@ const restRoutes = {
     addUser: SERVER_API_URL + 'users',
     getUsers: SERVER_API_URL + 'users',
     getUser: SERVER_API_URL + 'users/',
-    getUserByEmail: SERVER_API_URL + 'users/emails/',
     authenticate: SERVER_API_URL + 'authenticate',
     getEventParticipants: eventId => {
         return SERVER_API_URL + 'events/' + eventId + '/users';

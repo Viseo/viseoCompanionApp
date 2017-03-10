@@ -7,10 +7,10 @@ import User from './user';
 import * as util from './../util';
 
 export async function addUser(email, password) {
-    if(!email || !util.isEmailValid(email))
+    if (!email || !util.isEmailValid(email))
         return false;
 
-    if(!password || !util.isPasswordValid(password))
+    if (!password || !util.isPasswordValid(password))
         return false;
 
     try {
@@ -26,7 +26,7 @@ export async function addUser(email, password) {
         });
 
         let responseJson = await response.json();
-        if(responseJson) {
+        if (responseJson) {
             return true;
         }
     } catch (error) {
@@ -36,7 +36,7 @@ export async function addUser(email, password) {
     return false;
 }
 
-export async function checkCredentials(email, password) {
+export async function authenticate(email, password) {
     try {
         let response = await fetch(settings.api.authenticate, {
             method: 'POST',
@@ -49,16 +49,16 @@ export async function checkCredentials(email, password) {
             })
         });
 
-        let responseJson = await response.json();
-        if(responseJson) {
-            return true;
+        let user = await response.json();
+        if (user) {
+            return new User(user.id, user.firstName, user.lastName, user.email);
         }
     } catch (error) {
-        console.warn('db::checkCredentials ' + error);
+        console.warn('db::authenticate ' + error);
         return -1;
     }
 
-    return false;
+    return null;
 }
 
 export async function getEvents() {
@@ -66,7 +66,7 @@ export async function getEvents() {
         let response = await fetch(settings.api.getEvents);
         let eventsJson = await response.json();
         let events = [];
-        for (let i = 0; i < eventsJson.length; i++){
+        for (let i = 0; i < eventsJson.length; i++) {
             let event = eventsJson[i];
             events.push(new Event(
                 event.id,
@@ -77,7 +77,7 @@ export async function getEvents() {
             ));
         }
         return events;
-    } catch(error) {
+    } catch (error) {
         console.warn('db::getEvents ' + error);
     }
 
@@ -89,7 +89,7 @@ export async function getEventParticipant(eventId, userId) {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
         let user = await response.json();
 
-        if(user) {
+        if (user) {
             return new User(user.id, user.firstName, user.lastName, user.email, user.password);
         }
 
@@ -106,7 +106,7 @@ export async function getEventParticipants(eventId) {
         let participantsJson = await response.json();
 
         let participants = [];
-        for (let i = 0; i < participantsJson.length; i++){
+        for (let i = 0; i < participantsJson.length; i++) {
             let participant = participantsJson[i];
             participants.push(new User(
                 participant.id,
@@ -123,19 +123,4 @@ export async function getEventParticipants(eventId) {
     }
 
     return null;
-}
-
-export async function hasUser(email) {
-    try {
-        let response = await fetch(settings.api.getUserByEmail + encodeURIComponent(email));
-        let responseJson = await response.json();
-        if(responseJson || responseJson.email == email) {
-            return true;
-        }
-    } catch (error) {
-        console.warn('db::hasUser ' + error);
-        return false;
-    }
-
-    return false;
 }
