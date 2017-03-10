@@ -24,17 +24,14 @@ describe("<TestComponent />", () => {
 
     it("should point to the _click function in onPress", () => {
         global.alert = sinon.spy();
-
         let wrapper = shallow(<TestComponent items={mockData}/>);
-
         wrapper.simulate('press');
-
         expect(wrapper.props().onPress.name).to.contain('bound _click');
-
         describe("<TestComponent/> : _click()", () => {
             it("should trigger an alert if onPress is executed", () => {
                 expect(global.alert.calledOnce).to.equal(true);
             });
         });
     });
+
 });

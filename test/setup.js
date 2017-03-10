@@ -2,6 +2,8 @@
  * Created by AAB3605 on 27/02/2017.
  */
 "use strict";
+require('babel-polyfill');
+require('isomorphic-fetch');
 
 // const chai = require("chai");
 const sinon = require('sinon');

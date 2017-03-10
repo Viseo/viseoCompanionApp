@@ -25,6 +25,7 @@ import styles from './../styles/form';
 import * as db from '../components/db';
 import * as util from './../util.js';
 import strings from './../components/localizedStrings';
+import settings from './../config/settings';
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -58,7 +59,6 @@ export default class SignIn extends Component {
 
     async onPressSignIn() {
         this.setState({errorMessage: ''});
-
         if (util.hasEmptyElement(this.state.email, this.state.password)) {
             this.setState({errorMessage: strings.missingFormFields});
         } else {

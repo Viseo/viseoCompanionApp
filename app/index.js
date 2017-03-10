@@ -15,7 +15,8 @@ export default class ViseoCompanion extends Component {
         super(props);
 
         this.navigator;
-        this.state = {};
+        this.state = {
+        };
     }
 
     /**
