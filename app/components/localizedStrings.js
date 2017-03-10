@@ -25,7 +25,8 @@ let strings = new LocalizedStrings({
         signUp: 'Sign up',
         unableToReachServer: 'There was a problem with the server, try again later or check your internet connection.',
         verifyPassword:'Verify password',
-        wrongCredentials: 'The credentials you entered are not valid.'
+        wrongCredentials: 'The credentials you entered are not valid.',
+        filterZone: 'Search by word or apply filter.'
     },
     fr: {
         accountCreated: "Compte créé avec succès!",
