@@ -40,6 +40,7 @@ export default class EventCardTestScene extends Component {
             <View>
                 <EventCard
                     data={event}
+                    participating={true}
                     toggleParticipation={this.toggleParticipation}
                 />
             </View>

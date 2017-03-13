@@ -24,10 +24,10 @@ import {
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
-import cardStyle from './../styles/eventCard';
 import * as util from './../util/util';
 import strings from './../util/localizedStrings';
 import Filter from './../components/filter';
+import EventCard from './../components/eventCard';
 
 var maxEventDescriptionLength = 75;
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
@@ -50,7 +50,8 @@ export default class Home extends Component {
             loaded: false,
             refreshing: false,
             hasEvents: false,
-            areFiltersVisible: false
+            areFiltersVisible: false,
+            userId: 1
         };
 
         this.onPressEvent = this.onPressEvent.bind(this);
@@ -60,7 +61,7 @@ export default class Home extends Component {
         this._onRefresh();
     }
 
-    async _onRefresh() {
+    _onRefresh = async () => {
         this.setState({
             loaded: false,
             refreshing: true
@@ -68,6 +69,11 @@ export default class Home extends Component {
 
         // Load all events to be showed
         let events = await db.getEvents();
+        for (let key in events) {
+            let event = events[key];
+            let user = await db.getEventParticipant(event.id, this.state.userId);
+            event.participating = !!user;
+        }
         if (events.length) {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(events),
@@ -103,7 +109,7 @@ export default class Home extends Component {
         let filters = this.state.areFiltersVisible ? this.renderFiltersZone() : null;
         if (this.state.loaded) {
             eventList = this.state.hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
-            if(this.state.hasEvents){
+            if (this.state.hasEvents) {
                 search = this.renderSearchZone();
             }
         } else {
@@ -157,74 +163,12 @@ export default class Home extends Component {
      Layout showing an event card
      The event card is a small card which shows the main information for a given event.
      */
-    renderEventCard(event) {
-        // Prepare the event description. If it's too long to be showed in the card,
-        // truncate it and append dots to let the user know there's more to read.
-        let eventDescription = event.description;
-        if (eventDescription.length > maxEventDescriptionLength) {
-            eventDescription = util.truncate(eventDescription, maxEventDescriptionLength);
-            eventDescription += '...';
-        }
-
+    renderEventCard = event => {
         return (
-            <View>
-                <TouchableOpacity
-                    onPress={ () => {
-                        this.onPressEvent(event);
-                    }}
-                    style={cardStyle.card}
-                >
-                    <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 10,
-                        marginLeft:2,
-                        marginRight:5,
-                      }}>
-                            {/*Participation dot*/}
-                            <View style={cardStyle.participationDot}/>
-                    </View>
-
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        margin:5
-                      }}>
-                        {/* First ROW: event name, date and time */}
-                        <View
-                            style={{
-                                flex:1,
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                            }}
-                        >
-                            {/* Display event NAME in bold in top left corner*/}
-                            <Text style={cardStyle.name}>
-                                {troncateText(event.name, 32) }
-                            </Text>
-                            {/* Display event DATE in top right corner */}
-                            {/* Display event LOCATION in top right corner, next to the date */}
-                            <Text style={cardStyle.location}>
-                                {event.getTime()} at {event.location.toUpperCase()}
-                            </Text>
-                        </View>
-
-                        {/* Second ROW: event description*/}
-                        <View
-                            style={{
-                                flex: 1,
-                                flexDirection: 'row',
-                                alignItems: 'flex-end',
-                            }}
-                        >
-                            <Text style={cardStyle.description}>
-                                {troncateText(event.description, 120)}
-                            </Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            </View>
+            <EventCard
+                data={event}
+                participating={event.participating}
+            />
         );
     }
 
@@ -269,7 +213,7 @@ export default class Home extends Component {
                 }}
                 navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
-                renderRow={this.renderEventCard.bind(this)}
+                renderRow={this.renderEventCard}
             />
         );
     }
@@ -296,7 +240,7 @@ export default class Home extends Component {
         );
     }
 
-    renderSearchZone(){
+    renderSearchZone() {
         let filterIcon = this.renderFilterIcon();
         return (
             <View style={{alignItems: 'flex-start', flexDirection: 'column'}}>
@@ -308,18 +252,18 @@ export default class Home extends Component {
                         this.renderFilterIcon();
                         }
                     }
-                    style={styles.filterIcon}>
+                                      style={styles.filterIcon}>
                         {filterIcon}
                     </TouchableOpacity>
                     <TextInput
-                     style={styles.input}
-                     placeholder={strings.filterZone}
-                     ref="filterZone"
-                     autoCorrect={false}
-                     selectTextOnFocus={true}
-                     underlineColorAndroid={"white"}
-                     returnKeyType="next"
-                     autoCapitalize="none"
+                        style={styles.input}
+                        placeholder={strings.filterZone}
+                        ref="filterZone"
+                        autoCorrect={false}
+                        selectTextOnFocus={true}
+                        underlineColorAndroid={"white"}
+                        returnKeyType="next"
+                        autoCapitalize="none"
                     />
                 </View>
             </View>
@@ -327,20 +271,20 @@ export default class Home extends Component {
         )
     }
 
-    renderFilterIcon(){
-            if(this.state.areFiltersVisible){
-                return (
-                    <Image source={require("../images/nofilter.png")}/>
-                )
-            }
-            else{
-                return (
-                    <Image source={require("../images/filter.png")}/>
-                )
-            }
+    renderFilterIcon() {
+        if (this.state.areFiltersVisible) {
+            return (
+                <Image source={require("../images/nofilter.png")}/>
+            )
+        }
+        else {
+            return (
+                <Image source={require("../images/filter.png")}/>
+            )
+        }
     }
 
-    renderFiltersZone(){
+    renderFiltersZone() {
         return (
             <View>
                 <View style={{alignItems: 'center', flexDirection: 'column'}}>

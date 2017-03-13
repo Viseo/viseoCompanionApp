@@ -105,16 +105,15 @@ async function addEventParticipant(eventId, userId) {
 async function getEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
-        let user = await response.json();
-
-        if (user) {
-            return new User(user.id, user.firstName, user.lastName, user.email, user.password);
+        if (response.headers.get("content-length") == null) {
+            let user = await response.json();
+            if (user) {
+                return new User(user.id, user.firstName, user.lastName, user.email, user.password);
+            }
         }
-
     } catch (error) {
         console.warn('db::getEventParticipant ' + error);
     }
-
     return null;
 }
 
