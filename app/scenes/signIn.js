@@ -22,9 +22,9 @@ import {
 } from "react-native";
 import CheckBox from 'react-native-check-box'
 import styles from './../styles/form';
-import * as db from '../components/db';
-import * as util from './../util.js';
-import strings from './../components/localizedStrings';
+import * as db from '../util/db';
+import * as util from '../util/util.js';
+import strings from '../util/localizedStrings';
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -130,7 +130,7 @@ export default class SignIn extends Component {
         )
     }
 
-    renderDisplayErrorMessages() {
+    renderDisplayErrorMessages = () => {
         return (
             <Text style={styles.errorInfo}>{this.state.errorMessage}</Text>
         );

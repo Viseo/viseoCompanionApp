@@ -21,9 +21,10 @@ import {
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-import * as db from '../components/db';
+import * as db from '../util/db';
 import cardStyle from './../styles/eventCard';
-import * as util from './../util.js';
+import * as util from '../util/util.js';
+import User from '../util/user';
 
 var maxEventDescriptionLength = 75;
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
@@ -45,7 +46,7 @@ export default class Home extends Component {
             }),
             loaded: false,
             refreshing: false,
-            hasEvents: false
+            hasEvents: false,
         };
 
         this.onPressEvent = this.onPressEvent.bind(this);
@@ -90,8 +91,6 @@ export default class Home extends Component {
     }
 
     render() {
-        var email = this.props.email;
-        console.log(email);
 
         // Show loading indicator until all events are loaded
         // Then show all events in chronological order

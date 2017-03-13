@@ -4,7 +4,7 @@
 import settings from '../config/settings';
 import Event from './event';
 import User from './user';
-import * as util from './../util';
+import * as util from './util';
 
 export async function addUser(email, password) {
     if (!email || !util.isEmailValid(email))

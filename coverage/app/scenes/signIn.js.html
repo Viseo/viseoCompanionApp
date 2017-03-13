@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/43</span>
+        <span class='fraction'>0/56</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>0/19</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>0/5</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/43</span>
+        <span class='fraction'>0/52</span>
       </div>
     </div>
   </div>
@@ -282,7 +282,12 @@
 237
 238
 239
-240</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+240
+241
+242
+243
+244
+245</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -340,11 +345,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -354,16 +374,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -545,12 +555,12 @@
 } from "react-native";
 <span class="cstat-no" title="statement not covered" >import CheckBox from 'react-native-check-box'</span>
 <span class="cstat-no" title="statement not covered" >import styles from './../styles/form';</span>
-<span class="cstat-no" title="statement not covered" >import * as db from '../components/db';</span>
-<span class="cstat-no" title="statement not covered" >import * as util from './../util.js';</span>
-<span class="cstat-no" title="statement not covered" >import strings from './../components/localizedStrings';</span>
+<span class="cstat-no" title="statement not covered" >import * as db from '../util/db';</span>
+<span class="cstat-no" title="statement not covered" >import * as util from '../util/util.js';</span>
+<span class="cstat-no" title="statement not covered" >import strings from '../util/localizedStrings';</span>
 &nbsp;
 export default class SignIn extends Component {
-    constructor(props) <span class="cstat-no" title="statement not covered" >{</span>
+    constructor(props) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >{</span></span></span>
         super(props);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        this.state = {</span>
@@ -579,30 +589,35 @@ export default class SignIn extends Component {
         });
     }
 &nbsp;
-    async onPressSignIn() {
-        this.setState({errorMessage: ''});
-&nbsp;
-        if (util.hasEmptyElement(this.state.email, this.state.password)) {
-            this.setState({errorMessage: strings.missingFormFields});
-        } else {
-            try {
-                this.setState({email: this.state.email.toLowerCase()});
-                let authenticationSuccessful = await db.checkCredentials(this.state.email, this.state.password);
-<span class="cstat-no" title="statement not covered" >                console.log(authenticationSuccessful);</span>
-                if (authenticationSuccessful == -1) {
-<span class="cstat-no" title="statement not covered" >                    this.setState({errorMessage: strings.unableToReachServer});</span>
-                } else if (authenticationSuccessful) {
-<span class="cstat-no" title="statement not covered" >                    this.props.navigator.resetTo({</span>
-                        title: 'Home'
-                    });
-                }
-                else {
-<span class="cstat-no" title="statement not covered" >                    this.setState({errorMessage: strings.wrongCredentials});</span>
-                }
-            } catch (error) {
-<span class="cstat-no" title="statement not covered" >                console.warn('signIn::onPressSignIn ' + error);</span>
-                this.setState({errorMessage: strings.unableToReachServer});
+    authenticateUser = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span></span></span>
+        try {
+<span class="cstat-no" title="statement not covered" >            this.setState({email: this.state.email.toLowerCase()});</span>
+            let <span class="cstat-no" title="statement not covered" >user = await db.authenticate(this.state.email, this.state.password);</span>
+            const <span class="cstat-no" title="statement not covered" >unabledToReachServerCode = -1;</span>
+<span class="cstat-no" title="statement not covered" >            if (user == unabledToReachServerCode) {</span>
+<span class="cstat-no" title="statement not covered" >                this.setState({errorMessage: strings.unableToReachServer});</span>
+            } else <span class="cstat-no" title="statement not covered" >if (user) {</span>
+<span class="cstat-no" title="statement not covered" >                this.props.navigator.resetTo({</span>
+                    title: 'Home',
+                    passProps: {
+                        user
+                    }
+                });
+            } else {
+<span class="cstat-no" title="statement not covered" >                this.setState({errorMessage: strings.wrongCredentials});</span>
             }
+        } catch (error) {
+<span class="cstat-no" title="statement not covered" >            console.warn('signIn::authenticateUser ' + error);</span>
+<span class="cstat-no" title="statement not covered" >            this.setState({errorMessage: strings.unableToReachServer});</span>
+        }
+    }
+&nbsp;
+    async onPressSignIn() {
+<span class="cstat-no" title="statement not covered" >        this.setState({errorMessage: ''});</span>
+        if (util.hasEmptyElement(this.state.email, this.state.password)) {
+<span class="cstat-no" title="statement not covered" >            this.setState({errorMessage: strings.missingFormFields});</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            this.authenticateUser();</span>
         }
     }
 &nbsp;
@@ -613,7 +628,7 @@ export default class SignIn extends Component {
     }
 &nbsp;
     autoSubmitFormWhenLastInputIsFilled() {
-<span class="cstat-no" title="statement not covered" >        if(this.state.email.length &amp;&amp; this.state.password.length) {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.state.email.length &amp;&amp; this.state.password.length) {</span>
 <span class="cstat-no" title="statement not covered" >            this.onPressSignIn();</span>
 <span class="cstat-no" title="statement not covered" >            return true;</span>
         }
@@ -659,7 +674,7 @@ export default class SignIn extends Component {
             &lt;View&gt;
                 &lt;TextInput
                     style={styles.textInput}
-                    onChangeText={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>email) =&gt; this.setState({email})}</span>
+                    onChangeText={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >email =&gt; </span>this.setState({email})}</span>
                     placeholder={strings.email}
                     ref="email"
                     keyboardType="email-address"
@@ -705,7 +720,7 @@ export default class SignIn extends Component {
             &lt;View &gt;
                 &lt;TextInput
                     style={styles.textInput}
-                    onChangeText={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>password) =&gt; this.setState({password})}</span>
+                    onChangeText={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >password =&gt; </span>this.setState({password})}</span>
                     placeholder={strings.password}
                     ref="password"
                     password={true}
@@ -766,7 +781,7 @@ export default class SignIn extends Component {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 09 2017 10:10:40 GMT+0100 (Paris, Madrid)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 10 2017 16:27:42 GMT+0100 (Paris, Madrid)
 </div>
 </div>
 <script src="..\..\prettify.js"></script>

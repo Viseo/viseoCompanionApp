@@ -8,7 +8,8 @@ import SignIn from './scenes/signIn';
 import SignUp from './scenes/signUp';
 import RecoverPassword from './scenes/recoverPassword';
 import Home from "./scenes/home";
-import Event from "./scenes/event";
+import Event from "./scenes/eventDetails";
+import EventCardTestScene from "./scenes/eventCardTestScene";
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -39,11 +40,12 @@ export default class ViseoCompanion extends Component {
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
             {title: 'TestScene'},
-            {title: 'Event'},
+            {title: 'EventDetails'},
+            {title: 'EventCardTestScene'}
         ];
         return (
             <Navigator
-                initialRoute={routes[1]}
+                initialRoute={routes[6]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'TestScene') {
@@ -77,9 +79,13 @@ export default class ViseoCompanion extends Component {
                         return (
                             <Home navigator={navigator} {...route.passProps}/>
                         );
-                    } else if(route.title === 'Event') {
+                    } else if(route.title === 'EventDetails') {
                         return (
-                            <Event navigator={navigator} {...route.passProps}/>
+                            <EventDetails navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'EventCardTestScene') {
+                        return (
+                            <EventCardTestScene navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}
