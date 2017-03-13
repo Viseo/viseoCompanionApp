@@ -10,28 +10,26 @@ export default cardStyle = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        //marginBottom:3,
         // alignItems:'stretch'
         backgroundColor: 'white',
-        //borderBottomWidth: 1,
-        //flex:1,
-        height: 100,
+        height: 90,
         borderBottomWidth: 0.5,
         borderBottomColor: '#999999'
     },
     name: {
-        // flex: 1,
+        flex: 2,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 18
+        fontSize: 17,
+        color: 'black'
     },
     description: {
-        // flex: 1,
+        flex: 1,
         textAlign: 'left',
-        fontSize: 16,
+        fontSize: 14,
     },
-    info: {
-        // flex: 1,
+    location: {
+        flex: 1,
         justifyContent: 'center',
         textAlign: 'right',
         fontSize: 13

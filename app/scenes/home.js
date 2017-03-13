@@ -32,9 +32,9 @@ import Filter from '../components/filter'
 var maxEventDescriptionLength = 75;
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
 
-function ThreePoints(text) {
-    if (text.length > 25) {
-        text = text.substr(0, 25) + "...";
+function troncateText(text, nbOfCaractere) {
+    if (text.length > nbOfCaractere) {
+        text = text.substr(0, nbOfCaractere) + "...";
     }
     return text;
 }
@@ -168,54 +168,63 @@ export default class Home extends Component {
         }
 
         return (
-            <View style={cardStyle.card}>
-                <View style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: 10,
-                    margin:2,
-                  }}>
-                        {/*Participation dot*/}
-                        <TouchableOpacity style={cardStyle.participationDot}/>
-                </View>
-
-                <View style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}>
-                    {/* First ROW: event name, date and time */}
-                    <View
-                        style={{
-                            flex:1,
-                            flexDirection: 'row',
-                            alignItems: 'flex-end'
-                        }}
-                    >
-                        {/* Display event NAME in bold in top left corner*/}
-                        <Text style={cardStyle.name}>
-                            {event.name}
-                        </Text>
-                        {/* Display event DATE in top right corner */}
-                        {/* Display event LOCATION in top right corner, next to the date */}
-                        <Text style={cardStyle.info}>
-                            {event.getTime()} at {event.location.toUpperCase()}
-                        </Text>
+            <View>
+                <TouchableOpacity
+                    onPress={ () => {
+                        this.onPressEvent(event);
+                    }}
+                    style={cardStyle.card}
+                >
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 10,
+                        marginLeft:2,
+                        marginRight:5,
+                      }}>
+                            {/*Participation dot*/}
+                            <View style={cardStyle.participationDot}/>
                     </View>
 
-                    {/* Second ROW: event description*/}
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            alignItems: 'flex-start',
-                        }}
-                    >
-                        <Text style={cardStyle.description}>
-                            {eventDescription}
-                        </Text>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        margin:5
+                      }}>
+                        {/* First ROW: event name, date and time */}
+                        <View
+                            style={{
+                                flex:1,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            {/* Display event NAME in bold in top left corner*/}
+                            <Text style={cardStyle.name}>
+                                {troncateText(event.name, 32) }
+                            </Text>
+                            {/* Display event DATE in top right corner */}
+                            {/* Display event LOCATION in top right corner, next to the date */}
+                            <Text style={cardStyle.location}>
+                                {event.getTime()} at {event.location.toUpperCase()}
+                            </Text>
+                        </View>
+
+                        {/* Second ROW: event description*/}
+                        <View
+                            style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                alignItems: 'flex-end',
+                            }}
+                        >
+                            <Text style={cardStyle.description}>
+                                {troncateText(event.description, 120)}
+                            </Text>
+                        </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -244,9 +253,9 @@ export default class Home extends Component {
                                 style={styles.date}> {event.getTime()}</Text>
                         </View>
                         <View style={styles.rightRectangle}>
-                            <Text style={styles.name}> {ThreePoints(event.name) } </Text>
+                            <Text style={styles.name}> {troncateText(event.name, 75) } </Text>
                             <Text style={styles.location}> {event.location} </Text>
-                            <Text style={styles.location}> {ThreePoints(event.description)} </Text>
+                            <Text style={styles.location}> {troncateText(event.description, 75)} </Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -261,7 +270,7 @@ export default class Home extends Component {
                 }}
                 navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
-                renderRow={this.renderEventCardWithOldStyle.bind(this)}
+                renderRow={this.renderEventCard.bind(this)}
             />
         );
     }
@@ -351,8 +360,7 @@ const styles = StyleSheet.create({
 
     topbar: {
         height: (1 / 13) * deviceHeight,
-        backgroundColor: 'white',
-        // justifyContent:'space-between',
+        backgroundColor: '#103a71',
         alignItems: 'center',
         flexDirection: 'row',
         padding: 10,
@@ -382,7 +390,7 @@ const styles = StyleSheet.create({
 
     viseocompanion: {
         fontSize: 20,
-        color: 'blue',
+        color: 'white',
     },
 
     loadingText: {
