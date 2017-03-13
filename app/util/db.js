@@ -161,6 +161,28 @@ async function getEventParticipants(eventId) {
     return null;
 }
 
+async function getEventsWithParticipant(userId) {
+    try {
+        let response = await fetch(settings.api.getEventsWithParticipant(userId));
+        let eventsJson = await response.json();
+        let events = [];
+        for (let i = 0; i < eventsJson.length; i++) {
+            let event = eventsJson[i];
+            events.push(new Event(
+                event.id,
+                event.name,
+                event.description,
+                event.datetime,
+                event.place
+            ));
+        }
+        return events;
+    } catch (error) {
+        console.warn('db::getEventsWithParticipant ' + error);
+    }
+    return null;
+}
+
 export default db = {
     addUser,
     authenticate,
@@ -169,4 +191,5 @@ export default db = {
     getEventParticipant,
     removeEventParticipant,
     getEventParticipants,
+    getEventsWithParticipant
 }

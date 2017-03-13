@@ -117,21 +117,21 @@ export default class Home extends Component {
                 {/*<Text style={styles.title}> Evénements:</Text>*/}
 
                 <ScrollView
-                    refreshControl={
+                refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
                             onRefresh={this._onRefresh.bind(this)}
                         />
                     }
-                    scrollEventThrottle={200}
-                    contentContainerStyle={{
+                scrollEventThrottle={200}
+                contentContainerStyle={{
                         flex:1,
                         flexDirection:'column',
                         backgroundColor:'lightgrey'
                     }}
-                >
-                    {eventList}
-                </ScrollView>
+            >
+                {eventList}
+            </ScrollView>
 
                 {createEventButton}
             </View>

@@ -13,7 +13,13 @@ export default class EventCard extends Component {
 
     render() {
         return (
-            <View>
+            <View
+                style={{
+                        borderWidth:1,
+                        borderColor: 'black',
+                        marginBottom:10
+                    }}
+            >
                 {this.renderTitle()}
                 {this.renderDescription()}
                 {this.renderParticipateCheckBox()}

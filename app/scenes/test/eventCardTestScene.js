@@ -3,9 +3,9 @@
  */
 import React, {Component} from 'react';
 import {View, Text, TouchableHighlight, Picker, StyleSheet, AppState} from 'react-native';
-import EventCard from './../components/eventCard';
-import Event from './../util/event';
-import db from './../util/db';
+import EventCard from '../../components/eventCard';
+import Event from '../../util/event';
+import db from '../../util/db';
 
 export default class EventCardTestScene extends Component {
     constructor(props) {

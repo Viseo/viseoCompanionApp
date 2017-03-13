@@ -33,6 +33,9 @@ const restRoutes = {
     },
     getEventParticipant: (eventId, userId) => {
         return SERVER_API_URL + 'events/' + eventId + '/users/' + userId;
+    },
+    getEventsWithParticipant: (userId) => {
+        return SERVER_API_URL + '/events/users/' + userId;
     }
 }
 
