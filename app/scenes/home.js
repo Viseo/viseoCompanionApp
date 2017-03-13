@@ -17,13 +17,17 @@ import {
     ListView,
     Dimensions,
     RefreshControl,
-    Platform
+    Platform,
+    TextInput,
+    Button
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as db from '../components/db';
 import cardStyle from './../styles/eventCard';
 import * as util from './../util.js';
+import strings from './../components/localizedStrings';
+import Filter from '../components/filter'
 
 var maxEventDescriptionLength = 75;
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
@@ -45,7 +49,8 @@ export default class Home extends Component {
             }),
             loaded: false,
             refreshing: false,
-            hasEvents: false
+            hasEvents: false,
+            areFiltersVisible: false
         };
 
         this.onPressEvent = this.onPressEvent.bind(this);
@@ -95,8 +100,13 @@ export default class Home extends Component {
         // Show loading indicator until all events are loaded
         // Then show all events in chronological order
         let eventList;
+        let search;
+        let filters = this.state.areFiltersVisible ? this.renderFiltersZone() : null;
         if (this.state.loaded) {
             eventList = this.state.hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
+            if(this.state.hasEvents){
+                search = this.renderSearchZone();
+            }
         } else {
             this.renderLoadingIndicator();
         }
@@ -113,6 +123,8 @@ export default class Home extends Component {
                     </View>
                     <Text style={styles.viseocompanion}>VISEO COMPANION</Text>
                 </View>
+                {search}
+                {filters}
                 <ScrollView
                     refreshControl={
                         <RefreshControl
@@ -275,6 +287,54 @@ export default class Home extends Component {
             />
         );
     }
+
+    renderSearchZone(){
+        return (
+            <View>
+                <TextInput
+                    style={styles.textInput}
+                    onFocus={() => this.setState({
+                        areFiltersVisible: true,
+                    })}
+                    placeholder={strings.filterZone}
+                    ref="filterZone"
+                    autoCorrect={false}
+                    selectTextOnFocus={true}
+                    underlineColorAndroid={"white"}
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                />
+            </View>
+        )
+    }
+
+    renderFiltersZone(){
+        return (
+            <View>
+                <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
+                    <View style={{flexDirection: 'row', alignItems:'flex-end'}}>
+                        <TouchableOpacity
+                            style={styles.redBox}
+                            onPress={() => this.setState({
+                                areFiltersVisible: false,
+                            })}>
+                            <Text style={styles.crossButtonText}>
+                                X
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={{alignItems: 'center', flexDirection: 'column'}}>
+                    <View style={{alignItems: 'stretch', flexDirection: 'row'}}>
+                        <Filter color='red'/>
+                        <Filter color='orange'/>
+                        <Filter color='lightgreen'/>
+                        <Filter color='royalblue'/>
+                    </View>
+                </View>
+            </View>
+        )
+    }
 }
 
 
@@ -422,5 +482,20 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginTop: 20,
         color: '#707070',
+    },
+
+    redBox: {
+        backgroundColor: 'red',
+        width: 15,
+        height: 15,
+        borderRadius: 1,
+        marginRight: 10,
+        justifyContent:'center',
+    },
+
+    crossButtonText: {
+        textAlign:'center',
+        fontWeight:'bold',
+        color:'white'
     }
 });
