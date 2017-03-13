@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/37</span>
+        <span class='fraction'>0/45</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/24</span>
+        <span class='fraction'>0/35</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/3</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/37</span>
+        <span class='fraction'>0/45</span>
       </div>
     </div>
   </div>
@@ -338,7 +338,27 @@
 293
 294
 295
-296</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -462,6 +482,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -534,6 +563,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -655,10 +695,10 @@
     TouchableHighlight,
     Modal
 } from "react-native";
-<span class="cstat-no" title="statement not covered" >import * as util from './../util';</span>
-<span class="cstat-no" title="statement not covered" >import * as db from '../components/db';</span>
+<span class="cstat-no" title="statement not covered" >import * as util from '../util/util';</span>
+<span class="cstat-no" title="statement not covered" >import * as db from '../util/db';</span>
 <span class="cstat-no" title="statement not covered" >import formStyle from './../styles/form';</span>
-<span class="cstat-no" title="statement not covered" >import strings from './../components/localizedStrings';</span>
+<span class="cstat-no" title="statement not covered" >import strings from '../util/localizedStrings';</span>
 &nbsp;
 export default class SignUp extends React.Component {
 &nbsp;
@@ -738,23 +778,32 @@ export default class SignUp extends React.Component {
             this.setState({isPasswordCheckValid: false});
         } else {
             try {
-                let userAlreadyExists = await db.hasUser(this.state.email);
+                let userAlreadyExists = await db.getUserByEmail(this.state.email);
                 if (userAlreadyExists) {
-                    this.setState({errorMessage: 'This email is already used.'});
+                    this.setState({errorMessage: strings.emailAlreadyUsed});
                 } else {
                     let email = this.state.email.toLowerCase();
                     let userAddedSuccessfully = await db.addUser(email, this.state.password);
                     if (userAddedSuccessfully) {
 <span class="cstat-no" title="statement not covered" >                        this.setState({modalVisible: true});</span>
                     } else {
-<span class="cstat-no" title="statement not covered" >                        this.setState({errorMessage: 'Sign up failed. There was a problem with the server.'});</span>
+<span class="cstat-no" title="statement not covered" >                        this.setState({errorMessage: strings.unableToReachServer});</span>
                     }
                 }
             } catch (error) {
 <span class="cstat-no" title="statement not covered" >                console.warn('signUp::onPressSignUp ' + error);</span>
-                this.setState({errorMessage: "Couldn't sign up."});
+                this.setState({errorMessage: strings.unableToReachServer});
             }
         }
+    }
+&nbsp;
+    autoSubmitFormWhenLastInputIsFilled() {
+<span class="cstat-no" title="statement not covered" >        if(this.state.email.length &amp;&amp; this.state.password.length &amp;&amp; this.state.passwordCheck.length) {</span>
+<span class="cstat-no" title="statement not covered" >            this.onPressSignUp();</span>
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return false;</span>
     }
 &nbsp;
     render() <span class="cstat-no" title="statement not covered" >{</span>
@@ -832,6 +881,17 @@ export default class SignUp extends React.Component {
                                 secureTextEntry={true}
                                 onChangeText={this.onChangePasswordCheckText}
                                 returnKeyType="done"
+                                onSubmitEditing={<span class="fstat-no" title="function not covered" >() =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >                                    console.warn('submit');</span>
+<span class="cstat-no" title="statement not covered" >                                        if (!util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)</span>
+                                            &amp;&amp; util.isEmailValid(this.state.email)
+                                            &amp;&amp; util.isPasswordValid(this.state.password)
+                                            &amp;&amp; this.state.password == this.state.passwordCheck) {
+<span class="cstat-no" title="statement not covered" >                                            console.warn('inside');</span>
+<span class="cstat-no" title="statement not covered" >                                            this.autoSubmitFormWhenLastInputIsFilled();</span>
+                                        }
+                                    }
+                                }
                             /&gt;
                         &lt;/View&gt;
 &nbsp;
@@ -841,7 +901,7 @@ export default class SignUp extends React.Component {
                         {/* Notify the user when their account was created before redirecting to home page */}
                         {this.renderAccountCreationPopout()}
 &nbsp;
-                        {/* SIGN IN and SIGN UP buttons */}
+                        {/* SIGN UP button */}
                         &lt;View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}&gt;
                             &lt;View style={{flex:1, padding:5}}&gt;
                                 &lt;Button
@@ -887,7 +947,7 @@ export default class SignUp extends React.Component {
                     &gt;
                         &lt;View&gt;
                             &lt;Text style={{textAlign:'center'}}&gt;
-                                {"Account created! \nLet's see what's happening around!\n\n"}
+                                {strings.accountCreated}
                             &lt;/Text&gt;
                             &lt;Button
                                 onPress={this.onAccountCreatedNotificationPressed}
@@ -934,7 +994,7 @@ export default class SignUp extends React.Component {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 27 2017 15:38:13 GMT+0100 (Paris, Madrid)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 10 2017 16:27:42 GMT+0100 (Paris, Madrid)
 </div>
 </div>
 <script src="..\..\prettify.js"></script>

@@ -51,7 +51,7 @@ function addZero(i) {
     return i;
 }
 
-export default class Event extends React.Component {
+export default class EventDetails extends React.Component {
 
     constructor(props) {
         super(props);
@@ -60,10 +60,6 @@ export default class Event extends React.Component {
         this.state = {
             statut: '',
         };
-    }
-
-    componentDidMount() {
-        //this._showParticipation();
     }
 
     //todo show the participation when the logged-in navigation is going to be available

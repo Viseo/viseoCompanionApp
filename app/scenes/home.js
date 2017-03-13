@@ -23,9 +23,9 @@ import {
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-import * as db from '../components/db';
+import db from '../util/db';
 import cardStyle from './../styles/eventCard';
-import * as util from './../util.js';
+import * as util from './../../util.js';
 import strings from './../components/localizedStrings';
 import Filter from '../components/filter'
 
@@ -95,7 +95,6 @@ export default class Home extends Component {
     }
 
     render() {
-        var email = this.props.email;
 
         // Show loading indicator until all events are loaded
         // Then show all events in chronological order

@@ -2,6 +2,8 @@
  * Created by AAB3605 on 27/02/2017.
  */
 "use strict";
+require('babel-polyfill');
+require('isomorphic-fetch');
 
 // const chai = require("chai");
 const sinon = require('sinon');
@@ -66,4 +68,20 @@ m._load = function hookedLoader(request, parent, isMain) {
     }
 
     return originalLoader(request, parent, isMain);
+};
+
+
+// Testing with mount
+var jsdom = require('jsdom').jsdom;
+
+global.document = jsdom('');
+global.window = document.defaultView;
+Object.keys(document.defaultView).forEach((property) => {
+    if (typeof global[property] === 'undefined') {
+        global[property] = document.defaultView[property];
+    }
+});
+
+global.navigator = {
+    userAgent: 'node.js'
 };

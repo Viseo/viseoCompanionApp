@@ -20,10 +20,10 @@ import {
     TouchableHighlight,
     Modal
 } from "react-native";
-import * as util from './../util';
-import * as db from '../components/db';
+import * as util from '../util/util';
+import * as db from '../util/db';
 import formStyle from './../styles/form';
-import strings from './../components/localizedStrings';
+import strings from '../util/localizedStrings';
 
 export default class SignUp extends React.Component {
 
@@ -103,7 +103,7 @@ export default class SignUp extends React.Component {
             this.setState({isPasswordCheckValid: false});
         } else {
             try {
-                let userAlreadyExists = await db.hasUser(this.state.email);
+                let userAlreadyExists = await db.getUserByEmail(this.state.email);
                 if (userAlreadyExists) {
                     this.setState({errorMessage: strings.emailAlreadyUsed});
                 } else {

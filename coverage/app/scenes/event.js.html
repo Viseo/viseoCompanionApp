@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for app/scenes/event.js</title>
+    <title>Code coverage report for app/scenes/eventDetails.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="..\..\prettify.css" />
     <link rel="stylesheet" href="..\..\base.css" />
@@ -16,7 +16,7 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="..\..\index.html">All files</a> / <a href="index.html">app/scenes</a> event.js
+      <a href="..\..\index.html">All files</a> / <a href="index.html">app/scenes</a> eventDetails.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
@@ -539,7 +539,15 @@
 494
 495
 496
-497</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+497
+498
+499
+500
+501
+502
+503
+504
+505</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -833,6 +841,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1241,12 +1257,12 @@ export default class Event extends React.Component {
 <span class="cstat-no" title="statement not covered" >        return (</span>
             &lt;View style={styles.Rectangle1}&gt;
                 &lt;View style={styles.leftRectangle1}&gt;
-                    &lt;Text style={styles.text}&gt; Date &lt;/Text&gt;
+                    &lt;Text style={styles.label}&gt; Date &lt;/Text&gt;
                 &lt;/View&gt;
                 &lt;View style={styles.rightRectangle1}&gt;
                     &lt;Text
                         style={styles.text}&gt; {new Date(date).getDate()}/{addZero(new Date(date).getMonth() + 1)}/{new Date(date).getFullYear()}
-                        à {addZero(new Date(date).getHours())}h{addZero(new Date(date).getMinutes()) + '\n' } &lt;/Text&gt;
+                        {" à "} {addZero(new Date(date).getHours())}h{addZero(new Date(date).getMinutes()) + '\n' } &lt;/Text&gt;
                 &lt;/View&gt;
             &lt;/View&gt;
         );
@@ -1255,7 +1271,7 @@ export default class Event extends React.Component {
     renderEventDescription(description) {
 <span class="cstat-no" title="statement not covered" >        return (</span>
             &lt;View style={styles.Rectangle2}&gt;
-                &lt;Text style={styles.text}&gt; Description &lt;/Text&gt;
+                &lt;Text style={styles.label}&gt; Description &lt;/Text&gt;
                 &lt;Text style={styles.textdescription}&gt;{description} &lt;/Text&gt;
             &lt;/View&gt;
         );
@@ -1265,7 +1281,7 @@ export default class Event extends React.Component {
 <span class="cstat-no" title="statement not covered" >        return (</span>
             &lt;View style={styles.Rectangle1}&gt;
                 &lt;View style={styles.leftRectangle1}&gt;
-                    &lt;Text style={styles.text}&gt; Mot-clés &lt;/Text&gt;
+                    &lt;Text style={styles.label}&gt; Mot-clés &lt;/Text&gt;
                 &lt;/View&gt;
                 &lt;View style={styles.rightRectangle1}&gt;
                     &lt;Text style={styles.text}&gt; {keywords + '\n' } &lt;/Text&gt;
@@ -1278,7 +1294,7 @@ export default class Event extends React.Component {
 <span class="cstat-no" title="statement not covered" >        return (</span>
             &lt;View style={styles.Rectangle1}&gt;
                 &lt;View style={styles.leftRectangle1}&gt;
-                    &lt;Text style={styles.text}&gt; Lieu &lt;/Text&gt;
+                    &lt;Text style={styles.label}&gt; Lieu &lt;/Text&gt;
                 &lt;/View&gt;
                 &lt;View style={styles.rightRectangle1}&gt;
                     &lt;Text style={styles.text}&gt; {location + '\n' } &lt;/Text&gt;
@@ -1462,6 +1478,7 @@ c</span>onst styles = <span class="cstat-no" title="statement not covered" >Styl
         fontSize: 15,
         textAlign: 'left',
         fontFamily: 'Cochin',
+        fontWeight:'bold'
     },
 &nbsp;
     text: {
@@ -1469,6 +1486,13 @@ c</span>onst styles = <span class="cstat-no" title="statement not covered" >Styl
         fontSize: 15,
         textAlign: 'left',
         fontFamily: 'Cochin',
+    },
+    label: {
+        color: 'black',
+        fontSize: 15,
+        textAlign: 'left',
+        fontFamily: 'Cochin',
+        fontWeight: 'bold'
     },
 &nbsp;
     textdescription: {
@@ -1537,7 +1561,7 @@ c</span>onst styles = <span class="cstat-no" title="statement not covered" >Styl
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 27 2017 15:38:13 GMT+0100 (Paris, Madrid)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 09 2017 10:10:40 GMT+0100 (Paris, Madrid)
 </div>
 </div>
 <script src="..\..\prettify.js"></script>
