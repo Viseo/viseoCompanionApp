@@ -32,9 +32,9 @@ import Filter from './../components/filter';
 var maxEventDescriptionLength = 75;
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
 
-function ThreePoints(text) {
-    if (text.length > 25) {
-        text = text.substr(0, 25) + "...";
+function troncateText(text, nbOfCaractere) {
+    if (text.length > nbOfCaractere) {
+        text = text.substr(0, nbOfCaractere) + "...";
     }
     return text;
 }
@@ -167,40 +167,63 @@ export default class Home extends Component {
         }
 
         return (
-            <View style={cardStyle.card}>
-                {/* First ROW: event name, date and time */}
-                <View
-                    style={{
-                        flex:1,
-                        flexDirection: 'row',
-                        alignItems: 'flex-end'
+            <View>
+                <TouchableOpacity
+                    onPress={ () => {
+                        this.onPressEvent(event);
                     }}
+                    style={cardStyle.card}
                 >
-                    {/* Display event NAME in bold in top left corner*/}
-                    <Text style={cardStyle.name}>
-                        {event.name}
-                    </Text>
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 10,
+                        marginLeft:2,
+                        marginRight:5,
+                      }}>
+                            {/*Participation dot*/}
+                            <View style={cardStyle.participationDot}/>
+                    </View>
 
-                    {/* Display event DATE in top right corner */}
-                    {/* Display event LOCATION in top right corner, next to the date */}
-                    <Text style={cardStyle.info}>
-                        {event.getTime()} at {event.location.toUpperCase()}
-                    </Text>
-                </View>
-
-                {/* Second ROW: event description*/}
-                <View
-                    style={{
+                    <View style={{
                         flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'flex-start',
-                        paddingTop: 4
-                    }}
-                >
-                    <Text style={cardStyle.description}>
-                        {eventDescription}
-                    </Text>
-                </View>
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        margin:5
+                      }}>
+                        {/* First ROW: event name, date and time */}
+                        <View
+                            style={{
+                                flex:1,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            {/* Display event NAME in bold in top left corner*/}
+                            <Text style={cardStyle.name}>
+                                {troncateText(event.name, 32) }
+                            </Text>
+                            {/* Display event DATE in top right corner */}
+                            {/* Display event LOCATION in top right corner, next to the date */}
+                            <Text style={cardStyle.location}>
+                                {event.getTime()} at {event.location.toUpperCase()}
+                            </Text>
+                        </View>
+
+                        {/* Second ROW: event description*/}
+                        <View
+                            style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                alignItems: 'flex-end',
+                            }}
+                        >
+                            <Text style={cardStyle.description}>
+                                {troncateText(event.description, 120)}
+                            </Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -229,9 +252,9 @@ export default class Home extends Component {
                                 style={styles.date}> {event.getTime()}</Text>
                         </View>
                         <View style={styles.rightRectangle}>
-                            <Text style={styles.name}> {ThreePoints(event.name) } </Text>
+                            <Text style={styles.name}> {troncateText(event.name, 75) } </Text>
                             <Text style={styles.location}> {event.location} </Text>
-                            <Text style={styles.location}> {ThreePoints(event.description)} </Text>
+                            <Text style={styles.location}> {troncateText(event.description, 75)} </Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -246,7 +269,7 @@ export default class Home extends Component {
                 }}
                 navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
-                renderRow={this.renderEventCardWithOldStyle.bind(this)}
+                renderRow={this.renderEventCard.bind(this)}
             />
         );
     }
@@ -274,41 +297,52 @@ export default class Home extends Component {
     }
 
     renderSearchZone(){
+        let filterIcon = this.renderFilterIcon();
         return (
-            <View>
-                <TextInput
-                    style={styles.textInput}
-                    onFocus={() => this.setState({
-                        areFiltersVisible: true,
-                    })}
-                    placeholder={strings.filterZone}
-                    ref="filterZone"
-                    autoCorrect={false}
-                    selectTextOnFocus={true}
-                    underlineColorAndroid={"white"}
-                    returnKeyType="next"
-                    autoCapitalize="none"
-                />
+            <View style={{alignItems: 'flex-start', flexDirection: 'column'}}>
+                <View style={{alignItems: 'stretch', flexDirection: 'row'}}>
+                    <TouchableOpacity onPress={() => {
+                        this.setState({
+                        areFiltersVisible: !this.state.areFiltersVisible,
+                        });
+                        this.renderFilterIcon();
+                        }
+                    }
+                    style={styles.filterIcon}>
+                        {filterIcon}
+                    </TouchableOpacity>
+                    <TextInput
+                     style={styles.input}
+                     placeholder={strings.filterZone}
+                     ref="filterZone"
+                     autoCorrect={false}
+                     selectTextOnFocus={true}
+                     underlineColorAndroid={"white"}
+                     returnKeyType="next"
+                     autoCapitalize="none"
+                    />
+                </View>
             </View>
+
         )
+    }
+
+    renderFilterIcon(){
+            if(this.state.areFiltersVisible){
+                return (
+                    <Image source={require("../images/nofilter.png")}/>
+                )
+            }
+            else{
+                return (
+                    <Image source={require("../images/filter.png")}/>
+                )
+            }
     }
 
     renderFiltersZone(){
         return (
             <View>
-                <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
-                    <View style={{flexDirection: 'row', alignItems:'flex-end'}}>
-                        <TouchableOpacity
-                            style={styles.redBox}
-                            onPress={() => this.setState({
-                                areFiltersVisible: false,
-                            })}>
-                            <Text style={styles.crossButtonText}>
-                                X
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
                 <View style={{alignItems: 'center', flexDirection: 'column'}}>
                     <View style={{alignItems: 'stretch', flexDirection: 'row'}}>
                         <Filter color='red'/>
@@ -336,8 +370,7 @@ const styles = StyleSheet.create({
 
     topbar: {
         height: (1 / 13) * deviceHeight,
-        backgroundColor: 'white',
-        // justifyContent:'space-between',
+        backgroundColor: '#103a71',
         alignItems: 'center',
         flexDirection: 'row',
         padding: 10,
@@ -367,7 +400,7 @@ const styles = StyleSheet.create({
 
     viseocompanion: {
         fontSize: 20,
-        color: 'blue',
+        color: 'white',
     },
 
     loadingText: {
@@ -469,18 +502,15 @@ const styles = StyleSheet.create({
         color: '#707070',
     },
 
-    redBox: {
-        backgroundColor: 'red',
-        width: 15,
-        height: 15,
-        borderRadius: 1,
-        marginRight: 10,
-        justifyContent:'center',
+    filterIcon: {
+        marginTop: 35,
+        marginLeft: 20,
+        marginRight: 20
     },
 
-    crossButtonText: {
-        textAlign:'center',
-        fontWeight:'bold',
-        color:'white'
-    }
+    input: {
+        width: Dimensions.get('window').width,
+        marginTop: 15,
+        marginBottom: 15
+    },
 });

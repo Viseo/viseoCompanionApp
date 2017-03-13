@@ -5,27 +5,30 @@ import {
     StyleSheet
 } from "react-native";
 
-export default StyleSheet.create({
+export default cardStyle = StyleSheet.create({
     card: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        // alignItems:'stretch'
         backgroundColor: 'white',
-        //borderBottomWidth: 1,
-        //flex:1,
-        //height: 100,
-        //marginBottom:3,
-        alignItems:'stretch'
+        height: 90,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#999999'
     },
     name: {
-        flex: 1,
+        flex: 2,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 18
+        fontSize: 17,
+        color: 'black'
     },
     description: {
         flex: 1,
         textAlign: 'left',
-        fontSize: 16
+        fontSize: 14,
     },
-    info: {
+    location: {
         flex: 1,
         justifyContent: 'center',
         textAlign: 'right',
@@ -34,5 +37,11 @@ export default StyleSheet.create({
     textInput: {
         fontSize: 18,
         textAlign: 'center'
+    },
+    participationDot: {
+        width: 10,
+        height: 10,
+        backgroundColor: '#6492ef',
+        borderRadius: 50,
     }
 });

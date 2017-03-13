@@ -24,7 +24,7 @@ class Filter extends Component {
                 <TouchableOpacity
                     style={
                         [styles.circle,
-                        {backgroundColor: this.state.selected ? this.props.color : Filter.defaultProps['backgroundColor']},
+                        {backgroundColor: this.props.color },
                         {borderColor: this.props.color}]}
                     onPress={() => this.setState({
                         selected: !this.state.selected,
@@ -34,10 +34,6 @@ class Filter extends Component {
     }
 }
 
-Filter.defaultProps = {
-    color: 'grey',
-    backgroundColor: 'transparent'
-}
 export default Filter;
 
 const styles = StyleSheet.create({
@@ -46,6 +42,9 @@ const styles = StyleSheet.create({
         width: 30,
         borderRadius: 30,
         borderWidth: 2,
-        margin: 15
+        marginTop: 5,
+        marginBottom: 10,
+        marginLeft: 35,
+        marginRight: 35
     }
 });
