@@ -5,18 +5,24 @@ import React, {Component} from 'react';
 import {View, Text, TouchableHighlight, Picker, StyleSheet, AppState} from 'react-native';
 import EventCard from './../components/eventCard';
 import Event from './../util/event';
+import db from './../util/db';
 
 export default class EventCardTestScene extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            participating: false
+            participating: false,
+            userId: 1,
+            eventId: 2,
         };
     }
 
-    toggleParticipation = () => {
+    toggleParticipation = async () => {
+        await !this.state.participating ?
+            db.addEventParticipant(this.state.eventId, this.state.userId) :
+            db.removeEventParticipant(this.state.eventId, this.state.userId);
         this.setState({
-            participationg: !this.state.participating
+            participating: !this.state.participating
         });
         return this.state.participating;
     }
@@ -24,10 +30,10 @@ export default class EventCardTestScene extends Component {
     render() {
         let event = new Event(
             0,
-            'name',
-            'description',
-            'date',
-            'location'
+            'my awesome event',
+            'is about having fun tonight',
+            'on Jan 19th',
+            'my place'
         );
 
         return (

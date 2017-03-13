@@ -44,7 +44,7 @@ export default class EventCard extends Component {
             <View>
                 <CheckBox className="participate"
                     onClick={this.props.toggleParticipation}
-                    isChecked={true}
+                    isChecked={false}
                     rightText={"Going"}
                 />
             </View>

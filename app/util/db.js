@@ -6,7 +6,7 @@ import Event from './event';
 import User from './user';
 import * as util from './util';
 
-export async function addUser(email, password) {
+async function addUser(email, password) {
     if (!email || !util.isEmailValid(email))
         return false;
 
@@ -36,7 +36,7 @@ export async function addUser(email, password) {
     return false;
 }
 
-export async function authenticate(email, password) {
+async function authenticate(email, password) {
     try {
         let response = await fetch(settings.api.authenticate, {
             method: 'POST',
@@ -61,7 +61,7 @@ export async function authenticate(email, password) {
     return null;
 }
 
-export async function getEvents() {
+async function getEvents() {
     try {
         let response = await fetch(settings.api.getEvents);
         let eventsJson = await response.json();
@@ -84,7 +84,25 @@ export async function getEvents() {
     return null;
 }
 
-export async function getEventParticipant(eventId, userId) {
+async function addEventParticipant(eventId, userId) {
+    try {
+        let response = await fetch(settings.api.addEventParticipant(eventId, userId), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        let responseJson = await response.json();
+        if (responseJson) {
+            return true;
+        }
+    } catch (error) {
+        console.warn('db::addEventParticipant ' + error);
+    }
+    return false;
+}
+
+async function getEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
         let user = await response.json();
@@ -100,7 +118,25 @@ export async function getEventParticipant(eventId, userId) {
     return null;
 }
 
-export async function getEventParticipants(eventId) {
+async function removeEventParticipant(eventId, userId) {
+    try {
+        let response = await fetch(settings.api.removeEventParticipant(eventId, userId), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        let responseJson = await response.json();
+        if (responseJson) {
+            return true;
+        }
+    } catch (error) {
+        console.warn('db::removeEventParticipant ' + error);
+    }
+    return false;
+}
+
+async function getEventParticipants(eventId) {
     try {
         let response = await fetch(settings.api.getEventParticipants(eventId));
         let participantsJson = await response.json();
@@ -123,4 +159,14 @@ export async function getEventParticipants(eventId) {
     }
 
     return null;
+}
+
+export default db = {
+    addUser,
+    authenticate,
+    getEvents,
+    addEventParticipant,
+    getEventParticipant,
+    removeEventParticipant,
+    getEventParticipants,
 }

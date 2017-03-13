@@ -1,4 +1,4 @@
-import * as db from '../util/db';
+import db from '../util/db';
 
 describe('Database', () => {
 
