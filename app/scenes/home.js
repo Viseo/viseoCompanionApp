@@ -298,41 +298,52 @@ export default class Home extends Component {
     }
 
     renderSearchZone(){
+        let filterIcon = this.renderFilterIcon();
         return (
-            <View>
-                <TextInput
-                    style={styles.textInput}
-                    onFocus={() => this.setState({
-                        areFiltersVisible: true,
-                    })}
-                    placeholder={strings.filterZone}
-                    ref="filterZone"
-                    autoCorrect={false}
-                    selectTextOnFocus={true}
-                    underlineColorAndroid={"white"}
-                    returnKeyType="next"
-                    autoCapitalize="none"
-                />
+            <View style={{alignItems: 'flex-start', flexDirection: 'column'}}>
+                <View style={{alignItems: 'stretch', flexDirection: 'row'}}>
+                    <TouchableOpacity onPress={() => {
+                        this.setState({
+                        areFiltersVisible: !this.state.areFiltersVisible,
+                        });
+                        this.renderFilterIcon();
+                        }
+                    }
+                    style={styles.filterIcon}>
+                        {filterIcon}
+                    </TouchableOpacity>
+                    <TextInput
+                     style={styles.input}
+                     placeholder={strings.filterZone}
+                     ref="filterZone"
+                     autoCorrect={false}
+                     selectTextOnFocus={true}
+                     underlineColorAndroid={"white"}
+                     returnKeyType="next"
+                     autoCapitalize="none"
+                    />
+                </View>
             </View>
+
         )
+    }
+
+    renderFilterIcon(){
+            if(this.state.areFiltersVisible){
+                return (
+                    <Image source={require("../images/nofilter.png")}/>
+                )
+            }
+            else{
+                return (
+                    <Image source={require("../images/filter.png")}/>
+                )
+            }
     }
 
     renderFiltersZone(){
         return (
             <View>
-                <View style={{alignItems: 'flex-end', flexDirection: 'column'}}>
-                    <View style={{flexDirection: 'row', alignItems:'flex-end'}}>
-                        <TouchableOpacity
-                            style={styles.redBox}
-                            onPress={() => this.setState({
-                                areFiltersVisible: false,
-                            })}>
-                            <Text style={styles.crossButtonText}>
-                                X
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
                 <View style={{alignItems: 'center', flexDirection: 'column'}}>
                     <View style={{alignItems: 'stretch', flexDirection: 'row'}}>
                         <Filter color='red'/>
@@ -492,18 +503,15 @@ const styles = StyleSheet.create({
         color: '#707070',
     },
 
-    redBox: {
-        backgroundColor: 'red',
-        width: 15,
-        height: 15,
-        borderRadius: 1,
-        marginRight: 10,
-        justifyContent:'center',
+    filterIcon: {
+        marginTop: 35,
+        marginLeft: 20,
+        marginRight: 20
     },
 
-    crossButtonText: {
-        textAlign:'center',
-        fontWeight:'bold',
-        color:'white'
-    }
+    input: {
+        width: Dimensions.get('window').width,
+        marginTop: 15,
+        marginBottom: 15
+    },
 });
