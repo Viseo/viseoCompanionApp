@@ -25,9 +25,9 @@ import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
 import cardStyle from './../styles/eventCard';
-import * as util from './../../util.js';
-import strings from './../components/localizedStrings';
-import Filter from '../components/filter'
+import * as util from './../util/util';
+import strings from './../util/localizedStrings';
+import Filter from './../components/filter';
 
 var maxEventDescriptionLength = 75;
 var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
