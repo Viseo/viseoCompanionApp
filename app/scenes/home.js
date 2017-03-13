@@ -261,7 +261,7 @@ export default class Home extends Component {
                 }}
                 navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
-                renderRow={this.renderEventCard.bind(this)}
+                renderRow={this.renderEventCardWithOldStyle.bind(this)}
             />
         );
     }
