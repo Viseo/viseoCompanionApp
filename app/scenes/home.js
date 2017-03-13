@@ -157,38 +157,52 @@ export default class Home extends Component {
 
         return (
             <View style={cardStyle.card}>
-                {/* First ROW: event name, date and time */}
-                <View
-                    style={{
-                        flex:1,
-                        flexDirection: 'row',
-                        alignItems: 'flex-end'
-                    }}
-                >
-                    {/* Display event NAME in bold in top left corner*/}
-                    <Text style={cardStyle.name}>
-                        {event.name}
-                    </Text>
-
-                    {/* Display event DATE in top right corner */}
-                    {/* Display event LOCATION in top right corner, next to the date */}
-                    <Text style={cardStyle.info}>
-                        {event.getTime()} at {event.location.toUpperCase()}
-                    </Text>
+                <View style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 10,
+                    margin:2,
+                  }}>
+                        {/*Participation dot*/}
+                        <TouchableOpacity style={cardStyle.participationDot}/>
                 </View>
 
-                {/* Second ROW: event description*/}
-                <View
-                    style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'flex-start',
-                        paddingTop: 4
-                    }}
-                >
-                    <Text style={cardStyle.description}>
-                        {eventDescription}
-                    </Text>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}>
+                    {/* First ROW: event name, date and time */}
+                    <View
+                        style={{
+                            flex:1,
+                            flexDirection: 'row',
+                            alignItems: 'flex-end'
+                        }}
+                    >
+                        {/* Display event NAME in bold in top left corner*/}
+                        <Text style={cardStyle.name}>
+                            {event.name}
+                        </Text>
+                        {/* Display event DATE in top right corner */}
+                        {/* Display event LOCATION in top right corner, next to the date */}
+                        <Text style={cardStyle.info}>
+                            {event.getTime()} at {event.location.toUpperCase()}
+                        </Text>
+                    </View>
+
+                    {/* Second ROW: event description*/}
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: 'row',
+                            alignItems: 'flex-start',
+                        }}
+                    >
+                        <Text style={cardStyle.description}>
+                            {eventDescription}
+                        </Text>
+                    </View>
                 </View>
             </View>
         );
@@ -235,7 +249,7 @@ export default class Home extends Component {
                 }}
                 navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
-                renderRow={this.renderEventCardWithOldStyle.bind(this)}
+                renderRow={this.renderEventCard.bind(this)}
             />
         );
     }
