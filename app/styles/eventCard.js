@@ -10,11 +10,8 @@ export default cardStyle = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        // alignItems:'stretch'
         backgroundColor: 'white',
         height: 90,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#999999'
     },
     name: {
         flex: 2,
@@ -26,7 +23,7 @@ export default cardStyle = StyleSheet.create({
     description: {
         flex: 1,
         textAlign: 'left',
-        fontSize: 14,
+        fontSize: 13,
     },
     location: {
         flex: 1,
@@ -43,5 +40,11 @@ export default cardStyle = StyleSheet.create({
         height: 10,
         backgroundColor: '#6492ef',
         borderRadius: 50,
+    },
+    eventType: {
+        width: 2,
+        height: 90,
+        backgroundColor: '#ef4f42',
+        marginLeft: 2,
     }
 });
