@@ -344,6 +344,7 @@ export default class Home extends Component {
                     selectTextOnFocus={true}
                     underlineColorAndroid={"grey"}
                     returnKeyType="search"
+                    onChangeText={(input) => this.updateListViewOnResearch(input)}
                     onFocus={ () => {
                         this.setState({
                             isSearching: true,
