@@ -16,7 +16,6 @@ describe('Event card', () => {
 
     let event = new Event(0, 'the beautiful event', 'the description of my awesome event', '1/1/2017', 'it happens here');
 
-
     it('should display an event card', () => {
         const eventCard = testUtil.createEventCard(event);
         testUtil.checkFieldContent(eventCard, 'name', event.name);
@@ -30,7 +29,7 @@ describe('Event card', () => {
                 toggleParticipation.participating = true;
             }
             const eventCard = testUtil.createEventCard(event, toggleParticipation);
-            testUtil.click(eventCard, 'participate');
+            testUtil.click(eventCard, '.participate');
             expect(toggleParticipation.participating).to.equal(true);
         });
 

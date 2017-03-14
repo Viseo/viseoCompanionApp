@@ -4,22 +4,45 @@
 import React from "react";
 import {shallow} from "enzyme";
 import EventCard from './../components/eventCard';
-
+import Filter from './../components/filter';
 
 function checkFieldContent(component, fieldName, fieldValue) {
     expect(component.find('.' + fieldName).props().children).to.equal(fieldValue);
 }
 
 function click(component, widget) {
-    component.find('.' + widget).simulate('click');
+    component.find(widget).simulate('click');
 }
 
-function createEventCard(event, participating = () => {}) {
-    return shallow(<EventCard data={event} toggleParticipation={participating}/>);
+function press(component, widget) {
+    component.find(widget).simulate('press');
+}
+
+function createEventCard(event, toggleParticipation = () => {}) {
+    return shallow(<EventCard data={event} toggleParticipation={toggleParticipation}/>);
+}
+
+function createFilter(onFilter = () => {}) {
+    return shallow(<Filter onFilter={onFilter}/>);
+}
+
+function getState(component) {
+    return component.state();
+}
+
+function createCheckCallFunction() {
+    function checkCallFunction() {
+        checkCallFunction.wasCalled = true;
+    };
+    return checkCallFunction;
 }
 
 export default testUtil = {
     checkFieldContent,
     click,
-    createEventCard
+    press,
+    createEventCard,
+    createFilter,
+    getState,
+    createCheckCallFunction
 };

@@ -1,7 +1,7 @@
 /**
  * Created by VBO3596 on 10/03/2017.
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     View,
     TouchableOpacity,
@@ -18,17 +18,26 @@ class Filter extends Component {
         };
     }
 
+    onPress = () => {
+        if(!this.state.selected)
+            this.props.onFilter();
+        this.setState({
+            selected: !this.state.selected,
+        });
+    }
+
     render() {
         return (
             <View>
                 <TouchableOpacity
-                    style={
-                        [styles.circle,
-                        {backgroundColor: this.props.color },
-                        {borderColor: this.props.color}]}
-                    onPress={() => this.setState({
-                        selected: !this.state.selected,
-                })}/>
+                    style={[
+                        styles.circle,
+                        {backgroundColor: this.props.color},
+                        {borderColor: this.props.color}
+                        ]}
+                    onPress={this.onPress}
+                    onFilter={this.props.onFilter}
+                />
             </View>
         )
     }
