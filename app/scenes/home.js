@@ -31,6 +31,7 @@ import EventCard from './../components/eventCard';
 import Swipeout from 'react-native-swipe-out';
 import User from './../util/user';
 
+let events = null;
 export default class Home extends Component {
 
     static defaultProps = {
@@ -41,7 +42,7 @@ export default class Home extends Component {
         super(props);
         this.state = {
             dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 = !row2,
+                rowHasChanged: (row1, row2) => row1 !== row2,
             }),
             loaded: false,
             refreshing: false,
@@ -61,7 +62,7 @@ export default class Home extends Component {
         });
 
         // Load all events to be showed
-        let events = await db.getEvents();
+        events = await db.getEvents();
         for (let key in events) {
             let event = events[key];
             let user = await db.getEventParticipant(event.id, this.props.user.id);
@@ -358,11 +359,38 @@ export default class Home extends Component {
                      underlineColorAndroid={"white"}
                      returnKeyType="next"
                      autoCapitalize="none"
+                     onChangeText={(input) => this.updateListViewOnResearch(input)}
                     />
                 </View>
             </View>
 
         )
+    }
+
+    updateListViewOnResearch(input){
+        let dataSource = this.state.dataSource.cloneWithRows(events);
+        if(input){
+            let researchedEvents = this.searchEvents(input);
+            dataSource = this.state.dataSource.cloneWithRows(researchedEvents);
+        }
+        this.setState({dataSource: dataSource});
+    }
+
+    searchEvents(input){
+        let researchedEvents = [];
+        for(var i=0; i < events.length; i++){
+            let eventInResearch = false;
+            eventInResearch = this.existsInputInChain(events[i].name, input)
+            || this.existsInputInChain(events[i].description, input);
+            if(eventInResearch){
+                researchedEvents.push(events[i]);
+            }
+        }
+        return researchedEvents;
+    }
+
+    existsInputInChain(chain, input){
+        return chain && input && chain.toString().toLowerCase().indexOf(input.toString().toLowerCase()) > -1;
     }
 
     renderFilterIcon(){
