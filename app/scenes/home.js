@@ -32,17 +32,18 @@ import EventCard from './../components/eventCard';
 import Swipeout from 'react-native-swipe-out';
 import User from './../util/user';
 
+let events = null;
 export default class Home extends Component {
 
     static defaultProps = {
-        user: {id: 1}
+        user: {id:1}
     }
 
     constructor(props) {
         super(props);
         this.state = {
             dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 = !row2,
+                rowHasChanged: (row1, row2) => row1 !== row2,
             }),
             loaded: false,
             refreshing: false,
@@ -63,7 +64,7 @@ export default class Home extends Component {
         });
 
         // Load all events to be showed
-        let events = await db.getEvents();
+        events = await db.getEvents();
         for (let key in events) {
             let event = events[key];
             let user = await db.getEventParticipant(event.id, this.props.user.id);
@@ -151,7 +152,7 @@ export default class Home extends Component {
         );
     }
 
-    toggleParticipation = async(event, participating) => {
+    toggleParticipation = async (event, participating) => {
         await participating ?
             db.addEventParticipant(event.id, this.props.user.id) :
             db.removeEventParticipant(event.id, this.props.user.id);
@@ -358,6 +359,33 @@ export default class Home extends Component {
         )
     }
 
+    updateListViewOnResearch(input){
+        let dataSource = this.state.dataSource.cloneWithRows(events);
+        if(input){
+            let researchedEvents = this.searchEvents(input);
+            dataSource = this.state.dataSource.cloneWithRows(researchedEvents);
+        }
+        this.setState({dataSource: dataSource});
+    }
+
+    searchEvents(input){
+        let researchedEvents = [];
+        for(var i=0; i < events.length; i++){
+            let eventInResearch = false;
+            eventInResearch = this.existsInputInChain(events[i].name, input)
+                || this.existsInputInChain(events[i].description, input);
+            if(eventInResearch){
+                researchedEvents.push(events[i]);
+            }
+        }
+        return researchedEvents;
+    }
+
+    existsInputInChain(chain, input){
+        return chain && input && chain.toString().toLowerCase().indexOf(input.toString().toLowerCase()) > -1;
+    }
+
+
     renderFilterIcon() {
         if (this.state.isSearching) {
             return (
@@ -392,26 +420,26 @@ export default class Home extends Component {
         Keyboard.dismiss();
     };
 
-    renderFiltersZone() {
+    renderFiltersZone(){
         return (
             <View>
-                    <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center', marginRight:10, marginLeft:10}}>
-                        <Filter  color='red' onFilter={this.showEventsWithHighImportance}/>
-                        <Filter  color='orange' onFilter={this.showEventsWithMediumImportance}/>
-                        <Filter  color='lightgreen' onFilter={this.showEventsWithLowImportance}/>
-                        <Filter  color='royalblue'/>
-                        <TouchableOpacity
-                            onPress={ () => {
+                <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center', marginRight:10, marginLeft:10}}>
+                    <Filter  color='red' onFilter={this.showEventsWithHighImportance}/>
+                    <Filter  color='orange' onFilter={this.showEventsWithMediumImportance}/>
+                    <Filter  color='lightgreen' onFilter={this.showEventsWithLowImportance}/>
+                    <Filter  color='royalblue'/>
+                    <TouchableOpacity
+                        onPress={ () => {
                                 this.setState({
                                     isFiltering : false
                                 });
                                 Keyboard.dismiss();
                             }}
-                            style={{marginLeft: -50}}
-                        >
-                            <Image source={require("../images/upArrow.png")} style={{resizeMode: 'contain', height:15}}/>
-                        </TouchableOpacity>
-                    </View>
+                        style={{marginLeft: -50}}
+                    >
+                        <Image source={require("../images/upArrow.png")} style={{resizeMode: 'contain', height:15}}/>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
