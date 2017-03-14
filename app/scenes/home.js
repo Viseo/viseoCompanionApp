@@ -19,7 +19,8 @@ import {
     RefreshControl,
     Platform,
     TextInput,
-    Button
+    Button,
+    Keyboard
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -34,7 +35,7 @@ import User from './../util/user';
 export default class Home extends Component {
 
     static defaultProps = {
-        user: {id:1}
+        user: {id: 1}
     }
 
     constructor(props) {
@@ -46,7 +47,8 @@ export default class Home extends Component {
             loaded: false,
             refreshing: false,
             hasEvents: false,
-            areFiltersVisible: false
+            isSearching: false,
+            isFiltering: false
         };
     }
 
@@ -98,13 +100,10 @@ export default class Home extends Component {
         // Show loading indicator until all events are loaded
         // Then show all events in chronological order
         let eventList;
-        let search;
-        let filters = this.state.areFiltersVisible ? this.renderFiltersZone() : null;
+        let search = this.state.hasEvents ? this.renderSearchZone() : null;
+        let filters = this.state.isSearching || this.state.isFiltering ? this.renderFiltersZone() : null;
         if (this.state.loaded) {
             eventList = this.state.hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
-            if (this.state.hasEvents) {
-                search = this.renderSearchZone();
-            }
         } else {
             this.renderLoadingIndicator();
         }
@@ -152,7 +151,7 @@ export default class Home extends Component {
         );
     }
 
-    toggleParticipation = async (event, participating) => {
+    toggleParticipation = async(event, participating) => {
         await participating ?
             db.addEventParticipant(event.id, this.props.user.id) :
             db.removeEventParticipant(event.id, this.props.user.id);
@@ -196,7 +195,6 @@ export default class Home extends Component {
             <View>
                 <Swipeout
                     style={{ backgroundColor: '#c1c1c1' }}
-                    disabled={this.state.areFiltersVisible}
                     right={swipeOption}
                 >
                     <TouchableOpacity
@@ -334,61 +332,86 @@ export default class Home extends Component {
         );
     }
 
-    renderSearchZone(){
-        let filterIcon = this.renderFilterIcon();
+    renderSearchZone() {
         return (
-            <View style={{alignItems: 'flex-start', flexDirection: 'column'}}>
-                <View style={{alignItems: 'stretch', flexDirection: 'row'}}>
-                    <TouchableOpacity onPress={() => {
+            <View>
+                <TextInput
+                    style={styles.input}
+                    placeholder={strings.filterZone}
+                    ref="filterZone"
+                    autoCorrect={false}
+                    selectTextOnFocus={true}
+                    underlineColorAndroid={"grey"}
+                    returnKeyType="search"
+                    onFocus={ () => {
                         this.setState({
-                        areFiltersVisible: !this.state.areFiltersVisible,
+                            isSearching: true,
                         });
-                        this.renderFilterIcon();
-                        }
-                    }
-                    style={styles.filterIcon}>
-                        {filterIcon}
-                    </TouchableOpacity>
-                    <TextInput
-                     style={styles.input}
-                     placeholder={strings.filterZone}
-                     ref="filterZone"
-                     autoCorrect={false}
-                     selectTextOnFocus={true}
-                     underlineColorAndroid={"white"}
-                     returnKeyType="next"
-                     autoCapitalize="none"
-                    />
-                </View>
+                    }}
+                    onEndEditing={ () => {
+                        this.setState({
+                            isSearching: false,
+                        });
+                    }}
+                />
             </View>
-
         )
     }
 
-    renderFilterIcon(){
-            if(this.state.areFiltersVisible){
-                return (
-                    <Image source={require("../images/nofilter.png")}/>
-                )
-            }
-            else{
-                return (
-                    <Image source={require("../images/filter.png")}/>
-                )
-            }
+    renderFilterIcon() {
+        if (this.state.isSearching) {
+            return (
+                <Image source={require("../images/nofilter.png")}/>
+            )
+        }
+        else {
+            return (
+                <Image source={require("../images/filter.png")}/>
+            )
+        }
     }
 
-    renderFiltersZone(){
+    showEventsWithHighImportance = () => {
+        this.setState({
+            isFiltering: true
+        });
+        Keyboard.dismiss();
+    };
+
+    showEventsWithMediumImportance = () => {
+        this.setState({
+            isFiltering: true
+        });
+        Keyboard.dismiss();
+    };
+
+    showEventsWithLowImportance = () => {
+        this.setState({
+            isFiltering: true
+        });
+        Keyboard.dismiss();
+    };
+
+    renderFiltersZone() {
         return (
             <View>
-                <View style={{alignItems: 'center', flexDirection: 'column'}}>
-                    <View style={{alignItems: 'stretch', flexDirection: 'row'}}>
-                        <Filter color='red'/>
-                        <Filter color='orange'/>
-                        <Filter color='lightgreen'/>
-                        <Filter color='royalblue'/>
+                    <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center', marginRight:10, marginLeft:10}}>
+                        <Filter  color='red' onFilter={this.showEventsWithHighImportance}/>
+                        <Filter  color='orange' onFilter={this.showEventsWithMediumImportance}/>
+                        <Filter  color='lightgreen' onFilter={this.showEventsWithLowImportance}/>
+                        <Filter  color='royalblue'/>
+                        <TouchableOpacity
+                            onPress={ () => {
+                                this.setState({
+                                    isFiltering : false
+                                });
+                                Keyboard.dismiss();
+                            }}
+                            style={{marginLeft: -50}}
+                        >
+                            <Image source={require("../images/upArrow.png")} style={{resizeMode: 'contain', height:15}}/>
+                        </TouchableOpacity>
                     </View>
-                </View>
             </View>
         )
     }
@@ -453,7 +476,6 @@ const styles = StyleSheet.create({
         marginLeft: 3,
         fontSize: 18,
         marginBottom: 2,
-        /*marginTop:5,*/
         backgroundColor: 'white',
     },
 
@@ -548,7 +570,8 @@ const styles = StyleSheet.create({
 
     input: {
         width: Dimensions.get('window').width,
-        marginTop: 15,
-        marginBottom: 15
+        textAlign: 'center',
+        // marginTop: 15,
+        // marginBottom: 15
     },
 });
