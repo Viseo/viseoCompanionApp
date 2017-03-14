@@ -27,9 +27,9 @@ let strings = new LocalizedStrings({
         verifyPassword:'Verify password',
         wrongCredentials: 'The credentials you entered are not valid.',
         filterZone: 'Search by word or apply filter.',
-        ImGoing: 'I\'m going !',
-        ImNotGoing: 'I\'m not going.',
-        at: 'at'
+        at:'at',
+        IAmGoingToEvent:"Go",
+        IAmNotGoingToEvent:"Don't go",
     },
     fr: {
         accountCreated: "Compte créé avec succès!",
@@ -49,9 +49,9 @@ let strings = new LocalizedStrings({
         unableToReachServer: 'Impossible de joindre le serveur, veuillez réessayer plus tard ou vérifiez votre connexion internet.',
         verifyPassword:'Vérifiez votre mot de passe',
         wrongCredentials: 'Les informations fournies sont incorrectes.',
-        ImGoing: 'J\'y vais !',
-        ImNotGoing: 'Je n\'y vais plus.',
-        at: 'à'
+        at:'à',
+        IAmGoingToEvent:"Accepter",
+        IAmNotGoingToEvent:"Décliner",
     }
 });
 

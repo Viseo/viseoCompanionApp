@@ -4,6 +4,8 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState} from 'react-native';
 import CheckBox from 'react-native-check-box';
+import Swipeout from 'react-native-swipe-out';
+import strings from './../util/localizedStrings';
 
 export default class EventCard extends Component {
 
@@ -21,22 +23,69 @@ export default class EventCard extends Component {
         return text;
     }
 
+    getSwipeOption = () => {
+        return this.state.participating ?
+            [{
+                text: strings.IAmNotGoingToEvent,
+                onPress: () => {
+                    this.props.toggleParticipation(this.props.data, false);
+                    this.toggleParticipation();
+                },
+                backgroundColor: '#ba7a7c',
+                color: '#601d20',
+            }] :
+            [{
+                text: strings.IAmGoingToEvent,
+                onPress: () => {
+                    this.props.toggleParticipation(this.props.data, true);
+                    this.toggleParticipation();
+                },
+                backgroundColor: '#4fba8a',
+                color: '#14605a',
+            }];
+    }
+
+    toggleParticipation = () => {
+        this.setState({
+            participating: !this.state.participating
+        });
+    }
+
     render() {
-        let participationIndicator = this.state.participating ? this.renderParticipationIndicator() : null;
+        let swipeOption = this.getSwipeOption();
         return (
-            <View style={{height:90}}>
-                <TouchableOpacity style={styles.card}>
-                    {participationIndicator}
-                    {this.renderEventInfo()}
-                </TouchableOpacity>
+            <View>
+                <Swipeout
+                    style={{ backgroundColor: '#c1c1c1' }}
+                    right={swipeOption}
+                    autoClose={true}
+                >
+                    <TouchableOpacity
+                        style={styles.card}
+                        onPress={this.props.onPress}
+                    >
+                        {this.renderParticipationIndicator()}
+                        {this.renderTypeIndicator()}
+                        {this.renderEventInfo()}
+                    </TouchableOpacity>
+                </Swipeout>
             </View>
+        );
+    }
+
+    renderTypeIndicator() {
+        return (
+            <View style={styles.eventType}/>
         );
     }
 
     renderParticipationIndicator() {
         return (
             <View style={styles.dotContainer}>
-                <View style={styles.dot}/>
+                <View style={[
+                    styles.dot,
+                    {backgroundColor:(this.state.participating) ? '#6492ef' : 'white'}
+                ]}/>
             </View>
         );
     }
@@ -74,7 +123,7 @@ export default class EventCard extends Component {
     renderDateAndLocation() {
         return (
             <Text style={styles.eventLocation}>
-                {this.props.data.getTime()} at {this.props.data.location.toUpperCase()}
+                {this.props.data.getTime()} {strings.at} {this.props.data.location.toUpperCase()}
             </Text>
         );
     }
@@ -97,13 +146,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: 10,
-        marginLeft: 2,
-        marginRight: 5,
+        marginLeft: 3,
+        marginRight: 3,
     },
     dot: {
         width: 10,
         height: 10,
-        backgroundColor: '#6492ef',
         borderRadius: 50,
     },
     firstRow: {
@@ -147,5 +195,11 @@ const styles = StyleSheet.create({
         height: 90,
         borderBottomWidth: 0.5,
         borderBottomColor: '#999999'
+    },
+    eventType: {
+        width: 2,
+        height: 90,
+        backgroundColor: '#ef4f42',
+        marginLeft: 2,
     }
 });
