@@ -28,18 +28,14 @@ import * as util from './../util/util';
 import strings from './../util/localizedStrings';
 import Filter from './../components/filter';
 import EventCard from './../components/eventCard';
-
-var maxEventDescriptionLength = 75;
-var monthNames = ["Janv", "Fév", "Mars", "Avril", "Mai", "Juin", "Juill", "Août", "Sept", "Oct", "Nov", "Déc"];
-
-function troncateText(text, nbOfCaractere) {
-    if (text.length > nbOfCaractere) {
-        text = text.substr(0, nbOfCaractere) + "...";
-    }
-    return text;
-}
+import Swipeout from 'react-native-swipe-out';
+import User from './../util/user';
 
 export default class Home extends Component {
+
+    static defaultProps = {
+        user: {id:1}
+    }
 
     constructor(props) {
         super(props);
@@ -50,18 +46,15 @@ export default class Home extends Component {
             loaded: false,
             refreshing: false,
             hasEvents: false,
-            areFiltersVisible: false,
-            userId: 1
+            areFiltersVisible: false
         };
-
-        this.onPressEvent = this.onPressEvent.bind(this);
     }
 
     componentDidMount() {
         this._onRefresh();
     }
 
-    _onRefresh = async () => {
+    _onRefresh = async() => {
         this.setState({
             loaded: false,
             refreshing: true
@@ -71,7 +64,7 @@ export default class Home extends Component {
         let events = await db.getEvents();
         for (let key in events) {
             let event = events[key];
-            let user = await db.getEventParticipant(event.id, this.state.userId);
+            let user = await db.getEventParticipant(event.id, this.props.user.id);
             event.participating = !!user;
         }
         if (events.length) {
@@ -91,9 +84,9 @@ export default class Home extends Component {
 
     }
 
-    onPressEvent(event) {
+    onPressEvent = (event) => {
         this.props.navigator.push({
-            title: 'Event',
+            title: 'EventDetails',
             passProps: {
                 event
             }
@@ -159,6 +152,12 @@ export default class Home extends Component {
         );
     }
 
+    toggleParticipation = async (event, participating) => {
+        await participating ?
+            db.addEventParticipant(event.id, this.props.user.id) :
+            db.removeEventParticipant(event.id, this.props.user.id);
+    }
+
     /*
      Layout showing an event card
      The event card is a small card which shows the main information for a given event.
@@ -168,7 +167,102 @@ export default class Home extends Component {
             <EventCard
                 data={event}
                 participating={event.participating}
+                toggleParticipation={this.toggleParticipation}
+                onPress={() => {
+                    this.onPressEvent(event);
+                }}
             />
+        );
+    }
+
+    renderEventCardOld(event) {
+
+        let swipeOption = event.isParticipating ?
+            [{
+                text: strings.ImGoing,
+                onPress: async() => await db.addEventParticipant(event.id, this.props.user.id),
+                backgroundColor: '#4fba8a',
+                color: '#14605a',
+                underlayColor: "#006fff",
+            }] :
+            [{
+                text: strings.ImNotGoing,
+                onPress: async() => await db.removeEventParticipant(event.id, this.props.user.id),
+                backgroundColor: '#ba7a7c',
+                color: '#601d20',
+                underlayColor: "#006fff",
+            }];
+        return (
+            <View>
+                <Swipeout
+                    style={{ backgroundColor: '#c1c1c1' }}
+                    disabled={this.state.areFiltersVisible}
+                    right={swipeOption}
+                >
+                    <TouchableOpacity
+                        onPress={ () => {
+                        this.onPressEvent(event);
+                    }}
+                        style={cardStyle.card}
+                    >
+                        <View style={{
+                            flex:1,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            width: 10,
+                            marginLeft:2,
+                            marginRight:5,
+                        }}>
+                            {/*Participation dot*/}
+                            <View style={cardStyle.participationDot}/>
+                            {/*Event type*/}
+                            <View style={cardStyle.eventType}/>
+                        </View>
+
+                        <View style={{
+                        flex: 50,
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        padding:5,
+                        borderBottomWidth: 0.5,
+                        borderBottomColor: '#999999'
+                      }}>
+                            {/* First ROW: event name, date and time */}
+                            <View
+                                style={{
+                                flex:1,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                            }}
+                            >
+                                {/* Display event NAME in bold in top left corner*/}
+                                <Text style={cardStyle.name}>
+                                    {troncateText(event.name, 32) }
+                                </Text>
+                                {/* Display event DATE in top right corner */}
+                                {/* Display event LOCATION in top right corner, next to the date */}
+                                <Text style={cardStyle.location}>
+                                    {event.getTime()} {strings.at} {event.location.toUpperCase()}
+                                </Text>
+                            </View>
+
+                            {/* Second ROW: event description*/}
+                            <View
+                                style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                alignItems: 'flex-end',
+                            }}
+                            >
+                                <Text style={cardStyle.description}>
+                                    {troncateText(event.description, 120)}
+                                </Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </Swipeout>
+
+            </View>
         );
     }
 

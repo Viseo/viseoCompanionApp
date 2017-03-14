@@ -278,7 +278,7 @@ export default class EventDetails extends React.Component {
                 <CheckBox
                     style={{flex: 1, padding: 10}}
                     onClick={this.onPressParticipate}
-                    isChecked={false}
+                    isChecked={this.props.event.participating}
                     rightText={"Going"}
                 />
             </View>

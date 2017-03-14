@@ -26,7 +26,10 @@ let strings = new LocalizedStrings({
         unableToReachServer: 'There was a problem with the server, try again later or check your internet connection.',
         verifyPassword:'Verify password',
         wrongCredentials: 'The credentials you entered are not valid.',
-        filterZone: 'Search by word or apply filter.'
+        filterZone: 'Search by word or apply filter.',
+        at:'at',
+        IAmGoingToEvent:"Go",
+        IAmNotGoingToEvent:"Don't go",
     },
     fr: {
         accountCreated: "Compte créé avec succès!",
@@ -45,7 +48,10 @@ let strings = new LocalizedStrings({
         signUp: 'Créer un compte',
         unableToReachServer: 'Impossible de joindre le serveur, veuillez réessayer plus tard ou vérifiez votre connexion internet.',
         verifyPassword:'Vérifiez votre mot de passe',
-        wrongCredentials: 'Les informations fournies sont incorrectes.'
+        wrongCredentials: 'Les informations fournies sont incorrectes.',
+        at:'à',
+        IAmGoingToEvent:"Accepter",
+        IAmNotGoingToEvent:"Décliner",
     }
 });
 
