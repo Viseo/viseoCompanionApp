@@ -45,12 +45,14 @@ export default class SignIn extends Component {
     }
 
     onPressRememberMe() {
+        this.props.onRememberMe();
         this.setState({
             rememberUser: !this.state.rememberUser
         });
     }
 
     onPressRecoverPassword() {
+        this.props.onNavigate();
         this.props.navigator.push({
             title: 'RecoverPassword'
         });
@@ -80,6 +82,7 @@ export default class SignIn extends Component {
     }
 
     async onPressSignIn() {
+        this.props.onSubmit();
         this.setState({errorMessage: ''});
         if (util.hasEmptyElement(this.state.email, this.state.password)) {
             this.setState({errorMessage: strings.missingFormFields});
@@ -89,12 +92,14 @@ export default class SignIn extends Component {
     }
 
     onPressSignUp() {
+        this.props.onNavigate();
         this.props.navigator.push({
             title: 'SignUp'
         });
     }
 
     autoSubmitFormWhenLastInputIsFilled() {
+        this.props.onSubmitInput();
         if (this.state.email.length && this.state.password.length) {
             this.onPressSignIn();
             return true;
@@ -155,6 +160,7 @@ export default class SignIn extends Component {
                                 this.refs.password.focus();
                         }
                     }
+                    onSubmitInput = {this.props.onSubmitInput}
                 />
             </View>
         );
@@ -162,7 +168,7 @@ export default class SignIn extends Component {
 
     renderGoToSignUpForm() {
         return (
-            <TouchableHighlight onPress={this.onPressSignUp} underlayColor='transparent'>
+            <TouchableHighlight onPress={this.onPressSignUp} onNavigate={this.props.onNavigate} underlayColor='transparent'>
                 <Text
                     style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
                     {strings.createAccountLink}
@@ -202,6 +208,7 @@ export default class SignIn extends Component {
                                 this.refs.email.focus();
                         }
                     }
+                    onSubmitInput = {this.props.onSubmitInput}
                 />
             </View>
         );
@@ -209,7 +216,7 @@ export default class SignIn extends Component {
 
     renderRecoverPassword() {
         return (
-            <TouchableHighlight onPress={this.onPressRecoverPassword}>
+            <TouchableHighlight onPress={this.onPressRecoverPassword} onNavigate={this.props.onNavigate}>
                 <Text
                     style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic',paddingRight:5}}>
                     {strings.forgotPassword}
@@ -225,6 +232,7 @@ export default class SignIn extends Component {
                 onClick={this.onPressRememberMe}
                 isChecked={false}
                 rightText={strings.rememberMe}
+                onRememberMe={this.props.onRememberMe}
             />
         );
     }
@@ -235,6 +243,7 @@ export default class SignIn extends Component {
                 <View style={{flex:1, padding:5}}>
                     <Button
                         onPress={this.onPressSignIn}
+                        onSubmit={this.props.onSubmit}
                         title={strings.signIn}
                         color="#841584"
                     />
