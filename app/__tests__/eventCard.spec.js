@@ -33,16 +33,6 @@ describe('Event card', () => {
             expect(toggleParticipation.participating).to.equal(true);
         });
 
-        it('should be able to leave a comment', () => {
-            const wrapper = shallow(<EventCard data={event}/>);
-            expect(wrapper.find('Text.comment')).to.have.length(1);
-        });
-
-        it('should be able to ask the organizer a question', () => {
-            const wrapper = shallow(<EventCard data={event}/>);
-            expect(wrapper.find('Text.question')).to.have.length(1);
-        });
-
         // it('should log', function() {
         //     const logPage = mount('component');
         //     testUtil.checkFieldContent(logPage, 'login', '');

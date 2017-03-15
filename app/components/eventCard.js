@@ -11,9 +11,6 @@ export default class EventCard extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            participating: props.participating || false
-        }
     }
 
     getBriefIfTextIsTooLong(text, maxLength) {
@@ -24,31 +21,19 @@ export default class EventCard extends Component {
     }
 
     getSwipeOption = () => {
-        return this.state.participating ?
+        return this.props.participating ?
             [{
                 text: strings.IAmNotGoingToEvent,
-                onPress: () => {
-                    this.props.toggleParticipation(this.props.data, false);
-                    this.toggleParticipation();
-                },
+                onPress: () => {this.props.onParticipationChange()},
                 backgroundColor: '#ba7a7c',
                 color: '#601d20',
             }] :
             [{
                 text: strings.IAmGoingToEvent,
-                onPress: () => {
-                    this.props.toggleParticipation(this.props.data, true);
-                    this.toggleParticipation();
-                },
+                onPress: () => {this.props.onParticipationChange()},
                 backgroundColor: '#4fba8a',
                 color: '#14605a',
             }];
-    }
-
-    toggleParticipation = () => {
-        this.setState({
-            participating: !this.state.participating
-        });
     }
 
     render() {
@@ -84,7 +69,7 @@ export default class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor:(this.state.participating) ? '#6492ef' : 'white'}
+                    {backgroundColor:(this.props.participating) ? '#6492ef' : 'white'}
                 ]}/>
             </View>
         );
@@ -107,7 +92,7 @@ export default class EventCard extends Component {
     renderTitle() {
         return (
             <Text className="info name" style={styles.eventName}>
-                {this.getBriefIfTextIsTooLong(this.props.data.name, 32) }
+                {this.getBriefIfTextIsTooLong(this.props.title, 32) }
             </Text>
         );
     }
@@ -115,7 +100,7 @@ export default class EventCard extends Component {
     renderDescription() {
         return (
             <Text className="info description" style={styles.eventDescription}>
-                {this.getBriefIfTextIsTooLong(this.props.data.description, 120)}
+                {this.getBriefIfTextIsTooLong(this.props.description, 120)}
             </Text>
         );
     }
@@ -123,7 +108,7 @@ export default class EventCard extends Component {
     renderDateAndLocation() {
         return (
             <Text style={styles.eventLocation}>
-                {this.props.data.getTime()} {strings.at} {this.props.data.location.toUpperCase()}
+                {this.props.date} {strings.at} {this.props.location.toUpperCase()}
             </Text>
         );
     }

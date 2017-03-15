@@ -6,10 +6,10 @@
 
 ///////////SERVER CONNECTION////////////////
 // Localhost
-// let SERVER_API_URL = 'http://10.33.179.112:8080/api/';
+let SERVER_API_URL = 'http://10.33.179.112:8080/api/';
 
 // AWS Dev server
-let SERVER_API_URL = 'http://54.229.99.105:8080/viseocompanion/api/';
+// let SERVER_API_URL = 'http://54.229.99.105:8080/viseocompanion/api/';
 
 let ACCOUNT_API_URL = SERVER_API_URL + '/account/';
 let EVENT_API_URL = SERVER_API_URL + '/event/';

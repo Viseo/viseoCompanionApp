@@ -10,33 +10,26 @@ import {
 
 class Filter extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            selected: false,
-        };
+    static defaultProps = {
+        selected: false
     }
 
-    onPress = () => {
-        if(!this.state.selected)
-            this.props.onFilter();
-        this.setState({
-            selected: !this.state.selected,
-        });
+    constructor(props) {
+        super(props);
     }
 
     render() {
+        let { selected } = this.props;
         return (
             <View>
                 <TouchableOpacity
                     style={[
                         styles.circle,
-                        {backgroundColor: this.props.color},
+                        selected && {backgroundColor: this.props.selectedColor},
+                        !selected && {backgroundColor: this.props.unselectedColor},
                         {borderColor: this.props.color}
                         ]}
-                    onPress={this.onPress}
-                    onFilter={this.props.onFilter}
+                    onPress={this.props.onFilter}
                 />
             </View>
         )

@@ -11,54 +11,16 @@ export default class Event {
         location
     ) {
 
-        this._id = id;
-        this._name = name;
-        this._description = description;
-        this._date = date;
-        this._location = location;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.location = location;
     }
 
-    get id() {
-        return this._id;
-    }
-
-    set id(value) {
-        this._id = value;
-    }
-
-    get name() {
-        return this._name;
-    }
-
-    set name(value) {
-        this._name = value;
-    }
-
-    get description() {
-        return this._description;
-    }
-
-    set description(value) {
-        this._description = value;
-    }
-
-    get date() {
-        return this._date;
-    }
-
-    set date(value) {
-        this._date = value;
-    }
-
-    get location() {
-        return this._location;
-    }
-
-    set location(value) {
-        this._location = value;
-    }
-
-    getTime() {
+    getTime = () => {
+        if(!this.date)
+            return 0;
         let hours = new Date(this.date).getHours();
         let minutes = new Date(this.date).getMinutes();
         if (minutes < 10) {

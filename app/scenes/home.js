@@ -30,26 +30,25 @@ import strings from './../util/localizedStrings';
 import Filter from './../components/filter';
 import EventCard from './../components/eventCard';
 import Swipeout from 'react-native-swipe-out';
-import User from './../util/user';
 
-let events = null;
 export default class Home extends Component {
 
     static defaultProps = {
-        user: {id:1}
+        user: {id: 1}
     }
 
     constructor(props) {
         super(props);
+        var events = {};
+        var ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
         this.state = {
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2,
-            }),
+            dataSource: ds,
             loaded: false,
             refreshing: false,
             hasEvents: false,
             isSearching: false,
-            isFiltering: false
+            isFiltering: false,
+            participationFilterSelected: false
         };
     }
 
@@ -64,15 +63,16 @@ export default class Home extends Component {
         });
 
         // Load all events to be showed
-        events = await db.getEvents();
+        let events = await db.getEvents();
         for (let key in events) {
             let event = events[key];
             let user = await db.getEventParticipant(event.id, this.props.user.id);
             event.participating = !!user;
         }
+        this.events = events;
         if (events.length) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(events),
+                dataSource: this.state.dataSource.cloneWithRows(this.events),
                 loaded: true,
                 refreshing: false,
                 hasEvents: true
@@ -87,12 +87,9 @@ export default class Home extends Component {
 
     }
 
-    onPressEvent = (event) => {
-        this.props.navigator.push({
-            title: 'EventDetails',
-            passProps: {
-                event
-            }
+    updateEventList = events => {
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(events)
         });
     }
 
@@ -152,27 +149,41 @@ export default class Home extends Component {
         );
     }
 
-    toggleParticipation = async (event, participating) => {
-        await participating ?
-            db.addEventParticipant(event.id, this.props.user.id) :
-            db.removeEventParticipant(event.id, this.props.user.id);
-    }
-
-    /*
-     Layout showing an event card
-     The event card is a small card which shows the main information for a given event.
-     */
     renderEventCard = event => {
         return (
             <EventCard
-                data={event}
+                title={event.name}
+                description={event.description}
+                location={event.location}
+                date={event.getTime()}
                 participating={event.participating}
-                toggleParticipation={this.toggleParticipation}
-                onPress={() => {
-                    this.onPressEvent(event);
-                }}
+                onParticipationChange={async () => { await this.onParticipationChange(event)}}
+                onPress={() => {this.onPressEvent(event)}}
             />
         );
+    }
+
+    onPressEvent = (event) => {
+        this.props.navigator.push({
+            title: 'EventDetails',
+            passProps: {
+                event
+            }
+        });
+    }
+
+    onParticipationChange = async(changedEvent) => {
+        this.events = this.events.map(event => {
+            return event.id === changedEvent.id ?
+                {...event, participating: !changedEvent.participating} :
+                event;
+        });
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this.events),
+        });
+        await changedEvent.participating ?
+            db.removeEventParticipant(changedEvent.id, this.props.user.id) :
+            db.addEventParticipant(changedEvent.id, this.props.user.id);
     }
 
     renderEventCardOld(event) {
@@ -183,14 +194,12 @@ export default class Home extends Component {
                 onPress: async() => await db.addEventParticipant(event.id, this.props.user.id),
                 backgroundColor: '#4fba8a',
                 color: '#14605a',
-                underlayColor: "#006fff",
             }] :
             [{
                 text: strings.ImNotGoing,
                 onPress: async() => await db.removeEventParticipant(event.id, this.props.user.id),
                 backgroundColor: '#ba7a7c',
                 color: '#601d20',
-                underlayColor: "#006fff",
             }];
         return (
             <View>
@@ -357,35 +366,34 @@ export default class Home extends Component {
                     }}
                 />
             </View>
-        )
+        );
     }
 
-    updateListViewOnResearch(input){
+    updateListViewOnResearch(input) {
         let dataSource = this.state.dataSource.cloneWithRows(events);
-        if(input){
+        if (input) {
             let researchedEvents = this.searchEvents(input);
             dataSource = this.state.dataSource.cloneWithRows(researchedEvents);
         }
         this.setState({dataSource: dataSource});
     }
 
-    searchEvents(input){
+    searchEvents(input) {
         let researchedEvents = [];
-        for(var i=0; i < events.length; i++){
+        for (var i = 0; i < events.length; i++) {
             let eventInResearch = false;
             eventInResearch = this.existsInputInChain(events[i].name, input)
                 || this.existsInputInChain(events[i].description, input);
-            if(eventInResearch){
+            if (eventInResearch) {
                 researchedEvents.push(events[i]);
             }
         }
         return researchedEvents;
     }
 
-    existsInputInChain(chain, input){
+    existsInputInChain(chain, input) {
         return chain && input && chain.toString().toLowerCase().indexOf(input.toString().toLowerCase()) > -1;
     }
-
 
     renderFilterIcon() {
         if (this.state.isSearching) {
@@ -400,64 +408,91 @@ export default class Home extends Component {
         }
     }
 
+    showEventsWhereCurrentUserIsGoing = async() => {
+        let events = await db.getEventsWithParticipant(this.props.user.id);
+        for (let key in events) {
+            events[key].participating = true;
+        }
+        this.updateEventList(events);
+    }
+
+    onParticipationFilterChanged = async() => {
+        let selectFilter = !this.state.participationFilterSelected;
+        this.setState({
+            isFiltering: true,
+            participationFilterSelected: selectFilter
+        });
+        Keyboard.dismiss();
+        selectFilter ?
+            this.showEventsWhereCurrentUserIsGoing() :
+            this._onRefresh();
+    }
+
+
     showEventsWithHighImportance = () => {
         this.setState({
             isFiltering: true
         });
         Keyboard.dismiss();
-    };
+    }
 
     showEventsWithMediumImportance = () => {
         this.setState({
             isFiltering: true
         });
         Keyboard.dismiss();
-    };
+    }
 
     showEventsWithLowImportance = () => {
         this.setState({
             isFiltering: true
         });
         Keyboard.dismiss();
-    };
+    }
 
-    renderFiltersZone(){
+    renderFiltersZone() {
         return (
             <View>
-                <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center', marginRight:10, marginLeft:10}}>
-                    <Filter  color='red' onFilter={this.showEventsWithHighImportance}/>
-                    <Filter  color='orange' onFilter={this.showEventsWithMediumImportance}/>
-                    <Filter  color='lightgreen' onFilter={this.showEventsWithLowImportance}/>
-                    <Filter  color='royalblue'/>
+                <View
+                    style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center', marginRight:10, marginLeft:10}}>
+                    <Filter selectedColor='red' onFilter={this.showEventsWithHighImportance}/>
+                    <Filter selectedColor='orange' onFilter={this.showEventsWithMediumImportance}/>
+                    <Filter selectedColor='lightgreen' onFilter={this.showEventsWithLowImportance}/>
+                    <Filter
+                        selected={false}
+                        selectedColor='royalblue'
+                        unselectedColor='lightblue'
+                        onFilter={this.onParticipationFilterChanged}
+                    />
                     <TouchableOpacity
-                        onPress={ () => {
-                                this.setState({
-                                    isFiltering : false
-                                });
-                                Keyboard.dismiss();
-                            }}
+                        onPress={() => {
+                            this.setState({
+                                isFiltering : false
+                            });
+                            Keyboard.dismiss();
+                        }}
                         style={{marginLeft: -50}}
                     >
-                        <Image source={require("../images/upArrow.png")} style={{resizeMode: 'contain', height:15}}/>
+                        <Image
+                            source={require("../images/upArrow.png")}
+                            style={{resizeMode: 'contain', height:15}}
+                        />
                     </TouchableOpacity>
                 </View>
             </View>
-        )
+        );
     }
 }
 
-
 var {
     height: deviceHeight,
-    width : deviceWidth,
+    width: deviceWidth,
 } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-
     screen: {
         height: (Platform.OS === 'ios') ? 200 : 100,
     },
-
     topbar: {
         height: (1 / 13) * deviceHeight,
         backgroundColor: '#103a71',
@@ -465,7 +500,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 10,
     },
-
     menu: {
         width: (1 / 14) * deviceHeight,
         height: (1 / 14) * deviceHeight,
@@ -476,11 +510,9 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         margin: 5,
     },
-
     menu0: {
         width: 85,
     },
-
     icon: {
         width: 25,
         height: 25,
