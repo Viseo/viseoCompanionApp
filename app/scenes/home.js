@@ -25,12 +25,9 @@ import {
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
-import * as util from './../util/util';
 import strings from './../util/localizedStrings';
-import Filter from '../components/eventView/filter';
 import EventCard from './../components/eventCard';
-import Swipeout from 'react-native-swipe-out';
-import {Header as HeaderListView} from './../components/eventView/header';
+import HeaderListView from './../components/eventView/header';
 import Header from './../components/header';
 
 export default class Home extends Component {
@@ -201,7 +198,7 @@ export default class Home extends Component {
                 dataSource={this.state.dataSource}
                 renderRow={this.renderEventCard}
                 renderHeader={() =>
-                    <Header
+                    <HeaderListView
                         filters={filters}
                         searchBar={searchBar}
                    />

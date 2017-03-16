@@ -122,9 +122,9 @@ export default class EventCard extends Component {
     }
 
     renderDateAndLocation() {
+        //todo find a solution to correctly prompt the Date&location in several div
         return (
             <View style={styles.eventLocation}>
-                //todo find a solution to correctly prompt the Date&location in several div
                 <Text style={styles.eventLocationText}>
                     {this.props.date}
                     {" "+ strings.at + " "}

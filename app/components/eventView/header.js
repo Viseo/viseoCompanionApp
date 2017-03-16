@@ -9,7 +9,7 @@ import {
 import SearchBar from './searchBar';
 import FilterBar from './filterBar';
 
-class Header extends Component {
+export default class Header extends Component {
 
     constructor(props) {
         super(props);
@@ -24,5 +24,3 @@ class Header extends Component {
         );
     }
 }
-
-export default Header;
