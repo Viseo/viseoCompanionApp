@@ -63,10 +63,11 @@ async function authenticate(email, password) {
                 "password": password
             })
         });
-
-        let user = await response.json();
-        if (user) {
-            return new User(user.id, user.firstName, user.lastName, user.email);
+        if (response.headers.get("content-length") == null) {
+            let user = await response.json();
+            if (user) {
+                return new User(user.id, user.firstName, user.lastName, user.email);
+            }
         }
     } catch (error) {
         console.warn('db::authenticate ' + error);

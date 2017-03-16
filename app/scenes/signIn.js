@@ -22,7 +22,7 @@ import {
 } from "react-native";
 import CheckBox from 'react-native-check-box'
 import styles from './../styles/form';
-import * as db from '../util/db';
+import db from '../util/db';
 import * as util from '../util/util.js';
 import strings from '../util/localizedStrings';
 
@@ -209,7 +209,7 @@ export default class SignIn extends Component {
 
     renderRecoverPassword() {
         return (
-            <TouchableHighlight onPress={this.onPressRecoverPassword} onNavigate={this.props.onNavigate}>
+            <TouchableHighlight onPress={this.onPressRecoverPassword}>
                 <Text
                     style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic',paddingRight:5}}>
                     {strings.forgotPassword}

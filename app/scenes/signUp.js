@@ -21,7 +21,7 @@ import {
     Modal
 } from "react-native";
 import * as util from '../util/util';
-import * as db from '../util/db';
+import db from '../util/db';
 import formStyle from './../styles/form';
 import strings from '../util/localizedStrings';
 
@@ -61,7 +61,6 @@ export default class SignUp extends React.Component {
     }
 
     onChangeEmailText(text) {
-        this.props.onEmailInputChanged();
         this.setState({
             email: text,
             isEmailValid: util.isEmailValid(text) || !text.length,
@@ -159,7 +158,6 @@ export default class SignUp extends React.Component {
                                 selectTextOnFocus={true}
                                 underlineColorAndroid={"white"}
                                 onChangeText={this.onChangeEmailText}
-                                onEmailInputChanged={this.props.onEmailInputChanged}
                                 returnKeyType="next"
                                 autoCapitalize="none"
                                 onSubmitEditing={() => {
@@ -209,12 +207,10 @@ export default class SignUp extends React.Component {
                                 onChangeText={this.onChangePasswordCheckText}
                                 returnKeyType="done"
                                 onSubmitEditing={() => {
-                                    console.warn('submit');
                                         if (!util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)
                                             && util.isEmailValid(this.state.email)
                                             && util.isPasswordValid(this.state.password)
                                             && this.state.password == this.state.passwordCheck) {
-                                            console.warn('inside');
                                             this.autoSubmitFormWhenLastInputIsFilled();
                                         }
                                     }

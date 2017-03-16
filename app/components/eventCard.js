@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     firstRow: {
+        flex:1,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
@@ -183,13 +184,13 @@ const styles = StyleSheet.create({
         flex: 2,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 17,
-        color: 'black'
+        fontSize: 16,
+        color: 'black',
     },
     eventDescription: {
         flex: 1,
         textAlign: 'left',
-        fontSize: 14,
+        fontSize: 13,
     },
     eventLocation: {
         flex: 1,
@@ -204,7 +205,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        margin: 5
+        padding: 5,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#999999'
     },
     card: {
         flex: 1,
@@ -212,8 +215,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         backgroundColor: 'white',
         height: 90,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#999999'
     },
     eventType: {
         width: 2,
