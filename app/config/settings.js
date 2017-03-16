@@ -39,6 +39,9 @@ const restRoutes = {
     },
     getEventsWithParticipant: (userId) => {
         return SERVER_API_URL + '/events/users/' + userId;
+    },
+    getUserByEmail: email => {
+        return SERVER_API_URL + '/users/emails/' + email;
     }
 }
 

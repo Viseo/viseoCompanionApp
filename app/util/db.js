@@ -36,6 +36,21 @@ async function addUser(email, password) {
     return false;
 }
 
+async function getUserByEmail(email) {
+    try {
+        let response = await fetch(settings.api.getUserByEmail(email));
+        if (response.headers.get("content-length") == null) {
+            let user = await response.json();
+            if (user) {
+                return new User(user.id, user.firstName, user.lastName, user.email, user.password);
+            }
+        }
+    } catch (error) {
+        console.warn('db::getUserByEmail ' + error);
+    }
+    return null;
+}
+
 async function authenticate(email, password) {
     try {
         let response = await fetch(settings.api.authenticate, {
@@ -190,5 +205,6 @@ export default db = {
     getEventParticipant,
     removeEventParticipant,
     getEventParticipants,
-    getEventsWithParticipant
+    getEventsWithParticipant,
+    getUserByEmail
 }

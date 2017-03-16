@@ -27,7 +27,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
 import strings from './../util/localizedStrings';
 import EventCard from './../components/eventCard';
-import HeaderListView from './../components/eventView/header';
+import ListViewHeader from './../components/eventView/header';
 import Header from './../components/header';
 
 export default class Home extends Component {
@@ -198,7 +198,7 @@ export default class Home extends Component {
                 dataSource={this.state.dataSource}
                 renderRow={this.renderEventCard}
                 renderHeader={() =>
-                    <HeaderListView
+                    <ListViewHeader
                         filters={filters}
                         searchBar={searchBar}
                    />

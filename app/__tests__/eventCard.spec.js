@@ -37,8 +37,7 @@ describe('Event card', () => {
                 onParticipationChange
             });
             testUtil.press(eventCard, '.participate');
-            expect(onParticipationChange.wasCalled).to.equal(true);
-
+            testUtil.checkCall(onParticipationChange);
         });
 
         // it('should log', function() {
