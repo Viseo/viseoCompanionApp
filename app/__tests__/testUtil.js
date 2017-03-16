@@ -77,27 +77,12 @@ function checkCall(checkCallFunction) {
     return expect(checkCallFunction.wasCalled).to.equal(true);
 }
 
-function createSignInForm(
-    onSubmit = () => {},
-    onNavigate = () => {},
-    onRememberMe = () => {},
-    onSubmitInput = () => {}) {
-    return shallow(<SignIn
-        onSubmit={onSubmit}
-        onNavigate={onNavigate}
-        onRememberMe={onRememberMe}
-        onSubmitInput={onSubmitInput}/>);
+function createSignInForm() {
+    return shallow(<SignIn/>);
 }
 
-function createSignUpForm(
-    onNavigate = () => {},
-    onInputChanged = ()=> {},
-    onSubmit = () => {}) {
-    return shallow(<SignUp
-        onNavigate={onNavigate}
-        onEmailInputChanged={onInputChanged}
-        onSubmit={onSubmit}
-    />);
+function createSignUpForm() {
+    return shallow(<SignUp/>);
 }
 
 function getState(component) {

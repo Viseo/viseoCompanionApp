@@ -88,12 +88,10 @@ export default class SignUp extends React.Component {
     }
 
     onPressSignIn() {
-        this.props.onNavigate();
         this.props.navigator.pop();
     }
 
     async onPressSignUp() {
-        this.props.onSubmit()
         this.setState({errorMessage: ''});
 
         if (util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)) {
@@ -235,7 +233,6 @@ export default class SignUp extends React.Component {
                             <View style={{flex:1, padding:5}}>
                                 <Button
                                     onPress={this.onPressSignUp}
-                                    onSubmit={this.props.onSubmit}
                                     title={strings.signUp}
                                     color="#841584"
                                 />
@@ -243,7 +240,7 @@ export default class SignUp extends React.Component {
                         </View>
 
                         {/* Log in instead of creating a new account */}
-                        <TouchableHighlight onPress={this.onPressSignIn} onNavigate={this.props.onNavigate} underlayColor='transparent'>
+                        <TouchableHighlight onPress={this.onPressSignIn} underlayColor='transparent'>
                             <Text
                                 style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', paddingTop:15}}>
                                 {strings.signInLink}
