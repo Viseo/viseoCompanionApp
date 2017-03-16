@@ -108,7 +108,7 @@ export default class EventCard extends Component {
     renderTitle() {
         return (
             <Text className="info name" style={styles.eventName}>
-                {this.getBriefIfTextIsTooLong(this.props.title, 32) }
+                {this.getBriefIfTextIsTooLong(this.props.title, 28) }
             </Text>
         );
     }
@@ -124,15 +124,21 @@ export default class EventCard extends Component {
     renderDateAndLocation() {
         return (
             <View style={styles.eventLocation}>
-                <Text className="info date" style={styles.eventLocationText}>
-                    {this.props.date}
-                </Text>
+                //todo find a solution to correctly prompt the Date&location in several div
                 <Text style={styles.eventLocationText}>
+                    {this.props.date}
                     {" "+ strings.at + " "}
+                    {this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(),35)}
                 </Text>
-                <Text className="info location" style={styles.eventLocationText}>
-                    {this.props.location.toUpperCase()}
-                </Text>
+                {/*<Text className="info date" style={styles.eventLocationText}>*/}
+                    {/*{this.props.date}*/}
+                {/*</Text>*/}
+                {/*<Text style={styles.eventLocationText}>*/}
+                    {/*{" "+ strings.at + " "}*/}
+                {/*</Text>*/}
+                {/*<Text className="info location" style={styles.eventLocationText}>*/}
+                    {/*{this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(),30)}*/}
+                {/*</Text>*/}
             </View>
 
         );
@@ -187,7 +193,7 @@ const styles = StyleSheet.create({
     },
     eventLocation: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         flexDirection:'row'
     },
     eventLocationText: {
