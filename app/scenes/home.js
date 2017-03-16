@@ -40,13 +40,13 @@ export default class Home extends Component {
 
     constructor(props) {
         super(props);
-        var events = {};
+        this.allEvents = {};
+        this.showedEvents = {};
         var ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
         this.state = {
             dataSource: ds,
             loaded: false,
             refreshing: false,
-            hasEvents: false,
             isSearching: false,
             isFiltering: false,
             participationFilterSelected: false
@@ -54,60 +54,89 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        this._onRefresh();
+        this.reloadEventList();
     }
 
-    _onRefresh = async() => {
+    reloadEventList = async() => {
         this.setState({
-            loaded: false,
             refreshing: true
         });
-
-        // Load all events to be showed
-        let events = await db.getEvents();
-        for (let key in events) {
-            let event = events[key];
-            let user = await db.getEventParticipant(event.id, this.props.user.id);
-            event.participating = !!user;
+        this.allEvents = await db.getEvents();
+        for (let key in this.allEvents) {
+            let eventWithParticipationInfo = this.allEvents[key];
+            let user = await db.getEventParticipant(eventWithParticipationInfo.id, this.props.user.id);
+            eventWithParticipationInfo.participating = !!user;
         }
-        this.events = events;
-        if (events.length) {
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(this.events),
-                loaded: true,
-                refreshing: false,
-                hasEvents: true
-            });
-        } else {
-            this.setState({
-                loaded: true,
-                hasEvents: false,
-                refreshing: false,
-            });
-        }
-
+        this.updateEventList(this.allEvents);
     }
 
     updateEventList = events => {
+        this.showedEvents = events.slice();
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(events)
+            dataSource: this.state.dataSource.cloneWithRows(this.showedEvents),
+            loaded: true,
+            refreshing: false
         });
     }
 
-    render() {
+    onParticipationChange = async(changedEvent) => {
+        this.showedEvents = this.showedEvents.map(event => {
+            return event.id === changedEvent.id ?
+                {...event, participating: !changedEvent.participating} :
+                event;
+        });
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this.showedEvents),
+        });
+        await changedEvent.participating ?
+            db.removeEventParticipant(changedEvent.id, this.props.user.id) :
+            db.addEventParticipant(changedEvent.id, this.props.user.id);
+    }
 
-        // Show loading indicator until all events are loaded
-        // Then show all events in chronological order
+    onPressEventCard = (event) => {
+        this.props.navigator.push({
+            title: 'EventDetails',
+            passProps: {
+                event
+            }
+        });
+    }
+
+    onSearch = (eventSource, matchingEvents) => {
+        let eventsToShow = matchingEvents.length > 0 ? matchingEvents : eventSource;
+        this.updateEventList(eventsToShow);
+    }
+
+    onParticipationFilterChanged = async() => {
+        let selectFilter = !this.state.participationFilterSelected;
+        this.setState({
+            isFiltering: true,
+            participationFilterSelected: selectFilter
+        });
+        Keyboard.dismiss();
+        selectFilter ?
+            this.showEventsWhereCurrentUserIsGoing() :
+            this.reloadEventList();
+    }
+
+    showEventsWhereCurrentUserIsGoing = async() => {
+        let events = await db.getEventsWithParticipant(this.props.user.id);
+        for (let key in events) {
+            events[key].participating = true;
+        }
+        this.updateEventList(events);
+    }
+
+    render() {
         let eventList;
-        let search = this.state.hasEvents ? this.renderSearchZone() : null;
-        let filters = this.state.isSearching || this.state.isFiltering ? this.renderFiltersZone() : null;
         if (this.state.loaded) {
-            eventList = this.state.hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
+            let hasEvents = this.allEvents && this.allEvents.length;
+            eventList = hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
         } else {
             this.renderLoadingIndicator();
         }
 
-        // For now only the admin can create events through the admin page
+        // For now only the admin can create allEvents through the admin page
         let allowEventCreation = false;
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
 
@@ -119,13 +148,11 @@ export default class Home extends Component {
                     </View>
                     <Text style={styles.viseocompanion}>VISEO COMPANION</Text>
                 </View>
-                {search}
-                {filters}
                 <ScrollView
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
-                            onRefresh={this._onRefresh.bind(this)}
+                            onRefresh={this.reloadEventList}
                         />
                     }
                     scrollEventThrottle={200}
@@ -159,57 +186,30 @@ export default class Home extends Component {
                 date={event.getTime()}
                 participating={event.participating}
                 onParticipationChange={async () => { await this.onParticipationChange(event)}}
-                onPress={() => {this.onPressEvent(event)}}
+                onPress={() => {this.onPressEventCard(event)}}
             />
         );
-    }
-
-    onPressEvent = (event) => {
-        this.props.navigator.push({
-            title: 'EventDetails',
-            passProps: {
-                event
-            }
-        });
-    }
-
-    onParticipationChange = async(changedEvent) => {
-        this.events = this.events.map(event => {
-            return event.id === changedEvent.id ?
-                {...event, participating: !changedEvent.participating} :
-                event;
-        });
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.events),
-        });
-        await changedEvent.participating ?
-            db.removeEventParticipant(changedEvent.id, this.props.user.id) :
-            db.addEventParticipant(changedEvent.id, this.props.user.id);
     }
 
     renderEvents() {
         const filters = {
             participation: this.onParticipationFilterChanged,
         };
-
-
-    //     renderHeader={() =>
-    //     <Header
-    //         filters={filters}
-    //         searchBar={{
-    //                         dataSource: this.events,
-    //                         onInputChanged: () => {console.warn('searchBar onInputChanged')}
-    //                     }}
-    //     />
-    // }
-
+        let searchBar = {
+            dataSource: this.allEvents,
+            onSearch: this.onSearch
+        }
         return (
             <ListView
-                contentContainerStyle={{
-                }}
                 navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderEventCard}
+                renderHeader={() =>
+                    <Header
+                        filters={filters}
+                        searchBar={searchBar}
+                   />
+                }
             />
         );
     }
@@ -234,138 +234,6 @@ export default class Home extends Component {
                 size="large"
             />
         );
-    }
-
-    renderSearchZone() {
-        return (
-            <View>
-                <TextInput
-                    style={styles.input}
-                    placeholder={strings.filterZone}
-                    ref="filterZone"
-                    autoCorrect={false}
-                    selectTextOnFocus={true}
-                    underlineColorAndroid={"grey"}
-                    returnKeyType="search"
-                    onChangeText={(input) => this.updateListViewOnResearch(input)}
-                    onFocus={ () => {
-                        this.setState({
-                            isSearching: true,
-                        });
-                    }}
-                    onEndEditing={ () => {
-                        this.setState({
-                            isSearching: false,
-                        });
-                    }}
-                />
-            </View>
-        );
-    }
-
-    updateListViewOnResearch(input) {
-        let dataSource = this.state.dataSource.cloneWithRows(this.events);
-        if (input) {
-            let researchedEvents = this.searchEvents(input);
-            dataSource = this.state.dataSource.cloneWithRows(researchedEvents);
-        }
-        this.setState({dataSource: dataSource});
-    }
-
-    searchEvents(input) {
-        let researchedEvents = [];
-        for (var i = 0; i < this.events.length; i++) {
-            let eventInResearch = false;
-            eventInResearch = this.existsInputInChain(this.events[i].name, input)
-                || this.existsInputInChain(this.events[i].description, input);
-            if (eventInResearch) {
-                researchedEvents.push(this.events[i]);
-            }
-        }
-        return researchedEvents;
-    }
-
-    existsInputInChain(chain, input) {
-        return chain && input && chain.toString().toLowerCase().indexOf(input.toString().toLowerCase()) > -1;
-    }
-
-    showEventsWhereCurrentUserIsGoing = async() => {
-        let events = await db.getEventsWithParticipant(this.props.user.id);
-        for (let key in events) {
-            events[key].participating = true;
-        }
-        this.updateEventList(events);
-    }
-
-    onParticipationFilterChanged = async() => {
-        let selectFilter = !this.state.participationFilterSelected;
-        this.setState({
-            isFiltering: true,
-            participationFilterSelected: selectFilter
-        });
-        Keyboard.dismiss();
-        selectFilter ?
-            this.showEventsWhereCurrentUserIsGoing() :
-            this._onRefresh();
-    }
-
-    /////////////////// BELOW ARE DEPRECATED FUNCTIONS //////////////////////
-
-
-
-    /////////////////// EVENT FILTERS
-    renderFiltersZone() {
-        return (
-            <View>
-                <View
-                    style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center', marginRight:10, marginLeft:10}}>
-                    <Filter selectedColor='red' onFilter={this.showEventsWithHighImportance}/>
-                    <Filter selectedColor='orange' onFilter={this.showEventsWithMediumImportance}/>
-                    <Filter selectedColor='lightgreen' onFilter={this.showEventsWithLowImportance}/>
-                    <Filter
-                        selected={false}
-                        selectedColor='royalblue'
-                        unselectedColor='lightblue'
-                        onFilter={this.onParticipationFilterChanged}
-                    />
-                    <TouchableOpacity
-                        onPress={() => {
-                            this.setState({
-                                isFiltering : false
-                            });
-                            Keyboard.dismiss();
-                        }}
-                        style={{marginLeft: -50}}
-                    >
-                        <Image
-                            source={require("../images/upArrow.png")}
-                            style={{resizeMode: 'contain', height:15}}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    }
-
-    showEventsWithHighImportance = () => {
-        this.setState({
-            isFiltering: true
-        });
-        Keyboard.dismiss();
-    }
-
-    showEventsWithMediumImportance = () => {
-        this.setState({
-            isFiltering: true
-        });
-        Keyboard.dismiss();
-    }
-
-    showEventsWithLowImportance = () => {
-        this.setState({
-            isFiltering: true
-        });
-        Keyboard.dismiss();
     }
 }
 

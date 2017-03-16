@@ -2,6 +2,11 @@
  * Created by AAB3605 on 10/03/2017.
  */
 import React from "react";
+import {
+    View,
+    TextInput,
+    StyleSheet
+} from 'react-native';
 import {shallow} from "enzyme";
 import EventCard from './../components/eventCard';
 import Filter from '../components/eventView/filter';
@@ -35,8 +40,9 @@ function press(component, widget) {
     component.find(widget).simulate('press');
 }
 
-function changeText(component, widget) {
-    component.find(widget).simulate('keydown', { which: 'a' });
+function changeText(component) {
+    const textInput = component.find(TextInput).first();
+    textInput.simulate('changeText');
 }
 
 function createEventCard(props) {

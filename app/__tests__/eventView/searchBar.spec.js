@@ -17,13 +17,12 @@ describe('SearchBar', () => {
     });
 
     it('should search from the given data whenever the search bar is edited', () => {
-        const onInputChanged = testUtil.createCheckCallFunction();
+        const onSearch = testUtil.createCheckCallFunction();
         const searchBar = testUtil.createSearchBar({
-            dataSource: {},
-            onInputChanged
+            onSearch
         });
-        testUtil.changeText(searchBar, '.searchBar');
-        testUtil.checkCall(onInputChanged);
+        testUtil.changeText(searchBar);
+        testUtil.checkCall(onSearch);
     });
 
     it('should return the matching data given a set of data and a search string ', () => {

@@ -69,7 +69,7 @@ export default class EventDetails extends React.Component {
         console.log(REQUEST_URL7);// un beau commit
 
         // 1 get account id from email
-        // /account/getIdAccount/ email /events'
+        // /account/getIdAccount/ email /allEvents'
 
         fetch(REQUEST_URL7)
             .then((response) => response.json())
@@ -79,7 +79,7 @@ export default class EventDetails extends React.Component {
                 console.log(REQUEST_URL11);
 
                 // 2 did current user participate(is interested in?) to this event
-                // /account/doneParticipation/ response /events/ eventId
+                // /account/doneParticipation/ response /allEvents/ eventId
                 fetch(REQUEST_URL11)
                     .then((response) => response.json())
                     .then((responseData2) => {
@@ -92,7 +92,7 @@ export default class EventDetails extends React.Component {
                             console.log(REQUEST_URL10);
 
                             // is participate checked
-                            // /account/getParticipation/ accountId /events/ eventIid
+                            // /account/getParticipation/ accountId /allEvents/ eventIid
                             fetch(REQUEST_URL10)
                                 .then((response) => response.json())
                                 .then((responseData3) => {

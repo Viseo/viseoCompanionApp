@@ -14,16 +14,41 @@ class SearchBar extends Component {
         super(props);
     }
 
+    containsString = (source, search, caseSensitive = false) => {
+        let sourceString = caseSensitive ? source.toString() : source.toString().toLowerCase();
+        let searchString = caseSensitive ? search.toString() : search.toString().toLowerCase();
+        return sourceString
+            && searchString
+            && sourceString.indexOf(searchString) > -1;
+    }
+
+    findMatchingData = (searchString) => {
+        let matchingData = [];
+        let { dataSource } = this.props;
+        dataSource.forEach( data => {
+            for (let key in data) {
+                if (this.containsString(data[key], searchString)) {
+                    matchingData.push(data);
+                    break;
+                }
+            }
+        });
+        return matchingData.slice();
+    }
+
+    onChangeText = (searchString) => {
+        let matchingData = this.findMatchingData(searchString);
+        this.props.onSearch(this.props.dataSource, matchingData);
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <TextInput
                     className="searchBar"
                     style={styles.input}
-                    dataSource={this.props.dataSource}
-                    onInputChanged={this.props.onInputChanged}
                     placeholder="Search..."
-                    onChangeText={(text) => {}}
+                    onChangeText={this.onChangeText}
                 />
             </View>
         );
