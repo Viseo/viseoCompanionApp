@@ -30,7 +30,8 @@ import strings from './../util/localizedStrings';
 import Filter from '../components/eventView/filter';
 import EventCard from './../components/eventCard';
 import Swipeout from 'react-native-swipe-out';
-import Header from './../components/eventView/header';
+import {Header as HeaderListView} from './../components/eventView/header';
+import Header from './../components/header';
 
 export default class Home extends Component {
 
@@ -142,12 +143,7 @@ export default class Home extends Component {
 
         return (
             <View style={{flex:1, marginTop:(Platform.OS === 'ios') ? 20 : 0}}>
-                <View style={styles.topbar}>
-                    <View style={styles.menu0}>
-                        <Image source={require("../images/Menu.png")} style={styles.icon}/>
-                    </View>
-                    <Text style={styles.viseocompanion}>VISEO COMPANION</Text>
-                </View>
+                <Header/>
                 <ScrollView
                     refreshControl={
                         <RefreshControl

@@ -28,4 +28,32 @@ export default class Event {
         }
         return hours + "h" + minutes;
     }
+
+    getDateToString = () => {
+        if(!this.date)
+            return 0;
+        let dateTime = new Date(this.date);
+        let date = '';
+        let time = '';
+
+        let day  = dateTime.getDay();
+        let month = dateTime.getMonth();
+        let year = dateTime.getYear();
+        if (dateTime === Date.now()){
+            day = month = year = '';
+        } else if (year === Date.now.getYear()) {
+            year = '';
+        }
+        date = day;
+
+        let hours = dateTime.getHours();
+        let minutes = dateTime.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        } else if (minutes === 0) {
+            minutes = '';
+        }
+        time = hours + 'h' + minutes;
+        return hours + "h" + minutes;
+    }
 }

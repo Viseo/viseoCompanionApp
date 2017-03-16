@@ -18,6 +18,8 @@ import {
 } from "react-native";
 import setting from "../config/settings";
 import CheckBox from 'react-native-check-box';
+import Header from './../components/header';
+
 
 let {
     height: deviceHeight,
@@ -163,7 +165,7 @@ export default class EventDetails extends React.Component {
     render() {
         return (
             <View>
-                {this.renderHeader()}
+                <Header/>
                 {this.renderEventInfo()}
             </View>
         );
@@ -255,19 +257,6 @@ export default class EventDetails extends React.Component {
                 <View style={styles.rightRectangle1}>
                     <Text style={styles.text}> {name + '\n' } </Text>
                 </View>
-            </View>
-        );
-    }
-
-    renderHeader() {
-        return (
-            <View style={styles.topbar}>
-                <View style={styles.menu0}>
-                    <Image
-                        source={require('../images/Menu.png')}
-                        style={styles.icon}/>
-                </View>
-                <Text style={styles.viseocompanion}> VISEO COMPANION </Text>
             </View>
         );
     }
