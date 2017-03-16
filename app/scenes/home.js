@@ -27,9 +27,10 @@ import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
 import * as util from './../util/util';
 import strings from './../util/localizedStrings';
-import Filter from './../components/filter';
+import Filter from '../components/eventView/filter';
 import EventCard from './../components/eventCard';
 import Swipeout from 'react-native-swipe-out';
+import Header from './../components/eventView/header';
 
 export default class Home extends Component {
 
@@ -186,129 +187,22 @@ export default class Home extends Component {
             db.addEventParticipant(changedEvent.id, this.props.user.id);
     }
 
-    renderEventCardOld(event) {
-
-        let swipeOption = event.isParticipating ?
-            [{
-                text: strings.ImGoing,
-                onPress: async() => await db.addEventParticipant(event.id, this.props.user.id),
-                backgroundColor: '#4fba8a',
-                color: '#14605a',
-            }] :
-            [{
-                text: strings.ImNotGoing,
-                onPress: async() => await db.removeEventParticipant(event.id, this.props.user.id),
-                backgroundColor: '#ba7a7c',
-                color: '#601d20',
-            }];
-        return (
-            <View>
-                <Swipeout
-                    style={{ backgroundColor: '#c1c1c1' }}
-                    right={swipeOption}
-                >
-                    <TouchableOpacity
-                        onPress={ () => {
-                        this.onPressEvent(event);
-                    }}
-                        style={cardStyle.card}
-                    >
-                        <View style={{
-                            flex:1,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            width: 10,
-                            marginLeft:2,
-                            marginRight:5,
-                        }}>
-                            {/*Participation dot*/}
-                            <View style={cardStyle.participationDot}/>
-                            {/*Event type*/}
-                            <View style={cardStyle.eventType}/>
-                        </View>
-
-                        <View style={{
-                        flex: 50,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        padding:5,
-                        borderBottomWidth: 0.5,
-                        borderBottomColor: '#999999'
-                      }}>
-                            {/* First ROW: event name, date and time */}
-                            <View
-                                style={{
-                                flex:1,
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                            }}
-                            >
-                                {/* Display event NAME in bold in top left corner*/}
-                                <Text style={cardStyle.name}>
-                                    {troncateText(event.name, 32) }
-                                </Text>
-                                {/* Display event DATE in top right corner */}
-                                {/* Display event LOCATION in top right corner, next to the date */}
-                                <Text style={cardStyle.location}>
-                                    {event.getTime()} {strings.at} {event.location.toUpperCase()}
-                                </Text>
-                            </View>
-
-                            {/* Second ROW: event description*/}
-                            <View
-                                style={{
-                                flex: 1,
-                                flexDirection: 'row',
-                                alignItems: 'flex-end',
-                            }}
-                            >
-                                <Text style={cardStyle.description}>
-                                    {troncateText(event.description, 120)}
-                                </Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                </Swipeout>
-
-            </View>
-        );
-    }
-
-    renderEventCardWithOldStyle(event) {
-        // Prepare the event description. If it's too long to be showed in the card,
-        // truncate it and append dots to let the user know there's more to read.
-        let eventDescription = event.description;
-        if (eventDescription.length > maxEventDescriptionLength) {
-            eventDescription = util.truncate(eventDescription, maxEventDescriptionLength);
-            eventDescription += '...';
-        }
-
-        return (
-            <View>
-                <TouchableOpacity
-                    onPress={ () => {
-                        this.onPressEvent(event);
-                    }}
-                >
-                    <View style={styles.rectangle}>
-                        <View style={styles.leftRectangle}>
-                            <Text style={styles.date}> {new Date(event.date).getDate()}</Text>
-                            <Text style={styles.date}> {monthNames[new Date(event.date).getMonth()]}</Text>
-                            <Text
-                                style={styles.date}> {event.getTime()}</Text>
-                        </View>
-                        <View style={styles.rightRectangle}>
-                            <Text style={styles.name}> {troncateText(event.name, 75) } </Text>
-                            <Text style={styles.location}> {event.location} </Text>
-                            <Text style={styles.location}> {troncateText(event.description, 75)} </Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-
     renderEvents() {
+        const filters = {
+            participation: this.onParticipationFilterChanged,
+        };
+
+
+    //     renderHeader={() =>
+    //     <Header
+    //         filters={filters}
+    //         searchBar={{
+    //                         dataSource: this.events,
+    //                         onInputChanged: () => {console.warn('searchBar onInputChanged')}
+    //                     }}
+    //     />
+    // }
+
         return (
             <ListView
                 contentContainerStyle={{
@@ -370,7 +264,7 @@ export default class Home extends Component {
     }
 
     updateListViewOnResearch(input) {
-        let dataSource = this.state.dataSource.cloneWithRows(events);
+        let dataSource = this.state.dataSource.cloneWithRows(this.events);
         if (input) {
             let researchedEvents = this.searchEvents(input);
             dataSource = this.state.dataSource.cloneWithRows(researchedEvents);
@@ -380,12 +274,12 @@ export default class Home extends Component {
 
     searchEvents(input) {
         let researchedEvents = [];
-        for (var i = 0; i < events.length; i++) {
+        for (var i = 0; i < this.events.length; i++) {
             let eventInResearch = false;
-            eventInResearch = this.existsInputInChain(events[i].name, input)
-                || this.existsInputInChain(events[i].description, input);
+            eventInResearch = this.existsInputInChain(this.events[i].name, input)
+                || this.existsInputInChain(this.events[i].description, input);
             if (eventInResearch) {
-                researchedEvents.push(events[i]);
+                researchedEvents.push(this.events[i]);
             }
         }
         return researchedEvents;
@@ -393,19 +287,6 @@ export default class Home extends Component {
 
     existsInputInChain(chain, input) {
         return chain && input && chain.toString().toLowerCase().indexOf(input.toString().toLowerCase()) > -1;
-    }
-
-    renderFilterIcon() {
-        if (this.state.isSearching) {
-            return (
-                <Image source={require("../images/nofilter.png")}/>
-            )
-        }
-        else {
-            return (
-                <Image source={require("../images/filter.png")}/>
-            )
-        }
     }
 
     showEventsWhereCurrentUserIsGoing = async() => {
@@ -428,28 +309,11 @@ export default class Home extends Component {
             this._onRefresh();
     }
 
+    /////////////////// BELOW ARE DEPRECATED FUNCTIONS //////////////////////
 
-    showEventsWithHighImportance = () => {
-        this.setState({
-            isFiltering: true
-        });
-        Keyboard.dismiss();
-    }
 
-    showEventsWithMediumImportance = () => {
-        this.setState({
-            isFiltering: true
-        });
-        Keyboard.dismiss();
-    }
 
-    showEventsWithLowImportance = () => {
-        this.setState({
-            isFiltering: true
-        });
-        Keyboard.dismiss();
-    }
-
+    /////////////////// EVENT FILTERS
     renderFiltersZone() {
         return (
             <View>
@@ -481,6 +345,27 @@ export default class Home extends Component {
                 </View>
             </View>
         );
+    }
+
+    showEventsWithHighImportance = () => {
+        this.setState({
+            isFiltering: true
+        });
+        Keyboard.dismiss();
+    }
+
+    showEventsWithMediumImportance = () => {
+        this.setState({
+            isFiltering: true
+        });
+        Keyboard.dismiss();
+    }
+
+    showEventsWithLowImportance = () => {
+        this.setState({
+            isFiltering: true
+        });
+        Keyboard.dismiss();
     }
 }
 

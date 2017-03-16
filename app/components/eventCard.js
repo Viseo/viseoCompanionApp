@@ -9,6 +9,15 @@ import strings from './../util/localizedStrings';
 
 export default class EventCard extends Component {
 
+    static defaultProps = {
+        title: '',
+        description: '',
+        location: '',
+        date: '',
+        onParticipationChange: () => {
+        }
+    }
+
     constructor(props) {
         super(props);
     }
@@ -23,14 +32,20 @@ export default class EventCard extends Component {
     getSwipeOption = () => {
         return this.props.participating ?
             [{
+                className:'participate',
                 text: strings.IAmNotGoingToEvent,
-                onPress: () => {this.props.onParticipationChange()},
+                onPress: () => {
+                    this.props.onParticipationChange()
+                },
                 backgroundColor: '#ba7a7c',
                 color: '#601d20',
             }] :
             [{
+                className:'participate',
                 text: strings.IAmGoingToEvent,
-                onPress: () => {this.props.onParticipationChange()},
+                onPress: () => {
+                    this.props.onParticipationChange()
+                },
                 backgroundColor: '#4fba8a',
                 color: '#14605a',
             }];
@@ -41,6 +56,7 @@ export default class EventCard extends Component {
         return (
             <View>
                 <Swipeout
+                    className="swipeout"
                     style={{ backgroundColor: '#c1c1c1' }}
                     right={swipeOption}
                     autoClose={true}
@@ -107,9 +123,18 @@ export default class EventCard extends Component {
 
     renderDateAndLocation() {
         return (
-            <Text style={styles.eventLocation}>
-                {this.props.date} {strings.at} {this.props.location.toUpperCase()}
-            </Text>
+            <View style={styles.eventLocation}>
+                <Text className="info date" style={styles.eventLocationText}>
+                    {this.props.date}
+                </Text>
+                <Text style={styles.eventLocationText}>
+                    {" "+ strings.at + " "}
+                </Text>
+                <Text className="info location" style={styles.eventLocationText}>
+                    {this.props.location.toUpperCase()}
+                </Text>
+            </View>
+
         );
     }
 
@@ -163,8 +188,11 @@ const styles = StyleSheet.create({
     eventLocation: {
         flex: 1,
         justifyContent: 'center',
+        flexDirection:'row'
+    },
+    eventLocationText: {
         textAlign: 'right',
-        fontSize: 13
+        fontSize: 13,
     },
     eventInfo: {
         flex: 1,

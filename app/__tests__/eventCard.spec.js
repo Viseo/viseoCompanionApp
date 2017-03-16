@@ -14,23 +14,31 @@ import testUtil from './testUtil';
 
 describe('Event card', () => {
 
-    let event = new Event(0, 'the beautiful event', 'the description of my awesome event', '1/1/2017', 'it happens here');
-
     it('should display an event card', () => {
-        const eventCard = testUtil.createEventCard(event);
+        let event = new Event(0, 'the beautiful event', 'the description of my awesome event', '1/1/2017', 'it happens here');
+        const eventCard = testUtil.createEventCard({
+            title: event.name,
+            description: event.description,
+            location: event.location,
+            date: event.getTime(),
+            onParticipationChange: () => {}
+        });
         testUtil.checkFieldContent(eventCard, 'name', event.name);
         testUtil.checkFieldContent(eventCard, 'description', event.description);
+        testUtil.checkFieldContent(eventCard, 'location', event.location.toUpperCase());
+        testUtil.checkFieldContent(eventCard, 'date', event.getTime());
     });
 
     describe('logged User', () => {
 
         it('should be able to participate or not', () => {
-            function toggleParticipation () {
-                toggleParticipation.participating = true;
-            }
-            const eventCard = testUtil.createEventCard(event, toggleParticipation);
-            testUtil.click(eventCard, '.participate');
-            expect(toggleParticipation.participating).to.equal(true);
+            let onParticipationChange = testUtil.createCheckCallFunction();
+            const eventCard = testUtil.createEventCard({
+                onParticipationChange
+            });
+            testUtil.press(eventCard, '.participate');
+            expect(onParticipationChange.wasCalled).to.equal(true);
+
         });
 
         // it('should log', function() {
