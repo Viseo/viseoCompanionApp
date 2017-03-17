@@ -18,13 +18,13 @@ import {
     Dimensions,
     Button,
     Alert,
-    TouchableHighlight,
+    TouchableHighlight
 } from "react-native";
-import CheckBox from 'react-native-check-box'
-import styles from './../styles/form';
-import db from '../util/db';
-import * as util from '../util/util.js';
-import strings from '../util/localizedStrings';
+import CheckBox from "react-native-check-box";
+import styles from "./../styles/form";
+import db from "../util/db";
+import * as util from "../util/util.js";
+import strings from "../util/localizedStrings";
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -223,7 +223,7 @@ export default class SignIn extends Component {
             <CheckBox
                 style={{flex: 1, padding: 10}}
                 onClick={this.onPressRememberMe}
-                isChecked={false}
+                isChecked={true}
                 rightText={strings.rememberMe}
             />
         );
