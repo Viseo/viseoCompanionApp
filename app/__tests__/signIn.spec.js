@@ -14,6 +14,7 @@ import CheckBox from 'react-native-check-box';
 import EmailInput from './../components/emailInput';
 import testUtil from './testUtil';
 import strings from '../util/localizedStrings';
+import PasswordInput from './../components/passwordInput';
 
 describe('Sign In Form', () => {
     const signInSubmitFunction = testUtil.createCheckCallFunction();
@@ -21,7 +22,6 @@ describe('Sign In Form', () => {
     const submitInputFunction = testUtil.createCheckCallFunction();
     const signInForm = testUtil.createSignInForm(signInSubmitFunction, navigateFunction, submitInputFunction);
     const links = testUtil.getComponentsOfTypeInContainer(signInForm, TouchableHighlight);
-    const inputFields = testUtil.getComponentsOfTypeInContainer(signInForm, TextInput);
 
     it('Should display 1 ScrollView', () => {
         expect(testUtil.getComponentsOfTypeInContainer(signInForm, ScrollView)).to.have.length(1);
@@ -35,8 +35,8 @@ describe('Sign In Form', () => {
         expect(testUtil.getComponentsOfTypeInContainer(signInForm, EmailInput)).to.have.length(1);
     });
 
-    it('Should display 1 text input field for password.', () => {
-        expect(inputFields).to.have.length(1);
+    it('Should display 1 password input field.', () => {
+        expect(testUtil.getComponentsOfTypeInContainer(signInForm, PasswordInput)).to.have.length(1);
     });
 
     // To Refacto

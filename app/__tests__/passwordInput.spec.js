@@ -16,7 +16,7 @@ describe('Password input', () => {
 
     it('Should edit password when text change', () =>{
         testUtil.changeTextWithInputValue(passwordInput, myPassword);
-        const passwordAfterInput = testUtil.getState(passwordInput).email;
+        const passwordAfterInput = testUtil.getState(passwordInput).password;
         expect(passwordAfterInput.target.value).to.equal(myPassword);
     });
 });

@@ -15,6 +15,7 @@ import {
 import EmailInput from './../components/emailInput';
 import testUtil from './testUtil';
 import strings from '../util/localizedStrings';
+import PasswordInput from './../components/passwordInput';
 
 describe('Sign Up Form', () => {
     const navigateFunction = testUtil.createCheckCallFunction();
@@ -22,7 +23,6 @@ describe('Sign Up Form', () => {
     const submitFunction = testUtil.createCheckCallFunction();
     const signUpForm = testUtil.createSignUpForm(navigateFunction, inputChangedFunction, submitFunction);
     const buttons = testUtil.getComponentsOfTypeInContainer(signUpForm, Button);
-    const inputFields = testUtil.getComponentsOfTypeInContainer(signUpForm, TextInput);
 
     it('Should display 1 ScrollView', () => {
         expect(testUtil.getComponentsOfTypeInContainer(signUpForm, ScrollView)).to.have.length(1);
@@ -36,8 +36,8 @@ describe('Sign Up Form', () => {
         expect(testUtil.getComponentsOfTypeInContainer(signUpForm, EmailInput)).to.have.length(1);
     });
 
-    it('Should display 2 text input fields : 1 for password, 1 to confirm password.', () => {
-        expect(inputFields).to.have.length(2);
+    it('Should display 2 password input fields for password and for verification.', () => {
+        expect(testUtil.getComponentsOfTypeInContainer(signUpForm, PasswordInput)).to.have.length(2);
     });
 
     it('Should display 1 TouchableHighLight to go to sign in', () => {
