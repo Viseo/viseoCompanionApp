@@ -12,6 +12,7 @@ import {
     Modal,
     Text
 } from "react-native";
+import EmailInput from './../components/emailInput';
 import testUtil from './testUtil';
 import strings from '../util/localizedStrings';
 
@@ -31,23 +32,13 @@ describe('Sign Up Form', () => {
         expect(testUtil.getComponentsOfTypeInContainer(signUpForm, Image)).to.have.length(1);
     });
 
-    it('Should display 3 text input fields : 1 for email 1 for password, 1 to confirm password.', () => {
-        expect(inputFields).to.have.length(3);
+    it('Should display 1 email input field.', () => {
+        expect(testUtil.getComponentsOfTypeInContainer(signUpForm, EmailInput)).to.have.length(1);
     });
 
-    //To refacto
-    // function is called but
-    // test FAILS because execution need input text to be mocked.
-    // it('Should have 1 text input field for email', () => {
-    //     const emailField = inputFields.findWhere(n => n.props().placeholder === strings.email);
-    //     expect(emailField).to.have.length(1);
-    //     const field = emailField.at(0);
-    //     const emailBeforeInput = testUtil.getState(signUpForm).email;
-    //     testUtil.simulateActionOnSpecificComponent(field, 'changeText');
-    //     const emailAfterInput = testUtil.getState(signUpForm).email;
-    //     expect(!emailBeforeInput);
-    //     expect(emailAfterInput);
-    // });
+    it('Should display 2 text input fields : 1 for password, 1 to confirm password.', () => {
+        expect(inputFields).to.have.length(2);
+    });
 
     it('Should display 1 TouchableHighLight to go to sign in', () => {
         expect(testUtil.getComponentsOfTypeInContainer(signUpForm, TouchableHighlight)).to.have.length(1);

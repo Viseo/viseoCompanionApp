@@ -11,15 +11,15 @@ import {
     Button
 } from "react-native";
 import CheckBox from 'react-native-check-box';
+import EmailInput from './../components/emailInput';
 import testUtil from './testUtil';
 import strings from '../util/localizedStrings';
 
 describe('Sign In Form', () => {
     const signInSubmitFunction = testUtil.createCheckCallFunction();
     const navigateFunction = testUtil.createCheckCallFunction();
-    const rememberMeFunction = testUtil.createCheckCallFunction();
     const submitInputFunction = testUtil.createCheckCallFunction();
-    const signInForm = testUtil.createSignInForm(signInSubmitFunction, navigateFunction, rememberMeFunction, submitInputFunction);
+    const signInForm = testUtil.createSignInForm(signInSubmitFunction, navigateFunction, submitInputFunction);
     const links = testUtil.getComponentsOfTypeInContainer(signInForm, TouchableHighlight);
     const inputFields = testUtil.getComponentsOfTypeInContainer(signInForm, TextInput);
 
@@ -31,8 +31,12 @@ describe('Sign In Form', () => {
         expect(testUtil.getComponentsOfTypeInContainer(signInForm, Image)).to.have.length(1);
     });
 
-    it('Should display 2 text input fields : 1 for email 1 for password.', () => {
-        expect(inputFields).to.have.length(2);
+    it('Should display 1 email input field.', () => {
+        expect(testUtil.getComponentsOfTypeInContainer(signInForm, EmailInput)).to.have.length(1);
+    });
+
+    it('Should display 1 text input field for password.', () => {
+        expect(inputFields).to.have.length(1);
     });
 
     // To Refacto
@@ -47,13 +51,13 @@ describe('Sign In Form', () => {
         expect(testUtil.getComponentsOfTypeInContainer(signInForm, CheckBox)).to.have.length(1);
     });
 
-    //To refacto
-    // it('should change "remember user" state when the CheckBox is clicked', () => {
-    //     const rememberStateBeforePress = testUtil.getState(signInForm).rememberUser;
-    //     testUtil.click(signInForm, 'CheckBox');
-    //     const rememberStateAfterPress = testUtil.getState(signInForm).rememberUser;
-    //     expect(rememberStateAfterPress).to.equal(!rememberStateBeforePress);
-    // });
+    it('should change "remember user" state when the CheckBox is clicked', () => {
+        const checkBox = signInForm.find(CheckBox);
+        const rememberStateBeforePress = testUtil.getState(signInForm).rememberUser;
+        testUtil.simulateActionOnSpecificComponent(checkBox, 'click');
+        const rememberStateAfterPress = testUtil.getState(signInForm).rememberUser;
+        expect(rememberStateAfterPress).to.equal(!rememberStateBeforePress);
+    });
 
     it('Should display 2 TouchableHighLights : 1 for "forgot password", 1 for "create account".', () => {
         expect(links).to.have.length(2);
