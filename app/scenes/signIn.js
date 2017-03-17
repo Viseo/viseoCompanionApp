@@ -26,6 +26,7 @@ import db from "../util/db";
 import * as util from "../util/util.js";
 import strings from "../util/localizedStrings";
 import EmailInput from './../components/emailInput';
+import PasswordInput from './../components/passwordInput';
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -170,27 +171,12 @@ export default class SignIn extends Component {
     }
 
     renderPasswordInput() {
-        return (
-            <View >
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={password => this.setState({password})}
-                    placeholder={strings.password}
-                    ref="password"
-                    password={true}
-                    autoCorrect={false}
-                    selectTextOnFocus={true}
-                    secureTextEntry={true}
-                    underlineColorAndroid={"white"}
-                    minLength={6}
-                    returnKeyType="done"
-                    onSubmitEditing={() => {
-                            if(!this.autoSubmitFormWhenLastInputIsFilled())
-                                this.refs.email.focus();
-                        }
-                    }
-                />
-            </View>
+        return(
+            <PasswordInput ref="password"
+                        onChangeText={password => this.setState({password})}
+                        onSubmitEditing={() => {
+                if(!this.autoSubmitFormWhenLastInputIsFilled())
+                                 this.refs.email.focus();}}/>
         );
     }
 

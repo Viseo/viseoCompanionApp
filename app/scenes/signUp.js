@@ -25,6 +25,7 @@ import db from '../util/db';
 import formStyle from './../styles/form';
 import strings from '../util/localizedStrings';
 import EmailInput from './../components/emailInput';
+import PasswordInput from './../components/passwordInput';
 
 export default class SignUp extends React.Component {
 
@@ -153,56 +154,25 @@ export default class SignUp extends React.Component {
                                     onSubmitEditing={() => {this.refs.password.focus();}}/>
 
                         {/* User password input */}
-                        <View >
-                            <TextInput
-                                style={[
-                            formStyle.textInput,
-                            !this.state.isPasswordValid && formStyle.invalidFormat
-                            ]}
-                                ref="password"
-                                placeholder={strings.password}
-                                password={true}
-                                autoCorrect={false}
-                                selectTextOnFocus={true}
-                                underlineColorAndroid={"white"}
-                                minLength={6}
-                                secureTextEntry={true}
-                                onChangeText={this.onChangePasswordText}
-                                returnKeyType="next"
-                                onSubmitEditing={() => {
-                                    this.refs.passwordBis.focus();
-                                }}
-                            />
-                        </View>
+                        <PasswordInput ref="password"
+                                       style={[formStyle.textInput,!this.state.isPasswordValid && formStyle.invalidFormat]}
+                                       returnKeyType="next"
+                                       onChangeText={this.onChangePasswordText}
+                                       onSubmitEditing={() => {
+                                    this.refs.passwordBis.focus();}}/>
 
                         {/* User password verification input */}
-                        <View >
-                            <TextInput
-                                style={[
-                            formStyle.textInput,
-                            !this.state.isPasswordCheckValid && formStyle.invalidFormat
-                            ]}
-                                ref="passwordBis"
-                                placeholder={strings.verifyPassword}
-                                password={true}
-                                autoCorrect={false}
-                                selectTextOnFocus={true}
-                                underlineColorAndroid={"white"}
-                                minLength={6}
-                                secureTextEntry={true}
-                                onChangeText={this.onChangePasswordCheckText}
-                                returnKeyType="done"
-                                onSubmitEditing={() => {
+                        <PasswordInput ref="passwordBis"
+                                       placeholder={strings.verifyPassword}
+                                       style={[formStyle.textInput,!this.state.isPasswordValid && formStyle.invalidFormat]}
+                                       returnKeyType="done"
+                                       onChangeText={this.onChangePasswordCheckText}
+                                       onSubmitEditing={() => {
                                         if (!util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)
                                             && util.isEmailValid(this.state.email)
                                             && util.isPasswordValid(this.state.password)
                                             && this.state.password == this.state.passwordCheck) {
-                                            this.autoSubmitFormWhenLastInputIsFilled();
-                                        }
-                                    }
-                                }
-                            />
-                        </View>
+                                            this.autoSubmitFormWhenLastInputIsFilled();}}}/>
 
                         {/* Display error messages to help the user fill out the form */}
                         {this.renderFormFillingInformation()}

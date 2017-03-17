@@ -17,6 +17,7 @@ import SignIn from './../scenes/signIn';
 import SignUp from './../scenes/signUp';
 import EventViewHeader from './../components/eventView/header';
 import EmailInput from './../components/emailInput';
+import PasswordInput from './../components/passwordInput';
 
 function checkFieldContent(component, fieldName, fieldValue) {
     expect(component.find('.' + fieldName).props().children).to.equal(fieldValue);
@@ -102,6 +103,10 @@ function createEmailInput() {
     return shallow(<EmailInput/>);
 }
 
+function createPasswordInput() {
+    return shallow(<PasswordInput/>);
+}
+
 function callMethod(component, methodName, args) {
     return component.instance()[methodName](...args);
 }
@@ -164,5 +169,6 @@ export default testUtil = {
     createEventViewHeader,
     checkChildComponentExists,
     createEmailInput,
-    changeTextWithInputValue
+    changeTextWithInputValue,
+    createPasswordInput
 };
