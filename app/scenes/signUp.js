@@ -24,6 +24,7 @@ import * as util from '../util/util';
 import db from '../util/db';
 import formStyle from './../styles/form';
 import strings from '../util/localizedStrings';
+import EmailInput from './../components/emailInput';
 
 export default class SignUp extends React.Component {
 
@@ -146,25 +147,10 @@ export default class SignUp extends React.Component {
                         </View>
 
                         {/* User email input */}
-                        <View>
-                            <TextInput
-                                style={[
-                            formStyle.textInput,
-                            !this.state.isEmailValid && formStyle.invalidFormat
-                            ]}
-                                placeholder={strings.email}
-                                keyboardType="email-address"
-                                autoCorrect={false}
-                                selectTextOnFocus={true}
-                                underlineColorAndroid={"white"}
-                                onChangeText={this.onChangeEmailText}
-                                returnKeyType="next"
-                                autoCapitalize="none"
-                                onSubmitEditing={() => {
-                                    this.refs.password.focus();
-                                }}
-                            />
-                        </View>
+                        <EmailInput ref="email"
+                                    style={[formStyle.textInput,!this.state.isEmailValid && formStyle.invalidFormat]}
+                                    onChangeText={this.onChangeEmailText}
+                                    onSubmitEditing={() => {this.refs.password.focus();}}/>
 
                         {/* User password input */}
                         <View >

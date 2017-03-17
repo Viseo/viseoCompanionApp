@@ -25,6 +25,7 @@ import styles from "./../styles/form";
 import db from "../util/db";
 import * as util from "../util/util.js";
 import strings from "../util/localizedStrings";
+import EmailInput from './../components/emailInput';
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -137,26 +138,12 @@ export default class SignIn extends Component {
     }
 
     renderEmailInput() {
-        return (
-            <View>
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={email => this.setState({email})}
-                    placeholder={strings.email}
-                    ref="email"
-                    keyboardType="email-address"
-                    autoCorrect={false}
-                    selectTextOnFocus={true}
-                    underlineColorAndroid={"white"}
-                    returnKeyType="next"
-                    autoCapitalize="none"
-                    onSubmitEditing={() => {
-                            if(!this.autoSubmitFormWhenLastInputIsFilled())
-                                this.refs.password.focus();
-                        }
-                    }
-                />
-            </View>
+        return(
+            <EmailInput ref="email"
+                        onChangeText={email => this.setState({email})}
+                        onSubmitEditing={() => {
+                if(!this.autoSubmitFormWhenLastInputIsFilled())
+                                 this.refs.password.focus();}}/>
         );
     }
 

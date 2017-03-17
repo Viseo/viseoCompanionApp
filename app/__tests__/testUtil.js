@@ -16,6 +16,7 @@ import RecoverPassword from './../scenes/recoverPassword';
 import SignIn from './../scenes/signIn';
 import SignUp from './../scenes/signUp';
 import EventViewHeader from './../components/eventView/header';
+import EmailInput from './../components/emailInput';
 
 function checkFieldContent(component, fieldName, fieldValue) {
     expect(component.find('.' + fieldName).props().children).to.equal(fieldValue);
@@ -64,6 +65,11 @@ function changeText(component) {
     textInput.simulate('changeText');
 }
 
+function changeTextWithInputValue(component, inputValue) {
+    const textInput = component.find(TextInput).first();
+    textInput.simulate('changeText', { target: {value: inputValue} });
+}
+
 function createEventCard(props) {
     return shallow(<EventCard {...props}/>);
 }
@@ -90,6 +96,10 @@ function createSearchBar(props) {
 
 function createRecoverPasswordForm() {
     return shallow(<RecoverPassword/>);
+}
+
+function createEmailInput() {
+    return shallow(<EmailInput/>);
 }
 
 function callMethod(component, methodName, args) {
@@ -152,5 +162,7 @@ export default testUtil = {
     getChildComponent,
     checkMethodPassedByProp,
     createEventViewHeader,
-    checkChildComponentExists
+    checkChildComponentExists,
+    createEmailInput,
+    changeTextWithInputValue
 };
