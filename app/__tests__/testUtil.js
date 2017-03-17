@@ -15,6 +15,7 @@ import SearchBar from '../components/eventView/searchBar';
 import RecoverPassword from './../scenes/recoverPassword';
 import SignIn from './../scenes/signIn';
 import SignUp from './../scenes/signUp';
+import EventViewHeader from './../components/eventView/header';
 
 function checkFieldContent(component, fieldName, fieldValue) {
     expect(component.find('.' + fieldName).props().children).to.equal(fieldValue);
@@ -22,6 +23,24 @@ function checkFieldContent(component, fieldName, fieldValue) {
 
 function checkComponentExists(component, className) {
     expect(component.find('.' + className)).to.have.length(1);
+}
+
+function checkChildComponentExists(parent, child) {
+    expect(parent.find(child)).to.have.length(1);
+}
+
+function getChildComponent(parent, className) {
+    return parent.find('.' + className);
+}
+
+function executeProp(component, propName) {
+    component.props()[propName]();
+}
+
+function checkMethodPassedByProp(parentComponent, className, propName, method) {
+    checkComponentExists(parentComponent, className);
+    executeProp(getChildComponent(parentComponent, className), propName);
+    checkCall(method);
 }
 
 function checkFieldValueIsConform(container, field, fieldValue) {
@@ -61,6 +80,10 @@ function createFilterBar(props) {
     return shallow(<FilterBar {...props} />);
 }
 
+function createEventViewHeader(props) {
+    return shallow(<EventViewHeader {...props} />);
+}
+
 function createSearchBar(props) {
     return shallow(<SearchBar {...props} />);
 }
@@ -70,7 +93,7 @@ function createRecoverPasswordForm() {
 }
 
 function callMethod(component, methodName, args) {
-    return component[methodName](...args);
+    return component.instance()[methodName](...args);
 }
 
 function checkCall(checkCallFunction) {
@@ -101,7 +124,7 @@ function createCheckCallFunction() {
 }
 
 function compare(value, expectedValue) {
-    return expect(expectedValue).to.equal(value);
+    return expect(expectedValue).to.deep.equal(value);
 }
 
 export default testUtil = {
@@ -125,5 +148,9 @@ export default testUtil = {
     callMethod,
     compare,
     changeText,
-    checkCall
+    checkCall,
+    getChildComponent,
+    checkMethodPassedByProp,
+    createEventViewHeader,
+    checkChildComponentExists
 };

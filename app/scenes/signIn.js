@@ -223,7 +223,7 @@ export default class SignIn extends Component {
             <CheckBox
                 style={{flex: 1, padding: 10}}
                 onClick={this.onPressRememberMe}
-                isChecked={false}
+                isChecked={true}
                 rightText={strings.rememberMe}
             />
         );

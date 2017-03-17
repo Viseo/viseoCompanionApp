@@ -22,7 +22,7 @@ class SearchBar extends Component {
             && sourceString.indexOf(searchString) > -1;
     }
 
-    findMatchingData = (searchString) => {
+    findMatchingData = searchString => {
         let matchingData = [];
         let { dataSource } = this.props;
         dataSource.forEach( data => {
@@ -36,7 +36,7 @@ class SearchBar extends Component {
         return matchingData.slice();
     }
 
-    onChangeText = (searchString) => {
+    onChangeText = searchString => {
         let matchingData = this.findMatchingData(searchString);
         this.props.onSearch(this.props.dataSource, matchingData);
     }

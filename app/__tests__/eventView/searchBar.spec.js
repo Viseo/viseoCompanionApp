@@ -19,6 +19,7 @@ describe('SearchBar', () => {
     it('should search from the given data whenever the search bar is edited', () => {
         const onSearch = testUtil.createCheckCallFunction();
         const searchBar = testUtil.createSearchBar({
+            dataSource: [],
             onSearch
         });
         testUtil.changeText(searchBar);
@@ -26,17 +27,18 @@ describe('SearchBar', () => {
     });
 
     it('should return the matching data given a set of data and a search string ', () => {
-        const dataToSearchFrom = [
+        const dataSource = [
             {a: 'a', b: 'b', c: 'c'},
             {d: 'd', e: 'e', f: 'f'},
         ];
-        const searchBar = testUtil.createSearchBar();
-        let searchString = 'a';
-        let expectedResult = dataToSearchFrom[0];
-        let result = testUtil.callMethod(searchBar, 'search', {
-            dataToSearchFrom,
-            searchString
+        const searchBar = testUtil.createSearchBar({
+            dataSource,
+            onSearch: () => {}
         });
+        let searchString = 'a';
+        let expectedResult = [];
+        expectedResult.push(dataSource[0]);
+        let result = testUtil.callMethod(searchBar, 'findMatchingData', searchString);
         testUtil.compare(result,expectedResult);
     });
 
