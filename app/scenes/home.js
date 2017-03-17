@@ -95,7 +95,8 @@ export default class Home extends Component {
         this.props.navigator.push({
             title: 'EventDetails',
             passProps: {
-                event
+                event,
+                onParticipationChange: async () => { await this.onParticipationChange(event)}
             }
         });
     }
