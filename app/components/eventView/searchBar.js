@@ -72,5 +72,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         backgroundColor: '#FFFFFF',
         borderRadius: 2,
+        textAlign: 'center',
     },
 });

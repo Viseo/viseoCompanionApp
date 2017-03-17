@@ -18,13 +18,13 @@ import {
     Dimensions,
     Button,
     Alert,
-    TouchableHighlight,
+    TouchableHighlight
 } from "react-native";
-import CheckBox from 'react-native-check-box'
-import styles from './../styles/form';
-import db from '../util/db';
-import * as util from '../util/util.js';
-import strings from '../util/localizedStrings';
+import CheckBox from "react-native-check-box";
+import styles from "./../styles/form";
+import db from "../util/db";
+import * as util from "../util/util.js";
+import strings from "../util/localizedStrings";
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -105,7 +105,7 @@ export default class SignIn extends Component {
 
     render() {
         return (
-            <View style={{flex:1, justifyContent: 'center'}}>
+            <View style={{flex:1, justifyContent: 'center', backgroundColor:'white'}}>
                 <ScrollView>
                     <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
 

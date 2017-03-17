@@ -133,7 +133,7 @@ export default class SignUp extends React.Component {
 
     render() {
         return (
-            <View style={{flex:1, justifyContent: 'center'}}>
+            <View style={{flex:1, justifyContent: 'center', backgroundColor:'white'}}>
                 <ScrollView>
                     <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
 

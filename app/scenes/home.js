@@ -140,7 +140,7 @@ export default class Home extends Component {
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
 
         return (
-            <View style={{flex:1, marginTop:(Platform.OS === 'ios') ? 20 : 0}}>
+            <View style={{flex:1, backgroundColor:'white'}}>
                 <Header/>
                 <ScrollView
                     refreshControl={
