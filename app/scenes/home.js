@@ -26,9 +26,9 @@ import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
 import strings from './../util/localizedStrings';
-import EventCard from './../components/eventCard';
 import ListViewHeader from './../components/eventView/header';
 import Header from './../components/header';
+import EventView from './../components/eventView/eventView';
 
 export default class Home extends Component {
 
@@ -38,11 +38,9 @@ export default class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.allEvents = {};
-        this.showedEvents = {};
-        var ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
         this.state = {
-            dataSource: ds,
+            allEvents: [],
+            showedEvents: [],
             loaded: false,
             refreshing: false,
             isSearching: false,
@@ -59,51 +57,44 @@ export default class Home extends Component {
         this.setState({
             refreshing: true
         });
-        this.allEvents = await db.getEvents();
-        for (let key in this.allEvents) {
-            let eventWithParticipationInfo = this.allEvents[key];
+        let allEvents = await db.getEvents();
+        for (let key in allEvents) {
+            let eventWithParticipationInfo = allEvents[key];
             let user = await db.getEventParticipant(eventWithParticipationInfo.id, this.props.user.id);
             eventWithParticipationInfo.participating = !!user;
         }
-        this.updateEventList(this.allEvents);
+        this.setState({
+            allEvents
+        })
+        this.updateEventList(this.state.allEvents);
     }
 
     updateEventList = events => {
-        this.showedEvents = events.slice();
+        let showedEvents = events.slice();
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.showedEvents),
+            showedEvents,
             loaded: true,
             refreshing: false
-        });
-    }
-
-    onParticipationChange = async(changedEvent) => {
-        this.showedEvents = this.showedEvents.map(event => {
-            return event.id === changedEvent.id ?
-                {...event, participating: !changedEvent.participating} :
-                event;
-        });
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.showedEvents),
-        });
-        await changedEvent.participating ?
-            db.removeEventParticipant(changedEvent.id, this.props.user.id) :
-            db.addEventParticipant(changedEvent.id, this.props.user.id);
-    }
-
-    onPressEventCard = (event) => {
-        this.props.navigator.push({
-            title: 'EventDetails',
-            passProps: {
-                event,
-                onParticipationChange: async () => { await this.onParticipationChange(event)}
-            }
         });
     }
 
     onSearch = (eventSource, matchingEvents) => {
         let eventsToShow = matchingEvents.length > 0 ? matchingEvents : eventSource;
         this.updateEventList(eventsToShow);
+    }
+
+    onParticipationChange = async(changedEvent) => {
+        let showedEvents = this.state.showedEvents.map(event => {
+            return event.id === changedEvent.id ?
+                {...event, participating: !event.participating} :
+                event;
+        });
+        this.setState({
+            showedEvents
+        });
+        await changedEvent.participating ?
+            db.removeEventParticipant(changedEvent.id, this.props.user.id) :
+            db.addEventParticipant(changedEvent.id, this.props.user.id);
     }
 
     onParticipationFilterChanged = async() => {
@@ -118,6 +109,18 @@ export default class Home extends Component {
             this.reloadEventList();
     }
 
+    onPressEventCard = (event) => {
+        this.props.navigator.push({
+            title: 'EventDetails',
+            passProps: {
+                event,
+                onParticipationChange: async() => {
+                    await this.onParticipationChange(event)
+                }
+            }
+        });
+    }
+
     showEventsWhereCurrentUserIsGoing = async() => {
         let events = await db.getEventsWithParticipant(this.props.user.id);
         for (let key in events) {
@@ -127,17 +130,19 @@ export default class Home extends Component {
     }
 
     render() {
-        let eventList;
-        if (this.state.loaded) {
-            let hasEvents = this.allEvents && this.allEvents.length;
-            eventList = hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
-        } else {
-            this.renderLoadingIndicator();
-        }
+        // let eventList;
+        // if (this.state.loaded) {
+        //     let hasEvents = this.allEvents && this.allEvents.length;
+        //     eventList = hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
+        // } else {
+        //     this.renderLoadingIndicator();
+        // }
+        //
 
         // For now only the admin can create allEvents through the admin page
         let allowEventCreation = false;
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
+
 
         return (
             <View style={{flex:1, backgroundColor:'white'}}>
@@ -154,10 +159,33 @@ export default class Home extends Component {
                         backgroundColor:'lightgrey'
                     }}
                 >
-                    {eventList}
+                    {this.renderEventView()}
                 </ScrollView>
                 {createEventButton}
             </View>
+        );
+    }
+
+    renderEventView() {
+        const filters = {
+            participation: this.onParticipationFilterChanged,
+        };
+        let searchBar = {
+            dataSource: this.state.allEvents,
+            onSearch: this.onSearch
+        }
+        return (
+            <EventView
+                header={
+                    <ListViewHeader
+                        filters={filters}
+                        searchBar={searchBar}
+                   />
+                }
+                events={this.state.showedEvents}
+                onPressEventCard={this.onPressEventCard}
+                onParticipationChange={this.onParticipationChange}
+            />
         );
     }
 
@@ -168,43 +196,6 @@ export default class Home extends Component {
                     <Icon name="md-create" style={styles.actionButtonIcon}/>
                 </ActionButton.Item>
             </ActionButton>
-        );
-    }
-
-    renderEventCard = event => {
-        return (
-            <EventCard
-                title={event.name}
-                description={event.description}
-                location={event.location}
-                date={event.getTime()}
-                participating={event.participating}
-                onParticipationChange={async () => { await this.onParticipationChange(event)}}
-                onPress={() => {this.onPressEventCard(event)}}
-            />
-        );
-    }
-
-    renderEvents() {
-        const filters = {
-            participation: this.onParticipationFilterChanged,
-        };
-        let searchBar = {
-            dataSource: this.allEvents,
-            onSearch: this.onSearch
-        }
-        return (
-            <ListView
-                navigator={this.props.navigator}
-                dataSource={this.state.dataSource}
-                renderRow={this.renderEventCard}
-                renderHeader={() =>
-                    <ListViewHeader
-                        filters={filters}
-                        searchBar={searchBar}
-                   />
-                }
-            />
         );
     }
 

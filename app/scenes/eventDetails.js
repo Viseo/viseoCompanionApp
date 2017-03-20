@@ -26,26 +26,6 @@ let {
     width: deviceWidth
 } = Dimensions.get('window');
 
-//todo prettier URL routing
-let REQUEST_URL7P1 = setting.ACCOUNT_API_URL + '/account/getIdAccount/';
-let REQUEST_URL7P2 = '/events';
-let REQUEST_URL7 = '';
-
-let REQUEST_URL5P1 = setting.ACCOUNT_API_URL + '/account/participationEvent/';
-let REQUEST_URL5P2 = '/events/';
-let REQUEST_URL5 = '';
-
-let REQUEST_URL10P1 = setting.ACCOUNT_API_URL + '/account/getParticipation/';
-let REQUEST_URL10P2 = '/events/';
-let REQUEST_URL10 = '';
-
-let REQUEST_URL11P1 = setting.ACCOUNT_API_URL + '/account/doneParticipation/';
-let REQUEST_URL11P2 = '/events/';
-let REQUEST_URL11 = '';
-
-let participation = '';
-
-
 function addZero(i) {
     if (i < 10) {
         i = "0" + i;
@@ -57,109 +37,9 @@ export default class EventDetails extends React.Component {
 
     constructor(props) {
         super(props);
-        this._acceptEvent = this._acceptEvent.bind(this);
-        //this._showParticipation=this._showParticipation.bind(this);
         this.state = {
             statut: '',
         };
-    }
-
-    //todo show the participation when the logged-in navigation is going to be available
-    _showParticipation() {
-        let REQUEST_URL7main = this.props.email;
-        REQUEST_URL7 = REQUEST_URL7P1 + REQUEST_URL7main + REQUEST_URL7P2;
-        console.log(REQUEST_URL7);// un beau commit
-
-        // 1 get account id from email
-        // /account/getIdAccount/ email /allEvents'
-
-        fetch(REQUEST_URL7)
-            .then((response) => response.json())
-            .then((responseData1) => {
-                console.log(responseData1);
-                REQUEST_URL11 = REQUEST_URL11P1 + responseData1 + REQUEST_URL11P2 + this.props.event.id;
-                console.log(REQUEST_URL11);
-
-                // 2 did current user participate(is interested in?) to this event
-                // /account/doneParticipation/ response /allEvents/ eventId
-                fetch(REQUEST_URL11)
-                    .then((response) => response.json())
-                    .then((responseData2) => {
-                        console.log(responseData2);
-                        if (responseData2 === false) {
-                            this.setState({statut: ''});
-                        }
-                        else {
-                            REQUEST_URL10 = REQUEST_URL10P1 + responseData1 + REQUEST_URL10P2 + this.props.event.id;
-                            console.log(REQUEST_URL10);
-
-                            // is participate checked
-                            // /account/getParticipation/ accountId /allEvents/ eventIid
-                            fetch(REQUEST_URL10)
-                                .then((response) => response.json())
-                                .then((responseData3) => {
-                                    console.log(responseData3);
-                                    if (responseData3 === true) {
-                                        this.setState({
-                                            statut_color: 'green',
-                                            statut: 'Je participe.',
-                                            _okButton: okButton2
-                                        });
-                                    }
-                                    else {
-                                        this.setState({
-                                            statut_color: 'red',
-                                            statut: 'Je ne participe pas.',
-                                            _crossButton: crossButton2
-                                        });
-                                    }
-                                    console.log("*********************************");
-                                    console.log(this.state.statut);
-                                })
-                                .done();
-                        }
-                    })
-                    .done();
-            })
-            .done();
-
-    }
-
-    _acceptEvent(participation) {
-        fetch(REQUEST_URL7)
-            .then((response) => response.json())
-            .then((responseData) => {
-                console.log(responseData);
-                REQUEST_URL5 = REQUEST_URL5P1 + responseData + REQUEST_URL5P2 + this.props.event.id + "/" + participation;
-                console.log(REQUEST_URL5);
-                fetch(REQUEST_URL5)
-                    .then((response) => response.json())
-                    .then((responseData) => {
-                        console.log(responseData);
-                    })
-                    .done()
-            })
-            .done();
-        if (participation === true) {
-            this.setState({
-                statut: 'Je participe.',
-                statut_color: 'green',
-                _okButton: okButton2,
-                _crossButton: crossButton
-            });
-        }
-        else {
-            this.setState({
-                statut: 'Je ne participe pas.',
-                statut_color: 'red',
-                _okButton: okButton,
-                _crossButton: crossButton2
-            });
-        }
-    }
-
-    onPressParticipate() {
-
     }
 
     render() {
@@ -173,7 +53,6 @@ export default class EventDetails extends React.Component {
 
     renderEventInfo() {
         let event = this.props.event;
-
         return (
             <View style={styles.maincontainer}>
                 <View style={styles.container}>
@@ -186,12 +65,10 @@ export default class EventDetails extends React.Component {
                         {this.renderEventLocation(event.location)}
                         {this.renderEventKeywords('all keywords here')}
                         {this.renderEventDescription(event.description)}
-
                         <View style={styles.MapContainer}>
                             <Image source={require('../images/sampleImage.jpg')} style={styles.carte}/>
                         </View>
                     </ScrollView>
-
                     {this.renderParticipateToEventButton()}
                 </View>
             </View>

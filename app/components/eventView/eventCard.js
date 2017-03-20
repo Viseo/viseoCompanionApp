@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState} from 'react-native';
 import CheckBox from 'react-native-check-box';
 import Swipeout from 'react-native-swipe-out';
-import strings from './../util/localizedStrings';
+import strings from '../../util/localizedStrings';
 
 export default class EventCard extends Component {
 

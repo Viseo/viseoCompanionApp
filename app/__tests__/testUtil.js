@@ -8,7 +8,7 @@ import {
     StyleSheet
 } from 'react-native';
 import {shallow} from "enzyme";
-import EventCard from './../components/eventCard';
+import EventCard from '../components/eventView/eventCard';
 import Filter from '../components/eventView/filter';
 import FilterBar from '../components/eventView/filterBar';
 import SearchBar from '../components/eventView/searchBar';
@@ -18,6 +18,7 @@ import SignUp from './../scenes/signUp';
 import EventViewHeader from './../components/eventView/header';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
+import Home from './../scenes/home';
 
 function checkFieldContent(component, fieldName, fieldValue) {
     expect(component.find('.' + fieldName).props().children).to.equal(fieldValue);
@@ -85,6 +86,10 @@ function createFilter(props) {
 
 function createFilterBar(props) {
     return shallow(<FilterBar {...props} />);
+}
+
+function createHome(props) {
+    return shallow(<Home {...props} />);
 }
 
 function createEventViewHeader(props) {
@@ -171,4 +176,6 @@ export default testUtil = {
     createEmailInput,
     changeTextWithInputValue,
     createPasswordInput
+    checkChildComponentExists,
+    createHome
 };

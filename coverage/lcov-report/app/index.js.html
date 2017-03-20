@@ -22,22 +22,22 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/42</span>
+        <span class='fraction'>0/37</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/22</span>
+        <span class='fraction'>0/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/5</span>
+        <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/42</span>
+        <span class='fraction'>0/37</span>
       </div>
     </div>
   </div>
@@ -128,27 +128,9 @@
 83
 84
 85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+86</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -190,27 +172,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -252,7 +218,6 @@
  */
 <span class="cstat-no" title="statement not covered" >import React, {Component} from 'react';</span>
 <span class="cstat-no" title="statement not covered" >import {View, Text, Navigator, BackAndroid} from 'react-native';</span>
-<span class="cstat-no" title="statement not covered" >import TestScene from './scenes/testScene';</span>
 <span class="cstat-no" title="statement not covered" >import SignIn from './scenes/signIn';</span>
 <span class="cstat-no" title="statement not covered" >import SignUp from './scenes/signUp';</span>
 <span class="cstat-no" title="statement not covered" >import RecoverPassword from './scenes/recoverPassword';</span>
@@ -288,32 +253,16 @@ export default class ViseoCompanion extends Component {
             {title: 'SignIn'},
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
-            {title: 'TestScene'},
             {title: 'EventDetails'},
             {title: 'EventCardTestScene'},
             {title: 'EventsWithParticipantsTestScene'},
         ];
 <span class="cstat-no" title="statement not covered" >        return (</span>
             &lt;Navigator
-                initialRoute={routes[0]}
+                initialRoute={routes[1]}
                 renderScene={<span class="fstat-no" title="function not covered" >(</span>route, navigator) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    this.navigator = navigator;</span>
-<span class="cstat-no" title="statement not covered" >                    if(route.title === 'TestScene') {</span>
-<span class="cstat-no" title="statement not covered" >                        return (</span>
-                            &lt;TestScene
-                                onForward={<span class="fstat-no" title="function not covered" >() =&gt; </span>{
-<span class="cstat-no" title="statement not covered" >                                    navigator.push({</span>
-                                        title: 'SignIn'
-                                    });
-                                }}
-                                onPrint={<span class="fstat-no" title="function not covered" >() =&gt; </span>{
-<span class="cstat-no" title="statement not covered" >                                    navigator.push({</span>
-                                        title: 'Home'
-                                    });
-                                }}
-                            /&gt;
-                        );
-                    } else <span class="cstat-no" title="statement not covered" >if(route.title === 'SignIn') {</span>
+<span class="cstat-no" title="statement not covered" >                    if(route.title === 'SignIn') {</span>
 <span class="cstat-no" title="statement not covered" >                        return (</span>
                             &lt;SignIn navigator={navigator} {...route.passProps}/&gt;
                         );
@@ -355,7 +304,7 @@ export default class ViseoCompanion extends Component {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 17 2017 11:17:39 GMT+0100 (Paris, Madrid)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 17 2017 15:11:02 GMT+0100 (Paris, Madrid)
 </div>
 </div>
 <script src="..\prettify.js"></script>

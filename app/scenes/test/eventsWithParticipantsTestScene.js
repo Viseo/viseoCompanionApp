@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {View, ListView, Text, TouchableHighlight, Picker, StyleSheet, AppState} from 'react-native';
-import EventCard from '../../components/eventCard';
+import EventCard from '../../components/eventView/eventCard';
 import db from '../../util/db';
 
 export default class EventsWithParticipantsTestScene extends Component {

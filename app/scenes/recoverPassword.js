@@ -8,7 +8,7 @@ class RecoverPassword extends Component {
 
     render() {
         return (
-            <View>
+            <View style={{backgroundColor:'white'}}>
                 <Text>Recover password form</Text>
             </View>
         )

@@ -5,30 +5,50 @@ import React, {Component} from 'react';
 import {
     View,
     TextInput,
-    StyleSheet
+    StyleSheet,
+    ListView,
+    Keyboard
 } from 'react-native';
+import EventCard from './eventCard';
 
 export default class EventView extends Component {
 
     constructor(props) {
         super(props);
+        this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+        this.state = {
+            dataSource: this.ds.cloneWithRows(this.props.events)
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            dataSource: this.ds.cloneWithRows(nextProps.events)
+        });
     }
 
     render() {
         return (
             <ListView
-                navigator={this.props.navigator}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderEventCard}
-                renderHeader={() =>
-                    <ListViewHeader
-                        filters={filters}
-                        searchBar={searchBar}
-                   />
-                }
+                renderHeader={() => {return this.props.header}}
             />
         );
     }
 
+    renderEventCard = event => {
+        return (
+            <EventCard
+                title={event.name}
+                description={event.description}
+                location={event.location}
+                date={event.getTime()}
+                participating={event.participating}
+                onParticipationChange={async () => { await this.props.onParticipationChange(event)}}
+                onPress={() => {this.props.onPressEventCard(event)}}
+            />
+        );
+    }
 
 }

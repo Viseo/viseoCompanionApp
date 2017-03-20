@@ -3,7 +3,6 @@
  */
 import React, {Component} from 'react';
 import {View, Text, Navigator, BackAndroid} from 'react-native';
-import TestScene from './scenes/testScene';
 import SignIn from './scenes/signIn';
 import SignUp from './scenes/signUp';
 import RecoverPassword from './scenes/recoverPassword';
@@ -39,32 +38,16 @@ export default class ViseoCompanion extends Component {
             {title: 'SignIn'},
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
-            {title: 'TestScene'},
             {title: 'EventDetails'},
             {title: 'EventCardTestScene'},
             {title: 'EventsWithParticipantsTestScene'},
         ];
         return (
             <Navigator
-                initialRoute={routes[1]}
+                initialRoute={routes[0]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
-                    if(route.title === 'TestScene') {
-                        return (
-                            <TestScene
-                                onForward={() => {
-                                    navigator.push({
-                                        title: 'SignIn'
-                                    });
-                                }}
-                                onPrint={() => {
-                                    navigator.push({
-                                        title: 'Home'
-                                    });
-                                }}
-                            />
-                        );
-                    } else if(route.title === 'SignIn') {
+                    if(route.title === 'SignIn') {
                         return (
                             <SignIn navigator={navigator} {...route.passProps}/>
                         );

@@ -8,7 +8,7 @@ import {
     View,
 } from "react-native";
 import { shallow } from "enzyme";
-import EventCard from './../components/eventCard';
+import EventCard from '../components/eventView/eventCard';
 import Event from './../util/event';
 import testUtil from './testUtil';
 
