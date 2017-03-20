@@ -89,7 +89,8 @@ async function getEvents() {
                 event.name,
                 event.description,
                 event.datetime,
-                event.place
+                event.place,
+                event.category
             ));
         }
         return events;
@@ -188,7 +189,8 @@ async function getEventsWithParticipant(userId) {
                 event.name,
                 event.description,
                 event.datetime,
-                event.place
+                event.place,
+                event.category
             ));
         }
         return events;

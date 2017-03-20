@@ -8,7 +8,8 @@ export default class Event {
         name,
         description,
         date,
-        location
+        location,
+        category
     ) {
 
         this.id = id;
@@ -16,6 +17,7 @@ export default class Event {
         this.description = description;
         this.date = date;
         this.location = location;
+        this.category = category
     }
 
     getTime = () => {

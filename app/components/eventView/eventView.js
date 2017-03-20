@@ -45,6 +45,7 @@ export default class EventView extends Component {
                 location={event.location}
                 date={event.getTime()}
                 participating={event.participating}
+                categoryId={event.category}
                 onParticipationChange={async () => { await this.props.onParticipationChange(event)}}
                 onPress={() => {this.props.onPressEventCard(event)}}
             />
