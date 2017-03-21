@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import EventCard from './eventCard';
 
-export default class EventView extends Component {
+export default class EventListView extends Component {
 
     constructor(props) {
         super(props);
@@ -30,6 +30,7 @@ export default class EventView extends Component {
     render() {
         return (
             <ListView
+                enableEmptySections={true}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderEventCard}
                 renderHeader={() => {return this.props.header}}
@@ -40,7 +41,7 @@ export default class EventView extends Component {
     renderEventCard = event => {
         return (
             <EventCard
-                title={event.name}
+                name={event.name}
                 description={event.description}
                 location={event.location}
                 date={event.getTime()}
@@ -48,6 +49,7 @@ export default class EventView extends Component {
                 categoryId={event.category}
                 onParticipationChange={async () => { await this.props.onParticipationChange(event)}}
                 onPress={() => {this.props.onPressEventCard(event)}}
+                searchWords={event.searchWords}
             />
         );
     }

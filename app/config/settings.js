@@ -38,10 +38,13 @@ const restRoutes = {
         return SERVER_API_URL + 'events/' + eventId + '/users/' + userId;
     },
     getEventsWithParticipant: (userId) => {
-        return SERVER_API_URL + '/events/users/' + userId;
+        return SERVER_API_URL + 'events/users/' + userId;
     },
     getUserByEmail: email => {
-        return SERVER_API_URL + '/users/emails/' + email + '/';
+        return SERVER_API_URL + 'users/emails/' + email + '/';
+    },
+    getEventsByRegisteredUser: userId => {
+        return SERVER_API_URL + 'events/users/' + userId;
     }
 }
 

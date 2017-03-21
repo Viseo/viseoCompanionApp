@@ -25,22 +25,24 @@ import {
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
-import strings from './../util/localizedStrings';
-import ListViewHeader from './../components/eventView/header';
+import ListViewHeader from './../components/events/header';
 import Header from './../components/header';
-import EventView from './../components/eventView/eventView';
+import EventListView from './../components/events/eventListView';
 
 export default class Home extends Component {
 
     static defaultProps = {
         user: {id: 1}
-    }
+    };
 
     constructor(props) {
         super(props);
         this.state = {
             allEvents: [],
             showedEvents: [],
+            selectedCategoriesId: [],
+            filteredOnParticipation: [],
+            filteredOnCategories: [],
             loaded: false,
             refreshing: false,
             isSearching: false,
@@ -50,38 +52,31 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        this.reloadEventList();
+        this.loadEvents();
     }
 
-    reloadEventList = async() => {
+    loadEvents = async() => {
         this.setState({
             refreshing: true
         });
         let allEvents = await db.getEvents();
-        for (let key in allEvents) {
-            let eventWithParticipationInfo = allEvents[key];
-            let user = await db.getEventParticipant(eventWithParticipationInfo.id, this.props.user.id);
-            eventWithParticipationInfo.participating = !!user;
-        }
-        this.setState({
-            allEvents
-        })
-        this.updateEventList(this.state.allEvents);
-    }
-
-    updateEventList = events => {
-        let showedEvents = events.slice();
-        this.setState({
-            showedEvents,
-            loaded: true,
-            refreshing: false
+        let eventsWhereLoggedUserIsGoing = await db.getEventsByRegisteredUser(this.props.user.id);
+        allEvents.forEach(event => {
+            let participating = false;
+            for (let key in eventsWhereLoggedUserIsGoing) {
+                if (eventsWhereLoggedUserIsGoing[key].id === event.id) {
+                    participating = true;
+                    break;
+                }
+            }
+            event.participating = participating;
         });
-    }
-
-    onSearch = (eventSource, matchingEvents) => {
-        let eventsToShow = matchingEvents.length > 0 ? matchingEvents : eventSource;
-        this.updateEventList(eventsToShow);
-    }
+        this.setState({
+            allEvents,
+            filteredOnParticipation : allEvents
+        });
+        this.updateEventList(this.state.allEvents);
+    };
 
     onParticipationChange = async(changedEvent) => {
         let showedEvents = this.state.showedEvents.map(event => {
@@ -95,7 +90,7 @@ export default class Home extends Component {
         await changedEvent.participating ?
             db.removeEventParticipant(changedEvent.id, this.props.user.id) :
             db.addEventParticipant(changedEvent.id, this.props.user.id);
-    }
+    };
 
     onParticipationFilterChanged = async() => {
         let selectFilter = !this.state.participationFilterSelected;
@@ -104,10 +99,46 @@ export default class Home extends Component {
             participationFilterSelected: selectFilter
         });
         Keyboard.dismiss();
-        selectFilter ?
-            this.showEventsWhereCurrentUserIsGoing() :
-            this.reloadEventList();
+        if(selectFilter){
+            this.showEventsWhereCurrentUserIsGoing();
+        }
+        else if(this.state.selectedCategoriesId.length > 0 && this.state.filteredOnCategories.length > 0){
+            this.updateEventList(this.state.filteredOnCategories)
+        }
+        else{
+            this.loadEvents();
+        }
     }
+
+    onCategoryFilterChanged = (categoryId) => {
+        this.refreshSelectedCategoriesIds(categoryId);
+        Keyboard.dismiss();
+        if(this.state.selectedCategoriesId.length > 0){
+            this.showEventsOfSelectedCategories();
+        }
+        else if(this.state.participationFilterSelected && this.state.filteredOnParticipation.length > 0){
+            this.updateEventList(this.state.filteredOnParticipation)
+        }
+        else{
+            this.loadEvents();
+        }
+    }
+
+    refreshSelectedCategoriesIds = (categoryId) => {
+        let ids = this.state.selectedCategoriesId;
+        var index = ids.indexOf(categoryId);
+        if(index > -1){
+            ids.splice(index, 1);
+        }
+        else{
+            ids.push(categoryId);
+        }
+        if(ids.length === 0){
+            this.setState({filteredOnCategories: []});
+        }
+        this.setState({selectedCategoriesId: ids});
+    }
+
 
     onPressEventCard = (event) => {
         this.props.navigator.push({
@@ -121,13 +152,20 @@ export default class Home extends Component {
         });
     }
 
-    showEventsWhereCurrentUserIsGoing = async() => {
-        let events = await db.getEventsWithParticipant(this.props.user.id);
-        for (let key in events) {
-            events[key].participating = true;
-        }
-        this.updateEventList(events);
-    }
+    onSearch = (eventSource, searchString, matchingEvents) => {
+        // matchingEvents.forEach(event => {
+        //     let {searchResults} = event;
+        //     searchResults.forEach(searchResult => {
+        //         let searchWord = {};
+        //         searchWord[foundInProperty] = searchString;
+        //         event.searchWords = searchWord;
+        //     });
+        //     if (foundInProperty) {
+        //     }
+        // });
+        let eventsToShow = matchingEvents.length > 0 ? matchingEvents : eventSource;
+        this.updateEventList(eventsToShow);
+    };
 
     render() {
         // let eventList;
@@ -151,7 +189,7 @@ export default class Home extends Component {
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
-                            onRefresh={this.reloadEventList}
+                            onRefresh={this.loadEvents}
                         />
                     }
                     scrollEventThrottle={200}
@@ -169,13 +207,14 @@ export default class Home extends Component {
     renderEventView() {
         const filters = {
             participation: this.onParticipationFilterChanged,
+            category: this.onCategoryFilterChanged
         };
         let searchBar = {
             dataSource: this.state.allEvents,
             onSearch: this.onSearch
         }
         return (
-            <EventView
+            <EventListView
                 header={
                     <ListViewHeader
                         filters={filters}
@@ -220,9 +259,64 @@ export default class Home extends Component {
             />
         );
     }
+
+    showEventsWhereCurrentUserIsGoing = async() => {
+        let events = await db.getEventsWithParticipant(this.props.user.id);
+        for (let key in events) {
+            events[key].participating = true;
+        }
+        this.setState({filteredOnParticipation: events});
+        if(this.state.selectedCategoriesId.length > 0 && this.state.filteredOnCategories.length > 0){
+            events = [];
+            for(let i=0; i < this.state.filteredOnCategories.length; i++){
+                if(this.state.filteredOnCategories[i].participating === true){
+                    events.push(this.state.filteredOnCategories[i]);
+                }
+            }
+        }
+        this.updateEventList(events);
+    }
+
+    showEventsOfSelectedCategories = () => {
+        let events = [];
+        for(let i=0; i < this.state.selectedCategoriesId.length; i++){
+            let selectedEvents = this.findEventsByCategory(this.state.allEvents, this.state.selectedCategoriesId[i]);
+            events = events.concat(selectedEvents);
+        }
+        this.setState({filteredOnCategories: events});
+        if(this.state.participationFilterSelected && this.state.filteredOnParticipation.length > 0){
+            let participatingInCategory = [];
+            for(let i=0; i < events.length; i++){
+                if(events[i].participating === true){
+                    participatingInCategory.push(events[i]);
+                }
+            }
+            events = participatingInCategory;
+        }
+        this.updateEventList(events);
+    }
+
+    findEventsByCategory(events, categoryId){
+        let matchingData = [];
+        for(let key in events){
+            if(events[key].category === categoryId){
+                matchingData.push(events[key]);
+            }
+        }
+        return matchingData;
+    }
+
+    updateEventList = events => {
+        let showedEvents = events.slice();
+        this.setState({
+            showedEvents,
+            loaded: true,
+            refreshing: false
+        });
+    };
 }
 
-var {
+const {
     height: deviceHeight,
     width: deviceWidth,
 } = Dimensions.get('window');

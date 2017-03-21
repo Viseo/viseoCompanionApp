@@ -24,13 +24,22 @@ class SearchBar extends Component {
 
     findMatchingData = searchString => {
         let matchingData = [];
-        let { dataSource } = this.props;
-        dataSource.forEach( data => {
+        let {dataSource} = this.props;
+        dataSource.forEach(data => {
+            let searchResults = {
+                searchString,
+                properties : []
+            };
             for (let key in data) {
+                if (typeof data[key] === "function" || !data[key])
+                    continue;
                 if (this.containsString(data[key], searchString)) {
-                    matchingData.push(data);
-                    break;
+                    searchResults.properties.push(key);
                 }
+            }
+            data.searchWords = searchResults;
+            if (searchResults.properties.length > 0) {
+                matchingData.push(data);
             }
         });
         return matchingData.slice();
@@ -38,7 +47,7 @@ class SearchBar extends Component {
 
     onChangeText = searchString => {
         let matchingData = this.findMatchingData(searchString);
-        this.props.onSearch(this.props.dataSource, matchingData);
+        this.props.onSearch(this.props.dataSource, searchString, matchingData);
     }
 
     render() {

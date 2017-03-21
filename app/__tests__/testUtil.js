@@ -8,14 +8,14 @@ import {
     StyleSheet
 } from 'react-native';
 import {shallow} from "enzyme";
-import EventCard from '../components/eventView/eventCard';
-import Filter from '../components/eventView/filter';
-import FilterBar from '../components/eventView/filterBar';
-import SearchBar from '../components/eventView/searchBar';
+import EventCard from '../components/events/eventCard';
+import Filter from '../components/events/filter';
+import FilterBar from '../components/events/filterBar';
+import SearchBar from '../components/events/searchBar';
 import RecoverPassword from './../scenes/recoverPassword';
 import SignIn from './../scenes/signIn';
 import SignUp from './../scenes/signUp';
-import EventViewHeader from './../components/eventView/header';
+import EventViewHeader from '../components/events/header';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
 import Home from './../scenes/home';
@@ -29,6 +29,7 @@ function checkComponentExists(component, className) {
 }
 
 function checkChildComponentExists(parent, child) {
+    let c = parent.find(child);
     expect(parent.find(child)).to.have.length(1);
 }
 
@@ -175,7 +176,6 @@ export default testUtil = {
     checkChildComponentExists,
     createEmailInput,
     changeTextWithInputValue,
-    createPasswordInput
-    checkChildComponentExists,
+    createPasswordInput,
     createHome
 };

@@ -19,15 +19,15 @@ class FilterBar extends Component {
             <View style={styles.container}>
                 <Filter
                     className="important"
-                    onFilter={() => {this.props.important()}}
+                    onFilter={() => {this.props.category(0)}}
                 />
                 <Filter
                     className="optional"
-                    onFilter={() => {this.props.optional()}}
+                    onFilter={() => {this.props.category(1)}}
                 />
                 <Filter
                     className="other"
-                    onFilter={() => {this.props.other()}}
+                    onFilter={() => {this.props.category(2)}}
                 />
                 <Filter
                     className="participation"
