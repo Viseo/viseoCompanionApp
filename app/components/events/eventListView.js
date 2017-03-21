@@ -44,7 +44,7 @@ export default class EventListView extends Component {
                 name={event.name}
                 description={event.description}
                 location={event.location}
-                date={event.getTime()}
+                date={event.getDateToString()}
                 participating={event.participating}
                 categoryId={event.category}
                 onParticipationChange={async () => { await this.props.onParticipationChange(event)}}

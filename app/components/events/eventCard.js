@@ -2,9 +2,9 @@
  * Created by AAB3605 on 10/03/2017.
  */
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState} from 'react-native';
-import CheckBox from 'react-native-check-box';
+import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState, Dimensions} from 'react-native';
 import Swipeout from 'react-native-swipe-out';
+import AppText from '../appText';
 import strings from '../../util/localizedStrings';
 import Highlighter from 'react-native-highlight-words';
 
@@ -110,12 +110,12 @@ export default class EventCard extends Component {
     renderEventInfo() {
         return (
             <View style={styles.eventInfo}>
-                <View style={styles.firstRow}>
+                <View style={styles.firstColumn}>
                     {this.renderTitle()}
-                    {this.renderDateAndLocation()}
-                </View>
-                <View style={styles.secondRow}>
                     {this.renderDescription()}
+                </View>
+                <View style={styles.secondColumn}>
+                    {this.renderDateAndLocation()}
                 </View>
             </View>
         );
@@ -125,7 +125,7 @@ export default class EventCard extends Component {
         return (
             <Highlighter
                 highlightStyle={{backgroundColor: 'yellow'}}
-                style={styles.eventName}
+                style={[styles.eventName, styleFont.textFont]}
                 searchWords={this.getSearchWords('name')}
                 textToHighlight={this.getBriefIfTextIsTooLong(this.props.name, 28)}
             />
@@ -136,7 +136,7 @@ export default class EventCard extends Component {
         return (
             <Highlighter
                 highlightStyle={{backgroundColor: 'yellow'}}
-                style={styles.eventDescription}
+                style={[styles.eventDescription, styleFont.textFont]}
                 searchWords={this.getSearchWords('description')}
                 textToHighlight={this.getBriefIfTextIsTooLong(this.props.description, 120)}
             />
@@ -144,40 +144,24 @@ export default class EventCard extends Component {
     }
 
     renderDateAndLocation() {
-        //todo find a solution to correctly prompt the Date&location in several div
         return (
             <View style={styles.eventLocation}>
-                <Text style={styles.eventLocationText}>
-                    {this.props.date}
-                    {" " + strings.at + " "}
-                    {this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(), 35)}
-                </Text>
-                {/*<Text className="info date" style={styles.eventLocationText}>*/}
-                {/*{this.props.date}*/}
-                {/*</Text>*/}
-                {/*<Text style={styles.eventLocationText}>*/}
-                {/*{" "+ strings.at + " "}*/}
-                {/*</Text>*/}
-                {/*<Text className="info location" style={styles.eventLocationText}>*/}
-                {/*{this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(),30)}*/}
-                {/*</Text>*/}
+                     <AppText className="info date" style={styles.eventLocationText}>
+                         {this.props.date}
+                     </AppText>
+                     <AppText className="info location" style={styles.eventLocationText}>
+                         {this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(),30)}
+                     </AppText>
             </View>
 
-        );
-    }
-
-    renderParticipateCheckBox() {
-        return (
-            <View>
-                <CheckBox className="participate"
-                          onClick={this.props.toggleParticipation}
-                          isChecked={false}
-                          rightText={"Going"}
-                />
-            </View>
         );
     }
 }
+
+let {
+    height: deviceHeight,
+    width: deviceWidth
+} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     dotContainer: {
@@ -192,56 +176,64 @@ const styles = StyleSheet.create({
         height: 10,
         borderRadius: 50,
     },
-    firstRow: {
+    eventInfo: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        padding: 5,
+        borderBottomWidth: 0.8,
+        borderBottomColor: '#999999'
     },
-    secondRow: {
+    firstColumn: {
+        flex:3,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    secondColumn: {
         flex: 1,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
     },
     eventName: {
-        flex: 2,
+        flex: 3,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 16,
+        fontSize: 19,
         color: 'black',
     },
     eventDescription: {
         flex: 1,
         textAlign: 'left',
-        fontSize: 13,
+        fontWeight: '500',
+        fontSize: 14,
+        color: "#aaaaaa",
     },
     eventLocation: {
         flex: 1,
-        justifyContent: 'flex-end',
-        flexDirection: 'row'
+        flexDirection: 'column',
+        justifyContent: 'space-around',
     },
     eventLocationText: {
-        textAlign: 'right',
-        fontSize: 13,
-    },
-    eventInfo: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: 5,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#999999'
+        textAlign: 'center',
+        fontWeight: '300',
+        color: '#030303',
     },
     card: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         backgroundColor: 'white',
-        height: 90,
+        height: deviceHeight * 0.13,
     },
     eventType: {
-        width: 2,
-        height: 90,
+        width: 3,
+        height: deviceHeight * 0.13,
         backgroundColor: '#ef4f42',
         marginLeft: 2,
+    }
+});
+
+
+const styleFont = StyleSheet.create({
+    textFont: {
+        fontFamily: 'sans-serif-light',
     }
 });

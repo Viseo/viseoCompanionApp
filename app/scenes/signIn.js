@@ -25,6 +25,7 @@ import styles from "./../styles/form";
 import db from "../util/db";
 import * as util from "../util/util.js";
 import strings from "../util/localizedStrings";
+import AppText from '../components/appText';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
 
@@ -134,7 +135,7 @@ export default class SignIn extends Component {
 
     renderDisplayErrorMessages = () => {
         return (
-            <Text style={styles.errorInfo}>{this.state.errorMessage}</Text>
+            <AppText style={styles.errorInfo}>{this.state.errorMessage}</AppText>
         );
     }
 
@@ -151,10 +152,10 @@ export default class SignIn extends Component {
     renderGoToSignUpForm() {
         return (
             <TouchableHighlight onPress={this.onPressSignUp} underlayColor='transparent'>
-                <Text
+                <AppText
                     style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', marginTop:15}}>
                     {strings.createAccountLink}
-                </Text>
+                </AppText>
             </TouchableHighlight>
         );
     }
@@ -183,10 +184,10 @@ export default class SignIn extends Component {
     renderRecoverPassword() {
         return (
             <TouchableHighlight onPress={this.onPressRecoverPassword}>
-                <Text
+                <AppText
                     style={{textAlign: 'right', fontSize: 12, color: 'brown', fontStyle: 'italic',paddingRight:5}}>
                     {strings.forgotPassword}
-                </Text>
+                </AppText>
             </TouchableHighlight>
         );
     }

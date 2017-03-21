@@ -27,6 +27,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
 import ListViewHeader from './../components/events/header';
 import Header from './../components/header';
+import AppText from '../components/appText';
 import EventListView from './../components/events/eventListView';
 
 export default class Home extends Component {
@@ -179,10 +180,10 @@ export default class Home extends Component {
 
     renderNoEventsToShow() {
         return (
-            <Text style={styles.noEvent}>
+            <AppText style={styles.noEvent}>
                 Whoops... There's nothing to show.{"\n\n"}
                 Come back later!
-            </Text>
+            </AppText>
         );
     }
 
@@ -357,7 +358,5 @@ const styles = StyleSheet.create({
     input: {
         width: Dimensions.get('window').width,
         textAlign: 'center',
-        // marginTop: 15,
-        // marginBottom: 15
     },
 });

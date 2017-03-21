@@ -14,6 +14,7 @@ import {
     Image,
     Text
 } from 'react-native';
+import AppText from './appText';
 
 class Header extends Component {
 
@@ -27,7 +28,7 @@ class Header extends Component {
                 <View style={styles.menu0}>
                     <Image source={require("../images/Menu.png")} style={styles.icon}/>
                 </View>
-                <Text style={styles.viseocompanion}>VISEO COMPANION</Text>
+                <AppText style={styles.viseocompanion}>VISEO COMPANION</AppText>
             </View>
         );
     }

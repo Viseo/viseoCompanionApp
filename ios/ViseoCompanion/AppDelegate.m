@@ -11,7 +11,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "RCTPushNotificationManager.h"
+#import "RCTPushNotificationManager.h"1
 
 @implementation AppDelegate
 

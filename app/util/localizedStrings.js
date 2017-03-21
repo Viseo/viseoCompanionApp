@@ -35,7 +35,7 @@ let strings = new LocalizedStrings({
         informativeFilter:'informative',
         entertainingFilter:'entertaining'
     },
-    fr: {
+    "fr": {
         accountCreated: "Compte créé avec succès!",
         createAccountLink:'Vous êtes nouveau? cliquez ici',
         email: 'Adresse mail',

@@ -10,7 +10,8 @@ import Home from "./scenes/home";
 import EventDetails from "./scenes/eventDetails";
 import EventCardTestScene from "./scenes/test/eventCardTestScene";
 import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
-import strings from './util/localizedStrings';
+import strings from "./util/localizedStrings";
+import setDateLang from './util/dateHandler';
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -24,6 +25,8 @@ export default class ViseoCompanion extends Component {
      * When the back button is pressed, navigate back to the previous scene.
      */
     componentWillMount() {
+        setDateLang(strings.getLanguage());
+
         BackAndroid.addEventListener('hardwareBackPress', () => {
             if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
                 this.navigator.pop();

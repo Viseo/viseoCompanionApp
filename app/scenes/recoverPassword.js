@@ -3,13 +3,14 @@
  */
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import AppText from '../components/appText';
 
 class RecoverPassword extends Component {
 
     render() {
         return (
             <View style={{backgroundColor:'white'}}>
-                <Text>Recover password form</Text>
+                <AppText>Recover password form</AppText>
             </View>
         )
     }
