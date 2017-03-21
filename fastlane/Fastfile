@@ -1,0 +1,246 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.20.0"
+
+default_platform :ios
+
+# ENV
+ENV["SLACK_URL"] = ""
+
+# PATHS
+CI_KEYS_PATH="../../jenkins_res/fastlane/keys"
+LOCAL_KEYS_PATH="./keys"
+
+# PROJECT
+APP_XCODE_PROJ="MyApp.xcodeproj"
+APP_XCODE_WORKSPACE="MyApp.xcworkspace"
+APP_SOURCE_DIRECTORY="MyApp"
+APP_IS_SWIFT=false
+
+platform :ios do
+  before_all do
+    isLocal = false
+    load_keys    
+  end
+
+####### Conf
+
+  def load_keys
+    begin
+      import(CI_KEYS_PATH)
+    rescue => exception
+      import(LOCAL_KEYS_PATH)
+      isLocal = true
+    ensure
+      init_env(isLocal)
+    end
+  end
+
+  def init_env(isLocal)
+    begin
+      if isLocal
+        # Setup local env
+        OCLINT_PATH = "local/path/to/oclint-0.11"
+        OCLINT_REPORT_PATH = "sonar-reports/oclint.html"
+        SLATHER_REPORT_PATH = "sonar-reports/slather"
+      else
+        # Setup CI env
+        OCLINT_PATH = "/usr/local/bin/oclint-0.11"
+        OCLINT_REPORT_PATH = "sonar-reports/oclint.xml"
+        SLATHER_REPORT_PATH = "sonar-reports"
+        ENV["FASTLANE_PASSWORD"]=ENV["PASSWORD"]
+        xcversion(version: "8.0") # Selects Xcode 8.0
+        unlock_keychain(
+          path: ENV["CERT_KEYCHAIN_PATH"],
+          password: ENV["CERT_KEYCHAIN_PASSWORD"]
+        )
+      end
+    end
+  end
+
+    ####### Lanes
+
+  desc "Build a new version"
+  # example: fastlane build scheme:MyScheme adhoc:true
+  lane :build do |options|
+    cocoapods
+    cert
+    sigh(force: true)
+    gym(
+      scheme: options[:scheme],
+      adhoc: options[:adhoc],
+      clean: true,
+      output_name: build_ipa(options[:scheme]),
+      output_directory: "./build",
+    )
+  end
+
+  desc "Runs all the tests"
+  # example: fastlane test scheme:MyScheme device:"iPhone 7"
+  lane :test do
+    scan(
+      scheme: options[:scheme],
+      devices: [options[:device]],
+      clean: true,
+      code_coverage: true,
+      derived_data_path: "./build",
+      use_clang_report_name: true,
+      output_types: "json-compilation-database",
+      output_directory: "sonar-reports"
+    )
+    slather(
+      proj: APP_XCODE_PROJ,
+      workspace: APP_XCODE_WORKSPACE,
+      scheme: options[:scheme],
+      source_directory: APP_SOURCE_DIRECTORY,
+      ignore: [
+          "../**/*/Xcode*",
+          "Pods/*"
+      ],
+      cobertura_xml: not(isLocal),
+      html: isLocal,
+      show: isLocal,
+      output_directory: SLATHER_REPORT_PATH
+    )
+  end
+
+  desc "Run swift lint"
+  # add following lines in sonar-project.properties
+  # sonar.swift.lizard.report=sonar-reports/lizard-report.xml
+  # sonar.swift.coverage.reportPattern=sonar-reports/cobertura.xml
+  # sonar.swift.swiftlint.report=sonar-reports/swiftlint.result.json
+  lane:lint_swift do
+    sh("cd .. && lizard ./#{APP_SOURCE_DIRECTORY} -l swift --xml > ./sonar-reports/lizard-report.xml")
+    swiftlint(
+      mode: :lint,
+      output_file: "sonar-reports/swiftlint.result.json"
+    )
+  end
+
+  desc "Run objective-c lint"
+  lane:lint_objc do
+    oclint(
+      oclint_path: OCLINT_PATH,
+      compile_commands: "sonar-reports/compile_commands.json",
+      select_regex: /.*\/#{APP_SOURCE_DIRECTORY}\//,
+      exclude_regex: /(.*\/Pods\/)/,
+      max_priority_1: 10000,
+      max_priority_2: 10000,
+      max_priority_3: 10000,
+      thresholds: [
+        "LONG_LINE=200",
+        "LONG_METHOD=200"
+      ],
+      disable_rules: [
+        "AssignIvarOutsideAccessors",
+        "DestructorOfVirtualClass",
+        "HighNcssMethod",
+        "MissingDefaultStatement",
+        "PreferEarlyExit",
+        "UnnecessaryDefaultStatement",
+        "UseNumberLiteral",
+        "UseObjectSubscripting",
+        "UseContainerLiteral"
+      ],
+      report_type: isLocal ? "html" : "pmd",
+      report_path: OCLINT_REPORT_PATH
+    )
+  end
+
+  desc "Run sonar scanner"
+  lane:sonarApp do
+    test
+    APP_IS_SWIFT ? lint_swift : lint_objc
+    sonar(
+      project_configuration_path: "./sonar-project.properties"
+    )
+  end
+
+  desc "Deploy a new version"
+  # example: fastlane deploy scheme:prod groups:Testers
+  lane :deploy do |options|
+    testfairy(
+      ipa: "./build/#{build_ipa(options[:scheme])}",
+      api_key: ENV["TESTFAIRY_API_KEY"],
+      testers_groups: [options[:groups]]
+    )
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  # example: fastlane beta scheme:prod
+  lane :beta do |options|
+    crashlytics(
+      ipa_path: "./build/#{build_ipa(options[:scheme])}",
+      api_token: ENV["CRASHLYTICS_API_TOKEN"],
+      build_secret: ENV["CRASHLYTICS_BUILD_SECRET"],
+      notifications: true
+    )
+    slack(
+      message: "Successfully deployed new App to Beta."
+    )
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :beta do
+    # match(type: "appstore") # more information: https://codesigning.guide
+    gym # Build your app - more options available
+    pilot
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here (run `fastlane actions`)
+  end
+
+  desc "Deploy a new version to the App Store"
+  lane :release do
+    # match(type: "appstore")
+    # snapshot
+    gym # Build your app - more options available
+    deliver(force: true)
+    # frameit
+  end
+
+  ####### Utils
+
+  def build_ipa(scheme)
+    begin
+      return "#{scheme.downcase}.ipa"
+    end
+  end
+
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://docs.fastlane.tools/actions
+
+# fastlane reports which actions are used
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer

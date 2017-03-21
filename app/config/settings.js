@@ -41,7 +41,7 @@ const restRoutes = {
         return SERVER_API_URL + '/events/users/' + userId;
     },
     getUserByEmail: email => {
-        return SERVER_API_URL + '/users/emails/' + email;
+        return SERVER_API_URL + '/users/emails/' + email + '/';
     }
 }
 

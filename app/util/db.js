@@ -1,10 +1,10 @@
 /**
  * Created by AAB3605 on 16/02/2017.
  */
-import settings from '../config/settings';
-import Event from './event';
-import User from './user';
-import * as util from './util';
+import settings from "../config/settings";
+import Event from "./event";
+import User from "./user";
+import * as util from "./util";
 
 async function addUser(email, password) {
     if (!email || !util.isEmailValid(email))
@@ -39,7 +39,7 @@ async function addUser(email, password) {
 async function getUserByEmail(email) {
     try {
         let response = await fetch(settings.api.getUserByEmail(email));
-        if (response.headers.get("content-length") == null) {
+        if (response.headers.get("content-length") != 0) {
             let user = await response.json();
             if (user) {
                 return new User(user.id, user.firstName, user.lastName, user.email, user.password);
@@ -63,7 +63,7 @@ async function authenticate(email, password) {
                 "password": password
             })
         });
-        if (response.headers.get("content-length") == null) {
+        if (response.headers.get("content-length") != 0) {
             let user = await response.json();
             if (user) {
                 return new User(user.id, user.firstName, user.lastName, user.email);
@@ -122,7 +122,7 @@ async function addEventParticipant(eventId, userId) {
 async function getEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
-        if (response.headers.get("content-length") == null) {
+        if (response.headers.get("content-length") != 0) {
             let user = await response.json();
             if (user) {
                 return new User(user.id, user.firstName, user.lastName, user.email, user.password);
