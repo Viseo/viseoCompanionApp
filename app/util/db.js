@@ -54,6 +54,21 @@ async function addUser(email, password) {
     return false;
 }
 
+async function getUserByEmail(email) {
+    try {
+        let response = await fetch(settings.api.getUserByEmail(email));
+        if (response.headers.get("content-length") != 0) {
+            let user = await response.json();
+            if (user) {
+                return new User(user.id, user.firstName, user.lastName, user.email, user.password);
+            }
+        }
+    } catch (error) {
+        console.warn('db::getUserByEmail ' + error);
+    }
+    return null;
+}
+
 async function authenticate(email, password) {
     try {
         let response = await fetch(settings.api.authenticate, {
@@ -66,7 +81,7 @@ async function authenticate(email, password) {
                 "password": password
             })
         });
-        if (response.headers.get("content-length") == null) {
+        if (response.headers.get("content-length") != 0) {
             let user = await response.json();
             if (user) {
                 return new User(user.id, user.firstName, user.lastName, user.email);
@@ -92,7 +107,8 @@ async function getEvents() {
                 event.name,
                 event.description,
                 event.datetime,
-                event.place
+                event.place,
+                event.category
             ));
         }
         return events;
@@ -142,7 +158,7 @@ async function getUserByEmail(email) {
 async function getEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
-        if (response.headers.get("content-length") == null) {
+        if (response.headers.get("content-length") != 0) {
             let user = await response.json();
             if (user) {
                 return new User(user.id, user.firstName, user.lastName, user.email, user.password);
@@ -191,7 +207,8 @@ async function getEventsWithParticipant(userId) {
                 event.name,
                 event.description,
                 event.datetime,
-                event.place
+                event.place,
+                event.category
             ));
         }
         return events;
