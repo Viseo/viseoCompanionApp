@@ -30,6 +30,10 @@ let strings = new LocalizedStrings({
         at:'at',
         IAmGoingToEvent:"Go",
         IAmNotGoingToEvent:"Don't go",
+        goingFilter:'going',
+        importantFilter:'important',
+        informativeFilter:'informative',
+        entertainingFilter:'entertaining'
     },
     fr: {
         accountCreated: "Compte créé avec succès!",
@@ -52,6 +56,10 @@ let strings = new LocalizedStrings({
         at:'à',
         IAmGoingToEvent:"Accepter",
         IAmNotGoingToEvent:"Décliner",
+        goingFilter:'acceptés',
+        importantFilter:'importants',
+        informativeFilter:'informatifs',
+        entertainingFilter:'divertissants'
     }
 });
 

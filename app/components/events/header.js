@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import SearchBar from './searchBar';
 import FilterBar from './filterBar';
+import strings from "../../util/localizedStrings";
 
 export default class Header extends Component {
 
@@ -16,10 +17,60 @@ export default class Header extends Component {
     }
 
     render() {
-        return(
+        let specialSearchCriteria = {
+            'going': {
+                participating: true
+            },
+        }
+        let filters = [
+            {
+                name: 'participating',
+                displayText: strings.goingFilter,
+                selectedColor: 'royalblue',
+                retain: {
+                    property: 'participating',
+                    value: true
+                }
+            },
+            {
+                name: 'important',
+                displayText: strings.importantFilter,
+                selectedColor: 'pink',
+                retain: {
+                    property: 'category',
+                    value: 0
+                }
+            },
+            {
+                name: 'informative',
+                displayText: strings.informativeFilter,
+                selectedColor: 'orange',
+                retain: {
+                    property: 'category',
+                    value: 1
+                }
+            },
+            {
+                name: 'entertaining',
+                displayText: strings.entertainingFilter,
+                selectedColor: 'lightgreen',
+                retain: {
+                    property: 'category',
+                    value: 2
+                }
+            },
+        ];
+        return (
             <View>
-                <SearchBar {...this.props.searchBar}/>
-                <FilterBar {...this.props.filters}/>
+                <SearchBar
+                    specialSearchCriteria={specialSearchCriteria}
+                    {...this.props.searchBar}
+                />
+                <FilterBar
+                    dataSource={this.props.dataSource}
+                    filters={filters}
+                    onFilter={this.props.onFilter}
+                />
             </View>
         );
     }

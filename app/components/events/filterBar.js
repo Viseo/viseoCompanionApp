@@ -12,38 +12,58 @@ class FilterBar extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            filteredData: {}
+        }
+    }
+
+    mergeAllFilteredData() {
+        let {filteredData} = this.state;
+        let allFilteredData = [];
+        for(let key in filteredData) {
+            allFilteredData = allFilteredData.concat(filteredData[key]);
+        }
+        return this.removeDuplicates(allFilteredData, 'id');
+    }
+
+    onFilter = (filterName, data) => {
+        let {filteredData} = this.state;
+        filteredData[filterName] = data;
+        this.setState({
+            filteredData
+        });
+        let allFilteredData = this.mergeAllFilteredData();
+        this.props.onFilter(allFilteredData);
+    };
+
+    removeDuplicates(data, key) {
+        let values = {};
+        return data.filter(item => {
+            let val = item[key];
+            let exists = values[val];
+            values[val] = true;
+            return !exists;
+        });
     }
 
     render() {
-        return (
-            <View style={{flexDirection: 'row'}}>
+        let {dataSource, filters} = this.props;
+        filters = filters.map(filter => {
+            return (
                 <Filter
-                    className="participation"
-                    selectedColor='royalblue'
-                    filterType="circle"
-                    sideText="Going"
-                    onFilter={() => {this.props.participation()}}
+                    key={filter.name}
+                    dataSource={dataSource}
+                    filter={filter.retain}
+                    className={filter.name}
+                    selectedColor={filter.selectedColor}
+                    text={filter.displayText}
+                    onFilter={filteredData => {this.onFilter(filter.name, filteredData)}}
                 />
-                <View style={styles.container}>
-                    <Filter
-                        className="important"
-                        selectedColor='red'
-                        text="Important"
-                        onFilter={() => {this.props.category(0)}}
-                    />
-                    <Filter
-                        className="informative"
-                        text="Informative"
-                        selectedColor='orange'
-                        onFilter={() => {this.props.category(1)}}
-                    />
-                    <Filter
-                        className="refreshing"
-                        text="Refreshing"
-                        selectedColor='lightgreen'
-                        onFilter={() => {this.props.category(2)}}
-                    />
-                </View>
+            );
+        });
+        return (
+            <View style={{flexDirection: 'row', justifyContent:'center'}}>
+                {filters}
             </View>
         );
     }

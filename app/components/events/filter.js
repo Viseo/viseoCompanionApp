@@ -24,11 +24,25 @@ class Filter extends Component {
         };
     }
 
+    filter() {
+        let {dataSource, filter} = this.props;
+        let matchingData = [];
+        dataSource.forEach(data => {
+           for(let property in data) {
+               if(property === filter.property && data[property] === filter.value) {
+                   matchingData.push(data);
+               }
+           }
+        });
+        return matchingData;
+    }
+
     toggleFilter = () => {
+        let filteredData = this.state.selected ? [] : this.filter();
+        this.props.onFilter(filteredData);
         this.setState({
             selected: !this.state.selected
-        })
-        this.props.onFilter();
+        });
     }
 
     render() {

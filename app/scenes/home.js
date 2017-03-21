@@ -40,14 +40,9 @@ export default class Home extends Component {
         this.state = {
             allEvents: [],
             showedEvents: [],
-            selectedCategoriesId: [],
-            filteredOnParticipation: [],
-            filteredOnCategories: [],
             loaded: false,
             refreshing: false,
             isSearching: false,
-            isFiltering: false,
-            participationFilterSelected: false
         };
     }
 
@@ -92,53 +87,10 @@ export default class Home extends Component {
             db.addEventParticipant(changedEvent.id, this.props.user.id);
     };
 
-    onParticipationFilterChanged = async() => {
-        let selectFilter = !this.state.participationFilterSelected;
-        this.setState({
-            isFiltering: true,
-            participationFilterSelected: selectFilter
-        });
-        Keyboard.dismiss();
-        if(selectFilter){
-            this.showEventsWhereCurrentUserIsGoing();
-        }
-        else if(this.state.selectedCategoriesId.length > 0 && this.state.filteredOnCategories.length > 0){
-            this.updateEventList(this.state.filteredOnCategories)
-        }
-        else{
-            this.loadEvents();
-        }
-    }
-
-    onCategoryFilterChanged = (categoryId) => {
-        this.refreshSelectedCategoriesIds(categoryId);
-        Keyboard.dismiss();
-        if(this.state.selectedCategoriesId.length > 0){
-            this.showEventsOfSelectedCategories();
-        }
-        else if(this.state.participationFilterSelected && this.state.filteredOnParticipation.length > 0){
-            this.updateEventList(this.state.filteredOnParticipation)
-        }
-        else{
-            this.loadEvents();
-        }
-    }
-
-    refreshSelectedCategoriesIds = (categoryId) => {
-        let ids = this.state.selectedCategoriesId;
-        var index = ids.indexOf(categoryId);
-        if(index > -1){
-            ids.splice(index, 1);
-        }
-        else{
-            ids.push(categoryId);
-        }
-        if(ids.length === 0){
-            this.setState({filteredOnCategories: []});
-        }
-        this.setState({selectedCategoriesId: ids});
-    }
-
+    onFilter = filteredEvents => {
+        filteredEvents = filteredEvents.length > 0 ? filteredEvents : this.state.allEvents;
+        this.updateEventList(filteredEvents);
+    };
 
     onPressEventCard = (event) => {
         this.props.navigator.push({
@@ -153,16 +105,6 @@ export default class Home extends Component {
     }
 
     onSearch = (eventSource, searchString, matchingEvents) => {
-        // matchingEvents.forEach(event => {
-        //     let {searchResults} = event;
-        //     searchResults.forEach(searchResult => {
-        //         let searchWord = {};
-        //         searchWord[foundInProperty] = searchString;
-        //         event.searchWords = searchWord;
-        //     });
-        //     if (foundInProperty) {
-        //     }
-        // });
         let eventsToShow = matchingEvents.length > 0 ? matchingEvents : eventSource;
         this.updateEventList(eventsToShow);
     };
@@ -205,10 +147,6 @@ export default class Home extends Component {
     }
 
     renderEventView() {
-        const filters = {
-            participation: this.onParticipationFilterChanged,
-            category: this.onCategoryFilterChanged
-        };
         let searchBar = {
             dataSource: this.state.allEvents,
             onSearch: this.onSearch
@@ -217,7 +155,8 @@ export default class Home extends Component {
             <EventListView
                 header={
                     <ListViewHeader
-                        filters={filters}
+                        dataSource={this.state.allEvents}
+                        onFilter={this.onFilter}
                         searchBar={searchBar}
                    />
                 }
@@ -258,52 +197,6 @@ export default class Home extends Component {
                 size="large"
             />
         );
-    }
-
-    showEventsWhereCurrentUserIsGoing = async() => {
-        let events = await db.getEventsWithParticipant(this.props.user.id);
-        for (let key in events) {
-            events[key].participating = true;
-        }
-        this.setState({filteredOnParticipation: events});
-        if(this.state.selectedCategoriesId.length > 0 && this.state.filteredOnCategories.length > 0){
-            events = [];
-            for(let i=0; i < this.state.filteredOnCategories.length; i++){
-                if(this.state.filteredOnCategories[i].participating === true){
-                    events.push(this.state.filteredOnCategories[i]);
-                }
-            }
-        }
-        this.updateEventList(events);
-    }
-
-    showEventsOfSelectedCategories = () => {
-        let events = [];
-        for(let i=0; i < this.state.selectedCategoriesId.length; i++){
-            let selectedEvents = this.findEventsByCategory(this.state.allEvents, this.state.selectedCategoriesId[i]);
-            events = events.concat(selectedEvents);
-        }
-        this.setState({filteredOnCategories: events});
-        if(this.state.participationFilterSelected && this.state.filteredOnParticipation.length > 0){
-            let participatingInCategory = [];
-            for(let i=0; i < events.length; i++){
-                if(events[i].participating === true){
-                    participatingInCategory.push(events[i]);
-                }
-            }
-            events = participatingInCategory;
-        }
-        this.updateEventList(events);
-    }
-
-    findEventsByCategory(events, categoryId){
-        let matchingData = [];
-        for(let key in events){
-            if(events[key].category === categoryId){
-                matchingData.push(events[key]);
-            }
-        }
-        return matchingData;
     }
 
     updateEventList = events => {

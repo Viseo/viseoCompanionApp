@@ -10,6 +10,7 @@ import Home from "./scenes/home";
 import EventDetails from "./scenes/eventDetails";
 import EventCardTestScene from "./scenes/test/eventCardTestScene";
 import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
+import strings from './util/localizedStrings';
 
 export default class ViseoCompanion extends Component {
     constructor(props) {

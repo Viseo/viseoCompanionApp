@@ -20,35 +20,62 @@ class SearchBar extends Component {
         return sourceString
             && searchString
             && sourceString.indexOf(searchString) > -1;
-    }
+    };
 
     findMatchingData = searchString => {
         let matchingData = [];
         let {dataSource} = this.props;
         dataSource.forEach(data => {
-            let searchResults = {
-                searchString,
-                properties : []
-            };
-            for (let key in data) {
-                if (typeof data[key] === "function" || !data[key])
-                    continue;
-                if (this.containsString(data[key], searchString)) {
-                    searchResults.properties.push(key);
-                }
-            }
-            data.searchWords = searchResults;
-            if (searchResults.properties.length > 0) {
+            data.searchWords = this.findPropertiesWithMatchingData(data, searchString);
+            if (this.matchingDataFoundInAtLeastOneProperty(data)) {
                 matchingData.push(data);
             }
         });
         return matchingData.slice();
+    };
+
+    findPropertiesWithMatchingData(data, searchString) {
+        let searchResults = {
+            searchString,
+            properties: []
+        };
+        for (let key in data) {
+            if (typeof data[key] === "function" || !data[key])
+                continue;
+            if (
+                this.containsString(data[key], searchString)
+                || this.matchesSpecialSearchCriteria(data[key], searchString)
+            ) {
+                searchResults.properties.push(key);
+            }
+        }
+        data.searchWords = searchResults;
+        return searchResults;
+    }
+
+    matchesSpecialSearchCriteria(data, searchString) {
+        let {specialSearchCriteria} = this.props;
+        for (let specialSearchString in specialSearchCriteria) {
+            if (specialSearchString === searchString) {
+                let criterion = specialSearchCriteria[specialSearchString];
+                for (let property in criterion) {
+                    if (data === criterion[property]) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    matchingDataFoundInAtLeastOneProperty(data) {
+        return data.searchWords.properties.length > 0;
     }
 
     onChangeText = searchString => {
         let matchingData = this.findMatchingData(searchString);
         this.props.onSearch(this.props.dataSource, searchString, matchingData);
-    }
+    };
 
     render() {
         return (
