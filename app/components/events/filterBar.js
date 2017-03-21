@@ -16,25 +16,34 @@ class FilterBar extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Filter
-                    className="important"
-                    onFilter={() => {this.props.category(0)}}
-                />
-                <Filter
-                    className="optional"
-                    onFilter={() => {this.props.category(1)}}
-                />
-                <Filter
-                    className="other"
-                    onFilter={() => {this.props.category(2)}}
-                />
+            <View style={{flexDirection: 'row'}}>
                 <Filter
                     className="participation"
                     selectedColor='royalblue'
-                    unselectedColor='lightblue'
+                    filterType="circle"
+                    sideText="Going"
                     onFilter={() => {this.props.participation()}}
                 />
+                <View style={styles.container}>
+                    <Filter
+                        className="important"
+                        selectedColor='red'
+                        text="Important"
+                        onFilter={() => {this.props.category(0)}}
+                    />
+                    <Filter
+                        className="informative"
+                        text="Informative"
+                        selectedColor='orange'
+                        onFilter={() => {this.props.category(1)}}
+                    />
+                    <Filter
+                        className="refreshing"
+                        text="Refreshing"
+                        selectedColor='lightgreen'
+                        onFilter={() => {this.props.category(2)}}
+                    />
+                </View>
             </View>
         );
     }
@@ -45,9 +54,9 @@ export default FilterBar;
 var styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center',
-        marginRight: 40,
+        marginRight: 0,
         marginLeft: 40
     }
 });
