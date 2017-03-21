@@ -6,6 +6,24 @@ import Event from './event';
 import User from './user';
 import * as util from './util';
 
+async function addEventParticipant(eventId, userId) {
+    try {
+        let response = await fetch(settings.api.addEventParticipant(eventId, userId), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        let responseJson = await response.json();
+        if (responseJson) {
+            return true;
+        }
+    } catch (error) {
+        console.warn('db::addEventParticipant ' + error);
+    }
+    return false;
+}
+
 async function addUser(email, password) {
     if (!email || !util.isEmailValid(email))
         return false;
@@ -34,21 +52,6 @@ async function addUser(email, password) {
     }
 
     return false;
-}
-
-async function getUserByEmail(email) {
-    try {
-        let response = await fetch(settings.api.getUserByEmail(email));
-        if (response.headers.get("content-length") == null) {
-            let user = await response.json();
-            if (user) {
-                return new User(user.id, user.firstName, user.lastName, user.email, user.password);
-            }
-        }
-    } catch (error) {
-        console.warn('db::getUserByEmail ' + error);
-    }
-    return null;
 }
 
 async function authenticate(email, password) {
@@ -96,26 +99,44 @@ async function getEvents() {
     } catch (error) {
         console.warn('db::getEvents ' + error);
     }
-
-    return null;
+    return [];
 }
 
-async function addEventParticipant(eventId, userId) {
+async function getEventsByRegisteredUser(userId) {
     try {
-        let response = await fetch(settings.api.addEventParticipant(eventId, userId), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        let responseJson = await response.json();
-        if (responseJson) {
-            return true;
+        let response = await fetch(settings.api.getEventsByRegisteredUser(userId));
+        let eventsJson = await response.json();
+        let events = [];
+        for (let i = 0; i < eventsJson.length; i++) {
+            let event = eventsJson[i];
+            events.push(new Event(
+                event.id,
+                event.name,
+                event.description,
+                event.datetime,
+                event.place
+            ));
+        }
+        return events;
+    } catch (error) {
+        console.warn('db::getEventsByRegisteredUser ' + error);
+    }
+    return [];
+}
+
+async function getUserByEmail(email) {
+    try {
+        let response = await fetch(settings.api.getUserByEmail(email));
+        if (response.headers.get("content-length") == null) {
+            let user = await response.json();
+            if (user) {
+                return new User(user.id, user.firstName, user.lastName, user.email, user.password);
+            }
         }
     } catch (error) {
-        console.warn('db::addEventParticipant ' + error);
+        console.warn('db::getUserByEmail ' + error);
     }
-    return false;
+    return null;
 }
 
 async function getEventParticipant(eventId, userId) {
@@ -131,24 +152,6 @@ async function getEventParticipant(eventId, userId) {
         console.warn('db::getEventParticipant ' + error);
     }
     return null;
-}
-
-async function removeEventParticipant(eventId, userId) {
-    try {
-        let response = await fetch(settings.api.removeEventParticipant(eventId, userId), {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        let responseJson = await response.json();
-        if (responseJson) {
-            return true;
-        }
-    } catch (error) {
-        console.warn('db::removeEventParticipant ' + error);
-    }
-    return false;
 }
 
 async function getEventParticipants(eventId) {
@@ -198,14 +201,33 @@ async function getEventsWithParticipant(userId) {
     return null;
 }
 
+async function removeEventParticipant(eventId, userId) {
+    try {
+        let response = await fetch(settings.api.removeEventParticipant(eventId, userId), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        let responseJson = await response.json();
+        if (responseJson) {
+            return true;
+        }
+    } catch (error) {
+        console.warn('db::removeEventParticipant ' + error);
+    }
+    return false;
+}
+
 export default db = {
+    addEventParticipant,
     addUser,
     authenticate,
     getEvents,
-    addEventParticipant,
+    getEventsByRegisteredUser,
+    getUserByEmail,
     getEventParticipant,
-    removeEventParticipant,
     getEventParticipants,
     getEventsWithParticipant,
-    getUserByEmail
+    removeEventParticipant
 }

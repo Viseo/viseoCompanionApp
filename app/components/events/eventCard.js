@@ -6,15 +6,20 @@ import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState} from 'react-
 import CheckBox from 'react-native-check-box';
 import Swipeout from 'react-native-swipe-out';
 import strings from '../../util/localizedStrings';
+import Highlighter from 'react-native-highlight-words';
 
 export default class EventCard extends Component {
 
     static defaultProps = {
-        title: '',
+        name: '',
         description: '',
         location: '',
         date: '',
         onParticipationChange: () => {
+        },
+        searchWords: {
+            searchString: '',
+            properties: []
         }
     }
 
@@ -29,10 +34,17 @@ export default class EventCard extends Component {
         return text;
     }
 
+    getSearchWords(property) {
+        let searchWords = [];
+        if (this.props.searchWords.properties.indexOf(property) !== -1)
+            searchWords.push(this.props.searchWords.searchString);
+        return searchWords;
+    }
+
     getSwipeOption = () => {
         return this.props.participating ?
             [{
-                className:'participate',
+                className: 'participate',
                 text: strings.IAmNotGoingToEvent,
                 onPress: () => {
                     this.props.onParticipationChange()
@@ -41,7 +53,7 @@ export default class EventCard extends Component {
                 color: '#601d20',
             }] :
             [{
-                className:'participate',
+                className: 'participate',
                 text: strings.IAmGoingToEvent,
                 onPress: () => {
                     this.props.onParticipationChange()
@@ -107,17 +119,23 @@ export default class EventCard extends Component {
 
     renderTitle() {
         return (
-            <Text className="info name" style={styles.eventName}>
-                {this.getBriefIfTextIsTooLong(this.props.title, 28) }
-            </Text>
+            <Highlighter
+                highlightStyle={{backgroundColor: 'yellow'}}
+                style={styles.eventName}
+                searchWords={this.getSearchWords('name')}
+                textToHighlight={this.getBriefIfTextIsTooLong(this.props.name, 28)}
+            />
         );
     }
 
     renderDescription() {
         return (
-            <Text className="info description" style={styles.eventDescription}>
-                {this.getBriefIfTextIsTooLong(this.props.description, 120)}
-            </Text>
+            <Highlighter
+                highlightStyle={{backgroundColor: 'yellow'}}
+                style={styles.eventDescription}
+                searchWords={this.getSearchWords('description')}
+                textToHighlight={this.getBriefIfTextIsTooLong(this.props.description, 120)}
+            />
         );
     }
 
@@ -127,17 +145,17 @@ export default class EventCard extends Component {
             <View style={styles.eventLocation}>
                 <Text style={styles.eventLocationText}>
                     {this.props.date}
-                    {" "+ strings.at + " "}
-                    {this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(),35)}
+                    {" " + strings.at + " "}
+                    {this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(), 35)}
                 </Text>
                 {/*<Text className="info date" style={styles.eventLocationText}>*/}
-                    {/*{this.props.date}*/}
+                {/*{this.props.date}*/}
                 {/*</Text>*/}
                 {/*<Text style={styles.eventLocationText}>*/}
-                    {/*{" "+ strings.at + " "}*/}
+                {/*{" "+ strings.at + " "}*/}
                 {/*</Text>*/}
                 {/*<Text className="info location" style={styles.eventLocationText}>*/}
-                    {/*{this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(),30)}*/}
+                {/*{this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(),30)}*/}
                 {/*</Text>*/}
             </View>
 
@@ -171,7 +189,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     firstRow: {
-        flex:1,
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
@@ -195,7 +213,7 @@ const styles = StyleSheet.create({
     eventLocation: {
         flex: 1,
         justifyContent: 'flex-end',
-        flexDirection:'row'
+        flexDirection: 'row'
     },
     eventLocationText: {
         textAlign: 'right',

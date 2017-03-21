@@ -25,16 +25,15 @@ import {
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import db from '../util/db';
-import strings from './../util/localizedStrings';
-import ListViewHeader from './../components/eventView/header';
+import ListViewHeader from './../components/events/header';
 import Header from './../components/header';
-import EventView from './../components/eventView/eventView';
+import EventListView from './../components/events/eventListView';
 
 export default class Home extends Component {
 
     static defaultProps = {
         user: {id: 1}
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -50,38 +49,30 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        this.reloadEventList();
+        this.loadEvents();
     }
 
-    reloadEventList = async() => {
+    loadEvents = async() => {
         this.setState({
             refreshing: true
         });
         let allEvents = await db.getEvents();
-        for (let key in allEvents) {
-            let eventWithParticipationInfo = allEvents[key];
-            let user = await db.getEventParticipant(eventWithParticipationInfo.id, this.props.user.id);
-            eventWithParticipationInfo.participating = !!user;
-        }
+        let eventsWhereLoggedUserIsGoing = await db.getEventsByRegisteredUser(this.props.user.id);
+        allEvents.forEach(event => {
+            let participating = false;
+            for (let key in eventsWhereLoggedUserIsGoing) {
+                if (eventsWhereLoggedUserIsGoing[key].id === event.id) {
+                    participating = true;
+                    break;
+                }
+            }
+            event.participating = participating;
+        });
         this.setState({
             allEvents
-        })
-        this.updateEventList(this.state.allEvents);
-    }
-
-    updateEventList = events => {
-        let showedEvents = events.slice();
-        this.setState({
-            showedEvents,
-            loaded: true,
-            refreshing: false
         });
-    }
-
-    onSearch = (eventSource, matchingEvents) => {
-        let eventsToShow = matchingEvents.length > 0 ? matchingEvents : eventSource;
-        this.updateEventList(eventsToShow);
-    }
+        this.updateEventList(this.state.allEvents);
+    };
 
     onParticipationChange = async(changedEvent) => {
         let showedEvents = this.state.showedEvents.map(event => {
@@ -95,7 +86,7 @@ export default class Home extends Component {
         await changedEvent.participating ?
             db.removeEventParticipant(changedEvent.id, this.props.user.id) :
             db.addEventParticipant(changedEvent.id, this.props.user.id);
-    }
+    };
 
     onParticipationFilterChanged = async() => {
         let selectFilter = !this.state.participationFilterSelected;
@@ -106,7 +97,7 @@ export default class Home extends Component {
         Keyboard.dismiss();
         selectFilter ?
             this.showEventsWhereCurrentUserIsGoing() :
-            this.reloadEventList();
+            this.loadEvents();
     }
 
     onPressEventCard = (event) => {
@@ -121,13 +112,20 @@ export default class Home extends Component {
         });
     }
 
-    showEventsWhereCurrentUserIsGoing = async() => {
-        let events = await db.getEventsWithParticipant(this.props.user.id);
-        for (let key in events) {
-            events[key].participating = true;
-        }
-        this.updateEventList(events);
-    }
+    onSearch = (eventSource, searchString, matchingEvents) => {
+        // matchingEvents.forEach(event => {
+        //     let {searchResults} = event;
+        //     searchResults.forEach(searchResult => {
+        //         let searchWord = {};
+        //         searchWord[foundInProperty] = searchString;
+        //         event.searchWords = searchWord;
+        //     });
+        //     if (foundInProperty) {
+        //     }
+        // });
+        let eventsToShow = matchingEvents.length > 0 ? matchingEvents : eventSource;
+        this.updateEventList(eventsToShow);
+    };
 
     render() {
         // let eventList;
@@ -151,7 +149,7 @@ export default class Home extends Component {
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
-                            onRefresh={this.reloadEventList}
+                            onRefresh={this.loadEvents}
                         />
                     }
                     scrollEventThrottle={200}
@@ -175,7 +173,7 @@ export default class Home extends Component {
             onSearch: this.onSearch
         }
         return (
-            <EventView
+            <EventListView
                 header={
                     <ListViewHeader
                         filters={filters}
@@ -220,9 +218,26 @@ export default class Home extends Component {
             />
         );
     }
+
+    showEventsWhereCurrentUserIsGoing = async() => {
+        let events = await db.getEventsWithParticipant(this.props.user.id);
+        for (let key in events) {
+            events[key].participating = true;
+        }
+        this.updateEventList(events);
+    }
+
+    updateEventList = events => {
+        let showedEvents = events.slice();
+        this.setState({
+            showedEvents,
+            loaded: true,
+            refreshing: false
+        });
+    };
 }
 
-var {
+const {
     height: deviceHeight,
     width: deviceWidth,
 } = Dimensions.get('window');
