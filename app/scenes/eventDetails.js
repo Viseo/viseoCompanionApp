@@ -243,22 +243,7 @@ const styles = StyleSheet.create({
         flex: 0.7,
     },
 
-    menu: {
-        width: 30,
-        height: 30,
-        backgroundColor: 'white',
-        borderRadius: 3,
-        borderWidth: 1,
-        borderColor: 'black',
-        justifyContent: 'flex-start',
-        margin: 5,
-    },
-
-    menu0: {
-        width: 85,
-    },
-
-    icon: {
+    burgerMenu: {
         width: 25,
         height: 25,
         marginLeft: 5,

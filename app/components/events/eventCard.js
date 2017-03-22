@@ -101,7 +101,7 @@ export default class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor:(this.props.participating) ? '#6492ef' : 'white'}
+                    {backgroundColor:(this.props.participating) ? '#4169E1' : 'white'}
                 ]}/>
             </View>
         );
@@ -127,19 +127,19 @@ export default class EventCard extends Component {
                 highlightStyle={{backgroundColor: 'yellow'}}
                 style={[styles.eventName, styleFont.textFont]}
                 searchWords={this.getSearchWords('name')}
-                textToHighlight={this.getBriefIfTextIsTooLong(this.props.name, 28)}
+                textToHighlight={this.getBriefIfTextIsTooLong(this.props.name, 31)}
             />
         );
     }
 
     renderDescription() {
         return (
-            <Highlighter
-                highlightStyle={{backgroundColor: 'yellow'}}
-                style={[styles.eventDescription, styleFont.textFont]}
-                searchWords={this.getSearchWords('description')}
-                textToHighlight={this.getBriefIfTextIsTooLong(this.props.description, 120)}
-            />
+                <Highlighter
+                    highlightStyle={{backgroundColor: 'yellow'}}
+                    style={[styles.eventDescription, styleFont.textFont]}
+                    searchWords={this.getSearchWords('description')}
+                    textToHighlight={this.getBriefIfTextIsTooLong(this.props.description, 100)}
+                />
         );
     }
 
@@ -164,6 +164,13 @@ let {
 } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+    card: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        backgroundColor: 'white',
+        height: deviceHeight * 0.13,
+    },
     dotContainer: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -193,18 +200,20 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     eventName: {
-        flex: 3,
+        flex: 0,
+        paddingBottom: 6,
         fontWeight: 'bold',
         textAlign: 'left',
         fontSize: 19,
         color: 'black',
     },
     eventDescription: {
-        flex: 1,
+        flex: 3,
         textAlign: 'left',
-        fontWeight: '500',
+        fontWeight: '400',
         fontSize: 14,
-        color: "#aaaaaa",
+        color: "#8c8c8c",
+        textAlignVertical:'bottom',
     },
     eventLocation: {
         flex: 1,
@@ -214,26 +223,19 @@ const styles = StyleSheet.create({
     eventLocationText: {
         textAlign: 'center',
         fontWeight: '300',
-        color: '#030303',
-    },
-    card: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        backgroundColor: 'white',
-        height: deviceHeight * 0.13,
+        color: '#2c2c2c',
     },
     eventType: {
-        width: 3,
+        width: 9,
         height: deviceHeight * 0.13,
-        backgroundColor: '#ef4f42',
-        marginLeft: 2,
+        backgroundColor: '#ef4954',
+        marginLeft: 4,
     }
 });
 
 
 const styleFont = StyleSheet.create({
     textFont: {
-        fontFamily: 'sans-serif-light',
+        fontFamily: 'Roboto',
     }
 });

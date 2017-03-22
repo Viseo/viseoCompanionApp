@@ -96,13 +96,13 @@ export default SearchBar;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 8,
+        padding: 6,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#C1C1C1',
+        backgroundColor: '#dadada',
     },
     input: {
-        height: 50,
+        height: 40,
         flex: 1,
         paddingHorizontal: 8,
         fontSize: 15,

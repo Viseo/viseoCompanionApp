@@ -216,9 +216,6 @@ const {
 } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    screen: {
-        height: (Platform.OS === 'ios') ? 200 : 100,
-    },
     topbar: {
         height: (1 / 13) * deviceHeight,
         backgroundColor: '#103a71',
@@ -226,20 +223,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 10,
     },
-    menu: {
-        width: (1 / 14) * deviceHeight,
-        height: (1 / 14) * deviceHeight,
-        backgroundColor: 'white',
-        borderRadius: 3,
-        borderWidth: 1,
-        borderColor: 'black',
-        justifyContent: 'flex-start',
-        margin: 5,
-    },
-    menu0: {
-        width: 85,
-    },
-    icon: {
+    burgerMenu: {
         width: 25,
         height: 25,
         marginLeft: 5,

@@ -25,10 +25,10 @@ class Header extends Component {
     render() {
         return(
             <View style={styles.topbar}>
-                <View style={styles.menu0}>
-                    <Image source={require("../images/Menu.png")} style={styles.icon}/>
+                <Image source={require("../images/Menu-White.png")} style={styles.burgerMenu}/>
+                <View style={styles.titleContainer}>
+                    <AppText style={styles.viseocompanion}>VISEO COMPANION</AppText>
                 </View>
-                <AppText style={styles.viseocompanion}>VISEO COMPANION</AppText>
             </View>
         );
     }
@@ -41,38 +41,25 @@ var {
 } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    screen: {
-        height: (Platform.OS === 'ios') ? 200 : 100,
-    },
     topbar: {
-        height: (1 / 13) * deviceHeight,
-        backgroundColor: '#103a71',
         alignItems: 'center',
         flexDirection: 'row',
-        padding: 10,
+        height: (1 / 16) * deviceHeight,
+        backgroundColor: 'royalblue',
         marginTop:(Platform.OS === 'ios') ? 20 : 0,
     },
-    menu: {
-        width: (1 / 14) * deviceHeight,
-        height: (1 / 14) * deviceHeight,
-        backgroundColor: 'white',
-        borderRadius: 3,
-        borderWidth: 1,
-        borderColor: 'black',
-        justifyContent: 'flex-start',
-        margin: 5,
-    },
-    menu0: {
-        width: 85,
-    },
-    icon: {
+    burgerMenu: {
+        position: 'absolute',
         width: 25,
         height: 25,
-        marginLeft: 5,
-        marginTop: 5,
+        margin:10,
     },
-
+    titleContainer:{
+        flexDirection: 'row',
+    },
     viseocompanion: {
+        textAlign: 'center',
+        flex:1,
         fontSize: 20,
         color: 'white',
     },

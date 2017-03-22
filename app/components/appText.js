@@ -27,6 +27,6 @@ export default AppText;
 
 const style = StyleSheet.create({
     textStyle: {
-        fontFamily: 'sans-serif-light',
+        fontFamily: 'Roboto',
     }
 });
