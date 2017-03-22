@@ -15,6 +15,7 @@ import SearchBar from '../components/events/searchBar';
 import RecoverPassword from './../scenes/recoverPassword';
 import SignIn from './../scenes/signIn';
 import SignUp from './../scenes/signUp';
+import AppText from '../components/appText';
 import EventViewHeader from '../components/events/header';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
@@ -148,6 +149,10 @@ function compare(value, expectedValue) {
     return expect(expectedValue).to.deep.equal(value);
 }
 
+function createAppText(props) {
+    return shallow(<AppText {...props} />)
+}
+
 export default testUtil = {
     checkFieldContent,
     click,
@@ -169,7 +174,6 @@ export default testUtil = {
     callMethod,
     compare,
     changeText,
-    checkCall,
     getChildComponent,
     checkMethodPassedByProp,
     createEventViewHeader,
@@ -177,5 +181,7 @@ export default testUtil = {
     createEmailInput,
     changeTextWithInputValue,
     createPasswordInput,
-    createHome
+    createHome,
+    checkCall,
+    createAppText
 };

@@ -24,6 +24,7 @@ import * as util from '../util/util';
 import db from '../util/db';
 import formStyle from './../styles/form';
 import strings from '../util/localizedStrings';
+import AppText from '../components/appText';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
 
@@ -193,10 +194,10 @@ export default class SignUp extends React.Component {
 
                         {/* Log in instead of creating a new account */}
                         <TouchableHighlight onPress={this.onPressSignIn} underlayColor='transparent'>
-                            <Text
+                            <AppText
                                 style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', paddingTop:15}}>
                                 {strings.signInLink}
-                            </Text>
+                            </AppText>
                         </TouchableHighlight>
                     </View>
                 </ScrollView>
@@ -225,9 +226,9 @@ export default class SignUp extends React.Component {
                         }}
                     >
                         <View>
-                            <Text style={{textAlign:'center'}}>
+                            <AppText style={{textAlign:'center'}}>
                                 {strings.accountCreated}
-                            </Text>
+                            </AppText>
                             <Button
                                 onPress={this.onAccountCreatedNotificationPressed}
                                 title="OK"
@@ -246,15 +247,15 @@ export default class SignUp extends React.Component {
         // Only relevant ones are showed
         // Several messages can be showed at the same time (in the following order)
         let emailMessage = !this.state.isEmailValid ?
-            <Text style={formStyle.errorInfo}>{strings.invalidEmailFormat}</Text> : null;
+            <AppText style={formStyle.errorInfo}>{strings.invalidEmailFormat}</AppText> : null;
         let passwordMessage = !this.state.isPasswordValid ?
-            <Text style={formStyle.errorInfo}>{strings.invalidPasswordFormat}</Text> : null;
+            <AppText style={formStyle.errorInfo}>{strings.invalidPasswordFormat}</AppText> : null;
         let passwordCheckMessage = !this.state.isPasswordCheckValid ?
-            <Text style={formStyle.errorInfo}>{strings.passwordsDontMatch}</Text> : null;
+            <AppText style={formStyle.errorInfo}>{strings.passwordsDontMatch}</AppText> : null;
         let missingFieldsMessage = !this.state.isFormCompletelyFilled ?
-            <Text style={formStyle.errorInfo}>{strings.missingFormFields}</Text> : null;
+            <AppText style={formStyle.errorInfo}>{strings.missingFormFields}</AppText> : null;
         let errorMessage = this.state.errorMessage.length > 0 ?
-            <Text style={formStyle.errorInfo}>{this.state.errorMessage}</Text> : null;
+            <AppText style={formStyle.errorInfo}>{this.state.errorMessage}</AppText> : null;
 
         return (
             <View>

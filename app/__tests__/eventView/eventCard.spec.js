@@ -15,18 +15,18 @@ import testUtil from '../testUtil';
 describe('Event card', () => {
 
     it('should display an event card', () => {
-        let event = new Event(0, 'the beautiful event', 'the description of my awesome event', '1/1/2017', 'it happens here');
+        let event = new Event(0, 'the beautiful event', 'the description of my awesome event', '2013-03-07T07:00:00+08:00', 'it happens here');
         const eventCard = testUtil.createEventCard({
             title: event.name,
             description: event.description,
             location: event.location,
-            date: event.getTime(),
+            date: event.getDateToString(),
             onParticipationChange: () => {}
         });
         testUtil.checkFieldContent(eventCard, 'name', event.name);
         testUtil.checkFieldContent(eventCard, 'description', event.description);
         testUtil.checkFieldContent(eventCard, 'location', event.location.toUpperCase());
-        testUtil.checkFieldContent(eventCard, 'date', event.getTime());
+        testUtil.checkFieldContent(eventCard, 'date', event.getDateToString());
     });
 
     describe('logged User', () => {

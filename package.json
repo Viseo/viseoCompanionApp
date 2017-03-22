@@ -8,6 +8,7 @@
     "testEnzyme": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
   },
   "dependencies": {
+    "moment": "^2.18.0",
     "react": "~15.4.0",
     "react-localization": "0.0.13",
     "react-native": "0.41.2",

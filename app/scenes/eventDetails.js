@@ -19,6 +19,7 @@ import {
 import setting from "../config/settings";
 import CheckBox from 'react-native-check-box';
 import Header from './../components/header';
+import AppText from '../components/appText';
 
 
 let {
@@ -79,12 +80,12 @@ export default class EventDetails extends React.Component {
         return (
             <View style={styles.Rectangle1}>
                 <View style={styles.leftRectangle1}>
-                    <Text style={styles.label}> Date </Text>
+                    <AppText style={styles.label}> Date </AppText>
                 </View>
                 <View style={styles.rightRectangle1}>
-                    <Text
+                    <AppText
                         style={styles.text}> {new Date(date).getDate()}/{addZero(new Date(date).getMonth() + 1)}/{new Date(date).getFullYear()}
-                        {" à "} {addZero(new Date(date).getHours())}h{addZero(new Date(date).getMinutes()) + '\n' } </Text>
+                        {" à "} {addZero(new Date(date).getHours())}h{addZero(new Date(date).getMinutes()) + '\n' } </AppText>
                 </View>
             </View>
         );
@@ -93,8 +94,8 @@ export default class EventDetails extends React.Component {
     renderEventDescription(description) {
         return (
             <View style={styles.Rectangle2}>
-                <Text style={styles.label}> Description </Text>
-                <Text style={styles.textdescription}>{description} </Text>
+                <AppText style={styles.label}> Description </AppText>
+                <AppText style={styles.textdescription}>{description} </AppText>
             </View>
         );
     }
@@ -103,10 +104,10 @@ export default class EventDetails extends React.Component {
         return (
             <View style={styles.Rectangle1}>
                 <View style={styles.leftRectangle1}>
-                    <Text style={styles.label}> Mot-clés </Text>
+                    <AppText style={styles.label}> Mot-clés </AppText>
                 </View>
                 <View style={styles.rightRectangle1}>
-                    <Text style={styles.text}> {keywords + '\n' } </Text>
+                    <AppText style={styles.text}> {keywords + '\n' } </AppText>
                 </View>
             </View>
         );
@@ -116,10 +117,10 @@ export default class EventDetails extends React.Component {
         return (
             <View style={styles.Rectangle1}>
                 <View style={styles.leftRectangle1}>
-                    <Text style={styles.label}> Lieu </Text>
+                    <AppText style={styles.label}> Lieu </AppText>
                 </View>
                 <View style={styles.rightRectangle1}>
-                    <Text style={styles.text}> {location + '\n' } </Text>
+                    <AppText style={styles.text}> {location + '\n' } </AppText>
                 </View>
             </View>
         );
@@ -129,10 +130,10 @@ export default class EventDetails extends React.Component {
         return (
             <View style={styles.Rectangle1}>
                 <View style={styles.leftRectangle1}>
-                    <Text style={styles.text_titre}> Titre </Text>
+                    <AppText style={styles.text_titre}> Titre </AppText>
                 </View>
                 <View style={styles.rightRectangle1}>
-                    <Text style={styles.text}> {name + '\n' } </Text>
+                    <AppText style={styles.text}> {name + '\n' } </AppText>
                 </View>
             </View>
         );
@@ -242,22 +243,7 @@ const styles = StyleSheet.create({
         flex: 0.7,
     },
 
-    menu: {
-        width: 30,
-        height: 30,
-        backgroundColor: 'white',
-        borderRadius: 3,
-        borderWidth: 1,
-        borderColor: 'black',
-        justifyContent: 'flex-start',
-        margin: 5,
-    },
-
-    menu0: {
-        width: 85,
-    },
-
-    icon: {
+    burgerMenu: {
         width: 25,
         height: 25,
         marginLeft: 5,
@@ -286,7 +272,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 15,
         textAlign: 'left',
-        fontFamily: 'Cochin',
         fontWeight:'bold'
     },
 
@@ -294,13 +279,11 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 15,
         textAlign: 'left',
-        fontFamily: 'Cochin',
     },
     label: {
         color: 'black',
         fontSize: 15,
         textAlign: 'left',
-        fontFamily: 'Cochin',
         fontWeight: 'bold'
     },
 
