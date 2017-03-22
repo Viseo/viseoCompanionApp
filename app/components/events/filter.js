@@ -38,7 +38,7 @@ class Filter extends Component {
     }
 
     toggleFilter = () => {
-        let filteredData = this.state.selected ? [] : this.filter();
+        let filteredData = this.state.selected ? null : this.filter();
         this.props.onFilter(filteredData);
         this.setState({
             selected: !this.state.selected
@@ -48,6 +48,7 @@ class Filter extends Component {
     render() {
         let { selected } = this.state;
         let style = this.props.filterType === "circle" ? styles.circle : styles.rectangle;
+        let sideText = this.props.sideText ? this.renderSideText() : null;
         return (
             <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity
@@ -63,11 +64,17 @@ class Filter extends Component {
                         {this.props.text}
                     </Text>
                 </TouchableOpacity>
-                <Text style={styles.sideText}>
-                    {this.props.sideText}
-                </Text>
+                {sideText}
             </View>
         )
+    }
+
+    renderSideText() {
+        return (
+            <Text style={styles.sideText}>
+                {this.props.sideText}
+            </Text>
+        );
     }
 }
 
@@ -103,5 +110,6 @@ const styles = StyleSheet.create({
     sideText: {
         textAlign: 'center',
         marginTop: 10,
+        marginRight:30
     },
 });

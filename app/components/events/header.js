@@ -19,18 +19,20 @@ export default class Header extends Component {
     render() {
         let specialSearchCriteria = {
             'going': {
-                participating: true
+                participating: true,
             },
         }
         let filters = [
             {
                 name: 'participating',
-                displayText: strings.goingFilter,
+                displaySideText: strings.goingFilter,
+                filterType:'circle',
                 selectedColor: 'royalblue',
                 retain: {
                     property: 'participating',
                     value: true
-                }
+                },
+                intersect: true
             },
             {
                 name: 'important',

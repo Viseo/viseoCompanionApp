@@ -43,6 +43,7 @@ export default class Home extends Component {
             loaded: false,
             refreshing: false,
             isSearching: false,
+            isFiltering: false,
         };
     }
 
@@ -87,8 +88,8 @@ export default class Home extends Component {
             db.addEventParticipant(changedEvent.id, this.props.user.id);
     };
 
-    onFilter = filteredEvents => {
-        filteredEvents = filteredEvents.length > 0 ? filteredEvents : this.state.allEvents;
+    onFilter = (filteredEvents, activeFilters) => {
+        filteredEvents = activeFilters > 0 ? filteredEvents : this.state.allEvents;
         this.updateEventList(filteredEvents);
     };
 
