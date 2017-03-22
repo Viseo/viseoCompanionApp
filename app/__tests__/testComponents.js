@@ -5,7 +5,7 @@ import React from "react";
 import {shallow, mount} from "enzyme";
 import EventListView from '../components/events/eventListView';
 import EventDetails from '../components/events/eventDetails';
-import Home from '../scenes/home';
+import Filter from '../components/events/filter';
 
 function get(componentName, props) {
     switch (componentName) {
@@ -15,8 +15,8 @@ function get(componentName, props) {
         case 'EventListView':
             return shallow(<EventListView {...props}/>);
             break;
-        case 'Home':
-            return mount(<Home {...props}/>);
+        case 'Filter':
+            return shallow(<Filter {...props}/>);
             break;
         default:
             return null;

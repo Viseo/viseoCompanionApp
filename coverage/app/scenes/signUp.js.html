@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.78% </span>
+        <span class="strong">58.7% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>26/45</span>
+        <span class='fraction'>27/46</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">25.71% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">57.78% </span>
+        <span class="strong">58.7% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>26/45</span>
+        <span class='fraction'>27/46</span>
       </div>
     </div>
   </div>
@@ -312,7 +312,8 @@
 267
 268
 269
-270</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+270
+271</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -334,6 +335,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -607,6 +609,7 @@ import * as util from '../util/util';
 import db from '../util/db';
 import formStyle from './../styles/form';
 import strings from '../util/localizedStrings';
+import AppText from '../components/appText';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
 &nbsp;
@@ -776,10 +779,10 @@ export default class SignUp extends React.Component {
 &nbsp;
                         {/* Log in instead of creating a new account */}
                         &lt;TouchableHighlight onPress={this.onPressSignIn} underlayColor='transparent'&gt;
-                            &lt;Text
+                            &lt;AppText
                                 style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', paddingTop:15}}&gt;
                                 {strings.signInLink}
-                            &lt;/Text&gt;
+                            &lt;/AppText&gt;
                         &lt;/TouchableHighlight&gt;
                     &lt;/View&gt;
                 &lt;/ScrollView&gt;
@@ -808,9 +811,9 @@ export default class SignUp extends React.Component {
                         }}
                     &gt;
                         &lt;View&gt;
-                            &lt;Text style={{textAlign:'center'}}&gt;
+                            &lt;AppText style={{textAlign:'center'}}&gt;
                                 {strings.accountCreated}
-                            &lt;/Text&gt;
+                            &lt;/AppText&gt;
                             &lt;Button
                                 onPress={this.onAccountCreatedNotificationPressed}
                                 title="OK"
@@ -829,15 +832,15 @@ export default class SignUp extends React.Component {
         // Only relevant ones are showed
         // Several messages can be showed at the same time (in the following order)
         let emailMessage = !this.state.isEmailValid ?
-<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;Text style={formStyle.errorInfo}&gt;{strings.invalidEmailFormat}&lt;/Text&gt; : null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;AppText style={formStyle.errorInfo}&gt;{strings.invalidEmailFormat}&lt;/AppText&gt; : null;</span>
         let passwordMessage = !this.state.isPasswordValid ?
-<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;Text style={formStyle.errorInfo}&gt;{strings.invalidPasswordFormat}&lt;/Text&gt; : null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;AppText style={formStyle.errorInfo}&gt;{strings.invalidPasswordFormat}&lt;/AppText&gt; : null;</span>
         let passwordCheckMessage = !this.state.isPasswordCheckValid ?
-<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;Text style={formStyle.errorInfo}&gt;{strings.passwordsDontMatch}&lt;/Text&gt; : null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;AppText style={formStyle.errorInfo}&gt;{strings.passwordsDontMatch}&lt;/AppText&gt; : null;</span>
         let missingFieldsMessage = !this.state.isFormCompletelyFilled ?
-<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;Text style={formStyle.errorInfo}&gt;{strings.missingFormFields}&lt;/Text&gt; : null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;AppText style={formStyle.errorInfo}&gt;{strings.missingFormFields}&lt;/AppText&gt; : null;</span>
         let errorMessage = this.state.errorMessage.length &gt; 0 ?
-<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;Text style={formStyle.errorInfo}&gt;{this.state.errorMessage}&lt;/Text&gt; : null;</span>
+<span class="branch-0 cbranch-no" title="branch not covered" >            &lt;AppText style={formStyle.errorInfo}&gt;{this.state.errorMessage}&lt;/AppText&gt; : null;</span>
 &nbsp;
         return (
             &lt;View&gt;
@@ -856,7 +859,7 @@ export default class SignUp extends React.Component {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Mar 20 2017 16:37:37 GMT+0100 (Paris, Madrid)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 22 2017 13:12:29 GMT+0100 (Paris, Madrid)
 </div>
 </div>
 <script src="..\..\prettify.js"></script>
