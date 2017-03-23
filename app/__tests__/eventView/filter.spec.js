@@ -1,12 +1,6 @@
 /**
  * Created by AAB3605 on 14/03/2017.
  */
-import React from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
 import testUtil from '../testUtil';
 import testComponents from '../testComponents';
 
@@ -19,7 +13,7 @@ describe('Filter', () => {
             onFilter: filterFunction
         });
         let selectedBeforePress = testUtil.getState(filter).selected;
-        testUtil.press(filter, 'TouchableOpacity');
+        testUtil.press(testComponents.getChildren(filter, 'TouchableOpacity'));
         let selectedAfterPress = testUtil.getState(filter).selected;
         testUtil.compare(selectedAfterPress, !selectedBeforePress);
         testUtil.checkCall(filterFunction);
@@ -47,7 +41,7 @@ describe('Filter', () => {
             filter: retainCondition,
             onFilter
         });
-        testUtil.press(filter, 'TouchableOpacity');
+        testUtil.press(testComponents.getChildren(filter, 'TouchableOpacity'));
         testUtil.compare(filteredData, expectedFilteredData);
     });
 

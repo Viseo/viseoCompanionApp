@@ -4,11 +4,19 @@
 import React from "react";
 import {shallow, mount} from "enzyme";
 import EventListView from '../components/events/eventListView';
+import EventCard from '../components/events/eventCard';
 import EventDetails from '../components/events/eventDetails';
 import Filter from '../components/events/filter';
+import FilterBar from '../components/events/filterBar';
+import Header from '../components/header';
+import ViseoCompanion from '../index';
+import Home from '../scenes/home';
 
 function get(componentName, props) {
     switch (componentName) {
+        case 'EventCard':
+            return shallow(<EventCard {...props}/>);
+            break;
         case 'EventDetails':
             return shallow(<EventDetails {...props}/>);
             break;
@@ -18,11 +26,28 @@ function get(componentName, props) {
         case 'Filter':
             return shallow(<Filter {...props}/>);
             break;
+        case 'FilterBar':
+            return shallow(<FilterBar {...props}/>);
+            break;
+        case 'Header':
+            return shallow(<Header {...props}/>);
+            break;
+        case 'Home':
+            return shallow(<Home {...props}/>);
+            break;
+        case 'ViseoCompanion':
+            return shallow(<ViseoCompanion {...props}/>);
+            break;
         default:
             return null;
     }
 }
 
+function getChildren(parent, childName) {
+    return parent.find(childName);
+}
+
 export default testComponents = {
     get,
+    getChildren
 }

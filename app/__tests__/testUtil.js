@@ -21,6 +21,13 @@ import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
 import Home from './../scenes/home';
 
+function checkChildComponentWithPropValue(parent, child, prop, value) {
+    expect(parent.findWhere(n => {
+        return n.type() === child
+            && n.props()[prop] === value;
+    })).to.have.length(1);
+}
+
 function checkFieldContent(component, fieldName, fieldValue) {
     expect(component.find('.' + fieldName).props().children).to.equal(fieldValue);
 }
@@ -29,9 +36,9 @@ function checkComponentExists(component, className) {
     expect(component.find('.' + className)).to.have.length(1);
 }
 
-function checkChildComponentExists(parent, child) {
+function checkChildComponentExists(parent, child, occurrences = 1) {
     let c = parent.find(child);
-    expect(parent.find(child)).to.have.length(1);
+    expect(parent.find(child)).to.have.length(occurrences);
 }
 
 function getChildComponent(parent, className) {
@@ -60,8 +67,8 @@ function click(component, widget) {
     component.find(widget).simulate('click');
 }
 
-function press(component, widget) {
-    component.find(widget).simulate('press');
+function press(component) {
+    component.simulate('press');
 }
 
 function changeText(component) {
@@ -146,7 +153,7 @@ function createCheckCallFunction() {
 }
 
 function compare(value, expectedValue) {
-    return expect(expectedValue).to.deep.equal(value);
+    return expect(value).to.deep.equal(expectedValue);
 }
 
 function createAppText(props) {
@@ -154,6 +161,7 @@ function createAppText(props) {
 }
 
 export default testUtil = {
+    checkChildComponentWithPropValue,
     checkFieldContent,
     click,
     press,
@@ -183,5 +191,5 @@ export default testUtil = {
     createPasswordInput,
     createHome,
     checkCall,
-    createAppText
+    createAppText,
 };

@@ -13,6 +13,12 @@ export default class EventDetails extends Component {
         super(props);
     }
 
+    render() {
+        return(
+            <View></View>
+        );
+    }
+
 }
 
 const styles = StyleSheet.create({

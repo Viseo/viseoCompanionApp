@@ -24,7 +24,6 @@ import {
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-import db from '../util/db';
 import ListViewHeader from './../components/events/header';
 import Header from './../components/header';
 import AppText from '../components/appText';
@@ -48,16 +47,16 @@ export default class Home extends Component {
         };
     }
 
-    componentDidMount() {
-        this.loadEvents();
+    async componentDidMount() {
+        await this.loadEvents();
     }
 
     loadEvents = async() => {
         this.setState({
             refreshing: true
         });
-        let allEvents = await db.getEvents();
-        let eventsWhereLoggedUserIsGoing = await db.getEventsByRegisteredUser(this.props.user.id);
+        let allEvents = await this.props.db.getEvents();
+        let eventsWhereLoggedUserIsGoing = await this.props.db.getEventsByRegisteredUser(this.props.user.id);
         allEvents.forEach(event => {
             let participating = false;
             for (let key in eventsWhereLoggedUserIsGoing) {
@@ -85,8 +84,8 @@ export default class Home extends Component {
             showedEvents
         });
         await changedEvent.participating ?
-            db.removeEventParticipant(changedEvent.id, this.props.user.id) :
-            db.addEventParticipant(changedEvent.id, this.props.user.id);
+            this.props.db.removeEventParticipant(changedEvent.id, this.props.user.id) :
+            this.props.db.addEventParticipant(changedEvent.id, this.props.user.id);
     };
 
     onFilter = (filteredEvents, activeFilters) => {
@@ -112,20 +111,12 @@ export default class Home extends Component {
     };
 
     render() {
-        // let eventList;
-        // if (this.state.loaded) {
-        //     let hasEvents = this.allEvents && this.allEvents.length;
-        //     eventList = hasEvents ? this.renderEvents() : this.renderNoEventsToShow();
-        // } else {
-        //     this.renderLoadingIndicator();
-        // }
-        //
-
         // For now only the admin can create allEvents through the admin page
         let allowEventCreation = false;
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
 
-
+        let eventList = this.state.showedEvents.length > 0 ? this.renderEventView() : this.renderNoEventsToShow();
+        let eventView = this.state.loaded ? eventList : this.renderLoadingIndicator();
         return (
             <View style={{flex:1, backgroundColor:'white'}}>
                 <Header/>
@@ -141,7 +132,7 @@ export default class Home extends Component {
                         backgroundColor:'lightgrey'
                     }}
                 >
-                    {this.renderEventView()}
+                    {eventView}
                 </ScrollView>
                 {createEventButton}
             </View>

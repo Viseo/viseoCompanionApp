@@ -12,6 +12,7 @@ import EventCardTestScene from "./scenes/test/eventCardTestScene";
 import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
 import strings from "./util/localizedStrings";
 import setDateLang from './util/dateHandler';
+import db from './util/db';
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -65,7 +66,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'Home') {
                         return (
-                            <Home navigator={navigator} {...route.passProps}/>
+                            <Home navigator={navigator} {...route.passProps} db={db}/>
                         );
                     } else if(route.title === 'EventDetails') {
                         return (
