@@ -7,9 +7,8 @@ import Swipeout from 'react-native-swipe-out';
 import AppText from '../appText';
 import strings from '../../util/localizedStrings';
 import Highlighter from 'react-native-highlight-words';
+import categories from '../../util/eventCategories';
 
-let eventCategories = {"0": "important", "1": "informative", "2": "refreshing"};
-let eventCategoriesColors = {"important": "red", "informative": "orange", "refreshing": "lightgreen"};
 export default class EventCard extends Component {
 
     static defaultProps = {
@@ -90,9 +89,9 @@ export default class EventCard extends Component {
     }
 
     renderTypeIndicator() {
-        let eventCategory = eventCategories[this.props.categoryId];
+        let eventCategory = categories.eventCategories[this.props.categoryId];
         return (
-            <View style={[styles.eventType, {backgroundColor: eventCategoriesColors[eventCategory]}]}/>
+            <View style={[styles.eventType, {backgroundColor: categories.eventCategoriesColors[eventCategory]}]}/>
         );
     }
 
