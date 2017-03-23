@@ -7,7 +7,7 @@ import SignIn from './scenes/signIn';
 import SignUp from './scenes/signUp';
 import RecoverPassword from './scenes/recoverPassword';
 import Home from "./scenes/home";
-import EventDetails from "./scenes/eventDetails";
+import EventDetails from "./components/events/eventDetails";
 import EventCardTestScene from "./scenes/test/eventCardTestScene";
 import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
 import strings from "./util/localizedStrings";
