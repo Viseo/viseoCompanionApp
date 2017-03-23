@@ -33,7 +33,12 @@ let strings = new LocalizedStrings({
         goingFilter:'going',
         importantFilter:'important',
         informativeFilter:'informative',
-        entertainingFilter:'entertaining'
+        entertainingFilter:'entertaining',
+        participantsLabel: 'Going',
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        abrDays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        abrMonths: ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."],
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -59,7 +64,12 @@ let strings = new LocalizedStrings({
         goingFilter:'acceptés',
         importantFilter:'importants',
         informativeFilter:'informatifs',
-        entertainingFilter:'divertissants'
+        entertainingFilter:'divertissants',
+        participantsLabel: 'Inscrits',
+        days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+        abrDays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+        months: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+        abrMonths: ["Janv.", "Fev.", "Mars", "Avr.", "Mai", "Juin", "Juill.", "Août", "Sept.", "Oct.", "Nov.", "Déc."],
     }
 });
 
