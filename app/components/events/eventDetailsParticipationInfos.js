@@ -1,16 +1,11 @@
 /**
  * Created by VBO3596 on 22/03/2017.
  */
-import React, {Component} from 'react';
-import {
-    View,
-    TouchableOpacity,
-    StyleSheet,
-    Dimensions
-} from 'react-native';
-import AppText from '../appText';
+import React, {Component} from "react";
+import {View, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
+import AppText from "../appText";
 import strings from "../../util/localizedStrings";
-import * as util from '../../util/util';
+import * as util from "../../util/util";
 
 let {
     height: deviceHeight,
@@ -40,11 +35,9 @@ class EventDetailsParticipationInfos extends Component {
     render() {
         return (
             <View style={styles.rectangle}>
-                <View style={styles.container}>
                     {this.renderParticipants()}
                     {this.renderDate(this.props.event.date)}
                     {this.renderGoing()}
-                </View>
             </View>
         )
     }
@@ -98,22 +91,17 @@ export default EventDetailsParticipationInfos;
 
 const styles = StyleSheet.create({
     rectangle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         height: deviceHeight * 0.1,
         width: deviceWidth * 0.85,
         borderRadius: 10,
         borderWidth: 1,
         backgroundColor: 'white',
         borderColor: 'grey',
-    },
-
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginLeft: deviceWidth * 0.05,
-        marginRight: deviceWidth * 0.05,
-        marginTop: deviceWidth * 0.05,
-        marginBottom: deviceWidth * 0.05
+        paddingLeft: deviceWidth * 0.05,
+        paddingRight: deviceWidth * 0.05,
     },
 
     infoItem: {

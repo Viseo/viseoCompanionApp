@@ -82,8 +82,8 @@ const {
 
 const styles = StyleSheet.create({
     circle: {
-        height: 20,
-        width: 20,
+        height: deviceWidth * 0.05,
+        width: deviceWidth * 0.05,
         borderRadius: 30,
         margin: 10,
         backgroundColor: 'grey',
@@ -103,13 +103,13 @@ const styles = StyleSheet.create({
     innerText: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize:deviceHeight * 0.02,
+        fontSize: deviceHeight * 0.02,
     },
 
     sideText: {
         textAlign: 'center',
         textAlignVertical:'center',
-        marginRight:deviceHeight * 0.015,
-        fontSize:deviceHeight * 0.02,
+        marginRight: deviceHeight * 0.015,
+        fontSize: deviceHeight * 0.02,
     },
 });
