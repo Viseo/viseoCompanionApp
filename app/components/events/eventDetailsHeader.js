@@ -35,7 +35,7 @@ class EventDetailsHeader extends Component {
 
     renderOrganizatorPicture() {
         return (
-            <TouchableOpacity style={{marginTop: 5}}>
+            <TouchableOpacity style={styles.userPictureContainer}>
                 <Image source={require('./../../images/userAvatar.jpg')} style={styles.circle}/>
             </TouchableOpacity>
         );
@@ -43,7 +43,7 @@ class EventDetailsHeader extends Component {
 
     renderEventInfos() {
         return (
-            <View style={styles.infosContainer}>
+            <View style={styles.contentContainer}>
                 {this.renderTitle()}
                 {this.renderCategory()}
                 {this.renderUserName()}
@@ -98,8 +98,13 @@ export default EventDetailsHeader;
 const styles = StyleSheet.create({
     container: {
         height: deviceHeight * 0.25,
-        width: deviceWidth * 0.75,
+        width: deviceWidth,
         flexDirection: 'row'
+    },
+
+    userPictureContainer: {
+        height: deviceHeight * 0.25,
+        width: deviceWidth * 0.25,
     },
 
     circle: {
@@ -109,10 +114,11 @@ const styles = StyleSheet.create({
         margin: deviceWidth * 0.01
     },
 
-    infosContainer: {
+    contentContainer: {
+        height: deviceHeight * 0.25,
+        width: deviceWidth * 0.75,
         flexDirection: 'column',
-        marginTop: 5,
-        marginLeft: 10
+        justifyContent: 'space-between'
     },
 
     title: {
@@ -124,14 +130,9 @@ const styles = StyleSheet.create({
 
     category: {
         textAlign: 'left',
-        marginTop: deviceHeight * 0.01,
-        marginLeft: deviceWidth * 0.02
     },
 
     headerInfoItem: {
         flexDirection: 'row',
-        marginTop: deviceHeight * 0.002,
-        marginBottom: deviceHeight * 0.008,
-        marginLeft: deviceWidth * 0.01
     }
 });
