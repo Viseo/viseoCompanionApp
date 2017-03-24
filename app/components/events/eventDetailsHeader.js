@@ -1,16 +1,10 @@
 /**
  * Created by VBO3596 on 22/03/2017.
  */
-import React, {Component} from 'react';
-import {
-    View,
-    TouchableOpacity,
-    StyleSheet,
-    Image,
-    Dimensions
-} from 'react-native';
-import categories from '../../util/eventCategories';
-import AppText from '../appText';
+import React, {Component} from "react";
+import {View, TouchableOpacity, StyleSheet, Image, Dimensions} from "react-native";
+import categories from "../../util/eventCategories";
+import AppText from "../appText";
 
 let {
     height: deviceHeight,
@@ -103,7 +97,7 @@ export default EventDetailsHeader;
 
 const styles = StyleSheet.create({
     container: {
-        height: deviceHeight * 0.28,
+        height: deviceHeight * 0.25,
         width: deviceWidth * 0.75,
         flexDirection: 'row'
     },

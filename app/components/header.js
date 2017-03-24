@@ -17,10 +17,8 @@ class Header extends Component {
     render() {
         return(
             <View style={styles.topbar}>
-                {/*<View style={styles.titleContainer}>*/}
                     <Image source={require("../images/Menu-White.png")} style={styles.burgerMenu}/>
                     <AppText style={styles.viseocompanion}>VISEO COMPANION</AppText>
-                {/*</View>*/}
             </View>
         );
     }
@@ -41,15 +39,10 @@ const styles = StyleSheet.create({
         marginTop:(Platform.OS === 'ios') ? 20 : 0,
     },
     burgerMenu: {
-        position: 'absolute',
-        //top:0,
-        bottom:0,
+        flex:0,
         width: 25,
         height: 25,
         margin:10,
-    },
-    titleContainer:{
-        flexDirection: 'row',
     },
     viseocompanion: {
         textAlign: 'center',

@@ -1,13 +1,8 @@
 /**
  * Created by VBO3596 on 10/03/2017.
  */
-import React, {Component} from 'react';
-import {
-    View,
-    TouchableOpacity,
-    StyleSheet,
-    Text
-} from 'react-native';
+import React, {Component} from "react";
+import {View, TouchableOpacity, StyleSheet, Text, Dimensions} from "react-native";
 
 class Filter extends Component {
 
@@ -50,7 +45,7 @@ class Filter extends Component {
         let style = this.props.filterType === "circle" ? styles.circle : styles.rectangle;
         let sideText = this.props.sideText ? this.renderSideText() : null;
         return (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', alignItems:'center'}}>
                 <TouchableOpacity
                     style={[
                     style,
@@ -80,6 +75,11 @@ class Filter extends Component {
 
 export default Filter;
 
+const {
+    height: deviceHeight,
+    width: deviceWidth,
+} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     circle: {
         height: 20,
@@ -93,10 +93,8 @@ const styles = StyleSheet.create({
 
     rectangle: {
         height: 30,
-        width: 90,
+        width: deviceWidth * 0.2,
         borderRadius: 1,
-        marginTop: 5,
-        marginBottom: 10,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center'
@@ -104,12 +102,14 @@ const styles = StyleSheet.create({
 
     innerText: {
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize:deviceHeight * 0.016,
     },
 
     sideText: {
         textAlign: 'center',
-        marginTop: 10,
-        marginRight:30
+        textAlignVertical:'center',
+        marginRight:30,
+        fontSize:deviceHeight * 0.016,
     },
 });

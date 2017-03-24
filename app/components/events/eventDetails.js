@@ -2,18 +2,11 @@
  * Created by AAB3605 on 20/03/2017.
  */
 import React, {Component} from "react";
-import {
-    StyleSheet,
-    Image,
-    ScrollView,
-    View,
-    Dimensions
-} from "react-native";
-
-import Header from '../header';
-import AppText from '../appText';
-import EventDetailsHeader from './eventDetailsHeader';
-import EventDetailsParticipationInfos from './eventDetailsParticipationInfos';
+import {StyleSheet, Image, ScrollView, View, Dimensions} from "react-native";
+import Header from "../header";
+import AppText from "../appText";
+import EventDetailsHeader from "./eventDetailsHeader";
+import EventDetailsParticipationInfos from "./eventDetailsParticipationInfos";
 
 let {
     height: deviceHeight,
@@ -37,7 +30,6 @@ export default class EventDetails extends Component {
                 <View style={styles.container}>
                     {this.renderEventHeader(event)}
                     <ScrollView
-                        contentInset={{top : -50}}
                         style={{height: deviceHeight}}>
                         {this.renderEventIllustration()}
                         {this.renderEventParticipationInfos(event)}
