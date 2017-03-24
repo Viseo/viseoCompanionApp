@@ -1,18 +1,18 @@
 /**
  * Created by AAB3605 on 13/02/2017.
  */
-import React, {Component} from 'react';
-import {View, Text, Navigator, BackAndroid} from 'react-native';
-import SignIn from './scenes/signIn';
-import SignUp from './scenes/signUp';
-import RecoverPassword from './scenes/recoverPassword';
+import React, {Component} from "react";
+import {View, Text, Navigator, BackAndroid} from "react-native";
+import SignIn from "./scenes/signIn";
+import SignUp from "./scenes/signUp";
+import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import EventDetails from "./components/events/eventDetails";
 import EventCardTestScene from "./scenes/test/eventCardTestScene";
 import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
 import strings from "./util/localizedStrings";
-import setDateLang from './util/dateHandler';
-import db from './util/db';
+import setDateLang from "./util/dateHandler";
+import db from "./util/db";
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -26,6 +26,7 @@ export default class ViseoCompanion extends Component {
      * When the back button is pressed, navigate back to the previous scene.
      */
     componentWillMount() {
+        // strings.setLanguage('fr');
         setDateLang(strings.getLanguage());
 
         BackAndroid.addEventListener('hardwareBackPress', () => {

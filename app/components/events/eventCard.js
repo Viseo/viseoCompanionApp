@@ -168,18 +168,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         backgroundColor: 'white',
-        height: deviceHeight * 0.13,
+        height: deviceHeight * 0.17,
     },
     dotContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 10,
-        marginLeft: 3,
-        marginRight: 3,
+        marginLeft: deviceWidth * 0.005,
+        marginRight: deviceWidth * 0.005,
     },
     dot: {
-        width: 10,
-        height: 10,
+        width: deviceWidth * 0.03,
+        height: deviceWidth * 0.03,
         borderRadius: 50,
     },
     eventInfo: {
@@ -187,8 +186,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 5,
-        borderBottomWidth: 0.8,
-        borderBottomColor: '#999999'
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#999999',
+        borderTopWidth: 0.5,
+        borderTopColor: '#999999',
     },
     firstColumn: {
         flex:3,
@@ -200,17 +201,17 @@ const styles = StyleSheet.create({
     },
     eventName: {
         flex: 0,
-        paddingBottom: 6,
+        paddingBottom: deviceHeight * 0.01,
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 19,
+        fontSize: deviceWidth * 0.054,
         color: 'black',
     },
     eventDescription: {
         flex: 3,
         textAlign: 'left',
         fontWeight: '400',
-        fontSize: 14,
+        fontSize: deviceWidth * 0.045,
         color: "#8c8c8c",
         textAlignVertical:'bottom',
     },
@@ -223,12 +224,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: '300',
         color: '#2c2c2c',
+        fontSize: deviceWidth * 0.035
     },
     eventType: {
-        width: 9,
-        height: deviceHeight * 0.13,
+        width: 5,
+        alignSelf:'stretch',
         backgroundColor: '#ef4954',
-        marginLeft: 4,
     }
 });
 

@@ -1,7 +1,7 @@
 /**
  * Created by AAB3605 on 21/02/2017.
  */
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 
 let strings = new LocalizedStrings({
@@ -30,10 +30,10 @@ let strings = new LocalizedStrings({
         at:'at',
         IAmGoingToEvent:"Go",
         IAmNotGoingToEvent:"Don't go",
-        goingFilter:'going',
-        importantFilter:'important',
-        informativeFilter:'informative',
-        entertainingFilter:'entertaining',
+        goingFilter:'Going',
+        importantFilter:'Important',
+        informativeFilter:'Informative',
+        entertainingFilter:'Entertaining',
         participantsLabel: 'Going',
         days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         abrDays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -61,10 +61,10 @@ let strings = new LocalizedStrings({
         at:'à',
         IAmGoingToEvent:"Accepter",
         IAmNotGoingToEvent:"Décliner",
-        goingFilter:'acceptés',
-        importantFilter:'importants',
-        informativeFilter:'informatifs',
-        entertainingFilter:'divertissants',
+        goingFilter:'Acceptés',
+        importantFilter:'Importants',
+        informativeFilter:'Informatifs',
+        entertainingFilter:'Divertissants',
         participantsLabel: 'Inscrits',
         days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
         abrDays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],

@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
     },
 
     rectangle: {
-        height: 30,
-        width: deviceWidth * 0.2,
+        height: deviceHeight * 0.06,
+        width: deviceWidth * 0.24,
         borderRadius: 1,
         backgroundColor: 'white',
         justifyContent: 'center',
@@ -103,13 +103,13 @@ const styles = StyleSheet.create({
     innerText: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize:deviceHeight * 0.016,
+        fontSize:deviceHeight * 0.02,
     },
 
     sideText: {
         textAlign: 'center',
         textAlignVertical:'center',
-        marginRight:30,
-        fontSize:deviceHeight * 0.016,
+        marginRight:deviceHeight * 0.015,
+        fontSize:deviceHeight * 0.02,
     },
 });
