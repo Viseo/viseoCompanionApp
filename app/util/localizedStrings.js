@@ -47,7 +47,7 @@ let strings = new LocalizedStrings({
         emailAlreadyUsed: 'Ce mail est déjà utilisé',
         forgotPassword:'Oublié?',
         invalidEmailFormat: "L'adresse mail entrée n'est pas valide",
-        invalidPasswordFormat: 'The mot de passe doit contenir au minimum 6 caractères.',
+        invalidPasswordFormat: 'Le mot de passe doit contenir au minimum 6 caractères.',
         missingFormFields: 'Veuillez remplir tous les champs.',
         rememberMe: 'Se souvenir de moi',
         password: 'Mot de passe',

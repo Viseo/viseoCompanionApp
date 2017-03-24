@@ -80,7 +80,7 @@ export default class SignIn extends Component {
             console.warn('signIn::authenticateUser ' + error);
             this.setState({errorMessage: strings.unableToReachServer});
         }
-    }
+    };
 
     async onPressSignIn() {
         this.setState({errorMessage: ''});

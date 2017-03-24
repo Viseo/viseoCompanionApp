@@ -98,7 +98,7 @@ class FilterBar extends Component {
             );
         });
         return (
-            <View style={{flexDirection: 'row', justifyContent:'center'}}>
+            <View style={styles.container}>
                 {filters}
             </View>
         );
@@ -110,9 +110,7 @@ export default FilterBar;
 var styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        marginRight: 0,
-        marginLeft: 40
+        justifyContent: 'center',
+        marginBottom: 4,
     }
 });
