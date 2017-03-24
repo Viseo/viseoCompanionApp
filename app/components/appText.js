@@ -1,22 +1,17 @@
 /**
  * Created by LMA3606 on 21/03/2017.
  */
-
-import React, {Component} from 'react';
-import {
-    View,
-    Text,
-    StyleSheet
-} from 'react-native';
+import React, {Component} from "react";
+import {View, Text, StyleSheet, Platform} from "react-native";
 
 class AppText extends Component {
-    constructor(props) {
-        super(props);
+    setNativeProps (nativeProps) {
+        this._root.setNativeProps(nativeProps);
     }
 
     render() {
         return(
-            <Text style={[style.textStyle, this.props.style]} className={this.props.className}>
+            <Text style={[style.textStyle, this.props.style]} className={this.props.className} ref={component => this._root = component}>
                 {this.props.children}
             </Text>
         );
@@ -27,6 +22,6 @@ export default AppText;
 
 const style = StyleSheet.create({
     textStyle: {
-        fontFamily: 'Roboto',
+        fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
     }
 });

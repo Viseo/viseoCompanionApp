@@ -1,13 +1,13 @@
 /**
  * Created by AAB3605 on 10/03/2017.
  */
-import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState, Dimensions} from 'react-native';
-import Swipeout from 'react-native-swipe-out';
-import AppText from '../appText';
-import strings from '../../util/localizedStrings';
-import Highlighter from 'react-native-highlight-words';
-import categories from '../../util/eventCategories';
+import React, {Component} from "react";
+import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState, Dimensions, Platform} from "react-native";
+import Swipeout from "react-native-swipe-out";
+import AppText from "../appText";
+import strings from "../../util/localizedStrings";
+import Highlighter from "react-native-highlight-words";
+import categories from "../../util/eventCategories";
 
 export default class EventCard extends Component {
 
@@ -235,6 +235,6 @@ const styles = StyleSheet.create({
 
 const styleFont = StyleSheet.create({
     textFont: {
-        fontFamily: 'Roboto',
+        fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
     }
 });

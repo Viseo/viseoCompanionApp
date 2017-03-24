@@ -13,7 +13,6 @@ import {
     NavMenu,
     ScrollView,
     View,
-    TouchableOpacity,
     ListView,
     Dimensions,
     RefreshControl,
@@ -24,10 +23,10 @@ import {
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-import ListViewHeader from './../components/events/header';
-import Header from './../components/header';
-import AppText from '../components/appText';
-import EventListView from './../components/events/eventListView';
+import ListViewHeader from "./../components/events/header";
+import Header from "./../components/header";
+import AppText from "../components/appText";
+import EventListView from "./../components/events/eventListView";
 
 export default class Home extends Component {
 

@@ -1,20 +1,12 @@
 /**
  * Created by LMA3606 on 16/03/2017.
  */
-
 /**
  * Created by LMA3606 on 16/03/2017.
  */
-import React, {Component} from 'react';
-import {
-    View,
-    StyleSheet,
-    Platform,
-    Dimensions,
-    Image,
-    Text
-} from 'react-native';
-import AppText from './appText';
+import React, {Component} from "react";
+import {View, StyleSheet, Platform, Dimensions, Image, Text} from "react-native";
+import AppText from "./appText";
 
 class Header extends Component {
 
@@ -25,10 +17,10 @@ class Header extends Component {
     render() {
         return(
             <View style={styles.topbar}>
-                <Image source={require("../images/Menu-White.png")} style={styles.burgerMenu}/>
-                <View style={styles.titleContainer}>
+                {/*<View style={styles.titleContainer}>*/}
+                    <Image source={require("../images/Menu-White.png")} style={styles.burgerMenu}/>
                     <AppText style={styles.viseocompanion}>VISEO COMPANION</AppText>
-                </View>
+                {/*</View>*/}
             </View>
         );
     }
@@ -50,6 +42,8 @@ const styles = StyleSheet.create({
     },
     burgerMenu: {
         position: 'absolute',
+        //top:0,
+        bottom:0,
         width: 25,
         height: 25,
         margin:10,
