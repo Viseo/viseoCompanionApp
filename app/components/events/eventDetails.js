@@ -35,10 +35,10 @@ export default class EventDetails extends Component {
             <View>
                 <Header/>
                 <View style={styles.container}>
+                    {this.renderEventHeader(event)}
                     <ScrollView
                         contentInset={{top : -50}}
                         style={{height: deviceHeight}}>
-                        {this.renderEventHeader(event)}
                         {this.renderEventIllustration()}
                         {this.renderEventParticipationInfos(event)}
                         {this.renderEventDescription(event.description)}
@@ -52,7 +52,9 @@ export default class EventDetails extends Component {
 
     renderEventHeader(event) {
         return (
-            <EventDetailsHeader event={event}/>
+            <View style={{width: deviceWidth}} >
+                <EventDetailsHeader event={event}/>
+            </View>
         );
     }
 
