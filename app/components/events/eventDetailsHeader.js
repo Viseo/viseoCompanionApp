@@ -103,7 +103,7 @@ export default EventDetailsHeader;
 
 const styles = StyleSheet.create({
     container: {
-        height: deviceHeight * 0.25,
+        height: deviceHeight * 0.28,
         width: deviceWidth * 0.75,
         flexDirection: 'row'
     },
@@ -136,8 +136,8 @@ const styles = StyleSheet.create({
 
     headerInfoItem: {
         flexDirection: 'row',
-        marginTop: deviceHeight * 0.005,
-        marginBottom: deviceHeight * 0.005,
+        marginTop: deviceHeight * 0.002,
+        marginBottom: deviceHeight * 0.008,
         marginLeft: deviceWidth * 0.01
     }
 });
