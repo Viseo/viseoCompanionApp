@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
 
     headerInfoItem: {
         flexDirection: 'row',
-        marginTop: deviceHeight * 0.01,
+        marginTop: deviceHeight * 0.005,
+        marginBottom: deviceHeight * 0.005,
         marginLeft: deviceWidth * 0.01
     }
 });
