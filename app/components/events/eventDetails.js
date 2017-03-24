@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         overflow: 'hidden',
         height: 0.85 * deviceHeight,
-        marginTop: 0.01 * deviceHeight,
     },
 
     illustration: {
