@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
     },
 
     circle: {
-        height: 90,
-        width: 90,
+        height: deviceWidth * 0.24,
+        width: deviceWidth * 0.24,
         borderRadius: 45,
         margin: deviceWidth * 0.01
     },
@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
         height: deviceHeight * 0.25,
         width: deviceWidth * 0.75,
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginLeft: deviceWidth * 0.03
     },
 
     title: {
