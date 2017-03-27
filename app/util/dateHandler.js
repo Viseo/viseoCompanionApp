@@ -17,7 +17,7 @@ export default function setDateLang(lang) {
             weekdaysMin: 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
             weekdaysParseExact: true,
             longDateFormat: {
-                LT: 'HH:mm',
+                LT: 'HH[h]mm',
                 LTS: 'HH:mm:ss',
                 L: 'DD/MM/YYYY',
                 LL: 'D MMMM YYYY',
@@ -27,10 +27,10 @@ export default function setDateLang(lang) {
             calendar: {
                 sameDay: '[Aujourd’hui] LT',
                 nextDay: '[Demain] LT',
-                nextWeek: 'dddd [à] LT',
-                lastDay: '[Hier à] LT',
-                lastWeek: 'dddd [dernier à] LT',
-                sameElse: 'll'
+                nextWeek: 'dddd LT',
+                lastDay: '[Hier] LT',
+                lastWeek: 'dddd [dernier] LT',
+                sameElse: 'dddd Do MMMM'
             },
             relativeTime: {
                 future: 'dans %s',
@@ -47,10 +47,10 @@ export default function setDateLang(lang) {
                 y: 'un an',
                 yy: '%d ans',
             },
-            dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
-            ordinal: function (number) {
-                return number + (number === 1 ? 'er' : 'e');
-            },
+            // dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
+            // ordinal: function (number) {
+            //     return number + (number === 1 ? 'er' : 'e');
+            // },
             meridiemParse: /PD|MD/,
             isPM: function (input) {
                 return input.charAt(0) === 'M';

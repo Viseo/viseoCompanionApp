@@ -26,7 +26,7 @@ export default class ViseoCompanion extends Component {
      * When the back button is pressed, navigate back to the previous scene.
      */
     componentWillMount() {
-        // strings.setLanguage('fr');
+        strings.setLanguage('fr');
         setDateLang(strings.getLanguage());
 
         BackAndroid.addEventListener('hardwareBackPress', () => {
