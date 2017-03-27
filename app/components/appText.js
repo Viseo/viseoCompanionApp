@@ -11,7 +11,8 @@ class AppText extends Component {
 
     render() {
         return(
-            <Text style={[style.textStyle, this.props.style]} className={this.props.className} ref={component => this._root = component}>
+            <Text
+                style={[style.textStyle, this.props.style]} className={this.props.className} ref={component => this._root = component}>
                 {this.props.children}
             </Text>
         );

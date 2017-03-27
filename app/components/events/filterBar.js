@@ -7,6 +7,7 @@ import {
     StyleSheet,
 } from 'react-native';
 import Filter from './filter';
+import colors from './colors';
 
 class FilterBar extends Component {
 
@@ -99,7 +100,15 @@ class FilterBar extends Component {
         });
         return (
             <View style={styles.container}>
-                {filters}
+                <View style={{
+                    backgroundColor:'white',
+                    flex:1,
+                    flexDirection:'row',
+                    borderBottomLeftRadius:8,
+                    borderBottomRightRadius:8,
+                }}>
+                    {filters}
+                </View>
             </View>
         );
     }
@@ -111,6 +120,8 @@ var styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginBottom: 4,
+        backgroundColor:'royalblue',
+        borderTopWidth:0.5,
+        borderColor: 'lightgray'
     }
 });

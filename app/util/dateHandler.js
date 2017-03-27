@@ -13,7 +13,7 @@ export default function setDateLang(lang) {
             monthsShort: 'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
             monthsParseExact: true,
             weekdays: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
-            weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
+            weekdaysShort: 'Dim_Lun_Mar_Mer_Jeu_Ven_Sam'.split('_'),
             weekdaysMin: 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
             weekdaysParseExact: true,
             longDateFormat: {
@@ -25,12 +25,12 @@ export default function setDateLang(lang) {
                 LLLL: 'dddd D MMMM YYYY HH:mm'
             },
             calendar: {
-                sameDay: '[Aujourd’hui] LT',
+                sameDay: '[Auj] LT',
                 nextDay: '[Demain] LT',
-                nextWeek: 'dddd LT',
+                nextWeek: 'ddd LT',
                 lastDay: '[Hier] LT',
-                lastWeek: 'dddd [dernier] LT',
-                sameElse: 'dddd Do MMMM'
+                lastWeek: 'ddd [dernier] LT',
+                sameElse: 'ddd Do MMMM'
             },
             relativeTime: {
                 future: 'dans %s',

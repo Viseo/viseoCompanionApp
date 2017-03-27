@@ -3,6 +3,7 @@
  */
 import React, {Component} from "react";
 import {View, TouchableOpacity, StyleSheet, Text, Dimensions} from "react-native";
+import colors from './colors';
 
 class Filter extends Component {
 
@@ -42,24 +43,28 @@ class Filter extends Component {
 
     render() {
         let { selected } = this.state;
-        let style = this.props.filterType === "circle" ? styles.circle : styles.rectangle;
-        let sideText = this.props.sideText ? this.renderSideText() : null;
         return (
-            <View style={{flexDirection: 'row', alignItems:'center'}}>
-                <TouchableOpacity
-                    style={[
-                    style,
+            <View
+                style={[
+                    {
+                    flexDirection: 'row',
+                    justifyContent:'center',
+                    alignItems:'center',
+                    flex:1,
+                    },
                     selected && {backgroundColor: this.props.selectedColor},
-                    ]}
+                ]}
+            >
+                <TouchableOpacity
                     onPress={this.toggleFilter}
                 >
                     <Text style={[styles.innerText,
                     selected && {color: 'white'},
-                    !selected && {color: this.props.selectedColor}]}>
+                    !selected && {color: colors.mediumGray}]}>
                         {this.props.text}
                     </Text>
+
                 </TouchableOpacity>
-                {sideText}
             </View>
         )
     }
@@ -90,26 +95,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
-    rectangle: {
-        height: deviceHeight * 0.06,
-        width: deviceWidth * 0.24,
-        borderRadius: 1,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
     innerText: {
         textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: deviceHeight * 0.02,
+        fontWeight: '200',
+        fontSize: 14,
+        paddingVertical:10
     },
 
     sideText: {
         textAlign: 'center',
         textAlignVertical:'center',
-        marginRight: deviceHeight * 0.015,
-        fontSize: deviceHeight * 0.02,
+        fontSize: 14,
     },
 });

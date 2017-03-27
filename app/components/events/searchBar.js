@@ -5,7 +5,8 @@ import React, {Component} from 'react';
 import {
     View,
     TextInput,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
 
 class SearchBar extends Component {
@@ -80,12 +81,20 @@ class SearchBar extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TextInput
-                    className="searchBar"
-                    style={styles.input}
-                    placeholder="Search..."
-                    onChangeText={this.onChangeText}
-                />
+                <View style={{
+                    flex:5,
+                }}>
+                    <TextInput
+                        className="searchBar"
+                        style={[
+                            styles.input,
+                            this.props.filtersVisible && styles.inputWhenFilterBarIsVisible
+                        ]}
+                        placeholder="Search..."
+                        onChangeText={this.onChangeText}
+                        underlineColorAndroid='rgba(0,0,0,0)'
+                    />
+                </View>
             </View>
         );
     }
@@ -96,18 +105,21 @@ export default SearchBar;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 6,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#dadada',
+        backgroundColor:'white',
+        borderRadius:8
     },
     input: {
         height: 40,
         flex: 1,
-        paddingHorizontal: 8,
         fontSize: 15,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 2,
+        backgroundColor: 'white',
         textAlign: 'center',
+        borderTopLeftRadius:8,
+        borderBottomLeftRadius:8,
     },
+    inputWhenFilterBarIsVisible: {
+        borderBottomLeftRadius:0
+    }
 });

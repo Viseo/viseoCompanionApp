@@ -8,6 +8,7 @@ import AppText from "../appText";
 import strings from "../../util/localizedStrings";
 import Highlighter from "react-native-highlight-words";
 import categories from "../../util/eventCategories";
+import colors from "./colors";
 
 export default class EventCard extends Component {
 
@@ -16,7 +17,7 @@ export default class EventCard extends Component {
         description: '',
         location: '',
         date: '',
-        categoryId:'',
+        categoryId: '',
         onParticipationChange: () => {
         },
         searchWords: {
@@ -27,13 +28,6 @@ export default class EventCard extends Component {
 
     constructor(props) {
         super(props);
-    }
-
-    getBriefIfTextIsTooLong(text, maxLength) {
-        if (text.length > maxLength) {
-            text = text.substr(0, maxLength) + '...';
-        }
-        return text;
     }
 
     getSearchWords(property) {
@@ -52,7 +46,8 @@ export default class EventCard extends Component {
                     this.props.onParticipationChange()
                 },
                 backgroundColor: '#ba7a7c',
-                color: '#601d20',
+                color: 'white',
+                overflow:'truncate'
             }] :
             [{
                 className: 'participate',
@@ -60,8 +55,9 @@ export default class EventCard extends Component {
                 onPress: () => {
                     this.props.onParticipationChange()
                 },
-                backgroundColor: '#4fba8a',
-                color: '#14605a',
+                backgroundColor: colors.blue,
+                color: 'white',
+                overflow:'hidden'
             }];
     }
 
@@ -71,9 +67,10 @@ export default class EventCard extends Component {
             <View>
                 <Swipeout
                     className="swipeout"
-                    style={{ backgroundColor: '#c1c1c1' }}
-                    right={swipeOption}
+                    style={{ backgroundColor: 'white' }}
+                    left={swipeOption}
                     autoClose={true}
+                    overflow="hidden"
                 >
                     <TouchableOpacity
                         style={styles.card}
@@ -84,6 +81,18 @@ export default class EventCard extends Component {
                         {this.renderEventInfo()}
                     </TouchableOpacity>
                 </Swipeout>
+            </View>
+        );
+    }
+
+    renderSpacer() {
+        return (
+            <View
+                style={{
+                    flex:1,
+                    alignSelf:'stretch'
+                }}
+            >
             </View>
         );
     }
@@ -100,7 +109,7 @@ export default class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor:(this.props.participating) ? '#4169E1' : 'white'}
+                    {backgroundColor:(this.props.participating) ? colors.blue : 'white'}
                 ]}/>
             </View>
         );
@@ -109,48 +118,68 @@ export default class EventCard extends Component {
     renderEventInfo() {
         return (
             <View style={styles.eventInfo}>
-                <View style={styles.firstColumn}>
+                {this.renderSpacer()}
+                <View style={styles.firstRow}>
                     {this.renderTitle()}
+                    {this.renderDate()}
+                </View>
+                <View style={styles.secondRow}>
+                    {this.renderLocation()}
                     {this.renderDescription()}
                 </View>
-                <View style={styles.secondColumn}>
-                    {this.renderDateAndLocation()}
-                </View>
+                {this.renderSpacer()}
             </View>
         );
     }
 
     renderTitle() {
         return (
-            <Highlighter
-                highlightStyle={{backgroundColor: 'yellow'}}
-                style={[styles.eventName, styleFont.textFont]}
-                searchWords={this.getSearchWords('name')}
-                textToHighlight={this.getBriefIfTextIsTooLong(this.props.name, 31)}
-            />
+            <View style={styles.name}>
+                <Highlighter
+                    highlightStyle={{backgroundColor: 'yellow'}}
+                    style={[styles.nameText, styleFont.textFont]}
+                    searchWords={this.getSearchWords('name')}
+                    textToHighlight={this.props.name}
+                />
+            </View>
         );
     }
 
     renderDescription() {
         return (
+            <View style={styles.description}>
                 <Highlighter
+                    numberOfLines={1}
                     highlightStyle={{backgroundColor: 'yellow'}}
-                    style={[styles.eventDescription, styleFont.textFont]}
+                    style={[styles.descriptionText, styleFont.textFont]}
                     searchWords={this.getSearchWords('description')}
-                    textToHighlight={this.getBriefIfTextIsTooLong(this.props.description, 100)}
+                    textToHighlight={this.props.description}
                 />
+            </View>
         );
     }
 
-    renderDateAndLocation() {
+    renderDate() {
+        let formattedDate = this.props.day + ' ' + this.props.time;
         return (
-            <View style={styles.eventLocation}>
-                     <AppText className="info date" style={styles.eventLocationText}>
-                         {this.props.date}
-                     </AppText>
-                     <AppText className="info location" style={styles.eventLocationText}>
-                         {this.getBriefIfTextIsTooLong(this.props.location.toUpperCase(),30)}
-                     </AppText>
+            <View style={styles.date}>
+                <Highlighter
+                    numberOfLines={1}
+                    highlightStyle={{backgroundColor: 'yellow'}}
+                    style={[styles.dateText, styleFont.textFont]}
+                    searchWords={this.getSearchWords('date')}
+                    textToHighlight={formattedDate}
+                />
+            </View>
+        );
+    }
+
+    renderLocation() {
+        return (
+            <View style={styles.location}>
+                <AppText className="info location" style={styles.locationText}>
+                    {this.props.location}
+                </AppText>
             </View>
 
         );
@@ -168,68 +197,98 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         backgroundColor: 'white',
-        height: deviceHeight * 0.17,
-    },
-    dotContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: deviceWidth * 0.005,
-        marginRight: deviceWidth * 0.005,
-    },
-    dot: {
-        width: deviceWidth * 0.03,
-        height: deviceWidth * 0.03,
-        borderRadius: 50,
+        height: 100,
+        borderBottomWidth: 0.5,
+        borderColor: 'lightgray',
     },
     eventInfo: {
-        flex: 1,
-        flexDirection: 'row',
+        flex: 100,
+        flexDirection: 'column',
         justifyContent: 'space-between',
-        padding: 5,
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#999999',
-        borderTopWidth: 0.5,
-        borderTopColor: '#999999',
+        paddingLeft:10
+        // borderBottomWidth: 0.5,
+        // borderBottomColor: '#999999',
+        // borderTopWidth: 0.5,
+        // borderTopColor: '#999999',
+    },
+    firstRow: {
+        flex: 3,
+        flexDirection: 'row',
+        paddingRight:10
+    },
+    secondRow: {
+        flex: 6,
+        flexDirection: 'column',
+        paddingRight:10
+    },
+    name: {
+        flex: 6,
+        justifyContent: 'flex-end',
+    },
+    nameText: {
+        fontWeight: '300',
+        textAlign: 'left',
+        fontSize: 16,
+        color: 'black',
+    },
+    date: {
+        flex: 3,
+        justifyContent: 'flex-end',
+    },
+    dateText: {
+        textAlign: 'right',
+        fontWeight: '100',
+        color: colors.mediumGray,
+        fontSize: 14
+    },
+    description: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingRight:5,
+    },
+    descriptionText: {
+        textAlign: 'left',
+        fontWeight: '100',
+        fontSize: 14,
+        overflow:'hidden',
+        // fontSize: deviceWidth * 0.045,
+        color: colors.mediumGray,
+        // textAlignVertical: 'bottom',
+    },
+    location: {
+        flex: 1,
+        justifyContent: 'space-around',
+    },
+    locationText: {
+        textAlign: 'left',
+        fontWeight: '300',
+        color: '#8c8c8c',
+        fontSize: 14
+    },
+    dotContainer: {
+        flex:5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    dot: {
+        width: 10,
+        height: 10,
+        borderRadius: 50,
     },
     firstColumn: {
-        flex:3,
+        flex: 3,
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
     secondColumn: {
         flex: 1,
-    },
-    eventName: {
-        flex: 0,
-        paddingBottom: deviceHeight * 0.01,
-        fontWeight: 'bold',
-        textAlign: 'left',
-        fontSize: deviceWidth * 0.052,
-        color: 'black',
-    },
-    eventDescription: {
-        flex: 3,
-        textAlign: 'left',
-        fontWeight: '400',
-        fontSize: 15,
-        // fontSize: deviceWidth * 0.045,
-        color: "#8c8c8c",
-        textAlignVertical:'bottom',
-    },
-    eventLocation: {
-        flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-around',
     },
-    eventLocationText: {
-        textAlign: 'center',
-        fontWeight: '300',
-        color: '#2c2c2c',
-        fontSize: deviceWidth * 0.035
-    },
     eventType: {
-        width: 5,
-        alignSelf:'stretch',
+        width: 3,
+        flex:1,
+        alignSelf: 'stretch',
         backgroundColor: '#ef4954',
     }
 });

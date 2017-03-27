@@ -11,10 +11,10 @@ import {
     Button
 } from "react-native";
 import CheckBox from 'react-native-check-box';
-import EmailInput from './../components/emailInput';
-import testUtil from './testUtil';
-import strings from '../util/localizedStrings';
-import PasswordInput from './../components/passwordInput';
+import EmailInput from '../../components/emailInput';
+import testUtil from '../testUtil';
+import strings from '../../util/localizedStrings';
+import PasswordInput from '../../components/passwordInput';
 
 describe('Sign In Form', () => {
     const signInSubmitFunction = testUtil.createCheckCallFunction();

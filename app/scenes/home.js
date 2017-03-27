@@ -237,7 +237,6 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginLeft: 3,
         fontSize: 18,
-        marginBottom: 2,
         backgroundColor: 'white',
     },
 

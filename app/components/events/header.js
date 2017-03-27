@@ -4,16 +4,22 @@
 import React, {Component} from 'react';
 import {
     View,
-    StyleSheet
+    StyleSheet,
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import SearchBar from './searchBar';
 import FilterBar from './filterBar';
 import strings from "../../util/localizedStrings";
+import colors from './colors';
 
 export default class Header extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            filtersVisible: false
+        }
     }
 
     render() {
@@ -25,9 +31,9 @@ export default class Header extends Component {
         let filters = [
             {
                 name: 'participating',
-                displaySideText: strings.goingFilter,
-                filterType:'circle',
-                selectedColor: 'royalblue',
+                displayText: strings.goingFilter,
+                filterType: 'circle',
+                selectedColor: colors.blue,
                 retain: {
                     property: 'participating',
                     value: true
@@ -37,7 +43,7 @@ export default class Header extends Component {
             {
                 name: 'important',
                 displayText: strings.importantFilter,
-                selectedColor: 'pink',
+                selectedColor: colors.red,
                 retain: {
                     property: 'category',
                     value: 0
@@ -46,7 +52,7 @@ export default class Header extends Component {
             {
                 name: 'informative',
                 displayText: strings.informativeFilter,
-                selectedColor: 'orange',
+                selectedColor: colors.orange,
                 retain: {
                     property: 'category',
                     value: 1
@@ -55,25 +61,93 @@ export default class Header extends Component {
             {
                 name: 'entertaining',
                 displayText: strings.entertainingFilter,
-                selectedColor: 'lightgreen',
+                selectedColor: colors.green,
                 retain: {
                     property: 'category',
                     value: 2
                 }
             },
         ];
+        let filterBar = this.state.filtersVisible ? this.renderFilterBar(filters) : null;
         return (
-            <View>
-                <SearchBar
-                    specialSearchCriteria={specialSearchCriteria}
-                    {...this.props.searchBar}
-                />
-                <FilterBar
-                    dataSource={this.props.dataSource}
-                    filters={filters}
-                    onFilter={this.props.onFilter}
-                />
+            <View style={styles.mainContainer}>
+                <View style={styles.searchBarContainer}>
+                    <View style={styles.searchBar}>
+                        <SearchBar
+                            specialSearchCriteria={specialSearchCriteria}
+                            {...this.props.searchBar}
+                            filtersVisible={this.state.filtersVisible}
+                        />
+                    </View>
+                    {this.renderFilterToggle()}
+                </View>
+                {filterBar}
             </View>
         );
     }
+
+    renderFilterBar = filters => {
+        return (
+            <FilterBar
+                dataSource={this.props.dataSource}
+                filters={filters}
+                onFilter={this.props.onFilter}
+            />
+        );
+    }
+
+    renderFilterToggle() {
+        return this.state.filtersVisible ?
+            (
+                <View style={styles.filterToggle}>
+                    <TouchableOpacity
+                        onPress={this.toggleFilters}
+                    >
+                        <Image
+                            source={require('./../../images/upArrow.png')}
+                            resizeMode='contain'
+                        />
+                    </TouchableOpacity>
+                </View>
+            ) :
+            (
+                <View style={styles.filterToggle}>
+                    <TouchableOpacity
+                        onPress={this.toggleFilters}
+                    >
+                        <Image
+                            source={require('./../../images/filter.png')}
+                            resizeMode='contain'
+                        />
+                    </TouchableOpacity>
+                </View>
+            );
+    }
+
+    toggleFilters = () => {
+        this.setState({
+            filtersVisible: !this.state.filtersVisible
+        })
+    }
 }
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: 'royalblue'
+    },
+    searchBarContainer: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    searchBar: {
+        flex: 9,
+    },
+    filterToggle: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        borderTopRightRadius: 8,
+    },
+});

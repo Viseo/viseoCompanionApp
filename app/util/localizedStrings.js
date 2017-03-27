@@ -61,7 +61,7 @@ let strings = new LocalizedStrings({
         at:'à',
         IAmGoingToEvent:"Accepter",
         IAmNotGoingToEvent:"Décliner",
-        goingFilter:'Acceptés',
+        goingFilter:"J'y vais",
         importantFilter:'Importants',
         informativeFilter:'Informatifs',
         entertainingFilter:'Divertissants',
