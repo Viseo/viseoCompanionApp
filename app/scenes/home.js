@@ -68,7 +68,7 @@ export default class Home extends Component {
         });
         this.setState({
             allEvents,
-            filteredOnParticipation : allEvents
+            filteredOnParticipation: allEvents
         });
         this.updateEventList(this.state.allEvents);
     };
@@ -111,7 +111,7 @@ export default class Home extends Component {
 
     render() {
         // For now only the admin can create allEvents through the admin page
-        let allowEventCreation = false;
+        let allowEventCreation = true;
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;
 
         let eventList = this.state.showedEvents.length > 0 ? this.renderEventView() : this.renderNoEventsToShow();
@@ -161,8 +161,16 @@ export default class Home extends Component {
 
     renderCreateEventButton() {
         return (
-            <ActionButton buttonColor="rgba(231,76,60,1)">
-                <ActionButton.Item buttonColor='#9b59b6' title="New event" onPress={this.props.onAddEventClicked}>
+            <ActionButton buttonColor="royalblue">
+                <ActionButton.Item
+                    buttonColor='#9b59b6'
+                    title="Créer évènement"
+                    onPress={() => {
+                        this.props.navigator.push({
+                            title: 'AddEvent',
+                        });
+                    }}
+                >
                     <Icon name="md-create" style={styles.actionButtonIcon}/>
                 </ActionButton.Item>
             </ActionButton>

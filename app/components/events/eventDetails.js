@@ -25,19 +25,28 @@ export default class EventDetails extends Component {
     render() {
         let event = this.props.event;
         return (
-            <View>
+            <View style={{flex:1}}>
                 <Header/>
                 <View style={styles.container}>
                     <View style={{flex:1}}>
                         <View style={{flex:1}}>
                             <EventDetailsHeader event={event}/>
                         </View>
-                        <View style={{flex:3}}>
-                            <ScrollView style={{height: deviceHeight}}>
-                                {this.renderEventIllustration()}
-                                {this.renderEventParticipationInfos(event)}
-                                {this.renderEventDescription(event.description)}
-                                {this.renderEventKeywords(this.props.keywords)}
+                        <View style={{flex:4,flexDirection:'column'}}>
+                            <ScrollView
+                                style={{
+                                    flex:1,
+                                }}
+                                contentContainerStyle={{
+                                    height:deviceHeight
+                                }}
+                            >
+                                <View style={{flex:1}}>
+                                    {this.renderEventIllustration()}
+                                    {this.renderEventParticipationInfos(event)}
+                                    {this.renderEventDescription(event.description)}
+                                    {this.renderEventKeywords(this.props.keywords)}
+                                </View>
                             </ScrollView>
                         </View>
                     </View>
@@ -48,10 +57,15 @@ export default class EventDetails extends Component {
 
     renderEventIllustration() {
         return (
-            <View style={{flex:2, alignItems:'center', marginBottom:-50}}>
+            <View style={{flex:1}}>
                 <Image
                     source={require('./../../images/sampleImage.jpg')}
-                    resizeMode='cover'
+                    resizeMode="stretch"
+                    style={{
+                        flex: 1,
+                        width:null,
+                        height:null
+                    }}
                 />
             </View>
         );
@@ -59,7 +73,7 @@ export default class EventDetails extends Component {
 
     renderEventParticipationInfos(event) {
         return (
-            <View style={{alignItems:'center'}}>
+            <View style={{flex:1,alignItems:'center'}}>
                 <EventDetailsParticipationInfos event={event} onPressGoing={this.props.onParticipationChange}/>
             </View>
         );
@@ -67,14 +81,18 @@ export default class EventDetails extends Component {
 
     renderEventDescription(description) {
         return (
-            <AppText style={styles.description}>{description}{description}{description}{description}{description}{description} </AppText>
+            <View style={{flex:1, padding:20}}>
+                <AppText style={styles.description}>{description} </AppText>
+            </View>
         );
     }
 
     renderEventKeywords(keywords) {
         let keywordText = this.formatKeywords(keywords);
         return (
-            <AppText style={styles.keywords}>{keywordText}</AppText>
+            <View style={{flex:1}}>
+                <AppText style={styles.keywords}>{keywordText}</AppText>
+            </View>
         );
     }
 
@@ -90,12 +108,10 @@ export default class EventDetails extends Component {
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-        width: deviceWidth,
-        alignItems: 'center',
+        alignItems:'stretch',
         flexDirection: 'column',
         backgroundColor: 'white',
-        overflow: 'hidden',
-        height: 0.85 * deviceHeight,
+        flex:1
     },
 
     illustration: {

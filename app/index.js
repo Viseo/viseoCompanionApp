@@ -13,6 +13,7 @@ import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipant
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import db from "./util/db";
+import AddEvent from './scenes/addEvent';
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -47,6 +48,7 @@ export default class ViseoCompanion extends Component {
             {title: 'EventDetails'},
             {title: 'EventCardTestScene'},
             {title: 'EventsWithParticipantsTestScene'},
+            {title: 'AddEvent'},
         ];
         return (
             <Navigator
@@ -80,6 +82,10 @@ export default class ViseoCompanion extends Component {
                     } else if(route.title === 'EventsWithParticipantsTestScene') {
                         return (
                             <EventsWithParticipantsTestScene navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'AddEvent') {
+                        return (
+                            <AddEvent navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}

@@ -24,9 +24,9 @@ import {
     Alert,
     TouchableHighlight
 } from "react-native";
-import DatePicker from 'react-native-datepicker'
-import settings from '../../../Archive/VISEOCompanion_old/app/config/settings'
-
+import DatePicker from 'react-native-datepicker';
+import settings from './../config/settings';
+import Header from "./../components/header";
 
 export default class AddEvent extends Component {
     constructor(props) {
@@ -101,7 +101,16 @@ export default class AddEvent extends Component {
 
     render() {
         return (
-            <View style={{flexDirection: 'column', flex:1, marginBottom:100,justifyContent: 'space-between'}}>
+            <View
+                style={{
+                    flexDirection: 'column',
+                    flex:1,
+                    marginBottom:100,
+                    justifyContent: 'space-between',
+                    backgroundColor:'white'
+                }}
+            >
+                <Header/>
                 <ScrollView>
                     <View style={{padding:30}}>
                         {/* Scene title*/}
