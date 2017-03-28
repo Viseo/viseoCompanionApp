@@ -22,10 +22,10 @@ import {
     Dimensions,
     Button,
     Alert,
-    TouchableHighlight
+    TouchableHighlight,
+    Modal
 } from "react-native";
 import DatePicker from 'react-native-datepicker';
-import settings from './../config/settings';
 import Header from "./../components/header";
 import AppText from './../components/appText';
 
@@ -39,29 +39,42 @@ export default class AddEvent extends Component {
             keyWords: '',
             place: '',
             category: 0,
-            errorType: ''
+            errorType: '',
+            modalVisible: false
         };
         this.onPressSendNewEvent = this.onPressSendNewEvent.bind(this);
         this.isFormCorrect = this.isFormCorrect.bind(this);
     }
 
+    getUnixTime(time) {
+        return (time.split(":")[0] * 3600 + time.split(":")[1] * 60 + 3600) * 1000;
+
+    }
+
+    getDateTime(date, time) {
+        return (new Date(date).valueOf() + this.getUnixTime(time))
+    }
+
     onPressSendNewEvent = async() => {
         this.setState({
-            errorType:''
+            errorType: ''
         });
         if (this.isFormCorrect()) {
+            let [date, time] = this.state.datetime.split(' ');
+            let formattedDate = this.getDateTime(date, time);
             await this.props.db.addEvent({
                 name: this.state.name,
-                datetime: this.state.datetime,
+                datetime: formattedDate,
                 keyWords: this.state.keyWords,
                 location: this.state.place,
                 description: this.state.description
             });
+            this.setState({modalVisible: true});
         }
     }
 
     isFormCorrect() {
-        if (this.state.name === '' || this.state.datetime == '' || this.state.place === '') {
+        if (this.state.name == '' || this.state.datetime == '' || this.state.place == '') {
             this.setState({errorType: 'Veuillez entrer un nom, une date et un lieu.'});
             return false;
         } else {
@@ -80,6 +93,7 @@ export default class AddEvent extends Component {
                         {this.renderLocationInput()}
                         {this.renderDateInput()}
                         {this.renderDescriptionInput()}
+                        {this.renderNotifySuccess()}
                         <View style={styles.errorcontainer}>
                             <Text style={styles.errorText}>{this.state.errorType}</Text>
                         </View>
@@ -140,10 +154,9 @@ export default class AddEvent extends Component {
         return (
             <View>
                 <DatePicker
-                    style={{width: 200, paddingTop:20}}
                     date={this.state.datetime}
                     mode="datetime"
-                    format="YYYY-MM-DD[T]HH:mm"
+                    format="YYYY/MM/DD HH:mm"
                     confirmBtnText="OK"
                     cancelBtnText="Annuler"
                     onDateChange={(datetime) => {this.setState({datetime: datetime});}}
@@ -177,6 +190,49 @@ export default class AddEvent extends Component {
             </View>
         );
     }
+
+    renderNotifySuccess() {
+        return (
+            <View>
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.props.navigator.resetTo({
+                            title: 'Home'
+                        });
+                    }}
+                >
+                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View
+                        style={{
+                            flex:1,
+                            justifyContent: 'center',
+                            alignItems:'center',
+                            backgroundColor: 'rgba(186, 242, 255, 1)'
+                        }}
+                    >
+                        <View>
+                            <AppText style={{textAlign:'center'}}>
+                                {"Evènement créé avec succès!"}
+                            </AppText>
+                            <Button
+                                onPress={() => {
+                                    this.props.navigator.resetTo({
+                                        title: 'Home'
+                                    });
+                                }}
+                                title="OK"
+                                color="#6ABEFF"
+                            />
+                        </View>
+                    </View>
+                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                </Modal>
+            </View>
+        );
+    }
 }
 
 var {
@@ -186,8 +242,8 @@ var {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex:1,
-        padding:20
+        flex: 1,
+        padding: 20
     },
     title: {
         flex: 1,
@@ -197,9 +253,9 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     addButton: {
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'center'
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     topbar: {
         backgroundColor: 'grey',

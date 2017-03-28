@@ -15,16 +15,15 @@ async function addEvent(event) {
             },
             body: JSON.stringify({
                 "name": event.name,
-                "datetime": event.datetime,
                 "description": event.description,
-                "keywords": event.keyWords,
+                "datetime": event.datetime,
+                "keywords": event.keywords || '',
                 "place": event.location,
-                "version":1,
-                "category":0
+                "version":"1",
+                "category":"0"
             })
         })
-        let responseJson = await response.json();
-        if (responseJson)
+        if (response)
             return true;
     } catch (error) {
         console.warn(error);

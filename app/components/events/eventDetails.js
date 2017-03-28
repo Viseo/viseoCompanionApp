@@ -29,7 +29,7 @@ export default class EventDetails extends Component {
                 <Header/>
                 <View style={styles.container}>
                     <View style={{flex:1}}>
-                        <View style={{flex:1, paddingVertical:10}}>
+                        <View style={{flex:1, paddingBottom:10}}>
                             <EventDetailsHeader event={event}/>
                         </View>
                         <View style={{flex:4,flexDirection:'column'}}>
