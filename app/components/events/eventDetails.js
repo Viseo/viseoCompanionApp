@@ -2,7 +2,7 @@
  * Created by AAB3605 on 20/03/2017.
  */
 import React, {Component} from "react";
-import {StyleSheet, Image, ScrollView, View, Dimensions} from "react-native";
+import {StyleSheet, Image, ScrollView, View, Dimensions, TouchableOpacity} from "react-native";
 import Header from "../header";
 import AppText from "../appText";
 import EventDetailsHeader from "./eventDetailsHeader";
@@ -28,31 +28,35 @@ export default class EventDetails extends Component {
             <View>
                 <Header/>
                 <View style={styles.container}>
-                    {this.renderEventHeader(event)}
-                    <ScrollView
-                        style={{height: deviceHeight}}>
-                        {this.renderEventIllustration()}
-                        {this.renderEventParticipationInfos(event)}
-                        {this.renderEventDescription(event.description)}
-                        {this.renderEventKeywords(this.props.keywords)}
-                    </ScrollView>
+                    <View style={{flex:1}}>
+                        <View style={{flex:1}}>
+                            <EventDetailsHeader event={event}/>
+                        </View>
+                        <View style={{flex:3}}>
+                            <ScrollView
+                                style={{height: deviceHeight}}>
+                                <View style={{flex:1}}>
+                                    {this.renderEventIllustration()}
+                                    {this.renderEventParticipationInfos(event)}
+                                    {this.renderEventDescription(event.description)}
+                                    {this.renderEventKeywords(this.props.keywords)}
+                                </View>
+                            </ScrollView>
+                        </View>
+                    </View>
                 </View>
-            </View>
-        );
-    }
-
-
-    renderEventHeader(event) {
-        return (
-            <View style={{width: deviceWidth}} >
-                <EventDetailsHeader event={event}/>
             </View>
         );
     }
 
     renderEventIllustration() {
         return (
-            <Image source={require('./../../images/sampleImage.jpg')} style={styles.illustration}/>
+            <View style={{flex:2, alignItems:'center', marginBottom:-50}}>
+                <Image
+                    source={require('./../../images/sampleImage.jpg')}
+                    resizeMode='stretch'
+                />
+            </View>
         );
     }
 
@@ -66,20 +70,25 @@ export default class EventDetails extends Component {
 
     renderEventDescription(description) {
         return (
-            <AppText style={styles.description}>{description} </AppText>
+            <View style={{flex:1, padding:20}}>
+                <AppText style={styles.description}>{description} </AppText>
+                <AppText style={styles.description}>{description} </AppText>
+            </View>
         );
     }
 
     renderEventKeywords(keywords) {
         let keywordText = this.formatKeywords(keywords);
         return (
-            <AppText style={styles.keywords}>{keywordText}</AppText>
+            <View style={{flex:1}}>
+                <AppText style={styles.keywords}>{keywordText}</AppText>
+            </View>
         );
     }
 
-    formatKeywords(keywords){
+    formatKeywords(keywords) {
         let text = '';
-        for(let i=0; i < keywords.length; i++){
+        for (let i = 0; i < keywords.length; i++) {
             text += "#" + keywords[i];
         }
         return text;
@@ -98,8 +107,9 @@ const styles = StyleSheet.create({
     },
 
     illustration: {
-        width: deviceWidth,
-        height: 0.3 * deviceHeight,
+        flex: 1,
+        flexWrap: 'wrap',
+        justifyContent: 'center',
         marginBottom: -0.04 * deviceHeight
     },
 
@@ -107,8 +117,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 16,
         textAlign: 'center',
-        marginTop: 0.04 * deviceWidth,
-        marginLeft: 0.04 * deviceWidth,
     },
 
     keywords: {

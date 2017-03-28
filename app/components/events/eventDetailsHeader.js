@@ -26,7 +26,7 @@ class EventDetailsHeader extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={{flex:1, flexDirection:'row'}}>
                 {this.renderOrganizatorPicture()}
                 {this.renderEventInfos()}
             </View>
@@ -35,9 +35,17 @@ class EventDetailsHeader extends Component {
 
     renderOrganizatorPicture() {
         return (
-            <TouchableOpacity style={styles.userPictureContainer}>
-                <Image source={require('./../../images/userAvatar.jpg')} style={styles.circle}/>
-            </TouchableOpacity>
+            <View style={{
+                flex:1,
+                flexDirection:'column',
+                justifyContent:'center',
+                paddingHorizontal:20,
+                alignItems:'center',
+            }}>
+                <TouchableOpacity>
+                    <Image source={require('./../../images/userAvatar.jpg')} style={styles.circle}/>
+                </TouchableOpacity>
+            </View>
         );
     }
 
@@ -62,7 +70,7 @@ class EventDetailsHeader extends Component {
 
     renderCategory() {
         let categoryName = categories.eventCategories[this.props.event.category];
-        let categoryColor =  categories.eventCategoriesColors[categoryName];
+        let categoryColor = categories.eventCategoriesColors[categoryName];
         return (
             <AppText style={[styles.category, {color: categoryColor}]}>
                 {categoryName}
@@ -70,25 +78,25 @@ class EventDetailsHeader extends Component {
         );
     }
 
-    renderUserName(){
-        return(
+    renderUserName() {
+        return (
             <View style={styles.headerInfoItem}>
                 <Image source={require('./../../images/user.png')}/>
                 <AppText style={{margin: 5}}>
                     {this.props.userName}
                 </AppText>
             </View>
-            );
+        );
     }
 
-    renderLocation(){
-        return(
+    renderLocation() {
+        return (
             <View style={styles.headerInfoItem}>
                 <Image source={require('./../../images/place.png')}/>
                 <AppText style={{margin: 5}}>
                     {this.props.event.location}
                 </AppText>
-        </View>
+            </View>
         );
     }
 }
@@ -96,44 +104,37 @@ class EventDetailsHeader extends Component {
 export default EventDetailsHeader;
 
 const styles = StyleSheet.create({
-    container: {
-        height: deviceHeight * 0.25,
-        width: deviceWidth,
-        flexDirection: 'row'
-    },
-
-    userPictureContainer: {
-        height: deviceHeight * 0.25,
-        width: deviceWidth * 0.25,
-    },
 
     circle: {
-        height: deviceWidth * 0.24,
-        width: deviceWidth * 0.24,
-        borderRadius: 45,
-        margin: deviceWidth * 0.01
+        height: 100,
+        width: 100,
+        borderRadius: 50,
     },
 
     contentContainer: {
-        height: deviceHeight * 0.25,
-        width: deviceWidth * 0.75,
+        flex:3,
+        paddingLeft:20,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        marginLeft: deviceWidth * 0.03
     },
 
     title: {
         fontWeight: 'bold',
         color: 'black',
         textAlign: 'left',
-        fontSize: 22
+        fontSize: 22,
+        flex:2
     },
 
     category: {
         textAlign: 'left',
+        flex:3,
+        justifyContent:'flex-start',
+        paddingTop:5
     },
 
     headerInfoItem: {
+        flex:2,
         flexDirection: 'row',
     }
 });
