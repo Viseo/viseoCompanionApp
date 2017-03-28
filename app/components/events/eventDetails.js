@@ -29,7 +29,7 @@ export default class EventDetails extends Component {
                 <Header/>
                 <View style={styles.container}>
                     <View style={{flex:1}}>
-                        <View style={{flex:1}}>
+                        <View style={{flex:1, paddingVertical:10}}>
                             <EventDetailsHeader event={event}/>
                         </View>
                         <View style={{flex:4,flexDirection:'column'}}>
@@ -37,16 +37,11 @@ export default class EventDetails extends Component {
                                 style={{
                                     flex:1,
                                 }}
-                                contentContainerStyle={{
-                                    height:deviceHeight
-                                }}
                             >
-                                <View style={{flex:1}}>
-                                    {this.renderEventIllustration()}
-                                    {this.renderEventParticipationInfos(event)}
-                                    {this.renderEventDescription(event.description)}
-                                    {this.renderEventKeywords(this.props.keywords)}
-                                </View>
+                                {this.renderEventIllustration()}
+                                {this.renderEventParticipationInfos(event)}
+                                {this.renderEventDescription(event.description)}
+                                {this.renderEventKeywords(this.props.keywords)}
                             </ScrollView>
                         </View>
                     </View>
@@ -57,14 +52,14 @@ export default class EventDetails extends Component {
 
     renderEventIllustration() {
         return (
-            <View style={{flex:1}}>
+            <View style={{marginBottom:-20}}>
                 <Image
                     source={require('./../../images/sampleImage.jpg')}
                     resizeMode="stretch"
                     style={{
                         flex: 1,
                         width:null,
-                        height:null
+                        height:deviceHeight*(1/3)
                     }}
                 />
             </View>
@@ -73,7 +68,7 @@ export default class EventDetails extends Component {
 
     renderEventParticipationInfos(event) {
         return (
-            <View style={{flex:1,alignItems:'center'}}>
+            <View style={{alignItems:'center'}}>
                 <EventDetailsParticipationInfos event={event} onPressGoing={this.props.onParticipationChange}/>
             </View>
         );
@@ -81,7 +76,7 @@ export default class EventDetails extends Component {
 
     renderEventDescription(description) {
         return (
-            <View style={{flex:1, padding:20}}>
+            <View style={{padding:20}}>
                 <AppText style={styles.description}>{description} </AppText>
             </View>
         );
@@ -90,7 +85,7 @@ export default class EventDetails extends Component {
     renderEventKeywords(keywords) {
         let keywordText = this.formatKeywords(keywords);
         return (
-            <View style={{flex:1}}>
+            <View>
                 <AppText style={styles.keywords}>{keywordText}</AppText>
             </View>
         );
@@ -108,32 +103,29 @@ export default class EventDetails extends Component {
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-        alignItems:'stretch',
+        alignItems: 'stretch',
         flexDirection: 'column',
         backgroundColor: 'white',
-        flex:1
+        flex: 1
     },
 
     illustration: {
         flex: 1,
         flexWrap: 'wrap',
         justifyContent: 'center',
-        marginBottom: -0.04 * deviceHeight
     },
 
     description: {
         color: 'black',
         fontSize: 16,
         textAlign: 'center',
-        flex:1,
-        padding:20
     },
 
     keywords: {
         color: 'black',
         fontSize: 14,
         textAlign: 'center',
-        flex:1,
-        padding:20
+        flex: 1,
+        padding: 20
     },
 });
