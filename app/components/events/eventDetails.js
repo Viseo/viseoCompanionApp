@@ -33,14 +33,11 @@ export default class EventDetails extends Component {
                             <EventDetailsHeader event={event}/>
                         </View>
                         <View style={{flex:3}}>
-                            <ScrollView
-                                style={{height: deviceHeight}}>
-                                <View style={{flex:1}}>
-                                    {this.renderEventIllustration()}
-                                    {this.renderEventParticipationInfos(event)}
-                                    {this.renderEventDescription(event.description)}
-                                    {this.renderEventKeywords(this.props.keywords)}
-                                </View>
+                            <ScrollView style={{height: deviceHeight}}>
+                                {this.renderEventIllustration()}
+                                {this.renderEventParticipationInfos(event)}
+                                {this.renderEventDescription(event.description)}
+                                {this.renderEventKeywords(this.props.keywords)}
                             </ScrollView>
                         </View>
                     </View>
@@ -54,7 +51,7 @@ export default class EventDetails extends Component {
             <View style={{flex:2, alignItems:'center', marginBottom:-50}}>
                 <Image
                     source={require('./../../images/sampleImage.jpg')}
-                    resizeMode='stretch'
+                    resizeMode='cover'
                 />
             </View>
         );
@@ -70,19 +67,14 @@ export default class EventDetails extends Component {
 
     renderEventDescription(description) {
         return (
-            <View style={{flex:1, padding:20}}>
-                <AppText style={styles.description}>{description} </AppText>
-                <AppText style={styles.description}>{description} </AppText>
-            </View>
+            <AppText style={styles.description}>{description}{description}{description}{description}{description}{description} </AppText>
         );
     }
 
     renderEventKeywords(keywords) {
         let keywordText = this.formatKeywords(keywords);
         return (
-            <View style={{flex:1}}>
-                <AppText style={styles.keywords}>{keywordText}</AppText>
-            </View>
+            <AppText style={styles.keywords}>{keywordText}</AppText>
         );
     }
 
@@ -117,13 +109,15 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 16,
         textAlign: 'center',
+        flex:1,
+        padding:20
     },
 
     keywords: {
         color: 'black',
         fontSize: 14,
         textAlign: 'center',
-        marginTop: 0.04 * deviceWidth,
-        marginLeft: 0.04 * deviceWidth,
+        flex:1,
+        padding:20
     },
 });
