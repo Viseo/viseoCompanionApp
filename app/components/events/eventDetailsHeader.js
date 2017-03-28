@@ -6,11 +6,6 @@ import {View, TouchableOpacity, StyleSheet, Image, Dimensions} from "react-nativ
 import categories from "../../util/eventCategories";
 import AppText from "../appText";
 
-let {
-    height: deviceHeight,
-    width: deviceWidth
-} = Dimensions.get('window');
-
 class EventDetailsHeader extends Component {
 
     static defaultProps = {
@@ -35,13 +30,7 @@ class EventDetailsHeader extends Component {
 
     renderOrganizatorPicture() {
         return (
-            <View style={{
-                flex:1,
-                flexDirection:'column',
-                justifyContent:'center',
-                paddingHorizontal:20,
-                alignItems:'center',
-            }}>
+            <View style={styles.organizatorPicture}>
                 <TouchableOpacity>
                     <Image source={require('./../../images/userAvatar.jpg')} style={styles.circle}/>
                 </TouchableOpacity>
@@ -109,6 +98,14 @@ const styles = StyleSheet.create({
         height: 100,
         width: 100,
         borderRadius: 50,
+    },
+
+    organizatorPicture:{
+        flex:1,
+        flexDirection:'column',
+        justifyContent:'center',
+        paddingHorizontal:20,
+        alignItems:'center',
     },
 
     contentContainer: {

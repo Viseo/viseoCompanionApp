@@ -74,6 +74,7 @@ class EventDetailsParticipationInfos extends Component {
 
     renderGoing() {
         let { going } = this.state;
+        let text = going? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
         return (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <TouchableOpacity
@@ -81,7 +82,7 @@ class EventDetailsParticipationInfos extends Component {
                             going && {backgroundColor: this.props.goingColor},
                             !going && {backgroundColor: this.props.notGoingColor}]}
                     onPress={this.pressGoing}/>
-                <AppText>Going</AppText>
+                <AppText>{text}</AppText>
             </View>
         );
     }
