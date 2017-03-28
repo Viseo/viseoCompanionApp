@@ -14,8 +14,11 @@ class EventDetailsHeader extends Component {
 
     constructor(props) {
         super(props);
+        let categoryName = categories.eventCategories[this.props.event.category];
+        let categoryColor = categories.eventCategoriesColors[categoryName];
         this.state = {
-            categoryName: ''
+            categoryName: categoryName,
+            categoryColor: categoryColor
         };
     }
 
@@ -51,18 +54,19 @@ class EventDetailsHeader extends Component {
 
     renderTitle() {
         return (
-            <AppText style={styles.title}>
-                {this.props.event.name}
-            </AppText>
+            <View style={{flexDirection:'row'}}>
+                <AppText style={styles.title}>
+                    {this.props.event.name}
+                </AppText>
+                <View style={[styles.triangle, {borderTopColor:this.state.categoryColor}]}/>
+            </View>
         );
     }
 
     renderCategory() {
-        let categoryName = categories.eventCategories[this.props.event.category];
-        let categoryColor = categories.eventCategoriesColors[categoryName];
         return (
-            <AppText style={[styles.category, {color: categoryColor}]}>
-                {categoryName}
+            <AppText style={[styles.category, {color: this.state.categoryColor}]}>
+                {this.state.categoryName}
             </AppText>
         );
     }
@@ -93,6 +97,18 @@ class EventDetailsHeader extends Component {
 export default EventDetailsHeader;
 
 const styles = StyleSheet.create({
+    triangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderRightWidth: 30,
+        borderTopWidth: 30,
+        borderRightColor: 'transparent',
+        transform: [
+            {rotate: '90deg'}
+        ]
+    },
 
     circle: {
         height: 100,
