@@ -6,6 +6,31 @@ import Event from './event';
 import User from './user';
 import * as util from './util';
 
+async function addEvent(event) {
+    try {
+        let response = await fetch(settings.api.addEvent, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "name": event.name,
+                "datetime": event.datetime,
+                "description": event.description,
+                "keywords": event.keyWords,
+                "place": event.location,
+                "version":1,
+                "category":0
+            })
+        })
+        let responseJson = await response.json();
+        if (responseJson)
+            return true;
+    } catch (error) {
+        console.warn(error);
+    }
+}
+
 async function addEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.addEventParticipant(eventId, userId), {
@@ -237,6 +262,7 @@ async function removeEventParticipant(eventId, userId) {
 }
 
 export default db = {
+    addEvent,
     addEventParticipant,
     addUser,
     authenticate,

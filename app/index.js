@@ -52,7 +52,7 @@ export default class ViseoCompanion extends Component {
         ];
         return (
             <Navigator
-                initialRoute={routes[0]}
+                initialRoute={routes[7]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'SignIn') {
@@ -85,7 +85,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'AddEvent') {
                         return (
-                            <AddEvent navigator={navigator} {...route.passProps}/>
+                            <AddEvent navigator={navigator} {...route.passProps} db={db}/>
                         );
                     }
                 }}
