@@ -90,7 +90,7 @@ export default class ViseoCompanion extends Component {
                     }
                 }}
                 configureScene={(route, routeStack) =>
-                    Navigator.SceneConfigs.PushFromRight
+                    Navigator.SceneConfigs.FloatFromRight
                 }
             />
         )

@@ -2,7 +2,7 @@
  * Created by AAB3605 on 10/03/2017.
  */
 import React, {Component} from "react";
-import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState, Dimensions, Platform} from "react-native";
+import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState, Dimensions, Platform, Image} from "react-native";
 import Swipeout from "react-native-swipe-out";
 import AppText from "../appText";
 import strings from "../../util/localizedStrings";
@@ -38,28 +38,22 @@ export default class EventCard extends Component {
     }
 
     getSwipeOption = () => {
-        return this.props.participating ?
-            [{
-                className: 'participate',
-                text: strings.IAmNotGoingToEvent,
-                onPress: () => {
-                    this.props.onParticipationChange()
-                },
-                backgroundColor: '#ba7a7c',
-                color: 'white',
-                overflow:'truncate'
-            }] :
-            [{
-                className: 'participate',
-                text: strings.IAmGoingToEvent,
-                onPress: () => {
-                    this.props.onParticipationChange()
-                },
-                backgroundColor: colors.blue,
-                color: 'white',
-                overflow:'hidden'
-            }];
-    }
+        let textOption = this.props.participating ? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
+        let icon = this.props.participating ? require("../../images/crossWhite.png") : require("../../images/checkWhite.png");
+        return [{
+            component: <View className="participate" style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Image source={icon} style={{ width: 33, height: 33}}/>
+                <Text style={{color:'white', fontSize:14}}>
+                    {textOption}
+                </Text>
+            </View>,
+            onPress: () => {
+                this.props.onParticipationChange()
+            },
+            backgroundColor: this.props.participating ? '#ff6d6d' : colors.blue,
+            color: 'white'
+        }];
+    };
 
     render() {
         let swipeOption = this.getSwipeOption();
@@ -71,6 +65,7 @@ export default class EventCard extends Component {
                     left={swipeOption}
                     autoClose={true}
                     overflow="hidden"
+                    sensitivity={2}
                 >
                     <TouchableOpacity
                         style={styles.card}
@@ -205,7 +200,7 @@ const styles = StyleSheet.create({
         flex: 100,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        paddingLeft:10
+        paddingLeft: 10
         // borderBottomWidth: 0.5,
         // borderBottomColor: '#999999',
         // borderTopWidth: 0.5,
@@ -214,12 +209,12 @@ const styles = StyleSheet.create({
     firstRow: {
         flex: 3,
         flexDirection: 'row',
-        paddingRight:10
+        paddingRight: 10
     },
     secondRow: {
         flex: 6,
         flexDirection: 'column',
-        paddingRight:10
+        paddingRight: 10
     },
     name: {
         flex: 6,
@@ -244,13 +239,13 @@ const styles = StyleSheet.create({
     description: {
         flex: 1,
         justifyContent: 'center',
-        paddingRight:5,
+        paddingRight: 5,
     },
     descriptionText: {
         textAlign: 'left',
         fontWeight: '100',
         fontSize: 14,
-        overflow:'hidden',
+        overflow: 'hidden',
         // fontSize: deviceWidth * 0.045,
         color: colors.mediumGray,
         // textAlignVertical: 'bottom',
@@ -266,7 +261,7 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     dotContainer: {
-        flex:5,
+        flex: 5,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -287,7 +282,7 @@ const styles = StyleSheet.create({
     },
     eventType: {
         width: 3,
-        flex:1,
+        flex: 1,
         alignSelf: 'stretch',
         backgroundColor: '#ef4954',
     }
