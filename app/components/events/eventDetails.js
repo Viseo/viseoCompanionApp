@@ -29,10 +29,10 @@ export default class EventDetails extends Component {
                 <Header/>
                 <View style={styles.container}>
                     <View style={{flex:1}}>
-                        <View style={{flex:1, paddingBottom:10}}>
+                        <View style={{flex:2}}>
                             <EventDetailsHeader event={event}/>
                         </View>
-                        <View style={{flex:4,flexDirection:'column'}}>
+                        <View style={{flex:6,flexDirection:'column'}}>
                             <ScrollView
                                 style={{
                                     flex:1,
