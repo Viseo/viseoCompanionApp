@@ -14,6 +14,11 @@ import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import db from "./util/db";
 import AddEvent from './scenes/addEvent';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import viseoCompanionApp from './reducers';
+
+let store = createStore(viseoCompanionApp);
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -51,9 +56,10 @@ export default class ViseoCompanion extends Component {
             {title: 'AddEvent'},
         ];
         return (
-            <Navigator
-                initialRoute={routes[0]}
-                renderScene={(route, navigator) => {
+            <Provider store={store}>
+                <Navigator
+                    initialRoute={routes[0]}
+                    renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'SignIn') {
                         return (
@@ -89,10 +95,11 @@ export default class ViseoCompanion extends Component {
                         );
                     }
                 }}
-                configureScene={(route, routeStack) =>
+                    configureScene={(route, routeStack) =>
                     Navigator.SceneConfigs.PushFromRight
                 }
-            />
+                />
+            </Provider>
         )
     }
 }

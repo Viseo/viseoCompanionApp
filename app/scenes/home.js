@@ -27,6 +27,7 @@ import ListViewHeader from "./../components/events/header";
 import Header from "./../components/header";
 import AppText from "../components/appText";
 import EventListView from "./../components/events/eventListView";
+import VisibleEventList from './../containers/VisibleEvents';
 
 export default class Home extends Component {
 
@@ -110,6 +111,12 @@ export default class Home extends Component {
     };
 
     render() {
+        return (
+            <VisibleEventList/>
+        );
+    }
+
+    renderOld() {
         // For now only the admin can create allEvents through the admin page
         let allowEventCreation = true;
         let createEventButton = allowEventCreation ? this.renderCreateEventButton() : null;

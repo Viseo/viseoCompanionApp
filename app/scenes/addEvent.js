@@ -84,7 +84,7 @@ export default class AddEvent extends Component {
 
     render() {
         return (
-            <View>
+            <View style={{backgroundColor:'white'}}>
                 <Header/>
                 <ScrollView>
                     <View style={styles.mainContainer}>
