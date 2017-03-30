@@ -134,20 +134,22 @@ export default class Header extends Component {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        padding: 20,
-        backgroundColor: 'royalblue'
+        padding: 10,
+        backgroundColor: colors.lightGray
     },
     searchBarContainer: {
         flex: 1,
         flexDirection: 'row',
     },
     searchBar: {
-        flex: 9,
+        flex: 10,
     },
     filterToggle: {
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'white',
-        borderTopRightRadius: 8,
+        borderTopRightRadius: 3,
+        borderBottomRightRadius: 3,
+        padding: 10
     },
 });

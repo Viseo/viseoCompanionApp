@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor:'white',
-        borderRadius:8
+        borderRadius:3
     },
     input: {
         height: 40,
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
         fontSize: 15,
         backgroundColor: 'white',
         textAlign: 'center',
-        borderTopLeftRadius:8,
-        borderBottomLeftRadius:8,
+        borderTopLeftRadius:3,
+        borderBottomLeftRadius:3,
     },
     inputWhenFilterBarIsVisible: {
         borderBottomLeftRadius:0
