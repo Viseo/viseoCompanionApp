@@ -36,7 +36,7 @@ class EventDetailsParticipationInfos extends Component {
         return (
             <View style={styles.rectangle}>
                     {this.renderParticipants()}
-                    {this.renderDate(this.props.event.date)}
+                    {this.renderDate()}
                     {this.renderGoing()}
             </View>
         )
@@ -55,21 +55,22 @@ class EventDetailsParticipationInfos extends Component {
         );
     }
 
-    renderDate(date) {
+    renderDate() {
+        let date = this.formatDate();
         return (
             <View style={styles.infoItem}>
                 <AppText style={styles.main}>
-                    {util.getFormattedHour(date)}
+                    {date[1]}
                 </AppText>
                 <AppText style={styles.secondary}>
-                    {this.formatDate(date)}
+                    {date[0]}
                 </AppText>
             </View>
         );
     }
 
-    formatDate(date) {
-        return util.isDateInThisWeekNextDays(date) ? util.getDayName(date) : util.getFormattedDate(date);
+    formatDate() {
+        return this.props.event.getDateToString().split(" ");
     }
 
     renderGoing() {

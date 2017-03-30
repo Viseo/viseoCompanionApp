@@ -22,28 +22,3 @@ export function isEmailValid(email) {
 export function isPasswordValid(password) {
     return password.length >= 6 ? true : false;
 }
-
-export function addZero(i) {
-    if (i < 10) {
-        i = "0" + i;
-    }
-    return i;
-}
-
-export function getFormattedHour(date){
-    return this.addZero(new Date(date).getHours()) + "h" + this.addZero(new Date(date).getMinutes());
-}
-
-export function getFormattedDate(date){
-    return new Date(date).getDate()+ "/" + this.addZero(new Date(date).getMonth() + 1)+ "/" + new Date(date).getFullYear();
-}
-
-export function getDayName(date){
-    let dayIndex = new Date(date).getDay();
-    return strings.days[dayIndex];
-}
-
-export function isDateInThisWeekNextDays(date){
-    let hoursToEvent = (new Date(date).getTime() - Date.now()) / milliSecondsInAnHour;
-    return hoursToEvent > 0 ? hoursToEvent < hoursInAWeek : false;
-}
