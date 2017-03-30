@@ -1,10 +1,6 @@
 /**
  * Created by AAB3605 on 16/02/2017.
  */
-import strings from "./localizedStrings";
-const hoursInAWeek = 168;
-const milliSecondsInAnHour = 3600000;
-
 export function hasEmptyElement() {
     for(let i = 0; i < arguments.length; i++) {
         if(!arguments[i] || arguments[i] == '')
