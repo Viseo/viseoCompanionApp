@@ -18,7 +18,15 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import viseoCompanionApp from './reducers';
 
-let store = createStore(viseoCompanionApp);
+
+const initialState = {
+    events: [
+        {id:0, name:'firstEvent'},
+        {id:1, name:'secondEvent'},
+    ],
+    visibilityFilter: 'SHOW_ALL',
+}
+let store = createStore(viseoCompanionApp, initialState);
 
 export default class ViseoCompanion extends Component {
     constructor(props) {

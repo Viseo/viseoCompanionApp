@@ -2,10 +2,10 @@
  * Created by AAB3605 on 29/03/2017.
  */
 import { connect } from 'react-redux'
-import { openEvent } from '../actions'
+import { addEvent, removeEvent } from '../actions'
 import EventList from '../components/events/eventList'
 
-const getVisibleEvents = (events, filter) => {
+const getVisibleEventList = (events, filter) => {
     switch (filter) {
         case 'SHOW_ALL':
             return events;
@@ -15,11 +15,19 @@ const getVisibleEvents = (events, filter) => {
 }
 
 const mapStateToProps = (state) => ({
-    events: getVisibleEvents(state.events, state.visibilityFilter)
+    events: getVisibleEventList(state.events, state.visibilityFilter)
 })
 
-const mapDispatchToProps = {
-    onEventClick: openEvent
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatch,
+        addEvent: (event) => {
+            dispatch(addEvent(event))
+        },
+        removeEvent: (id) => {
+            dispatch(removeEvent(id))
+        }
+    }
 }
 
 const VisibleEventList = connect(

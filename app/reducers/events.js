@@ -1,0 +1,37 @@
+/**
+ * Created by AAB3605 on 29/03/2017.
+ */
+
+const event = (state, action) => {
+    switch (action.type) {
+        case 'ADD_EVENT':
+            return {
+                id: action.id,
+                name: action.name,
+            }
+        default:
+            return state
+    }
+}
+
+const events = (state = [], action) => {
+    switch (action.type) {
+        case 'ADD_EVENT':
+            return [
+                ...state,
+                event(undefined, action)
+            ]
+        case 'REMOVE_EVENT':
+            let eventToRemove = state.findIndex(event => {
+                return event.id === action.id
+            })
+            return [
+                ...state.slice(0, eventToRemove),
+                ...state.slice(eventToRemove + 1)
+            ]
+        default:
+            return state
+    }
+}
+
+export default events
