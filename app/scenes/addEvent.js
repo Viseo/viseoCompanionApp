@@ -114,7 +114,7 @@ export default class AddEvent extends Component {
         return (
             <View style={{flex:1}}>
                 <AppText style={styles.titleText}>
-                    Ajouter un évènement
+                    Ajouter un évènement (beta)
                 </AppText>
             </View>
         );

@@ -7,7 +7,8 @@ import {
     TextInput,
     StyleSheet,
     ListView,
-    Keyboard
+    Keyboard,
+    RefreshControl,
 } from 'react-native';
 import EventCard from './eventCard';
 
@@ -31,12 +32,28 @@ export default class EventListView extends Component {
 
     render() {
         return (
-            <ListView
-                enableEmptySections={true}
-                dataSource={this.state.dataSource}
-                renderRow={this.renderEventCard}
-                renderHeader={() => {return this.props.header}}
-            />
+            <View style={{flex:1}}>
+                <View style={{flex:0}}>
+                    {this.props.header}
+                </View>
+                <View style={{flex:1}}>
+                    <ListView
+                        refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.refreshing}
+                            onRefresh={this.props.loadEvents}
+                        />
+                    }
+                        scrollEventThrottle={200}
+                        contentContainerStyle={{
+                        backgroundColor:'lightgrey'
+                    }}
+                        enableEmptySections={true}
+                        dataSource={this.state.dataSource}
+                        renderRow={this.renderEventCard}
+                    />
+                </View>
+            </View>
         );
     }
 

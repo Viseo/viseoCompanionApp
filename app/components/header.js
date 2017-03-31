@@ -17,7 +17,7 @@ class Header extends Component {
     render() {
         return(
             <View style={styles.topbar}>
-                    <Image source={require("../images/Menu-White.png")} style={styles.burgerMenu}/>
+                    {/*<Image source={require("../images/Menu-White.png")} style={styles.burgerMenu}/>*/}
                     <AppText style={styles.viseocompanion}>VISEO COMPANION</AppText>
             </View>
         );

@@ -119,20 +119,7 @@ export default class Home extends Component {
         return (
             <View style={{flex:1, backgroundColor:'white'}}>
                 <Header/>
-                <ScrollView
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this.loadEvents}
-                        />
-                    }
-                    scrollEventThrottle={200}
-                    contentContainerStyle={{
-                        backgroundColor:'lightgrey'
-                    }}
-                >
-                    {eventView}
-                </ScrollView>
+                {eventView}
                 {createEventButton}
             </View>
         );
@@ -155,6 +142,8 @@ export default class Home extends Component {
                 events={this.state.showedEvents}
                 onPressEventCard={this.onPressEventCard}
                 onParticipationChange={this.onParticipationChange}
+                refreshing={this.state.refreshing}
+                loadEvents={this.loadEvents}
             />
         );
     }

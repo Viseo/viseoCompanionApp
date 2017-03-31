@@ -117,6 +117,7 @@ export default class Header extends Component {
                         onPress={this.toggleFilters}
                     >
                         <Image
+                            style={{height:25, width:25}}
                             source={require('./../../images/filter.png')}
                             resizeMode='contain'
                         />
@@ -134,12 +135,13 @@ export default class Header extends Component {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex: 1,
+        flex:0,
         padding: 10,
         backgroundColor: colors.lightGray
     },
     searchBarContainer: {
-        flex: 1,
+        flex: 0,
+        height:40,
         flexDirection: 'row',
     },
     searchBar: {
