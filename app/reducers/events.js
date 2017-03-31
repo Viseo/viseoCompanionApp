@@ -8,6 +8,12 @@ const event = (state, action) => {
             return {
                 id: action.id,
                 name: action.name,
+                description: action.description,
+                category: action.category,
+                keywords: action.keywords,
+                location: action.location,
+                datetime: action.datetime,
+                participating: action.participating,
             }
         default:
             return state
@@ -20,6 +26,17 @@ const events = (state = [], action) => {
             return [
                 ...state,
                 event(undefined, action)
+            ]
+        case 'ADD_EVENTS':
+            let events = action.events.map(e => {
+                return event(undefined, {
+                    type: 'ADD_EVENT',
+                    ...e
+                })
+            })
+            return [
+                ...state,
+                ...events
             ]
         case 'REMOVE_EVENT':
             let eventToRemove = state.findIndex(event => {

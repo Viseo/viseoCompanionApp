@@ -28,6 +28,8 @@ import Header from "./../components/header";
 import AppText from "../components/appText";
 import EventListView from "./../components/events/eventListView";
 import VisibleEventList from './../containers/VisibleEvents';
+import { dispatch } from 'redux'
+
 
 export default class Home extends Component {
 
@@ -213,6 +215,11 @@ export default class Home extends Component {
             loaded: true,
             refreshing: false
         });
+
+        this.props.store.dispatch({
+            type: 'ADD_EVENTS',
+            events: showedEvents
+        })
     };
 }
 

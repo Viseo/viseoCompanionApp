@@ -83,7 +83,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'Home') {
                         return (
-                            <Home navigator={navigator} {...route.passProps} db={db}/>
+                            <Home navigator={navigator} {...route.passProps} db={db} store={store}/>
                         );
                     } else if(route.title === 'EventDetails') {
                         return (

@@ -193,7 +193,6 @@ let {
 
 const styles = StyleSheet.create({
     card: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         backgroundColor: 'white',
