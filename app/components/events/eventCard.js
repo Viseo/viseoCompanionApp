@@ -220,9 +220,9 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     nameText: {
-        fontWeight: '300',
+        fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 16,
+        fontSize: 18,
         color: 'black',
     },
     date: {
