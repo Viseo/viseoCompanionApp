@@ -63,6 +63,7 @@ export default class EventCard extends Component {
                     className="swipeout"
                     style={{ backgroundColor: 'white' }}
                     left={swipeOption}
+                    right={swipeOption}
                     autoClose={true}
                     overflow="hidden"
                     sensitivity={2}
