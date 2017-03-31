@@ -35,6 +35,7 @@ let strings = new LocalizedStrings({
         informativeFilter:'Informative',
         entertainingFilter:'Entertaining',
         participantsLabel: 'Going',
+        participationLabel: 'Participation'
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -62,6 +63,7 @@ let strings = new LocalizedStrings({
         informativeFilter:'Informatifs',
         entertainingFilter:'Divertissants',
         participantsLabel: 'Inscrits',
+        participationLabel: 'Participation'
     }
 });
 
