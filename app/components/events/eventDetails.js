@@ -54,7 +54,7 @@ export default class EventDetails extends Component {
         return (
             <View style={{marginBottom:-20}}>
                 <Image
-                    source={require('./../../images/sampleImage.jpg')}
+                    source={require('./../../images/coderdojo.jpg')}
                     resizeMode="stretch"
                     style={{
                         flex: 1,
