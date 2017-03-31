@@ -1,9 +1,7 @@
 /**
  * Created by AAB3605 on 16/02/2017.
  */
-import strings from "./localizedStrings";
-const hoursInAWeek = 168;
-const milliSecondsInAnHour = 3600000;
+import colors from "../components/events/colors";
 
 export function hasEmptyElement() {
     for(let i = 0; i < arguments.length; i++) {
@@ -21,4 +19,9 @@ export function isEmailValid(email) {
 
 export function isPasswordValid(password) {
     return password.length >= 6 ? true : false;
-}
+};
+
+export function getCategoryColor(categoryId){
+    let eventCategoriesColors = [colors.red, colors.orange, colors.green];
+    return eventCategoriesColors[categoryId];
+};

@@ -120,7 +120,7 @@ var styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor:'royalblue',
+        backgroundColor:colors.lightGray,
         borderTopWidth:0.5,
         borderColor: 'lightgray'
     }

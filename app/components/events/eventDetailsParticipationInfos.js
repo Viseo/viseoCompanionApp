@@ -5,7 +5,7 @@ import React, {Component} from "react";
 import {View, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
 import AppText from "../appText";
 import strings from "../../util/localizedStrings";
-import * as util from "../../util/util";
+import CheckBox from "react-native-check-box";
 
 let {
     height: deviceHeight,
@@ -75,15 +75,13 @@ class EventDetailsParticipationInfos extends Component {
 
     renderGoing() {
         let { going } = this.state;
-        let text = going? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
         return (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <TouchableOpacity
-                    style={[styles.circle,
-                            going && {backgroundColor: this.props.goingColor},
-                            !going && {backgroundColor: this.props.notGoingColor}]}
-                    onPress={this.pressGoing}/>
-                <AppText>{text}</AppText>
+            <View style={styles.infoItem}>
+                <CheckBox
+                    onClick={this.pressGoing}
+                    isChecked={going}
+                />
+                <AppText>{strings.participationLabel}</AppText>
             </View>
         );
     }

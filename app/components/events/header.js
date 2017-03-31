@@ -12,6 +12,7 @@ import SearchBar from './searchBar';
 import FilterBar from './filterBar';
 import strings from "../../util/localizedStrings";
 import colors from './colors';
+import * as util from "../../util/util";
 
 export default class Header extends Component {
 
@@ -42,8 +43,8 @@ export default class Header extends Component {
             },
             {
                 name: 'important',
-                displayText: strings.importantFilter,
-                selectedColor: colors.red,
+                displayText: strings.categoriesNames[0],
+                selectedColor: util.getCategoryColor(0),
                 retain: {
                     property: 'category',
                     value: 0
@@ -51,8 +52,8 @@ export default class Header extends Component {
             },
             {
                 name: 'informative',
-                displayText: strings.informativeFilter,
-                selectedColor: colors.orange,
+                displayText: strings.categoriesNames[1],
+                selectedColor: util.getCategoryColor(1),
                 retain: {
                     property: 'category',
                     value: 1
@@ -60,8 +61,8 @@ export default class Header extends Component {
             },
             {
                 name: 'entertaining',
-                displayText: strings.entertainingFilter,
-                selectedColor: colors.green,
+                displayText: strings.categoriesNames[2],
+                selectedColor: util.getCategoryColor(2),
                 retain: {
                     property: 'category',
                     value: 2
@@ -134,20 +135,22 @@ export default class Header extends Component {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        padding: 20,
-        backgroundColor: 'royalblue'
+        padding: 10,
+        backgroundColor: colors.lightGray
     },
     searchBarContainer: {
         flex: 1,
         flexDirection: 'row',
     },
     searchBar: {
-        flex: 9,
+        flex: 10,
     },
     filterToggle: {
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'white',
-        borderTopRightRadius: 8,
+        borderTopRightRadius: 3,
+        borderBottomRightRadius: 3,
+        padding: 10
     },
 });

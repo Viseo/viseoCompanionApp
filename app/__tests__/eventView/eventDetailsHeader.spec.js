@@ -8,7 +8,7 @@ import {
 import testUtil from '../testUtil';
 import Event from '../../util/event';
 import AppText from './../../components/appText';
-import categories from '../../util/eventCategories';
+import strings from "../../util/localizedStrings";
 
 describe('EventDetailsHeader', () => {
     let event =
@@ -32,7 +32,7 @@ describe('EventDetailsHeader', () => {
     });
 
     it('should display event category', () => {
-        let categoryName = categories.eventCategories[event.category];
+        let categoryName = strings.categoriesName[event.category];
         testUtil.checkChildComponentWithPropValue(detailsHeader, AppText, 'children', categoryName);
     });
 
