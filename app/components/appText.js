@@ -3,6 +3,7 @@
  */
 import React, {Component} from "react";
 import {View, Text, StyleSheet, Platform} from "react-native";
+import colors from "./events/colors";
 
 class AppText extends Component {
     setNativeProps (nativeProps) {
@@ -24,5 +25,6 @@ export default AppText;
 const style = StyleSheet.create({
     textStyle: {
         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
+        color: colors.mediumGray
     }
 });

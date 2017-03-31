@@ -133,8 +133,8 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontWeight: 'bold',
         color: 'black',
+        fontWeight: 'bold',
         textAlign: 'left',
         fontSize: 22,
         flex:2

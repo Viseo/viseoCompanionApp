@@ -116,13 +116,11 @@ const styles = StyleSheet.create({
     },
 
     description: {
-        color: 'black',
         fontSize: 16,
         textAlign: 'center',
     },
 
     keywords: {
-        color: 'black',
         fontSize: 14,
         textAlign: 'center',
         flex: 1,
