@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     nameText: {
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 18,
+        fontSize: 16,
         color: 'black',
     },
     date: {
