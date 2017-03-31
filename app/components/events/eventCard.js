@@ -130,7 +130,7 @@ export default class EventCard extends Component {
         return (
             <View style={styles.name}>
                 <Highlighter
-                    highlightStyle={{backgroundColor: 'yellow'}}
+                    highlightStyle={styles.highlightStyle}
                     style={[styles.nameText, styleFont.textFont]}
                     searchWords={this.getSearchWords('name')}
                     textToHighlight={this.props.name}
@@ -144,7 +144,7 @@ export default class EventCard extends Component {
             <View style={styles.description}>
                 <Highlighter
                     numberOfLines={1}
-                    highlightStyle={{backgroundColor: 'yellow'}}
+                    highlightStyle={styles.highlightStyle}
                     style={[styles.descriptionText, styleFont.textFont]}
                     searchWords={this.getSearchWords('description')}
                     textToHighlight={this.props.description}
@@ -159,7 +159,7 @@ export default class EventCard extends Component {
             <View style={styles.date}>
                 <Highlighter
                     numberOfLines={1}
-                    highlightStyle={{backgroundColor: 'yellow'}}
+                    highlightStyle={styles.highlightStyle}
                     style={[styles.dateText, styleFont.textFont]}
                     searchWords={this.getSearchWords('date')}
                     textToHighlight={formattedDate}
@@ -284,6 +284,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'stretch',
         backgroundColor: '#ef4954',
+    },
+
+    highlightStyle: {
+        backgroundColor: colors.highlight
     }
 });
 

@@ -8,5 +8,6 @@ export default {
     mediumGray: '#686868',
     red:'#FF3824',
     green:'#44DB5E',
-    orange:'#FFD93F'
+    orange:'#FFD93F',
+    highlight: '#c2effc'
 }
