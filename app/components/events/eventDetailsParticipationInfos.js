@@ -70,7 +70,7 @@ class EventDetailsParticipationInfos extends Component {
     }
 
     formatDate() {
-        return this.props.event.getDateToString().split(" ");
+        return this.props.event.getDateToString().split("/");
     }
 
     renderGoing() {

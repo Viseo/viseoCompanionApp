@@ -59,7 +59,7 @@ export default class EventListView extends Component {
 
     renderEventCard = event => {
         let fullDate = event.getDateToString();
-        let [day, time] = fullDate.split(' ');
+        let [day, time] = fullDate.split('/');
         return (
             <EventCard
                 name={event.name}

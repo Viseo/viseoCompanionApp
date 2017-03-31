@@ -25,12 +25,12 @@ export default function setDateLang(lang) {
                 LLLL: 'dddd D MMMM YYYY HH:mm'
             },
             calendar: {
-                sameDay: '[Auj] LT',
-                nextDay: '[Demain] LT',
-                nextWeek: 'ddd LT',
-                lastDay: '[Hier] LT',
+                sameDay: '[Aujourd\'hui]/LT',
+                nextDay: '[Demain]/LT',
+                nextWeek: 'dddd/LT',
+                lastDay: '[Hier]/LT',
                 lastWeek: 'ddd [dernier] LT',
-                sameElse: 'ddd Do MMMM'
+                sameElse: 'ddd Do MMMM/LT'
             },
             relativeTime: {
                 future: 'dans %s',
