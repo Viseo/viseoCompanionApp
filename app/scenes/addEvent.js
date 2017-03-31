@@ -84,7 +84,7 @@ export default class AddEvent extends Component {
 
     render() {
         return (
-            <View style={{flex:1, flexDirection:'column'}}>
+            <View style={{flex:1, flexDirection:'column', backgroundColor:'white'}}>
                 <Header/>
                 <ScrollView>
                     <View style={styles.mainContainer}>
