@@ -76,13 +76,13 @@ class EventDetailsParticipationInfos extends Component {
     renderGoing() {
         let { going } = this.state;
         return (
-            <TouchableOpacity onPress={this.pressGoing} style={styles.infoItem}>
+            <View style={styles.infoItem}>
                 <CheckBox
                     isChecked={going}
-                    onClick={() => {}}
+                    onClick={this.pressGoing}
                 />
                 <AppText>{strings.participationLabel}</AppText>
-            </TouchableOpacity>
+            </View>
         );
     }
 }
