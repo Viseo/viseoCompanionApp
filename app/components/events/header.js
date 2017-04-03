@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex:0,
         padding: 10,
-        backgroundColor: 'royalblue'
-        // backgroundColor: colors.lightGray
+        // backgroundColor: 'royalblue'
+        backgroundColor: colors.blue
     },
     searchBarContainer: {
         flex: 0,

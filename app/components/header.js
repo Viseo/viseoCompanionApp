@@ -1,12 +1,10 @@
 /**
  * Created by LMA3606 on 16/03/2017.
  */
-/**
- * Created by LMA3606 on 16/03/2017.
- */
 import React, {Component} from "react";
 import {View, StyleSheet, Platform, Dimensions, Image, Text} from "react-native";
 import AppText from "./appText";
+import colors from './events/colors';
 
 class Header extends Component {
 
@@ -35,7 +33,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         height: (1 / 16) * deviceHeight,
-        backgroundColor: 'royalblue',
+        backgroundColor: colors.blue,
         marginTop:(Platform.OS === 'ios') ? 20 : 0,
     },
     burgerMenu: {

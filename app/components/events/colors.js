@@ -3,11 +3,12 @@
  */
 
 export default {
-    blue: '#32affc',
+    blue: '#498ff7',
+    blueLight:'#498ff7',
     lightGray: '#e0e0e0',
     mediumGray: '#686868',
-    red:'#FF3824',
-    green:'#44DB5E',
-    orange:'#FFD93F',
+    red:'#f76d79',
+    green:'#78D564',
+    orange:'#ffc770',
     highlight: '#c2effc'
 }
