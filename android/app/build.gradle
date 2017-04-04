@@ -152,6 +152,7 @@ dependencies {
     compile ('com.google.android.gms:play-services-gcm:8.1.0') {
         force = true;
     }
+    compile project(':react-native-image-picker')
     // compile project(':react-native-fabric')
     // compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
     //    transitive = true
