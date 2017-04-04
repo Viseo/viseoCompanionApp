@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.73% </span>
+        <span class="strong">92.98% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>51/55</span>
+        <span class='fraction'>53/57</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">83.87% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>26/31</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80% </span>
+        <span class="strong">72.73% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>8/10</span>
+        <span class='fraction'>8/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.75% </span>
+        <span class="strong">94% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>45/48</span>
+        <span class='fraction'>47/50</span>
       </div>
     </div>
   </div>
@@ -380,12 +380,17 @@
 335
 336
 337
-338</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+338
+339
+340
+341
+342
+343
+344</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -542,8 +547,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -716,7 +729,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Created by LMA3606 on 13/02/2017.
  */
@@ -732,7 +744,6 @@ import {
     NavMenu,
     ScrollView,
     View,
-    TouchableOpacity,
     ListView,
     Dimensions,
     RefreshControl,
@@ -743,10 +754,10 @@ import {
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-import ListViewHeader from './../components/events/header';
-import Header from './../components/header';
-import AppText from '../components/appText';
-import EventListView from './../components/events/eventListView';
+import ListViewHeader from "./../components/events/header";
+import Header from "./../components/header";
+import AppText from "../components/appText";
+import EventListView from "./../components/events/eventListView";
 &nbsp;
 export default class Home extends Component {
 &nbsp;
@@ -788,7 +799,7 @@ export default class Home extends Component {
         });
         this.setState({
             allEvents,
-            filteredOnParticipation : allEvents
+            filteredOnParticipation: allEvents
         });
         this.updateEventList(this.state.allEvents);
     };
@@ -831,8 +842,8 @@ export default class Home extends Component {
 &nbsp;
     render() {
         // For now only the admin can create allEvents through the admin page
-        let allowEventCreation = false;
-        let createEventButton = a</span>llowEventCreation ? <span class="branch-0 cbranch-no" title="branch not covered" >this.renderCreateEventButton() : null;
+        let allowEventCreation = true;
+        l</span>et createEventButton = allowEventCreation ? this.renderCreateEventButton() : <span class="branch-1 cbranch-no" title="branch not covered" >null;
 &nbsp;
         let eventList = this.state.showedEvents.length &gt; 0 ? this.renderEventView() : this.renderNoEventsToShow();
         let eventView = this.state.loaded ? eventList : this.renderLoadingIndicator();
@@ -880,9 +891,17 @@ export default class Home extends Component {
     }
 &nbsp;
     renderCreateEventButton() {
-<span class="cstat-no" title="statement not covered" >        return (</span>
-            &lt;ActionButton buttonColor="rgba(231,76,60,1)"&gt;
-                &lt;ActionButton.Item buttonColor='#9b59b6' title="New event" onPress={this.props.onAddEventClicked}&gt;
+        return (
+            &lt;ActionButton buttonColor="royalblue"&gt;
+                &lt;ActionButton.Item
+                    buttonColor='#9b59b6'
+                    title="Créer évènement"
+                    onPress={<span class="fstat-no" title="function not covered" >() =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >                        this.props.navigator.push({</span>
+                            title: 'AddEvent',
+                        });
+                    }}
+                &gt;
                     &lt;Icon name="md-create" style={styles.actionButtonIcon}/&gt;
                 &lt;/ActionButton.Item&gt;
             &lt;/ActionButton&gt;
@@ -957,7 +976,6 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginLeft: 3,
         fontSize: 18,
-        marginBottom: 2,
         backgroundColor: 'white',
     },
 &nbsp;
@@ -1060,7 +1078,7 @@ const styles = StyleSheet.create({
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 23 2017 16:47:25 GMT+0100 (Paris, Madrid)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 31 2017 10:04:56 GMT+0200 (Paris, Madrid (heure d’été))
 </div>
 </div>
 <script src="..\..\prettify.js"></script>

@@ -13,6 +13,20 @@ let {
     width: deviceWidth
 } = Dimensions.get('window');
 
+const eventIdToImages = {
+    "40": require('./../../images/formation_securite.jpg'),
+    "0":require('./../../images/0.jpg'),
+    "7":require('./../../images/blockchain-iot.jpg'),
+    "41":require('./../../images/poker_jeux.jpg'),
+    "42":require('./../../images/concert-de-rock.jpg'),
+    "39":require('./../../images/coderdojo.jpg'),
+    "44":require('./../../images/formationAgile.jpg'),
+    "43":require('./../../images/reactive-nativingitup-png-800x600_q96.png'),
+    "38":require('./../../images/soiree_nouveaux.jpg'),
+    "46":require('./../../images/tdd.png'),
+}
+
+
 export default class EventDetails extends Component {
     static defaultProps = {
         keywords: ["cool", "fun", "awesome"]
@@ -29,16 +43,16 @@ export default class EventDetails extends Component {
                 <Header/>
                 <View style={styles.container}>
                     <View style={{flex:1}}>
-                        <View style={{flex:1, paddingBottom:10}}>
+                        <View style={{flex:2}}>
                             <EventDetailsHeader event={event}/>
                         </View>
-                        <View style={{flex:4,flexDirection:'column'}}>
+                        <View style={{flex:6,flexDirection:'column'}}>
                             <ScrollView
                                 style={{
                                     flex:1,
                                 }}
                             >
-                                {this.renderEventIllustration()}
+                                {this.renderEventIllustration(event.id)}
                                 {this.renderEventParticipationInfos(event)}
                                 {this.renderEventDescription(event.description)}
                                 {this.renderEventKeywords(this.props.keywords)}
@@ -50,11 +64,13 @@ export default class EventDetails extends Component {
         );
     }
 
-    renderEventIllustration() {
+    renderEventIllustration(id) {
+        let defaultImage = require('./../../images/0.jpg');
+        let image = eventIdToImages[id] || defaultImage;
         return (
             <View style={{marginBottom:-20}}>
                 <Image
-                    source={require('./../../images/sampleImage.jpg')}
+                    source={image}
                     resizeMode="stretch"
                     style={{
                         flex: 1,
@@ -116,13 +132,11 @@ const styles = StyleSheet.create({
     },
 
     description: {
-        color: 'black',
         fontSize: 16,
         textAlign: 'center',
     },
 
     keywords: {
-        color: 'black',
         fontSize: 14,
         textAlign: 'center',
         flex: 1,

@@ -25,9 +25,9 @@ import {
     TouchableHighlight,
     Modal
 } from "react-native";
-import DatePicker from 'react-native-datepicker';
+import DatePicker from "react-native-datepicker";
 import Header from "./../components/header";
-import AppText from './../components/appText';
+import AppText from "./../components/appText";
 
 export default class AddEvent extends Component {
     constructor(props) {
@@ -47,7 +47,7 @@ export default class AddEvent extends Component {
     }
 
     getUnixTime(time) {
-        return (time.split(":")[0] * 3600 + time.split(":")[1] * 60 + 3600) * 1000;
+        return (time.split(":")[0] * 3600 + time.split(":")[1] * 60) * 1000;
 
     }
 
@@ -84,7 +84,7 @@ export default class AddEvent extends Component {
 
     render() {
         return (
-            <View style={{backgroundColor:'white'}}>
+            <View style={{flex:1, flexDirection:'column', backgroundColor:'white'}}>
                 <Header/>
                 <ScrollView>
                     <View style={styles.mainContainer}>
@@ -112,10 +112,9 @@ export default class AddEvent extends Component {
 
     renderTitle() {
         return (
-            <View style={{
-                padding:30}}>
+            <View style={{flex:1}}>
                 <AppText style={styles.titleText}>
-                    Ajouter un évènement
+                    Ajouter un évènement (beta)
                 </AppText>
             </View>
         );
@@ -123,71 +122,63 @@ export default class AddEvent extends Component {
 
     renderNameInput() {
         return (
-            <View>
-                <TextInput
-                    style={{textAlign: 'left'}}
-                    placeholder="Nom de l'évènement"
-                    autoCorrect={true}
-                    returnKeyType="next"
-                    underlineColorAndroid={"lightgray"}
-                    onChangeText={(name) => this.setState({name})}
-                />
-            </View>
+            <TextInput
+                style={{textAlign: 'left', flex:1}}
+                placeholder="Nom de l'évènement"
+                autoCorrect={true}
+                returnKeyType="next"
+                underlineColorAndroid={"lightgray"}
+                onChangeText={(name) => this.setState({name})}
+            />
         );
     }
 
     renderLocationInput() {
         return (
-            <View>
-                <TextInput
-                    style={{textAlign: 'left'}}
-                    placeholder="Lieu"
-                    autoCorrect={true}
-                    returnKeyType="next"
-                    onChangeText={(place) => this.setState({place})}
-                />
-            </View>
+            <TextInput
+                style={{textAlign: 'left', flex:1}}
+                placeholder="Lieu"
+                autoCorrect={true}
+                returnKeyType="next"
+                onChangeText={(place) => this.setState({place})}
+            />
         );
     }
 
     renderDateInput() {
         return (
-            <View>
-                <DatePicker
-                    date={this.state.datetime}
-                    mode="datetime"
-                    format="YYYY/MM/DD HH:mm"
-                    confirmBtnText="OK"
-                    cancelBtnText="Annuler"
-                    onDateChange={(datetime) => {this.setState({datetime: datetime});}}
-                    customStyles={{
-                                    dateIcon: {
-                                      position: 'absolute',
-                                      left: 0,
-                                      top: 4,
-                                      marginLeft: 0
-                                    },
-                                    dateInput: {
-                                      marginLeft: 36
-                                    }
-                                  }}
-                />
-            </View>
+            <DatePicker
+                date={this.state.datetime}
+                mode="datetime"
+                format="YYYY/MM/DD HH:mm"
+                confirmBtnText="OK"
+                cancelBtnText="Annuler"
+                onDateChange={(datetime) => {this.setState({datetime: datetime});}}
+                customStyles={{
+                                dateIcon: {
+                                  position: 'absolute',
+                                  left: 0,
+                                  top: 4,
+                                  marginLeft: 0
+                                },
+                                dateInput: {
+                                  marginLeft: 36
+                                }
+                              }}
+            />
         );
     }
 
     renderDescriptionInput() {
         return (
-            <View>
-                <TextInput
-                    style={{textAlign: 'left'}}
-                    multiline={true}
-                    placeholder="Description"
-                    autoCorrect={true}
-                    returnKeyType="next"
-                    onChangeText={(description) => this.setState({description})}
-                />
-            </View>
+            <TextInput
+                style={{textAlign: 'left', flex:2, paddingVertical:20}}
+                multiline={true}
+                placeholder="Description"
+                autoCorrect={true}
+                returnKeyType="next"
+                onChangeText={(description) => this.setState({description})}
+            />
         );
     }
 
@@ -242,8 +233,10 @@ var {
 
 const styles = StyleSheet.create({
     mainContainer: {
+        flexDirection: 'column',
         flex: 1,
-        padding: 20
+        padding: 20,
+        justifyContent:'space-between'
     },
     title: {
         flex: 1,

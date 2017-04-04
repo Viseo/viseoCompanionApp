@@ -35,10 +35,9 @@ let strings = new LocalizedStrings({
         informativeFilter:'Informative',
         entertainingFilter:'Entertaining',
         participantsLabel: 'Going',
-        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        abrDays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        abrMonths: ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."],
+        participationLabel: 'Participation',
+        categoriesNames: ["Important", "Informative", "Refreshing"],
+        search:'Search',
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -66,10 +65,10 @@ let strings = new LocalizedStrings({
         informativeFilter:'Informatifs',
         entertainingFilter:'Divertissants',
         participantsLabel: 'Inscrits',
-        days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-        abrDays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-        months: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
-        abrMonths: ["Janv.", "Fev.", "Mars", "Avr.", "Mai", "Juin", "Juill.", "Août", "Sept.", "Oct.", "Nov.", "Déc."],
+        participationLabel: 'Participation',
+        categoriesNames: ["Important", "Informatif", "Divertissant"],
+        search:'Rechercher',
+
     }
 });
 

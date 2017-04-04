@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.22% </span>
+        <span class="strong">51.11% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>21/41</span>
+        <span class='fraction'>23/45</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5% </span>
+        <span class="strong">4.55% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/20</span>
+        <span class='fraction'>1/22</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.22% </span>
+        <span class="strong">51.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>21/41</span>
+        <span class='fraction'>23/45</span>
       </div>
     </div>
   </div>
@@ -133,9 +133,17 @@
 88
 89
 90
-91</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+91
+92
+93
+94
+95
+96
+97
+98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -162,6 +170,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -182,11 +191,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -226,18 +240,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Created by AAB3605 on 13/02/2017.
  */
-import React, {Component} from 'react';
-import {View, Text, Navigator, BackAndroid} from 'react-native';
-import SignIn from './scenes/signIn';
-import SignUp from './scenes/signUp';
-import RecoverPassword from './scenes/recoverPassword';
+import React, {Component} from "react";
+import {View, Text, Navigator, BackAndroid} from "react-native";
+import SignIn from "./scenes/signIn";
+import SignUp from "./scenes/signUp";
+import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import EventDetails from "./components/events/eventDetails";
 import EventCardTestScene from "./scenes/test/eventCardTestScene";
 import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
 import strings from "./util/localizedStrings";
-import setDateLang from './util/dateHandler';
-import db from './util/db';
+import setDateLang from "./util/dateHandler";
+import db from "./util/db";
+import AddEvent from './scenes/addEvent';
 &nbsp;
 export default class ViseoCompanion extends Component {
     constructor(props) <span class="branch-1 cbranch-no" title="branch not covered" >{</span>
@@ -251,6 +266,7 @@ export default class ViseoCompanion extends Component {
      * When the back button is pressed, navigate back to the previous scene.
      */
     componentWillMount() {
+        strings.setLanguage('fr');
         setDateLang(strings.getLanguage());
 &nbsp;
         BackAndroid.addEventListener('hardwareBackPress', <span class="fstat-no" title="function not covered" >() =&gt; </span>{
@@ -271,6 +287,7 @@ export default class ViseoCompanion extends Component {
             {title: 'EventDetails'},
             {title: 'EventCardTestScene'},
             {title: 'EventsWithParticipantsTestScene'},
+            {title: 'AddEvent'},
         ];
         return (
             &lt;Navigator
@@ -305,10 +322,14 @@ export default class ViseoCompanion extends Component {
 <span class="cstat-no" title="statement not covered" >                        return (</span>
                             &lt;EventsWithParticipantsTestScene navigator={navigator} {...route.passProps}/&gt;
                         );
+                    } else <span class="cstat-no" title="statement not covered" >if(route.title === 'AddEvent') {</span>
+<span class="cstat-no" title="statement not covered" >                        return (</span>
+                            &lt;AddEvent navigator={navigator} {...route.passProps} db={db}/&gt;
+                        );
                     }
                 }}
                 configureScene={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>route, routeStack) =&gt;</span>
-                    Navigator.SceneConfigs.PushFromRight
+                    Navigator.SceneConfigs.FloatFromRight
                 }
             /&gt;
         )
@@ -319,7 +340,7 @@ export default class ViseoCompanion extends Component {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Mar 23 2017 16:47:25 GMT+0100 (Paris, Madrid)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 31 2017 10:04:56 GMT+0200 (Paris, Madrid (heure d’été))
 </div>
 </div>
 <script src="..\prettify.js"></script>

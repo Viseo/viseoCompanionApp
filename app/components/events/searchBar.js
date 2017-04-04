@@ -8,6 +8,7 @@ import {
     StyleSheet,
     Image
 } from 'react-native';
+import strings from './../../util/localizedStrings'
 
 class SearchBar extends Component {
 
@@ -90,7 +91,7 @@ class SearchBar extends Component {
                             styles.input,
                             this.props.filtersVisible && styles.inputWhenFilterBarIsVisible
                         ]}
-                        placeholder="Search..."
+                        placeholder={strings.search + "..."}
                         onChangeText={this.onChangeText}
                         underlineColorAndroid='rgba(0,0,0,0)'
                     />
@@ -108,16 +109,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor:'white',
-        borderRadius:8
+        borderRadius:3
     },
     input: {
-        height: 40,
         flex: 1,
         fontSize: 15,
         backgroundColor: 'white',
         textAlign: 'center',
-        borderTopLeftRadius:8,
-        borderBottomLeftRadius:8,
+        borderTopLeftRadius:3,
+        borderBottomLeftRadius:3,
     },
     inputWhenFilterBarIsVisible: {
         borderBottomLeftRadius:0

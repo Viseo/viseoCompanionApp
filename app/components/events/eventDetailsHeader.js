@@ -3,8 +3,9 @@
  */
 import React, {Component} from "react";
 import {View, TouchableOpacity, StyleSheet, Image, Dimensions} from "react-native";
-import categories from "../../util/eventCategories";
 import AppText from "../appText";
+import strings from "../../util/localizedStrings";
+import * as util from "../../util/util";
 
 class EventDetailsHeader extends Component {
 
@@ -14,8 +15,8 @@ class EventDetailsHeader extends Component {
 
     constructor(props) {
         super(props);
-        let categoryName = categories.eventCategories[this.props.event.category];
-        let categoryColor = categories.eventCategoriesColors[categoryName];
+        let categoryName = strings.categoriesNames[this.props.event.category];
+        let categoryColor = util.getCategoryColor(this.props.event.category);
         this.state = {
             categoryName: categoryName,
             categoryColor: categoryColor
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:'column',
         justifyContent:'center',
-        paddingHorizontal:20,
+        padding:20,
         alignItems:'center',
     },
 
@@ -132,8 +133,8 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        fontWeight: 'bold',
         color: 'black',
+        fontWeight: 'bold',
         textAlign: 'left',
         fontSize: 22,
         flex:2

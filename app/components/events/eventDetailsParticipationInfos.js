@@ -5,7 +5,7 @@ import React, {Component} from "react";
 import {View, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
 import AppText from "../appText";
 import strings from "../../util/localizedStrings";
-import * as util from "../../util/util";
+import CheckBox from "react-native-check-box";
 
 let {
     height: deviceHeight,
@@ -36,7 +36,7 @@ class EventDetailsParticipationInfos extends Component {
         return (
             <View style={styles.rectangle}>
                     {this.renderParticipants()}
-                    {this.renderDate(this.props.event.date)}
+                    {this.renderDate()}
                     {this.renderGoing()}
             </View>
         )
@@ -55,35 +55,34 @@ class EventDetailsParticipationInfos extends Component {
         );
     }
 
-    renderDate(date) {
+    renderDate() {
+        let date = this.formatDate();
         return (
             <View style={styles.infoItem}>
                 <AppText style={styles.main}>
-                    {util.getFormattedHour(date)}
+                    {date[1]}
                 </AppText>
                 <AppText style={styles.secondary}>
-                    {this.formatDate(date)}
+                    {date[0]}
                 </AppText>
             </View>
         );
     }
 
-    formatDate(date) {
-        return util.isDateInThisWeekNextDays(date) ? util.getDayName(date) : util.getFormattedDate(date);
+    formatDate() {
+        return this.props.event.getDateToString().split("/");
     }
 
     renderGoing() {
         let { going } = this.state;
-        let text = going? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
         return (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <TouchableOpacity
-                    style={[styles.circle,
-                            going && {backgroundColor: this.props.goingColor},
-                            !going && {backgroundColor: this.props.notGoingColor}]}
-                    onPress={this.pressGoing}/>
-                <AppText>{text}</AppText>
-            </View>
+            <TouchableOpacity onPress={this.pressGoing} style={styles.infoItem}>
+                <CheckBox
+                    isChecked={going}
+                    onClick={() => {}}
+                />
+                <AppText>{strings.participationLabel}</AppText>
+            </TouchableOpacity>
         );
     }
 }
@@ -113,13 +112,11 @@ const styles = StyleSheet.create({
 
     main: {
         fontWeight: 'bold',
-        color: 'black',
         textAlign: 'center',
         fontSize: 18
     },
 
     secondary: {
-        color: 'black',
         textAlign: 'center',
         fontSize: 16
     },
