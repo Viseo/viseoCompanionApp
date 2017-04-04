@@ -1,5 +1,5 @@
 /**
- * Created by AAB3605 on 29/03/2017.
+ * Created by AAB3605 on 03/04/2017.
  */
 
 let eventCounter = 5;
@@ -14,12 +14,11 @@ export const removeEvent = (id) => ({
     id
 })
 
-export const openEvent = (id) => ({
-    id,
-    type: 'OPEN_EVENT'
-})
-
 export const setVisibilityFilter = (filter) => ({
     type: 'SET_VISIBILITY_FILTER',
     filter
+})
+export const toggleParticipation = (id) => ({
+    type: 'TOGGLE_PARTICIPATION',
+    id
 })

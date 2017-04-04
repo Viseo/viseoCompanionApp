@@ -3,11 +3,13 @@
  */
 import { combineReducers } from 'redux'
 import visibilityFilter from './visibilityFilter'
+import filters from './filters'
 import events from './events'
 
 const viseoCompanionApp = combineReducers({
     events,
     visibilityFilter,
+    filters,
 })
 
 export default viseoCompanionApp;

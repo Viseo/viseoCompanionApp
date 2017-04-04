@@ -17,7 +17,15 @@ export default class EventList extends Component {
 
     constructor(props) {
         super(props)
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id})
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
+            for(let key in r1) {
+                if(!r2.hasOwnProperty(key))
+                    return true
+                if(r1[key] !== r2[key])
+                    return true
+            }
+            return false
+        }})
         this.state = {
             dataSource: ds.cloneWithRows(this.props.events),
         }
@@ -30,7 +38,7 @@ export default class EventList extends Component {
     }
 
     formatDate(date) {
-        if(date)
+        if (date)
             return null;
         let dateTime = moment(date);
         return dateTime.calendar();
@@ -38,21 +46,50 @@ export default class EventList extends Component {
 
     render() {
         return (
-            <View style={{flex:1, flexDirection:'column'}}>
+            <View style={{flex:4, flexDirection:'column'}}>
                 <View>
                     <Button
-                        title={"Add event"}
+                        title={"Show my events"}
                         onPress={() => {
-                            this.props.addEvent({
-                                category:"0",
-                                description:"description",
-                                keywords:"keywords",
-                                name:"new event",
-                                location:"place",
-                                version:"1",
-                                datetime:"2017-03-28 09:00:00.000000",
-                                participating: Math.random() < .5
-                            })
+                            if(!this.isOn) this.isOn = false;
+                            this.isOn = !this.isOn;
+                            this.isOn ? this.props.setVisibilityFilter('SHOW_GOING') : this.props.setVisibilityFilter('SHOW_ALL')
+                        }}
+                    >
+                    </Button>
+                </View>
+                <View>
+                    <Button
+                        color="red"
+                        title={"Show important events"}
+                        onPress={() => {
+                            if(!this.isOn) this.isOn = false;
+                            this.isOn = !this.isOn;
+                            this.isOn ? this.props.addFilter({category: 0}) : this.props.removeFilter({category:0})
+                        }}
+                    >
+                    </Button>
+                </View>
+                <View>
+                    <Button
+                        color="orange"
+                        title={"Show informative events"}
+                        onPress={() => {
+                            if(!this.isOn) this.isOn = false;
+                            this.isOn = !this.isOn;
+                            this.isOn ? this.props.addFilter({category: 1}) : this.props.removeFilter({category:1})
+                        }}
+                    >
+                    </Button>
+                </View>
+                <View>
+                    <Button
+                        color="green"
+                        title={"Show entertaining events"}
+                        onPress={() => {
+                            if(!this.isOn) this.isOn = false;
+                            this.isOn = !this.isOn;
+                            this.isOn ? this.props.addFilter({category: 2}) : this.props.removeFilter({category:2})
                         }}
                     >
                     </Button>
@@ -67,10 +104,6 @@ export default class EventList extends Component {
     }
 
     renderEventCard = (event) => {
-        if(!event) {
-            console.warn('undefined event')
-            return null
-        }
         let fullDate = this.formatDate();
         let [day, time] = fullDate.split(' ');
         return (
@@ -82,8 +115,16 @@ export default class EventList extends Component {
                 time={time}
                 participating={event.participating}
                 categoryId={event.category}
-                onParticipationChange={() => {}}
-                onPress={() => {this.props.removeEvent(event.id)}}
+                onParticipationChange={() => {this.props.toggleParticipation(event.id)}}
+                onPress={() => {
+                    this.props.navigator.push({
+                        title: 'EventDetails',
+                        passProps: {
+                            event,
+                            onParticipationChange: () => {}
+                        }
+                    });
+                }}
                 searchWords={event.searchWords}
             />
         );

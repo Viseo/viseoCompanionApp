@@ -46,6 +46,15 @@ const events = (state = [], action) => {
                 ...state.slice(0, eventToRemove),
                 ...state.slice(eventToRemove + 1)
             ]
+        case 'TOGGLE_PARTICIPATION':
+            return state.map(event => {
+                return event.id === action.id ?
+                    {
+                        ...event,
+                        participating: !event.participating
+                    } :
+                    event
+            })
         default:
             return state
     }
