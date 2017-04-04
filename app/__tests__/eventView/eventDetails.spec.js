@@ -4,6 +4,11 @@
 import React from "react";
 import testUtil from '../testUtil';
 import Event from '../../util/event';
+import {
+    Image,
+} from "react-native";
+import AppText from './../../components/appText';
+import strings from "../../util/localizedStrings";
 
 describe('EventDetails', () => {
     let event =
@@ -14,12 +19,27 @@ describe('EventDetails', () => {
             'it happens here');
     const details = testUtil.createEventDetails({event: event});
 
-    it('should display 1 app header, one scroll view with event header, participation info and event illustration',
+    it('should display 1 app header, one scroll view, and participation info',
         () => {
         testUtil.checkChildComponentExists(details, 'Header');
         testUtil.checkChildComponentExists(details, 'ScrollView');
-        testUtil.checkChildComponentExists(details, 'EventDetailsHeader');
         testUtil.checkChildComponentExists(details, 'EventDetailsParticipationInfos');
-        testUtil.checkChildComponentExists(details, 'Image');
+    });
+
+    it('should display 4 images (user avatar, user icon, location icon)', () => {
+        expect(testUtil.getComponentsOfTypeInContainer(details, Image)).to.have.length(4);
+    });
+
+    it('should display event title', () => {
+        testUtil.checkChildComponentWithPropValue(details, AppText, 'children', event.name);
+    });
+
+    it('should display event category', () => {
+        let categoryName = strings.categoriesNames[event.category];
+        testUtil.checkChildComponentWithPropValue(details, AppText, 'children', categoryName);
+    });
+
+    it('should display event location', () => {
+        testUtil.checkChildComponentWithPropValue(details, AppText, 'children', event.location);
     });
 });

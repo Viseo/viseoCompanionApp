@@ -26,8 +26,34 @@ class EventDetailsHeader extends Component {
     render() {
         return (
             <View style={{flex:1, flexDirection:'row'}}>
-                {this.renderOrganizatorPicture()}
-                {this.renderEventInfos()}
+                <View style={styles.organizatorPicture}>
+                    <TouchableOpacity>
+                        <Image source={require('./../../images/userAvatar.jpg')} style={styles.organizatorPictureCircle}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.contentContainer}>
+                    <View style={{flexDirection:'row'}}>
+                        <AppText style={styles.headerTitle}>
+                            {this.props.event.name}
+                        </AppText>
+                        <View style={[styles.headerCategoryTriangle, {borderTopColor:this.state.categoryColor}]}/>
+                    </View>
+                    <AppText style={[styles.category, {color: this.state.categoryColor}]}>
+                        {this.state.categoryName}
+                    </AppText>
+                    <View style={styles.headerInfoItem}>
+                        <Image source={require('./../../images/user.png')}/>
+                        <AppText style={{margin: 5}}>
+                            {this.props.userName}
+                        </AppText>
+                    </View>
+                    <View style={styles.headerInfoItem}>
+                        <Image source={require('./../../images/place.png')}/>
+                        <AppText style={{margin: 5}}>
+                            {this.props.event.location}
+                        </AppText>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -59,7 +85,7 @@ class EventDetailsHeader extends Component {
                 <AppText style={styles.title}>
                     {this.props.event.name}
                 </AppText>
-                <View style={[styles.triangle, {borderTopColor:this.state.categoryColor}]}/>
+                <View style={[styles.headerCategoryTriangle, {borderTopColor:this.state.categoryColor}]}/>
             </View>
         );
     }
@@ -98,7 +124,7 @@ class EventDetailsHeader extends Component {
 export default EventDetailsHeader;
 
 const styles = StyleSheet.create({
-    triangle: {
+    headerCategoryTriangle: {
         width: 0,
         height: 0,
         backgroundColor: 'transparent',
@@ -111,7 +137,7 @@ const styles = StyleSheet.create({
         ]
     },
 
-    circle: {
+    organizatorPictureCircle: {
         height: 100,
         width: 100,
         borderRadius: 50,
@@ -132,7 +158,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
 
-    title: {
+    headerTitle: {
         color: 'black',
         fontWeight: 'bold',
         textAlign: 'left',

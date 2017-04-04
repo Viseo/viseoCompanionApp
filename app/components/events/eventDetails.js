@@ -5,8 +5,9 @@ import React, {Component} from "react";
 import {StyleSheet, Image, ScrollView, View, Dimensions, TouchableOpacity} from "react-native";
 import Header from "../header";
 import AppText from "../appText";
-import EventDetailsHeader from "./eventDetailsHeader";
 import EventDetailsParticipationInfos from "./eventDetailsParticipationInfos";
+import strings from "../../util/localizedStrings";
+import * as util from "../../util/util";
 
 let {
     height: deviceHeight,
@@ -29,11 +30,18 @@ const eventIdToImages = {
 
 export default class EventDetails extends Component {
     static defaultProps = {
-        keywords: ["cool", "fun", "awesome"]
+        keywords: ["cool", "fun", "awesome"],
+        userName: 'Al Inclusive',
     }
 
     constructor(props) {
         super(props);
+        let categoryName = strings.categoriesNames[this.props.event.category];
+        let categoryColor = util.getCategoryColor(this.props.event.category);
+        this.state = {
+            categoryName: categoryName,
+            categoryColor: categoryColor
+        };
     }
 
     render() {
@@ -44,7 +52,7 @@ export default class EventDetails extends Component {
                 <View style={styles.container}>
                     <View style={{flex:1}}>
                         <View style={{flex:3}}>
-                            <EventDetailsHeader event={event}/>
+                            {this.renderHeader(event)}
                         </View>
                         <View style={{flex:7,flexDirection:'column'}}>
                             <ScrollView
@@ -62,6 +70,41 @@ export default class EventDetails extends Component {
                 </View>
             </View>
         );
+    }
+
+    renderHeader(event) {
+        return (
+            <View style={{flex:1, flexDirection:'row'}}>
+                <View style={styles.organizatorPicture}>
+                    <TouchableOpacity>
+                        <Image source={require('./../../images/userAvatar.jpg')} style={styles.organizatorPictureCircle}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.contentContainer}>
+                    <View style={{flexDirection:'row'}}>
+                        <AppText style={styles.headerTitle}>
+                            {event.name}
+                        </AppText>
+                        <View style={[styles.headerCategoryTriangle, {borderTopColor:this.state.categoryColor}]}/>
+                    </View>
+                    <AppText style={[styles.category, {color: this.state.categoryColor}]}>
+                        {this.state.categoryName}
+                    </AppText>
+                    <View style={styles.headerInfoItem}>
+                        <Image source={require('./../../images/user.png')}/>
+                        <AppText style={{margin: 5}}>
+                            {this.props.userName}
+                        </AppText>
+                    </View>
+                    <View style={styles.headerInfoItem}>
+                        <Image source={require('./../../images/place.png')}/>
+                        <AppText style={{margin: 5}}>
+                            {event.location}
+                        </AppText>
+                    </View>
+                </View>
+            </View>
+        )
     }
 
     renderEventIllustration(id) {
@@ -142,4 +185,58 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20
     },
+
+    headerCategoryTriangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderRightWidth: 30,
+        borderTopWidth: 30,
+        borderRightColor: 'transparent',
+        transform: [
+            {rotate: '90deg'}
+        ]
+    },
+
+    organizatorPictureCircle: {
+        height: 100,
+        width: 100,
+        borderRadius: 50,
+    },
+
+    organizatorPicture:{
+        flex:1,
+        flexDirection:'column',
+        justifyContent:'center',
+        padding:20,
+        alignItems:'center',
+    },
+
+    contentContainer: {
+        flex:3,
+        paddingLeft:20,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+
+    headerTitle: {
+        color: 'black',
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontSize: 22,
+        flex:2
+    },
+
+    category: {
+        textAlign: 'left',
+        flex:3,
+        justifyContent:'flex-start',
+        paddingTop:5
+    },
+
+    headerInfoItem: {
+        flex:2,
+        flexDirection: 'row',
+    }
 });
