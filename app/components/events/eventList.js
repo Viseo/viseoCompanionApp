@@ -18,18 +18,20 @@ export default class EventList extends Component {
 
     constructor(props) {
         super(props)
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
-            if(this.props.searchWords) {
-                return true
-            }
-            for(let key in r1) {
-                if(!r2.hasOwnProperty(key))
+        const ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => {
+                if (this.props.searchWords) {
                     return true
-                if(r1[key] !== r2[key])
-                    return true
+                }
+                for (let key in r1) {
+                    if (!r2.hasOwnProperty(key))
+                        return true
+                    if (r1[key] !== r2[key])
+                        return true
+                }
+                return false
             }
-            return false
-        }})
+        })
         this.state = {
             dataSource: ds.cloneWithRows(this.props.events),
         }
@@ -50,55 +52,8 @@ export default class EventList extends Component {
 
     render() {
         return (
-            <View style={{flex:4, flexDirection:'column'}}>
-                <View>
-                    <Button
-                        title={"Show my events"}
-                        onPress={() => {
-                            if(!this.isOn) this.isOn = false;
-                            this.isOn = !this.isOn;
-                            this.isOn ? this.props.setVisibilityFilter('SHOW_GOING') : this.props.setVisibilityFilter('SHOW_ALL')
-                        }}
-                    >
-                    </Button>
-                </View>
-                <View>
-                    <Button
-                        color="red"
-                        title={"Show important events"}
-                        onPress={() => {
-                            if(!this.isOn) this.isOn = false;
-                            this.isOn = !this.isOn;
-                            this.isOn ? this.props.addFilter({category: 0}) : this.props.removeFilter({category:0})
-                        }}
-                    >
-                    </Button>
-                </View>
-                <View>
-                    <Button
-                        color="orange"
-                        title={"Show informative events"}
-                        onPress={() => {
-                            if(!this.isOn) this.isOn = false;
-                            this.isOn = !this.isOn;
-                            this.isOn ? this.props.addFilter({category: 1}) : this.props.removeFilter({category:1})
-                        }}
-                    >
-                    </Button>
-                </View>
-                <View>
-                    <Button
-                        color="green"
-                        title={"Show entertaining events"}
-                        onPress={() => {
-                            if(!this.isOn) this.isOn = false;
-                            this.isOn = !this.isOn;
-                            this.isOn ? this.props.addFilter({category: 2}) : this.props.removeFilter({category:2})
-                        }}
-                    >
-                    </Button>
-                </View>
-                <View>
+            <View style={{flex:1, flexDirection:'column'}}>
+                <View style={{flex:1, flexDirection:'column'}}>
                     <TextInput
                         placeholder={"Search words..."}
                         onChangeText={this.props.setWords}
@@ -106,11 +61,13 @@ export default class EventList extends Component {
                     >
                     </TextInput>
                 </View>
-                <ListView
-                    enableEmptySections={true}
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderEventCard}
-                />
+                <View style={{flex:2, flexDirection:'column'}}>
+                    <ListView
+                        enableEmptySections={true}
+                        dataSource={this.state.dataSource}
+                        renderRow={this.renderEventCard}
+                    />
+                </View>
             </View>
         )
     }

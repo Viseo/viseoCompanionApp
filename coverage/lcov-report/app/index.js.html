@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.11% </span>
+        <span class="strong">56% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>23/45</span>
+        <span class='fraction'>28/50</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">4.55% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.11% </span>
+        <span class="strong">56% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>23/45</span>
+        <span class='fraction'>28/50</span>
       </div>
     </div>
   </div>
@@ -140,7 +140,21 @@
 95
 96
 97
-98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -155,6 +169,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -196,11 +222,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -229,9 +252,14 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -253,6 +281,18 @@ import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import db from "./util/db";
 import AddEvent from './scenes/addEvent';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import viseoCompanionApp from './reducers';
+&nbsp;
+&nbsp;
+const initialState = {
+    events: [],
+    visibilityFilter: 'SHOW_ALL',
+    filters: [],
+    searchWords: [],
+}
+let store = createStore(viseoCompanionApp, initialState);
 &nbsp;
 export default class ViseoCompanion extends Component {
     constructor(props) <span class="branch-1 cbranch-no" title="branch not covered" >{</span>
@@ -290,9 +330,10 @@ export default class ViseoCompanion extends Component {
             {title: 'AddEvent'},
         ];
         return (
-            &lt;Navigator
-                initialRoute={routes[0]}
-                renderScene={<span class="fstat-no" title="function not covered" >(</span>route, navigator) =&gt; {
+            &lt;Provider store={store}&gt;
+                &lt;Navigator
+                    initialRoute={routes[0]}
+                    renderScene={<span class="fstat-no" title="function not covered" >(</span>route, navigator) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    this.navigator = navigator;</span>
 <span class="cstat-no" title="statement not covered" >                    if(route.title === 'SignIn') {</span>
 <span class="cstat-no" title="statement not covered" >                        return (</span>
@@ -308,7 +349,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else <span class="cstat-no" title="statement not covered" >if(route.title === 'Home') {</span>
 <span class="cstat-no" title="statement not covered" >                        return (</span>
-                            &lt;Home navigator={navigator} {...route.passProps} db={db}/&gt;
+                            &lt;Home navigator={navigator} {...route.passProps} db={db} store={store}/&gt;
                         );
                     } else <span class="cstat-no" title="statement not covered" >if(route.title === 'EventDetails') {</span>
 <span class="cstat-no" title="statement not covered" >                        return (</span>
@@ -328,10 +369,11 @@ export default class ViseoCompanion extends Component {
                         );
                     }
                 }}
-                configureScene={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>route, routeStack) =&gt;</span>
-                    Navigator.SceneConfigs.FloatFromRight
+                    configureScene={<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>route, routeStack) =&gt;</span>
+                    Navigator.SceneConfigs.PushFromRight
                 }
-            /&gt;
+                /&gt;
+            &lt;/Provider&gt;
         )
     }
 }</pre></td></tr>
@@ -340,7 +382,7 @@ export default class ViseoCompanion extends Component {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 31 2017 10:04:56 GMT+0200 (Paris, Madrid (heure d’été))
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 05 2017 12:32:38 GMT+0200 (Paris, Madrid (heure d’été))
 </div>
 </div>
 <script src="..\prettify.js"></script>

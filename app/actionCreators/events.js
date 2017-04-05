@@ -14,10 +14,6 @@ export const removeEvent = (id) => ({
     id
 })
 
-export const setVisibilityFilter = (filter) => ({
-    type: 'SET_VISIBILITY_FILTER',
-    filter
-})
 export const toggleParticipation = (id) => ({
     type: 'TOGGLE_PARTICIPATION',
     id

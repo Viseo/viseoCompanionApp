@@ -28,6 +28,7 @@ import Header from "./../components/header";
 import AppText from "../components/appText";
 import EventListView from "./../components/events/eventListView";
 import VisibleEventList from './../containers/VisibleEvents';
+import FilterBar from './../components/events/filterBar'
 import { dispatch } from 'redux'
 
 
@@ -116,7 +117,12 @@ export default class Home extends Component {
         return (
             <View style={{flex:1}}>
                 <Header/>
-                <VisibleEventList navigator={this.props.navigator} />
+                <View style={{flex:1}}>
+                    <FilterBar/>
+                </View>
+                <View style={{flex:4}}>
+                    <VisibleEventList navigator={this.props.navigator} />
+                </View>
             </View>
         );
     }
