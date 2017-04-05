@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "726953978920",
+    "firebase_url": "https://viseocompanion.firebaseio.com",
+    "project_id": "viseocompanion",
+    "storage_bucket": "viseocompanion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726953978920:android:acfb601d50266893",
+        "android_client_info": {
+          "package_name": "com.viseocompanion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726953978920-51samv06065q0jqfocctp68m5282pfb4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.viseocompanion",
+            "certificate_hash": "438cddac513b4452bc3760eb1d2a5f5838f4d44d"
+          }
+        },
+        {
+          "client_id": "726953978920-oat0geqddk35mfqe8rdq760oau63ct9n.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "726953978920-59ls32kceth6tqsf0k4m2d9b61g0pgbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSjT_fNTii5g8B-5tU84vlbPko5BoD8Wg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
