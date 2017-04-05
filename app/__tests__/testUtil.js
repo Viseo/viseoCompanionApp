@@ -30,6 +30,13 @@ function checkChildComponentWithPropValue(parent, child, prop, value) {
     })).to.have.length(1);
 }
 
+function getSpecificComponentWIthPropValue(parent,child,prop,value){
+    return parent.findWhere(n => {
+        return n.type() === child
+            && n.props()[prop] === value;
+    });
+}
+
 function checkFieldContent(component, fieldName, fieldValue) {
     expect(component.find('.' + fieldName).props().children).to.equal(fieldValue);
 }
@@ -86,6 +93,10 @@ function submitText(component) {
 function changeTextWithInputValue(component, inputValue) {
     const textInput = component.find(TextInput).first();
     textInput.simulate('changeText', { target: {value: inputValue} });
+}
+
+function validateEditableAppTextWithInputValue(editableAppText, inputValue) {
+    editableAppText.simulate('validate', { target: {value: inputValue} });
 }
 
 function createEventCard(props) {
@@ -209,5 +220,7 @@ export default testUtil = {
     createAppText,
     createEventDetails,
     createEditableAppText,
-    submitText
+    submitText,
+    validateEditableAppTextWithInputValue,
+    getSpecificComponentWIthPropValue
 };

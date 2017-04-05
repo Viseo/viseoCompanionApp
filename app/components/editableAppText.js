@@ -8,11 +8,12 @@ import AppText from "./appText";
 class EditableAppText extends Component {
 
     static defaultProps = {
+        inInModificationMode: false,
         editable: false,
         multiline: false,
         autoCorrect: true,
         returnKeyType: "done",
-        onValidate: (newText) => {}
+        onValidate: () => {}
     }
 
     constructor(props) {
@@ -24,27 +25,18 @@ class EditableAppText extends Component {
     }
 
     render() {
-        if(this.state.editable){
-            return(
-                <View>
-                    {this.renderTextInput()}
-                </View>
-            );
+        if(this.props.isInModificationMode){
+            return this.state.editable ? this.renderTextInput() : this.renderEditableTextValue();
         }
         else{
-            return(
-                <View>
-                    {this.renderTextValue()}
-                </View>
-            );
+            return this.renderNonEditableTextValue();
         }
     }
 
     renderTextInput(){
         return(
-            <View style={{flexDirection:'row', flex: 1, paddingHorizontal:15}}>
+            <View style={{flexDirection:'row', flex: 1}}>
                     <TextInput
-                        refs="input"
                         style={[this.props.style, {flex:10}]}
                         defaultValue={this.props.content}
                         autoCorrect={this.props.autoCorrect}
@@ -59,13 +51,21 @@ class EditableAppText extends Component {
         );
     }
 
-    renderTextValue(){
+    renderEditableTextValue(){
         return(
-            <View style={{flexDirection: 'row', flex: 1, paddingHorizontal:15}}>
+            <View style={{flexDirection: 'row', flex: 1}}>
                     <AppText style={[this.props.style, {flex:10}]}>{this.props.content}</AppText>
                     <TouchableOpacity style={{flex:1}} onPress={this.switchMode}>
                         <Image source={require('./../images/edit.png')}/>
                     </TouchableOpacity>
+            </View>
+        );
+    }
+
+    renderNonEditableTextValue(){
+        return(
+            <View style={{flexDirection: 'row', flex: 1}}>
+                <AppText style={[this.props.style, {flex:10}]}>{this.props.content}</AppText>
             </View>
         );
     }

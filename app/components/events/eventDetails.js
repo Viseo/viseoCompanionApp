@@ -2,9 +2,10 @@
  * Created by AAB3605 on 20/03/2017.
  */
 import React, {Component} from "react";
-import {StyleSheet, Image, ScrollView, View, Dimensions, TouchableOpacity} from "react-native";
+import {TextInput, StyleSheet, Image, ScrollView, View, Dimensions, TouchableOpacity} from "react-native";
 import Header from "../header";
 import AppText from "../appText";
+import EditableAppText from "../editableAppText";
 import strings from "../../util/localizedStrings";
 import * as util from "../../util/util";
 import CheckBox from "react-native-check-box";
@@ -33,6 +34,7 @@ export default class EventDetails extends Component {
         keywords: ["cool", "fun", "awesome"],
         userName: 'Al Inclusive',
         numberOfParticipants: '121',
+        isInModificationMode: false
     }
 
     constructor(props) {
@@ -42,7 +44,10 @@ export default class EventDetails extends Component {
         this.state = {
             categoryName: categoryName,
             categoryColor: categoryColor,
-            going: this.props.event.participating
+            going: this.props.event.participating,
+            description: this.props.event.description,
+            title: this.props.event.name,
+            location: this.props.event.location
         };
     }
 
@@ -64,7 +69,7 @@ export default class EventDetails extends Component {
                             >
                                 {this.renderEventIllustration(event.id)}
                                 {this.renderEventParticipationInfos()}
-                                {this.renderEventDescription(event.description)}
+                                {this.renderEventDescription(this.state.description)}
                                 {this.renderEventKeywords(this.props.keywords)}
                             </ScrollView>
                         </View>
@@ -84,9 +89,11 @@ export default class EventDetails extends Component {
                 </View>
                 <View style={styles.contentContainer}>
                     <View style={{flexDirection:'row'}}>
-                        <AppText style={styles.headerTitle}>
-                            {event.name}
-                        </AppText>
+                        <EditableAppText
+                            isInModificationMode={this.props.isInModificationMode}
+                            style={styles.headerTitle}
+                            content={this.state.title}
+                            onValidate={(value) => this.setState({title: value})}/>
                         <View style={[styles.headerCategoryTriangle, {borderTopColor:this.state.categoryColor}]}/>
                     </View>
                     <AppText style={[styles.category, {color: this.state.categoryColor}]}>
@@ -100,9 +107,10 @@ export default class EventDetails extends Component {
                     </View>
                     <View style={styles.headerInfoItem}>
                         <Image source={require('./../../images/place.png')}/>
-                        <AppText style={{margin: 5}}>
-                            {event.location}
-                        </AppText>
+                        <EditableAppText
+                            isInModificationMode={this.props.isInModificationMode}
+                            content={this.state.location}
+                            onValidate={(value) => this.setState({location: value})}/>
                     </View>
                 </View>
             </View>
@@ -164,7 +172,12 @@ export default class EventDetails extends Component {
     renderEventDescription(description) {
         return (
             <View style={{padding:20}}>
-                <AppText style={styles.description}>{description} </AppText>
+                <EditableAppText
+                    isInModificationMode={this.props.isInModificationMode}
+                    style={styles.description}
+                    multiline={true}
+                    content={description}
+                    onValidate={(value) => this.setState({description: value})}/>
             </View>
         );
     }
@@ -214,6 +227,7 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 16,
         textAlign: 'center',
+        justifyContent:'center'
     },
 
     keywords: {
@@ -273,7 +287,7 @@ const styles = StyleSheet.create({
     },
 
     headerInfoItem: {
-        flex:2,
+        flex:3,
         flexDirection: 'row',
     },
 
