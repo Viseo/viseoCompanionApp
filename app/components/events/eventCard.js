@@ -20,21 +20,10 @@ export default class EventCard extends Component {
         categoryId: '',
         onParticipationChange: () => {
         },
-        searchWords: {
-            searchString: '',
-            properties: []
-        }
     }
 
     constructor(props) {
         super(props);
-    }
-
-    getSearchWords(property) {
-        let searchWords = [];
-        if (this.props.searchWords.properties.indexOf(property) !== -1)
-            searchWords.push(this.props.searchWords.searchString);
-        return searchWords;
     }
 
     getSwipeOption = () => {

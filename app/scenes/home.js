@@ -25,7 +25,6 @@ import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import Header from "./../components/header";
 import AppText from "../components/appText";
-import EventListView from "./../components/events/eventListView";
 import VisibleEventList from './../containers/VisibleEvents';
 import SearchBar from './../components/events/SearchBar'
 import { dispatch } from 'redux'
