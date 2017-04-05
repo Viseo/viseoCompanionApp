@@ -4,5 +4,10 @@
 
 export const setWords = (searchString = []) => ({
     type: 'SET_WORDS',
-    searchWords: searchString.length > 0 ? searchString.split(' ') : [],
+    searchWords: searchString.length > 0 ?
+        searchString
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+        : [],
 })

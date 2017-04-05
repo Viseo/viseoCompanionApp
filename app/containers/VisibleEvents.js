@@ -34,14 +34,18 @@ const getFilteredEvents = (events, filters) => {
 
 const getSearchedEvents = (events, searchWords) => {
     return events.filter(event => {
-        let acceptEvent = false;
+        let acceptEvent = true;
         searchWords.forEach(word => {
+            let foundWordInAtLeastOneProperty = false;
             for (let key in event) {
                 if (containsString(event[key], word)) {
-                    acceptEvent = true
+                    foundWordInAtLeastOneProperty = true
                 }
             }
-        })
+            if(!foundWordInAtLeastOneProperty) {
+                acceptEvent = false
+            }
+        });
         return acceptEvent
     })
 }
