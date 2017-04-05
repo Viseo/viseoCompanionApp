@@ -68,7 +68,8 @@ const mapStateToProps = (state) => ({
         state.visibilityFilter,
         state.filters,
         state.searchWords
-    )
+    ),
+    searchWords: state.searchWords,
 })
 
 const mapDispatchToProps = (dispatch) => {

@@ -133,7 +133,7 @@ export default class EventCard extends Component {
                 <Highlighter
                     highlightStyle={styles.highlightStyle}
                     style={[styles.nameText, styleFont.textFont]}
-                    searchWords={this.getSearchWords('name')}
+                    searchWords={this.props.searchWords}
                     textToHighlight={this.props.name}
                 />
             </View>
@@ -147,7 +147,7 @@ export default class EventCard extends Component {
                     numberOfLines={1}
                     highlightStyle={styles.highlightStyle}
                     style={[styles.descriptionText, styleFont.textFont]}
-                    searchWords={this.getSearchWords('description')}
+                    searchWords={this.props.searchWords}
                     textToHighlight={this.props.description}
                 />
             </View>
@@ -162,7 +162,7 @@ export default class EventCard extends Component {
                     numberOfLines={1}
                     highlightStyle={styles.highlightStyle}
                     style={[styles.dateText, styleFont.textFont]}
-                    searchWords={this.getSearchWords('date')}
+                    searchWords={this.props.searchWords}
                     textToHighlight={formattedDate}
                 />
             </View>

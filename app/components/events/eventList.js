@@ -19,6 +19,9 @@ export default class EventList extends Component {
     constructor(props) {
         super(props)
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
+            if(this.props.searchWords) {
+                return true
+            }
             for(let key in r1) {
                 if(!r2.hasOwnProperty(key))
                     return true
@@ -134,7 +137,7 @@ export default class EventList extends Component {
                         }
                     });
                 }}
-                searchWords={event.searchWords}
+                searchWords={this.props.searchWords}
             />
         );
     }
