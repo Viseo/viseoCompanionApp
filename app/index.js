@@ -8,8 +8,7 @@ import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import EventDetails from "./components/events/eventDetails";
-import EventCardTestScene from "./scenes/test/eventCardTestScene";
-import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
+import PushNotificationTest from "./scenes/test/App";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import db from "./util/db";
@@ -46,13 +45,12 @@ export default class ViseoCompanion extends Component {
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
             {title: 'EventDetails'},
-            {title: 'EventCardTestScene'},
-            {title: 'EventsWithParticipantsTestScene'},
+            {title: 'PushNotificationTest'},
             {title: 'AddEvent'},
         ];
         return (
             <Navigator
-                initialRoute={routes[0]}
+                initialRoute={routes[5]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'SignIn') {
@@ -75,13 +73,9 @@ export default class ViseoCompanion extends Component {
                         return (
                             <EventDetails navigator={navigator} {...route.passProps}/>
                         );
-                    } else if(route.title === 'EventCardTestScene') {
+                    } else if(route.title === 'PushNotificationTest') {
                         return (
-                            <EventCardTestScene navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'EventsWithParticipantsTestScene') {
-                        return (
-                            <EventsWithParticipantsTestScene navigator={navigator} {...route.passProps}/>
+                            <PushNotificationTest navigator={navigator} {...route.passProps}/>
                         );
                     } else if(route.title === 'AddEvent') {
                         return (
