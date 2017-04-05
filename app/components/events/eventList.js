@@ -53,21 +53,11 @@ export default class EventList extends Component {
     render() {
         return (
             <View style={{flex:1, flexDirection:'column'}}>
-                <View style={{flex:1, flexDirection:'column'}}>
-                    <TextInput
-                        placeholder={"Search words..."}
-                        onChangeText={this.props.setWords}
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                    >
-                    </TextInput>
-                </View>
-                <View style={{flex:2, flexDirection:'column'}}>
-                    <ListView
-                        enableEmptySections={true}
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderEventCard}
-                    />
-                </View>
+                <ListView
+                    enableEmptySections={true}
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderEventCard}
+                />
             </View>
         )
     }
@@ -90,7 +80,7 @@ export default class EventList extends Component {
                         title: 'EventDetails',
                         passProps: {
                             event,
-                            onParticipationChange: () => {}
+                            onParticipationChange: () => {this.props.toggleParticipation(event.id)}
                         }
                     });
                 }}

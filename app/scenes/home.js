@@ -23,12 +23,11 @@ import {
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-import ListViewHeader from "./../components/events/header";
 import Header from "./../components/header";
 import AppText from "../components/appText";
 import EventListView from "./../components/events/eventListView";
 import VisibleEventList from './../containers/VisibleEvents';
-import FilterBar from './../components/events/filterBar'
+import SearchBar from './../components/events/SearchBar'
 import { dispatch } from 'redux'
 
 
@@ -118,7 +117,7 @@ export default class Home extends Component {
             <View style={{flex:1}}>
                 <Header/>
                 <View style={{flex:1}}>
-                    <FilterBar/>
+                    <SearchBar/>
                 </View>
                 <View style={{flex:4}}>
                     <VisibleEventList navigator={this.props.navigator} />

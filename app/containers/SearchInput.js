@@ -3,8 +3,8 @@
  */
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {addFilter, removeFilter} from '../actionCreators/filters'
-import Toggle from './../components/events/toggle'
+import {setWords} from '../actionCreators/searchWords'
+import Input from './../components/events/Input'
 
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps
@@ -12,15 +12,15 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-            onSelect: addFilter,
-            onUnselect: removeFilter,
+        onChangeText: setWords
         },
-        dispatch)
+        dispatch
+    )
 }
 
-const FilterToggle = connect(
+const SearchInput = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Toggle)
+)(Input)
 
-export default FilterToggle
+export default SearchInput
