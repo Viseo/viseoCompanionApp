@@ -21,7 +21,6 @@ import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
 import Home from './../scenes/home';
 import EventDetails from '../components/events/eventDetails';
-import EventDetailsParticipationInfos from '../components/events/eventDetailsParticipationInfos';
 
 function checkChildComponentWithPropValue(parent, child, prop, value) {
     expect(parent.findWhere(n => {
@@ -143,10 +142,6 @@ function createEventDetails(props) {
     return shallow(<EventDetails {...props}/>);
 }
 
-function createEventDetailsParticipationInfos(props) {
-    return shallow(<EventDetailsParticipationInfos {...props}/>);
-}
-
 function getState(component) {
     return component.state();
 }
@@ -203,5 +198,4 @@ export default testUtil = {
     checkCall,
     createAppText,
     createEventDetails,
-    createEventDetailsParticipationInfos,
 };

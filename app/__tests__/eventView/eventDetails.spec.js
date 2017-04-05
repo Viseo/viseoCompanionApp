@@ -23,7 +23,6 @@ describe('EventDetails', () => {
         () => {
         testUtil.checkChildComponentExists(details, 'Header');
         testUtil.checkChildComponentExists(details, 'ScrollView');
-        testUtil.checkChildComponentExists(details, 'EventDetailsParticipationInfos');
     });
 
     it('should display 4 images (user avatar, user icon, location icon)', () => {
@@ -41,5 +40,21 @@ describe('EventDetails', () => {
 
     it('should display event location', () => {
         testUtil.checkChildComponentWithPropValue(details, AppText, 'children', event.location);
+    });
+
+    it('should display event date and hour', () => {
+        let date = event.getDateToString().split("/");
+        testUtil.checkChildComponentWithPropValue(details, AppText, 'children', date[0]);
+        testUtil.checkChildComponentWithPropValue(details, AppText, 'children', date[1]);
+    });
+
+    it('should "going" checkbox be checked or unchecked when pressed, and call the participation function', () => {
+        const participationFunction = testUtil.createCheckCallFunction();
+        const details = testUtil.createEventDetails({event: event, onParticipationChange: participationFunction});
+        let checkedBeforePress = testUtil.getState(details).going;
+        testUtil.click(details, 'CheckBox');
+        let checkedAfterPress = testUtil.getState(details).going;
+        testUtil.compare(checkedAfterPress, !checkedBeforePress);
+        testUtil.checkCall(participationFunction);
     });
 });

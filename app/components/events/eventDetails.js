@@ -5,9 +5,9 @@ import React, {Component} from "react";
 import {StyleSheet, Image, ScrollView, View, Dimensions, TouchableOpacity} from "react-native";
 import Header from "../header";
 import AppText from "../appText";
-import EventDetailsParticipationInfos from "./eventDetailsParticipationInfos";
 import strings from "../../util/localizedStrings";
 import * as util from "../../util/util";
+import CheckBox from "react-native-check-box";
 
 let {
     height: deviceHeight,
@@ -32,6 +32,7 @@ export default class EventDetails extends Component {
     static defaultProps = {
         keywords: ["cool", "fun", "awesome"],
         userName: 'Al Inclusive',
+        numberOfParticipants: '121',
     }
 
     constructor(props) {
@@ -40,7 +41,8 @@ export default class EventDetails extends Component {
         let categoryColor = util.getCategoryColor(this.props.event.category);
         this.state = {
             categoryName: categoryName,
-            categoryColor: categoryColor
+            categoryColor: categoryColor,
+            going: this.props.event.participating
         };
     }
 
@@ -61,7 +63,7 @@ export default class EventDetails extends Component {
                                 }}
                             >
                                 {this.renderEventIllustration(event.id)}
-                                {this.renderEventParticipationInfos(event)}
+                                {this.renderEventParticipationInfos()}
                                 {this.renderEventDescription(event.description)}
                                 {this.renderEventKeywords(this.props.keywords)}
                             </ScrollView>
@@ -125,10 +127,36 @@ export default class EventDetails extends Component {
         );
     }
 
-    renderEventParticipationInfos(event) {
+    renderEventParticipationInfos() {
+        let { going } = this.state;
+        let date = this.formatDate();
         return (
             <View style={{alignItems:'center'}}>
-                <EventDetailsParticipationInfos event={event} onPressGoing={this.props.onParticipationChange}/>
+                <View style={styles.participationInfoRectangle}>
+                    <View style={styles.participationInfoItem}>
+                        <AppText style={styles.participationInfoContainer}>
+                            {this.props.numberOfParticipants}
+                        </AppText>
+                        <AppText style={styles.secondaryParticipationInfoText}>
+                            {strings.participantsLabel}
+                        </AppText>
+                    </View>
+                    <View style={styles.participationInfoItem}>
+                        <AppText style={styles.participationInfoContainer}>
+                            {date[1]}
+                        </AppText>
+                        <AppText style={styles.secondaryParticipationInfoText}>
+                            {date[0]}
+                        </AppText>
+                    </View>
+                    <View style={styles.participationInfoItem}>
+                        <CheckBox
+                            isChecked={going}
+                            onClick={this.pressGoing}
+                        />
+                        <AppText>{strings.participationLabel}</AppText>
+                    </View>
+                </View>
             </View>
         );
     }
@@ -156,6 +184,15 @@ export default class EventDetails extends Component {
             text += "#" + keywords[i];
         }
         return text;
+    }
+
+    pressGoing = () => {
+        this.setState({going: !this.state.going});
+        this.props.onParticipationChange();
+    }
+
+    formatDate() {
+        return this.props.event.getDateToString().split("/");
     }
 }
 
@@ -238,5 +275,36 @@ const styles = StyleSheet.create({
     headerInfoItem: {
         flex:2,
         flexDirection: 'row',
-    }
+    },
+
+    participationInfoRectangle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: deviceHeight * 0.1,
+        width: deviceWidth * 0.85,
+        borderRadius: 10,
+        borderWidth: 1,
+        backgroundColor: 'white',
+        borderColor: 'grey',
+        paddingLeft: deviceWidth * 0.05,
+        paddingRight: deviceWidth * 0.05,
+    },
+
+    participationInfoItem: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    participationInfoContainer: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 18
+    },
+
+    secondaryParticipationInfoText: {
+        textAlign: 'center',
+        fontSize: 16
+    },
 });
