@@ -54,6 +54,13 @@ export default class EventList extends Component {
         return (
             <View style={{flex:1, flexDirection:'column'}}>
                 <ListView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.loading}
+                            onRefresh={this.props.fetchEvents}
+                        />
+                    }
+                    scrollEventThrottle={200}
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderEventCard}

@@ -4,12 +4,10 @@
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventActionCreators from '../actionCreators/events'
-import * as filterActionCreators from '../actionCreators/filters'
-import * as searchActionCreators from '../actionCreators/searchWords'
 import EventList from '../components/events/eventList'
 
 const containsString = (source, search, caseSensitive = false) => {
-    if(!source || !search) {
+    if (!source || !search) {
         return false
     }
     let sourceString = caseSensitive ? source.toString() : source.toString().toLowerCase();
@@ -42,7 +40,7 @@ const getSearchedEvents = (events, searchWords) => {
                     foundWordInAtLeastOneProperty = true
                 }
             }
-            if(!foundWordInAtLeastOneProperty) {
+            if (!foundWordInAtLeastOneProperty) {
                 acceptEvent = false
             }
         });
@@ -74,15 +72,11 @@ const mapStateToProps = (state) => ({
         state.searchWords
     ),
     searchWords: state.searchWords,
+    loading: state.loading,
 })
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-            ...eventActionCreators,
-            ...filterActionCreators,
-            ...searchActionCreators
-        },
-        dispatch)
+    return bindActionCreators({...eventActionCreators}, dispatch)
 }
 
 const VisibleEventList = connect(

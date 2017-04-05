@@ -9,9 +9,10 @@ import searchWords from './searchWords'
 
 const viseoCompanionApp = combineReducers({
     events,
-    visibilityFilter,
+    fetching: events,
     filters,
-    searchWords
+    searchWords,
+    visibilityFilter,
 })
 
 export default viseoCompanionApp;

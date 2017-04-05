@@ -21,9 +21,10 @@ import viseoCompanionApp from './reducers';
 
 const initialState = {
     events: [],
-    visibilityFilter: 'SHOW_ALL',
+    fetching: false,
     filters: [],
     searchWords: [],
+    visibilityFilter: 'SHOW_ALL',
 }
 let store = createStore(viseoCompanionApp, initialState);
 
