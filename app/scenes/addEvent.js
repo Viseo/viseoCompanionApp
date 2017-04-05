@@ -28,6 +28,7 @@ import {
 import DatePicker from "react-native-datepicker";
 import Header from "./../components/header";
 import AppText from "./../components/appText";
+import EditableImage from "./../components/editableImage";
 
 export default class AddEvent extends Component {
     constructor(props) {
@@ -89,6 +90,7 @@ export default class AddEvent extends Component {
                 <ScrollView>
                     <View style={styles.mainContainer}>
                         {this.renderTitle()}
+                        <EditableImage/>
                         {this.renderNameInput()}
                         {this.renderLocationInput()}
                         {this.renderDateInput()}

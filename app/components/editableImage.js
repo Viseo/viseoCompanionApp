@@ -15,7 +15,7 @@ import {
 
 import ImagePicker from 'react-native-image-picker';
 
-export default class App extends React.Component {
+export default class EditableImage extends React.Component {
 
     state = {
         selectedPicture: null,
@@ -44,7 +44,6 @@ export default class App extends React.Component {
 
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-y
                 this.setState({
                     selectedPicture: source
                 });
@@ -72,8 +71,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF'
+        alignItems: 'center'
     },
     avatarContainer: {
         borderColor: '#9B9B9B',
