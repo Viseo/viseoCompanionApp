@@ -16,6 +16,7 @@ import RecoverPassword from './../scenes/recoverPassword';
 import SignIn from './../scenes/signIn';
 import SignUp from './../scenes/signUp';
 import AppText from '../components/appText';
+import EditableAppText from '../components/editableAppText';
 import EventViewHeader from '../components/events/header';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
@@ -75,6 +76,11 @@ function press(component) {
 function changeText(component) {
     const textInput = component.find(TextInput).first();
     textInput.simulate('changeText');
+}
+
+function submitText(component) {
+    const textInput = component.find(TextInput).first();
+    textInput.simulate('submitEditing');
 }
 
 function changeTextWithInputValue(component, inputValue) {
@@ -165,6 +171,10 @@ function createAppText(props) {
     return shallow(<AppText {...props} />)
 }
 
+function createEditableAppText(props) {
+    return shallow(<EditableAppText {...props} />);
+}
+
 export default testUtil = {
     checkChildComponentWithPropValue,
     checkFieldContent,
@@ -198,4 +208,6 @@ export default testUtil = {
     checkCall,
     createAppText,
     createEventDetails,
+    createEditableAppText,
+    submitText
 };
