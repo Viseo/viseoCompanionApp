@@ -56,7 +56,7 @@ class EventDetailsParticipationInfos extends Component {
     }
 
     renderDate() {
-        let date = this.formatDate();
+        let date = 'no date' //this.formatDate();
         return (
             <View style={styles.infoItem}>
                 <AppText style={styles.main}>

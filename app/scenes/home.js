@@ -114,7 +114,10 @@ export default class Home extends Component {
 
     render() {
         return (
-            <VisibleEventList navigator={this.props.navigator} />
+            <View style={{flex:1}}>
+                <Header/>
+                <VisibleEventList navigator={this.props.navigator} />
+            </View>
         );
     }
 

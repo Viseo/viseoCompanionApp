@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     ListView,
     Keyboard,
+    TextInput
 } from 'react-native'
 import EventCard from './eventCard'
 import moment from 'moment'
@@ -93,6 +94,14 @@ export default class EventList extends Component {
                         }}
                     >
                     </Button>
+                </View>
+                <View>
+                    <TextInput
+                        placeholder={"Search words..."}
+                        onChangeText={this.props.setWords}
+                        underlineColorAndroid='rgba(0,0,0,0)'
+                    >
+                    </TextInput>
                 </View>
                 <ListView
                     enableEmptySections={true}

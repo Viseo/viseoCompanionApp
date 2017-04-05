@@ -23,6 +23,7 @@ const initialState = {
     events: [],
     visibilityFilter: 'SHOW_ALL',
     filters: [],
+    searchWords: [],
 }
 let store = createStore(viseoCompanionApp, initialState);
 

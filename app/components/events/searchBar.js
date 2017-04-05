@@ -24,7 +24,7 @@ class SearchBar extends Component {
             && sourceString.indexOf(searchString) > -1;
     };
 
-    findMatchingData = searchString => {
+    findMatchingData = (searchString) => {
         let matchingData = [];
         let {dataSource} = this.props;
         dataSource.forEach(data => {
