@@ -23,12 +23,14 @@ import {
     Button,
     Alert,
     TouchableHighlight,
-    Modal
+    Modal,
+    KeyboardAvoidingView
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Header from "./../components/header";
 import AppText from "./../components/appText";
 import EditableImage from "./../components/editableImage";
+import colors from '../components/events/colors';
 
 export default class AddEvent extends Component {
     constructor(props) {
@@ -91,10 +93,12 @@ export default class AddEvent extends Component {
                     <View style={styles.mainContainer}>
                         {this.renderTitle()}
                         <EditableImage/>
-                        {this.renderNameInput()}
-                        {this.renderLocationInput()}
-                        {this.renderDateInput()}
-                        {this.renderDescriptionInput()}
+                        <KeyboardAvoidingView behavior='position'>
+                            {this.renderNameInput()}
+                            {this.renderLocationInput()}
+                            {this.renderDateInput()}
+                            {this.renderDescriptionInput()}
+                        </KeyboardAvoidingView>
                         {this.renderNotifySuccess()}
                         <View style={styles.errorcontainer}>
                             <Text style={styles.errorText}>{this.state.errorType}</Text>
@@ -103,7 +107,7 @@ export default class AddEvent extends Component {
                             <Button
                                 onPress={this.onPressSendNewEvent}
                                 title="Créer l'évènement"
-                                color="#4286f4"
+                                color={colors.blue}
                             />
                         </View>
                     </View>
@@ -174,7 +178,7 @@ export default class AddEvent extends Component {
     renderDescriptionInput() {
         return (
             <TextInput
-                style={{textAlign: 'left', flex:2, paddingVertical:20}}
+                style={{textAlign: 'left'}}
                 multiline={true}
                 placeholder="Description"
                 autoCorrect={true}

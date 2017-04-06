@@ -2,11 +2,13 @@
  * Created by AAB3605 on 20/03/2017.
  */
 import React, {Component} from "react";
-import {StyleSheet, Image, ScrollView, View, Dimensions, TouchableOpacity} from "react-native";
+import {TextInput, StyleSheet, Image, ScrollView, View, Dimensions, TouchableOpacity} from "react-native";
 import Header from "../header";
 import AppText from "../appText";
-import EventDetailsHeader from "./eventDetailsHeader";
-import EventDetailsParticipationInfos from "./eventDetailsParticipationInfos";
+import EditableAppText from "../editableAppText";
+import strings from "../../util/localizedStrings";
+import * as util from "../../util/util";
+import CheckBox from "react-native-check-box";
 
 let {
     height: deviceHeight,
@@ -29,11 +31,24 @@ const eventIdToImages = {
 
 export default class EventDetails extends Component {
     static defaultProps = {
-        keywords: ["cool", "fun", "awesome"]
+        keywords: ["cool", "fun", "awesome"],
+        userName: 'Al Inclusive',
+        numberOfParticipants: '121',
+        isInModificationMode: false
     }
 
     constructor(props) {
         super(props);
+        let categoryName = strings.categoriesNames[this.props.event.category];
+        let categoryColor = util.getCategoryColor(this.props.event.category);
+        this.state = {
+            categoryName: categoryName,
+            categoryColor: categoryColor,
+            going: this.props.event.participating,
+            description: this.props.event.description,
+            title: this.props.event.name,
+            location: this.props.event.location
+        };
     }
 
     render() {
@@ -44,7 +59,7 @@ export default class EventDetails extends Component {
                 <View style={styles.container}>
                     <View style={{flex:1}}>
                         <View style={{flex:3}}>
-                            <EventDetailsHeader event={event}/>
+                            {this.renderHeader(event)}
                         </View>
                         <View style={{flex:7,flexDirection:'column'}}>
                             <ScrollView
@@ -53,8 +68,8 @@ export default class EventDetails extends Component {
                                 }}
                             >
                                 {this.renderEventIllustration(event.id)}
-                                {this.renderEventParticipationInfos(event)}
-                                {this.renderEventDescription(event.description)}
+                                {this.renderEventParticipationInfos()}
+                                {this.renderEventDescription(this.state.description)}
                                 {this.renderEventKeywords(this.props.keywords)}
                             </ScrollView>
                         </View>
@@ -62,6 +77,44 @@ export default class EventDetails extends Component {
                 </View>
             </View>
         );
+    }
+
+    renderHeader(event) {
+        return (
+            <View style={{flex:1, flexDirection:'row'}}>
+                <View style={styles.organizatorPicture}>
+                    <TouchableOpacity>
+                        <Image source={require('./../../images/userAvatar.jpg')} style={styles.organizatorPictureCircle}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.contentContainer}>
+                    <View style={{flexDirection:'row'}}>
+                        <EditableAppText
+                            isInModificationMode={this.props.isInModificationMode}
+                            style={styles.headerTitle}
+                            content={this.state.title}
+                            onValidate={(value) => this.setState({title: value})}/>
+                        <View style={[styles.headerCategoryTriangle, {borderTopColor:this.state.categoryColor}]}/>
+                    </View>
+                    <AppText style={[styles.category, {color: this.state.categoryColor}]}>
+                        {this.state.categoryName}
+                    </AppText>
+                    <View style={styles.headerInfoItem}>
+                        <Image source={require('./../../images/user.png')}/>
+                        <AppText style={{margin: 5}}>
+                            {this.props.userName}
+                        </AppText>
+                    </View>
+                    <View style={styles.headerInfoItem}>
+                        <Image source={require('./../../images/place.png')}/>
+                        <EditableAppText
+                            isInModificationMode={this.props.isInModificationMode}
+                            content={this.state.location}
+                            onValidate={(value) => this.setState({location: value})}/>
+                    </View>
+                </View>
+            </View>
+        )
     }
 
     renderEventIllustration(id) {
@@ -82,10 +135,36 @@ export default class EventDetails extends Component {
         );
     }
 
-    renderEventParticipationInfos(event) {
+    renderEventParticipationInfos() {
+        let { going } = this.state;
+        let date = this.formatDate();
         return (
             <View style={{alignItems:'center'}}>
-                <EventDetailsParticipationInfos event={event} onPressGoing={this.props.onParticipationChange}/>
+                <View style={styles.participationInfoRectangle}>
+                    <View style={styles.participationInfoItem}>
+                        <AppText style={styles.participationInfoContainer}>
+                            {this.props.numberOfParticipants}
+                        </AppText>
+                        <AppText style={styles.secondaryParticipationInfoText}>
+                            {strings.participantsLabel}
+                        </AppText>
+                    </View>
+                    <View style={styles.participationInfoItem}>
+                        <AppText style={styles.participationInfoContainer}>
+                            {date[1]}
+                        </AppText>
+                        <AppText style={styles.secondaryParticipationInfoText}>
+                            {date[0]}
+                        </AppText>
+                    </View>
+                    <View style={styles.participationInfoItem}>
+                        <CheckBox
+                            isChecked={going}
+                            onClick={this.pressGoing}
+                        />
+                        <AppText>{strings.participationLabel}</AppText>
+                    </View>
+                </View>
             </View>
         );
     }
@@ -93,7 +172,12 @@ export default class EventDetails extends Component {
     renderEventDescription(description) {
         return (
             <View style={{padding:20}}>
-                <AppText style={styles.description}>{description} </AppText>
+                <EditableAppText
+                    isInModificationMode={this.props.isInModificationMode}
+                    style={styles.description}
+                    multiline={true}
+                    content={description}
+                    onValidate={(value) => this.setState({description: value})}/>
             </View>
         );
     }
@@ -113,6 +197,15 @@ export default class EventDetails extends Component {
             text += "#" + keywords[i];
         }
         return text;
+    }
+
+    pressGoing = () => {
+        this.setState({going: !this.state.going});
+        this.props.onParticipationChange();
+    }
+
+    formatDate() {
+        return this.props.event.getDateToString().split("/");
     }
 }
 
@@ -134,6 +227,7 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 16,
         textAlign: 'center',
+        justifyContent:'center'
     },
 
     keywords: {
@@ -141,5 +235,90 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         flex: 1,
         padding: 20
+    },
+
+    headerCategoryTriangle: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderRightWidth: 30,
+        borderTopWidth: 30,
+        borderRightColor: 'transparent',
+        transform: [
+            {rotate: '90deg'}
+        ]
+    },
+
+    organizatorPictureCircle: {
+        height: 100,
+        width: 100,
+        borderRadius: 50,
+    },
+
+    organizatorPicture:{
+        flex:1,
+        flexDirection:'column',
+        justifyContent:'center',
+        padding:20,
+        alignItems:'center',
+    },
+
+    contentContainer: {
+        flex:3,
+        paddingLeft:20,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+
+    headerTitle: {
+        color: 'black',
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontSize: 22,
+        flex:2
+    },
+
+    category: {
+        textAlign: 'left',
+        flex:3,
+        justifyContent:'flex-start',
+        paddingTop:5
+    },
+
+    headerInfoItem: {
+        flex:3,
+        flexDirection: 'row',
+    },
+
+    participationInfoRectangle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: deviceHeight * 0.1,
+        width: deviceWidth * 0.85,
+        borderRadius: 10,
+        borderWidth: 1,
+        backgroundColor: 'white',
+        borderColor: 'grey',
+        paddingLeft: deviceWidth * 0.05,
+        paddingRight: deviceWidth * 0.05,
+    },
+
+    participationInfoItem: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    participationInfoContainer: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 18
+    },
+
+    secondaryParticipationInfoText: {
+        textAlign: 'center',
+        fontSize: 16
     },
 });
