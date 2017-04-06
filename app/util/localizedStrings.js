@@ -42,7 +42,10 @@ let strings = new LocalizedStrings({
         selectPicture:'Select a picture',
         cancelButtonTitle: 'Cancel',
         takePhotoButtonTitle: 'Take photo...',
-        chooseFromLibraryButtonTitle: 'Choose from library...'
+        chooseFromLibraryButtonTitle: 'Choose from library...',
+        eventEditionLabel: 'Event creation',
+        editEvent: 'Edit',
+        saveEvent: 'Save',
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -77,8 +80,10 @@ let strings = new LocalizedStrings({
         selectPicture:'Cliquez pour ajouter une photo',
         cancelButtonTitle: 'Annuler',
         takePhotoButtonTitle: 'Prendre une photo...',
-        chooseFromLibraryButtonTitle: 'Choisir depuis la bibliothèque...'
-
+        chooseFromLibraryButtonTitle: 'Choisir depuis la bibliothèque...',
+	    eventEditionLabel: 'Creation d\'événement',
+        editEvent: 'Editer',
+        saveEvent: 'Valider'
     }
 });
 

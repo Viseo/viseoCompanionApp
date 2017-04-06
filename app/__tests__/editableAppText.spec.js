@@ -14,8 +14,6 @@ describe('Editable App Text', () => {
     let content = "my editable content"
     const validationFunction = testUtil.createCheckCallFunction();
     const editableTextInModificationMode = testUtil.createEditableAppText({
-        isInModificationMode:true, editable:true, content: content, onValidate: validationFunction});
-    const defaultEditableAppTextInModificationMode = testUtil.createEditableAppText({
         isInModificationMode:true, content: content, onValidate: validationFunction});
     const defaultEditableAppText = testUtil.createEditableAppText({
         content: content, onValidate: validationFunction});
@@ -29,28 +27,13 @@ describe('Editable App Text', () => {
         expect(testUtil.getComponentsOfTypeInContainer(defaultEditableAppText, AppText)).to.have.length(1);
     });
 
-    it('Should not be editable by default.', () => {
-        let editableBeforePress = testUtil.getState(defaultEditableAppTextInModificationMode).editable;
-        expect(editableBeforePress).to.equal.false;
+    it('Should display 1 text by default with provided content.', () => {
+        expect(testUtil.getComponentsOfTypeInContainer(defaultEditableAppText, AppText)).to.have.length(1);
+        testUtil.checkChildComponentWithPropValue(defaultEditableAppText, AppText, 'children', content);
     });
 
-    it('Should display 1 text by default and 1 edit icon.', () => {
-        expect(testUtil.getComponentsOfTypeInContainer(defaultEditableAppTextInModificationMode, AppText)).to.have.length(1);
-        expect(testUtil.getComponentsOfTypeInContainer(defaultEditableAppTextInModificationMode, TouchableOpacity)).to.have.length(1);
-        expect(testUtil.getComponentsOfTypeInContainer(defaultEditableAppTextInModificationMode, Image)).to.have.length(1);
-        testUtil.checkChildComponentWithPropValue(defaultEditableAppTextInModificationMode, AppText, 'children', content);
-    });
-
-    it('Should become editable after edit icon was pressed.', () => {
-        testUtil.press(defaultEditableAppTextInModificationMode, 'TouchableOpacity');
-        let editableAfterPress = testUtil.getState(defaultEditableAppTextInModificationMode).editable;
-        expect(editableAfterPress).to.equal.true;
-    });
-
-    it('Should display 1 text input and 1 cancel icon if editable.', () => {
+    it('Should display 1 text input if is in modification mode.', () => {
         expect(testUtil.getComponentsOfTypeInContainer(editableTextInModificationMode, TextInput)).to.have.length(1);
-        expect(testUtil.getComponentsOfTypeInContainer(editableTextInModificationMode, TouchableOpacity)).to.have.length(1);
-        expect(testUtil.getComponentsOfTypeInContainer(editableTextInModificationMode, Image)).to.have.length(1);
     });
 
     it('Should edit value when text change', () =>{

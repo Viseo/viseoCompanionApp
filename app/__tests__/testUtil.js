@@ -22,6 +22,7 @@ import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
 import Home from './../scenes/home';
 import EventDetails from '../components/events/eventDetails';
+import DatePicker from "react-native-datepicker";
 
 function checkChildComponentWithPropValue(parent, child, prop, value) {
     expect(parent.findWhere(n => {
@@ -97,6 +98,11 @@ function changeTextWithInputValue(component, inputValue) {
 
 function validateEditableAppTextWithInputValue(editableAppText, inputValue) {
     editableAppText.simulate('validate', { target: {value: inputValue} });
+}
+
+function changeDateWithValue(component, pickedDate) {
+    const datePicker = component.find(DatePicker).first();
+    datePicker.simulate('changeDate', {target: {date: pickedDate}});
 }
 
 function createEventCard(props) {
@@ -222,5 +228,6 @@ export default testUtil = {
     createEditableAppText,
     submitText,
     validateEditableAppTextWithInputValue,
-    getSpecificComponentWIthPropValue
+    getSpecificComponentWIthPropValue,
+    changeDateWithValue
 };

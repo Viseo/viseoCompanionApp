@@ -2,13 +2,15 @@
  * Created by AAB3605 on 20/03/2017.
  */
 import React, {Component} from "react";
-import {TextInput, StyleSheet, Image, ScrollView, View, Dimensions, TouchableOpacity} from "react-native";
+import {TextInput, StyleSheet, Image, ScrollView, View, Platform, Dimensions, TouchableOpacity, Button} from "react-native";
 import Header from "../header";
 import AppText from "../appText";
 import EditableAppText from "../editableAppText";
 import strings from "../../util/localizedStrings";
 import * as util from "../../util/util";
 import CheckBox from "react-native-check-box";
+import colors from './../events/colors';
+import DatePicker from "react-native-datepicker";
 
 let {
     height: deviceHeight,
@@ -34,6 +36,7 @@ export default class EventDetails extends Component {
         keywords: ["cool", "fun", "awesome"],
         userName: 'Al Inclusive',
         numberOfParticipants: '121',
+        isModificationAllowed: true,
         isInModificationMode: false
     }
 
@@ -47,7 +50,10 @@ export default class EventDetails extends Component {
             going: this.props.event.participating,
             description: this.props.event.description,
             title: this.props.event.name,
-            location: this.props.event.location
+            location: this.props.event.location,
+            date: this.props.event.date,
+            isModificationAllowed : this.props.isModificationAllowed,
+            isInModificationMode: this.props.isInModificationMode
         };
     }
 
@@ -55,7 +61,7 @@ export default class EventDetails extends Component {
         let event = this.props.event;
         return (
             <View style={{flex:1}}>
-                <Header/>
+                {this.renderTopBar()}
                 <View style={styles.container}>
                     <View style={{flex:1}}>
                         <View style={{flex:3}}>
@@ -68,7 +74,7 @@ export default class EventDetails extends Component {
                                 }}
                             >
                                 {this.renderEventIllustration(event.id)}
-                                {this.renderEventParticipationInfos()}
+                                {this.renderCenterContent()}
                                 {this.renderEventDescription(this.state.description)}
                                 {this.renderEventKeywords(this.props.keywords)}
                             </ScrollView>
@@ -77,6 +83,32 @@ export default class EventDetails extends Component {
                 </View>
             </View>
         );
+    }
+
+    renderTopBar() {
+        if(this.state.isModificationAllowed){
+            return(
+                <View style={styles.topbar}>
+                    <View style={{flex:3, flexDirection: 'row', justifyContent: 'flex-start'}}>
+                        <AppText style={styles.topBarText}>{strings.eventEditionLabel}</AppText>
+                    </View>
+                    <View style={{flex:2, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <Button title={strings.editEvent} style={{flex:1, margin:1}}
+                                    onPress={() => this.setState({isInModificationMode: true})}/>
+                            <Button title={strings.saveEvent} style={{flex:1, marginLeft:5}}
+                                    onPress={() => this.setState({isInModificationMode: false})}/>
+                        </View>
+
+                    </View>
+                </View>
+            );
+        }
+        else{
+            return(
+                <Header/>
+            );
+        }
     }
 
     renderHeader(event) {
@@ -90,7 +122,7 @@ export default class EventDetails extends Component {
                 <View style={styles.contentContainer}>
                     <View style={{flexDirection:'row'}}>
                         <EditableAppText
-                            isInModificationMode={this.props.isInModificationMode}
+                            isInModificationMode={this.state.isInModificationMode}
                             style={styles.headerTitle}
                             content={this.state.title}
                             onValidate={(value) => this.setState({title: value})}/>
@@ -108,7 +140,7 @@ export default class EventDetails extends Component {
                     <View style={styles.headerInfoItem}>
                         <Image source={require('./../../images/place.png')}/>
                         <EditableAppText
-                            isInModificationMode={this.props.isInModificationMode}
+                            isInModificationMode={this.state.isInModificationMode}
                             content={this.state.location}
                             onValidate={(value) => this.setState({location: value})}/>
                     </View>
@@ -131,6 +163,40 @@ export default class EventDetails extends Component {
                         height:deviceHeight*(1/3)
                     }}
                 />
+            </View>
+        );
+    }
+
+    renderCenterContent(){
+        return this.state.isInModificationMode ? this.renderDatePicker() : this.renderEventParticipationInfos();
+    }
+
+    renderDatePicker(){
+        let eventDate = new Date(this.state.date);
+        return(
+            <View style={{alignItems:'center'}}>
+                <View style={[styles.participationInfoRectangle, {justifyContent: 'center'}]}>
+                    <DatePicker
+                        date={eventDate}
+                        mode="datetime"
+                        format="YYYY/MM/DD HH:mm"
+                        confirmBtnText="OK"
+                        cancelBtnText="Annuler"
+                        onDateChange={(datetime) => {this.setState({date: datetime});}}
+                        customStyles={{
+                                        dateIcon: {
+                                          position: 'absolute',
+                                          left: 0,
+                                          top: 4,
+                                          marginLeft: 0
+                                        },
+                                        dateInput: {
+                                          marginLeft: 36,
+                                          borderWidth:0
+                                        }
+                                      }}
+                    />
+                </View>
             </View>
         );
     }
@@ -173,7 +239,7 @@ export default class EventDetails extends Component {
         return (
             <View style={{padding:20}}>
                 <EditableAppText
-                    isInModificationMode={this.props.isInModificationMode}
+                    isInModificationMode={this.state.isInModificationMode}
                     style={styles.description}
                     multiline={true}
                     content={description}
@@ -210,6 +276,21 @@ export default class EventDetails extends Component {
 }
 
 const styles = StyleSheet.create({
+    topbar: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        height: (1 / 16) * deviceHeight,
+        backgroundColor: colors.blue,
+        marginTop:(Platform.OS === 'ios') ? 20 : 0,
+    },
+
+    topBarText: {
+        paddingHorizontal:10,
+        fontSize: 20,
+        color: 'white',
+    },
+
     container: {
         justifyContent: 'center',
         alignItems: 'stretch',
@@ -227,7 +308,7 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 16,
         textAlign: 'center',
-        justifyContent:'center'
+        justifyContent:'center',
     },
 
     keywords: {
@@ -289,6 +370,7 @@ const styles = StyleSheet.create({
     headerInfoItem: {
         flex:3,
         flexDirection: 'row',
+        alignItems:'center',
     },
 
     participationInfoRectangle: {
