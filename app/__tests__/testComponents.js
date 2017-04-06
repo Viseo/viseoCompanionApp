@@ -11,6 +11,7 @@ import FilterBar from '../components/events/filterBar';
 import Header from '../components/header';
 import ViseoCompanion from '../index';
 import Home from '../scenes/home';
+import EditableImage from '../components/editableImage';
 
 function get(componentName, props) {
     switch (componentName) {
@@ -37,6 +38,9 @@ function get(componentName, props) {
             break;
         case 'ViseoCompanion':
             return shallow(<ViseoCompanion {...props}/>);
+            break;
+        case 'editableImage':
+            return shallow(<EditableImage {...props}/>);
             break;
         default:
             return null;

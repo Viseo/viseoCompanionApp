@@ -2,7 +2,7 @@
  * Created by LMA3606 on 04/04/2017.
  */
 
-import React from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -14,15 +14,24 @@ import {
 } from 'react-native';
 
 import ImagePicker from 'react-native-image-picker';
+import strings from './../util/localizedStrings';
 
-export default class EditableImage extends React.Component {
+export default class EditableImage extends Component {
 
-    state = {
-        selectedPicture: null,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedPicture: null,
+        };
+    }
 
     selectPhotoTapped = () => {
         const options = {
+            title: strings.selectPictureDialog,
+            cancelButtonTitle: strings.cancelButtonTitle,
+            takePhotoButtonTitle: strings.takePhotoButtonTitle,
+            chooseFromLibraryButtonTitle: strings.chooseFromLibraryButtonTitle,
+            allowsEditing: true,
             mediaType:'photo',
             quality: 1.0,
             maxWidth: 500,
@@ -30,16 +39,7 @@ export default class EditableImage extends React.Component {
         };
 
         ImagePicker.showImagePicker(options, (response) => {
-            if (response.didCancel) {
-                console.warn('User cancelled photo picker');
-            }
-            else if (response.error) {
-                console.warn('ImagePicker Error: ', response.error);
-            }
-            else if (response.customButton) {
-                console.warn('User tapped custom button: ', response.customButton);
-            }
-            else {
+            if (!response.didCancel && !response.error) {
                 let source = { uri: response.uri };
 
                 // You can also display the image using data:
@@ -55,9 +55,9 @@ export default class EditableImage extends React.Component {
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={this.selectPhotoTapped}>
-                    <View style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
-                        { this.state.selectedPicture === null ? <Text>Select a Photo</Text> :
-                            <Image style={styles.avatar} source={this.state.selectedPicture} />
+                    <View style={[styles.picture, styles.pictureContainer, {marginBottom: 20}]}>
+                        { this.state.selectedPicture === null ? <Text className="placeholder" style={styles.placeholder}>{strings.selectPicture}</Text> :
+                            <Image style={styles.picture} source={this.state.selectedPicture} className="image"/>
                         }
                     </View>
                 </TouchableOpacity>
@@ -73,15 +73,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    avatarContainer: {
+    pictureContainer: {
         borderColor: '#9B9B9B',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',
         alignItems: 'center'
     },
-    avatar: {
+    picture: {
         borderRadius: 75,
         width: 150,
         height: 150
+    },
+    placeholder: {
+        textAlign: 'center'
     }
 });

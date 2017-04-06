@@ -38,6 +38,11 @@ let strings = new LocalizedStrings({
         participationLabel: 'Participation',
         categoriesNames: ["Important", "Informative", "Refreshing"],
         search:'Search',
+        selectPictureDialog:'Event picture',
+        selectPicture:'Select a picture',
+        cancelButtonTitle: 'Cancel',
+        takePhotoButtonTitle: 'Take photo...',
+        chooseFromLibraryButtonTitle: 'Choose from library...'
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -68,6 +73,11 @@ let strings = new LocalizedStrings({
         participationLabel: 'Participation',
         categoriesNames: ["Important", "Informatif", "Divertissant"],
         search:'Rechercher',
+        selectPictureDialog:'Photo de l\'évènement',
+        selectPicture:'Cliquez pour ajouter une photo',
+        cancelButtonTitle: 'Annuler',
+        takePhotoButtonTitle: 'Prendre une photo...',
+        chooseFromLibraryButtonTitle: 'Choisir depuis la bibliothèque...'
 
     }
 });
