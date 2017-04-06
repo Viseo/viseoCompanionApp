@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     ListView,
     Keyboard,
-    TextInput
+    TextInput,
+    RefreshControl
 } from 'react-native'
 import EventCard from './eventCard'
 import moment from 'moment'
@@ -56,8 +57,8 @@ export default class EventList extends Component {
                 <ListView
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.props.loading}
-                            onRefresh={this.props.fetchEvents}
+                            refreshing={false}
+                            onRefresh={this.props.refresh}
                         />
                     }
                     scrollEventThrottle={200}

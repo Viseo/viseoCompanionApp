@@ -48,9 +48,9 @@ export default class Home extends Component {
         };
     }
 
-    async componentDidMount() {
-        await this.loadEvents();
-    }
+    // async componentDidMount() {
+    //     await this.loadEvents();
+    // }
 
     loadEvents = async() => {
         this.setState({
@@ -212,10 +212,10 @@ export default class Home extends Component {
             refreshing: false
         });
 
-        this.props.store.dispatch({
-            type: 'ADD_EVENTS',
-            events: showedEvents
-        })
+        // this.props.store.dispatch({
+        //     type: 'ADD_EVENTS',
+        //     events: showedEvents
+        // })
     };
 }
 

@@ -2,9 +2,11 @@
  * Created by AAB3605 on 29/03/2017.
  */
 
+import {types} from './../actionCreators/events'
+
 const event = (state, action) => {
     switch (action.type) {
-        case 'ADD_EVENT':
+        case types.ADD_EVENT:
             return {
                 id: action.id,
                 name: action.name,
@@ -20,40 +22,68 @@ const event = (state, action) => {
     }
 }
 
-const events = (state = [], action) => {
+const events = (state = {
+    isFetching: false,
+    didInvalidate: false,
+    items: []
+}, action) => {
     switch (action.type) {
-        case 'ADD_EVENT':
-            return [
-                ...state,
-                event(undefined, action)
-            ]
-        case 'ADD_EVENTS':
+        case types.ADD_EVENT:
+            return Object.assign({}, state, {
+                items: [
+                    ...state.items,
+                    event(undefined, action)
+                ]
+            })
+        case types.ADD_EVENTS:
             let events = action.events.map(e => {
                 return event(undefined, {
-                    type: 'ADD_EVENT',
+                    type: types.ADD_EVENT,
                     ...e
                 })
             })
-            return [
-                ...state,
-                ...events
-            ]
-        case 'REMOVE_EVENT':
-            let eventToRemove = state.findIndex(event => {
+            return Object.assign({}, state, {
+                items: [
+                    ...state.items,
+                    ...events
+                ]
+            })
+        case types.INVALIDATE_EVENTS:
+            return Object.assign({}, state, {
+                didInvalidate: true
+            })
+        case types.RECEIVE_EVENTS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                didInvalidate: false,
+                items: action.events,
+                lastUpdated: action.receivedAt
+            })
+        case types.REMOVE_EVENT:
+            let eventToRemove = state.items.findIndex(event => {
                 return event.id === action.id
             })
-            return [
-                ...state.slice(0, eventToRemove),
-                ...state.slice(eventToRemove + 1)
-            ]
-        case 'TOGGLE_PARTICIPATION':
-            return state.map(event => {
-                return event.id === action.id ?
-                    {
-                        ...event,
-                        participating: !event.participating
-                    } :
-                    event
+            return Object.assign({}, state, {
+                items: [
+                    ...state.items.slice(0, eventToRemove),
+                    ...state.items.slice(eventToRemove + 1)
+                ]
+            })
+        case types.REQUEST_EVENTS:
+            return Object.assign({}, state, {
+                isFetching: true,
+                didInvalidate: false
+            })
+        case types.TOGGLE_PARTICIPATION:
+            return Object.assign({}, state, {
+                items: state.items.map(event => {
+                    return event.id === action.id ?
+                        {
+                            ...event,
+                            participating: !event.participating
+                        } :
+                        event
+                })
             })
         default:
             return state

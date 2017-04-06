@@ -4,7 +4,7 @@
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventActionCreators from '../actionCreators/events'
-import EventList from '../components/events/eventList'
+import EventList from '../components/events/EventList'
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
@@ -66,7 +66,7 @@ const getVisibleEventList = (events, visibilityFilter, filters, searchWords) => 
 
 const mapStateToProps = (state) => ({
     events: getVisibleEventList(
-        state.events,
+        state.events.items,
         state.visibilityFilter,
         state.filters,
         state.searchWords
@@ -76,7 +76,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({...eventActionCreators}, dispatch)
+    return bindActionCreators({
+        ...eventActionCreators,
+        refresh: eventActionCreators.fetchEvents
+    }, dispatch)
 }
 
 const VisibleEventList = connect(

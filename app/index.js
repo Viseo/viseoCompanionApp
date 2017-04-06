@@ -15,18 +15,27 @@ import setDateLang from "./util/dateHandler";
 import db from "./util/db";
 import AddEvent from './scenes/addEvent';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import viseoCompanionApp from './reducers';
-
+import {fetchEvents} from './actionCreators/events'
 
 const initialState = {
-    events: [],
-    fetching: false,
+    events: {
+        isFetching: false,
+        didInvalidate: false,
+        items: [],
+    },
     filters: [],
     searchWords: [],
     visibilityFilter: 'SHOW_ALL',
 }
-let store = createStore(viseoCompanionApp, initialState);
+let store = createStore(
+    viseoCompanionApp,
+    initialState,
+    applyMiddleware(thunkMiddleware)
+);
+store.dispatch(fetchEvents())
 
 export default class ViseoCompanion extends Component {
     constructor(props) {

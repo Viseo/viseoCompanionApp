@@ -4,7 +4,7 @@
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {addFilter, removeFilter} from '../actionCreators/filters'
-import Toggle from './../components/events/toggle'
+import Toggle from './../components/events/Toggle'
 
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps
