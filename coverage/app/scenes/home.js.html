@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.98% </span>
+        <span class="strong">93.1% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>53/57</span>
+        <span class='fraction'>54/58</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">83.87% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>8/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94% </span>
+        <span class="strong">94.12% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>47/50</span>
+        <span class='fraction'>48/51</span>
       </div>
     </div>
   </div>
@@ -369,24 +369,7 @@
 324
 325
 326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+327</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -409,6 +392,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -514,24 +498,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -722,13 +695,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Created by LMA3606 on 13/02/2017.
  */
@@ -758,6 +724,7 @@ import ListViewHeader from "./../components/events/header";
 import Header from "./../components/header";
 import AppText from "../components/appText";
 import EventListView from "./../components/events/eventListView";
+import colors from '../components/events/colors';
 &nbsp;
 export default class Home extends Component {
 &nbsp;
@@ -850,20 +817,7 @@ export default class Home extends Component {
         return (
             &lt;View style={{flex:1, backgroundColor:'white'}}&gt;
                 &lt;Header/&gt;
-                &lt;ScrollView
-                    refreshControl={
-                        &lt;RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this.loadEvents}
-                        /&gt;
-                    }
-                    scrollEventThrottle={200}
-                    contentContainerStyle={{
-                        backgroundColor:'lightgrey'
-                    }}
-                &gt;
-                    {eventView}
-                &lt;/ScrollView&gt;
+                {eventView}
                 {createEventButton}
             &lt;/View&gt;
         );
@@ -886,13 +840,15 @@ export default class Home extends Component {
                 events={this.state.showedEvents}
                 onPressEventCard={this.onPressEventCard}
                 onParticipationChange={this.onParticipationChange}
+                refreshing={this.state.refreshing}
+                loadEvents={this.loadEvents}
             /&gt;
         );
     }
 &nbsp;
     renderCreateEventButton() {
         return (
-            &lt;ActionButton buttonColor="royalblue"&gt;
+            &lt;ActionButton buttonColor={colors.blue}&gt;
                 &lt;ActionButton.Item
                     buttonColor='#9b59b6'
                     title="Créer évènement"
@@ -946,13 +902,6 @@ const {
 } = Dimensions.get('window');
 &nbsp;
 const styles = StyleSheet.create({
-    topbar: {
-        height: (1 / 13) * deviceHeight,
-        backgroundColor: '#103a71',
-        alignItems: 'center',
-        flexDirection: 'row',
-        padding: 10,
-    },
     burgerMenu: {
         width: 25,
         height: 25,
@@ -1078,7 +1027,7 @@ const styles = StyleSheet.create({
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 31 2017 10:04:56 GMT+0200 (Paris, Madrid (heure d’été))
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 06 2017 11:19:07 GMT+0200 (Paris, Madrid (heure d’été))
 </div>
 </div>
 <script src="..\..\prettify.js"></script>

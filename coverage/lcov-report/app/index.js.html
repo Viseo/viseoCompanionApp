@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.11% </span>
+        <span class="strong">52.38% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>23/45</span>
+        <span class='fraction'>22/42</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">4.55% </span>
+        <span class="strong">5% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/22</span>
+        <span class='fraction'>1/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.11% </span>
+        <span class="strong">52.38% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>23/45</span>
+        <span class='fraction'>22/42</span>
       </div>
     </div>
   </div>
@@ -134,16 +134,9 @@
 89
 90
 91
-92
-93
-94
-95
-96
-97
-98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+92</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -191,16 +184,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -247,8 +235,7 @@ import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import EventDetails from "./components/events/eventDetails";
-import EventCardTestScene from "./scenes/test/eventCardTestScene";
-import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
+import CameraRollTest from "./scenes/test/cameraRollTest";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import db from "./util/db";
@@ -285,13 +272,12 @@ export default class ViseoCompanion extends Component {
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
             {title: 'EventDetails'},
-            {title: 'EventCardTestScene'},
-            {title: 'EventsWithParticipantsTestScene'},
+            {title: 'CameraRollTest'},
             {title: 'AddEvent'},
         ];
         return (
             &lt;Navigator
-                initialRoute={routes[0]}
+                initialRoute={routes[6]}
                 renderScene={<span class="fstat-no" title="function not covered" >(</span>route, navigator) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    this.navigator = navigator;</span>
 <span class="cstat-no" title="statement not covered" >                    if(route.title === 'SignIn') {</span>
@@ -314,13 +300,9 @@ export default class ViseoCompanion extends Component {
 <span class="cstat-no" title="statement not covered" >                        return (</span>
                             &lt;EventDetails navigator={navigator} {...route.passProps}/&gt;
                         );
-                    } else <span class="cstat-no" title="statement not covered" >if(route.title === 'EventCardTestScene') {</span>
+                    } else <span class="cstat-no" title="statement not covered" >if(route.title === 'CameraRollTest') {</span>
 <span class="cstat-no" title="statement not covered" >                        return (</span>
-                            &lt;EventCardTestScene navigator={navigator} {...route.passProps}/&gt;
-                        );
-                    } else <span class="cstat-no" title="statement not covered" >if(route.title === 'EventsWithParticipantsTestScene') {</span>
-<span class="cstat-no" title="statement not covered" >                        return (</span>
-                            &lt;EventsWithParticipantsTestScene navigator={navigator} {...route.passProps}/&gt;
+                            &lt;CameraRollTest navigator={navigator} {...route.passProps}/&gt;
                         );
                     } else <span class="cstat-no" title="statement not covered" >if(route.title === 'AddEvent') {</span>
 <span class="cstat-no" title="statement not covered" >                        return (</span>
@@ -340,7 +322,7 @@ export default class ViseoCompanion extends Component {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 31 2017 10:04:56 GMT+0200 (Paris, Madrid (heure d’été))
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 06 2017 11:19:07 GMT+0200 (Paris, Madrid (heure d’été))
 </div>
 </div>
 <script src="..\prettify.js"></script>

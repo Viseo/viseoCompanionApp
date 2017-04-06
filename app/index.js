@@ -8,7 +8,6 @@ import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import EventDetails from "./components/events/eventDetails";
-import CameraRollTest from "./scenes/test/cameraRollTest";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import db from "./util/db";
@@ -45,7 +44,6 @@ export default class ViseoCompanion extends Component {
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
             {title: 'EventDetails'},
-            {title: 'CameraRollTest'},
             {title: 'AddEvent'},
         ];
         return (
@@ -72,10 +70,6 @@ export default class ViseoCompanion extends Component {
                     } else if(route.title === 'EventDetails') {
                         return (
                             <EventDetails navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'CameraRollTest') {
-                        return (
-                            <CameraRollTest navigator={navigator} {...route.passProps}/>
                         );
                     } else if(route.title === 'AddEvent') {
                         return (
