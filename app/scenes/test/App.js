@@ -40,9 +40,9 @@ export default class App extends Component {
                     Token: {this.state.token}
                 </Text>
 
-                {/*<TouchableOpacity onPress={() => firebaseClient.sendData(token)} style={styles.button}>*/}
-                {/*<Text style={styles.buttonText}>Send Data</Text>*/}
-                {/*</TouchableOpacity>*/}
+                <TouchableOpacity onPress={() => this.presentLocalNotification()} style={styles.button}>
+                <Text style={styles.buttonText}>Present local</Text>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => firebaseClient.sendNotificationWithData(token)} style={styles.button}>
                     <Text style={styles.buttonText}>Send Notification With Data to my token</Text>

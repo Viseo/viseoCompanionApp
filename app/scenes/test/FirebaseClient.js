@@ -4,75 +4,79 @@ const API_URL = "https://fcm.googleapis.com/fcm/send";
 
 class FirebaseClient {
 
-  constructor() {
-    this.sendData = this.sendData.bind(this);
-    this.sendNotification = this.sendNotification.bind(this);
-    this.sendNotificationWithData = this.sendNotificationWithData.bind(this);
-  }
-
-  sendNotification(token) {
-    let body = {
-    	"to": token,
-      "notification":{
-    		"title": "Simple FCM Client",
-    		"body": "This is a notification with only NOTIFICATION.",
-    		"sound": "default",
-    		"click_action": "fcm.ACTION.HELLO"
-    	},
-    	"priority": 10
+    constructor() {
+        this.sendData = this.sendData.bind(this);
+        this.sendNotification = this.sendNotification.bind(this);
+        this.sendNotificationWithData = this.sendNotificationWithData.bind(this);
     }
 
-    this._send(JSON.stringify(body), "notification");
-  }
+    sendNotification(token) {
+        let body = {
+            "to": token,
+            "notification": {
+                "title": "Simple FCM Client",
+                "body": "This is a notification with only NOTIFICATION.",
+                "sound": "default",
+                "click_action": "fcm.ACTION.HELLO"
+            },
+            "priority": 10
+        }
 
-  sendData(token) {
-    let body = {
-    	"to": token,
-      "data":{
-    		"title": "Simple FCM Client",
-    		"body": "This is a notification with only DATA.",
-    		"sound": "default",
-    		"click_action": "fcm.ACTION.HELLO",
-    		"remote": true
-    	},
-    	"priority": "normal"
+        this._send(JSON.stringify(body), "notification");
     }
 
-    this._send(JSON.stringify(body), "data");
-  }
+    sendData(token) {
+        let body = {
+            "to": token,
+            "data": {
+                "title": "Simple FCM Client",
+                "body": "This is a notification with only DATA.",
+                "sound": "default",
+                "click_action": "fcm.ACTION.HELLO",
+                "remote": true
+            },
+            "priority": "normal"
+        }
 
-  sendNotificationWithData(token) {
-    let body = {
-      "to": token,
-      "notification":{
-    		"title": "Simple FCM Client",
-    		"body": "This is a notification with NOTIFICATION and DATA (NOTIF).",
-    		"sound": "default",
-    		"click_action": "fcm.ACTION.HELLO"
-    	},
-    	"data":{
-    		"title": "Simple FCM Client",
-    		"body": "This is a notification with NOTIFICATION and DATA (DATA)",
-    		"click_action": "fcm.ACTION.HELLO",
-    		"remote": true
-    	},
-    	"priority": "high"
+        this._send(JSON.stringify(body), "data");
     }
 
-    this._send(JSON.stringify(body), "notification-data");
-  }
+    sendNotificationWithData(token) {
+        let body = {
+            "to": token,
+            "notification": {
+                "title": "Simple FCM Client",
+                "body": "This is a notification with NOTIFICATION and DATA (NOTIF).",
+                "sound": "default",
+                "icon": "ic_notif",
+                "color": "#498ff7",
+                "click_action": "fcm.ACTION.HELLO"
+            },
+            "data": {
+                "title": "Simple FCM Client",
+                "body": "This is a notification with NOTIFICATION and DATA (DATA)",
+                "click_action": "fcm.ACTION.HELLO",
+                "icon": "ic_notif",
+                "color": "#498ff7",
+                "remote": true
+            },
+            "priority": "high"
+        }
 
-  _send(body, type) {
-  	let headers = new Headers({
-  		"Content-Type": "application/json",
-  		"Content-Length": parseInt(body.length),
-      "Authorization": "key=" + FirebaseConstants.KEY
-  	});
+        this._send(JSON.stringify(body), "notification-data");
+    }
 
-  	fetch(API_URL, { method: "POST", headers, body })
-  		.then(response => console.warn("Send " + type + " response", response))
-  		.catch(error => console.warn("Error sending " + type, error));
-  }
+    _send(body, type) {
+        let headers = new Headers({
+            "Content-Type": "application/json",
+            "Content-Length": parseInt(body.length),
+            "Authorization": "key=" + FirebaseConstants.KEY
+        });
+
+        fetch(API_URL, {method: "POST", headers, body})
+            .then(response => console.warn("Send " + type + " response", response))
+            .catch(error => console.warn("Error sending " + type, error));
+    }
 
 }
 

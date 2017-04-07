@@ -28,6 +28,7 @@ import Header from "./../components/header";
 import AppText from "../components/appText";
 import EventListView from "./../components/events/eventListView";
 import colors from '../components/events/colors';
+import PushController from '../components/PushController';
 
 export default class Home extends Component {
 
@@ -119,6 +120,7 @@ export default class Home extends Component {
         let eventView = this.state.loaded ? eventList : this.renderLoadingIndicator();
         return (
             <View style={{flex:1, backgroundColor:'white'}}>
+                <PushController/>
                 <Header/>
                 {eventView}
                 {createEventButton}

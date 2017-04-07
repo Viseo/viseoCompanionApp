@@ -33,8 +33,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <intent-filter>
-              <action android:name="fcm.ACTION.HELLO" />
-              <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="fcm.ACTION.HELLO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
@@ -56,6 +56,9 @@
                 android:value="b5ed079b5800eae2b76ab7626c8205ac57b50377"
         />
 
+        <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/ic_notif"/>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
