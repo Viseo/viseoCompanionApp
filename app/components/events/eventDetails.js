@@ -7,18 +7,14 @@ import Header from "../header";
 import AppText from "../appText";
 import EditableAppText from "../editableAppText";
 import EditableImage from "../editableImage";
-import strings from "../../util/localizedStrings";
-import * as util from "../../util/util";
 import CheckBox from "react-native-check-box";
-import colors from './../events/colors';
 import DatePicker from "react-native-datepicker";
 import ModalDropdown from 'react-native-modal-dropdown';
+import strings from "../../util/localizedStrings";
+import * as util from "../../util/util";
+import colors from './../events/colors';
 
-
-let {
-    height: deviceHeight,
-    width: deviceWidth
-} = Dimensions.get('window');
+let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 
 const eventIdToImages = {
     "40": require('./../../images/formation_securite.jpg'),
@@ -32,7 +28,6 @@ const eventIdToImages = {
     "38":require('./../../images/soiree_nouveaux.jpg'),
     "46":require('./../../images/tdd.png'),
 }
-
 
 export default class EventDetails extends Component {
     static defaultProps = {
@@ -78,6 +73,8 @@ export default class EventDetails extends Component {
         };
     }
 
+    /*Renderers*/
+
     render() {
         let event = this.props.event;
         return (
@@ -89,11 +86,7 @@ export default class EventDetails extends Component {
                             {this.renderHeader(event)}
                         </View>
                         <View style={{flex:7,flexDirection:'column'}}>
-                            <ScrollView
-                                style={{
-                                    flex:1,
-                                }}
-                            >
+                            <ScrollView style={{flex:1,}}>
                                 {this.renderEventIllustration(event.id)}
                                 {this.renderCenterContent()}
                                 {this.renderEventDescription(this.state.description)}
@@ -117,8 +110,7 @@ export default class EventDetails extends Component {
                     <View style={{flex:2, flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             {this.state.isInModificationMode ? this.renderSaveButton() : this.renderEditButton()}
-                            <Button title={strings.deleteEvent} style={{flex:1, marginLeft:5}}
-                                    onPress={() => {}}/>
+                            <Button title={strings.deleteEvent} style={{flex:1, marginLeft:5}}onPress={() => {}}/>
                         </View>
 
                     </View>
@@ -132,13 +124,6 @@ export default class EventDetails extends Component {
         }
     }
 
-    renderEditButton(){
-        return(
-            <Button title={strings.editEvent} style={{flex:1, margin:1}}
-                    onPress={() => this.setState({isInModificationMode: true})}/>
-        );
-    }
-
     renderSaveButton(){
         return(
             <Button disabled={this.state.isEventInvalid} title={strings.saveEvent} style={{flex:1, marginLeft:5}}
@@ -146,37 +131,11 @@ export default class EventDetails extends Component {
         );
     }
 
-    validateEvent(){
-        let isEventInvalid = this.state.title === '' || this.state.location === '' || this.state.date === '';
-        this.setState({isEventInvalid});
-    }
-
-    getUnixTime(time) {
-        return (time.split(":")[0] * 3600 + time.split(":")[1] * 60) * 1000;
-
-    }
-
-    getDateTime(date, time) {
-        return (new Date(date).valueOf() + this.getUnixTime(time))
-    }
-
-    Save = async() => {
-        if(this.props.isInCreationMode){
-            let [date, time] = this.state.date.split(' ');
-            let formattedDate = this.getDateTime(date, time);
-            await this.props.db.addEvent({
-                category: this.state.categoryId,
-                name: this.state.title,
-                datetime: formattedDate,
-                location: this.state.location,
-                description: this.state.description,
-                keyWords: this.props.keyWords,
-            });
-            this.setState({modalVisible: true});
-        }
-        else{
-            // Update
-        }
+    renderEditButton(){
+        return(
+            <Button title={strings.editEvent} style={{flex:1, margin:1}}
+                    onPress={() => this.setState({isInModificationMode: true})}/>
+        );
     }
 
     renderNotifySuccess() {
@@ -288,25 +247,13 @@ export default class EventDetails extends Component {
         }
     }
 
-    updateCategory(selectedCategory){
-        this.setState({categoryId: selectedCategory});
-        this.setState({categoryName: strings.categoriesNames[selectedCategory]});
-        this.setState({categoryColor: util.getCategoryColor(selectedCategory)});
-    }
-
-    updateImage(selected){
-        let imageSource = { uri: selected };
-        this.setState({picture:imageSource});
-    }
-
     renderEventIllustration() {
         if(this.state.isInModificationMode){
             return(
                 <EditableImage
                     refs="eventDescription"
                     defaultPicture={this.state.picture}
-                    onSelected={(selected) => {this.updateImage(selected)}}
-                />
+                    onSelected={(selected) => {this.updateImage(selected)}}/>
             );
         }
         else{
@@ -315,12 +262,7 @@ export default class EventDetails extends Component {
                     <Image
                         source={this.state.picture}
                         resizeMode="stretch"
-                        style={{
-                        flex: 1,
-                        width:null,
-                        height:deviceHeight*(1/3)
-                    }}
-                    />
+                        style={{flex: 1, width:null, height:deviceHeight*(1/3)}}/>
                 </View>
             );
         }
@@ -365,7 +307,7 @@ export default class EventDetails extends Component {
 
     renderEventParticipationInfos() {
         let { going } = this.state;
-        let date = this.formatDate();
+        let date = this.props.event.getDateToString().split("/");
         return (
             <View style={{alignItems:'center'}}>
                 <View style={styles.participationInfoRectangle}>
@@ -388,8 +330,7 @@ export default class EventDetails extends Component {
                     <View style={styles.participationInfoItem}>
                         <CheckBox
                             isChecked={going}
-                            onClick={this.pressGoing}
-                        />
+                            onClick={this.pressGoing}/>
                         <AppText>{strings.participationLabel}</AppText>
                     </View>
                 </View>
@@ -419,6 +360,48 @@ export default class EventDetails extends Component {
         );
     }
 
+    /*process functions*/
+
+    Save = async() => {
+        if(this.props.isInCreationMode){
+            let [date, time] = this.state.date.split(' ');
+            let formattedDate = this.getDateTime(date, time);
+            await this.props.db.addEvent({
+                category: this.state.categoryId,
+                name: this.state.title,
+                datetime: formattedDate,
+                location: this.state.location,
+                description: this.state.description,
+                keyWords: this.props.keyWords,
+            });
+            this.setState({modalVisible: true});
+        }
+        else{
+            // Update
+        }
+    }
+
+    getDateTime(date, time) {
+        let unixTime = (time.split(":")[0] * 3600 + time.split(":")[1] * 60) * 1000;
+        return (new Date(date).valueOf() + unixTime)
+    }
+
+    validateEvent(){
+        let isEventInvalid = this.state.title === '' || this.state.location === '' || this.state.date === '';
+        this.setState({isEventInvalid});
+    }
+
+    updateCategory(selectedCategory){
+        this.setState({categoryId: selectedCategory});
+        this.setState({categoryName: strings.categoriesNames[selectedCategory]});
+        this.setState({categoryColor: util.getCategoryColor(selectedCategory)});
+    }
+
+    updateImage(selected){
+        let imageSource = { uri: selected };
+        this.setState({picture:imageSource});
+    }
+
     formatKeywords(keywords) {
         let text = '';
         for (let i = 0; i < keywords.length; i++) {
@@ -430,10 +413,6 @@ export default class EventDetails extends Component {
     pressGoing = () => {
         this.setState({going: !this.state.going});
         this.props.onParticipationChange();
-    }
-
-    formatDate() {
-        return this.props.event.getDateToString().split("/");
     }
 }
 
