@@ -46,6 +46,7 @@ let strings = new LocalizedStrings({
         eventEditionLabel: 'Event creation',
         editEvent: 'Edit',
         saveEvent: 'Save',
+        requiredField: 'Required Field',
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -83,7 +84,8 @@ let strings = new LocalizedStrings({
         chooseFromLibraryButtonTitle: 'Choisir depuis la bibliothèque...',
 	    eventEditionLabel: 'Creation d\'événement',
         editEvent: 'Editer',
-        saveEvent: 'Valider'
+        saveEvent: 'Valider',
+        requiredField: 'Champ requis',
     }
 });
 

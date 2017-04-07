@@ -4,6 +4,7 @@
 import React, {Component} from "react";
 import {View, TextInput, TouchableOpacity} from "react-native";
 import AppText from "./appText";
+import strings from "../util/localizedStrings";
 
 class EditableAppText extends Component {
 
@@ -12,13 +13,16 @@ class EditableAppText extends Component {
         multiline: false,
         autoCorrect: true,
         returnKeyType: "done",
+        mandatory: false,
         onValidate: () => {}
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            text: this.props.content
+            text: this.props.content,
+            placeholder: '',
+            isValid: true
         };
     }
 
@@ -31,16 +35,23 @@ class EditableAppText extends Component {
             <View style={{flexDirection:'row', flex: 1}}>
                     <TextInput
                         style={[this.props.style, {flex:10, paddingTop:0, paddingBottom: 5}]}
-                        underlineColorAndroid={"lightgray"}
+                        underlineColorAndroid={this.state.isValid ? 'lightgray' : 'red'}
                         defaultValue={this.props.content}
+                        placeholder={this.props.mandatory ? strings.requiredField : ''}
                         autoCorrect={this.props.autoCorrect}
                         multiline={this.props.multiline}
                         numberOfLines={this.props.numberOfLines}
                         returnKeyType={this.props.returnKeyType}
                         onChangeText={(newValue) => this.setState({text: newValue})}
-                        onSubmitEditing={() => this.props.onValidate(this.state.text)}/>
+                        onSubmitEditing={() => this.validate()}/>
             </View>
         );
+    }
+
+    validate(){
+        let valid = !(this.props.mandatory && this.state.text == '');
+        this.setState({isValid:valid})
+        this.props.onValidate(this.state.text);
     }
 
     renderEditableTextValue(){

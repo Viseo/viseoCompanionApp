@@ -129,9 +129,11 @@ export default class EventDetails extends Component {
                 <View style={styles.contentContainer}>
                     <View style={{flexDirection:'row'}}>
                         <EditableAppText
+                            refs="eventName"
                             isInModificationMode={this.state.isInModificationMode}
                             style={styles.headerTitle}
                             content={this.state.title}
+                            mandatory={true}
                             onValidate={(value) => this.setState({title: value})}/>
                         <View style={[styles.headerCategoryTriangle, {borderTopColor:this.state.categoryColor}]}/>
                     </View>
@@ -147,6 +149,7 @@ export default class EventDetails extends Component {
                         <EditableAppText
                             isInModificationMode={this.state.isInModificationMode}
                             content={this.state.location}
+                            mandatory={true}
                             onValidate={(value) => this.setState({location: value})}/>
                     </View>
                 </View>
