@@ -36,11 +36,20 @@ const eventIdToImages = {
 
 export default class EventDetails extends Component {
     static defaultProps = {
+        event:{
+            name:'',
+            date: '',
+            category: '2',
+            description: '',
+            location: '',
+            keywords: ["cool", "fun", "awesome"],
+        },
         keywords: ["cool", "fun", "awesome"],
         userName: 'Al Inclusive',
         numberOfParticipants: '121',
         isModificationAllowed: true,
-        isInModificationMode: false
+        isInModificationMode: false,
+        isInCreationMode: false
     }
 
     constructor(props) {
@@ -49,6 +58,9 @@ export default class EventDetails extends Component {
         let categoryColor = util.getCategoryColor(this.props.event.category);
         let defaultImage = require('./../../images/0.jpg');
         let image = eventIdToImages[this.props.event.id] || defaultImage;
+        let isEventInvalid = this.props.event.name === ''
+        || this.props.event.location === ''
+        || this.props.event.date === '';
         this.state = {
             categoryId:this.props.event.category,
             categoryName: categoryName,
@@ -60,7 +72,8 @@ export default class EventDetails extends Component {
             date: this.props.event.date,
             picture: image,
             isModificationAllowed : this.props.isModificationAllowed,
-            isInModificationMode: this.props.isInModificationMode
+            isInModificationMode: this.props.isInModificationMode,
+            isEventInvalid: isEventInvalid
         };
     }
 
@@ -101,10 +114,9 @@ export default class EventDetails extends Component {
                     </View>
                     <View style={{flex:2, flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <Button title={strings.editEvent} style={{flex:1, margin:1}}
-                                    onPress={() => this.setState({isInModificationMode: true})}/>
-                            <Button title={strings.saveEvent} style={{flex:1, marginLeft:5}}
-                                    onPress={() => this.setState({isInModificationMode: false})}/>
+                            {this.state.isInModificationMode ? this.renderSaveButton() : this.renderEditButton()}
+                            <Button title={strings.deleteEvent} style={{flex:1, marginLeft:5}}
+                                    onPress={() => {}}/>
                         </View>
 
                     </View>
@@ -115,6 +127,55 @@ export default class EventDetails extends Component {
             return(
                 <Header/>
             );
+        }
+    }
+
+    renderEditButton(){
+        return(
+            <Button title={strings.editEvent} style={{flex:1, margin:1}}
+                    onPress={() => this.setState({isInModificationMode: true})}/>
+        );
+    }
+
+    renderSaveButton(){
+        return(
+            <Button disabled={this.state.isEventInvalid} title={strings.saveEvent} style={{flex:1, marginLeft:5}}
+                    onPress={() => {this.Save();}}/>
+        );
+    }
+
+    validateEvent(){
+        let isEventInvalid = this.state.title === '' || this.state.location === '' || this.state.date === '';
+        this.setState({isEventInvalid});
+    }
+
+    getUnixTime(time) {
+        return (time.split(":")[0] * 3600 + time.split(":")[1] * 60) * 1000;
+
+    }
+
+    getDateTime(date, time) {
+        return (new Date(date).valueOf() + this.getUnixTime(time))
+    }
+
+    Save = async() => {
+        if(this.props.isInCreationMode){
+            let [date, time] = this.state.date.split(' ');
+            let formattedDate = this.getDateTime(date, time);
+            await this.props.db.addEvent({
+                category: this.state.categoryId,
+                name: this.state.title,
+                datetime: formattedDate,
+                location: this.state.location,
+                description: this.state.description,
+                keyWords: this.props.keyWords,
+            });
+            this.props.navigator.push({
+                title: 'Home',
+            });
+        }
+        else{
+            // Update
         }
     }
 
@@ -134,7 +195,10 @@ export default class EventDetails extends Component {
                             style={styles.headerTitle}
                             content={this.state.title}
                             mandatory={true}
-                            onValidate={(value) => this.setState({title: value})}/>
+                            onValidate={(value) => {
+                                this.setState({title: value});
+                                this.validateEvent();
+                            }}/>
                         <View style={[styles.headerCategoryTriangle, {borderTopColor:this.state.categoryColor}]}/>
                     </View>
                     {this.renderCategory()}
@@ -151,7 +215,10 @@ export default class EventDetails extends Component {
                             isInModificationMode={this.state.isInModificationMode}
                             content={this.state.location}
                             mandatory={true}
-                            onValidate={(value) => this.setState({location: value})}/>
+                            onValidate={(value) => {
+                                this.setState({location: value});
+                                this.validateEvent();
+                            }}/>
                     </View>
                 </View>
             </View>
@@ -231,7 +298,9 @@ export default class EventDetails extends Component {
                         format="YYYY/MM/DD HH:mm"
                         confirmBtnText="OK"
                         cancelBtnText="Annuler"
-                        onDateChange={(datetime) => {this.setState({date: datetime});}}
+                        onDateChange={(datetime) => {
+                            this.setState({date: datetime});
+                            this.validateEvent();}}
                         customStyles={{
                                         dateIcon: {
                                           position: 'absolute',

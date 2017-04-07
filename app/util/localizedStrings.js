@@ -47,6 +47,7 @@ let strings = new LocalizedStrings({
         editEvent: 'Edit',
         saveEvent: 'Save',
         requiredField: 'Required Field',
+        deleteEvent: 'Delete',
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -86,6 +87,7 @@ let strings = new LocalizedStrings({
         editEvent: 'Editer',
         saveEvent: 'Valider',
         requiredField: 'Champ requis',
+        deleteEvent: 'Suppr',
     }
 });
 

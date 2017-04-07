@@ -157,7 +157,11 @@ export default class Home extends Component {
                     title="Créer évènement"
                     onPress={() => {
                         this.props.navigator.push({
-                            title: 'AddEvent',
+                            title: 'EventDetails',
+                            passProps: {
+                                isInModificationMode:true,
+                                isInCreationMode:true
+                            }
                         });
                     }}
                 >
