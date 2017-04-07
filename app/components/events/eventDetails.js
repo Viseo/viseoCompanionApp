@@ -2,7 +2,7 @@
  * Created by AAB3605 on 20/03/2017.
  */
 import React, {Component} from "react";
-import {TextInput, StyleSheet, Image, ScrollView, View, Platform, Dimensions, TouchableOpacity, Button} from "react-native";
+import {TextInput, StyleSheet, Image, ScrollView, View, Platform, Dimensions, TouchableOpacity, Button, Modal,} from "react-native";
 import Header from "../header";
 import AppText from "../appText";
 import EditableAppText from "../editableAppText";
@@ -49,7 +49,7 @@ export default class EventDetails extends Component {
         numberOfParticipants: '121',
         isModificationAllowed: true,
         isInModificationMode: false,
-        isInCreationMode: false
+        isInCreationMode: false,
     }
 
     constructor(props) {
@@ -73,7 +73,8 @@ export default class EventDetails extends Component {
             picture: image,
             isModificationAllowed : this.props.isModificationAllowed,
             isInModificationMode: this.props.isInModificationMode,
-            isEventInvalid: isEventInvalid
+            isEventInvalid: isEventInvalid,
+            modalVisible: false
         };
     }
 
@@ -97,6 +98,7 @@ export default class EventDetails extends Component {
                                 {this.renderCenterContent()}
                                 {this.renderEventDescription(this.state.description)}
                                 {this.renderEventKeywords(this.props.keywords)}
+                                {this.renderNotifySuccess()}
                             </ScrollView>
                         </View>
                     </View>
@@ -170,13 +172,54 @@ export default class EventDetails extends Component {
                 description: this.state.description,
                 keyWords: this.props.keyWords,
             });
-            this.props.navigator.push({
-                title: 'Home',
-            });
+            this.setState({modalVisible: true});
         }
         else{
             // Update
         }
+    }
+
+    renderNotifySuccess() {
+        return (
+            <View>
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.props.navigator.resetTo({
+                            title: 'Home'
+                        });
+                    }}
+                >
+                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View
+                        style={{
+                            flex:1,
+                            justifyContent: 'center',
+                            alignItems:'center',
+                            backgroundColor: 'rgba(186, 242, 255, 1)'
+                        }}
+                    >
+                        <View>
+                            <AppText style={{textAlign:'center'}}>
+                                {"Evènement créé avec succès!"}
+                            </AppText>
+                            <Button
+                                onPress={() => {
+                                    this.props.navigator.resetTo({
+                                        title: 'Home'
+                                    });
+                                }}
+                                title="OK"
+                                color="#6ABEFF"
+                            />
+                        </View>
+                    </View>
+                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                </Modal>
+            </View>
+        );
     }
 
     renderHeader(event) {
