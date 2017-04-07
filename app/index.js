@@ -25,17 +25,21 @@ const initialState = {
         isFetching: false,
         didInvalidate: false,
         items: [],
+        registered: [],
     },
     filters: [],
     searchWords: [],
     visibilityFilter: 'SHOW_ALL',
+    user: {
+        id: 1
+    }
 }
 let store = createStore(
     viseoCompanionApp,
     initialState,
     applyMiddleware(thunkMiddleware)
 );
-store.dispatch(fetchEvents())
+store.dispatch(fetchEvents(store.getState().user))
 
 export default class ViseoCompanion extends Component {
     constructor(props) {

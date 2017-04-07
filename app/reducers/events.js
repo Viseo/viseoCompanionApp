@@ -48,6 +48,10 @@ const events = (state = {
                     ...events
                 ]
             })
+        case types.FETCH_EVENTS_FAILED:
+            return Object.assign({}, state, {
+                isFetching: false,
+            })
         case types.INVALIDATE_EVENTS:
             return Object.assign({}, state, {
                 didInvalidate: true
@@ -57,7 +61,16 @@ const events = (state = {
                 isFetching: false,
                 didInvalidate: false,
                 items: action.events,
+                registered: action.registeredEvents,
                 lastUpdated: action.receivedAt
+            })
+        case types.REGISTER_USER:
+            let registered = state.registered.slice();
+            if(registered.indexOf(action.id) === -1) {
+                registered.push(action.id)
+            }
+            return Object.assign({}, state, {
+                registered: registered
             })
         case types.REMOVE_EVENT:
             let eventToRemove = state.items.findIndex(event => {
@@ -74,15 +87,10 @@ const events = (state = {
                 isFetching: true,
                 didInvalidate: false
             })
-        case types.TOGGLE_PARTICIPATION:
+        case types.UNREGISTER_USER:
             return Object.assign({}, state, {
-                items: state.items.map(event => {
-                    return event.id === action.id ?
-                        {
-                            ...event,
-                            participating: !event.participating
-                        } :
-                        event
+                registered: state.registered.filter(id => {
+                    return id !== action.id
                 })
             })
         default:

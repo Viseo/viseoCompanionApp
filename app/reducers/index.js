@@ -12,6 +12,7 @@ const viseoCompanionApp = combineReducers({
     filters,
     searchWords,
     visibilityFilter,
+    user: (state = {id:1}) => { return state}
 })
 
 export default viseoCompanionApp;

@@ -57,8 +57,8 @@ export default class EventList extends Component {
                 <ListView
                     refreshControl={
                         <RefreshControl
-                            refreshing={false}
-                            onRefresh={this.props.refresh}
+                            refreshing={this.props.refreshing}
+                            onRefresh={() => {this.props.refresh(this.props.user)}}
                         />
                     }
                     scrollEventThrottle={200}
@@ -73,6 +73,7 @@ export default class EventList extends Component {
     renderEventCard = (event) => {
         let fullDate = this.formatDate();
         let [day, time] = fullDate.split(' ');
+        let {user} = this.props;
         return (
             <EventCard
                 name={event.name}
@@ -82,13 +83,13 @@ export default class EventList extends Component {
                 time={time}
                 participating={event.participating}
                 categoryId={event.category}
-                onParticipationChange={() => {this.props.toggleParticipation(event.id)}}
+                onParticipationChange={() => {this.props.toggleParticipation(event, user)}}
                 onPress={() => {
                     this.props.navigator.push({
                         title: 'EventDetails',
                         passProps: {
                             event,
-                            onParticipationChange: () => {this.props.toggleParticipation(event.id)}
+                            onParticipationChange: () => {this.props.toggleParticipation(event, user)}
                         }
                     });
                 }}
