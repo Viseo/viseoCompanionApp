@@ -21,7 +21,7 @@ export default class EditableImage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedPicture: null,
+            selectedPicture: this.props.defaultPicture,
         };
     }
 
@@ -47,6 +47,7 @@ export default class EditableImage extends Component {
                 this.setState({
                     selectedPicture: source
                 });
+                this.props.onSelected(response.uri);
             }
         });
     };

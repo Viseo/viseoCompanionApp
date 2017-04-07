@@ -6,6 +6,7 @@ import {TextInput, StyleSheet, Image, ScrollView, View, Platform, Dimensions, To
 import Header from "../header";
 import AppText from "../appText";
 import EditableAppText from "../editableAppText";
+import EditableImage from "../editableImage";
 import strings from "../../util/localizedStrings";
 import * as util from "../../util/util";
 import CheckBox from "react-native-check-box";
@@ -46,6 +47,8 @@ export default class EventDetails extends Component {
         super(props);
         let categoryName = strings.categoriesNames[this.props.event.category];
         let categoryColor = util.getCategoryColor(this.props.event.category);
+        let defaultImage = require('./../../images/0.jpg');
+        let image = eventIdToImages[this.props.event.id] || defaultImage;
         this.state = {
             categoryId:this.props.event.category,
             categoryName: categoryName,
@@ -55,6 +58,7 @@ export default class EventDetails extends Component {
             title: this.props.event.name,
             location: this.props.event.location,
             date: this.props.event.date,
+            picture: image,
             isModificationAllowed : this.props.isModificationAllowed,
             isInModificationMode: this.props.isInModificationMode
         };
@@ -176,22 +180,35 @@ export default class EventDetails extends Component {
         this.setState({categoryColor: util.getCategoryColor(selectedCategory)});
     }
 
-    renderEventIllustration(id) {
-        let defaultImage = require('./../../images/0.jpg');
-        let image = eventIdToImages[id] || defaultImage;
-        return (
-            <View style={{marginBottom:-20}}>
-                <Image
-                    source={image}
-                    resizeMode="stretch"
-                    style={{
+    updateImage(selected){
+        let imageSource = { uri: selected };
+        this.setState({picture:imageSource});
+    }
+
+    renderEventIllustration() {
+        if(this.state.isInModificationMode){
+            return(
+                <EditableImage
+                    defaultPicture={this.state.picture}
+                    onSelected={(selected) => {this.updateImage(selected)}}
+                />
+            );
+        }
+        else{
+            return (
+                <View style={{marginBottom:-20}}>
+                    <Image
+                        source={this.state.picture}
+                        resizeMode="stretch"
+                        style={{
                         flex: 1,
                         width:null,
                         height:deviceHeight*(1/3)
                     }}
-                />
-            </View>
-        );
+                    />
+                </View>
+            );
+        }
     }
 
     renderCenterContent(){
