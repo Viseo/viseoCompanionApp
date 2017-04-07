@@ -147,6 +147,7 @@ export default class EventDetails extends Component {
                     <View style={styles.headerInfoItem}>
                         <Image source={require('./../../images/place.png')}/>
                         <EditableAppText
+                            refs="eventPlace"
                             isInModificationMode={this.state.isInModificationMode}
                             content={this.state.location}
                             mandatory={true}
@@ -192,6 +193,7 @@ export default class EventDetails extends Component {
         if(this.state.isInModificationMode){
             return(
                 <EditableImage
+                    refs="eventDescription"
                     defaultPicture={this.state.picture}
                     onSelected={(selected) => {this.updateImage(selected)}}
                 />
@@ -243,6 +245,7 @@ export default class EventDetails extends Component {
                                         }
                                       }}
                     />
+                    <AppText style={{color:'red'}}>{this.state.date === undefined ? strings.requiredField : ''}</AppText>
                 </View>
             </View>
         );
