@@ -112,8 +112,8 @@ describe('EventDetails modifiable', () => {
         expect(testUtil.getComponentsOfTypeInContainer(details, Image)).to.have.length(4);
     });
 
-    it('should display 2 button to activate edition and to save modifications', () => {
-        expect(testUtil.getComponentsOfTypeInContainer(details, Button)).to.have.length(2);
+    it('should contain 3 buttons to activate edition, save modifications, and delete event', () => {
+        expect(testUtil.getComponentsOfTypeInContainer(details, Button)).to.have.length(3);
     });
 
     it('should display 3 editable text : for title, event location, and description)', () => {
