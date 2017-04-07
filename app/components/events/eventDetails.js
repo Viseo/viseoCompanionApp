@@ -11,6 +11,8 @@ import * as util from "../../util/util";
 import CheckBox from "react-native-check-box";
 import colors from './../events/colors';
 import DatePicker from "react-native-datepicker";
+import ModalDropdown from 'react-native-modal-dropdown';
+
 
 let {
     height: deviceHeight,
@@ -45,6 +47,7 @@ export default class EventDetails extends Component {
         let categoryName = strings.categoriesNames[this.props.event.category];
         let categoryColor = util.getCategoryColor(this.props.event.category);
         this.state = {
+            categoryId:this.props.event.category,
             categoryName: categoryName,
             categoryColor: categoryColor,
             going: this.props.event.participating,
@@ -128,9 +131,7 @@ export default class EventDetails extends Component {
                             onValidate={(value) => this.setState({title: value})}/>
                         <View style={[styles.headerCategoryTriangle, {borderTopColor:this.state.categoryColor}]}/>
                     </View>
-                    <AppText style={[styles.category, {color: this.state.categoryColor}]}>
-                        {this.state.categoryName}
-                    </AppText>
+                    {this.renderCategory()}
                     <View style={styles.headerInfoItem}>
                         <Image source={require('./../../images/user.png')}/>
                         <AppText style={{margin: 5}}>
@@ -147,6 +148,32 @@ export default class EventDetails extends Component {
                 </View>
             </View>
         )
+    }
+
+    renderCategory(){
+        if(this.state.isInModificationMode){
+            return(
+                <ModalDropdown
+                    dropdownStyle={styles.dropdown}
+                    textStyle={{color:this.state.categoryColor}}
+                    options={strings.categoriesNames}
+                    defaultValue={this.state.categoryName}
+                    onSelect={(selectedCategory)=> this.updateCategory(selectedCategory)}/>
+            );
+        }
+        else{
+            return(
+                <AppText style={[styles.category, {color: this.state.categoryColor}]}>
+                    {this.state.categoryName}
+                </AppText>
+            );
+        }
+    }
+
+    updateCategory(selectedCategory){
+        this.setState({categoryId: selectedCategory});
+        this.setState({categoryName: strings.categoriesNames[selectedCategory]});
+        this.setState({categoryColor: util.getCategoryColor(selectedCategory)});
     }
 
     renderEventIllustration(id) {
@@ -276,6 +303,11 @@ export default class EventDetails extends Component {
 }
 
 const styles = StyleSheet.create({
+    dropdown:{
+        flexDirection: 'row',
+        flex:1,
+    },
+
     topbar: {
         justifyContent: 'space-between',
         alignItems: 'center',

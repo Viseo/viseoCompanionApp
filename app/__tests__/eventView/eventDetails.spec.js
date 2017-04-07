@@ -216,4 +216,8 @@ describe('EventDetails in modification mode', () => {
         let editionModeAfterClick = testUtil.getState(details).isInModificationMode;
         expect(editionModeAfterClick).to.equal.false;
     });
+
+    it('should display 1 ModalDropDown for category selection', () => {
+        testUtil.checkChildComponentExists(details, 'ModalDropDown');
+    });
 });
