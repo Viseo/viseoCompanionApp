@@ -455,6 +455,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
         justifyContent:'center',
+        height: 100
     },
 
     keywords: {
