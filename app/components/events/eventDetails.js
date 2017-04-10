@@ -69,7 +69,8 @@ export default class EventDetails extends Component {
             isModificationAllowed : this.props.isModificationAllowed,
             isInModificationMode: this.props.isInModificationMode,
             isEventInvalid: isEventInvalid,
-            modalVisible: false
+            modalVisible: false,
+            notificationMessage: '',
         };
     }
 
@@ -110,7 +111,7 @@ export default class EventDetails extends Component {
                     <View style={{flex:2, flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             {this.state.isInModificationMode ? this.renderSaveButton() : this.renderEditButton()}
-                            <Button title={strings.deleteEvent} style={{flex:1, marginLeft:5}}onPress={() => {}}/>
+                            <Button title={strings.deleteEvent} style={{flex:1, marginLeft:5}}onPress={() => {this.Delete()}}/>
                         </View>
 
                     </View>
@@ -162,7 +163,7 @@ export default class EventDetails extends Component {
                     >
                         <View>
                             <AppText style={{textAlign:'center'}}>
-                                {"Evènement créé avec succès!"}
+                                {this.state.notificationMessage}
                             </AppText>
                             <Button
                                 onPress={() => {
@@ -374,11 +375,20 @@ export default class EventDetails extends Component {
                 description: this.state.description,
                 keyWords: this.props.keyWords,
             });
+            this.setState({notificationMessage: strings.eventCreated});
             this.setState({modalVisible: true});
         }
         else{
             // Update
+            this.setState({notificationMessage: strings.eventModified});
+            this.setState({modalVisible: true});
         }
+    }
+
+    Delete = async() => {
+        // Delete
+        this.setState({notificationMessage: strings.eventDeleted});
+        this.setState({modalVisible: true});
     }
 
     getDateTime(date, time) {
