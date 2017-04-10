@@ -13,7 +13,13 @@ class AppText extends Component {
     render() {
         return(
             <Text
-                style={[style.textStyle, this.props.style]} className={this.props.className} ref={component => this._root = component}>
+                style={[
+                    style.textStyle,
+                    this.props.style
+                ]}
+                className={this.props.className}
+                ref={component => this._root = component}
+            >
                 {this.props.children}
             </Text>
         );
@@ -25,6 +31,7 @@ export default AppText;
 const style = StyleSheet.create({
     textStyle: {
         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-        color: colors.mediumGray
+        color: colors.mediumGray,
+        backgroundColor: 'transparent',
     }
 });

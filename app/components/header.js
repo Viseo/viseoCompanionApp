@@ -7,6 +7,7 @@
 import React, {Component} from "react";
 import {View, StyleSheet, Platform, Dimensions, Image, Text} from "react-native";
 import AppText from "./appText";
+import colors from './events/colors'
 
 class Header extends Component {
 
@@ -32,10 +33,10 @@ var {
 
 const styles = StyleSheet.create({
     topbar: {
+        backgroundColor: 'transparent',
         alignItems: 'center',
         flexDirection: 'row',
         height: (1 / 16) * deviceHeight,
-        backgroundColor: 'royalblue',
         marginTop:(Platform.OS === 'ios') ? 20 : 0,
     },
     burgerMenu: {

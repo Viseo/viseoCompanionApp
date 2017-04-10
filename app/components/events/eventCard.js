@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: 100,
         borderBottomWidth: 0.5,
-        borderColor: 'lightgray',
+        borderColor: colors.blue,
     },
     eventInfo: {
         flex: 100,

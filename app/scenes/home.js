@@ -27,6 +27,8 @@ import Header from "./../components/header";
 import AppText from "../components/appText";
 import VisibleEventList from './../containers/VisibleEvents';
 import SearchBar from './../components/events/SearchBar'
+import ItemSpacer from './../components/ItemSpacer'
+import colors from './../components/events/colors'
 import { dispatch } from 'redux'
 
 
@@ -113,14 +115,16 @@ export default class Home extends Component {
 
     render() {
         return (
-            <View style={{flex:1}}>
+            <View style={{flex:1, backgroundColor: colors.blue, padding:8, paddingBottom:0}}>
                 <Header/>
-                <View style={{flex:1}}>
-                    <SearchBar/>
+                <View style={{flex:0, flexDirection:'column', paddingBottom:10}}>
+                    <View style={{flex:0, flexDirection:'row'}}>
+                        <ItemSpacer/>
+                        <SearchBar style={{flex:20}}/>
+                        <ItemSpacer/>
+                    </View>
                 </View>
-                <View style={{flex:4}}>
-                    <VisibleEventList navigator={this.props.navigator} />
-                </View>
+                <VisibleEventList style={{flex:5}} navigator={this.props.navigator} />
             </View>
         );
     }
