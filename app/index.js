@@ -8,8 +8,6 @@ import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import EventDetails from "./components/events/eventDetails";
-import EventCardTestScene from "./scenes/test/eventCardTestScene";
-import EventsWithParticipantsTestScene from "./scenes/test/eventsWithParticipantsTestScene";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import db from "./util/db";
@@ -72,8 +70,6 @@ export default class ViseoCompanion extends Component {
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
             {title: 'EventDetails'},
-            {title: 'EventCardTestScene'},
-            {title: 'EventsWithParticipantsTestScene'},
             {title: 'AddEvent'},
         ];
         return (
@@ -100,15 +96,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'EventDetails') {
                         return (
-                            <EventDetails navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'EventCardTestScene') {
-                        return (
-                            <EventCardTestScene navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'EventsWithParticipantsTestScene') {
-                        return (
-                            <EventsWithParticipantsTestScene navigator={navigator} {...route.passProps}/>
+                            <EventDetails navigator={navigator} {...route.passProps} db={db}/>
                         );
                     } else if(route.title === 'AddEvent') {
                         return (

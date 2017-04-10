@@ -170,13 +170,17 @@ export default class Home extends Component {
 
     renderCreateEventButton() {
         return (
-            <ActionButton buttonColor="royalblue">
+            <ActionButton buttonColor={colors.blue}>
                 <ActionButton.Item
                     buttonColor='#9b59b6'
                     title="Créer évènement"
                     onPress={() => {
                         this.props.navigator.push({
-                            title: 'AddEvent',
+                            title: 'EventDetails',
+                            passProps: {
+                                isInModificationMode:true,
+                                isInCreationMode:true
+                            }
                         });
                     }}
                 >
@@ -229,13 +233,6 @@ const {
 } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    topbar: {
-        height: (1 / 13) * deviceHeight,
-        backgroundColor: '#103a71',
-        alignItems: 'center',
-        flexDirection: 'row',
-        padding: 10,
-    },
     burgerMenu: {
         width: 25,
         height: 25,

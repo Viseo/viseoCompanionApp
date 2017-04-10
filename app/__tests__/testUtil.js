@@ -16,19 +16,26 @@ import RecoverPassword from './../scenes/recoverPassword';
 import SignIn from './../scenes/signIn';
 import SignUp from './../scenes/signUp';
 import AppText from '../components/appText';
+import EditableAppText from '../components/editableAppText';
 import EventViewHeader from '../components/events/header';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
 import Home from './../scenes/home';
 import EventDetails from '../components/events/eventDetails';
-import EventDetailsHeader from '../components/events/eventDetailsHeader';
-import EventDetailsParticipationInfos from '../components/events/eventDetailsParticipationInfos';
+import DatePicker from "react-native-datepicker";
 
 function checkChildComponentWithPropValue(parent, child, prop, value) {
     expect(parent.findWhere(n => {
         return n.type() === child
             && n.props()[prop] === value;
     })).to.have.length(1);
+}
+
+function getSpecificComponentWIthPropValue(parent,child,prop,value){
+    return parent.findWhere(n => {
+        return n.type() === child
+            && n.props()[prop] === value;
+    });
 }
 
 function checkFieldContent(component, fieldName, fieldValue) {
@@ -79,9 +86,23 @@ function changeText(component) {
     textInput.simulate('changeText');
 }
 
+function submitText(component) {
+    const textInput = component.find(TextInput).first();
+    textInput.simulate('submitEditing');
+}
+
 function changeTextWithInputValue(component, inputValue) {
     const textInput = component.find(TextInput).first();
     textInput.simulate('changeText', { target: {value: inputValue} });
+}
+
+function validateEditableAppTextWithInputValue(editableAppText, inputValue) {
+    editableAppText.simulate('validate', { target: {value: inputValue} });
+}
+
+function changeDateWithValue(component, pickedDate) {
+    const datePicker = component.find(DatePicker).first();
+    datePicker.simulate('changeDate', {target: {date: pickedDate}});
 }
 
 function createEventCard(props) {
@@ -144,14 +165,6 @@ function createEventDetails(props) {
     return shallow(<EventDetails {...props}/>);
 }
 
-function createEventDetailsHeader(props) {
-    return shallow(<EventDetailsHeader {...props}/>);
-}
-
-function createEventDetailsParticipationInfos(props) {
-    return shallow(<EventDetailsParticipationInfos {...props}/>);
-}
-
 function getState(component) {
     return component.state();
 }
@@ -173,6 +186,10 @@ function compare(value, expectedValue) {
 
 function createAppText(props) {
     return shallow(<AppText {...props} />)
+}
+
+function createEditableAppText(props) {
+    return shallow(<EditableAppText {...props} />);
 }
 
 export default testUtil = {
@@ -208,6 +225,9 @@ export default testUtil = {
     checkCall,
     createAppText,
     createEventDetails,
-    createEventDetailsHeader,
-    createEventDetailsParticipationInfos,
+    createEditableAppText,
+    submitText,
+    validateEditableAppTextWithInputValue,
+    getSpecificComponentWIthPropValue,
+    changeDateWithValue
 };

@@ -37,7 +37,7 @@ export default class EventCard extends Component {
                 </Text>
             </View>,
             onPress: () => {
-                this.props.onParticipationChange()
+                setTimeout(() => { this.props.onParticipationChange() }, 300);
             },
             backgroundColor: this.props.participating ? '#ff6d6d' : colors.blue,
             color: 'white'
@@ -93,7 +93,7 @@ export default class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor:(this.props.participating) ? colors.blue : 'white'}
+                    {backgroundColor:(this.props.participating) ? colors.blueLight : 'white'}
                 ]}/>
             </View>
         );

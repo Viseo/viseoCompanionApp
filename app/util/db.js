@@ -20,7 +20,7 @@ async function addEvent(event) {
                 "keywords": event.keywords || '',
                 "place": event.location,
                 "version":"1",
-                "category":"0"
+                "category": event.category
             })
         })
         if (response)
