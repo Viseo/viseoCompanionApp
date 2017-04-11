@@ -80,7 +80,13 @@ export default class EventDetails extends Component {
         let event = this.props.event;
         return (
             <View style={{flex:1}}>
-                {this.renderTopBar()}
+                <Header
+                    isModificationAllowed={this.props.isModificationAllowed}
+                    isInCreationMode={this.props.isInCreationMode}
+                    edit={()=> {this.setState({isInModificationMode: true})}}
+                    save={this.save}
+                    delete={this.delete}
+                    cannotSave={this.state.isEventInvalid}/>
                 <View style={styles.container}>
                     <View style={{flex:1}}>
                         <View style={{flex:3}}>
@@ -98,44 +104,6 @@ export default class EventDetails extends Component {
                     </View>
                 </View>
             </View>
-        );
-    }
-
-    renderTopBar() {
-        if(this.state.isModificationAllowed){
-            return(
-                <View style={styles.topbar}>
-                    <View style={{flex:3, flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <AppText style={styles.topBarText}>{strings.eventEditionLabel}</AppText>
-                    </View>
-                    <View style={{flex:2, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                            {this.state.isInModificationMode ? this.renderSaveButton() : this.renderEditButton()}
-                            <Button title={strings.deleteEvent} style={{flex:1, marginLeft:5}}onPress={() => {this.Delete()}}/>
-                        </View>
-
-                    </View>
-                </View>
-            );
-        }
-        else{
-            return(
-                <Header/>
-            );
-        }
-    }
-
-    renderSaveButton(){
-        return(
-            <Button disabled={this.state.isEventInvalid} title={strings.saveEvent} style={{flex:1, marginLeft:5}}
-                    onPress={() => {this.Save();}}/>
-        );
-    }
-
-    renderEditButton(){
-        return(
-            <Button title={strings.editEvent} style={{flex:1, margin:1}}
-                    onPress={() => this.setState({isInModificationMode: true})}/>
         );
     }
 
@@ -194,6 +162,7 @@ export default class EventDetails extends Component {
                     <View style={{flexDirection:'row'}}>
                         <EditableAppText
                             refs="eventName"
+                            fieldName={strings.title}
                             isInModificationMode={this.state.isInModificationMode}
                             style={styles.headerTitle}
                             content={this.state.title}
@@ -215,6 +184,7 @@ export default class EventDetails extends Component {
                         <Image source={require('./../../images/place.png')}/>
                         <EditableAppText
                             refs="eventPlace"
+                            fieldName={strings.location}
                             isInModificationMode={this.state.isInModificationMode}
                             content={this.state.location}
                             mandatory={true}
@@ -253,6 +223,7 @@ export default class EventDetails extends Component {
             return(
                 <EditableImage
                     refs="eventDescription"
+                    fieldName={strings.description}
                     defaultPicture={this.state.picture}
                     onSelected={(selected) => {this.updateImage(selected)}}/>
             );
@@ -300,7 +271,7 @@ export default class EventDetails extends Component {
                                         }
                                       }}
                     />
-                    <AppText style={{color:'red'}}>{this.state.date === undefined ? strings.requiredField : ''}</AppText>
+                    <AppText style={{color:'red'}}>{this.state.date === undefined ? strings.field + ' ' + strings.mandatory: ''}</AppText>
                 </View>
             </View>
         );
@@ -363,7 +334,7 @@ export default class EventDetails extends Component {
 
     /*process functions*/
 
-    Save = async() => {
+    save = async() => {
         if(this.props.isInCreationMode){
             let [date, time] = this.state.date.split(' ');
             let formattedDate = this.getDateTime(date, time);
@@ -385,7 +356,7 @@ export default class EventDetails extends Component {
         }
     }
 
-    Delete = async() => {
+    delete = async() => {
         // Delete
         this.setState({notificationMessage: strings.eventDeleted});
         this.setState({modalVisible: true});

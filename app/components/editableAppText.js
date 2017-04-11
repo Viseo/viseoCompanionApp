@@ -14,7 +14,8 @@ class EditableAppText extends Component {
         autoCorrect: true,
         returnKeyType: "done",
         mandatory: false,
-        onValidate: () => {}
+        onValidate: () => {},
+        fieldName : strings.field,
     }
 
     constructor(props) {
@@ -34,10 +35,13 @@ class EditableAppText extends Component {
         return(
             <View style={{flexDirection:'row', flex: 1}}>
                     <TextInput
-                        style={[this.props.style, {flex:10, paddingTop:0, paddingBottom: 5}]}
+                        fieldName={this.props.fieldName}
+                        style={[this.props.style, {flex:10, paddingTop:0, paddingBottom: 3}]}
                         underlineColorAndroid={this.state.isValid ? 'lightgray' : 'red'}
                         defaultValue={this.props.content}
-                        placeholder={this.props.mandatory ? strings.requiredField : ''}
+                        placeholder={(this.props.mandatory)
+                        ? this.props.fieldName + ' ' + strings.mandatory
+                        : ''}
                         autoCorrect={this.props.autoCorrect}
                         multiline={this.props.multiline}
                         numberOfLines={this.props.numberOfLines}
