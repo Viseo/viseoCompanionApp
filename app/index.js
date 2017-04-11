@@ -12,6 +12,7 @@ import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import db from "./util/db";
 import AddEvent from './scenes/addEvent';
+import Profile from './scenes/profile';
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -45,6 +46,7 @@ export default class ViseoCompanion extends Component {
             {title: 'RecoverPassword'},
             {title: 'EventDetails'},
             {title: 'AddEvent'},
+            {title: 'Profile'},
         ];
         return (
             <Navigator
@@ -74,6 +76,10 @@ export default class ViseoCompanion extends Component {
                     } else if(route.title === 'AddEvent') {
                         return (
                             <AddEvent navigator={navigator} {...route.passProps} db={db}/>
+                        );
+                    } else if(route.title === 'Profile') {
+                        return (
+                            <Profile navigator={navigator} {...route.passProps} db={db}/>
                         );
                     }
                 }}

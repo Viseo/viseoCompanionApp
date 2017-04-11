@@ -55,6 +55,11 @@ let strings = new LocalizedStrings({
         title: "Title",
         location: "Location",
         description: "Description",
+        profileEditionLabel: 'Profile edition',
+        firstname: "Firstname",
+        lastname: "Lastname",
+        email: "Email",
+        birthdate: "Birthdate :"
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -102,6 +107,11 @@ let strings = new LocalizedStrings({
         title: "Titre",
         location: "Lieu",
         description: "Description",
+        profileEditionLabel: 'Edition de profil',
+        firstname: "Prénom",
+        lastname: "Nom",
+        email: "Email",
+        birthdate: "Date de naissance :"
     }
 });
 
