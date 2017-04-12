@@ -28,6 +28,7 @@ import Header from "./../components/header";
 import AppText from "../components/appText";
 import EventListView from "./../components/events/eventListView";
 import colors from '../components/events/colors';
+import PushController from '../components/PushController';
 
 export default class Home extends Component {
 
@@ -83,9 +84,13 @@ export default class Home extends Component {
         this.setState({
             showedEvents
         });
-        await changedEvent.participating ?
-            this.props.db.removeEventParticipant(changedEvent.id, this.props.user.id) :
+        if(await changedEvent.participating) {
+            this.props.db.removeEventParticipant(changedEvent.id, this.props.user.id);
+            PushController.unscheduleEventSnoozes(changedEvent);
+        } else {
             this.props.db.addEventParticipant(changedEvent.id, this.props.user.id);
+            PushController.scheduleEventSnoozes(changedEvent);
+        }
     };
 
     onFilter = (filteredEvents, activeFilters) => {
@@ -119,6 +124,7 @@ export default class Home extends Component {
         let eventView = this.state.loaded ? eventList : this.renderLoadingIndicator();
         return (
             <View style={{flex:1, backgroundColor:'white'}}>
+                <PushController/>
                 <Header/>
                 {eventView}
                 {createEventButton}
