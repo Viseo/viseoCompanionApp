@@ -14,6 +14,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import Header from "../components/header";
+import PasswordInput from "../components/passwordInput";
 import EditableImage from "../components/editableImage";
 import AppText from "../components/appText";
 import EditableAppText from "../components/editableAppText";
@@ -32,7 +33,8 @@ export default class Profile extends Component {
         firstname: 'Al',
         lastname: 'Inclusive',
         email: 'al.inclusive@mail.com',
-        password: 'topsecret'
+        password: 'topsecret',
+        birthdate: '1988/04/05',
     }
 
     constructor(props) {
@@ -49,7 +51,10 @@ export default class Profile extends Component {
             email: this.props.email,
             password: this.props.password,
             birthdate: this.props.birthdate,
-            isInvalid: false,
+            cannotSave: false,
+            passwordError: false,
+            newPassword: '',
+            newPasswordBis: ''
         };
     }
 
@@ -60,7 +65,8 @@ export default class Profile extends Component {
                     isModificationAllowed={this.props.isModificationAllowed}
                     edit={()=> {this.setState({isInModificationMode: true})}}
                     save={this.save}
-                    delete={this.delete}/>
+                    delete={this.delete}
+                    cannotSave={this.state.cannotSave}/>
                 <View style={styles.container}>
                     <View style={{flex:1}}>
                         <View style={{flex:7,flexDirection:'column', alignItems: 'center'}}>
@@ -96,7 +102,7 @@ export default class Profile extends Component {
                                 <View style={{padding:10, flexDirection: 'row', justifyContent:'space-between', alignItems: 'flex-start'}}>
                                     {this.renderBirthdate()}
                                 </View>
-
+                                {this.renderPasswordModificationInputs()}
 
                                 {/*{this.renderNotifySuccess()}*/}
                             </ScrollView>
@@ -129,20 +135,21 @@ export default class Profile extends Component {
     }
 
     renderBirthdate(){
-        let birthdate = new Date(this.state.birthdate);
-        return(
-            <View style={{alignItems:'center'}}>
-                <DatePicker
-                    date={birthdate}
-                    placeholder={strings.birthdate}
-                    mode="date"
-                    format="YYYY/MM/DD"
-                    confirmBtnText="OK"
-                    cancelBtnText="Annuler"
-                    onDateChange={(datetime) => {
-                    this.setState({birthdate: datetime});
-                    this.validate();}}
-                    customStyles={{
+        if(this.state.isInModificationMode){
+            let birthdate = new Date(this.state.birthdate);
+            return(
+                <View style={{alignItems:'center'}}>
+                    <DatePicker
+                        date={birthdate}
+                        placeholder={strings.birthdate}
+                        mode="date"
+                        format="YYYY/MM/DD"
+                        confirmBtnText="OK"
+                        cancelBtnText="Annuler"
+                        onDateChange={(datetime) => {
+                            this.setState({birthdate: datetime});
+                            this.validate(datetime);}}
+                        customStyles={{
                                 dateIcon: {
                                   position: 'absolute',
                                   left: 0,
@@ -154,15 +161,71 @@ export default class Profile extends Component {
                                   borderWidth:0
                                 }
                               }}
-                />
-                <AppText style={{color:'red'}}>{this.state.birthdate === undefined ? strings.field + ' ' + strings.mandatory: ''}</AppText>
-            </View>
-        );
+                    />
+                    <AppText style={{color:'red'}}>{this.state.birthdate === undefined ? strings.field + ' ' + strings.mandatory: ''}</AppText>
+                </View>);
+        }
+        else {
+            return (
+                <View style={{flexDirection: 'row'}}>
+                    <AppText>{strings.birthdate}</AppText>
+                    <AppText>{this.props.birthdate}</AppText>
+                </View>
+            );
+        }
+    }
+
+    renderPasswordModificationInputs(){
+        if(this.state.isInModificationMode){
+            return(
+              <View style={{flexDirection: 'column'}}>
+                  <View style={{flexDirection:'row'}}>
+                      <AppText>{strings.password + ' : '}</AppText>
+                      <AppText>{this.state.password}</AppText>
+                  </View>
+                  <PasswordInput
+                      ref="newPassword"
+                      style={[this.state.passwordError && styles.error]}
+                      placeholder={strings.password}
+                      onChangeText={(newPassword) => this.setState({newPassword})}
+                      onSubmitEditing={(password) => {
+                      this.verifyPassword(password);
+                      this.refs.newPasswordBis.focus();
+                    }
+                  }
+                  />
+                  <PasswordInput
+                      ref="newPasswordBis"
+                      style={[this.state.passwordError && styles.error]}
+                      placeholder={strings.verifyPassword}
+                      onChangeText={(newPasswordBis) => this.setState({newPasswordBis})}
+                      onSubmitEditing={(password) => {
+                      this.verifyPasswordBis(password);
+                    }
+                  }
+                  />
+                  <AppText style={styles.error}>{this.state.passwordError? "erreur": ''}</AppText>
+              </View>
+            );
+        }
+        else{
+            return;
+        }
+    }
+
+    verifyPassword(value){
+        let passwordError = (this.state.newPasswordBis !== '' && this.state.newPasswordBis !== value)
+        this.setState({passwordError});
+    }
+
+    verifyPasswordBis(value){
+        let passwordError = (this.state.newPassword !== '' && this.state.newPassword !== value)
+        this.setState({passwordError});
     }
 
     validate(){
-        //let isEventInvalid = this.state.title === '' || this.state.location === '' || this.state.date === '';
-        //this.setState({isEventInvalid});
+        let cannotSave = passwordError || this.state.firstname === '' || this.state.lastname === '';
+        this.setState({cannotSave});
     }
 
     save = async() => {
@@ -241,5 +304,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
         justifyContent:'center',
+    },
+
+    error: {
+        color:'red'
     },
 });

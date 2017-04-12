@@ -59,7 +59,7 @@ let strings = new LocalizedStrings({
         firstname: "Firstname",
         lastname: "Lastname",
         email: "Email",
-        birthdate: "Birthdate :"
+        birthdate: "Birthdate : "
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -111,7 +111,7 @@ let strings = new LocalizedStrings({
         firstname: "Prénom",
         lastname: "Nom",
         email: "Email",
-        birthdate: "Date de naissance :"
+        birthdate: "Date de naissance : "
     }
 });
 
