@@ -21,9 +21,9 @@ export default class PushController extends Component {
             // console.warn("TOKEN (getFCMToken)", token);
         });
 
-        // FCM.getInitialNotification().then(notif => {
-        //   console.warn("INITIAL NOTIFICATION", notif)
-        // });
+        FCM.getInitialNotification().then(notif => {
+          console.warn("INITIAL NOTIFICATION", notif)
+        });
 
         this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
             console.warn("Notification", notif);

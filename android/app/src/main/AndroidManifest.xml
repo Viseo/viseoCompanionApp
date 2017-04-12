@@ -1,17 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.viseocompanion"
           android:versionCode="1"
-          android:versionName="1.0">
+          android:versionName="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.android.com/apk/res/android ">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <permission
-            android:name="com.viseocompanion.permission.C2D_MESSAGE"
-            android:protectionLevel="signature"/>
     <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <permission
+            android:name="com.viseocompanion.permission.C2D_MESSAGE"
+            android:protectionLevel="signature"/>
+
 
     <uses-sdk
             android:minSdkVersion="16"
@@ -51,14 +53,25 @@
             </intent-filter>
         </service>
 
+        <receiver android:name="com.evollu.react.fcm.FIRLocalMessagingPublisher"/>
+        <receiver android:enabled="true" android:exported="true"
+                  android:name="com.evollu.react.fcm.FIRSystemBootEventReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="b5ed079b5800eae2b76ab7626c8205ac57b50377"
         />
-
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/ic_notif"/>
+                android:resource="@drawable/ic_notif"
+        />
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>

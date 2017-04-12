@@ -9,6 +9,9 @@ import FCM, {
     NotificationType
 } from "react-native-fcm";
 
+import moment from 'moment';
+
+
 export default class PushController extends Component {
     constructor(props) {
         super(props);
@@ -16,29 +19,15 @@ export default class PushController extends Component {
 
     componentDidMount() {
         FCM.requestPermissions();
-
-        FCM.getFCMToken().then(token => {
-            // console.warn("TOKEN (getFCMToken)", token);
-        });
-
-        // FCM.getInitialNotification().then(notif => {
-        //   console.warn("INITIAL NOTIFICATION", notif)
-        // });
-
+        FCM.getFCMToken();
         this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
-            // console.warn("Notification", notif);
             if (notif.local_notification) {
                 return;
             }
             if (notif.opened_from_tray) {
                 return;
             }
-
             if (Platform.OS === 'ios') {
-                //optional
-                //iOS requires developers to call completionHandler to end notification process. If you do not call it your background remote notifications could be throttled, to read more about it see the above documentation link.
-                //This library handles it for you automatically with default behavior (for remote notification, finish with NoData; for WillPresent, finish depend on "show_in_foreground"). However if you want to return different result, follow the following code to override
-                //notif._notificationType is available for iOS platfrom
                 switch (notif._notificationType) {
                     case NotificationType.Remote:
                         notif.finish(RemoteNotificationResult.NewData); //other types available: RemoteNotificationResult.NewData, RemoteNotificationResult.ResultFailed
@@ -53,33 +42,62 @@ export default class PushController extends Component {
             }
             this.showLocalNotification(notif);
         });
-
-        this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => {
-            // console.warn("TOKEN (refreshUnsubscribe)", token);
-            this.props.onChangeToken(token);
-        });
-
         FCM.subscribeToTopic("/topics/newEvent");
-    }
-
-    showLocalNotification(notif) {
-        FCM.presentLocalNotification({
-            title: notif.title,
-            body: notif.body,
-            priority: "high",
-            click_action: notif.click_action,
-            show_in_foreground: true,
-            local: true
-        });
     }
 
     componentWillUnmount() {
         this.notificationListner.remove();
-        this.refreshTokenListener.remove();
     }
 
+    showLocalNotification(notif) {
+        FCM.presentLocalNotification({
+            body: notif.body,
+            title: notif.title,
+            status: notif.status,
+            sound: "default",
+            "show_in_foreground": true,
+            priority: "high",
+            vibrate: 300,
+            "lights": true,
+            icon: "ic_notif",
+            "large_icon": "ic_launcher",
+            id: notif.id,
+        });
+    }
 
     render() {
         return null;
     }
+}
+
+PushController.scheduleEventSnoozes = (event) => {
+    FCM.scheduleLocalNotification(
+        {
+            fire_date: moment().year(moment(event.date).year()).month(moment(event.date).month()).date(moment(event.date).day()).hour(8).valueOf(),
+            id: event.id + "day",
+            title: "Rappel : " + event.name,
+            body: event.name,
+            icon: "ic_notif",
+            large_icon: "ic_launcher",
+            "show_in_foreground": true,
+            priority: "high",
+        }
+    );
+    FCM.scheduleLocalNotification(
+        {
+            fire_date: moment(event.date).subtract(15, 'minute'),
+            id: event.id + "min",
+            title: "Rappel : " + event.name,
+            body: event.name,
+            icon: "ic_notif",
+            large_icon: "ic_launcher",
+            "show_in_foreground": true,
+            priority: "high",
+        }
+    );
+};
+
+PushController.unscheduleEventSnoozes = (event) => {
+    FCM.cancelLocalNotification(event.id + "day");
+    FCM.cancelLocalNotification(event.id + "min");
 }

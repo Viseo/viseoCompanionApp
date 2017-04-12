@@ -30,7 +30,7 @@ export default function setDateLang(lang) {
                 nextWeek: 'dddd/LT',
                 lastDay: '[Hier]/LT',
                 lastWeek: 'ddd [dernier] LT',
-                sameElse: 'ddd Do MMMM/LT'
+                sameElse: 'ddd Do MMM/LT'
             },
             relativeTime: {
                 future: 'dans %s',
