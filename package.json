@@ -17,6 +17,7 @@
     "react-native-checkbox": "^1.1.0",
     "react-native-datepicker": "^1.4.4",
     "react-native-fabric": "^0.4.1",
+    "react-native-fcm": "^6.2.0",
     "react-native-highlight-words": "^1.0.0",
     "react-native-image-picker": "^0.26.2",
     "react-native-modal-dropdown": "^0.4.2",

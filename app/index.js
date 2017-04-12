@@ -10,6 +10,7 @@ import Home from "./scenes/home";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import AddEvent from './scenes/addEvent';
+import Profile from './scenes/profile';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -70,6 +71,7 @@ export default class ViseoCompanion extends Component {
             {title: 'RecoverPassword'},
             {title: 'Event'},
             {title: 'AddEvent'},
+            {title: 'Profile'},
         ];
         return (
             <Provider store={store}>
@@ -101,11 +103,15 @@ export default class ViseoCompanion extends Component {
                         return (
                             <AddEvent navigator={navigator} {...route.passProps}/>
                         );
+                    } else if(route.title === 'Profile') {
+                        return (
+                            <Profile navigator={navigator} {...route.passProps} db={db}/>
+                        );
                     }
                 }}
                     configureScene={(route, routeStack) =>
-                    Navigator.SceneConfigs.PushFromRight
-                }
+                        Navigator.SceneConfigs.PushFromRight
+                    }
                 />
             </Provider>
         )

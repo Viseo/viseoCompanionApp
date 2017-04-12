@@ -27,6 +27,7 @@ import SearchBar from './../components/SearchBar'
 import ItemSpacer from './../components/ItemSpacer'
 import colors from '../components/colors'
 import {dispatch} from 'redux'
+import PushController from '../components/PushController';
 
 export default class Home extends Component {
 
@@ -41,6 +42,7 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.mainContainer}>
+                <PushController/>
                 <Header/>
                 <View style={styles.body}>
                     <View style={styles.searchBar}>
