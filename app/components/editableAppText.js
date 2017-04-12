@@ -54,7 +54,7 @@ class EditableAppText extends Component {
 
     validate(){
         let valid = !(this.props.mandatory && this.state.text == '');
-        this.setState({isValid:valid})
+        this.setState({isValid:valid});
         this.props.onValidate(this.state.text);
     }
 

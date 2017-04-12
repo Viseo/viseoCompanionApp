@@ -21,7 +21,8 @@ class Header extends Component {
         this.state = {
             isModificationAllowed: this.props.isModificationAllowed,
             isInModificationMode: this.props.isInModificationMode,
-            isInCreationMode: this.props.isInCreationMode
+            isInCreationMode: this.props.isInCreationMode,
+            cannotSave: this.props.cannotSave
         };
     }
 
