@@ -7,10 +7,10 @@ import {
     StyleSheet,
     Image,
 } from 'react-native';
-import FilterToggle from './../../containers/FilterToggle'
-import SearchInput from './../../containers/SearchInput'
-import VisibilityToggle from './../../containers/VisibilityToggle'
-import Toggle from './../Toggle'
+import FilterToggle from '../containers/FilterToggle'
+import SearchInput from '../containers/SearchInput'
+import VisibilityToggle from '../containers/VisibilityToggle'
+import Toggle from './Toggle'
 
 class SearchBar extends Component {
 
@@ -59,22 +59,22 @@ class SearchBar extends Component {
                 <VisibilityToggle
                     filter={'SHOW_GOING'}
                     selectedColor="blue"
-                    text={"Show my events"}
+                    text={"J'y vais"}
                 />
                 <FilterToggle
                     filter={{category:0}}
                     selectedColor="red"
-                    text={"Show important events"}
+                    text={"important"}
                 />
                 <FilterToggle
                     filter={{category:1}}
                     selectedColor="orange"
-                    text={"Show informative events"}
+                    text={"informatif"}
                 />
                 <FilterToggle
                     filter={{category:2}}
                     selectedColor="green"
-                    text={"Show entertaining events"}
+                    text={"divers"}
                 />
             </View>
         )
@@ -87,14 +87,14 @@ class SearchBar extends Component {
                 onToggle={this.toggleFilterBar}
                 on={
                     <Image
-                        source={require('./../../images/upArrow.png')}
+                        source={require('./../images/upArrow.png')}
                         resizeMode="contain"
                         style={styles.fitImage}
                     />
                 }
                 off={
                     <Image
-                        source={require('./../../images/filter.png')}
+                        source={require('./../images/filter.png')}
                         resizeMode='contain'
                         style={styles.fitImage}
                     />

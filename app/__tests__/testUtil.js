@@ -11,7 +11,7 @@ import {shallow} from "enzyme";
 import EventCard from '../components/events/eventCard';
 import Filter from '../components/events/filter';
 import FilterBar from '../components/events/filterBar';
-import SearchBar from '../components/events/searchBar';
+import SearchBar from '../components/SearchBar';
 import RecoverPassword from './../scenes/recoverPassword';
 import SignIn from './../scenes/signIn';
 import SignUp from './../scenes/signUp';

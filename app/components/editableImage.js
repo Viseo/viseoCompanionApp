@@ -12,9 +12,9 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
-
 import ImagePicker from 'react-native-image-picker';
 import strings from './../util/localizedStrings';
+import FlexImage from './../components/FlexImage'
 
 export default class EditableImage extends Component {
 
@@ -32,7 +32,7 @@ export default class EditableImage extends Component {
             takePhotoButtonTitle: strings.takePhotoButtonTitle,
             chooseFromLibraryButtonTitle: strings.chooseFromLibraryButtonTitle,
             allowsEditing: true,
-            mediaType:'photo',
+            mediaType: 'photo',
             quality: 1.0,
             maxWidth: 500,
             maxHeight: 500,
@@ -40,7 +40,7 @@ export default class EditableImage extends Component {
 
         ImagePicker.showImagePicker(options, (response) => {
             if (!response.didCancel && !response.error) {
-                let source = { uri: response.uri };
+                let source = {uri: response.uri};
 
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -54,37 +54,31 @@ export default class EditableImage extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <TouchableOpacity onPress={this.selectPhotoTapped}>
-                    <View style={[styles.picture, styles.pictureContainer, {marginBottom: 20}]}>
-                        { this.state.selectedPicture === null ? <Text className="placeholder" style={styles.placeholder}>{strings.selectPicture}</Text> :
-                            <Image style={styles.picture} source={this.state.selectedPicture} className="image"/>
-                        }
-                    </View>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+                style={{flex:1}}
+                onPress={this.selectPhotoTapped}
+            >
+                {
+                    this.state.selectedPicture === null ?
+                        <Text
+                            className="placeholder"
+                            style={styles.placeholder}
+                        >
+                            {strings.selectPicture}
+                        </Text> :
+                        <FlexImage
+                            resizeMode='stretch'
+                            source={this.state.selectedPicture}
+                            className="image"
+                        />
+                }
+            </TouchableOpacity>
         );
     }
 
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    pictureContainer: {
-        borderColor: '#9B9B9B',
-        borderWidth: 1 / PixelRatio.get(),
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    picture: {
-        borderRadius: 75,
-        width: 150,
-        height: 150
-    },
     placeholder: {
         textAlign: 'center'
     }

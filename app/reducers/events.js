@@ -15,7 +15,6 @@ const event = (state, action) => {
                 keywords: action.keywords,
                 location: action.location,
                 datetime: action.datetime,
-                participating: action.participating,
             }
         default:
             return state
@@ -35,7 +34,7 @@ const events = (state = {
                     event(undefined, action)
                 ]
             })
-        case types.ADD_EVENTS:
+        case types.ADD_EVENTS: {
             let events = action.events.map(e => {
                 return event(undefined, {
                     type: types.ADD_EVENT,
@@ -48,6 +47,7 @@ const events = (state = {
                     ...events
                 ]
             })
+        }
         case types.FETCH_EVENTS_FAILED:
             return Object.assign({}, state, {
                 isFetching: false,
@@ -61,18 +61,29 @@ const events = (state = {
                 isFetching: false,
                 didInvalidate: false,
                 items: action.events,
-                registered: action.registeredEvents,
                 lastUpdated: action.receivedAt
             })
-        case types.REGISTER_USER:
-            let registered = state.registered.slice();
-            if(registered.indexOf(action.id) === -1) {
-                registered.push(action.id)
+        case types.REGISTER_USER: {
+            let eventToRegisterFor = state.items.find(event => event.id === action.eventId)
+            if(!eventToRegisterFor) {
+                return state
             }
+            let participants = eventToRegisterFor.participants || []
+            let isAlreadyRegistered = participants.indexOf(action.userId) !== -1
+            if (!isAlreadyRegistered) {
+                participants = participants.slice()
+                participants.push(action.userId)
+            }
+            eventToRegisterFor.participants = participants
             return Object.assign({}, state, {
-                registered: registered
+                items: state.items.map(event => {
+                    return event.id === action.eventId ?
+                        eventToRegisterFor :
+                        event
+                })
             })
-        case types.REMOVE_EVENT:
+        }
+        case types.REMOVE_EVENT: {
             let eventToRemove = state.items.findIndex(event => {
                 return event.id === action.id
             })
@@ -82,15 +93,45 @@ const events = (state = {
                     ...state.items.slice(eventToRemove + 1)
                 ]
             })
+        }
         case types.REQUEST_EVENTS:
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false
             })
-        case types.UNREGISTER_USER:
+        case types.UNREGISTER_USER: {
+            let eventToUnregisterFrom = state.items.find(event => event.id === action.eventId)
+            if(!eventToUnregisterFrom) {
+                return state
+            }
+            let participants = eventToUnregisterFrom.participants || []
+            let participantIndex = participants.indexOf(action.userId)
+            if (participantIndex !== -1) {
+                participants = [
+                    ...participants.slice(0, participantIndex),
+                    ...participants.slice(participantIndex + 1)
+                ]
+            }
             return Object.assign({}, state, {
-                registered: state.registered.filter(id => {
-                    return id !== action.id
+                items: state.items.map(event => {
+                    return event.id === action.eventId ?
+                        {
+                            ...event,
+                            participants
+                        } :
+                        event
+                })
+            })
+        }
+        case types.UPDATE_EVENT_PARTICIPANTS:
+            return Object.assign({}, state, {
+                items: state.items.map(item => {
+                    return item.id === action.id ?
+                        {
+                            ...item,
+                            participants: action.participants
+                        } :
+                        item
                 })
             })
         default:

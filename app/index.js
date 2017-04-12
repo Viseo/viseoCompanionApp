@@ -7,16 +7,15 @@ import SignIn from "./scenes/signIn";
 import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
-import EventDetails from "./components/events/eventDetails";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
-import db from "./util/db";
 import AddEvent from './scenes/addEvent';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import viseoCompanionApp from './reducers';
 import {fetchEvents} from './actionCreators/events'
+import Event from './scenes/Event'
 
 const initialState = {
     events: {
@@ -69,7 +68,7 @@ export default class ViseoCompanion extends Component {
             {title: 'SignIn'},
             {title: 'SignUp'},
             {title: 'RecoverPassword'},
-            {title: 'EventDetails'},
+            {title: 'Event'},
             {title: 'AddEvent'},
         ];
         return (
@@ -92,15 +91,15 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'Home') {
                         return (
-                            <Home navigator={navigator} {...route.passProps} db={db} store={store}/>
+                            <Home navigator={navigator} {...route.passProps}/>
                         );
-                    } else if(route.title === 'EventDetails') {
+                    } else if(route.title === 'Event') {
                         return (
-                            <EventDetails navigator={navigator} {...route.passProps} db={db}/>
+                            <Event navigator={navigator} {...route.passProps}/>
                         );
                     } else if(route.title === 'AddEvent') {
                         return (
-                            <AddEvent navigator={navigator} {...route.passProps} db={db}/>
+                            <AddEvent navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}

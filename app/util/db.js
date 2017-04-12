@@ -2,11 +2,8 @@
  * Created by AAB3605 on 16/02/2017.
  */
 import settings from '../config/settings';
-import Event from './event';
-import User from './user';
-import * as util from './util';
 
-async function addEvent(event) {
+export async function addEvent(event) {
     try {
         let response = await fetch(settings.api.addEvent, {
             method: 'POST',
@@ -19,7 +16,7 @@ async function addEvent(event) {
                 "datetime": event.datetime,
                 "keywords": event.keywords || '',
                 "place": event.location,
-                "version":"1",
+                "version": "1",
                 "category": event.category
             })
         })
@@ -30,7 +27,7 @@ async function addEvent(event) {
     }
 }
 
-async function addEventParticipant(eventId, userId) {
+export async function addEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.addEventParticipant(eventId, userId), {
             method: 'POST',
@@ -48,7 +45,7 @@ async function addEventParticipant(eventId, userId) {
     return false;
 }
 
-async function addUser(email, password) {
+export async function addUser(email, password) {
     if (!email || !util.isEmailValid(email))
         return false;
 
@@ -78,22 +75,7 @@ async function addUser(email, password) {
     return false;
 }
 
-async function getUserByEmail(email) {
-    try {
-        let response = await fetch(settings.api.getUserByEmail(email));
-        if (response.headers.get("content-length") != 0) {
-            let user = await response.json();
-            if (user) {
-                return new User(user.id, user.firstName, user.lastName, user.email, user.password);
-            }
-        }
-    } catch (error) {
-        console.warn('db::getUserByEmail ' + error);
-    }
-    return null;
-}
-
-async function authenticate(email, password) {
+export async function authenticate(email, password) {
     try {
         let response = await fetch(settings.api.authenticate, {
             method: 'POST',
@@ -108,7 +90,13 @@ async function authenticate(email, password) {
         if (response.headers.get("content-length") != 0) {
             let user = await response.json();
             if (user) {
-                return new User(user.id, user.firstName, user.lastName, user.email);
+                return {
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    password: user.password
+                };
             }
         }
     } catch (error) {
@@ -119,7 +107,7 @@ async function authenticate(email, password) {
     return null;
 }
 
-async function getEvents() {
+export async function getEvents() {
     try {
         let response = await fetch(settings.api.getEvents);
         let eventsJson = await response.json();
@@ -142,20 +130,20 @@ async function getEvents() {
     return [];
 }
 
-async function getEventsByRegisteredUser(userId) {
+export async function getEventsByRegisteredUser(userId) {
     try {
         let response = await fetch(settings.api.getEventsByRegisteredUser(userId));
         let eventsJson = await response.json();
         let events = [];
         for (let i = 0; i < eventsJson.length; i++) {
             let event = eventsJson[i];
-            events.push(new Event(
-                event.id,
-                event.name,
-                event.description,
-                event.datetime,
-                event.place
-            ));
+            events.push({
+                id: event.id,
+                name: event.name,
+                description: event.description,
+                date: event.datetime,
+                location: event.place
+            });
         }
         return events;
     } catch (error) {
@@ -164,13 +152,19 @@ async function getEventsByRegisteredUser(userId) {
     return [];
 }
 
-async function getUserByEmail(email) {
+export async function getUserByEmail(email) {
     try {
         let response = await fetch(settings.api.getUserByEmail(email));
         if (response.headers.get("content-length") == null) {
             let user = await response.json();
             if (user) {
-                return new User(user.id, user.firstName, user.lastName, user.email, user.password);
+                return {
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    password: user.password
+                };
             }
         }
     } catch (error) {
@@ -179,13 +173,19 @@ async function getUserByEmail(email) {
     return null;
 }
 
-async function getEventParticipant(eventId, userId) {
+export async function getEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
         if (response.headers.get("content-length") != 0) {
             let user = await response.json();
             if (user) {
-                return new User(user.id, user.firstName, user.lastName, user.email, user.password);
+                return {
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    password: user.password
+                };
             }
         }
     } catch (error) {
@@ -194,32 +194,24 @@ async function getEventParticipant(eventId, userId) {
     return null;
 }
 
-async function getEventParticipants(eventId) {
+export async function getEventParticipants(eventId) {
     try {
         let response = await fetch(settings.api.getEventParticipants(eventId));
         let participantsJson = await response.json();
-
         let participants = [];
         for (let i = 0; i < participantsJson.length; i++) {
             let participant = participantsJson[i];
-            participants.push(new User(
-                participant.id,
-                participant.firstName,
-                participant.lastName,
-                participant.email,
-                participant.password
-            ));
+            participants.push(participant.id)
         }
-
         return participants;
-    } catch (error) {
+    } catch
+        (error) {
         console.warn('db::getEventParticipants ' + error);
     }
-
     return null;
 }
 
-async function getEventsWithParticipant(userId) {
+export async function getEventsWithParticipant(userId) {
     try {
         let response = await fetch(settings.api.getEventsWithParticipant(userId));
         let eventsJson = await response.json();
@@ -242,7 +234,7 @@ async function getEventsWithParticipant(userId) {
     return null;
 }
 
-async function removeEventParticipant(eventId, userId) {
+export async function removeEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.removeEventParticipant(eventId, userId), {
             method: 'DELETE',
@@ -258,18 +250,4 @@ async function removeEventParticipant(eventId, userId) {
         console.warn('db::removeEventParticipant ' + error);
     }
     return false;
-}
-
-export default db = {
-    addEvent,
-    addEventParticipant,
-    addUser,
-    authenticate,
-    getEvents,
-    getEventsByRegisteredUser,
-    getUserByEmail,
-    getEventParticipant,
-    getEventParticipants,
-    getEventsWithParticipant,
-    removeEventParticipant
 }

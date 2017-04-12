@@ -4,7 +4,7 @@
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {setWords} from '../actionCreators/searchWords'
-import SearchTextInput from './../components/events/SearchTextInput'
+import SearchTextInput from '../components/SearchTextInput'
 
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps

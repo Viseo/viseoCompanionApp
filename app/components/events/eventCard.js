@@ -8,7 +8,7 @@ import AppText from "../appText";
 import strings from "../../util/localizedStrings";
 import Highlighter from "react-native-highlight-words";
 import * as util from "../../util/util";
-import colors from "./colors";
+import colors from "../colors";
 
 export default class EventCard extends Component {
 

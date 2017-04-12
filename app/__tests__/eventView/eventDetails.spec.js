@@ -12,7 +12,7 @@ import AppText from './../../components/appText';
 import EditableAppText from './../../components/editableAppText';
 import strings from "../../util/localizedStrings";
 
-describe('EventDetails', () => {
+describe('Event', () => {
     let event =
         new Event(0,
             'the beautiful event',
@@ -95,7 +95,7 @@ describe('EventDetails', () => {
     });
 });
 
-describe('EventDetails modifiable', () => {
+describe('Event modifiable', () => {
     let event =
         new Event(0,
             'the beautiful event',
@@ -187,7 +187,7 @@ describe('EventDetails modifiable', () => {
     });
 });
 
-describe('EventDetails in modification mode', () => {
+describe('Event in modification mode', () => {
     let event =
         new Event(0,
             'the beautiful event',

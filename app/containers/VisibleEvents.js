@@ -4,7 +4,7 @@
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {fetchEvents, registerUser, unregisterUser} from '../actionCreators/events'
-import EventList from '../components/events/EventList'
+import EventList from '../components/EventList'
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
@@ -48,22 +48,24 @@ const getSearchedEvents = (events, searchWords) => {
     })
 }
 
-const addParticipationInfo = (events, registeredEvents) => {
+const addParticipationInfo = (events, userId) => {
     return events.map(event => {
-        event.participating = registeredEvents.indexOf(event.id) !== -1
+        let {participants} = event
+        let participating = !!participants && participants.indexOf(userId) !== 1
+        event.participating = participating
         return event
     })
 }
 
 const getVisibleEventList = (events,
-                             registeredEvents,
                              visibilityFilter,
                              filters,
-                             searchWords) => {
+                             searchWords,
+                             user) => {
     let filteredEvents = getFilteredEvents(events, filters)
     events = filteredEvents.length > 0 ? filteredEvents : events
     events = searchWords.length > 0 ? getSearchedEvents(events, searchWords) : events
-    events = addParticipationInfo(events, registeredEvents)
+    events = addParticipationInfo(events, user.id)
     switch (visibilityFilter) {
         case 'SHOW_ALL':
             return events
@@ -79,10 +81,10 @@ const getVisibleEventList = (events,
 const mapStateToProps = (state) => ({
     events: getVisibleEventList(
         state.events.items,
-        state.events.registered,
         state.visibilityFilter,
         state.filters,
-        state.searchWords
+        state.searchWords,
+        state.user
     ),
     refreshing: state.events.isFetching,
     searchWords: state.searchWords,

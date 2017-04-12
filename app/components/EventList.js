@@ -12,7 +12,7 @@ import {
     TextInput,
     RefreshControl
 } from 'react-native'
-import EventCard from './eventCard'
+import EventCard from './events/eventCard'
 import moment from 'moment'
 
 export default class EventList extends Component {
@@ -86,9 +86,9 @@ export default class EventList extends Component {
                 onParticipationChange={() => {this.props.toggleParticipation(event, user)}}
                 onPress={() => {
                     this.props.navigator.push({
-                        title: 'EventDetails',
+                        title: 'Event',
                         passProps: {
-                            event,
+                            id: event.id,
                             onParticipationChange: () => {this.props.toggleParticipation(event, user)}
                         }
                     });

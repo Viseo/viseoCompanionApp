@@ -4,7 +4,7 @@
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {setVisibilityFilter, removeVisibilityFilter} from '../actionCreators/visibilityFilter'
-import Toggle from './../components/events/FilterToggle'
+import Toggle from '../components/FilterToggle'
 
 const mapStateToProps = (state, ownProps) => ({
     filter: ownProps.filter
