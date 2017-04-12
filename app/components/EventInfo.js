@@ -14,9 +14,7 @@ import {
     Button,
     Modal,
 } from "react-native";
-import Header from "./header";
 import AppText from "./appText";
-import EditableAppText from "./editableAppText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
 import DatePicker from "react-native-datepicker";
@@ -29,8 +27,7 @@ import Toggle from './Toggle'
 import ItemSpacer from './ItemSpacer'
 import FlexImage from './FlexImage'
 import AppTextInput from './AppTextInput'
-
-let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
+import moment from 'moment'
 
 const eventIdToImages = {
     "40": require('./../images/formation_securite.jpg'),
@@ -44,55 +41,20 @@ const eventIdToImages = {
     "38": require('./../images/soiree_nouveaux.jpg'),
     "46": require('./../images/tdd.png'),
 }
+let defaultImage = require('./../images/0.jpg');
 
 export default class Event extends Component {
-    static defaultProps = {
-        event: {
-            name: '',
-            date: '',
-            category: '2',
-            description: '',
-            location: '',
-            keywords: ["cool", "fun", "awesome"],
-        },
-        keywords: ["cool", "fun", "awesome"],
-        userName: 'Al Inclusive',
-        numberOfParticipants: '121',
-        isModificationAllowed: true,
-        isInModificationMode: false,
-        isInCreationMode: false,
-    }
 
     constructor(props) {
         super(props);
-        let categoryName = strings.categoriesNames[this.props.event.category];
-        let categoryColor = util.getCategoryColor(this.props.event.category);
-        let defaultImage = require('./../images/0.jpg');
         let image = eventIdToImages[this.props.event.id] || defaultImage;
-        let isEventInvalid = this.props.event.name === ''
-            || this.props.event.location === ''
-            || this.props.event.date === '';
+        let {event} = this.props
         this.state = {
             editing: false,
-            categoryId: this.props.event.category,
-            categoryName: categoryName,
-            categoryColor: categoryColor,
-            going: this.props.event.participating,
-            description: this.props.event.description,
-            title: this.props.event.name,
-            location: this.props.event.location,
-            date: this.props.event.date,
             picture: image,
-            isModificationAllowed: this.props.isModificationAllowed,
-            isInModificationMode: this.props.isInModificationMode,
-            isEventInvalid: isEventInvalid,
             modalVisible: false,
-            event: {
-                name: '',
-                description: '',
-                category: 0,
-                location: '',
-                date: '',
+            editedEvent: {
+                ...event
             }
         };
     }
@@ -101,13 +63,33 @@ export default class Event extends Component {
         this.props.fetchEventParticipants(this.props.id)
     }
 
+    formatDate(date) {
+        if (!date)
+            return null;
+        let dateTime = moment(date);
+        return dateTime.calendar().split('/');
+    }
+
     getCategoryNameFromId(id) {
         return strings.categoriesNames[this.props.event.category]
     }
 
+    getCategoryColorFromId(id) {
+        switch (id) {
+            case 0:
+                return colors.red
+            case 1:
+                return colors.orange
+            case 2:
+                return colors.green
+            default:
+                return 'transparent'
+        }
+    }
+
     toggleEditEvent = (editing) => {
         if (!editing) {
-            this.props.updateEvent(this.state.event)
+            this.props.updateEvent(this.state.editedEvent)
         }
         this.setState({
             editing
@@ -127,9 +109,13 @@ export default class Event extends Component {
                             contentContainerStyle={{flex:1}}
                         >
                             {this.renderEventPicture(event.id)}
-                            {this.renderCenterContent()}
+                            {
+                                this.state.editing ?
+                                    this.renderDatePicker() :
+                                    this.renderEventDateAndParticipants()
+                            }
                             {this.renderEventDescription(this.state.description)}
-                            {this.renderEventKeywords(this.props.keywords)}
+                            {this.renderEventKeywords(event.keywords)}
                             {this.renderNotifySuccess()}
                         </ScrollView>
                     </View>
@@ -167,7 +153,7 @@ export default class Event extends Component {
     }
 
     renderMainInfo() {
-        let {event} = this.props
+        let {editedEvent} = this.state
         let {editing} = this.state
         const hostAvatar = (
             <View style={{flex:3, justifyContent:'center', alignItems:'center'}}>
@@ -182,27 +168,38 @@ export default class Event extends Component {
         const name = (
             <AppTextInput
                 style={styles.name}
-                onValidate={(text) => {this.setState({event:{...this.state.event, name:text}})}}
+                onValidate={(text) => {this.setState({event:{...editedEvent, name:text}})}}
                 editable={editing}
             >
-                {event.name || "Nom de l'évènement.."}
+                {editedEvent.name || "Nom de l'évènement.."}
             </AppTextInput>
         )
-        const category = false ?
-            (
-                <ModalDropdown
-                    dropdownStyle={styles.dropdown}
-                    textStyle={{color:this.state.categoryColor}}
-                    options={strings.categoriesNames}
-                    defaultValue={this.state.categoryName}
-                    onSelect={(selectedCategory)=> this.updateCategory(selectedCategory)}
-                />
-            ) :
-            (
-                <AppText style={[styles.category, {color: this.state.categoryColor}]}>
-                    {this.getCategoryNameFromId(event.category)}
-                </AppText>
-            )
+        const categoryDropdown = (
+            <ModalDropdown
+                textStyle={{
+                    fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
+                    fontSize: 15,
+                    backgroundColor: 'transparent',
+                    padding: 0,
+                    color: this.getCategoryColorFromId(editedEvent.category)
+                }}
+                options={strings.categoriesNames}
+                defaultValue={this.getCategoryNameFromId(editedEvent.category)}
+                onSelect={(category) => {
+                    this.setState({editedEvent: {...editedEvent, category}})
+                }}
+            />
+        )
+        const categoryText = (
+            <AppText style={[styles.category, {color: this.getCategoryColorFromId(editedEvent.category)}]}>
+                {this.getCategoryNameFromId(editedEvent.category)}
+            </AppText>
+        )
+        const category = (
+            <View style={{flex:3}}>
+                {editing ? categoryDropdown : categoryText}
+            </View>
+        )
         const username = (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>
@@ -221,12 +218,16 @@ export default class Event extends Component {
                     onValidate={(text) => {this.setState({event:{...this.state.event, location:text}})}}
                     editable={editing}
                 >
-                    {event.location || "Lieu de l'évènement.."}
+                    {editedEvent.location || "Lieu de l'évènement.."}
                 </AppTextInput>
             </View>
         )
         const categoryIndicator = (
-            <View style={[styles.categoryIndicator, {borderTopColor:this.state.categoryColor}]}/>
+            <View style={[
+                styles.categoryIndicator,
+                {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
+                ]}
+            />
         )
         const eventInfo = (
             <View style={{flex:6, flexDirection:'column'}}>
@@ -313,24 +314,20 @@ export default class Event extends Component {
         );
     }
 
-    renderCenterContent() {
-        return this.state.isInModificationMode ? this.renderDatePicker() : this.renderEventDateAndParticipants();
-    }
-
     renderDatePicker() {
-        let eventDate = new Date(this.state.date);
+        let {editedEvent} = this.state
         return (
             <View style={{alignItems:'center'}}>
                 <View style={[styles.participationInfoRectangle, {justifyContent: 'center'}]}>
                     <DatePicker
-                        date={eventDate}
+                        date={new Date(editedEvent.date)}
                         mode="datetime"
                         format="YYYY/MM/DD HH:mm"
                         confirmBtnText="OK"
                         cancelBtnText="Annuler"
-                        onDateChange={(datetime) => {
-                            this.setState({date: datetime});
-                            this.validateEvent();}}
+                        onDateChange={(date) => {
+                            this.setState({editedEvent: {...editedEvent, date}});
+                        }}
                         customStyles={{
                                         dateIcon: {
                                           position: 'absolute',
@@ -344,8 +341,6 @@ export default class Event extends Component {
                                         }
                                       }}
                     />
-                    <AppText
-                        style={{color:'red'}}>{this.state.date === undefined ? strings.requiredField : ''}</AppText>
                 </View>
             </View>
         );
@@ -353,10 +348,9 @@ export default class Event extends Component {
 
     renderEventDateAndParticipants() {
         let {going} = this.state;
-        let {event} = this.props
-        let date = {event}
+        let {editedEvent} = this.state
         let {participants} = this.props
-
+        let [day, time] = this.formatDate(editedEvent.date)
         return (
             <View style={{alignItems:'center'}}>
                 <View style={styles.participationInfoRectangle}>
@@ -370,10 +364,10 @@ export default class Event extends Component {
                     </View>
                     <View style={styles.participationInfoItem}>
                         <AppText style={styles.participationInfoContainer}>
-                            {date[1]}
+                            {day}
                         </AppText>
                         <AppText style={styles.secondaryParticipationInfoText}>
-                            {date[0]}
+                            {time}
                         </AppText>
                     </View>
                     <View style={styles.participationInfoItem}>
@@ -392,7 +386,7 @@ export default class Event extends Component {
         let placeholder = editing ?
             'Description..' :
             'Aucune description'
-        let description = this.props.event.description || placeholder
+        let description = this.state.editedEvent.description || placeholder
         return (
             editing ?
                 <AppTextInput
@@ -408,61 +402,10 @@ export default class Event extends Component {
         );
     }
 
-    renderEventKeywords(keywords) {
-        let keywordText = this.formatKeywords(keywords);
+    renderEventKeywords() {
         return (
-            <AppText style={styles.keywords}>{keywordText}</AppText>
+            <AppText style={styles.keywords}>{this.state.editedEvent.keywords || 'Aucun mot clé'}</AppText>
         );
-    }
-
-    /*process functions*/
-
-    Save = async() => {
-        if (this.props.isInCreationMode) {
-            let [date, time] = this.state.date.split(' ');
-            let formattedDate = this.getDateTime(date, time);
-            await this.props.db.addEvent({
-                category: this.state.categoryId,
-                name: this.state.title,
-                datetime: formattedDate,
-                location: this.state.location,
-                description: this.state.description,
-                keyWords: this.props.keyWords,
-            });
-            this.setState({modalVisible: true});
-        }
-        else {
-            // Update
-        }
-    }
-
-    getDateTime(date, time) {
-        let unixTime = (time.split(":")[0] * 3600 + time.split(":")[1] * 60) * 1000;
-        return (new Date(date).valueOf() + unixTime)
-    }
-
-    validateEvent() {
-        let isEventInvalid = this.state.title === '' || this.state.location === '' || this.state.date === '';
-        this.setState({isEventInvalid});
-    }
-
-    updateCategory(selectedCategory) {
-        this.setState({categoryId: selectedCategory});
-        this.setState({categoryName: strings.categoriesNames[selectedCategory]});
-        this.setState({categoryColor: util.getCategoryColor(selectedCategory)});
-    }
-
-    updateImage(selected) {
-        let imageSource = {uri: selected};
-        this.setState({picture: imageSource});
-    }
-
-    formatKeywords(keywords) {
-        let text = '';
-        for (let i = 0; i < keywords.length; i++) {
-            text += "#" + keywords[i];
-        }
-        return text;
     }
 
     onParticipationChange = () => {
@@ -470,17 +413,23 @@ export default class Event extends Component {
         this.state.going ?
             this.props.unregisterUser(event.id, user.id) :
             this.props.registerUser(event.id, user.id);
-        // setTimeout(() => {this.props.fetchEventParticipants(this.props.id)},500)
         this.setState({going: !this.state.going});
     }
 }
 
-const styles = StyleSheet.create({
-    dropdown: {
-        flexDirection: 'row',
-        flex: 1,
+Event.defaultProps = {
+    event: {
+        name: '',
+        date: '',
+        category: 0,
+        description: '',
+        location: '',
     },
+    userName: 'Al Inclusive',
+}
 
+let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
+const styles = StyleSheet.create({
     topbar: {
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -566,7 +515,7 @@ const styles = StyleSheet.create({
     },
     category: {
         textAlign: 'left',
-        flex: 3,
+        flex: 1,
         justifyContent: 'flex-start',
         paddingTop: 5
     },

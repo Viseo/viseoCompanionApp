@@ -14,7 +14,7 @@ const event = (state, action) => {
                 category: action.category,
                 keywords: action.keywords,
                 location: action.location,
-                datetime: action.datetime,
+                date: action.date,
             }
         default:
             return state
@@ -65,7 +65,7 @@ const events = (state = {
             })
         case types.REGISTER_USER: {
             let eventToRegisterFor = state.items.find(event => event.id === action.eventId)
-            if(!eventToRegisterFor) {
+            if (!eventToRegisterFor) {
                 return state
             }
             let participants = eventToRegisterFor.participants || []
@@ -101,10 +101,12 @@ const events = (state = {
             })
         case types.UNREGISTER_USER: {
             let eventToUnregisterFrom = state.items.find(event => event.id === action.eventId)
-            if(!eventToUnregisterFrom) {
+            if (!eventToUnregisterFrom) {
                 return state
             }
-            let participants = eventToUnregisterFrom.participants || []
+            let participants = eventToUnregisterFrom.hasOwnProperty('participants') ?
+                eventToUnregisterFrom.participants :
+                []
             let participantIndex = participants.indexOf(action.userId)
             if (participantIndex !== -1) {
                 participants = [

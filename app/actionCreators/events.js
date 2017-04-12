@@ -79,7 +79,7 @@ function getEventsFromJson(json) {
             id: event.id,
             name: event.name,
             description: event.description,
-            datetime: event.datetime,
+            date: event.datetime,
             location: event.place,
             category: event.category
         })
@@ -158,7 +158,7 @@ export const unregisterUser = (eventId, userId) => {
 export const updateEvent = (event) => {
     return async(dispatch) => {
         try {
-            console.warn('ready to update event ' + event.name + event.location)
+            console.warn('I need the backend to update ' + event.name + event.location)
         } catch (error) {
             console.warn('ActionCreators/events::updateEvent ' + error)
         }

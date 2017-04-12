@@ -45,10 +45,10 @@ export default class EventList extends Component {
     }
 
     formatDate(date) {
-        if (date)
+        if (!date)
             return null;
         let dateTime = moment(date);
-        return dateTime.calendar();
+        return dateTime.calendar().split('/');
     }
 
     render() {
@@ -71,8 +71,7 @@ export default class EventList extends Component {
     }
 
     renderEventCard = (event) => {
-        let fullDate = this.formatDate();
-        let [day, time] = fullDate.split(' ');
+        let [day, time] = this.formatDate(event.date);
         let {user} = this.props;
         return (
             <EventCard
