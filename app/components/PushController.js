@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import {Platform} from 'react-native';
+import {Platform, AppState} from 'react-native';
 
 import FCM, {
     FCMEvent,
@@ -15,12 +15,18 @@ import moment from 'moment';
 export default class PushController extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            appState: AppState.currentState
+        }
     }
 
     componentDidMount() {
         FCM.requestPermissions();
         FCM.getFCMToken();
         this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
+            console.log('APPSTATE: ', AppState.currentState);
+
+            FCM.setBadgeNumber(1);
             if (notif.local_notification) {
                 return;
             }
@@ -40,7 +46,9 @@ export default class PushController extends Component {
                         break;
                 }
             }
-            this.showLocalNotification(notif);
+            if (!AppState.currentState.match(/inactive|background/)) {
+                this.showLocalNotification(notif);
+            }
         });
         FCM.subscribeToTopic("/topics/newEvent");
     }
@@ -73,10 +81,10 @@ export default class PushController extends Component {
 PushController.scheduleEventSnoozes = (event) => {
     FCM.scheduleLocalNotification(
         {
-            fire_date: moment().year(moment(event.date).year()).month(moment(event.date).month()).date(moment(event.date).day()).hour(8).valueOf(),
+            fire_date: moment(event.date).hour(8).minute(0).toDate().getTime(),
             id: event.id + "day",
             title: "Rappel : " + event.name,
-            body: event.name,
+            body: "Aujourd'hui à " + moment(event.date).format("h[h]mm"),
             icon: "ic_notif",
             large_icon: "ic_launcher",
             "show_in_foreground": true,
@@ -85,10 +93,10 @@ PushController.scheduleEventSnoozes = (event) => {
     );
     FCM.scheduleLocalNotification(
         {
-            fire_date: moment(event.date).subtract(15, 'minute'),
+            fire_date: moment(event.date).subtract(15, 'minute').toDate().getTime(),
             id: event.id + "min",
-            title: "Rappel : " + event.name,
-            body: event.name,
+            title: "Dans 15min : " + event.name,
+            body: "Lieu : " + event.location,
             icon: "ic_notif",
             large_icon: "ic_launcher",
             "show_in_foreground": true,
@@ -100,4 +108,4 @@ PushController.scheduleEventSnoozes = (event) => {
 PushController.unscheduleEventSnoozes = (event) => {
     FCM.cancelLocalNotification(event.id + "day");
     FCM.cancelLocalNotification(event.id + "min");
-}
+};
