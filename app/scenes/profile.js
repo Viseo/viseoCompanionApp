@@ -13,7 +13,6 @@ import {
     Platform,
     TouchableOpacity
 } from 'react-native';
-import Header from "../components/header";
 import PasswordInput from "../components/passwordInput";
 import EditableImage from "../components/editableImage";
 import AppText from "../components/appText";
@@ -68,60 +67,80 @@ export default class Profile extends Component {
     render() {
         return (
             <View style={{flex:1}}>
-                <Header
-                    isModificationAllowed={this.props.isModificationAllowed}
-                    edit={()=> {this.setState({isInModificationMode: true})}}
-                    save={this.save}
-                    delete={this.delete}
-                    cannotSave={this.state.cannotSave}/>
+                {this.renderHeader()}
                 <View style={styles.container}>
-                    <View style={{flex:1}}>
-                        <View style={{flex:7,flexDirection:'column', alignItems: 'center'}}>
-                            <ScrollView style={{flex:1}}>
-                                {this.renderUserPicture()}
-                                <View style={{padding:10}}>
-                                    <EditableAppText
-                                        fieldName={strings.firstname}
-                                        style={styles.field}
-                                        isInModificationMode={this.state.isInModificationMode}
-                                        content={this.state.firstname}
-                                        mandatory={true}
-                                        onValidate={(value) => {
-                                            this.setState({firstname: value});
-                                            this.validate();
-                                    }}/>
-                                </View>
-                                <View style={{padding:10}}>
-                                    <EditableAppText
-                                        fieldName={strings.lastname}
-                                        style={styles.field}
-                                        isInModificationMode={this.state.isInModificationMode}
-                                        content={this.state.lastname}
-                                        mandatory={true}
-                                        onValidate={(value) => {
-                                            this.setState({lastname: value});
-                                            this.validate();
-                                    }}/>
-                                </View>
-                                <View style={{padding:10}}>
-                                    <AppText style={[styles.field, {color:colors.lightGray}]}>{this.state.email}</AppText>
-                                </View>
-                                <View style={{padding:10, flexDirection: 'row', justifyContent:'space-between', alignItems: 'flex-start'}}>
-                                    {this.renderBirthdate()}
-                                </View>
-                                <View style={{padding:10, flexDirection: 'row', justifyContent:'space-between', alignItems: 'center'}}>
-                                    <AppText>{strings.password + ' : '}</AppText>
-                                    <AppText>{this.state.passwordPlaceholder}</AppText>
-                                    <TouchableOpacity onPress={() => this.setState({passwordPlaceholder:this.state.password})}>
-                                        <Image source={require('./../images/eye.png')}/>
-                                    </TouchableOpacity>
-                                </View>
-                                {this.renderPasswordModificationInputs()}
-                            </ScrollView>
-                        </View>
+                    <View style={{flex:1,flexDirection:'column', alignItems: 'stretch', padding:20}}>
+                        <ScrollView style={{flex:1}}>
+                            {this.renderUserPicture()}
+                            <View style={{padding:10}}>
+                                <EditableAppText
+                                    fieldName={strings.firstname}
+                                    style={styles.field}
+                                    isInModificationMode={this.state.isInModificationMode}
+                                    content={this.state.firstname}
+                                    mandatory={true}
+                                    onValidate={(value) => {
+                                        this.setState({firstname: value});
+                                        this.validate();
+                                }}/>
+                            </View>
+                            <View style={{padding:10}}>
+                                <EditableAppText
+                                    fieldName={strings.lastname}
+                                    style={styles.field}
+                                    isInModificationMode={this.state.isInModificationMode}
+                                    content={this.state.lastname}
+                                    mandatory={true}
+                                    onValidate={(value) => {
+                                        this.setState({lastname: value});
+                                        this.validate();
+                                }}/>
+                            </View>
+                            <View style={{padding:10}}>
+                                <AppText style={[styles.field, {color:colors.lightGray}]}>{this.state.email}</AppText>
+                            </View>
+                            <View style={{padding:10, flexDirection: 'row', justifyContent:'center', alignItems: 'center'}}>
+                                {this.renderBirthdate()}
+                            </View>
+                            <View style={{padding:10, flexDirection: 'row', justifyContent:'center', alignItems: 'center'}}>
+                                {this.renderCurrentPassword()}
+                            </View>
+                            {this.renderPasswordModificationInputs()}
+                        </ScrollView>
                     </View>
                 </View>
             </View>
+        );
+    }
+
+    renderHeader(){
+        return(
+            <View style={styles.topbar}>
+                <View style={{flex:3, flexDirection: 'row', justifyContent: 'flex-start'}}>
+                    <AppText style={styles.topBarText}>{strings.profileEditionLabel}</AppText>
+                </View>
+                <View style={{flex:2, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        {this.state.isInModificationMode ? this.renderSaveButton() : this.renderEditButton()}
+                        <Button title={strings.delete} style={{flex:1, marginLeft:5}} onPress={() => {this.delete()}}/>
+                    </View>
+
+                </View>
+            </View>
+        );
+    }
+
+    renderSaveButton(){
+        return(
+            <Button disabled={this.state.cannotSave} title={strings.save} style={{flex:1, marginLeft:5}}
+                    onPress={() => {this.save();}}/>
+        );
+    }
+
+    renderEditButton(){
+        return(
+            <Button title={strings.edit} style={{flex:1, margin:1}}
+                    onPress={() => this.setState({isInModificationMode: true})}/>
         );
     }
 
@@ -150,7 +169,7 @@ export default class Profile extends Component {
         if(this.state.isInModificationMode){
             let birthdate = new Date(this.state.birthdate);
             return(
-                <View style={{alignItems:'center'}}>
+                <View style={{flexDirection: 'row'}}>
                     <DatePicker
                         date={birthdate}
                         placeholder={strings.birthdate}
@@ -187,18 +206,37 @@ export default class Profile extends Component {
         }
     }
 
+    renderCurrentPassword(){
+        if(this.state.isModificationAllowed){
+            return(
+                <View style={{flexDirection: 'row'}}>
+                    <AppText>{strings.password + ' : '}</AppText>
+                    <AppText>{this.state.passwordPlaceholder}</AppText>
+                    <TouchableOpacity onPress={() => this.setState({passwordPlaceholder:this.state.password})}>
+                        <Image source={require('./../images/eye.png')}/>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+        else{
+            return;
+        }
+    }
+
     renderPasswordModificationInputs(){
         if(this.state.isInModificationMode){
             return(
               <View style={{flexDirection: 'column'}}>
                   <PasswordInput ref="password"
                      underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
+                     style={styles.field}
                      returnKeyType="next"
                      onChangeText={this.onChangePasswordText}
                      onSubmitEditing={() => {
                         this.refs.passwordCheck.focus();}}/>
                   <PasswordInput ref="passwordCheck"
                      placeholder={strings.verifyPassword}
+                     style={styles.field}
                      underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
                      returnKeyType="done"
                      onChangeText={this.onChangePasswordCheckText}
@@ -301,6 +339,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
         justifyContent:'center',
+        color: colors.mediumGray,
     },
 
     error: {
