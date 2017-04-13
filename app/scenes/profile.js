@@ -18,7 +18,7 @@ import EditableImage from "../components/editableImage";
 import AppText from "../components/appText";
 import EditableAppText from "../components/editableAppText";
 import strings from '../util/localizedStrings';
-import colors from "../components/events/colors";
+import colors from "../components/colors";
 import DatePicker from "react-native-datepicker";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');

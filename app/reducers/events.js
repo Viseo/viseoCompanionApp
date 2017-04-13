@@ -15,6 +15,7 @@ const event = (state, action) => {
                 keywords: action.keywords,
                 location: action.location,
                 date: action.date,
+                participants: [],
             }
         default:
             return state

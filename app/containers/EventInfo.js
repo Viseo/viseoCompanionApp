@@ -15,9 +15,15 @@ const getEventWithId = (events, id) => {
     return events.find(event => event.id === id)
 }
 
+const getEventParticipantsFromId = (events, id) => {
+    let event = events.find(event => event.id === id)
+    let participants = event.participants
+    return participants
+}
+
 const mapStateToProps = (state, ownProps) => ({
     event: getEventWithId(state.events.items, ownProps.id),
-    participants: getEventWithId(state.events.items, ownProps.id).participants,
+    participants: getEventParticipantsFromId(state.events.items, ownProps.id),
     user: state.user,
     ...ownProps
 })

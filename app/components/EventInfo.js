@@ -130,7 +130,7 @@ export default class Event extends Component {
         return (
             <View style={{flex:1, flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
                 <BackButton navigator={this.props.navigator}/>
-                <AppText style={{flex:5, color:'white', fontSize:16}}>
+                <AppText style={{flex:5, color:'white', fontSize:20}}>
                     {this.state.editing ? "Modification" : "Evènement"}
                 </AppText>
                 <View style={{flex:3, flexDirection:'row'}}>
@@ -347,16 +347,15 @@ export default class Event extends Component {
     }
 
     renderEventDateAndParticipants() {
-        let {going} = this.state;
         let {editedEvent} = this.state
-        let {participants} = this.props
+        let {user, participants} = this.props
         let [day, time] = this.formatDate(editedEvent.date)
         return (
             <View style={{alignItems:'center'}}>
                 <View style={styles.participationInfoRectangle}>
                     <View style={styles.participationInfoItem}>
                         <AppText style={styles.participationInfoContainer}>
-                            {participants ? participants.length : ''}
+                            {participants.length}
                         </AppText>
                         <AppText style={styles.secondaryParticipationInfoText}>
                             {strings.participantsLabel}
@@ -372,7 +371,7 @@ export default class Event extends Component {
                     </View>
                     <View style={styles.participationInfoItem}>
                         <CheckBox
-                            isChecked={going}
+                            isChecked={participants.indexOf(user.id) !== -1}
                             onClick={this.onParticipationChange}/>
                         <AppText>{strings.participationLabel}</AppText>
                     </View>
@@ -410,10 +409,10 @@ export default class Event extends Component {
 
     onParticipationChange = () => {
         let {user, event} = this.props
-        this.state.going ?
+        let going = event.participants.indexOf(user.id) !== -1
+        going ?
             this.props.unregisterUser(event.id, user.id) :
             this.props.registerUser(event.id, user.id);
-        this.setState({going: !this.state.going});
     }
 }
 

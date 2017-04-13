@@ -23,7 +23,6 @@ const initialState = {
         isFetching: false,
         didInvalidate: false,
         items: [],
-        registered: [],
     },
     filters: [],
     searchWords: [],

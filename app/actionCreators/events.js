@@ -29,14 +29,11 @@ export const addEvent = (event) => ({
 export const fetchEventParticipants = (id) => {
     return async(dispatch) => {
         let participants = await getEventParticipants(id)
-        if(participants) {
-            participants.map(participant => participant.id)
-            dispatch({
-                type: types.UPDATE_EVENT_PARTICIPANTS,
-                id,
-                participants
-            })
-        }
+        dispatch({
+            type: types.UPDATE_EVENT_PARTICIPANTS,
+            id,
+            participants
+        })
     }
 }
 
