@@ -21,6 +21,7 @@ import EditableAppText from "../components/editableAppText";
 import strings from '../util/localizedStrings';
 import colors from "../components/colors";
 import DatePicker from "react-native-datepicker";
+import * as util from '../util/util';
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 
@@ -53,11 +54,15 @@ export default class Profile extends Component {
             password: this.props.password,
             birthdate: this.props.birthdate,
             cannotSave: false,
-            passwordError: false,
             newPassword: '',
-            newPasswordBis: '',
+            isNewPasswordValid: true,
+            passwordCheck: '',
+            isPasswordCheckValid: true,
             passwordPlaceholder: this.props.passwordPlaceholder
         };
+        this.onChangePasswordText = this.onChangePasswordText.bind(this);
+        this.onChangePasswordCheckText = this.onChangePasswordCheckText.bind(this);
+        this.validate = this.validate.bind(this);
     }
 
     render() {
@@ -104,9 +109,14 @@ export default class Profile extends Component {
                                 <View style={{padding:10, flexDirection: 'row', justifyContent:'space-between', alignItems: 'flex-start'}}>
                                     {this.renderBirthdate()}
                                 </View>
+                                <View style={{padding:10, flexDirection: 'row', justifyContent:'space-between', alignItems: 'center'}}>
+                                    <AppText>{strings.password + ' : '}</AppText>
+                                    <AppText>{this.state.passwordPlaceholder}</AppText>
+                                    <TouchableOpacity onPress={() => this.setState({passwordPlaceholder:this.state.password})}>
+                                        <Image source={require('./../images/eye.png')}/>
+                                    </TouchableOpacity>
+                                </View>
                                 {this.renderPasswordModificationInputs()}
-
-                                {/*{this.renderNotifySuccess()}*/}
                             </ScrollView>
                         </View>
                     </View>
@@ -181,35 +191,18 @@ export default class Profile extends Component {
         if(this.state.isInModificationMode){
             return(
               <View style={{flexDirection: 'column'}}>
-                  <View style={{flexDirection:'row', justifyContent: 'space-between', alignItems:'center'}}>
-                      <AppText>{strings.password + ' : '}</AppText>
-                      <AppText>{this.state.passwordPlaceholder}</AppText>
-                      <TouchableOpacity onPress={() => this.setState({passwordPlaceholder:this.state.password})}>
-                          <Image source={require('./../images/eye.png')}/>
-                      </TouchableOpacity>
-                  </View>
-                  {/*<PasswordInput*/}
-                      {/*ref="newPassword"*/}
-                      {/*style={[this.state.passwordError && styles.error]}*/}
-                      {/*placeholder={strings.password}*/}
-                      {/*onChangeText={(newPassword) => this.setState({newPassword})}*/}
-                      {/*onSubmitEditing={(password) => {*/}
-                      {/*this.verifyPassword(password);*/}
-                      {/*this.refs.newPasswordBis.focus();*/}
-                    {/*}*/}
-                  {/*}*/}
-                  {/*/>*/}
-                  {/*<PasswordInput*/}
-                      {/*ref="newPasswordBis"*/}
-                      {/*style={[this.state.passwordError && styles.error]}*/}
-                      {/*placeholder={strings.verifyPassword}*/}
-                      {/*onChangeText={(newPasswordBis) => this.setState({newPasswordBis})}*/}
-                      {/*onSubmitEditing={(password) => {*/}
-                      {/*this.verifyPasswordBis(password);*/}
-                    {/*}*/}
-                  {/*}*/}
-                  {/*/>*/}
-                  <AppText style={styles.error}>{this.state.passwordError? "erreur": ''}</AppText>
+                  <PasswordInput ref="password"
+                     underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
+                     returnKeyType="next"
+                     onChangeText={this.onChangePasswordText}
+                     onSubmitEditing={() => {
+                        this.refs.passwordCheck.focus();}}/>
+                  <PasswordInput ref="passwordCheck"
+                     placeholder={strings.verifyPassword}
+                     underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
+                     returnKeyType="done"
+                     onChangeText={this.onChangePasswordCheckText}
+                     onSubmitEditing={this.validate}/>
               </View>
             );
         }
@@ -218,35 +211,16 @@ export default class Profile extends Component {
         }
     }
 
-    verifyPassword(value){
-        let passwordError = (this.state.newPasswordBis !== '' && this.state.newPasswordBis !== value)
-        this.setState({passwordError});
-        this.validate();
-    }
-
-    verifyPasswordBis(value){
-        let passwordError = (this.state.newPassword !== '' && this.state.newPassword !== value)
-        this.setState({passwordError});
-        this.validate();
-    }
-
     validate(){
-        let cannotSave = passwordError || this.state.firstname === '' || this.state.lastname === '';
+        let cannotSave = !this.state.isNewPasswordValid || !this.state.isPasswordCheckValid
+            || this.state.firstname === '' || this.state.lastname === '';
         this.setState({cannotSave});
     }
 
     save = async() => {
         if(this.props.isInCreationMode){
             let [date, time] = this.state.date.split(' ');
-            let formattedDate = this.getDateTime(date, time);
-            await this.props.db.addEvent({
-                category: this.state.categoryId,
-                name: this.state.title,
-                datetime: formattedDate,
-                location: this.state.location,
-                description: this.state.description,
-                keyWords: this.props.keyWords,
-            });
+            //AddUser
             this.setState({notificationMessage: strings.created});
             this.setState({modalVisible: true});
         }
@@ -267,9 +241,25 @@ export default class Profile extends Component {
         let imageSource = { uri: selected };
         this.setState({picture:imageSource});
     }
+
+    onChangePasswordText(text) {
+        this.setState({
+            newPassword: text,
+            isNewPasswordValid: util.isPasswordValid(text) || !text.length,
+        });
+    }
+
+    onChangePasswordCheckText(text) {
+        let isPasswordCheckValid = this.state.newPassword === text || !text.length;
+        this.setState({
+            passwordCheck: text,
+            isPasswordCheckValid: isPasswordCheckValid,
+        });
+    }
 }
 
 const styles = StyleSheet.create({
+
     topbar: {
         justifyContent: 'space-between',
         alignItems: 'center',
