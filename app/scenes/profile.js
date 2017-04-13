@@ -35,6 +35,7 @@ export default class Profile extends Component {
         email: 'al.inclusive@mail.com',
         password: 'topsecret',
         birthdate: '1988/04/05',
+        passwordPlaceholder: '******'
     }
 
     constructor(props) {
@@ -54,7 +55,8 @@ export default class Profile extends Component {
             cannotSave: false,
             passwordError: false,
             newPassword: '',
-            newPasswordBis: ''
+            newPasswordBis: '',
+            passwordPlaceholder: this.props.passwordPlaceholder
         };
     }
 
@@ -179,31 +181,34 @@ export default class Profile extends Component {
         if(this.state.isInModificationMode){
             return(
               <View style={{flexDirection: 'column'}}>
-                  <View style={{flexDirection:'row'}}>
+                  <View style={{flexDirection:'row', justifyContent: 'space-between', alignItems:'center'}}>
                       <AppText>{strings.password + ' : '}</AppText>
-                      <AppText>{this.state.password}</AppText>
+                      <AppText>{this.state.passwordPlaceholder}</AppText>
+                      <TouchableOpacity onPress={() => this.setState({passwordPlaceholder:this.state.password})}>
+                          <Image source={require('./../images/eye.png')}/>
+                      </TouchableOpacity>
                   </View>
-                  <PasswordInput
-                      ref="newPassword"
-                      style={[this.state.passwordError && styles.error]}
-                      placeholder={strings.password}
-                      onChangeText={(newPassword) => this.setState({newPassword})}
-                      onSubmitEditing={(password) => {
-                      this.verifyPassword(password);
-                      this.refs.newPasswordBis.focus();
-                    }
-                  }
-                  />
-                  <PasswordInput
-                      ref="newPasswordBis"
-                      style={[this.state.passwordError && styles.error]}
-                      placeholder={strings.verifyPassword}
-                      onChangeText={(newPasswordBis) => this.setState({newPasswordBis})}
-                      onSubmitEditing={(password) => {
-                      this.verifyPasswordBis(password);
-                    }
-                  }
-                  />
+                  {/*<PasswordInput*/}
+                      {/*ref="newPassword"*/}
+                      {/*style={[this.state.passwordError && styles.error]}*/}
+                      {/*placeholder={strings.password}*/}
+                      {/*onChangeText={(newPassword) => this.setState({newPassword})}*/}
+                      {/*onSubmitEditing={(password) => {*/}
+                      {/*this.verifyPassword(password);*/}
+                      {/*this.refs.newPasswordBis.focus();*/}
+                    {/*}*/}
+                  {/*}*/}
+                  {/*/>*/}
+                  {/*<PasswordInput*/}
+                      {/*ref="newPasswordBis"*/}
+                      {/*style={[this.state.passwordError && styles.error]}*/}
+                      {/*placeholder={strings.verifyPassword}*/}
+                      {/*onChangeText={(newPasswordBis) => this.setState({newPasswordBis})}*/}
+                      {/*onSubmitEditing={(password) => {*/}
+                      {/*this.verifyPasswordBis(password);*/}
+                    {/*}*/}
+                  {/*}*/}
+                  {/*/>*/}
                   <AppText style={styles.error}>{this.state.passwordError? "erreur": ''}</AppText>
               </View>
             );
@@ -216,11 +221,13 @@ export default class Profile extends Component {
     verifyPassword(value){
         let passwordError = (this.state.newPasswordBis !== '' && this.state.newPasswordBis !== value)
         this.setState({passwordError});
+        this.validate();
     }
 
     verifyPasswordBis(value){
         let passwordError = (this.state.newPassword !== '' && this.state.newPassword !== value)
         this.setState({passwordError});
+        this.validate();
     }
 
     validate(){
