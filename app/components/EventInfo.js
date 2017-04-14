@@ -55,7 +55,8 @@ export default class Event extends Component {
             picture: image,
             modalVisible: false,
             editedEvent: {
-                ...event
+                ...event,
+                id: event.id || Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
             }
         };
     }
@@ -92,6 +93,10 @@ export default class Event extends Component {
     toggleEditEvent = (editing) => {
         if (!editing) {
             if (this.state.newEvent) {
+                this.setState({
+                    newEvent: false,
+                    editing: false
+                })
                 this.props.addEvent(this.state.editedEvent)
             } else
                 this.props.updateEvent(this.state.editedEvent)
@@ -160,6 +165,7 @@ export default class Event extends Component {
                     {!canEdit && (
                         <View style={{flex:1, flexDirection:'row'}}>
                             <Toggle
+                                isOn={newEvent}
                                 style={{flex:5}}
                                 onToggle={this.toggleEditEvent}
                             >
@@ -243,14 +249,21 @@ export default class Event extends Component {
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/location.png')}/>
                 <ItemSpacer/>
-                <AppTextInput
-                    style={{flex:5, textAlign:'left', textAlignVertical:'center'}}
-                    onValidate={(text) => {this.setState({editedEvent:{...this.state.editedEvent, location:text}})}}
-                    editable={editing}
-                    placeholder={editedEvent.location ? '' : "Lieu de l'évènement.."}
-                >
-                    {editedEvent.location || 'Lieu non renseigné'}
-                </AppTextInput>
+                {
+                    editing ?
+                        <AppTextInput
+                            style={{flex:5, textAlign:'left', textAlignVertical:'center'}}
+                            onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, location:text}})}}
+                            editable={editing}
+                            placeholder={editedEvent.location ? '' : "Lieu de l'évènement.."}
+                        >
+                            {editedEvent.location}
+                        </AppTextInput> :
+                        <AppText style={{flex:5, textAlign:'left', textAlignVertical:'center'}}>
+                            {editedEvent.location || "Lieu non renseigné.."}
+                        </AppText>
+                }
+
             </View>
         )
         const categoryIndicator = (
@@ -421,7 +434,7 @@ export default class Event extends Component {
             editing ?
                 <AppTextInput
                     style={styles.description}
-                    onValidate={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
+                    onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
                     multiline={true}
                     placeholder={placeholder}
                 >
@@ -455,6 +468,7 @@ Event.defaultProps = {
         category: 0,
         description: '',
         location: '',
+        keywords:'',
     },
     userName: 'Wafa Salandre',
 }

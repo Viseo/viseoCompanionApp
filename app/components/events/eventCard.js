@@ -4,7 +4,6 @@
 import React, {Component} from "react";
 import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState, Dimensions, Platform, Image} from "react-native";
 import Swipeout from "react-native-swipe-out";
-import AppText from "../appText";
 import strings from "../../util/localizedStrings";
 import Highlighter from "react-native-highlight-words";
 import * as util from "../../util/util";
@@ -125,7 +124,7 @@ export default class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.nameText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.name}
+                    textToHighlight={this.props.name || ''}
                 />
             </View>
         );
@@ -139,7 +138,7 @@ export default class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.descriptionText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.description}
+                    textToHighlight={this.props.description || ''}
                 />
             </View>
         );
@@ -153,7 +152,7 @@ export default class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.dateText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.day}
+                    textToHighlight={this.props.day || ''}
                 />
             </View>
         );
@@ -171,7 +170,7 @@ export default class EventCard extends Component {
                         styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={this.props.location}
+                        textToHighlight={this.props.location || ''}
                     />
                 </View>
                 <View style={{flex:1}}>
@@ -183,7 +182,7 @@ export default class EventCard extends Component {
                         styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={this.props.time}
+                        textToHighlight={this.props.time || ''}
                     />
                 </View>
             </View>
