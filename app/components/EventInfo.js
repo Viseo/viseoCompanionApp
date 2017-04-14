@@ -93,10 +93,7 @@ export default class Event extends Component {
     toggleEditEvent = (editing) => {
         if (!editing) {
             if (this.state.newEvent) {
-                this.setState({
-                    newEvent: false,
-                    editing: false
-                })
+                this.setState({newEvent: false})
                 this.props.addEvent(this.state.editedEvent)
             } else
                 this.props.updateEvent(this.state.editedEvent)
