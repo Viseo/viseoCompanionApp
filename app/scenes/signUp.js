@@ -20,8 +20,8 @@ import {
     TouchableHighlight,
     Modal
 } from "react-native";
-import * as util from '../util/util';
-import db from '../util/db';
+import {isEmailValid, isPasswordValid, hasEmptyElement} from '../util/util';
+import {getUserByEmail, addUser} from '../util/db';
 import formStyle from './../styles/form';
 import strings from '../util/localizedStrings';
 import AppText from '../components/appText';
@@ -66,7 +66,7 @@ export default class SignUp extends React.Component {
     onChangeEmailText(text) {
         this.setState({
             email: text,
-            isEmailValid: util.isEmailValid(text) || !text.length,
+            isEmailValid: isEmailValid(text) || !text.length,
             isFormCompletelyFilled: true
         });
     }
@@ -74,7 +74,7 @@ export default class SignUp extends React.Component {
     onChangePasswordText(text) {
         this.setState({
             password: text,
-            isPasswordValid: util.isPasswordValid(text) || !text.length,
+            isPasswordValid: isPasswordValid(text) || !text.length,
             isFormCompletelyFilled: true
         });
     }
@@ -96,22 +96,22 @@ export default class SignUp extends React.Component {
     async onPressSignUp() {
         this.setState({errorMessage: ''});
 
-        if (util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)) {
+        if (hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)) {
             this.setState({isFormCompletelyFilled: false});
-        } else if (!util.isEmailValid(this.state.email)) {
+        } else if (!isEmailValid(this.state.email)) {
             this.setState({isEmailValid: false});
-        } else if (!util.isPasswordValid(this.state.password)) {
+        } else if (!isPasswordValid(this.state.password)) {
             this.setState({isPasswordValid: false});
         } else if (this.state.password !== this.state.passwordCheck) {
             this.setState({isPasswordCheckValid: false});
         } else {
             try {
-                let userAlreadyExists = await db.getUserByEmail(this.state.email);
+                let userAlreadyExists = await getUserByEmail(this.state.email);
                 if (userAlreadyExists) {
                     this.setState({errorMessage: strings.emailAlreadyUsed});
                 } else {
                     let email = this.state.email.toLowerCase();
-                    let userAddedSuccessfully = await db.addUser(email, this.state.password);
+                    let userAddedSuccessfully = await addUser(email, this.state.password);
                     if (userAddedSuccessfully) {
                         this.setState({modalVisible: true});
                     } else {
@@ -169,9 +169,9 @@ export default class SignUp extends React.Component {
                                        returnKeyType="done"
                                        onChangeText={this.onChangePasswordCheckText}
                                        onSubmitEditing={() => {
-                                        if (!util.hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)
-                                            && util.isEmailValid(this.state.email)
-                                            && util.isPasswordValid(this.state.password)
+                                        if (!hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)
+                                            && isEmailValid(this.state.email)
+                                            && isPasswordValid(this.state.password)
                                             && this.state.password == this.state.passwordCheck) {
                                             this.autoSubmitFormWhenLastInputIsFilled();}}}/>
 

@@ -59,18 +59,20 @@ export default class EditableImage extends Component {
                 onPress={this.selectPhotoTapped}
             >
                 {
-                    this.state.selectedPicture === null ?
+                    this.state.selectedPicture ?
+                        <FlexImage
+                            resizeMode='stretch'
+                            source={this.state.selectedPicture}
+                            className="image"
+                            style={this.props.style}
+                        />
+                        :
                         <Text
                             className="placeholder"
                             style={styles.placeholder}
                         >
                             {strings.selectPicture}
-                        </Text> :
-                        <FlexImage
-                            resizeMode='stretch'
-                            source={this.state.selectedPicture}
-                            className="image"
-                        />
+                        </Text>
                 }
             </TouchableOpacity>
         );

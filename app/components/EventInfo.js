@@ -461,20 +461,6 @@ Event.defaultProps = {
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 const styles = StyleSheet.create({
-    topbar: {
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'row',
-        height: (1 / 16) * deviceHeight,
-        backgroundColor: colors.blue,
-        marginTop: (Platform.OS === 'ios') ? 20 : 0,
-    },
-
-    topBarText: {
-        paddingHorizontal: 10,
-        fontSize: 20,
-        color: 'white',
-    },
 
     container: {
         justifyContent: 'center',
@@ -482,12 +468,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         flex: 15
-    },
-
-    illustration: {
-        flex: 1,
-        flexWrap: 'wrap',
-        justifyContent: 'center',
     },
 
     description: {

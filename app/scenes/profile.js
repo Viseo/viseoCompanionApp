@@ -21,6 +21,9 @@ import strings from '../util/localizedStrings';
 import colors from "../components/colors";
 import DatePicker from "react-native-datepicker";
 import * as util from '../util/util';
+import FlexImage from './../components/FlexImage'
+import ItemSpacer from './../components/ItemSpacer'
+
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 
@@ -42,7 +45,7 @@ export default class Profile extends Component {
         super(props);
         let defaultImage = require('./../images/userAvatar.jpg');
         this.state = {
-            isModificationAllowed : this.props.isModificationAllowed,
+            isModificationAllowed: this.props.isModificationAllowed,
             isInModificationMode: this.props.isInModificationMode,
             modalVisible: false,
             notificationMessage: '',
@@ -68,54 +71,54 @@ export default class Profile extends Component {
         return (
             <View style={{flex:1}}>
                 {this.renderHeader()}
-                <View style={styles.container}>
-                    <View style={{flex:1,flexDirection:'column', alignItems: 'stretch', padding:20}}>
-                        <ScrollView style={{flex:1}}>
-                            {this.renderUserPicture()}
-                            <View style={{padding:10}}>
-                                <EditableAppText
-                                    fieldName={strings.firstname}
-                                    style={styles.field}
-                                    isInModificationMode={this.state.isInModificationMode}
-                                    content={this.state.firstname}
-                                    mandatory={true}
-                                    onValidate={(value) => {
+                <View style={{flex:15, flexDirection: 'column'}}>
+                    <ScrollView style={{flex:15}}
+                                contentContainerStyle={{flex:1, flexDirection:'column', justifyContent:'flex-start', alignItems: 'center'}}
+                    >
+                        <ItemSpacer/>
+                        {this.renderUserPicture()}
+                        <ItemSpacer/>
+                        <EditableAppText
+                            fieldName={strings.firstname}
+                            style={styles.field}
+                            isInModificationMode={this.state.isInModificationMode}
+                            content={this.state.firstname}
+                            mandatory={true}
+                            onValidate={(value) => {
                                         this.setState({firstname: value});
                                         this.validate();
-                                }}/>
-                            </View>
-                            <View style={{padding:10}}>
-                                <EditableAppText
-                                    fieldName={strings.lastname}
-                                    style={styles.field}
-                                    isInModificationMode={this.state.isInModificationMode}
-                                    content={this.state.lastname}
-                                    mandatory={true}
-                                    onValidate={(value) => {
+                                }}
+                        />
+                        <ItemSpacer/>
+                        <EditableAppText
+                            fieldName={strings.lastname}
+                            style={styles.field}
+                            isInModificationMode={this.state.isInModificationMode}
+                            content={this.state.lastname}
+                            mandatory={true}
+                            onValidate={(value) => {
                                         this.setState({lastname: value});
                                         this.validate();
-                                }}/>
-                            </View>
-                            <View style={{padding:10}}>
-                                <AppText style={[styles.field, {color:colors.lightGray}]}>{this.state.email}</AppText>
-                            </View>
-                            <View style={{padding:10, flexDirection: 'row', justifyContent:'center', alignItems: 'center'}}>
-                                {this.renderBirthdate()}
-                            </View>
-                            <View style={{padding:10, flexDirection: 'row', justifyContent:'center', alignItems: 'center'}}>
-                                {this.renderCurrentPassword()}
-                            </View>
-                            {this.renderPasswordModificationInputs()}
-                        </ScrollView>
-                    </View>
+                                }}
+                        />
+                        <ItemSpacer/>
+                        <AppText style={[styles.field, {color:colors.lightGray, flex:1}]}>{this.state.email}</AppText>
+                        <ItemSpacer/>
+                        {this.renderBirthdate()}
+                        <ItemSpacer/>
+                        {this.renderCurrentPassword()}
+                        <ItemSpacer/>
+                        {this.renderPasswordModificationInputs()}
+                        <ItemSpacer style={{flex:5}}/>
+                    </ScrollView>
                 </View>
             </View>
         );
     }
 
-    renderHeader(){
-        return(
-            <View style={styles.topbar}>
+    renderHeader() {
+        return (
+            <View style={{flex:1, flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
                 <View style={{flex:3, flexDirection: 'row', justifyContent: 'flex-start'}}>
                     <AppText style={styles.topBarText}>{strings.profileEditionLabel}</AppText>
                 </View>
@@ -130,45 +133,49 @@ export default class Profile extends Component {
         );
     }
 
-    renderSaveButton(){
-        return(
+    renderSaveButton() {
+        return (
             <Button disabled={this.state.cannotSave} title={strings.save} style={{flex:1, marginLeft:5}}
                     onPress={() => {this.save();}}/>
         );
     }
 
-    renderEditButton(){
-        return(
+    renderEditButton() {
+        return (
             <Button title={strings.edit} style={{flex:1, margin:1}}
                     onPress={() => this.setState({isInModificationMode: true})}/>
         );
     }
 
     renderUserPicture() {
-        if(this.state.isInModificationMode){
-            return(
-                <View style={styles.organizatorPicture}>
-                    <EditableImage
-                        defaultPicture={this.state.picture}
-                        onSelected={(selected) => {this.updateImage(selected)}}/>
-                </View>
+        const picture = this.state.isInModificationMode ?
+            (
+                <EditableImage
+                    defaultPicture={this.state.picture}
+                    onSelected={(selected) => {this.updateImage(selected)}}
+                    style={styles.organizatorPictureCircle}
+                />
+            ) :
+            (
+                <FlexImage
+                    source={this.state.picture}
+                    style={styles.organizatorPictureCircle}
+                    resizeMode="stretch"
+                />
             );
-        }
-        else{
-            return (
-                <View style={styles.organizatorPicture}>
-                    <TouchableOpacity>
-                        <Image source={require('./../images/userAvatar.jpg')} style={styles.organizatorPictureCircle}/>
-                    </TouchableOpacity>
-                </View>
-            );
-        }
+        return (
+            <View style={{flex:0, flexDirection: 'row', justifyContent: 'center', height:100}}>
+                <ItemSpacer/>
+                {picture}
+                <ItemSpacer/>
+            </View>
+        );
     }
 
-    renderBirthdate(){
-        if(this.state.isInModificationMode){
+    renderBirthdate() {
+        if (this.state.isInModificationMode) {
             let birthdate = new Date(this.state.birthdate);
-            return(
+            return (
                 <View style={{flexDirection: 'row'}}>
                     <DatePicker
                         date={birthdate}
@@ -193,7 +200,8 @@ export default class Profile extends Component {
                                 }
                               }}
                     />
-                    <AppText style={{color:'red'}}>{this.state.birthdate === undefined ? strings.field + ' ' + strings.mandatory: ''}</AppText>
+                    <AppText
+                        style={{color:'red'}}>{this.state.birthdate === undefined ? strings.field + ' ' + strings.mandatory : ''}</AppText>
                 </View>);
         }
         else {
@@ -206,10 +214,10 @@ export default class Profile extends Component {
         }
     }
 
-    renderCurrentPassword(){
-        if(this.state.isModificationAllowed){
-            return(
-                <View style={{flexDirection: 'row'}}>
+    renderCurrentPassword() {
+        if (this.state.isModificationAllowed) {
+            return (
+                <View style={{flex:1, flexDirection: 'row'}}>
                     <AppText>{strings.password + ' : '}</AppText>
                     <AppText>{this.state.passwordPlaceholder}</AppText>
                     <TouchableOpacity onPress={() => this.setState({passwordPlaceholder:this.state.password})}>
@@ -218,51 +226,51 @@ export default class Profile extends Component {
                 </View>
             );
         }
-        else{
+        else {
             return;
         }
     }
 
-    renderPasswordModificationInputs(){
-        if(this.state.isInModificationMode){
-            return(
-              <View style={{flexDirection: 'column'}}>
-                  <PasswordInput ref="password"
-                     underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
-                     style={styles.field}
-                     returnKeyType="next"
-                     onChangeText={this.onChangePasswordText}
-                     onSubmitEditing={() => {
+    renderPasswordModificationInputs() {
+        if (this.state.isInModificationMode) {
+            return (
+                <View style={{ flex:1}}>
+                    <PasswordInput ref="password"
+                                   underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
+                                   style={styles.field}
+                                   returnKeyType="next"
+                                   onChangeText={this.onChangePasswordText}
+                                   onSubmitEditing={() => {
                         this.refs.passwordCheck.focus();}}/>
-                  <PasswordInput ref="passwordCheck"
-                     placeholder={strings.verifyPassword}
-                     style={styles.field}
-                     underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
-                     returnKeyType="done"
-                     onChangeText={this.onChangePasswordCheckText}
-                     onSubmitEditing={this.validate}/>
-              </View>
+                    <PasswordInput ref="passwordCheck"
+                                   placeholder={strings.verifyPassword}
+                                   style={styles.field}
+                                   underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
+                                   returnKeyType="done"
+                                   onChangeText={this.onChangePasswordCheckText}
+                                   onSubmitEditing={this.validate}/>
+                </View>
             );
         }
-        else{
+        else {
             return;
         }
     }
 
-    validate(){
+    validate() {
         let cannotSave = !this.state.isNewPasswordValid || !this.state.isPasswordCheckValid
             || this.state.firstname === '' || this.state.lastname === '';
         this.setState({cannotSave});
     }
 
     save = async() => {
-        if(this.props.isInCreationMode){
+        if (this.props.isInCreationMode) {
             let [date, time] = this.state.date.split(' ');
             //AddUser
             this.setState({notificationMessage: strings.created});
             this.setState({modalVisible: true});
         }
-        else{
+        else {
             // Update
             this.setState({notificationMessage: strings.modified});
             this.setState({modalVisible: true});
@@ -275,9 +283,9 @@ export default class Profile extends Component {
         this.setState({modalVisible: true});
     }
 
-    updateImage(selected){
-        let imageSource = { uri: selected };
-        this.setState({picture:imageSource});
+    updateImage(selected) {
+        let imageSource = {uri: selected};
+        this.setState({picture: imageSource});
     }
 
     onChangePasswordText(text) {
@@ -304,45 +312,46 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: (1 / 16) * deviceHeight,
         backgroundColor: colors.blue,
-        marginTop:(Platform.OS === 'ios') ? 20 : 0,
+        marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
 
     topBarText: {
-        paddingHorizontal:10,
+        paddingHorizontal: 10,
         fontSize: 20,
         color: 'white',
     },
 
     container: {
-        justifyContent: 'center',
-        alignItems: 'stretch',
+        flex: 15,
         flexDirection: 'column',
-        backgroundColor: 'white',
-        flex: 1
+        justifyContent: 'flex-start',
+        // alignItems: 'stretch',
+        backgroundColor: 'white'
     },
 
-    organizatorPicture:{
-        flex:1,
-        flexDirection:'column',
-        justifyContent:'center',
-        padding:20,
-        alignItems:'center',
+    organizatorPicture: {
+        flex: 1,
+        // flexDirection: 'column',
+        justifyContent: 'center',
+        // padding: 20,
+        // alignItems: 'center',
     },
 
     organizatorPictureCircle: {
-        height: 150,
-        width: 150,
+        height: 100,
+        width: 100,
         borderRadius: 75,
     },
 
     field: {
+        flex:1,
+        justifyContent: 'center',
         fontSize: 16,
-        textAlign: 'center',
-        justifyContent:'center',
         color: colors.mediumGray,
+        textAlign: 'center',
     },
 
     error: {
-        color:'red'
+        color: 'red'
     },
 });

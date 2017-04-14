@@ -22,7 +22,7 @@ import {
 } from "react-native";
 import CheckBox from "react-native-check-box";
 import styles from "./../styles/form";
-import db from "../util/db";
+import {authenticate} from "../util/db";
 import * as util from "../util/util.js";
 import strings from "../util/localizedStrings";
 import AppText from '../components/appText';
@@ -62,7 +62,7 @@ export default class SignIn extends Component {
     authenticateUser = async () => {
         try {
             this.setState({email: this.state.email.toLowerCase()});
-            let user = await db.authenticate(this.state.email, this.state.password);
+            let user = await authenticate(this.state.email, this.state.password);
             const unabledToReachServerCode = -1;
             if (user == unabledToReachServerCode) {
                 this.setState({errorMessage: strings.unableToReachServer});

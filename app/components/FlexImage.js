@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react'
 import {
+    View,
     Image,
     StyleSheet
 } from 'react-native'
@@ -15,26 +16,28 @@ export default class FlexImage extends Component {
 
     render() {
         return (
-            <Image
-                source={this.props.source}
-                resizeMode={this.props.resizeMode || 'contain'}
-                style={[
+            <View style={{flex:1}}>
+                <Image
+                    source={this.props.source}
+                    resizeMode={this.props.resizeMode || 'contain'}
+                    style={[
                     styles.fitImage,
                     this.props.style
                 ]}
-            >
-                {this.props.children}
-            </Image>
+                >
+                    {this.props.children}
+                </Image>
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    fitImage:{
+    fitImage: {
         flex: 1,
         width: null,
         height: null,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })

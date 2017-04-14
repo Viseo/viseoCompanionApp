@@ -46,12 +46,6 @@ export async function addEventParticipant(eventId, userId) {
 }
 
 export async function addUser(email, password) {
-    if (!email || !util.isEmailValid(email))
-        return false;
-
-    if (!password || !util.isPasswordValid(password))
-        return false;
-
     try {
         let response = await fetch(settings.api.addUser, {
             method: 'POST',
