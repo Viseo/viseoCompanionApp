@@ -28,6 +28,8 @@ import ItemSpacer from './../components/ItemSpacer'
 import colors from '../components/colors'
 import {dispatch} from 'redux'
 import PushController from '../components/PushController';
+import ActionButton from "react-native-action-button";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default class Home extends Component {
 
@@ -40,6 +42,36 @@ export default class Home extends Component {
     }
 
     render() {
+        const createNewEventButton = (
+            <ActionButton.Item
+                buttonColor="#9b59b6"
+                title="Nouvel évènement"
+                onPress={() => {
+                    this.props.navigator.push({
+                        title: 'AddEvent',
+                        passProps: {
+                            event: {
+                                name: '',
+                                date: '',
+                                category: 0,
+                                description: '',
+                                location: '',
+                                keywords:'',
+                            }
+                        }
+                    });
+                }}
+            >
+                <Icon
+                    name="md-create"
+                    style={{
+                                fontSize: 24,
+                                height: 22,
+                                color: 'white',
+                            }}
+                />
+            </ActionButton.Item>
+        )
         return (
             <View style={styles.mainContainer}>
                 <PushController/>
@@ -52,6 +84,9 @@ export default class Home extends Component {
                     </View>
                 </View>
                 <VisibleEventList style={{flex:15}} navigator={this.props.navigator}/>
+                <ActionButton buttonColor={colors.blue}>
+                    {createNewEventButton}
+                </ActionButton>
             </View>
         );
     }
@@ -63,15 +98,15 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blue,
         padding: 8,
         paddingBottom: 0,
-        paddingTop:0,
+        paddingTop: 0,
     },
     body: {
-        flex:0,
-        flexDirection:'column',
-        paddingBottom:10
+        flex: 0,
+        flexDirection: 'column',
+        paddingBottom: 10
     },
     searchBar: {
-        flex:0,
-        flexDirection:'row'
+        flex: 0,
+        flexDirection: 'row'
     }
 });

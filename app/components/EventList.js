@@ -48,7 +48,7 @@ export default class EventList extends Component {
 
     formatDate(date) {
         if (!date)
-            return null;
+            return [];
         let dateTime = moment(date);
         return dateTime.calendar().split('/');
     }

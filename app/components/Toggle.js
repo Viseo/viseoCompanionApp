@@ -9,7 +9,7 @@ export default class Toggle extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isOn: false
+            isOn: false || this.props.isOn,
         }
     }
 
