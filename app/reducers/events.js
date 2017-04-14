@@ -126,6 +126,14 @@ const events = (state = {
                 })
             })
         }
+        case types.UPDATE_EVENT:
+            return Object.assign({},state, {
+                items: state.items.map(item => {
+                    return item.id === action.event.id ?
+                        action.event:
+                        item
+                })
+            })
         case types.UPDATE_EVENT_PARTICIPANTS:
             return Object.assign({}, state, {
                 items: state.items.map(item => {

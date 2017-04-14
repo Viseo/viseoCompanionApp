@@ -19,6 +19,7 @@ export const types = {
     REMOVE_EVENT: 'REMOVE_EVENT',
     REQUEST_EVENTS: 'REQUEST_EVENTS',
     UNREGISTER_USER: 'UNREGISTER_USER',
+    UPDATE_EVENT: 'UPDATE_EVENT',
     UPDATE_EVENT_PARTICIPANTS: 'UPDATE_EVENT_PARTICIPANTS',
 }
 
@@ -160,8 +161,12 @@ export const unregisterUser = (eventId, userId) => {
 
 export const updateEvent = (event) => {
     return async(dispatch) => {
+        dispatch({
+            type: types.UPDATE_EVENT,
+            event
+        })
         try {
-            console.warn('I need the backend to update ' + event.name + event.location)
+            // console.warn('I need the backend to update ' + event.name + event.location)
         } catch (error) {
             console.warn('ActionCreators/events::updateEvent ' + error)
         }

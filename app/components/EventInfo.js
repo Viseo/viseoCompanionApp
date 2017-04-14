@@ -55,7 +55,8 @@ export default class Event extends Component {
             picture: image,
             modalVisible: false,
             editedEvent: {
-                ...event
+                ...event,
+                id: event.id || Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
             }
         };
     }
@@ -92,6 +93,10 @@ export default class Event extends Component {
     toggleEditEvent = (editing) => {
         if (!editing) {
             if (this.state.newEvent) {
+                this.setState({
+                    newEvent: false,
+                    editing: false
+                })
                 this.props.addEvent(this.state.editedEvent)
             } else
                 this.props.updateEvent(this.state.editedEvent)
@@ -160,7 +165,7 @@ export default class Event extends Component {
                     {!canEdit && (
                         <View style={{flex:1, flexDirection:'row'}}>
                             <Toggle
-                                isOn={true}
+                                isOn={newEvent}
                                 style={{flex:5}}
                                 onToggle={this.toggleEditEvent}
                             >
