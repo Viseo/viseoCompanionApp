@@ -7,7 +7,8 @@ import {
     fetchEventParticipants,
     registerUser,
     unregisterUser,
-    updateEvent
+    updateEvent,
+    addEvent
 } from './../actionCreators/events'
 import Event from '../components/EventInfo'
 
@@ -17,8 +18,17 @@ const getEventWithId = (events, id) => {
 
 const getEventParticipantsFromId = (events, id) => {
     let event = events.find(event => event.id === id)
-    let participants = event.participants
-    return participants
+    if (!event)
+        event = {
+            name: '',
+            description: '',
+            date: '',
+            location: '',
+            keywords: ''
+        }
+    return event.hasOwnProperty('participants') ?
+        event.participants :
+        []
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -34,6 +44,7 @@ const mapDispatchToProps = (dispatch) => {
             registerUser,
             unregisterUser,
             updateEvent,
+            addEvent
         },
         dispatch)
 }

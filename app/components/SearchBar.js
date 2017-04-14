@@ -11,6 +11,7 @@ import FilterToggle from '../containers/FilterToggle'
 import SearchInput from '../containers/SearchInput'
 import VisibilityToggle from '../containers/VisibilityToggle'
 import Toggle from './Toggle'
+import colors from './colors'
 
 class SearchBar extends Component {
 
@@ -58,22 +59,22 @@ class SearchBar extends Component {
             <View style={styles.filterContainer}>
                 <VisibilityToggle
                     filter={'SHOW_GOING'}
-                    selectedColor="blue"
+                    selectedColor={colors.blue}
                     text={"J'y vais"}
                 />
                 <FilterToggle
                     filter={{category:0}}
-                    selectedColor="red"
+                    selectedColor={colors.red}
                     text={"important"}
                 />
                 <FilterToggle
                     filter={{category:1}}
-                    selectedColor="orange"
+                    selectedColor={colors.orange}
                     text={"informatif"}
                 />
                 <FilterToggle
                     filter={{category:2}}
-                    selectedColor="green"
+                    selectedColor={colors.green}
                     text={"divers"}
                 />
             </View>
@@ -112,6 +113,8 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         borderRadius: 4,
+        borderWidth:1.75,
+        borderColor:'white'
     },
     searchBarInput: {
         flex: 0,
@@ -128,8 +131,6 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 0,
         justifyContent: 'center',
-        borderTopWidth: 0.5,
-        borderColor: 'lightgray',
     },
     fitImage: {
         flex: 1,

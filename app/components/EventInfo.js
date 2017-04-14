@@ -50,7 +50,8 @@ export default class Event extends Component {
         let image = eventIdToImages[this.props.event.id] || defaultImage;
         let {event} = this.props
         this.state = {
-            editing: false,
+            newEvent: !this.props.id,
+            editing: !this.props.id,
             picture: image,
             modalVisible: false,
             editedEvent: {
@@ -60,12 +61,13 @@ export default class Event extends Component {
     }
 
     componentWillMount() {
-        this.props.fetchEventParticipants(this.props.id)
+        if (this.props.id)
+            this.props.fetchEventParticipants(this.props.id)
     }
 
     formatDate(date) {
         if (!date)
-            return null;
+            return [];
         let dateTime = moment(date);
         return dateTime.calendar().split('/');
     }
@@ -89,7 +91,10 @@ export default class Event extends Component {
 
     toggleEditEvent = (editing) => {
         if (!editing) {
-            this.props.updateEvent(this.state.editedEvent)
+            if (this.state.newEvent) {
+                this.props.addEvent(this.state.editedEvent)
+            } else
+                this.props.updateEvent(this.state.editedEvent)
         }
         this.setState({
             editing
@@ -103,7 +108,8 @@ export default class Event extends Component {
                 {this.renderHeader()}
                 <View style={styles.container}>
                     {this.renderMainInfo()}
-                    <View style={{flex:8,flexDirection:'column'}}>
+                    <ItemSpacer/>
+                    <View style={{flex:30,flexDirection:'column'}}>
                         <ScrollView
                             style={{flex:1}}
                             contentContainerStyle={{flex:1}}
@@ -125,13 +131,30 @@ export default class Event extends Component {
     }
 
     renderHeader() {
-        let {editing} = this.state
+        let {editing, newEvent} = this.state
         let {canEdit} = this.props
+        const backButton = (
+            <BackButton navigator={this.props.navigator}/>
+        )
+        const cancelButton = (
+            <BackButton
+                navigator={this.props.navigator}
+                source={require("./../images/crossWhite.png")}
+                style={{padding:8}}
+                onPress={() => this.setState({editing: false})}
+            />
+        )
         return (
             <View style={{flex:1, flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
-                <BackButton navigator={this.props.navigator}/>
+                {editing ?
+                    newEvent ? backButton : cancelButton :
+                    backButton
+                }
                 <AppText style={{flex:5, color:'white', fontSize:20}}>
-                    {this.state.editing ? "Modification" : "Evènement"}
+                    {editing ?
+                        newEvent ? "Nouvel évènement" : "Modification" :
+                        "Evènement"
+                    }
                 </AppText>
                 <View style={{flex:3, flexDirection:'row'}}>
                     {!canEdit && (
@@ -166,13 +189,19 @@ export default class Event extends Component {
             </View>
         )
         const name = (
+            editing ?
             <AppTextInput
                 style={styles.name}
-                onValidate={(text) => {this.setState({event:{...editedEvent, name:text}})}}
-                editable={editing}
+                onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
+                placeholder = {editedEvent.name ? '' : "Nom de l'évènement.."}
             >
-                {editedEvent.name || "Nom de l'évènement.."}
-            </AppTextInput>
+                {editedEvent.name}
+            </AppTextInput> :
+            <AppText
+                style={styles.name}
+            >
+                {editedEvent.name || 'Pas de nom'}
+            </AppText>
         )
         const categoryDropdown = (
             <ModalDropdown
@@ -183,6 +212,7 @@ export default class Event extends Component {
                     padding: 0,
                     color: this.getCategoryColorFromId(editedEvent.category)
                 }}
+                style={{flex:1}}
                 options={strings.categoriesNames}
                 defaultValue={this.getCategoryNameFromId(editedEvent.category)}
                 onSelect={(category) => {
@@ -215,10 +245,11 @@ export default class Event extends Component {
                 <ItemSpacer/>
                 <AppTextInput
                     style={{flex:5, textAlign:'left', textAlignVertical:'center'}}
-                    onValidate={(text) => {this.setState({event:{...this.state.event, location:text}})}}
+                    onValidate={(text) => {this.setState({editedEvent:{...this.state.editedEvent, location:text}})}}
                     editable={editing}
+                    placeholder={editedEvent.location ? '' : "Lieu de l'évènement.."}
                 >
-                    {editedEvent.location || "Lieu de l'évènement.."}
+                    {editedEvent.location || 'Lieu non renseigné'}
                 </AppTextInput>
             </View>
         )
@@ -240,7 +271,7 @@ export default class Event extends Component {
             </View>
         )
         return (
-            <View style={{flex:3, flexDirection:'row'}}>
+            <View style={{flex:8, flexDirection:'row'}}>
                 {hostAvatar}
                 {eventInfo}
                 {categoryIndicator}
@@ -265,7 +296,7 @@ export default class Event extends Component {
                 />
             )
         return (
-            <View style={{flex:1,marginBottom:-20}}>
+            <View style={{flex:2,marginBottom:-20}}>
                 {picture}
             </View>
         )
@@ -315,12 +346,12 @@ export default class Event extends Component {
     }
 
     renderDatePicker() {
-        let {editedEvent} = this.state
+        let {editedEvent, newEvent} = this.state
         return (
             <View style={{alignItems:'center'}}>
                 <View style={[styles.participationInfoRectangle, {justifyContent: 'center'}]}>
                     <DatePicker
-                        date={new Date(editedEvent.date)}
+                        date={newEvent ? moment().toDate() : moment(editedEvent.date).toDate()}
                         mode="datetime"
                         format="YYYY/MM/DD HH:mm"
                         confirmBtnText="OK"
@@ -385,18 +416,19 @@ export default class Event extends Component {
         let placeholder = editing ?
             'Description..' :
             'Aucune description'
-        let description = this.state.editedEvent.description || placeholder
+        placeholder = this.state.editedEvent.description ? '' : placeholder;
         return (
             editing ?
                 <AppTextInput
                     style={styles.description}
-                    onValidate={(text) => {this.setState({event:{...this.state.event, description:text}})}}
+                    onValidate={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
                     multiline={true}
+                    placeholder={placeholder}
                 >
-                    {description}
+                    {this.state.editedEvent.description}
                 </AppTextInput> :
                 <AppText style={styles.description}>
-                    {description}
+                    {this.state.editedEvent.description}
                 </AppText>
         );
     }
@@ -424,7 +456,7 @@ Event.defaultProps = {
         description: '',
         location: '',
     },
-    userName: 'Al Inclusive',
+    userName: 'Wafa Salandre',
 }
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');

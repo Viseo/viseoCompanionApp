@@ -100,7 +100,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'AddEvent') {
                         return (
-                            <AddEvent navigator={navigator} {...route.passProps}/>
+                            <Event navigator={navigator} {...route.passProps}/>
                         );
                     } else if(route.title === 'Profile') {
                         return (

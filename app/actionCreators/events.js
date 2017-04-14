@@ -2,7 +2,10 @@
  * Created by AAB3605 on 03/04/2017.
  */
 import settings from './../config/settings'
-import {getEventParticipants} from './../util/db'
+import {
+    getEventParticipants,
+    addEvent as pushEvent,
+} from './../util/db'
 
 export const types = {
     ADD_EVENT: 'ADD_EVENT',
@@ -19,12 +22,15 @@ export const types = {
     UPDATE_EVENT_PARTICIPANTS: 'UPDATE_EVENT_PARTICIPANTS',
 }
 
-let eventCounter = 5;
-export const addEvent = (event) => ({
-    type: types.ADD_EVENT,
-    id: eventCounter++,
-    ...event
-})
+export const addEvent = (event) => {
+    return async(dispatch) => {
+        dispatch({
+            type: types.ADD_EVENT,
+            ...event
+        })
+        await pushEvent(event)
+    }
+}
 
 export const fetchEventParticipants = (id) => {
     return async(dispatch) => {

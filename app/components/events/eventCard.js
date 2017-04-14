@@ -37,7 +37,9 @@ export default class EventCard extends Component {
                 </Text>
             </View>,
             onPress: () => {
-                setTimeout(() => { this.props.onParticipationChange() }, 300);
+                setTimeout(() => {
+                    this.props.onParticipationChange()
+                }, 300);
             },
             backgroundColor: this.props.participating ? '#ff6d6d' : colors.blue,
             color: 'white'
@@ -144,7 +146,6 @@ export default class EventCard extends Component {
     }
 
     renderDate() {
-        let formattedDate = this.props.day + ' ' + this.props.time;
         return (
             <View style={styles.date}>
                 <Highlighter
@@ -152,7 +153,7 @@ export default class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.dateText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={formattedDate}
+                    textToHighlight={this.props.day}
                 />
             </View>
         );
@@ -161,9 +162,30 @@ export default class EventCard extends Component {
     renderLocation() {
         return (
             <View style={styles.location}>
-                <AppText className="info location" style={styles.locationText}>
-                    {this.props.location}
-                </AppText>
+                <View style={{flex:3}}>
+                    <Highlighter
+                        numberOfLines={1}
+                        highlightStyle={styles.highlightStyle}
+                        style={[
+                        styles.locationText,
+                        styleFont.textFont,
+                        ]}
+                        searchWords={this.props.searchWords}
+                        textToHighlight={this.props.location}
+                    />
+                </View>
+                <View style={{flex:1}}>
+                    <Highlighter
+                        numberOfLines={1}
+                        highlightStyle={styles.highlightStyle}
+                        style={[
+                        styles.dateText,
+                        styleFont.textFont,
+                        ]}
+                        searchWords={this.props.searchWords}
+                        textToHighlight={this.props.time}
+                    />
+                </View>
             </View>
 
         );
@@ -240,7 +262,8 @@ const styles = StyleSheet.create({
     },
     location: {
         flex: 1,
-        justifyContent: 'space-around',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
     },
     locationText: {
         textAlign: 'left',

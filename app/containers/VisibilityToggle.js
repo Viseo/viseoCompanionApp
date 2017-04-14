@@ -7,7 +7,7 @@ import {setVisibilityFilter, removeVisibilityFilter} from '../actionCreators/vis
 import Toggle from '../components/FilterToggle'
 
 const mapStateToProps = (state, ownProps) => ({
-    filter: ownProps.filter
+    ...ownProps
 })
 
 const mapDispatchToProps = (dispatch) => {

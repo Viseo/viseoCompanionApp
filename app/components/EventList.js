@@ -13,7 +13,9 @@ import {
     RefreshControl
 } from 'react-native'
 import EventCard from './events/eventCard'
+import AppText from './appText'
 import moment from 'moment'
+import colors from './colors'
 
 export default class EventList extends Component {
 
@@ -52,20 +54,42 @@ export default class EventList extends Component {
     }
 
     render() {
-        return (
-            <View style={[{flex:1, flexDirection:'column'}, this.props.style]}>
-                <ListView
-                    refreshControl={
+        const eventList = (
+            <ListView
+                refreshControl={
                         <RefreshControl
                             refreshing={this.props.refreshing}
                             onRefresh={() => {this.props.refresh(this.props.user)}}
                         />
                     }
-                    scrollEventThrottle={200}
-                    enableEmptySections={true}
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderEventCard}
-                />
+                scrollEventThrottle={200}
+                enableEmptySections={true}
+                dataSource={this.state.dataSource}
+                renderRow={this.renderEventCard}
+            />
+        )
+        const nothingToShow = (
+            <AppText
+                style={{
+                    textAlign: 'center',
+                    color: colors.mediumGray,
+                    backgroundColor: 'white',
+                    height: 50,
+                    borderRadius: 4,
+                    textAlignVertical: 'center',
+                    fontSize:18,
+                }}
+            >
+                Aucun évènement.
+            </AppText>
+        )
+        return (
+            <View style={[{flex:1, flexDirection:'column'}, this.props.style]}>
+                {
+                    this.state.dataSource.getRowCount() > 0 || this.props.refreshing ?
+                        eventList :
+                        nothingToShow
+                }
             </View>
         )
     }

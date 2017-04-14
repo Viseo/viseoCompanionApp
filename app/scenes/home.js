@@ -47,11 +47,11 @@ export default class Home extends Component {
                 <View style={styles.body}>
                     <View style={styles.searchBar}>
                         <ItemSpacer/>
-                        <SearchBar style={{flex:20}}/>
+                        <SearchBar style={{flex:22}}/>
                         <ItemSpacer/>
                     </View>
                 </View>
-                <VisibleEventList style={{flex:5}} navigator={this.props.navigator}/>
+                <VisibleEventList style={{flex:15}} navigator={this.props.navigator}/>
             </View>
         );
     }
@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.blue,
         padding: 8,
-        paddingBottom: 0
+        paddingBottom: 0,
+        paddingTop:0,
     },
     body: {
         flex:0,

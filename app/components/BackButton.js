@@ -22,14 +22,19 @@ export default class BackButton extends Component {
                     styles.button,
                     this.props.style
                 ]}
-                onPress={() => {
-                    if (this.props.navigator && this.props.navigator.getCurrentRoutes().length > 1) {
-                        this.props.navigator.pop();
-                    }
-                }}
+                onPress={
+                    this.props.onPress ||
+                    (
+                        () => {
+                            if (this.props.navigator && this.props.navigator.getCurrentRoutes().length > 1) {
+                                this.props.navigator.pop();
+                            }
+                        }
+                    )
+                }
             >
                 <Image
-                    source={require('./../images/back.png')}
+                    source={this.props.source || require('./../images/back.png')}
                     resizeMode="contain"
                     style={styles.fitImage}
                 />
