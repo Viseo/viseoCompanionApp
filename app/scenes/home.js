@@ -49,27 +49,23 @@ export default class Home extends Component {
                 onPress={() => {
                     this.props.navigator.push({
                         title: 'AddEvent',
-                        passProps: {
-                            event: {
-                                name: '',
-                                date: '',
-                                category: 0,
-                                description: '',
-                                location: '',
-                                keywords:'',
-                            }
-                        }
                     });
                 }}
             >
-                <Icon
-                    name="md-create"
-                    style={{
-                                fontSize: 24,
-                                height: 22,
-                                color: 'white',
-                            }}
-                />
+                <Icon name="md-create" style={styles.icon}/>
+            </ActionButton.Item>
+        )
+        const editProfileButton = (
+            <ActionButton.Item
+                buttonColor="#9b59b6"
+                title="Editer mon profil"
+                onPress={() => {
+                    this.props.navigator.push({
+                        title: 'Profile',
+                    });
+                }}
+            >
+                <Icon name="md-create" style={styles.icon}/>
             </ActionButton.Item>
         )
         return (
@@ -85,6 +81,7 @@ export default class Home extends Component {
                 </View>
                 <VisibleEventList style={{flex:15}} navigator={this.props.navigator}/>
                 <ActionButton buttonColor={colors.blue}>
+                    {editProfileButton}
                     {createNewEventButton}
                 </ActionButton>
             </View>
@@ -108,5 +105,10 @@ const styles = StyleSheet.create({
     searchBar: {
         flex: 0,
         flexDirection: 'row'
+    },
+    icon: {
+        fontSize: 24,
+        height: 22,
+        color: 'white',
     }
 });

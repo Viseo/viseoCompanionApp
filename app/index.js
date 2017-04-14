@@ -104,7 +104,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'Profile') {
                         return (
-                            <Profile navigator={navigator} {...route.passProps} db={db}/>
+                            <Profile navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}
