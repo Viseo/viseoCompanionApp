@@ -36,7 +36,7 @@ class EditableAppText extends Component {
             <View style={{flexDirection:'row', flex: 1}}>
                     <TextInput
                         fieldName={this.props.fieldName}
-                        style={[this.props.style, {flex:10, paddingTop:0, paddingBottom: 3}]}
+                        style={[this.props.style, {flex:1, textAlign: 'center',}]}
                         underlineColorAndroid={this.state.isValid ? 'lightgray' : 'red'}
                         defaultValue={this.props.content}
                         placeholder={(this.props.mandatory)
@@ -61,7 +61,7 @@ class EditableAppText extends Component {
     renderEditableTextValue(){
         return(
             <View style={{flexDirection: 'row', flex: 1}}>
-                <AppText style={[this.props.style, {flex:10}]}>{this.props.content}</AppText>
+                <AppText style={[this.props.style]}>{this.props.content}</AppText>
             </View>
         );
     }
