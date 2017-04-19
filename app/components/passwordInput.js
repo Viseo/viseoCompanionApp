@@ -41,9 +41,9 @@ class PasswordInput extends Component {
 
     render() {
         return (
-            <View>
+            <View style={{flexDirection:'row', flex: 1}}>
                 <TextInput
-                    style={this.props.style}
+                    style={[this.props.style, {flex:1, textAlign: 'center'}]}
                     onChangeText={this.editPassword}
                     placeholder= {this.props.placeholder}
                     ref="password"

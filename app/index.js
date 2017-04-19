@@ -10,13 +10,13 @@ import Home from "./scenes/home";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import AddEvent from './scenes/addEvent';
-import Profile from './scenes/profile';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import viseoCompanionApp from './reducers';
 import {fetchEvents} from './actionCreators/events'
 import Event from './scenes/Event'
+import UserProfile from './scenes/UserProfile'
 
 const initialState = {
     events: {
@@ -104,7 +104,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'Profile') {
                         return (
-                            <Profile navigator={navigator} {...route.passProps}/>
+                            <UserProfile navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}
