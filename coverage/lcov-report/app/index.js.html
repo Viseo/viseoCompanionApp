@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.33% </span>
+        <span class="strong">37.5% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>28/48</span>
+        <span class='fraction'>18/48</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/20</span>
+        <span class='fraction'>0/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,13 +35,13 @@
         <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.33% </span>
+        <span class="strong">37.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>28/48</span>
+        <span class='fraction'>18/48</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -201,21 +201,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -224,8 +224,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -234,7 +234,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -318,21 +318,21 @@ let store = createStore(
 store.dispatch(fetchEvents(store.getState().user))
 &nbsp;
 export default class ViseoCompanion extends Component {
-    constructor(props) <span class="branch-1 cbranch-no" title="branch not covered" >{</span>
+    constructor(props) <span class="cstat-no" title="statement not covered" >{</span>
         super(props);
 &nbsp;
-        this.navigator;
-        this.state = {};
+<span class="cstat-no" title="statement not covered" >        this.navigator;</span>
+<span class="cstat-no" title="statement not covered" >        this.state = {};</span>
     }
 &nbsp;
     /**
      * When the back button is pressed, navigate back to the previous scene.
      */
-    componentWillMount() {
-        strings.setLanguage('fr');
-        setDateLang(strings.getLanguage());
+    componentWillMount() <span class="cstat-no" title="statement not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >        strings.setLanguage('fr');</span>
+<span class="cstat-no" title="statement not covered" >        setDateLang(strings.getLanguage());</span>
 &nbsp;
-        BackAndroid.addEventListener('hardwareBackPress', <span class="fstat-no" title="function not covered" >() =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >        BackAndroid.addEventListener('hardwareBackPress', <span class="fstat-no" title="function not covered" >() =&gt; </span>{</span>
 <span class="cstat-no" title="statement not covered" >            if (this.navigator &amp;&amp; this.navigator.getCurrentRoutes().length &gt; 1) {</span>
 <span class="cstat-no" title="statement not covered" >                this.navigator.pop();</span>
 <span class="cstat-no" title="statement not covered" >                return true;</span>
@@ -341,8 +341,8 @@ export default class ViseoCompanion extends Component {
         });
     }
 &nbsp;
-    render() {
-        const routes = [
+    render() <span class="cstat-no" title="statement not covered" >{</span>
+        c</span>onst routes = <span class="cstat-no" title="statement not covered" >[
             {title: 'Home'},
             {title: 'SignIn'},
             {title: 'SignUp'},
@@ -351,7 +351,7 @@ export default class ViseoCompanion extends Component {
             {title: 'AddEvent'},
             {title: 'Profile'},
         ];
-        return (
+<span class="cstat-no" title="statement not covered" >        return (</span>
             &lt;Provider store={store}&gt;
                 &lt;Navigator
                     initialRoute={routes[0]}
@@ -400,7 +400,7 @@ export default class ViseoCompanion extends Component {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 18 2017 16:58:44 GMT+0200 (Paris, Madrid (heure d’été))
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 20 2017 16:51:32 GMT+0200 (Paris, Madrid (heure d’été))
 </div>
 </div>
 <script src="..\prettify.js"></script>

@@ -1,0 +1,54 @@
+import React from "react";
+import {shallow} from "enzyme";
+import EventCard from '../../components/events/eventCard';
+import ViseoCompanion from '../../index';
+import Home from '../../scenes/home';
+import EditableImage from '../../components/editableImage';
+import AppText from '../../components/appText'
+import AppTextInput from '../../components/AppTextInput'
+import BackButton from '../../components/BackButton'
+import Button from '../../components/Button'
+import ImageButton from './../../components/ImageButton'
+import FlexImage from './../../components/FlexImage'
+
+export function get(componentName, props) {
+    switch (componentName) {
+        case 'AppText':
+            return shallow(<AppText {...props}/>)
+        case 'AppTextInput':
+            return shallow(<AppTextInput {...props}/>)
+        case 'BackButton':
+            return shallow(<BackButton {...props}/>)
+        case 'Button':
+            return shallow(<Button {...props}/>)
+        case 'ImageButton':
+            return shallow(<ImageButton {...props}/>)
+        case 'FlexImage':
+            return shallow(<FlexImage {...props}/>)
+
+
+        case 'EventCard':
+            return shallow(<EventCard {...props}/>);
+            break;
+        case 'Home':
+            return shallow(<Home {...props}/>);
+            break;
+        case 'ViseoCompanion':
+            return shallow(<ViseoCompanion {...props}/>);
+            break;
+        case 'editableImage':
+            return shallow(<EditableImage {...props}/>);
+            break;
+        default:
+            return null;
+    }
+}
+
+function getChildren(parent, childName) {
+    return parent.find(childName);
+}
+
+export default testComponents = {
+    get,
+    getChildren
+}
