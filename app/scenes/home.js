@@ -27,7 +27,7 @@ import SearchBar from './../components/SearchBar'
 import ItemSpacer from './../components/ItemSpacer'
 import colors from '../components/colors'
 import {dispatch} from 'redux'
-import PushController from '../util/PushController';
+import PushController from '../util/pushController';
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 
