@@ -28,7 +28,7 @@ import ItemSpacer from './ItemSpacer'
 import FlexImage from './FlexImage'
 import AppTextInput from './AppTextInput'
 import moment from 'moment'
-import PushController from './PushController'
+import PushController from '../util/PushController'
 
 const eventIdToImages = {
     "40": require('./../images/formation_securite.jpg'),
