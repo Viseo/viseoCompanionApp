@@ -134,6 +134,7 @@ const events = (state = {
                         item
                 })
             })
+
         case types.UPDATE_EVENT_PARTICIPANTS:
             return Object.assign({}, state, {
                 items: state.items.map(item => {

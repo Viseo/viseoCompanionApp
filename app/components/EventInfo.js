@@ -12,8 +12,10 @@ import {
     Dimensions,
     TouchableOpacity,
     Button,
-    Modal,
+    Modal, TouchableHighlight
 } from "react-native";
+
+
 import AppText from "./appText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
@@ -54,6 +56,7 @@ export default class Event extends Component {
             editing: !this.props.id,
             picture: image,
             modalVisible: false,
+            modalDelVisible: false,
             editedEvent: {
                 ...event,
                 id: event.id || Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
@@ -103,18 +106,26 @@ export default class Event extends Component {
         })
     }
 
+
+    deleteEvent = () => {
+        this.props.deleteEvent(this.state.editedEvent.id);
+        this.props.navigator.resetTo({
+            title: 'Home'
+        });
+    }
+
     render() {
         let {event} = this.props
         return (
-            <View style={{flex:1}}>
+            <View style={{flex: 1}}>
                 {this.renderHeader()}
                 <View style={styles.container}>
                     {this.renderMainInfo()}
                     <ItemSpacer/>
-                    <View style={{flex:30,flexDirection:'column'}}>
+                    <View style={{flex: 30, flexDirection: 'column'}}>
                         <ScrollView
-                            style={{flex:1}}
-                            contentContainerStyle={{flex:1}}
+                            style={{flex: 1}}
+                            contentContainerStyle={{flex: 1}}
                         >
                             {this.renderEventPicture(event.id)}
                             {
@@ -124,7 +135,9 @@ export default class Event extends Component {
                             }
                             {this.renderEventDescription(this.state.description)}
                             {this.renderEventKeywords(event.keywords)}
+                            {this.renderBottom()}
                             {this.renderNotifySuccess()}
+                            {this.renderNotifyDelete()}
                         </ScrollView>
                     </View>
                 </View>
@@ -142,31 +155,31 @@ export default class Event extends Component {
             <BackButton
                 navigator={this.props.navigator}
                 source={require("./../images/crossWhite.png")}
-                style={{padding:8}}
+                style={{padding: 8}}
                 onPress={() => this.setState({editing: false})}
             />
         )
         return (
-            <View style={{flex:1, flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
+            <View style={{flex: 1, flexDirection: 'row', backgroundColor: colors.blue, alignItems: 'center'}}>
                 {editing ?
                     newEvent ? backButton : cancelButton :
                     backButton
                 }
-                <AppText style={{flex:5, color:'white', fontSize:20}}>
+                <AppText style={{flex: 5, color: 'white', fontSize: 20}}>
                     {editing ?
                         newEvent ? "Nouvel évènement" : "Modification" :
                         "Evènement"
                     }
                 </AppText>
-                <View style={{flex:3, flexDirection:'row'}}>
+                <View style={{flex: 3, flexDirection: 'row'}}>
                     {!canEdit && (
-                        <View style={{flex:1, flexDirection:'row'}}>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
                             <Toggle
                                 isOn={newEvent}
-                                style={{flex:5}}
+                                style={{flex: 5}}
                                 onToggle={this.toggleEditEvent}
                             >
-                                <AppText style={{color:'white', textAlign:'right'}}>
+                                <AppText style={{color: 'white', textAlign: 'right'}}>
                                     {editing ? 'Enregistrer' : 'Modifier'}
                                 </AppText>
                             </Toggle>
@@ -178,11 +191,93 @@ export default class Event extends Component {
         )
     }
 
+
+    renderBottom() {
+        let {editing} = this.state
+
+        const deleteEvent = (
+            editing ?
+                <Button
+                    onPress={() => {
+                        this.setModalVisible(true)
+                    }}
+                    title="Supprimer"
+                    color="blue"
+                /> :
+                <AppText>
+
+                </AppText>
+        )
+
+        return (
+            <View style={{
+                flex: 3, flexDirection: 'column', justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                {deleteEvent}
+            </View>
+        )
+    }
+
+    setModalVisible(visible) {
+        this.setState({modalDelVisible: visible});
+    }
+
+    renderNotifyDelete() {
+        return (
+
+            <View>
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.modalDelVisible}
+                    onRequestClose={() => {
+                        this.props.navigator.resetTo({
+                            title: 'Home'
+                        });
+                    }}
+                >
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'rgba(186, 242, 255, 1)'
+                        }}
+                    >
+                        <View>
+                            <AppText style={{marginBottom:12}}>Voulez vous supprimer cet évènement!</AppText>
+
+                            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                                <Button
+
+                                    onPress={() => {
+                                        this.setModalVisible(!this.state.modalDelVisible)
+                                    }}
+                                    title="Non"
+                                    color="gray"
+                                />
+                                <Button
+                                    onPress={() => {this.deleteEvent()}}
+                                    title="Oui"
+                                    color="red"
+                                />
+                            </View>
+
+                        </View>
+                    </View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                </Modal>
+            </View>
+        );
+    }
+
     renderMainInfo() {
         let {editedEvent} = this.state
         let {editing} = this.state
         const hostAvatar = (
-            <View style={{flex:3, justifyContent:'center', alignItems:'center'}}>
+            <View style={{flex: 3, justifyContent: 'center', alignItems: 'center'}}>
                 <TouchableOpacity>
                     <Image
                         source={require('./../images/userAvatar.jpg')}
@@ -193,18 +288,20 @@ export default class Event extends Component {
         )
         const name = (
             editing ?
-            <AppTextInput
-                style={styles.name}
-                onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
-                placeholder = {editedEvent.name ? '' : "Nom de l'évènement.."}
-            >
-                {editedEvent.name}
-            </AppTextInput> :
-            <AppText
-                style={styles.name}
-            >
-                {editedEvent.name || 'Pas de nom'}
-            </AppText>
+                <AppTextInput
+                    style={styles.name}
+                    onChangeText={(text) => {
+                        this.setState({editedEvent: {...editedEvent, name: text}})
+                    }}
+                    placeholder={editedEvent.name ? '' : "Nom de l'évènement.."}
+                >
+                    {editedEvent.name}
+                </AppTextInput> :
+                <AppText
+                    style={styles.name}
+                >
+                    {editedEvent.name || 'Pas de nom'}
+                </AppText>
         )
         const categoryDropdown = (
             <ModalDropdown
@@ -215,7 +312,7 @@ export default class Event extends Component {
                     padding: 0,
                     color: this.getCategoryColorFromId(editedEvent.category)
                 }}
-                style={{flex:1}}
+                style={{flex: 1}}
                 options={strings.categoriesNames}
                 defaultValue={this.getCategoryNameFromId(editedEvent.category)}
                 onSelect={(category) => {
@@ -229,7 +326,7 @@ export default class Event extends Component {
             </AppText>
         )
         const category = (
-            <View style={{flex:3}}>
+            <View style={{flex: 3}}>
                 {editing ? categoryDropdown : categoryText}
             </View>
         )
@@ -237,7 +334,7 @@ export default class Event extends Component {
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>
                 <ItemSpacer/>
-                <AppText style={{flex:5, textAlign:'left', textAlignVertical:'center'}}>
+                <AppText style={{flex: 5, textAlign: 'left', textAlignVertical: 'center'}}>
                     {this.props.userName}
                 </AppText>
             </View>
@@ -249,14 +346,16 @@ export default class Event extends Component {
                 {
                     editing ?
                         <AppTextInput
-                            style={{flex:5, textAlign:'left', textAlignVertical:'center'}}
-                            onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, location:text}})}}
+                            style={{flex: 5, textAlign: 'left', textAlignVertical: 'center'}}
+                            onChangeText={(text) => {
+                                this.setState({editedEvent: {...this.state.editedEvent, location: text}})
+                            }}
                             editable={editing}
                             placeholder={editedEvent.location ? '' : "Lieu de l'évènement.."}
                         >
                             {editedEvent.location}
                         </AppTextInput> :
-                        <AppText style={{flex:5, textAlign:'left', textAlignVertical:'center'}}>
+                        <AppText style={{flex: 5, textAlign: 'left', textAlignVertical: 'center'}}>
                             {editedEvent.location || "Lieu non renseigné.."}
                         </AppText>
                 }
@@ -267,11 +366,11 @@ export default class Event extends Component {
             <View style={[
                 styles.categoryIndicator,
                 {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
-                ]}
+            ]}
             />
         )
         const eventInfo = (
-            <View style={{flex:6, flexDirection:'column'}}>
+            <View style={{flex: 6, flexDirection: 'column'}}>
                 {name}
                 {category}
                 <View style={styles.locationAndDateContainer}>
@@ -281,7 +380,7 @@ export default class Event extends Component {
             </View>
         )
         return (
-            <View style={{flex:8, flexDirection:'row'}}>
+            <View style={{flex: 8, flexDirection: 'row'}}>
                 {hostAvatar}
                 {eventInfo}
                 {categoryIndicator}
@@ -296,7 +395,9 @@ export default class Event extends Component {
                     refs="eventDescription"
                     resizeMode="stretch"
                     defaultPicture={this.state.picture}
-                    onSelected={(selected) => {this.updateImage(selected)}}
+                    onSelected={(selected) => {
+                        this.updateImage(selected)
+                    }}
                 />
             ) :
             (
@@ -306,7 +407,7 @@ export default class Event extends Component {
                 />
             )
         return (
-            <View style={{flex:2,marginBottom:-20}}>
+            <View style={{flex: 2, marginBottom: -20}}>
                 {picture}
             </View>
         )
@@ -325,17 +426,17 @@ export default class Event extends Component {
                         });
                     }}
                 >
-                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
                     <View
                         style={{
-                            flex:1,
+                            flex: 1,
                             justifyContent: 'center',
-                            alignItems:'center',
+                            alignItems: 'center',
                             backgroundColor: 'rgba(186, 242, 255, 1)'
                         }}
                     >
                         <View>
-                            <AppText style={{textAlign:'center'}}>
+                            <AppText style={{textAlign: 'center'}}>
                                 {"Evènement créé avec succès!"}
                             </AppText>
                             <Button
@@ -349,7 +450,7 @@ export default class Event extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
                 </Modal>
             </View>
         );
@@ -358,7 +459,7 @@ export default class Event extends Component {
     renderDatePicker() {
         let {editedEvent, newEvent} = this.state
         return (
-            <View style={{alignItems:'center'}}>
+            <View style={{alignItems: 'center'}}>
                 <View style={[styles.participationInfoRectangle, {justifyContent: 'center'}]}>
                     <DatePicker
                         date={newEvent ? moment().toDate() : moment(editedEvent.date).toDate()}
@@ -370,17 +471,17 @@ export default class Event extends Component {
                             this.setState({editedEvent: {...editedEvent, date}});
                         }}
                         customStyles={{
-                                        dateIcon: {
-                                          position: 'absolute',
-                                          left: 0,
-                                          top: 4,
-                                          marginLeft: 0
-                                        },
-                                        dateInput: {
-                                          marginLeft: 36,
-                                          borderWidth:0
-                                        }
-                                      }}
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36,
+                                borderWidth: 0
+                            }
+                        }}
                     />
                 </View>
             </View>
@@ -392,7 +493,7 @@ export default class Event extends Component {
         let {user, participants} = this.props
         let [day, time] = this.formatDate(editedEvent.date)
         return (
-            <View style={{alignItems:'center'}}>
+            <View style={{alignItems: 'center'}}>
                 <View style={styles.participationInfoRectangle}>
                     <View style={styles.participationInfoItem}>
                         <AppText style={styles.participationInfoContainer}>
@@ -431,7 +532,9 @@ export default class Event extends Component {
             editing ?
                 <AppTextInput
                     style={styles.description}
-                    onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
+                    onChangeText={(text) => {
+                        this.setState({editedEvent: {...this.state.editedEvent, description: text}})
+                    }}
                     multiline={true}
                     placeholder={placeholder}
                 >
@@ -465,7 +568,7 @@ Event.defaultProps = {
         category: 0,
         description: '',
         location: '',
-        keywords:'',
+        keywords: '',
     },
     userName: 'Wafa Salandre',
 }
@@ -480,6 +583,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 15
     },
+
 
     description: {
         fontSize: 16,

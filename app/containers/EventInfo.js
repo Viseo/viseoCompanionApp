@@ -8,6 +8,7 @@ import {
     registerUser,
     unregisterUser,
     updateEvent,
+    deleteEvent,
     addEvent
 } from './../actionCreators/events'
 import Event from '../components/EventInfo'
@@ -43,6 +44,7 @@ const mapDispatchToProps = (dispatch) => {
             fetchEventParticipants,
             registerUser,
             unregisterUser,
+            deleteEvent,
             updateEvent,
             addEvent
         },

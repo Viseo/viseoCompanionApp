@@ -172,3 +172,18 @@ export const updateEvent = (event) => {
         }
     }
 }
+
+
+export const deleteEvent = (id) => {
+    return async(dispatch) => {
+        dispatch({
+            type: types.REMOVE_EVENT,
+            id
+        })
+        try {
+            // todo Delete from DATABASE
+        } catch (error) {
+            console.warn('ActionCreators/events::deleteEvent ' + error)
+        }
+    }
+}
