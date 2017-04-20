@@ -17,6 +17,7 @@ import AppText from '../components/appText';
 import EditableAppText from '../components/editableAppText';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
+import UserProfileInfo from './../components/userProfileInfo';
 import Home from './../scenes/home';
 import DatePicker from "react-native-datepicker";
 
@@ -113,6 +114,10 @@ function createHome(props) {
     return shallow(<Home {...props} />);
 }
 
+function createProfileInfo(props){
+    return shallow(<UserProfileInfo {...props} />)
+}
+
 function createRecoverPasswordForm() {
     return shallow(<RecoverPassword/>);
 }
@@ -195,5 +200,6 @@ export default testUtil = {
     submitText,
     validateEditableAppTextWithInputValue,
     getSpecificComponentWIthPropValue,
-    changeDateWithValue
+    changeDateWithValue,
+    createProfileInfo
 };
