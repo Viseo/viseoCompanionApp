@@ -22,12 +22,12 @@ import {
     Keyboard
 } from "react-native";
 import Header from "./../components/header";
-import VisibleEventList from './../containers/VisibleEvents';
-import SearchBar from './../components/SearchBar'
-import ItemSpacer from './../components/ItemSpacer'
-import colors from '../components/colors'
-import {dispatch} from 'redux'
-import PushController from '../util/pushController';
+import VisibleEventList from "./../containers/VisibleEvents";
+import SearchBar from "./../components/SearchBar";
+import ItemSpacer from "./../components/ItemSpacer";
+import colors from "../components/colors";
+import {dispatch} from "redux";
+import PushController from "../util/pushController";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
         padding: 8,
         paddingBottom: 0,
         paddingTop: 0,
+        marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
     body: {
         flex: 0,

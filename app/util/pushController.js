@@ -1,12 +1,12 @@
 import React, {Component} from "react";
-import {Platform, AppState} from 'react-native';
+import {Platform, AppState} from "react-native";
 import FCM, {
     FCMEvent,
     RemoteNotificationResult,
     WillPresentNotificationResult,
     NotificationType
 } from "react-native-fcm";
-import moment from 'moment';
+import moment from "moment";
 
 
 export default class PushController extends Component {
@@ -33,7 +33,8 @@ export default class PushController extends Component {
                 return;
             }
             if (notif.opened_from_tray) {
-                return;
+                FCM.setBadgeNumber(0);
+                FCM.removeAllDeliveredNotifications();
             }
             if (Platform.OS === 'ios') {
                 switch (notif._notificationType) {

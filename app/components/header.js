@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         flex: 1,
-        marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
     viseocompanion: {
         textAlign: 'center',

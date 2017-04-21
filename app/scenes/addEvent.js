@@ -9,13 +9,14 @@ import {
     Dimensions,
     Button,
     Modal,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Platform
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Header from "./../components/header";
 import AppText from "./../components/appText";
 import EditableImage from "./../components/editableImage";
-import colors from '../components/colors';
+import colors from "../components/colors";
 
 export default class AddEvent extends Component {
     constructor(props) {
@@ -62,7 +63,7 @@ export default class AddEvent extends Component {
 
     render() {
         return (
-            <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white'}}>
+            <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white', marginTop: (Platform.OS === 'ios') ? 20 : 0}}>
                 <Header/>
                 <ScrollView>
                     <View style={styles.mainContainer}>

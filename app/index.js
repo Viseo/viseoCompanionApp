@@ -9,15 +9,14 @@ import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
-import AddEvent from './scenes/addEvent';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import viseoCompanionApp from './reducers';
-import {fetchEvents} from './actionCreators/events'
-import Event from './scenes/Event'
-import UserProfile from './scenes/UserProfile'
-import FCM from "react-native-fcm";
+import AddEvent from "./scenes/addEvent";
+import {Provider} from "react-redux";
+import {createStore, applyMiddleware} from "redux";
+import thunkMiddleware from "redux-thunk";
+import viseoCompanionApp from "./reducers";
+import {fetchEvents} from "./actionCreators/events";
+import Event from "./scenes/Event";
+import UserProfile from "./scenes/UserProfile";
 
 const initialState = {
     events: {
@@ -53,8 +52,6 @@ export default class ViseoCompanion extends Component {
     componentWillMount() {
         strings.setLanguage('fr');
         setDateLang(strings.getLanguage());
-
-        FCM.setBadgeNumber(0);
 
         BackAndroid.addEventListener('hardwareBackPress', () => {
             if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
