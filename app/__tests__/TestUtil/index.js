@@ -1,11 +1,18 @@
 import sinon from 'sinon'
+import {getComponentProp} from './traversal'
 
 export {get as createComponent} from './components'
 export * from './events'
 export * from './traversal'
 
-export function checkIsComponent(component, expectedComponent) {
+export function checkIsComponent(component,
+                                 expectedComponent,
+                                 matchProp = null,
+                                 withValue = null) {
     expect(component.type().displayName).to.equal(expectedComponent)
+    let shouldCheckProp = matchProp && withValue
+    if(shouldCheckProp)
+        expect(component.props()).to.equal(withValue)
 }
 
 export function checkHasChildComponent(parent,
@@ -15,10 +22,20 @@ export function checkHasChildComponent(parent,
     let shouldCheckProp = matchProp && withValue
     let foundChild = parent.findWhere(node => {
         return node.type()
-                && node.type().displayName === expectedChildComponent
-                && (!shouldCheckProp || node.props()[prop] === value)
+            && node.type().displayName === expectedChildComponent
+            && (!shouldCheckProp || node.props()[matchProp] === withValue)
     })
     expect(foundChild).to.have.length(1)
+}
+
+export function checkHasStyle(component, expectedStyle, expectedValue) {
+    let styleSheet = getComponentProp(component, 'style')
+    let styleToCompare = null
+    styleSheet.forEach(style => {
+        if(style.hasOwnProperty(expectedStyle))
+            styleToCompare = style[expectedStyle]
+    })
+    expect(styleToCompare).to.equal(expectedValue)
 }
 
 export function checkTestFunction(testFunction) {

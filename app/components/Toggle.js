@@ -30,7 +30,6 @@ export default class Toggle extends Component {
                 onPress={this.toggle}
             >
                 {this.state.isOn ? this.props.on : this.props.off}
-                {this.props.children}
             </TouchableOpacity>
         )
     }

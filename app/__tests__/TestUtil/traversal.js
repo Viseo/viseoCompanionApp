@@ -7,3 +7,7 @@ export function getChildComponent(parent, childName) {
             )
     })
 }
+
+export function getComponentProp(component, propName) {
+    return component.props()[propName]
+}

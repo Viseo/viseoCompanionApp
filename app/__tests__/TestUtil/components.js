@@ -10,6 +10,8 @@ import BackButton from '../../components/BackButton'
 import Button from '../../components/Button'
 import ImageButton from './../../components/ImageButton'
 import FlexImage from './../../components/FlexImage'
+import Toggle from './../../components/Toggle'
+import ItemSpacer from './../../components/ItemSpacer'
 
 export function get(componentName, props) {
     switch (componentName) {
@@ -23,9 +25,12 @@ export function get(componentName, props) {
             return shallow(<Button {...props}/>)
         case 'ImageButton':
             return shallow(<ImageButton {...props}/>)
+        case 'ItemSpacer':
+            return shallow(<ItemSpacer {...props}/>)
         case 'FlexImage':
             return shallow(<FlexImage {...props}/>)
-
+        case 'Toggle':
+            return shallow(<Toggle {...props}/>)
 
         case 'EventCard':
             return shallow(<EventCard {...props}/>);

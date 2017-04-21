@@ -10,9 +10,9 @@ import {
 describe('Button', () => {
 
     it('should render a clickable button and its children passed in props', () => {
-        let onPress =  createTestFunction();
-        let children = 'someLovelyChildren';
-        let button = createComponent('Button', {
+        const onPress =  createTestFunction();
+        const children = 'someLovelyChildren';
+        const button = createComponent('Button', {
             onPress,
             children
         });
