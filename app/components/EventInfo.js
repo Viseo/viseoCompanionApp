@@ -9,10 +9,11 @@ import {
     ScrollView,
     View,
     Platform,
-    Dimensions,
     TouchableOpacity,
     Button,
     Modal,
+    KeyboardAvoidingView,
+    Dimensions
 } from "react-native";
 import AppText from "./appText";
 import EditableImage from "./editableImage";
@@ -20,7 +21,6 @@ import CheckBox from "react-native-check-box";
 import DatePicker from "react-native-datepicker";
 import ModalDropdown from 'react-native-modal-dropdown';
 import strings from "../util/localizedStrings";
-import * as util from "../util/util";
 import colors from './colors';
 import BackButton from './BackButton'
 import Toggle from './Toggle'
@@ -29,6 +29,7 @@ import FlexImage from './FlexImage'
 import AppTextInput from './AppTextInput'
 import moment from 'moment'
 import PushController from '../util/pushController'
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 const eventIdToImages = {
     "40": require('./../images/formation_securite.jpg'),
@@ -43,6 +44,7 @@ const eventIdToImages = {
     "46": require('./../images/tdd.png'),
 }
 let defaultImage = require('./../images/0.jpg');
+const {height} = Dimensions.get('window');
 
 export default class Event extends Component {
 
@@ -112,22 +114,7 @@ export default class Event extends Component {
                 <View style={styles.container}>
                     {this.renderMainInfo()}
                     <ItemSpacer/>
-                    <View style={{flex:30,flexDirection:'column'}}>
-                        <ScrollView
-                            style={{flex:1}}
-                            contentContainerStyle={{flex:1}}
-                        >
-                            {this.renderEventPicture(event.id)}
-                            {
-                                this.state.editing ?
-                                    this.renderDatePicker() :
-                                    this.renderEventDateAndParticipants()
-                            }
-                            {this.renderEventDescription(this.state.description)}
-                            {this.renderEventKeywords(event.keywords)}
-                            {this.renderNotifySuccess()}
-                        </ScrollView>
-                    </View>
+                    {this.renderDetails()}
                 </View>
             </View>
         );
@@ -148,7 +135,7 @@ export default class Event extends Component {
             />
         )
         return (
-            <View style={{flex:1, flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
+            <View style={{flex:1, height:150,flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
                 {editing ?
                     newEvent ? backButton : cancelButton :
                     backButton
@@ -160,7 +147,7 @@ export default class Event extends Component {
                     }
                 </AppText>
                 <View style={{flex:3, flexDirection:'row'}}>
-                    {!canEdit && (
+                    {canEdit && (
                         <View style={{flex:1, flexDirection:'row'}}>
                             <Toggle
                                 isOn={newEvent}
@@ -194,51 +181,36 @@ export default class Event extends Component {
         )
         const name = (
             editing ?
-            <AppTextInput
-                style={styles.name}
-                onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
-                placeholder = {editedEvent.name ? '' : "Nom de l'évènement.."}
-            >
-                {editedEvent.name}
-            </AppTextInput> :
-            <AppText
-                style={styles.name}
-            >
-                {editedEvent.name || 'Pas de nom'}
-            </AppText>
+                <AppTextInput
+                    style={styles.name}
+                    onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
+                    placeholder={editedEvent.name ? '' : "Nom de l'évènement.."}
+                >
+                    {editedEvent.name}
+                </AppTextInput> :
+                <AppText style={styles.name}>
+                    {editedEvent.name || 'Pas de nom'}
+                </AppText>
         )
         const categoryDropdown = (
             <ModalDropdown
-                textStyle={{
-                    fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-                    fontSize: 15,
-                    backgroundColor: 'transparent',
-                    padding: 0,
-                    color: this.getCategoryColorFromId(editedEvent.category)
-                }}
+                disabled={!editing}
+                textStyle={styles.categoryDropdown}
                 style={{flex:1}}
                 options={strings.categoriesNames}
                 defaultValue={this.getCategoryNameFromId(editedEvent.category)}
                 onSelect={(category) => {
-                    this.setState({editedEvent: {...editedEvent, category}})
+                    this.setState({
+                        editedEvent: {...editedEvent, category}
+                    })
                 }}
             />
-        )
-        const categoryText = (
-            <AppText style={[styles.category, {color: this.getCategoryColorFromId(editedEvent.category)}]}>
-                {this.getCategoryNameFromId(editedEvent.category)}
-            </AppText>
-        )
-        const category = (
-            <View style={{flex:3}}>
-                {editing ? categoryDropdown : categoryText}
-            </View>
         )
         const username = (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>
                 <ItemSpacer/>
-                <AppText style={{flex:5, textAlign:'left', textAlignVertical:'center'}}>
+                <AppText style={{flex:5, textAlign:'left'}}>
                     {this.props.userName}
                 </AppText>
             </View>
@@ -274,7 +246,7 @@ export default class Event extends Component {
         const eventInfo = (
             <View style={{flex:6, flexDirection:'column'}}>
                 {name}
-                {category}
+                {categoryDropdown}
                 <View style={styles.locationAndDateContainer}>
                     {username}
                     {location}
@@ -290,10 +262,34 @@ export default class Event extends Component {
         )
     }
 
+    renderDetails() {
+        let {event} = this.props
+        return (
+            <View style={{flex:30,flexDirection:'column'}}>
+                <ScrollView
+                    style={{flex:1}}
+                    contentContainerStyle={{flex:0}}
+                >
+                    {this.renderEventPicture(event.id)}
+                    {
+                        this.state.editing ?
+                            this.renderDatePicker() :
+                            this.renderEventDateAndParticipants()
+                    }
+                    {this.renderEventDescription(this.state.description)}
+                    {this.renderEventKeywords(event.keywords)}
+                    {this.renderNotifySuccess()}
+                </ScrollView>
+                <KeyboardSpacer/>
+            </View>
+        )
+    }
+
     renderEventPicture() {
         const picture = this.state.editing ?
             (
                 <EditableImage
+                    style={{minHeight:height / 3}}
                     refs="eventDescription"
                     resizeMode="stretch"
                     defaultPicture={this.state.picture}
@@ -302,6 +298,7 @@ export default class Event extends Component {
             ) :
             (
                 <FlexImage
+                    style={{minHeight:height / 3}}
                     source={this.state.picture}
                     resizeMode="stretch"
                 />
@@ -365,10 +362,13 @@ export default class Event extends Component {
                         date={newEvent ? moment().toDate() : moment(editedEvent.date).toDate()}
                         mode="datetime"
                         format="YYYY/MM/DD HH:mm"
+                        minDate={moment().toDate()}
+                        placeholder='Sélectionnez une date..'
                         confirmBtnText="OK"
                         cancelBtnText="Annuler"
                         onDateChange={(date) => {
-                            this.setState({editedEvent: {...editedEvent, date}});
+                            let formattedDate =  moment(new Date(date).toISOString())
+                            this.setState({editedEvent: {...editedEvent, date: formattedDate}})
                         }}
                         customStyles={{
                                         dateIcon: {
@@ -453,7 +453,7 @@ export default class Event extends Component {
     onParticipationChange = () => {
         let {user, event} = this.props
         let going = event.participants.indexOf(user.id) !== -1
-        if(going) {
+        if (going) {
             this.props.unregisterUser(event.id, user.id);
             PushController.scheduleEventSnoozes(event);
         } else {
@@ -470,14 +470,20 @@ Event.defaultProps = {
         category: 0,
         description: '',
         location: '',
-        keywords:'',
+        keywords: '',
     },
     userName: 'Wafa Salandre',
 }
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 const styles = StyleSheet.create({
-
+    categoryDropdown: {
+        fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
+        fontSize: 15,
+        backgroundColor: 'transparent',
+        padding: 0,
+        color: colors.mediumGray,
+    },
     container: {
         justifyContent: 'center',
         alignItems: 'stretch',
@@ -485,20 +491,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 15
     },
-
     description: {
         fontSize: 16,
         textAlign: 'center',
         justifyContent: 'center',
         flex: 1,
     },
-
     keywords: {
         fontSize: 14,
         textAlign: 'center',
         flex: 1,
     },
-
     categoryIndicator: {
         width: 0,
         height: 0,
@@ -511,13 +514,11 @@ const styles = StyleSheet.create({
             {rotate: '90deg'}
         ]
     },
-
     hostAvatar: {
         height: 100,
         width: 100,
         borderRadius: 50,
     },
-
     organizatorPicture: {
         flex: 1,
         flexDirection: 'column',
@@ -525,14 +526,12 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
     },
-
     contentContainer: {
         flex: 3,
         paddingLeft: 20,
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
-
     name: {
         color: 'black',
         fontWeight: 'bold',
