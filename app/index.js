@@ -2,7 +2,7 @@
  * Created by AAB3605 on 13/02/2017.
  */
 import React, {Component} from "react";
-import {View, Text, Navigator, BackAndroid} from "react-native";
+import {Navigator, BackAndroid} from "react-native";
 import SignIn from "./scenes/signIn";
 import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
@@ -17,6 +17,7 @@ import viseoCompanionApp from './reducers';
 import {fetchEvents} from './actionCreators/events'
 import Event from './scenes/Event'
 import UserProfile from './scenes/UserProfile'
+import FCM from "react-native-fcm";
 
 const initialState = {
     events: {
@@ -53,6 +54,8 @@ export default class ViseoCompanion extends Component {
         strings.setLanguage('fr');
         setDateLang(strings.getLanguage());
 
+        FCM.setBadgeNumber(0);
+
         BackAndroid.addEventListener('hardwareBackPress', () => {
             if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
                 this.navigator.pop();
@@ -77,37 +80,37 @@ export default class ViseoCompanion extends Component {
                 <Navigator
                     initialRoute={routes[0]}
                     renderScene={(route, navigator) => {
-                    this.navigator = navigator;
-                    if(route.title === 'SignIn') {
-                        return (
-                            <SignIn navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'SignUp') {
-                        return (
-                            <SignUp navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'RecoverPassword') {
-                        return (
-                            <RecoverPassword navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'Home') {
-                        return (
-                            <Home navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'Event') {
-                        return (
-                            <Event navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'AddEvent') {
-                        return (
-                            <Event navigator={navigator} {...route.passProps}/>
-                        );
-                    } else if(route.title === 'Profile') {
-                        return (
-                            <UserProfile navigator={navigator} {...route.passProps}/>
-                        );
-                    }
-                }}
+                        this.navigator = navigator;
+                        if (route.title === 'SignIn') {
+                            return (
+                                <SignIn navigator={navigator} {...route.passProps}/>
+                            );
+                        } else if (route.title === 'SignUp') {
+                            return (
+                                <SignUp navigator={navigator} {...route.passProps}/>
+                            );
+                        } else if (route.title === 'RecoverPassword') {
+                            return (
+                                <RecoverPassword navigator={navigator} {...route.passProps}/>
+                            );
+                        } else if (route.title === 'Home') {
+                            return (
+                                <Home navigator={navigator} {...route.passProps}/>
+                            );
+                        } else if (route.title === 'Event') {
+                            return (
+                                <Event navigator={navigator} {...route.passProps}/>
+                            );
+                        } else if (route.title === 'AddEvent') {
+                            return (
+                                <Event navigator={navigator} {...route.passProps}/>
+                            );
+                        } else if (route.title === 'Profile') {
+                            return (
+                                <UserProfile navigator={navigator} {...route.passProps}/>
+                            );
+                        }
+                    }}
                     configureScene={(route, routeStack) =>
                         Navigator.SceneConfigs.PushFromRight
                     }
