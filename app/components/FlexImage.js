@@ -32,6 +32,8 @@ export default class FlexImage extends Component {
     }
 }
 
+FlexImage.displayName = 'FlexImage'
+
 const styles = StyleSheet.create({
     fitImage: {
         flex: 1,

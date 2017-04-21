@@ -27,6 +27,8 @@ class SearchTextInput extends Component {
     }
 }
 
+SearchTextInput.displayName = 'SearchTextInput'
+
 export default SearchTextInput;
 
 const styles = StyleSheet.create({
