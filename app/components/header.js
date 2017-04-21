@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import {View, StyleSheet, Platform, Dimensions, Image, Text} from "react-native";
 import AppText from "./appText";
-import colors from './colors'
-import ItemSpacer from './ItemSpacer'
 
 class Header extends Component {
 

@@ -35,6 +35,8 @@ export default class Toggle extends Component {
     }
 }
 
+Toggle.displayName = 'Toggle'
+
 Toggle.defaultProps = {
     off: null,
     on: null,

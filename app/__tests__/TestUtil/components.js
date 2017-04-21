@@ -12,6 +12,9 @@ import ImageButton from './../../components/ImageButton'
 import FlexImage from './../../components/FlexImage'
 import Toggle from './../../components/Toggle'
 import ItemSpacer from './../../components/ItemSpacer'
+import FilterToggle from './../../components/FilterToggle'
+import SearchTextInput from './../../components/SearchTextInput'
+import SearchBar from './../../components/SearchBar'
 
 export function get(componentName, props) {
     switch (componentName) {
@@ -27,10 +30,16 @@ export function get(componentName, props) {
             return shallow(<ImageButton {...props}/>)
         case 'ItemSpacer':
             return shallow(<ItemSpacer {...props}/>)
+        case 'FilterToggle':
+            return shallow(<FilterToggle {...props}/>)
         case 'FlexImage':
             return shallow(<FlexImage {...props}/>)
         case 'Toggle':
             return shallow(<Toggle {...props}/>)
+        case 'SearchTextInput':
+            return shallow(<SearchTextInput {...props}/>)
+        case 'SearchBar':
+            return shallow(<SearchBar {...props}/>)
 
         case 'EventCard':
             return shallow(<EventCard {...props}/>);

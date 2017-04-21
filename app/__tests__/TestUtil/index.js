@@ -17,6 +17,7 @@ export function checkIsComponent(component,
 
 export function checkHasChildComponent(parent,
                                        expectedChildComponent,
+                                       occurrences = 1,
                                        matchProp = null,
                                        withValue = null) {
     let shouldCheckProp = matchProp && withValue
@@ -25,7 +26,7 @@ export function checkHasChildComponent(parent,
             && node.type().displayName === expectedChildComponent
             && (!shouldCheckProp || node.props()[matchProp] === withValue)
     })
-    expect(foundChild).to.have.length(1)
+    expect(foundChild).to.have.length(occurrences)
 }
 
 export function checkHasStyle(component, expectedStyle, expectedValue) {
