@@ -1,14 +1,11 @@
 import React, {Component} from "react";
-
 import {Platform, AppState} from 'react-native';
-
 import FCM, {
     FCMEvent,
     RemoteNotificationResult,
     WillPresentNotificationResult,
     NotificationType
 } from "react-native-fcm";
-
 import moment from 'moment';
 
 
@@ -23,9 +20,14 @@ export default class PushController extends Component {
     componentDidMount() {
         FCM.requestPermissions();
         FCM.getFCMToken();
-        this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
-            console.log('APPSTATE: ', AppState.currentState);
 
+        if (Platform.OS === 'ios') {
+            FCM.subscribeToTopic("/topics/newEventIOS");
+        } else {
+            FCM.subscribeToTopic("/topics/newEventAndroid");
+        }
+
+        this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
             FCM.setBadgeNumber(1);
             if (notif.local_notification) {
                 return;
@@ -50,7 +52,6 @@ export default class PushController extends Component {
                 this.showLocalNotification(notif);
             }
         });
-        FCM.subscribeToTopic("/topics/newEvent");
     }
 
     componentWillUnmount() {
