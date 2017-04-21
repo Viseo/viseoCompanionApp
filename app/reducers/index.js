@@ -6,13 +6,14 @@ import visibilityFilter from './visibilityFilter'
 import filters from './filters'
 import events from './events'
 import searchWords from './searchWords'
+import user from './user'
 
 const viseoCompanionApp = combineReducers({
     events,
     filters,
     searchWords,
     visibilityFilter,
-    user: (state = {id:1}) => { return state}
+    user,
 })
 
 export default viseoCompanionApp;
