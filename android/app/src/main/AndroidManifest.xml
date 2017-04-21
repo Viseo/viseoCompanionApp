@@ -43,7 +43,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
-
         <service android:name="com.evollu.react.fcm.MessagingService" android:enabled="true" android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

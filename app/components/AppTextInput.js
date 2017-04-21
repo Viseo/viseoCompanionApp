@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         textAlign: 'left',
         padding: 0,
-        color:colors.mediumGray
+        color:colors.mediumGray,
+        textAlignVertical:'center'
     },
 })
