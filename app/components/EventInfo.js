@@ -171,12 +171,10 @@ export default class Event extends Component {
         let {editing} = this.state
         const hostAvatar = (
             <View style={{flex:3, justifyContent:'center', alignItems:'center'}}>
-                <TouchableOpacity>
                     <Image
                         source={require('./../images/userAvatar.jpg')}
                         style={styles.hostAvatar}
                     />
-                </TouchableOpacity>
             </View>
         )
         const name = (
@@ -512,9 +510,9 @@ const styles = StyleSheet.create({
         ]
     },
     hostAvatar: {
-        height: 100,
-        width: 100,
-        borderRadius: 50,
+        height: deviceWidth / 4,
+        width: deviceWidth / 4,
+        borderRadius: deviceWidth / 8,
     },
     organizatorPicture: {
         flex: 1,

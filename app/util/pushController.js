@@ -27,14 +27,14 @@ export default class PushController extends Component {
             FCM.subscribeToTopic("/topics/newEventAndroid");
         }
 
+
         this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
-            FCM.setBadgeNumber(1);
             if (notif.local_notification) {
                 return;
             }
             if (notif.opened_from_tray) {
-                FCM.setBadgeNumber(0);
-                FCM.removeAllDeliveredNotifications();
+                // FCM.setBadgeNumber(0);
+                // FCM.removeAllDeliveredNotifications();
             }
             if (Platform.OS === 'ios') {
                 switch (notif._notificationType) {
@@ -53,10 +53,21 @@ export default class PushController extends Component {
                 this.showLocalNotification(notif);
             }
         });
+
+        AppState.addEventListener('change', this._handleAppStateChange);
     }
 
     componentWillUnmount() {
         this.notificationListner.remove();
+        AppState.removeEventListener('change', this._handleAppStateChange);
+    }
+
+    _handleAppStateChange = (nextAppState) => {
+        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+            FCM.setBadgeNumber(0);
+            FCM.removeAllDeliveredNotifications();
+        }
+        this.setState({appState: nextAppState});
     }
 
     showLocalNotification(notif) {
@@ -78,6 +89,22 @@ export default class PushController extends Component {
     render() {
         return null;
     }
+}
+
+PushController.scheduleTest = () => {
+    FCM.scheduleLocalNotification(
+        {
+            fire_date: moment().add(10,'seconds').toDate().getTime(),
+            id: "day",
+            title: "Rappel : ",
+            body: "Aujourd'hui à ",
+            icon: "ic_notif",
+            large_icon: "ic_launcher",
+            "show_in_foreground": true,
+            priority: "high",
+            badge: 1,
+        }
+    )
 }
 
 PushController.scheduleEventSnoozes = (event) => {
