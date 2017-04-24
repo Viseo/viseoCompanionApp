@@ -21,13 +21,12 @@ import {
     TouchableHighlight
 } from "react-native";
 import CheckBox from "react-native-check-box";
-import styles from "./../styles/form";
 import {authenticate} from "../util/db";
 import * as util from "../util/util.js";
 import strings from "../util/localizedStrings";
-import AppText from '../components/appText';
-import EmailInput from './../components/emailInput';
-import PasswordInput from './../components/passwordInput';
+import AppText from "../components/appText";
+import EmailInput from "./../components/emailInput";
+import PasswordInput from "./../components/passwordInput";
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -217,3 +216,25 @@ export default class SignIn extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    errorInfo: {
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'brown',
+        fontStyle: 'italic'
+    },
+    invalidFormat: {
+        borderColor: 'crimson',
+        borderWidth: 1
+    },
+    textInput: {
+        borderWidth: 0,
+        borderRadius: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        padding: 4,
+        height: 40,
+        marginBottom: 10,
+    }
+});

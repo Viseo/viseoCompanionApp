@@ -38,8 +38,6 @@ export default class AddEvent extends Component {
             errorType: ''
         });
         if (this.isFormCorrect()) {
-            // let [date, time] = this.state.datetime.split(' ');
-            // let formattedDate = this.getDateTime(date, time);
             let formattedDate = moment(this.state.datetime).valueOf();
             await this.props.db.addEvent({
                 name: this.state.name,

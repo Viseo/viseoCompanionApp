@@ -20,13 +20,12 @@ import {
     TouchableHighlight,
     Modal
 } from "react-native";
-import {isEmailValid, isPasswordValid, hasEmptyElement} from '../util/util';
-import {getUserByEmail, addUser} from '../util/db';
-import formStyle from './../styles/form';
-import strings from '../util/localizedStrings';
-import AppText from '../components/appText';
-import EmailInput from './../components/emailInput';
-import PasswordInput from './../components/passwordInput';
+import {isEmailValid, isPasswordValid, hasEmptyElement} from "../util/util";
+import {getUserByEmail, addUser} from "../util/db";
+import strings from "../util/localizedStrings";
+import AppText from "../components/appText";
+import EmailInput from "./../components/emailInput";
+import PasswordInput from "./../components/passwordInput";
 
 export default class SignUp extends React.Component {
 
@@ -150,13 +149,13 @@ export default class SignUp extends React.Component {
 
                         {/* User email input */}
                         <EmailInput ref="email"
-                                    style={[formStyle.textInput,!this.state.isEmailValid && formStyle.invalidFormat]}
+                                    style={[styles.textInput,!this.state.isEmailValid && styles.invalidFormat]}
                                     onChangeText={this.onChangeEmailText}
                                     onSubmitEditing={() => {this.refs.password.focus();}}/>
 
                         {/* User password input */}
                         <PasswordInput ref="password"
-                                       style={[formStyle.textInput,!this.state.isPasswordValid && formStyle.invalidFormat]}
+                                       style={[styles.textInput,!this.state.isPasswordValid && styles.invalidFormat]}
                                        returnKeyType="next"
                                        onChangeText={this.onChangePasswordText}
                                        onSubmitEditing={() => {
@@ -165,7 +164,7 @@ export default class SignUp extends React.Component {
                         {/* User password verification input */}
                         <PasswordInput ref="passwordBis"
                                        placeholder={strings.verifyPassword}
-                                       style={[formStyle.textInput,!this.state.isPasswordValid && formStyle.invalidFormat]}
+                                       style={[styles.textInput,!this.state.isPasswordValid && styles.invalidFormat]}
                                        returnKeyType="done"
                                        onChangeText={this.onChangePasswordCheckText}
                                        onSubmitEditing={() => {
@@ -247,15 +246,15 @@ export default class SignUp extends React.Component {
         // Only relevant ones are showed
         // Several messages can be showed at the same time (in the following order)
         let emailMessage = !this.state.isEmailValid ?
-            <AppText style={formStyle.errorInfo}>{strings.invalidEmailFormat}</AppText> : null;
+            <AppText style={styles.errorInfo}>{strings.invalidEmailFormat}</AppText> : null;
         let passwordMessage = !this.state.isPasswordValid ?
-            <AppText style={formStyle.errorInfo}>{strings.invalidPasswordFormat}</AppText> : null;
+            <AppText style={styles.errorInfo}>{strings.invalidPasswordFormat}</AppText> : null;
         let passwordCheckMessage = !this.state.isPasswordCheckValid ?
-            <AppText style={formStyle.errorInfo}>{strings.passwordsDontMatch}</AppText> : null;
+            <AppText style={styles.errorInfo}>{strings.passwordsDontMatch}</AppText> : null;
         let missingFieldsMessage = !this.state.isFormCompletelyFilled ?
-            <AppText style={formStyle.errorInfo}>{strings.missingFormFields}</AppText> : null;
+            <AppText style={styles.errorInfo}>{strings.missingFormFields}</AppText> : null;
         let errorMessage = this.state.errorMessage.length > 0 ?
-            <AppText style={formStyle.errorInfo}>{this.state.errorMessage}</AppText> : null;
+            <AppText style={styles.errorInfo}>{this.state.errorMessage}</AppText> : null;
 
         return (
             <View>
@@ -268,3 +267,25 @@ export default class SignUp extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    errorInfo: {
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'brown',
+        fontStyle: 'italic'
+    },
+    invalidFormat: {
+        borderColor: 'crimson',
+        borderWidth: 1
+    },
+    textInput: {
+        borderWidth: 0,
+        borderRadius: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        padding: 4,
+        height: 40,
+        marginBottom: 10,
+    }
+});
