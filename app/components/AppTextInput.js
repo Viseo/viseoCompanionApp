@@ -1,13 +1,9 @@
 /**
  * Created by AAB3605 on 10/04/2017.
  */
-import React, {Component} from 'react'
-import {
-    TextInput,
-    StyleSheet,
-    Platform
-} from 'react-native'
-import colors from './colors'
+import React, {Component} from "react";
+import {TextInput, StyleSheet, Platform} from "react-native";
+import colors from "./colors";
 
 export default class AppTextInput extends Component {
 
@@ -28,9 +24,8 @@ export default class AppTextInput extends Component {
                     !this.props.editable && {borderWidth:0},
                     this.props.style]}
                 autoCorrect={false}
-            >
-                {this.props.children}
-            </TextInput>
+                value={this.props.value}
+            />
         )
     }
 }

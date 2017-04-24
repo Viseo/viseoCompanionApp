@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     viseocompanion: {
         textAlign: 'center',
         flex: 1,
-        fontSize: 20,
+        fontSize: 18,
         color: 'white',
     },
 });

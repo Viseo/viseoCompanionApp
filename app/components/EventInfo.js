@@ -19,17 +19,17 @@ import AppText from "./appText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
 import DatePicker from "react-native-datepicker";
-import ModalDropdown from 'react-native-modal-dropdown';
+import ModalDropdown from "react-native-modal-dropdown";
 import strings from "../util/localizedStrings";
-import colors from './colors';
-import BackButton from './BackButton'
-import Toggle from './Toggle'
-import ItemSpacer from './ItemSpacer'
-import FlexImage from './FlexImage'
-import AppTextInput from './AppTextInput'
-import moment from 'moment'
-import PushController from '../util/pushController'
-import KeyboardSpacer from 'react-native-keyboard-spacer'
+import colors from "./colors";
+import BackButton from "./BackButton";
+import Toggle from "./Toggle";
+import ItemSpacer from "./ItemSpacer";
+import FlexImage from "./FlexImage";
+import AppTextInput from "./AppTextInput";
+import moment from "moment";
+import PushController from "../util/pushController";
+import KeyboardSpacer from "react-native-keyboard-spacer";
 
 const eventIdToImages = {
     "40": require('./../images/formation_securite.jpg'),
@@ -185,9 +185,8 @@ export default class Event extends Component {
                     style={styles.name}
                     onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
                     placeholder={editedEvent.name ? '' : "Nom de l'évènement.."}
-                >
-                    {editedEvent.name}
-                </AppTextInput> :
+                    value={editedEvent.name || ''}
+                /> :
                 <AppText style={styles.name}>
                     {editedEvent.name || 'Pas de nom'}
                 </AppText>
@@ -226,9 +225,8 @@ export default class Event extends Component {
                             onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, location:text}})}}
                             editable={editing}
                             placeholder={editedEvent.location ? '' : "Lieu de l'évènement.."}
-                        >
-                            {editedEvent.location}
-                        </AppTextInput> :
+                            value={editedEvent.location}
+                        /> :
                         <AppText style={{flex:5, textAlign:'left', textAlignVertical:'center'}}>
                             {editedEvent.location || "Lieu non renseigné.."}
                         </AppText>
@@ -435,9 +433,8 @@ export default class Event extends Component {
                     onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
                     multiline={true}
                     placeholder={placeholder}
-                >
-                    {this.state.editedEvent.description}
-                </AppTextInput> :
+                    value={this.state.editedEvent.description}
+                /> :
                 <AppText style={styles.description}>
                     {this.state.editedEvent.description}
                 </AppText>

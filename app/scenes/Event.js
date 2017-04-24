@@ -1,9 +1,6 @@
-import React, {Component} from 'react'
-import {
-    View,
-    Dimensions
-} from 'react-native'
-import EventInfo from './../containers/EventInfo'
+import React, {Component} from "react";
+import {View, Dimensions, Platform} from "react-native";
+import EventInfo from "./../containers/EventInfo";
 
 const {height} = Dimensions.get('window');
 

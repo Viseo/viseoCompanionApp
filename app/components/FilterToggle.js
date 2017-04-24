@@ -3,8 +3,8 @@
  */
 import React, {Component} from "react";
 import {View, StyleSheet, Text} from "react-native";
-import Toggle from './Toggle'
-import AppText from './appText'
+import Toggle from "./Toggle";
+import AppText from "./appText";
 
 export default class FilterToggle extends Component {
 
@@ -60,12 +60,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
+        minHeight:30,
+        borderRadius: 2
     },
     innerText: {
         textAlign: 'center',
         fontWeight: '200',
         fontSize: 14,
         textAlignVertical: 'center',
-        minHeight:30,
     },
 });
