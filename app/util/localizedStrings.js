@@ -60,7 +60,12 @@ let strings = new LocalizedStrings({
         lastName: "Lastname",
         email: "Email",
         birthDate: "Birthdate : ",
-        invalidForm: "Please correct fields before submitting the form."
+        invalidForm: "Please correct fields before submitting the form.",
+        history: "History",
+        myEvents: "My events",
+        home: "Home",
+        profile: "Profile",
+        settings: "Settings"
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -113,7 +118,12 @@ let strings = new LocalizedStrings({
         lastName: "Nom",
         email: "Email",
         birthDate: "Date de naissance : ",
-        invalidForm: "Veuillez corriger vos informations avant de valider."
+        invalidForm: "Veuillez corriger vos informations avant de valider.",
+        history: "Historique",
+        myEvents: "Mes" + "\n" + " événements",
+        home: "Accueil",
+        profile: "Profil",
+        settings: "Paramètres"
     }
 });
 
