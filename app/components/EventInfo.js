@@ -450,7 +450,8 @@ export default class Event extends Component {
         let going = event.participants.indexOf(user.id) !== -1
         if (going) {
             this.props.unregisterUser(event.id, user.id);
-            PushController.scheduleEventSnoozes(event);
+            PushController.scheduleTest(event);
+            // PushController.scheduleEventSnoozes(event);
         } else {
             this.props.registerUser(event.id, user.id);
             PushController.unscheduleEventSnoozes(event);

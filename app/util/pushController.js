@@ -33,8 +33,7 @@ export default class PushController extends Component {
                 return;
             }
             if (notif.opened_from_tray) {
-                // FCM.setBadgeNumber(0);
-                // FCM.removeAllDeliveredNotifications();
+                return;
             }
             if (Platform.OS === 'ios') {
                 switch (notif._notificationType) {
@@ -91,18 +90,29 @@ export default class PushController extends Component {
     }
 }
 
-PushController.scheduleTest = () => {
+PushController.scheduleTest = (event) => {
     FCM.scheduleLocalNotification(
         {
-            fire_date: moment().add(10,'seconds').toDate().getTime(),
-            id: "day",
-            title: "Rappel : ",
-            body: "Aujourd'hui à ",
+            fire_date: moment().add(10, 'seconds').toDate().getTime(),
+            id: event.id + "day",
+            title: "Rappel : " + event.name,
+            body: "Aujourd'hui à " + moment(event.date).format("h[h]mm"),
             icon: "ic_notif",
             large_icon: "ic_launcher",
             "show_in_foreground": true,
             priority: "high",
-            badge: 1,
+        }
+    )
+    FCM.scheduleLocalNotification(
+        {
+            fire_date: moment().add(20, 'seconds').toDate().getTime(),
+            id: event.id + "min",
+            title: "Dans 15min : " + event.name,
+            body: "Lieu : " + event.location,
+            icon: "ic_notif",
+            large_icon: "ic_launcher",
+            "show_in_foreground": true,
+            priority: "high",
         }
     )
 }
