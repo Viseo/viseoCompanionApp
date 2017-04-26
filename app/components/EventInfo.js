@@ -28,7 +28,6 @@ import ItemSpacer from "./ItemSpacer";
 import FlexImage from "./FlexImage";
 import AppTextInput from "./AppTextInput";
 import moment from "moment";
-import PushController from "../util/pushController";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 
 const eventIdToImages = {
@@ -448,14 +447,9 @@ export default class Event extends Component {
     onParticipationChange = () => {
         let {user, event} = this.props
         let going = event.participants.indexOf(user.id) !== -1
-        if (going) {
-            this.props.unregisterUser(event.id, user.id);
-            PushController.scheduleTest(event);
-            // PushController.scheduleEventSnoozes(event);
-        } else {
-            this.props.registerUser(event.id, user.id);
-            PushController.unscheduleEventSnoozes(event);
-        }
+        going ?
+            this.props.unregisterUser(event, user.id) :
+            this.props.registerUser(event, user.id)
     }
 }
 

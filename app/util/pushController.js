@@ -27,7 +27,6 @@ export default class PushController extends Component {
             FCM.subscribeToTopic("/topics/newEventAndroid");
         }
 
-
         this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
             if (notif.local_notification) {
                 return;
@@ -52,7 +51,6 @@ export default class PushController extends Component {
                 this.showLocalNotification(notif);
             }
         });
-
         AppState.addEventListener('change', this._handleAppStateChange);
     }
 
@@ -90,7 +88,7 @@ export default class PushController extends Component {
     }
 }
 
-PushController.scheduleTest = (event) => {
+PushController.scheduleTest = async (event) => {
     FCM.scheduleLocalNotification(
         {
             fire_date: moment().add(10, 'seconds').toDate().getTime(),
@@ -101,6 +99,7 @@ PushController.scheduleTest = (event) => {
             large_icon: "ic_launcher",
             "show_in_foreground": true,
             priority: "high",
+            badge: 1
         }
     )
     FCM.scheduleLocalNotification(
@@ -113,11 +112,12 @@ PushController.scheduleTest = (event) => {
             large_icon: "ic_launcher",
             "show_in_foreground": true,
             priority: "high",
+            badge: 1
         }
     )
 }
 
-PushController.scheduleEventSnoozes = (event) => {
+PushController.scheduleEventNotifications = (event) => {
     FCM.scheduleLocalNotification(
         {
             fire_date: moment(event.date).hour(8).minute(0).toDate().getTime(),
@@ -128,6 +128,7 @@ PushController.scheduleEventSnoozes = (event) => {
             large_icon: "ic_launcher",
             "show_in_foreground": true,
             priority: "high",
+            badge: 1
         }
     );
     FCM.scheduleLocalNotification(
@@ -140,11 +141,12 @@ PushController.scheduleEventSnoozes = (event) => {
             large_icon: "ic_launcher",
             "show_in_foreground": true,
             priority: "high",
+            badge: 1
         }
     );
 };
 
-PushController.unscheduleEventSnoozes = (event) => {
+PushController.unscheduleEventNotifications = (event) => {
     FCM.cancelLocalNotification(event.id + "day");
     FCM.cancelLocalNotification(event.id + "min");
 };

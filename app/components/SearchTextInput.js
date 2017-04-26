@@ -17,6 +17,7 @@ class SearchTextInput extends Component {
                 placeholder={this.props.placeholder}
                 onChangeText={this.props.onChangeText}
                 underlineColorAndroid='rgba(0,0,0,0)'
+                returnKeyType="search"
             />
         );
     }

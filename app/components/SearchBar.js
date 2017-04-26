@@ -43,7 +43,7 @@ class SearchBar extends Component {
             <View style={styles.searchBarInput}>
                 <SearchInput
                     style={styles.searchInput}
-                    placeholder="Rechercher.."
+                    placeholder="Rechercher..."
                 />
                 {this.renderFilterToggle()}
             </View>
