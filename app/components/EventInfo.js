@@ -166,12 +166,12 @@ export default class Event extends Component {
     renderMainInfo() {
         let {editedEvent} = this.state
         let {editing} = this.state
+        const hostNameInitials = 'WS'
         const hostAvatar = (
             <View style={{flex:3, justifyContent:'center', alignItems:'center'}}>
-                    <Image
-                        source={require('./../images/userAvatar.jpg')}
-                        style={styles.hostAvatar}
-                    />
+                <AppText style={styles.hostAvatar}>
+                    {hostNameInitials}
+                </AppText>
             </View>
         )
         const name = (
@@ -517,6 +517,10 @@ const styles = StyleSheet.create({
         height: deviceWidth / 4,
         width: deviceWidth / 4,
         borderRadius: deviceWidth / 8,
+        fontSize: 40,
+        backgroundColor:colors.lightGray,
+        textAlign:'center',
+        color:'white',
     },
     organizatorPicture: {
         flex: 1,
