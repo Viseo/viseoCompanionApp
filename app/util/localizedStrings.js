@@ -59,7 +59,7 @@ let strings = new LocalizedStrings({
         firstName: "Firstname",
         lastName: "Lastname",
         email: "Email",
-        birthDate: "Birthdate : ",
+        birthDate: "Birthdate",
         invalidForm: "Please correct fields before submitting the form.",
         history: "History",
         myEvents: "My events",

@@ -11,7 +11,8 @@ import {
     Button,
     Platform,
     TouchableOpacity,
-    Modal
+    Modal,
+    KeyboardAvoidingView
 } from "react-native";
 import PasswordInput from "./passwordInput";
 import EditableImage from "./editableImage";
@@ -56,37 +57,22 @@ export default class Profile extends Component {
         this.validate = this.validate.bind(this);
     }
 
+    toggleEditProfile = (editing) => {
+        if (!editing) {
+            //this.props.updateEvent(this.state.editedEvent)
+        }
+        this.setState({
+            editing
+        })
+    }
+
     render() {
-        const {editedProfile} = this.state
-        const header = this.renderHeader()
-        const avatar = this.renderAvatar()
-        const firstName = (
-            <TextField
-                label={strings.firstName}
-                style={{color: colors.mediumGray}}
-                highlightColor={'#00BCD4'}
-                onChangeText={(firstName) => {
-                    this.setState({editedProfile: {...editedProfile, firstName}});
-                }}
-                value={editedProfile.firstName}
-            />
-        )
-        const lastName = (
-            <TextField
-                label={strings.lastName}
-                style={{color: colors.mediumGray}}
-                highlightColor={'#00BCD4'}
-                onChangeText={(lastName) => {
-                    this.setState({editedProfile: {...editedProfile, lastName}});
-                }}
-                value={editedProfile.lastName}
-            />
-        )
-        const email = <AppText style={[styles.field, {color: colors.lightGray}]}>{editedProfile.email}</AppText>
+        const {editedProfile, editing} = this.state
         const password = (
             <TextField
                 label={'Mot de passe'}
                 style={{color: colors.mediumGray}}
+                wrapper={styles.textFieldContainer}
                 secureTextEntry={true}
                 highlightColor={'#00BCD4'}
                 onChangeText={() => {
@@ -96,6 +82,7 @@ export default class Profile extends Component {
         const passwordCheck = (
             <TextField
                 label={'Confirmez le mot de passe'}
+                wrapper={styles.textFieldContainer}
                 style={{color: colors.mediumGray}}
                 secureTextEntry={true}
                 highlightColor={'#00BCD4'}
@@ -103,18 +90,17 @@ export default class Profile extends Component {
                 }}
             />
         )
-        const birthdate = this.renderBirthDate()
         return (
             <View style={{flex: 1}}>
-                {header}
-                <View style={{flex: 15}}>
-                    {avatar}
-                    {firstName}
-                    {lastName}
-                    {email}
-                    {birthdate}
-                    {password}
-                    {passwordCheck}
+                {this.renderHeader()}
+                <View style={{flex: 15, paddingHorizontal: 20, justifyContent: 'flex-start'}}>
+                    {this.renderAvatar()}
+                    {this.renderFirstName()}
+                    {this.renderLastName()}
+                    {this.renderEmail()}
+                    {this.renderBirthDate()}
+                    {editing && password}
+                    {editing && passwordCheck}
                 </View>
             </View>
         )
@@ -127,9 +113,41 @@ export default class Profile extends Component {
         )
     }
 
+    renderEmail() {
+        let {editedProfile, editing} = this.state
+        return editing ?
+            null :
+            <View style={styles.textFieldContainer}>
+                <AppText style={styles.label}>Email</AppText>
+                <AppText style={styles.displayText}>{editedProfile.email}</AppText>
+            </View>
+    }
+
+    renderFirstName() {
+        let {editedProfile, editing} = this.state
+        const firstNameText = (
+            <View style={styles.textFieldContainer}>
+                <AppText style={styles.label}>Nom</AppText>
+                <AppText style={styles.displayText}>{editedProfile.firstName}</AppText>
+            </View>
+        )
+        const firstNameField = (
+            <TextField
+                label={strings.firstName}
+                wrapper={styles.textFieldContainer}
+                style={{color: colors.mediumGray}}
+                highlightColor={'#00BCD4'}
+                onChangeText={(firstName) => {
+                    this.setState({editedProfile: {...editedProfile, firstName}});
+                }}
+                value={editedProfile.firstName}
+            />
+        )
+        return editing ? firstNameField : firstNameText
+    }
+
     renderHeader() {
         let {editing, newEvent} = this.state
-        let {canEdit} = this.props
         const backButton = (
             <BackButton navigator={this.props.navigator}/>
         )
@@ -149,30 +167,51 @@ export default class Profile extends Component {
                     backButton
                 }
                 <AppText style={{flex: 5, color: 'white', fontSize: 20}}>
-                    {editing ?
-                        newEvent ? "Nouvel évènement" : "Modification" :
-                        "Evènement"
-                    }
+                    {editing ? "Modification du profil" : "Profil"}
                 </AppText>
                 <View style={{flex: 3, flexDirection: 'row'}}>
-                    {canEdit && (
-                        <View style={{flex: 1, flexDirection: 'row'}}>
-                            <Toggle
-                                isOn={newEvent}
-                                style={{flex: 5}}
-                                onToggle={() => {
-                                }}
-                            >
-                                <AppText style={{color: 'white', textAlign: 'right'}}>
-                                    {editing ? 'Enregistrer' : 'Modifier'}
-                                </AppText>
-                            </Toggle>
-                            <ItemSpacer/>
-                        </View>
-                    )}
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                        <Toggle
+                            isOn={newEvent}
+                            style={{flex: 5}}
+                            onToggle={this.toggleEditProfile}
+                        >
+                            <AppText style={{color: 'white', textAlign: 'right'}}>
+                                {editing ? 'Enregistrer' : 'Modifier'}
+                            </AppText>
+                        </Toggle>
+                        <ItemSpacer/>
+                    </View>
                 </View>
             </View>
         )
+    }
+
+    renderLastName() {
+        let {editedProfile, editing} = this.state
+        const lastNameText = (
+            <View style={styles.textFieldContainer}>
+                <AppText style={styles.label}>Prénom</AppText>
+                <AppText style={styles.displayText}>{editedProfile.lastName}</AppText>
+            </View>
+        )
+        const lastNameField = (
+            <TextField
+                label={strings.lastName}
+                style={{color: colors.mediumGray}}
+                wrapper={styles.textFieldContainer}
+                highlightColor={'#00BCD4'}
+                onChangeText={(lastName) => {
+                    this.setState({editedProfile: {...editedProfile, lastName}});
+                }}
+                value={editedProfile.lastName}
+            />
+        )
+        return editing ? lastNameField : lastNameText
+    }
+
+    renderPasswordField() {
+
     }
 
     oldrender() {
@@ -315,8 +354,8 @@ export default class Profile extends Component {
     renderBirthDate() {
         const birthDateValue = new Date(this.state.editedProfile.birthDate);
         const {editedProfile} = this.state
-        const dateLabel = (<AppText>{strings.birthDate}</AppText>)
-        const dateText = (<AppText>{this.props.birthDate}</AppText>)
+        const dateLabel = <AppText style={{color:'gray', fontSize:14}}>{strings.birthDate}</AppText>
+        const dateText = (<AppText style={styles.displayText}>{this.props.birthDate}</AppText>)
         const datePicker = (<DatePicker
             date={birthDateValue}
             placeholder={strings.birthDate}
@@ -338,9 +377,10 @@ export default class Profile extends Component {
             </AppText>)
 
         return (
-            <View style={{flex: 2, flexDirection: 'row'}}>
-                {true || this.state.editing ? datePicker : dateLabel}
-                {true || this.state.editing ? errorMessage : dateText}
+            <View style={styles.textFieldContainer}>
+                {dateLabel}
+                {this.state.editing && datePicker}
+                {this.state.editing ? errorMessage : dateText}
             </View>
         )
     }
@@ -462,9 +502,9 @@ const styles = StyleSheet.create({
         width: deviceWidth / 4,
         borderRadius: deviceWidth / 8,
         fontSize: 40,
-        backgroundColor:colors.lightGray,
-        textAlign:'center',
-        color:'white',
+        backgroundColor: colors.lightGray,
+        textAlign: 'center',
+        color: 'white',
     },
     topBar: {
         flex: 1,
@@ -474,7 +514,13 @@ const styles = StyleSheet.create({
         height: (1 / 16) * deviceHeight,
         marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
-
+    label: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    displayText: {
+        fontSize: 18,
+    },
     topBarText: {
         paddingHorizontal: 10,
         fontSize: 20,
@@ -500,7 +546,9 @@ const styles = StyleSheet.create({
         color: colors.mediumGray,
         textAlign: 'center',
     },
-
+    textFieldContainer: {
+        marginTop: 20,
+    },
     modal: {
         flex: 1,
         justifyContent: 'center',
