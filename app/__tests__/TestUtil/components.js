@@ -1,20 +1,21 @@
 import React from "react";
 import {shallow} from "enzyme";
-import EventCard from '../../components/events/eventCard';
-import ViseoCompanion from '../../index';
-import Home from '../../scenes/home';
-import EditableImage from '../../components/editableImage';
-import AppText from '../../components/appText'
-import AppTextInput from '../../components/AppTextInput'
-import BackButton from '../../components/BackButton'
-import Button from '../../components/Button'
-import ImageButton from './../../components/ImageButton'
-import FlexImage from './../../components/FlexImage'
-import Toggle from './../../components/Toggle'
-import ItemSpacer from './../../components/ItemSpacer'
-import FilterToggle from './../../components/FilterToggle'
-import SearchTextInput from './../../components/SearchTextInput'
-import SearchBar from './../../components/SearchBar'
+import EventCard from "../../components/events/eventCard";
+import ViseoCompanion from "../../index";
+import Home from "../../scenes/home";
+import EditableImage from "../../components/editableImage";
+import AppText from "../../components/appText";
+import AppTextInput from "../../components/AppTextInput";
+import BackButton from "../../components/BackButton";
+import Button from "../../components/Button";
+import ImageButton from "./../../components/ImageButton";
+import FlexImage from "./../../components/FlexImage";
+import Toggle from "./../../components/Toggle";
+import ItemSpacer from "./../../components/ItemSpacer";
+import FilterToggle from "./../../components/FilterToggle";
+import SearchTextInput from "./../../components/SearchTextInput";
+import SearchBar from "./../../components/SearchBar";
+import PushController from "./../../util/pushController";
 
 export function get(componentName, props) {
     switch (componentName) {
@@ -52,6 +53,9 @@ export function get(componentName, props) {
             break;
         case 'editableImage':
             return shallow(<EditableImage {...props}/>);
+            break;
+        case 'pushController':
+            return shallow(<PushController {...props}/>);
             break;
         default:
             return null;

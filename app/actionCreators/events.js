@@ -1,11 +1,9 @@
 /**
  * Created by AAB3605 on 03/04/2017.
  */
-import settings from './../config/settings'
-import {
-    getEventParticipants,
-    addEvent as pushEvent,
-} from './../util/db'
+import settings from "./../config/settings";
+import {getEventParticipants, addEvent as pushEvent} from "./../util/db";
+import PushController from "../util/pushController";
 
 export const types = {
     ADD_EVENT: 'ADD_EVENT',
@@ -110,13 +108,15 @@ export const receiveEvents = (events) => ({
     receivedAt: Date.now()
 })
 
-export const registerUser = (eventId, userId) => {
+export const registerUser = (event, userId) => {
+    let eventId = event.id
     return async(dispatch) => {
         dispatch({
             type: types.REGISTER_USER,
             eventId,
             userId,
         })
+        PushController.scheduleEventNotifications(event)
         try {
             await fetch(settings.api.addEventParticipant(eventId, userId), {
                 method: 'POST',
@@ -139,8 +139,10 @@ export const requestEvents = () => ({
     type: types.REQUEST_EVENTS,
 })
 
-export const unregisterUser = (eventId, userId) => {
+export const unregisterUser = (event, userId) => {
+    let eventId = event.id
     return async(dispatch) => {
+        PushController.unscheduleEventNotifications(event);
         dispatch({
             type: types.UNREGISTER_USER,
             eventId,

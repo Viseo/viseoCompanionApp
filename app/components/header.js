@@ -25,14 +25,15 @@ var {
 
 const styles = StyleSheet.create({
     topbar: {
-        backgroundColor: 'transparent',
+        flex: 0,
+        height: 25,
         alignItems: 'center',
         flexDirection: 'row',
-        flex: 1,
+        backgroundColor: 'transparent'
     },
     viseocompanion: {
-        textAlign: 'center',
         flex: 1,
+        textAlign: 'center',
         fontSize: 18,
         color: 'white',
     },

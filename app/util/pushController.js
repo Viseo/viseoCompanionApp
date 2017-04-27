@@ -28,13 +28,11 @@ export default class PushController extends Component {
         }
 
         this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
-            FCM.setBadgeNumber(1);
             if (notif.local_notification) {
                 return;
             }
             if (notif.opened_from_tray) {
-                FCM.setBadgeNumber(0);
-                FCM.removeAllDeliveredNotifications();
+                return;
             }
             if (Platform.OS === 'ios') {
                 switch (notif._notificationType) {
@@ -53,10 +51,20 @@ export default class PushController extends Component {
                 this.showLocalNotification(notif);
             }
         });
+        AppState.addEventListener('change', this._handleAppStateChange);
     }
 
     componentWillUnmount() {
         this.notificationListner.remove();
+        AppState.removeEventListener('change', this._handleAppStateChange);
+    }
+
+    _handleAppStateChange = (nextAppState) => {
+        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+            FCM.setBadgeNumber(0);
+            FCM.removeAllDeliveredNotifications();
+        }
+        this.setState({appState: nextAppState});
     }
 
     showLocalNotification(notif) {
@@ -80,7 +88,36 @@ export default class PushController extends Component {
     }
 }
 
-PushController.scheduleEventSnoozes = (event) => {
+PushController.scheduleTest = async (event) => {
+    FCM.scheduleLocalNotification(
+        {
+            fire_date: moment().add(10, 'seconds').toDate().getTime(),
+            id: event.id + "day",
+            title: "Rappel : " + event.name,
+            body: "Aujourd'hui à " + moment(event.date).format("h[h]mm"),
+            icon: "ic_notif",
+            large_icon: "ic_launcher",
+            "show_in_foreground": true,
+            priority: "high",
+            badge: 1
+        }
+    )
+    FCM.scheduleLocalNotification(
+        {
+            fire_date: moment().add(20, 'seconds').toDate().getTime(),
+            id: event.id + "min",
+            title: "Dans 15min : " + event.name,
+            body: "Lieu : " + event.location,
+            icon: "ic_notif",
+            large_icon: "ic_launcher",
+            "show_in_foreground": true,
+            priority: "high",
+            badge: 1
+        }
+    )
+}
+
+PushController.scheduleEventNotifications = (event) => {
     FCM.scheduleLocalNotification(
         {
             fire_date: moment(event.date).hour(8).minute(0).toDate().getTime(),
@@ -91,6 +128,7 @@ PushController.scheduleEventSnoozes = (event) => {
             large_icon: "ic_launcher",
             "show_in_foreground": true,
             priority: "high",
+            badge: 1
         }
     );
     FCM.scheduleLocalNotification(
@@ -103,11 +141,12 @@ PushController.scheduleEventSnoozes = (event) => {
             large_icon: "ic_launcher",
             "show_in_foreground": true,
             priority: "high",
+            badge: 1
         }
     );
 };
 
-PushController.unscheduleEventSnoozes = (event) => {
+PushController.unscheduleEventNotifications = (event) => {
     FCM.cancelLocalNotification(event.id + "day");
     FCM.cancelLocalNotification(event.id + "min");
 };

@@ -30,6 +30,7 @@ import {dispatch} from "redux";
 import PushController from "../util/pushController";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
+import KeyboardSpacer from "react-native-keyboard-spacer";
 
 export default class Home extends Component {
 

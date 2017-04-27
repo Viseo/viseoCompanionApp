@@ -1,19 +1,14 @@
 /**
  * Created by VBO3596 on 17/03/2017.
  */
-import React, {Component} from 'react';
-import {
-    View,
-    TextInput,
-} from 'react-native';
-import styles from './../styles/form';
-import strings from '../util/localizedStrings';
+import React, {Component} from "react";
+import {View, TextInput, StyleSheet} from "react-native";
+import strings from "../util/localizedStrings";
 
-class PasswordInput extends Component {
+export default class PasswordInput extends Component {
 
     static defaultProps = {
         placeholder: strings.password,
-        style: styles.textInput,
         underlineColorAndroid: "white",
         minLength:6,
         returnKeyType: "done",
@@ -43,7 +38,7 @@ class PasswordInput extends Component {
         return (
             <View style={{flexDirection:'row', flex: 1}}>
                 <TextInput
-                    style={[this.props.style, {flex:1, textAlign: 'center'}]}
+                    style={[this.props.style, styles.textInput, {flex:1, textAlign: 'center'}]}
                     onChangeText={this.editPassword}
                     placeholder= {this.props.placeholder}
                     ref="password"
@@ -62,4 +57,24 @@ class PasswordInput extends Component {
     }
 }
 
-export default PasswordInput;
+const styles = StyleSheet.create({
+    errorInfo: {
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'brown',
+        fontStyle: 'italic'
+    },
+    invalidFormat: {
+        borderColor: 'crimson',
+        borderWidth: 1
+    },
+    textInput: {
+        borderWidth: 0,
+        borderRadius: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        padding: 4,
+        height: 40,
+        marginBottom: 10,
+    }
+});

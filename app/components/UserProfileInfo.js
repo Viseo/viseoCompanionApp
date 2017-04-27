@@ -1,7 +1,7 @@
 /**
  * Created by VBO3596 on 18/04/2017.
  */
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import {
     View,
     TextInput,
@@ -12,19 +12,19 @@ import {
     Button,
     Platform,
     TouchableOpacity,
-    Modal,
-} from 'react-native';
+    Modal
+} from "react-native";
 import PasswordInput from "./passwordInput";
 import EditableImage from "./editableImage";
 import AppText from "./appText";
 import EditableAppText from "./editableAppText";
-import strings from '../util/localizedStrings';
+import strings from "../util/localizedStrings";
 import colors from "./colors";
 import DatePicker from "react-native-datepicker";
-import * as util from '../util/util';
-import FlexImage from './FlexImage'
-import ItemSpacer from './ItemSpacer'
-import BackButton from './BackButton'
+import * as util from "../util/util";
+import FlexImage from "./FlexImage";
+import ItemSpacer from "./ItemSpacer";
+import BackButton from "./BackButton";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 let defaultImage = require('./../images/userAvatar.jpg');
@@ -63,7 +63,7 @@ export default class Profile extends Component {
             content={editedProfile.firstName}
             mandatory={true}
             onValidate={(firstName) => {this.setState({editedProfile: {...editedProfile, firstName}});}}/>);
-        const lastName=(<EditableAppText
+        const lastName = (<EditableAppText
             fieldName={strings.lastName}
             style={styles.field}
             isInModificationMode={this.state.editing}
@@ -71,37 +71,39 @@ export default class Profile extends Component {
             mandatory={true}
             onValidate={(lastName) => {this.setState({editedProfile: {...editedProfile, lastName}});}}/>)
         const newPassword = (<PasswordInput ref="password"
-            style={styles.field}
-            underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
-            returnKeyType="next"
-            onChangeText={this.onChangePasswordText}
-            onSubmitEditing={() => {this.refs.passwordCheck.focus();}}/>)
+                                            style={styles.field}
+                                            underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
+                                            returnKeyType="next"
+                                            onChangeText={this.onChangePasswordText}
+                                            onSubmitEditing={() => {this.refs.passwordCheck.focus();}}/>)
         const passwordCheck = (<PasswordInput ref="passwordCheck"
-            placeholder={strings.verifyPassword}
-            style={styles.field}
-            underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
-            returnKeyType="done"
-            onChangeText={this.onChangePasswordCheckText}/>)
-        const email = (<AppText style={[styles.field, {color:colors.lightGray, flex:1}]}>{editedProfile.email}</AppText>)
+                                              placeholder={strings.verifyPassword}
+                                              style={styles.field}
+                                              underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
+                                              returnKeyType="done"
+                                              onChangeText={this.onChangePasswordCheckText}/>)
+        const email = (
+            <AppText style={[styles.field, {color:colors.lightGray, flex:1}]}>{editedProfile.email}</AppText>)
         return (
             <View style={{flex:1}}>
                 {this.renderHeader()}
                 <View style={styles.container}>
                     <View style={{flex:30,flexDirection:'column'}}>
-                        <ScrollView style={{flex:2}} contentContainerStyle={{flex:1, alignItems: 'center', paddingHorizontal:30}}>
+                        <ScrollView style={{flex:2}}
+                                    contentContainerStyle={{flex:1, alignItems: 'center', paddingHorizontal:30}}>
                             <ItemSpacer/>
                             {this.renderUserPicture()}
                             <ItemSpacer/>
                             <View style={{flex:2, flexDirection: 'row'}}>
-                            {firstName}
+                                {firstName}
                             </View>
                             <ItemSpacer/>
                             <View style={{flex:2, flexDirection: 'row'}}>
-                            {lastName}
+                                {lastName}
                             </View>
                             <ItemSpacer/>
                             <View style={{flex:2, flexDirection: 'row'}}>
-                            {email}
+                                {email}
                             </View>
                             <ItemSpacer/>
                             {this.renderBirthDate()}
@@ -109,11 +111,11 @@ export default class Profile extends Component {
                             {this.renderCurrentPassword()}
                             <ItemSpacer/>
                             <View style={{flex:2, flexDirection: 'row'}}>
-                            {this.state.editing ? newPassword : null}
+                                {this.state.editing ? newPassword : null}
                             </View>
                             <ItemSpacer/>
                             <View style={{flex:2, flexDirection: 'row'}}>
-                            {this.state.editing ? passwordCheck : null}
+                                {this.state.editing ? passwordCheck : null}
                             </View>
                             <ItemSpacer/>
                             {this.renderNotifySuccess()}
@@ -202,7 +204,7 @@ export default class Profile extends Component {
                 {editedProfile.birthDate === undefined ? strings.field + ' ' + strings.mandatory : ''}
             </AppText>)
 
-        return(
+        return (
             <View style={{flex: 2, flexDirection: 'row'}}>
                 {this.state.editing ? datePicker : dateLabel}
                 {this.state.editing ? errorMessage : dateText}
@@ -233,7 +235,11 @@ export default class Profile extends Component {
 
     renderNotifySuccess() {
         const notificationMessage = this.state.cannotSave ? strings.invalidForm : strings.modified;
-        const pressFunction = this.state.cannotSave ? () => {this.setState({modalVisible: false})} : () => {this.props.navigator.resetTo({title: 'Home'});}
+        const pressFunction = this.state.cannotSave ? () => {
+                this.setState({modalVisible: false})
+            } : () => {
+                this.props.navigator.resetTo({title: 'Home'});
+            }
         return (
             <View>
                 <Modal
@@ -269,12 +275,12 @@ export default class Profile extends Component {
     save = () => {
         const {editedProfile} = this.state
         const cannotSave = editedProfile.firstName === ''
-        || editedProfile.lastName === ''
-        || editedProfile.password === ''
-        || editedProfile.birthDate === undefined
-        || !this.state.isPasswordCheckValid;
+            || editedProfile.lastName === ''
+            || editedProfile.password === ''
+            || editedProfile.birthDate === undefined
+            || !this.state.isPasswordCheckValid;
         this.setState({cannotSave})
-        if(this.state.isPasswordCheckValid){
+        if (this.state.isPasswordCheckValid) {
             this.props.updateUser(this.state.editedProfile)
         }
         this.setState({modalVisible: true});
@@ -289,10 +295,11 @@ export default class Profile extends Component {
     onChangePasswordText(password) {
         const {editedProfile} = this.state
         let isNewPasswordValid = util.isPasswordValid(password) || !password.length
-        if(isNewPasswordValid){
+        if (isNewPasswordValid) {
             this.setState({
                 editedProfile: {...editedProfile, password},
-                isNewPasswordValid: isNewPasswordValid});
+                isNewPasswordValid: isNewPasswordValid
+            });
         }
     }
 
@@ -316,10 +323,10 @@ Profile.defaultProps = {
 const styles = StyleSheet.create({
 
     topBar: {
-        flex:1,
-        flexDirection:'row',
-        backgroundColor:colors.blue,
-        alignItems:'center',
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: colors.blue,
+        alignItems: 'center',
         height: (1 / 16) * deviceHeight,
         marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
@@ -352,9 +359,9 @@ const styles = StyleSheet.create({
     },
 
     modal: {
-        flex:1,
+        flex: 1,
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
         backgroundColor: 'rgba(186, 242, 255, 1)'
     }
 });

@@ -53,6 +53,7 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string></string>
 		<string>Ionicons.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
@@ -72,8 +73,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 </dict>
 </plist>
