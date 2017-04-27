@@ -4,7 +4,6 @@
 import React, {Component} from "react";
 import {
     View,
-    TextInput,
     StyleSheet,
     Dimensions,
     ScrollView,
@@ -27,6 +26,7 @@ import ItemSpacer from "./ItemSpacer";
 import BackButton from "./BackButton";
 import TextField from 'react-native-md-textinput'
 import Toggle from "./Toggle";
+import Avatar from "./Avatar";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 let defaultImage = require('./../images/userAvatar.jpg');
@@ -122,11 +122,8 @@ export default class Profile extends Component {
 
     renderAvatar() {
         return (
-            <View style={{flex:3, justifyContent:'center', alignItems:'center'}}>
-                <AppText style={styles.avatar}>
-                    {'AA'}
-                </AppText>
-            </View>
+            <Avatar name={this.state.editedProfile.name}
+                    lastName={this.state.editedProfile.lastName}/>
         )
     }
 

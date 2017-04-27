@@ -27,6 +27,7 @@ import AppTextInput from "./AppTextInput";
 import moment from "moment";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import {Item} from "react-native-mock/build/components/Picker";
+import Avatar from "./Avatar";
 
 const eventIdToImages = {
     "40": require('./../images/events/formation_securite.jpg'),
@@ -166,14 +167,9 @@ export default class Event extends Component {
     renderMainInfo() {
         let {editedEvent} = this.state
         let {editing} = this.state
-        const hostNameInitials = 'WS'
-        const hostAvatar = (
-            <View style={{flex:3, justifyContent:'center', alignItems:'center'}}>
-                <AppText style={styles.avatar}>
-                    {hostNameInitials}
-                </AppText>
-            </View>
-        )
+        const hostName = 'bob'
+        const hostLastName = 'Rasoflsky'
+        const hostAvatar = <Avatar name={hostName} lastName={hostLastName}/>
         const name = (
             editing ?
                 <AppTextInput
