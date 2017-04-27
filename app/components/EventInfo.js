@@ -182,7 +182,7 @@ export default class Event extends Component {
         const name = (
             editing ?
                 <AppTextInput
-                    style={styles.name}
+                    style={[styles.name, {color:colors.blue, marginTop:2}]}
                     onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
                     placeholder={editedEvent.name ? '' : "Nom de l'évènement.."}
                     value={editedEvent.name || ''}
@@ -275,7 +275,7 @@ export default class Event extends Component {
                             this.renderEventDateAndParticipants()
                     }
                     {this.renderEventDescription(this.state.description)}
-                    {this.renderEventKeywords(event.keywords)}
+                    {/*{this.renderEventKeywords(event.keywords)}*/}
                     {this.renderNotifySuccess()}
                 </ScrollView>
                 <KeyboardSpacer/>
@@ -355,7 +355,7 @@ export default class Event extends Component {
         let {editedEvent, newEvent} = this.state
         return (
             <View style={{alignItems:'center'}}>
-                <View style={[styles.participationInfoRectangle, {justifyContent: 'center'}]}>
+                <View style={[styles.participationInfoRectangle, {justifyContent: 'center', borderColor:colors.blue}]}>
                     <DatePicker
                         date={newEvent ? moment().toDate() : moment(editedEvent.date).toDate()}
                         mode="datetime"
@@ -377,7 +377,10 @@ export default class Event extends Component {
                                         },
                                         dateInput: {
                                           marginLeft: 36,
-                                          borderWidth:0
+                                          borderWidth:0,
+                                        },
+                                        dateText: {
+                                            color:colors.blue
                                         }
                                       }}
                     />
@@ -428,14 +431,17 @@ export default class Event extends Component {
         placeholder = this.state.editedEvent.description ? '' : placeholder;
         return (
             editing ?
-                <AppTextInput
-                    style={styles.description}
-                    onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
-                    multiline={true}
-                    placeholder={placeholder}
-                    value={this.state.editedEvent.description}
-                /> :
-                <AppText style={styles.description}>
+                <View
+                    style={{flex:1, paddingHorizontal: deviceWidth / 20, paddingTop:10, marginTop:10, height: deviceHeight/5}}>
+                    <AppTextInput
+                        style={[styles.description]}
+                        onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
+                        multiline={true}
+                        placeholder={placeholder}
+                        value={this.state.editedEvent.description}
+                    />
+                </View> :
+                <AppText style={[styles.description, {marginTop: 20}]}>
                     {this.state.editedEvent.description}
                 </AppText>
         );
