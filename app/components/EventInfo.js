@@ -29,18 +29,18 @@ import KeyboardSpacer from "react-native-keyboard-spacer";
 import {Item} from "react-native-mock/build/components/Picker";
 
 const eventIdToImages = {
-    "40": require('./../images/formation_securite.jpg'),
-    "0": require('./../images/0.jpg'),
-    "7": require('./../images/blockchain-iot.jpg'),
-    "41": require('./../images/poker_jeux.jpg'),
-    "42": require('./../images/concert-de-rock.jpg'),
+    "40": require('./../images/events/formation_securite.jpg'),
+    "0": require('./../images/events/0.jpg'),
+    "7": require('./../images/events/blockchain-iot.jpg'),
+    "41": require('./../images/events/poker_jeux.jpg'),
+    "42": require('./../images/events/concert-de-rock.jpg'),
     "39": require('./../images/coderdojo.jpg'),
-    "44": require('./../images/formationAgile.jpg'),
-    "43": require('./../images/reactive-nativingitup-png-800x600_q96.png'),
-    "38": require('./../images/soiree_nouveaux.jpg'),
-    "46": require('./../images/tdd.png'),
+    "44": require('./../images/events/formationAgile.jpg'),
+    "43": require('./../images/events/reactive-nativingitup-png-800x600_q96.png'),
+    "38": require('./../images/events/soiree_nouveaux.jpg'),
+    "46": require('./../images/events/tdd.png'),
 }
-let defaultImage = require('./../images/0.jpg');
+let defaultImage = require('./../images/events/default.jpg');
 const {height} = Dimensions.get('window');
 
 export default class Event extends Component {
