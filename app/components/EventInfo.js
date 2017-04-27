@@ -169,7 +169,7 @@ export default class Event extends Component {
         const hostNameInitials = 'WS'
         const hostAvatar = (
             <View style={{flex:3, justifyContent:'center', alignItems:'center'}}>
-                <AppText style={styles.hostAvatar}>
+                <AppText style={styles.avatar}>
                     {hostNameInitials}
                 </AppText>
             </View>
@@ -513,7 +513,7 @@ const styles = StyleSheet.create({
             {rotate: '90deg'}
         ]
     },
-    hostAvatar: {
+    avatar: {
         height: deviceWidth / 4,
         width: deviceWidth / 4,
         borderRadius: deviceWidth / 8,
