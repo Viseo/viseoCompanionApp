@@ -81,7 +81,6 @@ export default class Home extends Component {
                     </View>
                 </View>
                 <VisibleEventList style={{flex:22}} navigator={this.props.navigator}/>
-                <KeyboardSpacer/>
                 <ActionButton buttonColor='#5A61FF'>
                     {editProfileButton}
                     {createNewEventButton}

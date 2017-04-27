@@ -3,23 +3,20 @@
  */
 import React, {Component} from "react";
 import {
-    TextInput,
     StyleSheet,
     Image,
     ScrollView,
     View,
     Platform,
-    TouchableOpacity,
     Button,
     Modal,
-    KeyboardAvoidingView,
-    Dimensions
+    Dimensions,
+    Picker
 } from "react-native";
 import AppText from "./appText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
 import DatePicker from "react-native-datepicker";
-import ModalDropdown from "react-native-modal-dropdown";
 import strings from "../util/localizedStrings";
 import colors from "./colors";
 import BackButton from "./BackButton";
@@ -29,6 +26,7 @@ import FlexImage from "./FlexImage";
 import AppTextInput from "./AppTextInput";
 import moment from "moment";
 import KeyboardSpacer from "react-native-keyboard-spacer";
+import {Item} from "react-native-mock/build/components/Picker";
 
 const eventIdToImages = {
     "40": require('./../images/events/formation_securite.jpg'),
@@ -76,7 +74,7 @@ export default class Event extends Component {
     }
 
     getCategoryNameFromId(id) {
-        return strings.categoriesNames[this.props.event.category]
+        return strings.categoriesNames[id]
     }
 
     getCategoryColorFromId(id) {
@@ -179,7 +177,7 @@ export default class Event extends Component {
         const name = (
             editing ?
                 <AppTextInput
-                    style={styles.name}
+                    style={[styles.name, {color:colors.blue, marginTop:2}]}
                     onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
                     placeholder={editedEvent.name ? '' : "Nom de l'évènement.."}
                     value={editedEvent.name || ''}
@@ -189,17 +187,29 @@ export default class Event extends Component {
                 </AppText>
         )
         const categoryDropdown = (
-            <ModalDropdown
-                disabled={!editing}
-                textStyle={styles.categoryDropdown}
-                style={{flex:1}}
-                options={strings.categoriesNames}
-                defaultValue={this.getCategoryNameFromId(editedEvent.category)}
-                onSelect={(category) => {
+            <Picker
+                selectedValue={editedEvent.category}
+                onValueChange={(category) => {
                     this.setState({
                         editedEvent: {...editedEvent, category}
-                    })
-                }}
+                    })}
+                }
+                style={{width:130}}
+            >
+                <Item label={this.getCategoryNameFromId(0)} value={0} />
+                <Item label={this.getCategoryNameFromId(1)} value={1} />
+                <Item label={this.getCategoryNameFromId(2)} value={2} />
+            </Picker>
+        )
+        const categoryLabel = (
+            <AppText>{this.getCategoryNameFromId(editedEvent.category)}</AppText>
+        )
+        const category = editing ? categoryDropdown : categoryLabel
+        const categoryIndicator = (
+            <View style={[
+                styles.categoryIndicator,
+                {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
+            ]}
             />
         )
         const username = (
@@ -231,17 +241,10 @@ export default class Event extends Component {
 
             </View>
         )
-        const categoryIndicator = (
-            <View style={[
-                styles.categoryIndicator,
-                {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
-                ]}
-            />
-        )
         const eventInfo = (
             <View style={{flex:6, flexDirection:'column'}}>
                 {name}
-                {categoryDropdown}
+                {category}
                 <View style={styles.locationAndDateContainer}>
                     {username}
                     {location}
@@ -272,7 +275,7 @@ export default class Event extends Component {
                             this.renderEventDateAndParticipants()
                     }
                     {this.renderEventDescription(this.state.description)}
-                    {this.renderEventKeywords(event.keywords)}
+                    {/*{this.renderEventKeywords(event.keywords)}*/}
                     {this.renderNotifySuccess()}
                 </ScrollView>
                 <KeyboardSpacer/>
@@ -352,7 +355,7 @@ export default class Event extends Component {
         let {editedEvent, newEvent} = this.state
         return (
             <View style={{alignItems:'center'}}>
-                <View style={[styles.participationInfoRectangle, {justifyContent: 'center'}]}>
+                <View style={[styles.participationInfoRectangle, {justifyContent: 'center', borderColor:colors.blue}]}>
                     <DatePicker
                         date={newEvent ? moment().toDate() : moment(editedEvent.date).toDate()}
                         mode="datetime"
@@ -374,7 +377,10 @@ export default class Event extends Component {
                                         },
                                         dateInput: {
                                           marginLeft: 36,
-                                          borderWidth:0
+                                          borderWidth:0,
+                                        },
+                                        dateText: {
+                                            color:colors.blue
                                         }
                                       }}
                     />
@@ -425,14 +431,17 @@ export default class Event extends Component {
         placeholder = this.state.editedEvent.description ? '' : placeholder;
         return (
             editing ?
-                <AppTextInput
-                    style={styles.description}
-                    onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
-                    multiline={true}
-                    placeholder={placeholder}
-                    value={this.state.editedEvent.description}
-                /> :
-                <AppText style={styles.description}>
+                <View
+                    style={{flex:1, paddingHorizontal: deviceWidth / 20, paddingTop:10, marginTop:10, height: deviceHeight/5}}>
+                    <AppTextInput
+                        style={[styles.description]}
+                        onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
+                        multiline={true}
+                        placeholder={placeholder}
+                        value={this.state.editedEvent.description}
+                    />
+                </View> :
+                <AppText style={[styles.description, {marginTop: 20}]}>
                     {this.state.editedEvent.description}
                 </AppText>
         );
