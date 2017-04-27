@@ -186,18 +186,18 @@ export default class Event extends Component {
                     {editedEvent.name || 'Pas de nom'}
                 </AppText>
         )
-        // console.warn(editedEvent.category);
         const categoryDropdown = (
             <Picker
                 selectedValue={editedEvent.category}
                 onValueChange={(category) => {
                     this.setState({
                         editedEvent: {...editedEvent, category}
-                    })}}
+                    })}
+                }
             >
-                <Item label={this.getCategoryNameFromId(0)} value="0" />
-                <Item label={this.getCategoryNameFromId(1)} value="1" />
-                <Item label={this.getCategoryNameFromId(2)} value="2" />
+                <Item label={this.getCategoryNameFromId(0)} value={0} />
+                <Item label={this.getCategoryNameFromId(1)} value={1} />
+                <Item label={this.getCategoryNameFromId(2)} value={2} />
             </Picker>
         )
         const categoryLabel = (
