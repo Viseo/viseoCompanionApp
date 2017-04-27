@@ -3,23 +3,20 @@
  */
 import React, {Component} from "react";
 import {
-    TextInput,
     StyleSheet,
     Image,
     ScrollView,
     View,
     Platform,
-    TouchableOpacity,
     Button,
     Modal,
-    KeyboardAvoidingView,
-    Dimensions
+    Dimensions,
+    Picker
 } from "react-native";
 import AppText from "./appText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
 import DatePicker from "react-native-datepicker";
-import ModalDropdown from "react-native-modal-dropdown";
 import strings from "../util/localizedStrings";
 import colors from "./colors";
 import BackButton from "./BackButton";
@@ -29,6 +26,7 @@ import FlexImage from "./FlexImage";
 import AppTextInput from "./AppTextInput";
 import moment from "moment";
 import KeyboardSpacer from "react-native-keyboard-spacer";
+import {Item} from "react-native-mock/build/components/Picker";
 
 const eventIdToImages = {
     "40": require('./../images/formation_securite.jpg'),
@@ -76,7 +74,7 @@ export default class Event extends Component {
     }
 
     getCategoryNameFromId(id) {
-        return strings.categoriesNames[this.props.event.category]
+        return strings.categoriesNames[id]
     }
 
     getCategoryColorFromId(id) {
@@ -188,18 +186,29 @@ export default class Event extends Component {
                     {editedEvent.name || 'Pas de nom'}
                 </AppText>
         )
+        // console.warn(editedEvent.category);
         const categoryDropdown = (
-            <ModalDropdown
-                disabled={!editing}
-                textStyle={styles.categoryDropdown}
-                style={{flex:1}}
-                options={strings.categoriesNames}
-                defaultValue={this.getCategoryNameFromId(editedEvent.category)}
-                onSelect={(category) => {
+            <Picker
+                selectedValue={editedEvent.category}
+                onValueChange={(category) => {
                     this.setState({
                         editedEvent: {...editedEvent, category}
-                    })
-                }}
+                    })}}
+            >
+                <Item label={this.getCategoryNameFromId(0)} value="0" />
+                <Item label={this.getCategoryNameFromId(1)} value="1" />
+                <Item label={this.getCategoryNameFromId(2)} value="2" />
+            </Picker>
+        )
+        const categoryLabel = (
+            <AppText>{this.getCategoryNameFromId(editedEvent.category)}</AppText>
+        )
+        const category = editing ? categoryDropdown : categoryLabel
+        const categoryIndicator = (
+            <View style={[
+                styles.categoryIndicator,
+                {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
+            ]}
             />
         )
         const username = (
@@ -231,17 +240,10 @@ export default class Event extends Component {
 
             </View>
         )
-        const categoryIndicator = (
-            <View style={[
-                styles.categoryIndicator,
-                {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
-                ]}
-            />
-        )
         const eventInfo = (
             <View style={{flex:6, flexDirection:'column'}}>
                 {name}
-                {categoryDropdown}
+                {category}
                 <View style={styles.locationAndDateContainer}>
                     {username}
                     {location}
