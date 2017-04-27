@@ -53,6 +53,7 @@ class EmailInput extends Component {
                     returnKeyType="next"
                     autoCapitalize="none"
                     onSubmitEditing= {this.props.onSubmitEditing}
+                    value= {this.props.value}
                 />
             </View>
         );

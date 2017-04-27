@@ -1,46 +1,34 @@
 /**
- * Created by AAB3605 on 13/02/2017.
+ * Created by MBE3664 on 24/04/2017.
  */
-'use strict';
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    TextInput,
-    Navigator,
-    Image,
-    NavMenu,
-    ScrollView,
     View,
-    TouchableOpacity,
-    ListView,
-    Dimensions,
+    Text,
     Button,
-    Alert,
-    TouchableHighlight
-} from "react-native";
-import CheckBox from "react-native-check-box";
-import styles from "./../styles/form";
-import {authenticate} from "../util/db";
-import * as util from "../util/util.js";
-import strings from "../util/localizedStrings";
+    Image,
+    TouchableHighlight,
+    ScrollView
+} from 'react-native';
 import AppText from '../components/appText';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
-import SignInForm from './../containers/SignInForm'
+import {authenticate} from "../util/db";
+import CheckBox from "react-native-check-box";
+import styles from "./../styles/form";
+import strings from "../util/localizedStrings";
+import * as util from "../util/util.js";
 
-export default class SignIn extends Component {
+export default class SignInForm extends Component {
+
     constructor(props) {
-        super(props);
-
+        super(props)
         this.state = {
             email: this.props.email,
-            password: '',
+            password: this.props.password,
             errorMessage: '',
             rememberUser: true
-        };
-
+        }
         this.autoSubmitFormWhenLastInputIsFilled = this.autoSubmitFormWhenLastInputIsFilled.bind(this);
         this.onPressRememberMe = this.onPressRememberMe.bind(this);
         this.onPressRecoverPassword = this.onPressRecoverPassword.bind(this);
@@ -48,7 +36,24 @@ export default class SignIn extends Component {
         this.onPressSignUp = this.onPressSignUp.bind(this);
     }
 
+    componentWillReceiveProps({email, password, authenticationStatus}) {
+        this.setState({
+            email,
+            password
+        })
+        if (authenticationStatus === 1) {
+            this.navigateTo('Home');
+        }
+    }
+
+    navigateTo = (destination) => {
+        this.props.navigator.resetTo({
+            title: destination
+        });
+    }
+
     onPressRememberMe() {
+
         this.setState({
             rememberUser: !this.state.rememberUser
         });
@@ -60,39 +65,14 @@ export default class SignIn extends Component {
         });
     }
 
-    authenticateUser = async () => {
-        try {
-            this.setState({email: this.state.email.toLowerCase()});
-            let user = await authenticate(this.state.email, this.state.password);
-            const unabledToReachServerCode = -1;
-            if (user == unabledToReachServerCode) {
-                this.setState({errorMessage: strings.unableToReachServer});
-            } else if (user) {
-                // if (this.state.rememberUser) {
-                //     // this.props.persist('email', this.state.email)
-                // }
-                this.props.navigator.resetTo({
-                    title: 'Home',
-                    passProps: {
-                        user
-                    },
-                });
-            } else {
-                this.setState({errorMessage: strings.wrongCredentials});
-            }
-        } catch (error) {
-            console.warn('signIn::authenticateUser ' + error);
-            this.setState({errorMessage: strings.unableToReachServer});
-        }
-    };
-
-    async onPressSignIn() {
+    onPressSignIn() {
         this.setState({errorMessage: ''});
         if (util.hasEmptyElement(this.state.email, this.state.password)) {
             this.setState({errorMessage: strings.missingFormFields});
         } else {
-            this.authenticateUser();
+            this.props.onSubmitEditing(this.state.email, this.state.password);
         }
+
     }
 
     onPressSignUp() {
@@ -111,9 +91,6 @@ export default class SignIn extends Component {
     }
 
     render() {
-        // return (
-        //     <SignInForm />
-        // )
         return (
             <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
                 <ScrollView>
@@ -141,8 +118,20 @@ export default class SignIn extends Component {
     }
 
     renderDisplayErrorMessages = () => {
+        let errorMessage = '';
+        switch (this.props.authenticationStatus) {
+            case 2:
+                errorMessage = strings.unableToReachServer;
+                break;
+            case 3:
+                errorMessage = strings.wrongCredentials;
+                break;
+            default:
+                break
+        }
+
         return (
-            <AppText style={styles.errorInfo}>{this.state.errorMessage}</AppText>
+            <AppText style={styles.errorInfo}>{errorMessage}</AppText>
         );
     }
 
@@ -185,6 +174,7 @@ export default class SignIn extends Component {
         return (
             <PasswordInput ref="password"
                            onChangeText={password => this.setState({password})}
+                           value={this.state.password}
                            onSubmitEditing={() => {
                                if (!this.autoSubmitFormWhenLastInputIsFilled())
                                    this.refs.email.focus();
