@@ -114,30 +114,30 @@ export default class SignIn extends Component {
         // return (
         //     <SignInForm />
         // )
-        return (
-            <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
-                <ScrollView>
-                    <View style={{flexDirection: 'column', justifyContent: 'center', padding: 30}}>
-
-                        {this.renderLogo()}
-                        {this.renderEmailInput()}
-                        {this.renderPasswordInput()}
-
-                        <View style={{flexDirection: 'row', flex: 1}}>
-                            {this.renderRememberPasswordCheckbox()}
-
-                            <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                {this.renderRecoverPassword()}
-                            </View>
-                        </View>
-
-                        {this.renderDisplayErrorMessages()}
-                        {this.renderSubmit()}
-                        {this.renderGoToSignUpForm()}
-                    </View>
-                </ScrollView>
-            </View>
-        )
+        // return (
+        //     <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
+        //         <ScrollView>
+        //             <View style={{flexDirection: 'column', justifyContent: 'center', padding: 30}}>
+        //
+        //                 {this.renderLogo()}
+        //                 {this.renderEmailInput()}
+        //                 {this.renderPasswordInput()}
+        //
+        //                 <View style={{flexDirection: 'row', flex: 1}}>
+        //                     {this.renderRememberPasswordCheckbox()}
+        //
+        //                     <View style={{flex: 1, alignItems: 'flex-end'}}>
+        //                         {this.renderRecoverPassword()}
+        //                     </View>
+        //                 </View>
+        //
+        //                 {this.renderDisplayErrorMessages()}
+        //                 {this.renderSubmit()}
+        //                 {this.renderGoToSignUpForm()}
+        //             </View>
+        //         </ScrollView>
+        //     </View>
+        // )
     }
 
     renderDisplayErrorMessages = () => {
