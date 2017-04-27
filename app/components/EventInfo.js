@@ -194,6 +194,7 @@ export default class Event extends Component {
                         editedEvent: {...editedEvent, category}
                     })}
                 }
+                style={{width:130}}
             >
                 <Item label={this.getCategoryNameFromId(0)} value={0} />
                 <Item label={this.getCategoryNameFromId(1)} value={1} />
