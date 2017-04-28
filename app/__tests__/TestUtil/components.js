@@ -16,6 +16,7 @@ import FilterToggle from "./../../components/FilterToggle";
 import SearchTextInput from "./../../components/SearchTextInput";
 import SearchBar from "./../../components/SearchBar";
 import PushController from "./../../util/pushController";
+import Avatar from "../../components/Avatar";
 
 export function get(componentName, props) {
     switch (componentName) {
@@ -56,6 +57,9 @@ export function get(componentName, props) {
             break;
         case 'pushController':
             return shallow(<PushController {...props}/>);
+            break;
+        case 'avatar':
+            return shallow(<Avatar {...props}/>);
             break;
         default:
             return null;
