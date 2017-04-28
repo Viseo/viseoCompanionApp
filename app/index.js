@@ -28,6 +28,7 @@ const initialState = {
     searchWords: [],
     visibilityFilter: 'SHOW_ALL',
     user: {
+        updateStatus: 0,
         id: 1
     }
 }

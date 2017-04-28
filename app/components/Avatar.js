@@ -7,16 +7,15 @@ export default class Avatar extends Component {
 
     constructor(props) {
         super(props);
-        this.state= {
-            initials: (this.props.name[0] || '').toUpperCase() + (this.props.lastName[0] || '').toUpperCase()
-        }
     }
 
     render() {
+        const lastNameInitial = (this.props.lastName ? this.props.lastName[0] : '').toUpperCase()
+        const firstNameInitial = (this.props.firstName ? this.props.firstName[0] : '').toUpperCase()
         return (
-            <View style={{flex: 3, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={[{justifyContent: 'center', alignItems: 'center'}, this.props.style]}>
                 <AppText style={styles.avatar}>
-                    {this.state.initials}
+                    {firstNameInitial + lastNameInitial}
                 </AppText>
             </View>
         );

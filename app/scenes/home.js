@@ -3,23 +3,10 @@
  */
 import React, {Component} from "react";
 import {
-    ActivityIndicator,
-    Animated,
-    AppRegistry,
     StyleSheet,
-    Text,
-    Image,
-    Navigator,
     NavMenu,
-    ScrollView,
     View,
-    ListView,
-    Dimensions,
-    RefreshControl,
     Platform,
-    TextInput,
-    Button,
-    Keyboard
 } from "react-native";
 import Header from "./../components/header";
 import VisibleEventList from "./../containers/VisibleEvents";
@@ -28,9 +15,8 @@ import ItemSpacer from "./../components/ItemSpacer";
 import colors from "../components/colors";
 import {dispatch} from "redux";
 import PushController from "../util/pushController";
-import ActionButton from "react-native-action-button";
+import ActionButton from "./../components/actionButton/ActionButton";
 import Icon from "react-native-vector-icons/Ionicons";
-import KeyboardSpacer from "react-native-keyboard-spacer";
 
 export default class Home extends Component {
 
@@ -81,7 +67,7 @@ export default class Home extends Component {
                     </View>
                 </View>
                 <VisibleEventList style={{flex:22}} navigator={this.props.navigator}/>
-                <ActionButton buttonColor='#5A61FF'>
+                <ActionButton buttonColor='#5A61FF' >
                     {editProfileButton}
                     {createNewEventButton}
                 </ActionButton>

@@ -169,7 +169,7 @@ export default class Event extends Component {
         let {editing} = this.state
         const hostName = 'bob'
         const hostLastName = 'Rasoflsky'
-        const hostAvatar = <Avatar name={hostName} lastName={hostLastName}/>
+        const hostAvatar = <Avatar firstName={hostName} lastName={hostLastName} style={{flex:3}}/>
         const name = (
             editing ?
                 <AppTextInput
