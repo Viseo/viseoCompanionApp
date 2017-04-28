@@ -1,4 +1,4 @@
-import {checkTestFunction, createComponent, createTestFunction} from "./TestUtil/";
+import {checkTestFunction, createComponent, createTestFunction} from "../TestUtil/index";
 
 describe('PushController', () => {
 //todo understand why the function are not called (testing method must be wrong!)

@@ -2,6 +2,7 @@ import sinon from 'sinon'
 import {getComponentProp} from './traversal'
 
 export {get as createComponent} from './components'
+export {get as createContainer, storeFake} from './containers'
 export * from './events'
 export * from './traversal'
 

@@ -5,7 +5,7 @@ import {
     createComponent,
     createTestFunction,
     press,
-} from './TestUtil/';
+} from '../TestUtil/index';
 
 describe('BackButton', () => {
 

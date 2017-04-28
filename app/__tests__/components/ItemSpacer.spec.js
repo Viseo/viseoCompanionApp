@@ -2,7 +2,7 @@ import {
     createComponent,
     checkIsComponent,
     checkHasStyle
-} from './TestUtil/'
+} from '../TestUtil/index'
 
 describe('ItemSpacer', () => {
 

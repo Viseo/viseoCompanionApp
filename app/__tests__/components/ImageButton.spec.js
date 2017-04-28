@@ -5,13 +5,13 @@ import {
     createComponent,
     createTestFunction,
     press,
-} from './TestUtil/'
+} from '../TestUtil/index'
 
 describe('ImageButton', () => {
 
     it('should render a clickable image', () => {
         let onPress =  createTestFunction()
-        let source = require('./../images/BackButton.png')
+        let source = require('../../images/BackButton.png')
         let imageButton = createComponent('ImageButton', {
             onPress,
             source

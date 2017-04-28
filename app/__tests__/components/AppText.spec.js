@@ -1,7 +1,7 @@
 import {
     createComponent,
     compareChildren
-} from './TestUtil/';
+} from '../TestUtil/index';
 
 describe('AppText', () => {
 

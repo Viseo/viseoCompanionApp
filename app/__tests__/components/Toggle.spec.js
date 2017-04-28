@@ -5,7 +5,7 @@ import {
     compareChildren,
     checkTestFunction,
     press,
-} from './TestUtil/'
+} from '../TestUtil/index'
 
 describe('Toggle', () => {
 

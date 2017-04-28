@@ -3,12 +3,12 @@ import {
     checkHasChildComponent,
     compareChildren,
     getChildComponent
-} from './TestUtil/'
+} from '../TestUtil/index'
 
 describe('FlexImage', () => {
 
     it('should render an image', () => {
-        const source = require('./../images/BackButton.png')
+        const source = require('../../images/BackButton.png')
         const children  = 'some lovely children'
         const flexImage = createComponent('FlexImage', {
             source,

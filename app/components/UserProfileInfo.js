@@ -1,23 +1,16 @@
-/**
- * Created by VBO3596 on 18/04/2017.
- */
 import React, {Component} from "react";
 import {
     View,
     StyleSheet,
     Dimensions,
-    ScrollView,
     Image,
     Button,
     Platform,
     TouchableOpacity,
     Modal,
-    KeyboardAvoidingView
 } from "react-native";
-import PasswordInput from "./passwordInput";
 import EditableImage from "./editableImage";
 import AppText from "./appText";
-import EditableAppText from "./editableAppText";
 import strings from "../util/localizedStrings";
 import colors from "./colors";
 import DatePicker from "react-native-datepicker";
@@ -212,147 +205,6 @@ export default class Profile extends Component {
         return editing ? lastNameField : lastNameText
     }
 
-    renderPasswordField() {
-
-    }
-
-    oldrender() {
-        const {editedProfile} = this.state
-        const firstName = (<EditableAppText
-            fieldName={strings.firstName}
-            style={styles.field}
-            isInModificationMode={this.state.editing}
-            content={editedProfile.firstName}
-            mandatory={true}
-            onValidate={(firstName) => {
-                this.setState({editedProfile: {...editedProfile, firstName}});
-            }}/>);
-        const lastName = (<EditableAppText
-            fieldName={strings.lastName}
-            style={styles.field}
-            isInModificationMode={this.state.editing}
-            content={editedProfile.lastName}
-            mandatory={true}
-            onValidate={(lastName) => {
-                this.setState({editedProfile: {...editedProfile, lastName}});
-            }}/>)
-        const newPassword = (<PasswordInput ref="password"
-                                            style={styles.field}
-                                            underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
-                                            returnKeyType="next"
-                                            onChangeText={this.onChangePasswordText}
-                                            onSubmitEditing={() => {
-                                                this.refs.passwordCheck.focus();
-                                            }}/>)
-        const passwordCheck = (<PasswordInput ref="passwordCheck"
-                                              placeholder={strings.verifyPassword}
-                                              style={styles.field}
-                                              underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
-                                              returnKeyType="done"
-                                              onChangeText={this.onChangePasswordCheckText}/>)
-        const email = (
-            <AppText style={[styles.field, {color: colors.lightGray, flex: 1}]}>{editedProfile.email}</AppText>)
-        return (
-            <View style={{flex: 1}}>
-                {this.renderHeader()}
-                <View style={styles.container}>
-                    <View style={{flex: 30, flexDirection: 'column'}}>
-                        <ScrollView style={{flex: 2}}
-                                    contentContainerStyle={{flex: 1, alignItems: 'center', paddingHorizontal: 30}}>
-                            <ItemSpacer/>
-                            {this.renderUserPicture()}
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {firstName}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {lastName}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {email}
-                            </View>
-                            <ItemSpacer/>
-                            {this.renderBirthDate()}
-                            <ItemSpacer/>
-                            {this.renderCurrentPassword()}
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {this.state.editing ? newPassword : null}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {this.state.editing ? passwordCheck : null}
-                            </View>
-                            <ItemSpacer/>
-                            {this.renderNotifySuccess()}
-                        </ScrollView>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-
-    oldrenderHeader() {
-        const backButton = (<BackButton navigator={this.props.navigator}/>)
-        const cancelButton = (
-            <BackButton
-                navigator={this.props.navigator}
-                source={require("./../images/crossWhite.png")}
-                style={{padding: 8}}
-                onPress={() => this.setState({editing: false, passwordVisible: false})}/>)
-        const label = (<AppText style={styles.topBarText}>{strings.profileEditionLabel}</AppText>)
-        const editButton = (<Button title={strings.edit} style={{flex: 1, margin: 1}}
-                                    onPress={() => this.setState({editing: true})}/>)
-        const saveButton = (<Button title={strings.save} style={{flex: 1, marginLeft: 5}}
-                                    onPress={() => {
-                                        this.save();
-                                    }}/>)
-        return (
-            <View style={styles.topBar}>
-                <View style={{flex: 3, flexDirection: 'row', justifyContent: 'flex-start'}}>
-                    {this.state.editing ? cancelButton : backButton}
-                    {label}
-                </View>
-                <View style={{flex: 2, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        {this.state.editing ? saveButton : editButton}
-                    </View>
-
-                </View>
-            </View>
-        );
-    }
-
-    renderUserPicture() {
-        const {editedProfile} = this.state
-        const picture = this.state.editing ?
-            (
-                <EditableImage
-                    defaultPicture={editedProfile.picture}
-                    onSelected={(selected) => {
-                        this.updateImage(selected)
-                    }}
-                    style={styles.organizatorPictureCircle}
-                />
-            ) :
-            (
-                <FlexImage
-                    source={editedProfile.picture}
-                    style={styles.organizatorPictureCircle}
-                    resizeMode="stretch"
-                />
-            );
-        return (
-            <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center', height: 100}}>
-                <ItemSpacer/>
-                {picture}
-                <ItemSpacer/>
-            </View>
-        );
-    }
-
     renderBirthDate() {
         const birthDateValue = new Date(this.state.editedProfile.birthDate);
         const {editedProfile} = this.state
@@ -498,7 +350,6 @@ Profile.defaultProps = {
 }
 
 const styles = StyleSheet.create({
-
     avatar: {
         height: deviceWidth / 4,
         width: deviceWidth / 4,

@@ -1,7 +1,7 @@
 import {
     createComponent,
     checkIsComponent,
-} from './TestUtil'
+} from '../TestUtil/index'
 
 describe('SearchTextInput', () => {
 

@@ -3,7 +3,7 @@ import {
     checkIsComponent,
     checkHasChildComponent,
     getChildComponent
-} from './TestUtil'
+} from '../TestUtil/index'
 
 describe('SearchBar', () => {
 

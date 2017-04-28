@@ -101,6 +101,8 @@ class SearchBar extends Component {
     }
 }
 
+SearchBar.displayName = 'SearchBar'
+
 export default SearchBar;
 
 var styles = StyleSheet.create({

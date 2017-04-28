@@ -2,7 +2,7 @@ import {
     checkIsComponent,
     createComponent,
     compareChildren,
-} from './TestUtil/';
+} from '../TestUtil/index';
 
 describe('AppTextInput', () => {
 

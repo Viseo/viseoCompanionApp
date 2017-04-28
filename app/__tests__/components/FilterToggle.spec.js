@@ -1,7 +1,7 @@
 import {
     checkIsComponent,
     createComponent,
-} from './TestUtil'
+} from '../TestUtil/index'
 
 describe('FilterToggle', () => {
 
