@@ -9,12 +9,8 @@ export const types = {
     REMEMBER_USER: 'REMEMBER_USER',
     AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS',
     AUTHENTICATION_FAILURE: 'AUTHENTICATION_FAILURE'
+    UPDATE_USER_FAILURE: 'UPDATE_USER_FAILURE'
 }
-
-export const updateUser = (user) => ({
-    type: types.UPDATE_USER,
-    user
-})
 
 export const rememberUser = (shouldRemember) => ({
     type: types.REMEMBER_USER,
@@ -49,5 +45,29 @@ export const authenticate = (email, password) => {
         } catch (error) {
             console.warn('ActionCreators/user::authenticate ' + error)
         }
+    }
+}
+
+export const updateUser = (user) => {
+    return async (dispatch) => {
+        if (user.firstName.length > 0
+            || user.lastName.length > 0
+            || user.password.length > 0
+            || user.password === user.passwordCheck) {
+            dispatch({
+                type: types.UPDATE_USER_FAILURE,
+                code:-1
+            })
+            return
+        }
+        try {
+            // console.warn('I need the backend to update ' + event.name + event.location)
+        } catch (error) {
+            console.warn('ActionCreators/user::updateUser ' + error)
+        }
+        dispatch({
+            type: types.UPDATE_USER,
+            code:1
+        })
     }
 }

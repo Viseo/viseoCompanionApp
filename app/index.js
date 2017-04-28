@@ -35,6 +35,8 @@ const initialState = {
         email: '',
         password: '',
         authenticationStatus: 0
+        updateStatus: 0,
+        id: 1
     }
 };
 
@@ -78,7 +80,6 @@ export default class ViseoCompanion extends Component {
             }
             return false;
         });
-
     }
 
     render() {

@@ -12,7 +12,6 @@ import {
     Platform,
     TouchableOpacity,
     Modal,
-    KeyboardAvoidingView
 } from "react-native";
 import PasswordInput from "./passwordInput";
 import EditableImage from "./editableImage";
@@ -27,6 +26,7 @@ import ItemSpacer from "./ItemSpacer";
 import BackButton from "./BackButton";
 import TextField from 'react-native-md-textinput'
 import Toggle from "./Toggle";
+import Avatar from "./Avatar";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 let defaultImage = require('./../images/userAvatar.jpg');
@@ -35,7 +35,6 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            canEdit: this.props.canEdit,
             editing: false,
             modalVisible: false,
             editedProfile: {
@@ -46,10 +45,6 @@ export default class Profile extends Component {
                 password: this.props.password,
                 birthDate: this.props.birthDate,
             },
-            cannotSave: false,
-            isNewPasswordValid: true,
-            isPasswordCheckValid: true,
-            passwordVisible: false,
         };
         this.onChangePasswordText = this.onChangePasswordText.bind(this);
         this.onChangePasswordCheckText = this.onChangePasswordCheckText.bind(this);
@@ -58,7 +53,7 @@ export default class Profile extends Component {
 
     toggleEditProfile = (editing) => {
         if (!editing) {
-            //this.props.updateEvent(this.state.editedEvent)
+            this.props.updateUser(this.state.editedEvent)
         }
         this.setState({
             editing
@@ -66,16 +61,18 @@ export default class Profile extends Component {
     }
 
     render() {
-        const {editedProfile, editing} = this.state
+        const {editing, editedProfile} = this.state
+        let passwordValid = editedProfile.password.length >= 6
+        let passwordMatch = editedProfile.passwordCheck === editedProfile.password
         const password = (
             <TextField
                 label={'Mot de passe'}
                 style={{color: colors.mediumGray}}
                 wrapper={styles.textFieldContainer}
                 secureTextEntry={true}
-                highlightColor={'#00BCD4'}
-                onChangeText={() => {
-                }}
+                highlightColor={passwordValid ? '#00BCD4': '#d41a0e'}
+                value={editedProfile.password}
+                onChangeText={(password) => { this.setState({editedProfile:{...editedProfile, password}})}}
             />
         )
         const passwordCheck = (
@@ -84,15 +81,18 @@ export default class Profile extends Component {
                 wrapper={styles.textFieldContainer}
                 style={{color: colors.mediumGray}}
                 secureTextEntry={true}
-                highlightColor={'#00BCD4'}
-                onChangeText={() => {
-                }}
+                highlightColor={passwordMatch ? '#00BCD4': '#d41a0e'}
+                value={editedProfile.passwordCheck}
+                onChangeText={(passwordCheck) => { this.setState({editedProfile:{...editedProfile, passwordCheck}})}}
             />
         )
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, backgroundColor: 'white'}}>
                 {this.renderHeader()}
-                <View style={{flex: 15, paddingHorizontal: 20, justifyContent: 'flex-start'}}>
+                <ScrollView
+                    style={{flex: 15}}
+                    contentContainerStyle={{paddingHorizontal: 20, justifyContent: 'flex-start'}}
+                >
                     {this.renderAvatar()}
                     {this.renderFirstName()}
                     {this.renderLastName()}
@@ -100,25 +100,24 @@ export default class Profile extends Component {
                     {this.renderBirthDate()}
                     {editing && password}
                     {editing && passwordCheck}
-                </View>
+                </ScrollView>
             </View>
         )
     }
 
     renderAvatar() {
         return (
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <AppText style={styles.avatar}>
-                    {'AA'}
-                </AppText>
-            </View>
+            <Avatar firstName={this.state.editedProfile.firstName}
+                    lastName={this.state.editedProfile.lastName}
+                    style={{marginTop:20}}
+            />
         )
     }
 
     renderEmail() {
         let {editedProfile, editing} = this.state
         return editing ?
-            null :
+            <View/> :
             <View style={styles.textFieldContainer}>
                 <AppText style={styles.label}>Email</AppText>
                 <AppText style={styles.displayText}>{editedProfile.email}</AppText>
@@ -133,12 +132,13 @@ export default class Profile extends Component {
                 <AppText style={styles.displayText}>{editedProfile.firstName}</AppText>
             </View>
         )
+        let firstNameValid = editedProfile.firstName.length > 0
         const firstNameField = (
             <TextField
                 label={strings.firstName}
                 wrapper={styles.textFieldContainer}
                 style={{color: colors.mediumGray}}
-                highlightColor={'#00BCD4'}
+                highlightColor={firstNameValid ? '#00BCD4': '#d41a0e'}
                 onChangeText={(firstName) => {
                     this.setState({editedProfile: {...editedProfile, firstName}});
                 }}
@@ -148,8 +148,32 @@ export default class Profile extends Component {
         return editing ? firstNameField : firstNameText
     }
 
+    renderLastName() {
+        let {editedProfile, editing} = this.state
+        const lastNameText = (
+            <View style={styles.textFieldContainer}>
+                <AppText style={styles.label}>Prénom</AppText>
+                <AppText style={styles.displayText}>{editedProfile.lastName}</AppText>
+            </View>
+        )
+        let lastNameValid = editedProfile.lastName.length > 0
+        const lastNameField = (
+            <TextField
+                label={strings.lastName}
+                style={{color: colors.mediumGray}}
+                wrapper={styles.textFieldContainer}
+                highlightColor={lastNameValid ? '#00BCD4': '#d41a0e'}
+                onChangeText={(lastName) => {
+                    this.setState({editedProfile: {...editedProfile, lastName}});
+                }}
+                value={editedProfile.lastName}
+            />
+        )
+        return editing ? lastNameField : lastNameText
+    }
+
     renderHeader() {
-        let {editing, newEvent} = this.state
+        let {editing} = this.state
         const backButton = (
             <BackButton navigator={this.props.navigator}/>
         )
@@ -164,8 +188,7 @@ export default class Profile extends Component {
         return (
             <View
                 style={{flex: 0, height: 40, flexDirection: 'row', backgroundColor: colors.blue, alignItems: 'center'}}>
-                {editing ?
-                    newEvent ? backButton : cancelButton :
+                {editing ? cancelButton :
                     backButton
                 }
                 <AppText style={{flex: 5, color: 'white', fontSize: 20}}>
@@ -174,7 +197,7 @@ export default class Profile extends Component {
                 <View style={{flex: 3, flexDirection: 'row'}}>
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         <Toggle
-                            isOn={newEvent}
+                            isOn={false}
                             style={{flex: 5}}
                             onToggle={this.toggleEditProfile}
                         >
@@ -187,29 +210,6 @@ export default class Profile extends Component {
                 </View>
             </View>
         )
-    }
-
-    renderLastName() {
-        let {editedProfile, editing} = this.state
-        const lastNameText = (
-            <View style={styles.textFieldContainer}>
-                <AppText style={styles.label}>Prénom</AppText>
-                <AppText style={styles.displayText}>{editedProfile.lastName}</AppText>
-            </View>
-        )
-        const lastNameField = (
-            <TextField
-                label={strings.lastName}
-                style={{color: colors.mediumGray}}
-                wrapper={styles.textFieldContainer}
-                highlightColor={'#00BCD4'}
-                onChangeText={(lastName) => {
-                    this.setState({editedProfile: {...editedProfile, lastName}});
-                }}
-                value={editedProfile.lastName}
-            />
-        )
-        return editing ? lastNameField : lastNameText
     }
 
     renderPasswordField() {
@@ -408,6 +408,7 @@ export default class Profile extends Component {
             null;
     }
 
+    //todo change string
     renderNotifySuccess() {
         const notificationMessage = this.state.cannotSave ? strings.invalidForm : strings.modified;
         const pressFunction = this.state.cannotSave ? () => {
@@ -488,12 +489,11 @@ export default class Profile extends Component {
 }
 
 Profile.defaultProps = {
-    canEdit: true,
     picture: require('./../images/userAvatar.jpg'),
-    firstName: 'Al',
-    lastName: 'Inclusive',
-    email: 'al.inclusive@mail.com',
-    password: 'topsecret',
+    firstName: 'Jean-Michel',
+    lastName: 'Durand',
+    email: 'jm.Durand@mail.com',
+    password: '',
     birthDate: '1988/04/05',
 }
 

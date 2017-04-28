@@ -31,7 +31,9 @@ const user = (state = [], action) => {
                 email: incoming.rememberMe ? incoming.email : '',
                 password: incoming.rememberMe ? incoming.password : '',
             }
-            return state
+            return {...state, updateStatus:action.code}
+        case types.UPDATE_USER_FAILURE:
+            return {...state, updateStatus:action.code}
         default:
             return state
     }
