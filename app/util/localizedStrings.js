@@ -56,10 +56,16 @@ let strings = new LocalizedStrings({
         location: "Location",
         description: "Description",
         profileEditionLabel: 'Profile edition',
-        firstname: "Firstname",
-        lastname: "Lastname",
+        firstName: "Firstname",
+        lastName: "Lastname",
         email: "Email",
-        birthdate: "Birthdate : "
+        birthDate: "Birthdate : ",
+        invalidForm: "Please correct fields before submitting the form.",
+        history: "History",
+        myEvents: "My events",
+        home: "Home",
+        profile: "Profile",
+        settings: "Settings"
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -108,10 +114,16 @@ let strings = new LocalizedStrings({
         location: "Lieu",
         description: "Description",
         profileEditionLabel: 'Edition de profil',
-        firstname: "Prénom",
-        lastname: "Nom",
+        firstName: "Prénom",
+        lastName: "Nom",
         email: "Email",
-        birthdate: "Date de naissance : "
+        birthDate: "Date de naissance : ",
+        invalidForm: "Veuillez corriger vos informations avant de valider.",
+        history: "Historique",
+        myEvents: "Mes" + "\n" + " événements",
+        home: "Accueil",
+        profile: "Profil",
+        settings: "Paramètres"
     }
 });
 

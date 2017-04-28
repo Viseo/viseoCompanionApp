@@ -17,6 +17,9 @@ import viseoCompanionApp from './reducers';
 import {fetchEvents} from './actionCreators/events'
 import {updateUser} from './actionCreators/user'
 import Event from './scenes/Event'
+import {createStore, applyMiddleware} from "redux";
+import UserProfile from "./scenes/UserProfile";
+
 
 import {compose, applyMiddleware, createStore} from 'redux'
 import {persistStore, autoRehydrate} from 'redux-persist'
@@ -28,7 +31,7 @@ const initialState = {
     events: {
         isFetching: false,
         didInvalidate: false,
-        items: []
+        items: [],
     },
     filters: [],
     searchWords: [],
@@ -98,39 +101,39 @@ export default class ViseoCompanion extends Component {
         return (
             <Provider store={store}>
                 <Navigator
-                    initialRoute={routes[1]}
+                    initialRoute={routes[0]}
                     renderScene={(route, navigator) => {
-                        this.navigator = navigator;
-                        if (route.title === 'SignIn') {
-                            return (
-                                <SignIn navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'SignUp') {
-                            return (
-                                <SignUp navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'RecoverPassword') {
-                            return (
-                                <RecoverPassword navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'Home') {
-                            return (
-                                <Home navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'Event') {
-                            return (
-                                <Event navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'AddEvent') {
-                            return (
-                                <Event navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'Profile') {
-                            return (
-                                <Profile navigator={navigator} {...route.passProps}/>
-                            );
-                        }
-                    }}
+                    this.navigator = navigator;
+                    if(route.title === 'SignIn') {
+                        return (
+                            <SignIn navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'SignUp') {
+                        return (
+                            <SignUp navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'RecoverPassword') {
+                        return (
+                            <RecoverPassword navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'Home') {
+                        return (
+                            <Home navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'Event') {
+                        return (
+                            <Event navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'AddEvent') {
+                        return (
+                            <Event navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'Profile') {
+                        return (
+                            <UserProfile navigator={navigator} {...route.passProps}/>
+                        );
+                    }
+                }}
                     configureScene={(route, routeStack) =>
                         Navigator.SceneConfigs.PushFromRight
                     }

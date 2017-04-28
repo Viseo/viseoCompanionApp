@@ -1,10 +1,10 @@
 /**
  * Created by AAB3605 on 29/03/2017.
  */
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {fetchEvents, registerUser, unregisterUser} from '../actionCreators/events'
-import EventList from '../components/EventList'
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {fetchEvents, registerUser, unregisterUser} from "../actionCreators/events";
+import EventList from "../components/EventList";
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
@@ -102,8 +102,8 @@ const mapDispatchToProps = (dispatch) => {
         refresh: fetchEvents,
         toggleParticipation: (event, user) => {
             return event.participating ?
-                unregisterUser(event.id, user.id) :
-                registerUser(event.id, user.id)
+                unregisterUser(event, user.id) :
+                registerUser(event, user.id)
         }
     }, dispatch)
 }

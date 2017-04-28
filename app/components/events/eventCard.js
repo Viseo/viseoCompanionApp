@@ -56,7 +56,7 @@ export default class EventCard extends Component {
                     right={swipeOption}
                     autoClose={true}
                     overflow="hidden"
-                    sensitivity={2}
+                    sensitivity={(Platform.OS === 'ios') ? 1 : 2}
                 >
                     <TouchableOpacity
                         style={styles.card}

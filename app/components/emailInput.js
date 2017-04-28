@@ -1,19 +1,14 @@
 /**
  * Created by VBO3596 on 17/03/2017.
  */
-import React, {Component} from 'react';
-import {
-    View,
-    TextInput,
-} from 'react-native';
-import styles from './../styles/form';
-import strings from '../util/localizedStrings';
+import React, {Component} from "react";
+import {View, TextInput, StyleSheet} from "react-native";
+import strings from "../util/localizedStrings";
 
-class EmailInput extends Component {
+export default class EmailInput extends Component {
 
     static defaultProps = {
         placeholder: strings.email,
-        style: styles.textInput,
         keyboardType: "email-address",
         underlineColorAndroid: "white",
         onSubmitEditing: () => {},
@@ -42,7 +37,7 @@ class EmailInput extends Component {
         return (
             <View>
                 <TextInput
-                    style={this.props.style}
+                    style={[styles.textInput, this.props.style]}
                     onChangeText={this.editEmail}
                     placeholder= {this.props.placeholder}
                     ref="email"
@@ -60,4 +55,24 @@ class EmailInput extends Component {
     }
 }
 
-export default EmailInput;
+const styles = StyleSheet.create({
+    errorInfo: {
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'brown',
+        fontStyle: 'italic'
+    },
+    invalidFormat: {
+        borderColor: 'crimson',
+        borderWidth: 1
+    },
+    textInput: {
+        borderWidth: 0,
+        borderRadius: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        padding: 4,
+        height: 40,
+        marginBottom: 10,
+    }
+});

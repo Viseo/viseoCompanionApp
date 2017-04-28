@@ -22,14 +22,15 @@ import {
     Keyboard
 } from "react-native";
 import Header from "./../components/header";
-import VisibleEventList from './../containers/VisibleEvents';
-import SearchBar from './../components/SearchBar'
-import ItemSpacer from './../components/ItemSpacer'
-import colors from '../components/colors'
-import {dispatch} from 'redux'
-import PushController from '../components/PushController';
+import VisibleEventList from "./../containers/VisibleEvents";
+import SearchBar from "./../components/SearchBar";
+import ItemSpacer from "./../components/ItemSpacer";
+import colors from "../components/colors";
+import {dispatch} from "redux";
+import PushController from "../util/pushController";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
+import KeyboardSpacer from "react-native-keyboard-spacer";
 
 export default class Home extends Component {
 
@@ -79,8 +80,8 @@ export default class Home extends Component {
                         <ItemSpacer/>
                     </View>
                 </View>
-                <VisibleEventList style={{flex:15}} navigator={this.props.navigator}/>
-                <ActionButton buttonColor={colors.blue}>
+                <VisibleEventList style={{flex:22}} navigator={this.props.navigator}/>
+                <ActionButton buttonColor='#5A61FF'>
                     {editProfileButton}
                     {createNewEventButton}
                 </ActionButton>
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
         padding: 8,
         paddingBottom: 0,
         paddingTop: 0,
+        marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
     body: {
         flex: 0,

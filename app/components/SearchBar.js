@@ -1,17 +1,13 @@
 /**
  * Created by AAB3605 on 15/03/2017.
  */
-import React, {Component} from 'react'
-import {
-    View,
-    StyleSheet,
-    Image,
-} from 'react-native';
-import FilterToggle from '../containers/FilterToggle'
-import SearchInput from '../containers/SearchInput'
-import VisibilityToggle from '../containers/VisibilityToggle'
-import Toggle from './Toggle'
-import colors from './colors'
+import React, {Component} from "react";
+import {View, StyleSheet, Image} from "react-native";
+import FilterToggle from "../containers/FilterToggle";
+import SearchInput from "../containers/SearchInput";
+import VisibilityToggle from "../containers/VisibilityToggle";
+import Toggle from "./Toggle";
+import colors from "./colors";
 
 class SearchBar extends Component {
 
@@ -47,7 +43,7 @@ class SearchBar extends Component {
             <View style={styles.searchBarInput}>
                 <SearchInput
                     style={styles.searchInput}
-                    placeholder="Rechercher.."
+                    placeholder="Rechercher..."
                 />
                 {this.renderFilterToggle()}
             </View>
@@ -121,11 +117,11 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
     },
     searchInput: {
-        flex: 8,
+        flex: 9,
         backgroundColor: 'transparent',
     },
     filterToggle: {
-        padding: 8
+        padding: 3
     },
     filterContainer: {
         flexDirection: 'row',
@@ -133,8 +129,8 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
     },
     fitImage: {
-        flex: 1,
-        width: null,
-        height: null
+        flex: 0,
+        width: 20,
+        height: 20
     }
 });

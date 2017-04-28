@@ -3,46 +3,45 @@
  */
 import React, {Component} from "react";
 import {
-    TextInput,
     StyleSheet,
     Image,
     ScrollView,
     View,
     Platform,
-    Dimensions,
-    TouchableOpacity,
     Button,
     Modal,
+    Dimensions,
+    Picker
 } from "react-native";
 import AppText from "./appText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
 import DatePicker from "react-native-datepicker";
-import ModalDropdown from 'react-native-modal-dropdown';
 import strings from "../util/localizedStrings";
-import * as util from "../util/util";
-import colors from './colors';
-import BackButton from './BackButton'
-import Toggle from './Toggle'
-import ItemSpacer from './ItemSpacer'
-import FlexImage from './FlexImage'
-import AppTextInput from './AppTextInput'
-import moment from 'moment'
-import PushController from './PushController'
+import colors from "./colors";
+import BackButton from "./BackButton";
+import Toggle from "./Toggle";
+import ItemSpacer from "./ItemSpacer";
+import FlexImage from "./FlexImage";
+import AppTextInput from "./AppTextInput";
+import moment from "moment";
+import KeyboardSpacer from "react-native-keyboard-spacer";
+import {Item} from "react-native-mock/build/components/Picker";
 
 const eventIdToImages = {
-    "40": require('./../images/formation_securite.jpg'),
-    "0": require('./../images/0.jpg'),
-    "7": require('./../images/blockchain-iot.jpg'),
-    "41": require('./../images/poker_jeux.jpg'),
-    "42": require('./../images/concert-de-rock.jpg'),
+    "40": require('./../images/events/formation_securite.jpg'),
+    "0": require('./../images/events/0.jpg'),
+    "7": require('./../images/events/blockchain-iot.jpg'),
+    "41": require('./../images/events/poker_jeux.jpg'),
+    "42": require('./../images/events/concert-de-rock.jpg'),
     "39": require('./../images/coderdojo.jpg'),
-    "44": require('./../images/formationAgile.jpg'),
-    "43": require('./../images/reactive-nativingitup-png-800x600_q96.png'),
-    "38": require('./../images/soiree_nouveaux.jpg'),
-    "46": require('./../images/tdd.png'),
+    "44": require('./../images/events/formationAgile.jpg'),
+    "43": require('./../images/events/reactive-nativingitup-png-800x600_q96.png'),
+    "38": require('./../images/events/soiree_nouveaux.jpg'),
+    "46": require('./../images/events/tdd.png'),
 }
-let defaultImage = require('./../images/0.jpg');
+let defaultImage = require('./../images/events/default.jpg');
+const {height} = Dimensions.get('window');
 
 export default class Event extends Component {
 
@@ -75,7 +74,7 @@ export default class Event extends Component {
     }
 
     getCategoryNameFromId(id) {
-        return strings.categoriesNames[this.props.event.category]
+        return strings.categoriesNames[id]
     }
 
     getCategoryColorFromId(id) {
@@ -112,22 +111,7 @@ export default class Event extends Component {
                 <View style={styles.container}>
                     {this.renderMainInfo()}
                     <ItemSpacer/>
-                    <View style={{flex:30,flexDirection:'column'}}>
-                        <ScrollView
-                            style={{flex:1}}
-                            contentContainerStyle={{flex:1}}
-                        >
-                            {this.renderEventPicture(event.id)}
-                            {
-                                this.state.editing ?
-                                    this.renderDatePicker() :
-                                    this.renderEventDateAndParticipants()
-                            }
-                            {this.renderEventDescription(this.state.description)}
-                            {this.renderEventKeywords(event.keywords)}
-                            {this.renderNotifySuccess()}
-                        </ScrollView>
-                    </View>
+                    {this.renderDetails()}
                 </View>
             </View>
         );
@@ -148,7 +132,7 @@ export default class Event extends Component {
             />
         )
         return (
-            <View style={{flex:1, flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
+            <View style={{flex:1, height:150,flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
                 {editing ?
                     newEvent ? backButton : cancelButton :
                     backButton
@@ -160,7 +144,7 @@ export default class Event extends Component {
                     }
                 </AppText>
                 <View style={{flex:3, flexDirection:'row'}}>
-                    {!canEdit && (
+                    {canEdit && (
                         <View style={{flex:1, flexDirection:'row'}}>
                             <Toggle
                                 isOn={newEvent}
@@ -182,63 +166,57 @@ export default class Event extends Component {
     renderMainInfo() {
         let {editedEvent} = this.state
         let {editing} = this.state
+        const hostNameInitials = 'WS'
         const hostAvatar = (
             <View style={{flex:3, justifyContent:'center', alignItems:'center'}}>
-                <TouchableOpacity>
-                    <Image
-                        source={require('./../images/userAvatar.jpg')}
-                        style={styles.hostAvatar}
-                    />
-                </TouchableOpacity>
+                <AppText style={styles.avatar}>
+                    {hostNameInitials}
+                </AppText>
             </View>
         )
         const name = (
             editing ?
-            <AppTextInput
-                style={styles.name}
-                onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
-                placeholder = {editedEvent.name ? '' : "Nom de l'évènement.."}
-            >
-                {editedEvent.name}
-            </AppTextInput> :
-            <AppText
-                style={styles.name}
-            >
-                {editedEvent.name || 'Pas de nom'}
-            </AppText>
+                <AppTextInput
+                    style={[styles.name, {color:colors.blue, marginTop:2}]}
+                    onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
+                    placeholder={editedEvent.name ? '' : "Nom de l'évènement.."}
+                    value={editedEvent.name || ''}
+                /> :
+                <AppText style={styles.name}>
+                    {editedEvent.name || 'Pas de nom'}
+                </AppText>
         )
         const categoryDropdown = (
-            <ModalDropdown
-                textStyle={{
-                    fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-                    fontSize: 15,
-                    backgroundColor: 'transparent',
-                    padding: 0,
-                    color: this.getCategoryColorFromId(editedEvent.category)
-                }}
-                style={{flex:1}}
-                options={strings.categoriesNames}
-                defaultValue={this.getCategoryNameFromId(editedEvent.category)}
-                onSelect={(category) => {
-                    this.setState({editedEvent: {...editedEvent, category}})
-                }}
+            <Picker
+                selectedValue={editedEvent.category}
+                onValueChange={(category) => {
+                    this.setState({
+                        editedEvent: {...editedEvent, category}
+                    })}
+                }
+                style={{width:130}}
+            >
+                <Item label={this.getCategoryNameFromId(0)} value={0} />
+                <Item label={this.getCategoryNameFromId(1)} value={1} />
+                <Item label={this.getCategoryNameFromId(2)} value={2} />
+            </Picker>
+        )
+        const categoryLabel = (
+            <AppText>{this.getCategoryNameFromId(editedEvent.category)}</AppText>
+        )
+        const category = editing ? categoryDropdown : categoryLabel
+        const categoryIndicator = (
+            <View style={[
+                styles.categoryIndicator,
+                {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
+            ]}
             />
-        )
-        const categoryText = (
-            <AppText style={[styles.category, {color: this.getCategoryColorFromId(editedEvent.category)}]}>
-                {this.getCategoryNameFromId(editedEvent.category)}
-            </AppText>
-        )
-        const category = (
-            <View style={{flex:3}}>
-                {editing ? categoryDropdown : categoryText}
-            </View>
         )
         const username = (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>
                 <ItemSpacer/>
-                <AppText style={{flex:5, textAlign:'left', textAlignVertical:'center'}}>
+                <AppText style={{flex:5, textAlign:'left'}}>
                     {this.props.userName}
                 </AppText>
             </View>
@@ -254,22 +232,14 @@ export default class Event extends Component {
                             onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, location:text}})}}
                             editable={editing}
                             placeholder={editedEvent.location ? '' : "Lieu de l'évènement.."}
-                        >
-                            {editedEvent.location}
-                        </AppTextInput> :
+                            value={editedEvent.location}
+                        /> :
                         <AppText style={{flex:5, textAlign:'left', textAlignVertical:'center'}}>
                             {editedEvent.location || "Lieu non renseigné.."}
                         </AppText>
                 }
 
             </View>
-        )
-        const categoryIndicator = (
-            <View style={[
-                styles.categoryIndicator,
-                {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
-                ]}
-            />
         )
         const eventInfo = (
             <View style={{flex:6, flexDirection:'column'}}>
@@ -290,10 +260,34 @@ export default class Event extends Component {
         )
     }
 
+    renderDetails() {
+        let {event} = this.props
+        return (
+            <View style={{flex:30,flexDirection:'column'}}>
+                <ScrollView
+                    style={{flex:1}}
+                    contentContainerStyle={{flex:0}}
+                >
+                    {this.renderEventPicture(event.id)}
+                    {
+                        this.state.editing ?
+                            this.renderDatePicker() :
+                            this.renderEventDateAndParticipants()
+                    }
+                    {this.renderEventDescription(this.state.description)}
+                    {/*{this.renderEventKeywords(event.keywords)}*/}
+                    {this.renderNotifySuccess()}
+                </ScrollView>
+                <KeyboardSpacer/>
+            </View>
+        )
+    }
+
     renderEventPicture() {
         const picture = this.state.editing ?
             (
                 <EditableImage
+                    style={{minHeight:height / 3}}
                     refs="eventDescription"
                     resizeMode="stretch"
                     defaultPicture={this.state.picture}
@@ -302,6 +296,7 @@ export default class Event extends Component {
             ) :
             (
                 <FlexImage
+                    style={{minHeight:height / 3}}
                     source={this.state.picture}
                     resizeMode="stretch"
                 />
@@ -360,15 +355,18 @@ export default class Event extends Component {
         let {editedEvent, newEvent} = this.state
         return (
             <View style={{alignItems:'center'}}>
-                <View style={[styles.participationInfoRectangle, {justifyContent: 'center'}]}>
+                <View style={[styles.participationInfoRectangle, {justifyContent: 'center', borderColor:colors.blue}]}>
                     <DatePicker
                         date={newEvent ? moment().toDate() : moment(editedEvent.date).toDate()}
                         mode="datetime"
                         format="YYYY/MM/DD HH:mm"
+                        minDate={moment().toDate()}
+                        placeholder='Sélectionnez une date..'
                         confirmBtnText="OK"
                         cancelBtnText="Annuler"
                         onDateChange={(date) => {
-                            this.setState({editedEvent: {...editedEvent, date}});
+                            let formattedDate =  moment(new Date(date).toISOString())
+                            this.setState({editedEvent: {...editedEvent, date: formattedDate}})
                         }}
                         customStyles={{
                                         dateIcon: {
@@ -379,7 +377,10 @@ export default class Event extends Component {
                                         },
                                         dateInput: {
                                           marginLeft: 36,
-                                          borderWidth:0
+                                          borderWidth:0,
+                                        },
+                                        dateText: {
+                                            color:colors.blue
                                         }
                                       }}
                     />
@@ -430,15 +431,17 @@ export default class Event extends Component {
         placeholder = this.state.editedEvent.description ? '' : placeholder;
         return (
             editing ?
-                <AppTextInput
-                    style={styles.description}
-                    onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
-                    multiline={true}
-                    placeholder={placeholder}
-                >
-                    {this.state.editedEvent.description}
-                </AppTextInput> :
-                <AppText style={styles.description}>
+                <View
+                    style={{flex:1, paddingHorizontal: deviceWidth / 20, paddingTop:10, marginTop:10, height: deviceHeight/5}}>
+                    <AppTextInput
+                        style={[styles.description]}
+                        onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
+                        multiline={true}
+                        placeholder={placeholder}
+                        value={this.state.editedEvent.description}
+                    />
+                </View> :
+                <AppText style={[styles.description, {marginTop: 20}]}>
                     {this.state.editedEvent.description}
                 </AppText>
         );
@@ -453,13 +456,9 @@ export default class Event extends Component {
     onParticipationChange = () => {
         let {user, event} = this.props
         let going = event.participants.indexOf(user.id) !== -1
-        if(going) {
-            this.props.unregisterUser(event.id, user.id);
-            PushController.scheduleEventSnoozes(event);
-        } else {
-            this.props.registerUser(event.id, user.id);
-            PushController.unscheduleEventSnoozes(event);
-        }
+        going ?
+            this.props.unregisterUser(event, user.id) :
+            this.props.registerUser(event, user.id)
     }
 }
 
@@ -470,14 +469,20 @@ Event.defaultProps = {
         category: 0,
         description: '',
         location: '',
-        keywords:'',
+        keywords: '',
     },
     userName: 'Wafa Salandre',
 }
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 const styles = StyleSheet.create({
-
+    categoryDropdown: {
+        fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
+        fontSize: 15,
+        backgroundColor: 'transparent',
+        padding: 0,
+        color: colors.mediumGray,
+    },
     container: {
         justifyContent: 'center',
         alignItems: 'stretch',
@@ -485,20 +490,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 15
     },
-
     description: {
         fontSize: 16,
         textAlign: 'center',
         justifyContent: 'center',
         flex: 1,
     },
-
     keywords: {
         fontSize: 14,
         textAlign: 'center',
         flex: 1,
     },
-
     categoryIndicator: {
         width: 0,
         height: 0,
@@ -511,13 +513,15 @@ const styles = StyleSheet.create({
             {rotate: '90deg'}
         ]
     },
-
-    hostAvatar: {
-        height: 100,
-        width: 100,
-        borderRadius: 50,
+    avatar: {
+        height: deviceWidth / 4,
+        width: deviceWidth / 4,
+        borderRadius: deviceWidth / 8,
+        fontSize: 40,
+        backgroundColor:colors.lightGray,
+        textAlign:'center',
+        color:'white',
     },
-
     organizatorPicture: {
         flex: 1,
         flexDirection: 'column',
@@ -525,14 +529,12 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
     },
-
     contentContainer: {
         flex: 3,
         paddingLeft: 20,
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
-
     name: {
         color: 'black',
         fontWeight: 'bold',

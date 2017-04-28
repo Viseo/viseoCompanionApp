@@ -23,4 +23,6 @@ const SearchInput = connect(
     mapDispatchToProps
 )(SearchTextInput)
 
+SearchInput.displayName = 'SearchInput'
+
 export default SearchInput

@@ -37,6 +37,7 @@ const style = StyleSheet.create({
         fontSize: 15,
         backgroundColor: 'transparent',
         padding: 0,
-        color: colors.mediumGray
+        color: colors.mediumGray,
+        textAlignVertical:'center'
     }
 });

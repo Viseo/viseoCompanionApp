@@ -23,4 +23,6 @@ const FilterToggle = connect(
     mapDispatchToProps
 )(Toggle)
 
+FilterToggle.displayName = 'FilterToggle'
+
 export default FilterToggle
