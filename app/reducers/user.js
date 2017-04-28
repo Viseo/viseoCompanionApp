@@ -27,7 +27,10 @@ const user = (state = [], action) => {
             if (incoming) return {
                 ...state,
                 ...incoming,
-                authenticationStatus: state.authenticationStatus}
+                authenticationStatus: state.authenticationStatus,
+                email: incoming.rememberMe ? incoming.email : '',
+                password: incoming.rememberMe ? incoming.password : '',
+            }
             return state
         default:
             return state

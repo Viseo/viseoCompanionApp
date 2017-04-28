@@ -2,7 +2,7 @@
  * Created by AAB3605 on 13/02/2017.
  */
 import React, {Component} from "react";
-import {View, Text, Navigator, BackAndroid} from "react-native";
+import {Navigator, BackAndroid} from "react-native";
 import SignIn from "./containers/SignInForm";
 import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
@@ -10,22 +10,15 @@ import Home from "./scenes/home";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import AddEvent from './scenes/addEvent';
-import Profile from './scenes/profile';
 import {Provider} from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import viseoCompanionApp from './reducers';
 import {fetchEvents} from './actionCreators/events'
-import {updateUser} from './actionCreators/user'
 import Event from './scenes/Event'
-import {createStore, applyMiddleware} from "redux";
 import UserProfile from "./scenes/UserProfile";
-
-
 import {compose, applyMiddleware, createStore} from 'redux'
 import {persistStore, autoRehydrate} from 'redux-persist'
-import reducers from "./reducers/user";
 import {AsyncStorage} from 'react-native'
-import {authenticate} from "./util/db";
 
 const initialState = {
     events: {
@@ -101,7 +94,7 @@ export default class ViseoCompanion extends Component {
         return (
             <Provider store={store}>
                 <Navigator
-                    initialRoute={routes[0]}
+                    initialRoute={routes[1]}
                     renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'SignIn') {

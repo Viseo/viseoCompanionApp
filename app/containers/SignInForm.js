@@ -8,8 +8,8 @@ import Form from './../components/signInForm'
 import {rememberUser} from "../actionCreators/user";
 
 const mapStateToProps = (state, ownProps) => ({
-    email: state.user.rememberMe ? state.user.email : '',
-    password: state.user.rememberMe ? state.user.password : '',
+    email: state.user.email,
+    password: state.user.password,
     authenticationStatus: state.user.authenticationStatus,
     ...ownProps
 })

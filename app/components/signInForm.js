@@ -8,14 +8,13 @@ import {
     Button,
     Image,
     TouchableHighlight,
-    ScrollView
+    ScrollView,
+    StyleSheet,
 } from 'react-native';
 import AppText from '../components/appText';
 import EmailInput from './../components/emailInput';
 import PasswordInput from './../components/passwordInput';
-import {authenticate} from "../util/db";
 import CheckBox from "react-native-check-box";
-import styles from "./../styles/form";
 import strings from "../util/localizedStrings";
 import * as util from "../util/util.js";
 
@@ -53,7 +52,7 @@ export default class SignInForm extends Component {
     }
 
     onPressRememberMe() {
-
+        this.props.rememberUser(!this.state.rememberUser)
         this.setState({
             rememberUser: !this.state.rememberUser
         });
@@ -218,3 +217,25 @@ export default class SignInForm extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    errorInfo: {
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'brown',
+        fontStyle: 'italic'
+    },
+    invalidFormat: {
+        borderColor: 'crimson',
+        borderWidth: 1
+    },
+    textInput: {
+        borderWidth: 0,
+        borderRadius: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        padding: 4,
+        height: 40,
+        marginBottom: 10,
+    }
+});
