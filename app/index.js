@@ -34,7 +34,7 @@ const initialState = {
         rememberMe: true,
         email: '',
         password: '',
-        authenticationStatus: 0
+        authenticationStatus: 0,
         updateStatus: 0,
         id: 1
     }
