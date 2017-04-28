@@ -51,6 +51,7 @@ export default class PasswordInput extends Component {
                     returnKeyType={this.props.returnKeyType}
                     keyboardType={this.props.keyboardType}
                     onSubmitEditing= {this.props.onSubmitEditing}
+                    value={this.props.value}
                 />
             </View>
         );

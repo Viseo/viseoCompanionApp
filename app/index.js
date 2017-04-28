@@ -3,20 +3,22 @@
  */
 import React, {Component} from "react";
 import {Navigator, BackAndroid} from "react-native";
-import SignIn from "./scenes/signIn";
+import SignIn from "./containers/SignInForm";
 import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
-import AddEvent from "./scenes/addEvent";
-import {Provider} from "react-redux";
-import {createStore, applyMiddleware} from "redux";
-import thunkMiddleware from "redux-thunk";
-import viseoCompanionApp from "./reducers";
-import {fetchEvents} from "./actionCreators/events";
-import Event from "./scenes/Event";
+import AddEvent from './scenes/addEvent';
+import {Provider} from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import viseoCompanionApp from './reducers';
+import {fetchEvents} from './actionCreators/events'
+import Event from './scenes/Event'
 import UserProfile from "./scenes/UserProfile";
+import {compose, applyMiddleware, createStore} from 'redux'
+import {persistStore, autoRehydrate} from 'redux-persist'
+import {AsyncStorage} from 'react-native'
 
 const initialState = {
     events: {
@@ -28,16 +30,33 @@ const initialState = {
     searchWords: [],
     visibilityFilter: 'SHOW_ALL',
     user: {
+        id: 1,
+        rememberMe: true,
+        email: '',
+        password: '',
+        authenticationStatus: 0,
         updateStatus: 0,
         id: 1
     }
-}
+};
+
 let store = createStore(
     viseoCompanionApp,
     initialState,
-    applyMiddleware(thunkMiddleware)
+    compose(
+        applyMiddleware(thunkMiddleware),
+        autoRehydrate()
+    )
 );
-store.dispatch(fetchEvents(store.getState().user))
+
+persistStore(store, {
+    storage: AsyncStorage,
+    whitelist: [
+        'user'
+    ]
+});
+
+store.dispatch(fetchEvents(store.getState().user));
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -76,39 +95,39 @@ export default class ViseoCompanion extends Component {
         return (
             <Provider store={store}>
                 <Navigator
-                    initialRoute={routes[0]}
+                    initialRoute={routes[1]}
                     renderScene={(route, navigator) => {
-                        this.navigator = navigator;
-                        if (route.title === 'SignIn') {
-                            return (
-                                <SignIn navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'SignUp') {
-                            return (
-                                <SignUp navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'RecoverPassword') {
-                            return (
-                                <RecoverPassword navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'Home') {
-                            return (
-                                <Home navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'Event') {
-                            return (
-                                <Event navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'AddEvent') {
-                            return (
-                                <Event navigator={navigator} {...route.passProps}/>
-                            );
-                        } else if (route.title === 'Profile') {
-                            return (
-                                <UserProfile navigator={navigator} {...route.passProps}/>
-                            );
-                        }
-                    }}
+                    this.navigator = navigator;
+                    if(route.title === 'SignIn') {
+                        return (
+                            <SignIn navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'SignUp') {
+                        return (
+                            <SignUp navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'RecoverPassword') {
+                        return (
+                            <RecoverPassword navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'Home') {
+                        return (
+                            <Home navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'Event') {
+                        return (
+                            <Event navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'AddEvent') {
+                        return (
+                            <Event navigator={navigator} {...route.passProps}/>
+                        );
+                    } else if(route.title === 'Profile') {
+                        return (
+                            <UserProfile navigator={navigator} {...route.passProps}/>
+                        );
+                    }
+                }}
                     configureScene={(route, routeStack) =>
                         Navigator.SceneConfigs.PushFromRight
                     }
