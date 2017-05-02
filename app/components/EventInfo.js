@@ -2,17 +2,7 @@
  * Created by AAB3605 on 20/03/2017.
  */
 import React, {Component} from "react";
-import {
-    StyleSheet,
-    Image,
-    ScrollView,
-    View,
-    Platform,
-    Button,
-    Modal,
-    Dimensions,
-    Picker
-} from "react-native";
+import {StyleSheet, Image, ScrollView, View, Platform, Button, Modal, Dimensions, Picker} from "react-native";
 import AppText from "./appText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
@@ -41,7 +31,7 @@ const eventIdToImages = {
     "38": require('./../images/events/soiree_nouveaux.jpg'),
     "46": require('./../images/events/tdd.png'),
 }
-let defaultImage = require('./../images/events/default.jpg');
+let defaultImage = require('./../images/events/defaultEventImage.jpeg');
 const {height} = Dimensions.get('window');
 
 export default class Event extends Component {
@@ -167,8 +157,8 @@ export default class Event extends Component {
     renderMainInfo() {
         let {editedEvent} = this.state
         let {editing} = this.state
-        const hostName = 'bob'
-        const hostLastName = 'Rasoflsky'
+        const hostName = 'wafa'
+        const hostLastName = 'Salandre'
         const hostAvatar = <Avatar firstName={hostName} lastName={hostLastName} style={{flex:3}}/>
         const name = (
             editing ?
