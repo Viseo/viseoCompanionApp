@@ -85,3 +85,7 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+
+## PRIVATE PROPERTIES (to be manually added to the project)
+/android/app/fabric.properties
+/android/app/google-services.json
