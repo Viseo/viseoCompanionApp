@@ -284,7 +284,7 @@ export default class Event extends Component {
                 <FlexImage
                     style={{minHeight:height / 3}}
                     source={this.state.picture}
-                    resizeMode="stretch"
+                    resizeMode="cover"
                 />
             )
         return (

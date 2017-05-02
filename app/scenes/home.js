@@ -52,7 +52,7 @@ export default class Home extends Component {
                     });
                 }}
             >
-                <Icon name="md-create" style={styles.icon}/>
+                <Icon name="ios-person" style={styles.icon}/>
             </ActionButton.Item>
         )
         return (
