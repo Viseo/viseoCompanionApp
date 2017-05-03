@@ -94,7 +94,7 @@ export default class ViseoCompanion extends Component {
         return (
             <Provider store={store}>
                 <Navigator
-                    initialRoute={routes[1]}
+                    initialRoute={routes[3]}
                     renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'SignIn') {

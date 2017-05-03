@@ -65,7 +65,8 @@ let strings = new LocalizedStrings({
         myEvents: "My events",
         home: "Home",
         profile: "Profile",
-        settings: "Settings"
+        settings: "Settings",
+        resetPassword: "Reset password"
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
@@ -123,7 +124,8 @@ let strings = new LocalizedStrings({
         myEvents: "Mes" + "\n" + " événements",
         home: "Accueil",
         profile: "Profil",
-        settings: "Paramètres"
+        settings: "Paramètres",
+        resetPassword: "Réinitialiser le mot de passe"
     }
 });
 
