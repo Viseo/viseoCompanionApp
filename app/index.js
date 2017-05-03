@@ -36,7 +36,6 @@ const initialState = {
         password: '',
         authenticationStatus: 0,
         updateStatus: 0,
-        id: 1
     }
 };
 

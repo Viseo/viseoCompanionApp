@@ -4,7 +4,6 @@
 import React, {Component} from 'react';
 import {
     View,
-    Text,
     Button,
     Image,
     TouchableHighlight,
@@ -39,7 +38,9 @@ export default class SignInForm extends Component {
         this.setState({
             email,
             password
-        })
+        }, () => {
+            this.autoSubmitFormWhenLastInputIsFilled();
+        });
         if (authenticationStatus === 1) {
             this.navigateTo('Home');
         }
@@ -85,7 +86,6 @@ export default class SignInForm extends Component {
             this.onPressSignIn();
             return true;
         }
-
         return false;
     }
 
