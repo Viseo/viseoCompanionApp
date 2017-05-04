@@ -67,7 +67,7 @@ export async function addUser(email, password) {
     }
 
     return false;
-}
+// }
 
 export async function authenticate(email, password) {
     try {
