@@ -2,21 +2,23 @@
  * Created by AAB3605 on 13/02/2017.
  */
 import React, {Component} from "react";
-import {View, Text, Navigator, BackAndroid} from "react-native";
-import SignIn from "./scenes/signIn";
+import {Navigator, BackAndroid} from "react-native";
+import SignIn from "./containers/SignInForm";
 import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import AddEvent from './scenes/addEvent';
-import Profile from './scenes/profile';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import viseoCompanionApp from './reducers';
 import {fetchEvents} from './actionCreators/events'
 import Event from './scenes/Event'
+import UserProfile from "./scenes/UserProfile";
+import {compose, applyMiddleware, createStore} from 'redux'
+import {persistStore, autoRehydrate} from 'redux-persist'
+import {AsyncStorage} from 'react-native'
 
 const initialState = {
     events: {
@@ -28,15 +30,32 @@ const initialState = {
     searchWords: [],
     visibilityFilter: 'SHOW_ALL',
     user: {
-        id: 1
+        id: 1,
+        rememberMe: true,
+        email: '',
+        password: '',
+        authenticationStatus: 0,
+        updateStatus: 0,
     }
-}
+};
+
 let store = createStore(
     viseoCompanionApp,
     initialState,
-    applyMiddleware(thunkMiddleware)
+    compose(
+        applyMiddleware(thunkMiddleware),
+        autoRehydrate()
+    )
 );
-store.dispatch(fetchEvents(store.getState().user))
+
+persistStore(store, {
+    storage: AsyncStorage,
+    whitelist: [
+        'user'
+    ]
+});
+
+store.dispatch(fetchEvents(store.getState().user));
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -104,7 +123,7 @@ export default class ViseoCompanion extends Component {
                         );
                     } else if(route.title === 'Profile') {
                         return (
-                            <Profile navigator={navigator} {...route.passProps}/>
+                            <UserProfile navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}

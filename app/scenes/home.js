@@ -3,33 +3,20 @@
  */
 import React, {Component} from "react";
 import {
-    ActivityIndicator,
-    Animated,
-    AppRegistry,
     StyleSheet,
-    Text,
-    Image,
-    Navigator,
     NavMenu,
-    ScrollView,
     View,
-    ListView,
-    Dimensions,
-    RefreshControl,
     Platform,
-    TextInput,
-    Button,
-    Keyboard
 } from "react-native";
 import Header from "./../components/header";
-import VisibleEventList from './../containers/VisibleEvents';
-import SearchBar from './../components/SearchBar'
-import ItemSpacer from './../components/ItemSpacer'
-import colors from '../components/colors'
-import {dispatch} from 'redux'
-import PushController from '../components/PushController';
-import ActionButton from "react-native-action-button";
-import Icon from "react-native-vector-icons/Ionicons";
+import VisibleEventList from "./../containers/VisibleEvents";
+import SearchBar from "./../components/SearchBar";
+import ItemSpacer from "./../components/ItemSpacer";
+import colors from "../components/colors";
+import {dispatch} from "redux";
+import PushController from "../util/pushController";
+import ActionButton from "./../components/actionButton/ActionButton";
+import Icon from "react-native-vector-icons/Ionicons"; //https://infinitered.github.io/ionicons-version-3-search/
 
 export default class Home extends Component {
 
@@ -65,7 +52,7 @@ export default class Home extends Component {
                     });
                 }}
             >
-                <Icon name="md-create" style={styles.icon}/>
+                <Icon name="ios-person" style={styles.icon}/>
             </ActionButton.Item>
         )
         return (
@@ -79,8 +66,8 @@ export default class Home extends Component {
                         <ItemSpacer/>
                     </View>
                 </View>
-                <VisibleEventList style={{flex:15}} navigator={this.props.navigator}/>
-                <ActionButton buttonColor={colors.blue}>
+                <VisibleEventList style={{flex:22}} navigator={this.props.navigator}/>
+                <ActionButton buttonColor='#5A61FF' >
                     {editProfileButton}
                     {createNewEventButton}
                 </ActionButton>
@@ -96,6 +83,7 @@ const styles = StyleSheet.create({
         padding: 8,
         paddingBottom: 0,
         paddingTop: 0,
+        marginTop: (Platform.OS === 'ios') ? 20 : 0,
     },
     body: {
         flex: 0,

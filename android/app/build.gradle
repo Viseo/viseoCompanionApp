@@ -92,8 +92,8 @@ android {
         applicationId "com.viseocompanion"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "5.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -166,6 +166,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
-
 
 apply plugin: 'com.google.gms.google-services'

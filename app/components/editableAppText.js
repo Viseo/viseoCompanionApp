@@ -36,7 +36,7 @@ class EditableAppText extends Component {
             <View style={{flexDirection:'row', flex: 1}}>
                     <TextInput
                         fieldName={this.props.fieldName}
-                        style={[this.props.style, {flex:10, paddingTop:0, paddingBottom: 3}]}
+                        style={[this.props.style, {flex:1, textAlign: 'center',}]}
                         underlineColorAndroid={this.state.isValid ? 'lightgray' : 'red'}
                         defaultValue={this.props.content}
                         placeholder={(this.props.mandatory)
@@ -46,22 +46,21 @@ class EditableAppText extends Component {
                         multiline={this.props.multiline}
                         numberOfLines={this.props.numberOfLines}
                         returnKeyType={this.props.returnKeyType}
-                        onChangeText={(newValue) => this.setState({text: newValue})}
-                        onSubmitEditing={() => this.validate()}/>
+                        onChangeText={(text) => this.validate(text)}/>
             </View>
         );
     }
 
-    validate(){
-        let valid = !(this.props.mandatory && this.state.text == '');
+    validate(value){
+        let valid = !(this.props.mandatory && value == '');
         this.setState({isValid:valid});
-        this.props.onValidate(this.state.text);
+        this.props.onValidate(value);
     }
 
     renderEditableTextValue(){
         return(
             <View style={{flexDirection: 'row', flex: 1}}>
-                <AppText style={[this.props.style, {flex:10}]}>{this.props.content}</AppText>
+                <AppText style={[this.props.style]}>{this.props.content}</AppText>
             </View>
         );
     }

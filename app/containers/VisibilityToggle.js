@@ -23,4 +23,6 @@ const VisibilityToggle = connect(
     mapDispatchToProps
 )(Toggle)
 
+VisibilityToggle.displayName = 'VisibilityToggle'
+
 export default VisibilityToggle

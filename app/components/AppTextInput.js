@@ -1,13 +1,9 @@
 /**
  * Created by AAB3605 on 10/04/2017.
  */
-import React, {Component} from 'react'
-import {
-    TextInput,
-    StyleSheet,
-    Platform
-} from 'react-native'
-import colors from './colors'
+import React, {Component} from "react";
+import {TextInput, StyleSheet, Platform} from "react-native";
+import colors from "./colors";
 
 export default class AppTextInput extends Component {
 
@@ -25,12 +21,10 @@ export default class AppTextInput extends Component {
                 {...this.props}
                 style={[
                     styles.input,
-                    !this.props.editable && {borderWidth:0},
                     this.props.style]}
                 autoCorrect={false}
-            >
-                {this.props.children}
-            </TextInput>
+                value={this.props.value}
+            />
         )
     }
 }
@@ -38,11 +32,15 @@ export default class AppTextInput extends Component {
 const styles = StyleSheet.create({
     input: {
         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-        flex: 1,
         fontSize: 15,
         backgroundColor: 'transparent',
         textAlign: 'left',
         padding: 0,
-        color:colors.mediumGray
+        paddingHorizontal:10,
+        color:colors.blue,
+        textAlignVertical:'center',
+        borderWidth:1,
+        borderRadius:8,
+        borderColor: colors.blue,
     },
 })

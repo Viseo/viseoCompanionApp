@@ -121,3 +121,5 @@ export default class EventList extends Component {
         );
     }
 }
+
+EventList.displayName = 'EventList'

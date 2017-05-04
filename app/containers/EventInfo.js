@@ -36,7 +36,7 @@ const mapStateToProps = (state, ownProps) => ({
     event: getEventWithId(state.events.items, ownProps.id),
     participants: getEventParticipantsFromId(state.events.items, ownProps.id),
     user: state.user,
-    ...ownProps
+    ...ownProps,
 })
 
 const mapDispatchToProps = (dispatch) => {

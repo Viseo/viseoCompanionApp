@@ -2,22 +2,25 @@
  * Created by LMA3606 on 21/03/2017.
  */
 import React, {Component} from "react";
-import {View, Text, StyleSheet, Platform} from "react-native";
+import {
+    Text,
+    StyleSheet,
+    Platform
+} from "react-native";
 import colors from "./colors";
 
 class AppText extends Component {
-    setNativeProps (nativeProps) {
+    setNativeProps(nativeProps) {
         this._root.setNativeProps(nativeProps);
     }
 
     render() {
-        return(
+        return (
             <Text
                 style={[
                     style.textStyle,
                     this.props.style
                 ]}
-                className={this.props.className}
                 ref={component => this._root = component}
             >
                 {this.props.children}
@@ -34,6 +37,7 @@ const style = StyleSheet.create({
         fontSize: 15,
         backgroundColor: 'transparent',
         padding: 0,
-        color:colors.mediumGray
+        color: colors.mediumGray,
+        textAlignVertical:'center'
     }
 });

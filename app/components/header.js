@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import {View, StyleSheet, Platform, Dimensions, Image, Text} from "react-native";
 import AppText from "./appText";
-import colors from './colors'
-import ItemSpacer from './ItemSpacer'
 
 class Header extends Component {
 
@@ -19,6 +17,8 @@ class Header extends Component {
     }
 }
 
+Header.displayName = 'Header'
+
 export default Header;
 
 var {
@@ -27,16 +27,16 @@ var {
 
 const styles = StyleSheet.create({
     topbar: {
-        backgroundColor: 'transparent',
+        flex: 0,
+        height: 25,
         alignItems: 'center',
         flexDirection: 'row',
-        flex: 1,
-        marginTop: (Platform.OS === 'ios') ? 20 : 0,
+        backgroundColor: 'transparent'
     },
     viseocompanion: {
-        textAlign: 'center',
         flex: 1,
-        fontSize: 20,
+        textAlign: 'center',
+        fontSize: 18,
         color: 'white',
     },
 });
