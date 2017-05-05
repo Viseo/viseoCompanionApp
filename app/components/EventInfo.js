@@ -45,10 +45,11 @@ export default class Event extends Component {
             editing: !this.props.id,
             picture: image,
             modalVisible: false,
-            modalDeleteVisible:false,
+            modalDeleteVisible: false,
             editedEvent: {
                 ...event,
-                id: event.id || Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
+                //id: event.id
+                //|| Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
             }
         };
     }
@@ -95,10 +96,15 @@ export default class Event extends Component {
         })
     }
 
+    DeleteEvent = () => {
+        this.props.deleteEvent(this.state.editedEvent);
+    }
+
+
     render() {
         let {event} = this.props
         return (
-            <View style={{flex:1}}>
+            <View style={{flex: 1}}>
                 {this.renderHeader()}
                 <View style={styles.container}>
                     {this.renderMainInfo()}
@@ -119,31 +125,37 @@ export default class Event extends Component {
             <BackButton
                 navigator={this.props.navigator}
                 source={require("./../images/crossWhite.png")}
-                style={{padding:8}}
+                style={{padding: 8}}
                 onPress={() => this.setState({editing: false})}
             />
         )
         return (
-            <View style={{flex:1, height:150,flexDirection:'row', backgroundColor:colors.blue, alignItems:'center'}}>
+            <View style={{
+                flex: 1,
+                height: 150,
+                flexDirection: 'row',
+                backgroundColor: colors.blue,
+                alignItems: 'center'
+            }}>
                 {editing ?
                     newEvent ? backButton : cancelButton :
                     backButton
                 }
-                <AppText style={{flex:5, color:'white', fontSize:20}}>
+                <AppText style={{flex: 5, color: 'white', fontSize: 20}}>
                     {editing ?
                         newEvent ? "Nouvel évènement" : "Modification" :
                         "Evènement"
                     }
                 </AppText>
-                <View style={{flex:3, flexDirection:'row'}}>
+                <View style={{flex: 3, flexDirection: 'row'}}>
                     {canEdit && (
-                        <View style={{flex:1, flexDirection:'row'}}>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
                             <Toggle
                                 isOn={newEvent}
-                                style={{flex:5}}
+                                style={{flex: 5}}
                                 onToggle={this.toggleEditEvent}
                             >
-                                <AppText style={{color:'white', textAlign:'right'}}>
+                                <AppText style={{color: 'white', textAlign: 'right'}}>
                                     {editing ? 'Enregistrer' : 'Modifier'}
                                 </AppText>
                             </Toggle>
@@ -160,12 +172,14 @@ export default class Event extends Component {
         let {editing} = this.state
         const hostName = 'wafa'
         const hostLastName = 'Salandre'
-        const hostAvatar = <Avatar firstName={hostName} lastName={hostLastName} style={{flex:3}}/>
+        const hostAvatar = <Avatar firstName={hostName} lastName={hostLastName} style={{flex: 3}}/>
         const name = (
             editing ?
                 <AppTextInput
-                    style={[styles.name, {color:colors.blue, marginTop:2}]}
-                    onChangeText={(text) => {this.setState({editedEvent:{...editedEvent, name:text}})}}
+                    style={[styles.name, {color: colors.blue, marginTop: 2}]}
+                    onChangeText={(text) => {
+                        this.setState({editedEvent: {...editedEvent, name: text}})
+                    }}
                     placeholder={editedEvent.name ? '' : "Nom de l'évènement.."}
                     value={editedEvent.name || ''}
                 /> :
@@ -179,13 +193,14 @@ export default class Event extends Component {
                 onValueChange={(category) => {
                     this.setState({
                         editedEvent: {...editedEvent, category}
-                    })}
+                    })
                 }
-                style={{width:130}}
+                }
+                style={{width: 130}}
             >
-                <Item label={this.getCategoryNameFromId(0)} value={0} />
-                <Item label={this.getCategoryNameFromId(1)} value={1} />
-                <Item label={this.getCategoryNameFromId(2)} value={2} />
+                <Item label={this.getCategoryNameFromId(0)} value={0}/>
+                <Item label={this.getCategoryNameFromId(1)} value={1}/>
+                <Item label={this.getCategoryNameFromId(2)} value={2}/>
             </Picker>
         )
         const categoryLabel = (
@@ -203,7 +218,7 @@ export default class Event extends Component {
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>
                 <ItemSpacer/>
-                <AppText style={{flex:5, textAlign:'left'}}>
+                <AppText style={{flex: 5, textAlign: 'left'}}>
                     {this.props.userName}
                 </AppText>
             </View>
@@ -215,13 +230,15 @@ export default class Event extends Component {
                 {
                     editing ?
                         <AppTextInput
-                            style={{flex:5, textAlign:'left', textAlignVertical:'center'}}
-                            onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, location:text}})}}
+                            style={{flex: 5, textAlign: 'left', textAlignVertical: 'center'}}
+                            onChangeText={(text) => {
+                                this.setState({editedEvent: {...this.state.editedEvent, location: text}})
+                            }}
                             editable={editing}
                             placeholder={editedEvent.location ? '' : "Lieu de l'évènement.."}
                             value={editedEvent.location}
                         /> :
-                        <AppText style={{flex:5, textAlign:'left', textAlignVertical:'center'}}>
+                        <AppText style={{flex: 5, textAlign: 'left', textAlignVertical: 'center'}}>
                             {editedEvent.location || "Lieu non renseigné.."}
                         </AppText>
                 }
@@ -229,7 +246,7 @@ export default class Event extends Component {
             </View>
         )
         const eventInfo = (
-            <View style={{flex:6, flexDirection:'column'}}>
+            <View style={{flex: 6, flexDirection: 'column'}}>
                 {name}
                 {category}
                 <View style={styles.locationAndDateContainer}>
@@ -239,7 +256,7 @@ export default class Event extends Component {
             </View>
         )
         return (
-            <View style={{flex:8, flexDirection:'row'}}>
+            <View style={{flex: 8, flexDirection: 'row'}}>
                 {hostAvatar}
                 {eventInfo}
                 {categoryIndicator}
@@ -250,10 +267,10 @@ export default class Event extends Component {
     renderDetails() {
         let {event} = this.props
         return (
-            <View style={{flex:30,flexDirection:'column'}}>
+            <View style={{flex: 30, flexDirection: 'column'}}>
                 <ScrollView
-                    style={{flex:1}}
-                    contentContainerStyle={{flex:0}}
+                    style={{flex: 1}}
+                    contentContainerStyle={{flex: 0}}
                 >
                     {this.renderEventPicture(event.id)}
                     {
@@ -265,7 +282,7 @@ export default class Event extends Component {
                     {this.renderEventDelete()}
                     {/*{this.renderEventKeywords(event.keywords)}*/}
                     {this.renderNotifySuccess()}
-                    {this.renderNotifyDelete}
+                    {this.renderNotifyDelete()}
                 </ScrollView>
                 <KeyboardSpacer/>
             </View>
@@ -276,22 +293,24 @@ export default class Event extends Component {
         const picture = this.state.editing ?
             (
                 <EditableImage
-                    style={{minHeight:height / 3}}
+                    style={{minHeight: height / 3}}
                     refs="eventDescription"
                     resizeMode="stretch"
                     defaultPicture={this.state.picture}
-                    onSelected={(selected) => {this.updateImage(selected)}}
+                    onSelected={(selected) => {
+                        this.updateImage(selected)
+                    }}
                 />
             ) :
             (
                 <FlexImage
-                    style={{minHeight:height / 3}}
+                    style={{minHeight: height / 3}}
                     source={this.state.picture}
                     resizeMode="cover"
                 />
             )
         return (
-            <View style={{flex:2,marginBottom:-20}}>
+            <View style={{flex: 2, marginBottom: -20}}>
                 {picture}
             </View>
         )
@@ -310,17 +329,17 @@ export default class Event extends Component {
                         });
                     }}
                 >
-                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
                     <View
                         style={{
-                            flex:1,
+                            flex: 1,
                             justifyContent: 'center',
-                            alignItems:'center',
+                            alignItems: 'center',
                             backgroundColor: 'rgba(186, 242, 255, 1)'
                         }}
                     >
                         <View>
-                            <AppText style={{textAlign:'center'}}>
+                            <AppText style={{textAlign: 'center'}}>
                                 {"Evènement créé avec succès!"}
                             </AppText>
                             <Button
@@ -334,11 +353,12 @@ export default class Event extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
                 </Modal>
             </View>
         );
     }
+
 
     renderNotifyDelete() {
         return (
@@ -346,31 +366,27 @@ export default class Event extends Component {
                 <Modal
                     animationType={"fade"}
                     transparent={true}
-                    visible={this.state.modalVisible}
-                    /*onRequestClose={() => {
-                        this.props.navigator.resetTo({
-                            title: 'Home'
-                        });
-                    }}*/
+                    visible={this.state.modalDeleteVisible}
+
                 >
-                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
                     <View
                         style={{
-                            flex:1,
+                            flex: 1,
                             justifyContent: 'center',
-                            alignItems:'center',
+                            alignItems: 'center',
                             backgroundColor: 'rgba(186, 242, 255, 1)'
                         }}
                     >
                         <View>
-                            <AppText style={{textAlign:'center'}}>
-                                {"Evènement supprimé avec succès!"}
+                            <AppText style={{textAlign: 'center'}}>
+                                {"Voulez vous supprimer cet evenement ?"}
                             </AppText>
-
+                            <View style={{flex:1}}>
                             <Button
                                 onPress={() => {
                                     this.setState({
-                                        modalDeleteVisible:true
+                                        modalDeleteVisible: true
                                     })
                                 }}
                                 title="Annuler"
@@ -387,8 +403,9 @@ export default class Event extends Component {
                                 color="#d43f3a"
                             />
                         </View>
+                        </View>
                     </View>
-                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
                 </Modal>
             </View>
         );
@@ -397,8 +414,8 @@ export default class Event extends Component {
     renderDatePicker() {
         let {editedEvent, newEvent} = this.state
         return (
-            <View style={{alignItems:'center'}}>
-                <View style={[styles.participationInfoRectangle, {justifyContent: 'center', borderColor:colors.blue}]}>
+            <View style={{alignItems: 'center'}}>
+                <View style={[styles.participationInfoRectangle, {justifyContent: 'center', borderColor: colors.blue}]}>
                     <DatePicker
                         date={newEvent ? moment().toDate() : moment(editedEvent.date).toDate()}
                         mode="datetime"
@@ -408,24 +425,24 @@ export default class Event extends Component {
                         confirmBtnText="OK"
                         cancelBtnText="Annuler"
                         onDateChange={(date) => {
-                            let formattedDate =  moment(new Date(date).toISOString())
+                            let formattedDate = moment(new Date(date).toISOString())
                             this.setState({editedEvent: {...editedEvent, date: formattedDate}})
                         }}
                         customStyles={{
-                                        dateIcon: {
-                                          position: 'absolute',
-                                          left: 0,
-                                          top: 4,
-                                          marginLeft: 0
-                                        },
-                                        dateInput: {
-                                          marginLeft: 36,
-                                          borderWidth:0,
-                                        },
-                                        dateText: {
-                                            color:colors.blue
-                                        }
-                                      }}
+                            dateIcon: {
+                                position: 'absolute',
+                                left: 0,
+                                top: 4,
+                                marginLeft: 0
+                            },
+                            dateInput: {
+                                marginLeft: 36,
+                                borderWidth: 0,
+                            },
+                            dateText: {
+                                color: colors.blue
+                            }
+                        }}
                     />
                 </View>
             </View>
@@ -437,7 +454,7 @@ export default class Event extends Component {
         let {user, participants} = this.props
         let [day, time] = this.formatDate(editedEvent.date)
         return (
-            <View style={{alignItems:'center'}}>
+            <View style={{alignItems: 'center'}}>
                 <View style={styles.participationInfoRectangle}>
                     <View style={styles.participationInfoItem}>
                         <AppText style={styles.participationInfoContainer}>
@@ -475,10 +492,18 @@ export default class Event extends Component {
         return (
             editing ?
                 <View
-                    style={{flex:1, paddingHorizontal: deviceWidth / 20, paddingTop:10, marginTop:10, height: deviceHeight/5}}>
+                    style={{
+                        flex: 1,
+                        paddingHorizontal: deviceWidth / 20,
+                        paddingTop: 10,
+                        marginTop: 10,
+                        height: deviceHeight / 5
+                    }}>
                     <AppTextInput
                         style={[styles.description]}
-                        onChangeText={(text) => {this.setState({editedEvent:{...this.state.editedEvent, description:text}})}}
+                        onChangeText={(text) => {
+                            this.setState({editedEvent: {...this.state.editedEvent, description: text}})
+                        }}
                         multiline={true}
                         placeholder={placeholder}
                         value={this.state.editedEvent.description}
@@ -489,25 +514,34 @@ export default class Event extends Component {
                 </AppText>
         );
     }
-    renderEventDelete() {
+
+   renderEventDelete() {
         let {editing} = this.state
 
         return (
             editing ?
                 <View
-                    style={{flex:1, paddingHorizontal: deviceWidth / 20, paddingTop:10, marginTop:10, height: deviceHeight/5}}>
-                   <Button    onPress={() => {
-                       this.setState({
-                           modalDeleteVisible:true
-                       })
-                   }}
-                              >
-                   Supprimer
-                   </Button>
+                    style={{
+                        flex: 1,
+                        paddingHorizontal: deviceWidth / 20,
+                        paddingTop: 10,
+                        marginTop: 10,
+                        height: deviceHeight / 5
+                    }}>
+                    <Button onPress={() => {
+                        this.setState({
+                            modalDeleteVisible: true
+                        });
+                    }}
+                            title="Supprimer"
+                    />
+
+
                 </View> :
-               <br/>
+                <View></View>
         );
     }
+
     renderEventKeywords() {
         return (
             <AppText style={styles.keywords}>{this.state.editedEvent.keywords || 'Aucun mot clé'}</AppText>
@@ -579,9 +613,9 @@ const styles = StyleSheet.create({
         width: deviceWidth / 4,
         borderRadius: deviceWidth / 8,
         fontSize: 40,
-        backgroundColor:colors.lightGray,
-        textAlign:'center',
-        color:'white',
+        backgroundColor: colors.lightGray,
+        textAlign: 'center',
+        color: 'white',
     },
     organizatorPicture: {
         flex: 1,

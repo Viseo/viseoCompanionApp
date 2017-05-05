@@ -67,7 +67,7 @@ export async function addUser(email, password) {
     }
 
     return false;
-// }
+}
 
 export async function authenticate(email, password) {
     try {
@@ -244,4 +244,29 @@ export async function removeEventParticipant(eventId, userId) {
         console.warn('db::removeEventParticipant ' + error);
     }
     return false;
+}
+
+
+export async function updateEvent(event) {
+    try {
+        let response = await fetch(settings.api.updatedEvent(event.id), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "name": event.name,
+                "description": event.description,
+                "datetime": event.datetime,
+                "keywords": event.keywords || '',
+                "place": event.location,
+                "version": "1",
+                "category": event.category
+            })
+        })
+        if (response)
+            return true;
+    } catch (error) {
+        console.warn(error);
+    }
 }

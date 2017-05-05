@@ -2,7 +2,7 @@
  * Created by AAB3605 on 03/04/2017.
  */
 import settings from "./../config/settings";
-import {getEventParticipants, addEvent as pushEvent} from "./../util/db";
+import {getEventParticipants, addEvent as pushEvent,updateEvent as updateEventDb } from "./../util/db";
 import PushController from "../util/pushController";
 
 export const types = {
@@ -163,14 +163,12 @@ export const unregisterUser = (event, userId) => {
 
 export const updateEvent = (event) => {
     return async(dispatch) => {
-        dispatch({
-            type: types.UPDATE_EVENT,
-            event
-        })
-        try {
-            // console.warn('I need the backend to update ' + event.name + event.location)
-        } catch (error) {
-            console.warn('ActionCreators/events::updateEvent ' + error)
+        return async(dispatch) => {
+            dispatch({
+                type: types.UPDATE_EVENT,
+                ...event
+            })
+            await updateEventDb(event)
         }
     }
 }
