@@ -45,6 +45,7 @@ export default class Event extends Component {
             editing: !this.props.id,
             picture: image,
             modalVisible: false,
+            modalDeleteVisible:false,
             editedEvent: {
                 ...event,
                 id: event.id || Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
@@ -261,8 +262,10 @@ export default class Event extends Component {
                             this.renderEventDateAndParticipants()
                     }
                     {this.renderEventDescription(this.state.description)}
+                    {this.renderEventDelete()}
                     {/*{this.renderEventKeywords(event.keywords)}*/}
                     {this.renderNotifySuccess()}
+                    {this.renderNotifyDelete}
                 </ScrollView>
                 <KeyboardSpacer/>
             </View>
@@ -328,6 +331,60 @@ export default class Event extends Component {
                                 }}
                                 title="OK"
                                 color="#6ABEFF"
+                            />
+                        </View>
+                    </View>
+                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                </Modal>
+            </View>
+        );
+    }
+
+    renderNotifyDelete() {
+        return (
+            <View>
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    /*onRequestClose={() => {
+                        this.props.navigator.resetTo({
+                            title: 'Home'
+                        });
+                    }}*/
+                >
+                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View
+                        style={{
+                            flex:1,
+                            justifyContent: 'center',
+                            alignItems:'center',
+                            backgroundColor: 'rgba(186, 242, 255, 1)'
+                        }}
+                    >
+                        <View>
+                            <AppText style={{textAlign:'center'}}>
+                                {"Evènement supprimé avec succès!"}
+                            </AppText>
+
+                            <Button
+                                onPress={() => {
+                                    this.setState({
+                                        modalDeleteVisible:true
+                                    })
+                                }}
+                                title="Annuler"
+                                color="#6ABEFF"
+                            />
+                            <Button
+                                onPress={() => {
+                                    this.DeleteEvent;
+                                    this.props.navigator.resetTo({
+                                        title: 'Home'
+                                    });
+                                }}
+                                title="Supprimer"
+                                color="#d43f3a"
                             />
                         </View>
                     </View>
@@ -432,7 +489,25 @@ export default class Event extends Component {
                 </AppText>
         );
     }
+    renderEventDelete() {
+        let {editing} = this.state
 
+        return (
+            editing ?
+                <View
+                    style={{flex:1, paddingHorizontal: deviceWidth / 20, paddingTop:10, marginTop:10, height: deviceHeight/5}}>
+                   <Button    onPress={() => {
+                       this.setState({
+                           modalDeleteVisible:true
+                       })
+                   }}
+                              >
+                   Supprimer
+                   </Button>
+                </View> :
+               <br/>
+        );
+    }
     renderEventKeywords() {
         return (
             <AppText style={styles.keywords}>{this.state.editedEvent.keywords || 'Aucun mot clé'}</AppText>
