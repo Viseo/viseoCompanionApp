@@ -4,10 +4,13 @@
 import React, {Component} from 'react';
 import {
     View,
+    Alert,
     Text,
     StyleSheet,
     Button,
-    ScrollView, Image
+    ScrollView,
+    Image,
+    TouchableHighlight
 } from 'react-native';
 import AppText from '../components/appText';
 import {isEmailValid} from "../util/util";
@@ -30,7 +33,20 @@ export default class RecoverPassword extends Component {
     }
 
     onPressResetPassword() {
-        console.warn("Réinitialisation effectuée avec succès à l'adresse mail : " );
+
+        if(isEmailValid(this.state.email)) {
+            console.warn("Réinitialisation effectuée avec succès à l'adresse mail : " + this.state.email);
+            Alert.alert(
+                'Mot de passe réinitialisé avec succès',
+                'Vérifiez votre email',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed!')},
+                ],
+                {
+                    cancelable: false
+                }
+            )
+        }
     };
 
     onChangeEmailText(text) {
@@ -44,11 +60,12 @@ export default class RecoverPassword extends Component {
     render() {
         return (
             <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
+
                 <ScrollView>
                     <View style={{flexDirection: 'column', justifyContent: 'center', padding: 30}}>
 
                         {/* VISEO or SIGN UP logo */}
-                        <View style={{alignItems: 'center', paddingBottom:50}}>
+                        <View style={{alignItems: 'center', paddingBottom: 50}}>
                             <Image
                                 source={require('./../images/signUpLogo.png')}
                                 style={{width: 110, height: 110}}
@@ -68,15 +85,18 @@ export default class RecoverPassword extends Component {
 
                         {/* RESET PASSWORD button */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>
-                            <View style={{flex: 1, padding: 5}}>
-                                <Button
-                                    onPress={this.onPressResetPassword}
-                                    title={strings.resetPassword}
-                                    color="#841584"
-                                />
-                            </View>
-                        </View>
 
+                            <TouchableHighlight>
+                                <View style={{flex: 1, padding: 5}}>
+                                    <Button
+                                        onPress={this.onPressResetPassword}
+                                        title={strings.resetPassword}
+                                        color="#841584"
+                                    />
+                                </View>
+                            </TouchableHighlight>
+
+                        </View>
                     </View>
                 </ScrollView>
             </View>

@@ -39,7 +39,6 @@ export default class SignInForm extends Component {
             email,
             password
         }, () => {
-            //pour des raisons de dév, à remettre
             this.autoSubmitFormWhenLastInputIsFilled();
         });
         if (authenticationStatus === 1) {
