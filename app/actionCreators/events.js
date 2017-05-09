@@ -2,7 +2,7 @@
  * Created by AAB3605 on 03/04/2017.
  */
 import settings from "./../config/settings";
-import {getEventParticipants, addEvent as pushEvent,updateEvent as updateEventDb,deleteEventDb } from "./../util/db";
+import {getEventParticipants, addEvent as pushEvent, updateEvent as updateEventDb, deleteEventDb} from "./../util/db";
 import PushController from "../util/pushController";
 
 export const types = {
@@ -22,7 +22,7 @@ export const types = {
 }
 
 export const addEvent = (event) => {
-    return async(dispatch) => {
+    return async (dispatch) => {
         dispatch({
             type: types.ADD_EVENT,
             ...event
@@ -32,7 +32,7 @@ export const addEvent = (event) => {
 }
 
 export const fetchEventParticipants = (id) => {
-    return async(dispatch) => {
+    return async (dispatch) => {
         let participants = await getEventParticipants(id)
         dispatch({
             type: types.UPDATE_EVENT_PARTICIPANTS,
@@ -43,7 +43,7 @@ export const fetchEventParticipants = (id) => {
 }
 
 export const fetchEvents = (user) => {
-    return async(dispatch) => {
+    return async (dispatch) => {
         dispatch(requestEvents())
         try {
             // Fetch all events
@@ -83,6 +83,7 @@ function getEventsFromJson(json) {
             description: event.description,
             date: event.datetime,
             location: event.place,
+            version: event.version,
             category: event.category
         })
     }
@@ -110,7 +111,7 @@ export const receiveEvents = (events) => ({
 
 export const registerUser = (event, userId) => {
     let eventId = event.id
-    return async(dispatch) => {
+    return async (dispatch) => {
         dispatch({
             type: types.REGISTER_USER,
             eventId,
@@ -136,7 +137,7 @@ export const requestEvents = () => ({
 
 export const unregisterUser = (event, userId) => {
     let eventId = event.id
-    return async(dispatch) => {
+    return async (dispatch) => {
         PushController.unscheduleEventNotifications(event);
         dispatch({
             type: types.UNREGISTER_USER,
@@ -157,26 +158,31 @@ export const unregisterUser = (event, userId) => {
 }
 
 export const updateEvent = (event) => {
-    return async(dispatch) => {
-        return async(dispatch) => {
-            dispatch({
-                type: types.UPDATE_EVENT,
-                ...event
-            })
+    return async (dispatch) => {
+
+        dispatch({
+            type: types.UPDATE_EVENT,
+            event
+        })
+        try {
             await updateEventDb(event)
+
+        } catch (error) {
+            console.warn('ActionCreators/events::updatedEvent ' + error)
         }
     }
 }
 
 
 export const deleteEvent = (id) => {
-    return async(dispatch) => {
+    return async (dispatch) => {
         dispatch({
             type: types.REMOVE_EVENT,
             id
         })
         try {
             // todo Delete from DATABASE
+
             await deleteEventDb(id)
 
         } catch (error) {

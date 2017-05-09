@@ -18,6 +18,7 @@ import moment from "moment";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import {Item} from "react-native-mock/build/components/Picker";
 import Avatar from "./Avatar";
+import * as Alert from "react-native/Libraries/Alert/Alert";
 
 const eventIdToImages = {
     "40": require('./../images/events/formation_securite.jpg'),
@@ -84,11 +85,13 @@ export default class Event extends Component {
     }
 
     toggleEditEvent = (editing) => {
-        if (!editing) {
+
+       if (!editing) {
             if (this.state.newEvent) {
                 this.setState({newEvent: false})
                 this.props.addEvent(this.state.editedEvent)
-            } else
+            }
+            else
                 this.props.updateEvent(this.state.editedEvent)
         }
         this.setState({
@@ -97,7 +100,12 @@ export default class Event extends Component {
     }
 
     DeleteEvent = () => {
+
         this.props.deleteEvent(this.state.editedEvent.id);
+
+        this.props.navigator.resetTo({
+            title: 'Home'
+        });
     }
 
 
@@ -266,6 +274,7 @@ export default class Event extends Component {
 
     renderDetails() {
         let {event} = this.props
+
         return (
             <View style={{flex: 30, flexDirection: 'column'}}>
                 <ScrollView
@@ -382,27 +391,26 @@ export default class Event extends Component {
                             <AppText style={{textAlign: 'center'}}>
                                 {"Voulez vous supprimer cet evenement ?"}
                             </AppText>
-                            <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent: 'space-between'}}>
-                            <Button
-                                onPress={() => {
-                                    this.setState({
-                                        modalDeleteVisible: false
-                                    })
-                                }}
-                                title="Annuler"
-                                color="#6ABEFF"
-                            />
-                            <Button
-                                onPress={() => {
-                                    this.DeleteEvent;
-                                    this.props.navigator.resetTo({
-                                        title: 'Home'
-                                    });
-                                }}
-                                title="Supprimer"
-                                color="#d43f3a"
-                            />
-                        </View>
+                            <View
+                                style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                                <Button
+                                    onPress={() => {
+                                        this.setState({
+                                            modalDeleteVisible: false
+                                        })
+                                    }}
+                                    title="Annuler"
+                                    color="#6ABEFF"
+                                />
+                                <Button
+                                    onPress={() => {
+                                        this.DeleteEvent();
+
+                                    }}
+                                    title="Supprimer"
+                                    color="#d43f3a"
+                                />
+                            </View>
                         </View>
                     </View>
                     <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
@@ -515,7 +523,7 @@ export default class Event extends Component {
         );
     }
 
-   renderEventDelete() {
+    renderEventDelete() {
         let {editing} = this.state
 
         return (
