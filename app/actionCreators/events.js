@@ -2,7 +2,7 @@
  * Created by AAB3605 on 03/04/2017.
  */
 import settings from "./../config/settings";
-import {getEventParticipants, addEvent as pushEvent,updateEvent as updateEventDb } from "./../util/db";
+import {getEventParticipants, addEvent as pushEvent,updateEvent as updateEventDb,deleteEventDb } from "./../util/db";
 import PushController from "../util/pushController";
 
 export const types = {
@@ -130,11 +130,6 @@ export const registerUser = (event, userId) => {
     }
 }
 
-export const removeEvent = (id) => ({
-    type: types.REMOVE_EVENT,
-    id
-})
-
 export const requestEvents = () => ({
     type: types.REQUEST_EVENTS,
 })
@@ -182,6 +177,8 @@ export const deleteEvent = (id) => {
         })
         try {
             // todo Delete from DATABASE
+            await deleteEventDb(id)
+
         } catch (error) {
             console.warn('ActionCreators/events::deleteEvent ' + error)
         }

@@ -27,6 +27,22 @@ export async function addEvent(event) {
     }
 }
 
+export async function deleteEventDb(id) {
+    try {
+        let response = await fetch(settings.api.removeEvent(id), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+        })
+        if (response)
+            return true;
+    } catch (error) {
+        console.warn(error);
+    }
+}
+
 export async function addEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.addEventParticipant(eventId, userId), {
@@ -270,3 +286,6 @@ export async function updateEvent(event) {
         console.warn(error);
     }
 }
+
+
+

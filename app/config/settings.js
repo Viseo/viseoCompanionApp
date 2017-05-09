@@ -12,7 +12,7 @@ let SERVER_API_URL = 'http://10.33.178.119:8080/';
 //  let SERVER_API_URL = 'http://192.168.1.8:8080/api/';
 
 // AWS Dev server
-// let SERVER_API_URL = 'http://54.229.99.105:8080/viseocompanion/api/';
+//let SERVER_API_URL = 'http://54.229.99.105:8080/viseocompanion/api/';
 
 let ACCOUNT_API_URL = SERVER_API_URL + '/account/';
 let EVENT_API_URL = SERVER_API_URL + '/event/';
@@ -35,6 +35,9 @@ const restRoutes = {
         return SERVER_API_URL + 'events/' + eventId + '/users';
     },
     updatedEvent: eventId => {
+        return SERVER_API_URL + 'events/' + eventId ;
+    },
+    removeEvent: eventId => {
         return SERVER_API_URL + 'events/' + eventId ;
     },
     getEventParticipant: (eventId, userId) => {

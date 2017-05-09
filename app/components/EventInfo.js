@@ -97,7 +97,7 @@ export default class Event extends Component {
     }
 
     DeleteEvent = () => {
-        this.props.deleteEvent(this.state.editedEvent);
+        this.props.deleteEvent(this.state.editedEvent.id);
     }
 
 
@@ -382,11 +382,11 @@ export default class Event extends Component {
                             <AppText style={{textAlign: 'center'}}>
                                 {"Voulez vous supprimer cet evenement ?"}
                             </AppText>
-                            <View style={{flex:1}}>
+                            <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent: 'space-between'}}>
                             <Button
                                 onPress={() => {
                                     this.setState({
-                                        modalDeleteVisible: true
+                                        modalDeleteVisible: false
                                     })
                                 }}
                                 title="Annuler"
