@@ -13,10 +13,10 @@ export async function addEvent(event) {
             body: JSON.stringify({
                 "name": event.name,
                 "description": event.description,
-                "datetime": event.datetime,
+                "datetime": event.date,
                 "keywords": event.keywords || '',
                 "place": event.location,
-                "version": "1",
+                "version": "0",
                 "category": event.category
             })
         })
@@ -265,18 +265,21 @@ export async function removeEventParticipant(eventId, userId) {
 
 export async function updateEvent(event) {
     try {
+
         let response = await fetch(settings.api.updatedEvent(event.id), {
+
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                "id": event.id,
                 "name": event.name,
                 "description": event.description,
-                "datetime": event.datetime,
+                "datetime": event.date,
                 "keywords": event.keywords || '',
                 "place": event.location,
-                "version": "1",
+                "version": event.version,
                 "category": event.category
             })
         })
