@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 import {
     View,
     Alert,
-    Text,
     StyleSheet,
     Button,
     ScrollView,
@@ -14,6 +13,7 @@ import {
 } from 'react-native';
 import AppText from '../components/appText';
 import {isEmailValid} from "../util/util";
+import settings from '../config/settings';
 import strings from "../util/localizedStrings";
 import EmailInput from "./../components/emailInput";
 
@@ -25,27 +25,70 @@ export default class RecoverPassword extends Component {
         this.state = {
             email: '',
             isEmailValid: true,
-            isFormCompletelyFilled: true,
+            isFormCompletelyFilled: true
         }
 
         this.onChangeEmailText = this.onChangeEmailText.bind(this);
         this.onPressResetPassword = this.onPressResetPassword.bind(this);
     }
 
-    onPressResetPassword() {
+    onPressResetPassword = async () => {
+        if (isEmailValid(this.state.email)) {
+            try {
+                let email_verification_response = await fetch(
+                    settings.api.resetPassword, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "email": this.state.email
+                        })
+                    });
+                // if (email_verification_response.headers.get("content-length") != 0) {
+                if(email_verification_response.status == 404) {
+                    console.warn("ok");
+                    let email_request_response = await fetch(
+                        settings.api.resetPassword, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                "email": this.state.email
+                            })
+                        });
+                    // if (email_request_response.headers.get("content-length") != 0) {
+                    if(email_request_response.status == 404) {
+                        // let user = await email_request_response.json();
+                        let user = {
+                            id: '1',
+                            email: 'test@viseo.com'
+                        }
+                        if (user) {
+                            console.warn(this.state.email);
+                            Alert.alert(
+                                'Mot de passe réinitialisé avec succès',
+                                'Vérifiez votre email',
+                                [
+                                    {text: 'OK', onPress: () => console.log('OK Pressed!')},
+                                ],
+                                {
+                                    cancelable: false
+                                }
+                            )
+                            return {
+                                id: user.id,
+                                email: user.email
+                            };
+                        }
 
-        if(isEmailValid(this.state.email)) {
-            console.warn("Réinitialisation effectuée avec succès à l'adresse mail : " + this.state.email);
-            Alert.alert(
-                'Mot de passe réinitialisé avec succès',
-                'Vérifiez votre email',
-                [
-                    {text: 'OK', onPress: () => console.log('OK Pressed!')},
-                ],
-                {
-                    cancelable: false
+                    }
                 }
-            )
+            } catch (error) {
+                console.warn('recoverPassword::onPressResetPassword ' + error);
+                return -1;
+            }
         }
     };
 

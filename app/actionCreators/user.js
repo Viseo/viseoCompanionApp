@@ -2,14 +2,20 @@
  * Created by VBO3596 on 18/04/2017.
  */
 
-import {authenticate as authenticateDB} from './../util/db'
+import {
+    authenticate as authenticateDB,
+    resetPassword as resetPWD
+} from './../util/db'
 
 export const types = {
     UPDATE_USER: 'UPDATE_USER',
     REMEMBER_USER: 'REMEMBER_USER',
     AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS',
     AUTHENTICATION_FAILURE: 'AUTHENTICATION_FAILURE',
-    UPDATE_USER_FAILURE: 'UPDATE_USER_FAILURE'
+    UPDATE_USER_FAILURE: 'UPDATE_USER_FAILURE',
+
+    RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
+    RESET_PASSWORD_FAILURE: 'RESET_PASSWORD_FAILURE'
 }
 
 export const rememberUser = (shouldRemember) => ({
@@ -47,7 +53,42 @@ export const authenticate = (email, password) => {
         }
     }
 }
+/*
+export const resetPassword = (shouldResetPassword) => ({
+    type: types.RESET_PASSWORD_SUCCESS,
+    shouldResetPassword
+})
 
+export const resetPasswordRequest = (email) => {
+    return async (dispatch) => {
+        try {
+            let response = await resetPWD(email);
+            const unabledToReachServerCode = -1;
+            const wrongCredentials = null;
+            if (response == unabledToReachServerCode) {
+                dispatch({
+                    type: types.RESET_PASSWORD_FAILURE,
+                    code: 2
+                })
+            } else if (response === wrongCredentials) {
+                dispatch({
+                    type: types.RESET_PASSWORD_FAILURE,
+                    code: 3
+                })
+            } else {
+                dispatch({
+                    type: types.RESET_PASSWORD_SUCCESS,
+                    email,
+                    code: 1
+                })
+            }
+
+        } catch (error) {
+            console.warn('ActionCreators/user::authenticate ' + error)
+        }
+    }
+}
+*/
 export const updateUser = (user) => {
     return async (dispatch) => {
         if (user.firstName.length > 0
@@ -56,7 +97,7 @@ export const updateUser = (user) => {
             || user.password === user.passwordCheck) {
             dispatch({
                 type: types.UPDATE_USER_FAILURE,
-                code:-1
+                code: -1
             })
             return
         }
@@ -67,7 +108,7 @@ export const updateUser = (user) => {
         }
         dispatch({
             type: types.UPDATE_USER,
-            code:1
+            code: 1
         })
     }
 }

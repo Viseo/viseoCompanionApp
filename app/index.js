@@ -35,7 +35,7 @@ const initialState = {
         email: '',
         password: '',
         authenticationStatus: 0,
-        updateStatus: 0,
+        // resetPasswordStatus: 0,0updateStatus: 0,
     }
 };
 
