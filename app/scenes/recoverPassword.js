@@ -47,7 +47,6 @@ export default class RecoverPassword extends Component {
                     });
                 // if (email_verification_response.headers.get("content-length") != 0) {
                 if(email_verification_response.status == 404) {
-                    console.warn("ok");
                     let email_request_response = await fetch(
                         settings.api.resetPassword, {
                             method: 'POST',
@@ -66,7 +65,6 @@ export default class RecoverPassword extends Component {
                             email: 'test@viseo.com'
                         }
                         if (user) {
-                            console.warn(this.state.email);
                             Alert.alert(
                                 'Mot de passe réinitialisé avec succès',
                                 'Vérifiez votre email',
