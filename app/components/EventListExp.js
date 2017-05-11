@@ -1,5 +1,5 @@
 /**
- * Created by AAB3605 on 29/03/2017.
+ * Created by HEL3666 on 11/05/2017.
  */
 import React, {Component} from 'react'
 import {
@@ -12,12 +12,12 @@ import {
     TextInput,
     RefreshControl
 } from 'react-native'
-import EventCard from './events/eventCard'
+import EventCardExp from './events/eventCardExp'
 import AppText from './appText'
 import moment from 'moment'
 import colors from './colors'
 
-export default class EventList extends Component {
+export default class EventListExp extends Component {
 
     constructor(props) {
         super(props)
@@ -54,20 +54,20 @@ export default class EventList extends Component {
     }
 
     render() {
-        const eventList = (
+        const eventListExp = (
             <ListView
                 refreshControl={
                     <RefreshControl
                         refreshing={this.props.refreshing}
                         onRefresh={() => {
-                            this.props.refresh(this.props.user)
+                            this.props.refresh()
                         }}
                     />
                 }
                 scrollEventThrottle={200}
                 enableEmptySections={true}
                 dataSource={this.state.dataSource}
-                renderRow={this.renderEventCard}
+                renderRow={this.renderEventCardExp}
             />
         )
         const nothingToShow = (
@@ -89,20 +89,18 @@ export default class EventList extends Component {
             <View style={[{flex: 1, flexDirection: 'column'}, this.props.style]}>
                 {
                     this.state.dataSource.getRowCount() > 0 || this.props.refreshing ?
-                        eventList :
+                        eventListExp :
                         nothingToShow
                 }
             </View>
         )
     }
 
-    renderEventCard = (event) => {
+    renderEventCardExp = (event) => {
         let [day, time] = this.formatDate(event.date);
         let {user} = this.props;
-        let edited = user.id === event.host.id ? true : false;
-        let participating = user.id === event.host.id ? true : false;
         return (
-            <EventCard
+            <EventCardExp
                 name={event.name}
                 description={event.description}
                 location={event.location}
@@ -110,19 +108,15 @@ export default class EventList extends Component {
                 time={time}
                 participating={event.participating}
                 categoryId={event.category}
-                onParticipationChange={() => {
-                    this.props.toggleParticipation(event, user)
-                }}
+                //onParticipationChange={() => {this.props.toggleParticipation(event, user)}}
                 onPress={() => {
                     this.props.navigator.push({
                         title: 'Event',
                         passProps: {
                             id: event.id,
-                            edit: edited,
-                            participate: participating,
-                            onParticipationChange: () => {
-                                this.props.toggleParticipation(event, user)
-                            }
+                            edit:false,
+                            participate:false
+                            //onParticipationChange: () => {this.props.toggleParticipation(event, user)}
                         }
                     });
                 }}
@@ -132,4 +126,4 @@ export default class EventList extends Component {
     }
 }
 
-EventList.displayName = 'EventList'
+EventListExp.displayName = 'EventList expired'

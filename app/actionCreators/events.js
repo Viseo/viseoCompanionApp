@@ -11,6 +11,7 @@ export const types = {
     FETCH_EVENTS: 'FETCH_EVENTS',
     FETCH_EVENTS_FAILED: 'FETCH_EVENTS_FAILED',
     GET_EVENT: 'GET_EVENT',
+    GET_EVENT_EXPIRE:'GET_EVENT_EXPIRE',
     INVALIDATE_EVENTS: 'INVALIDATE_EVENTS',
     RECEIVE_EVENTS: 'RECEIVE_EVENTS',
     REGISTER_USER: 'REGISTER_USER',
@@ -73,10 +74,44 @@ export const fetchEvents = (user) => {
     }
 }
 
+export const fetchEventsExp = (user) => {
+    return async (dispatch) => {
+        dispatch(requestEvents())
+        try {
+            // Fetch all events
+            let eventsResponse = await fetch(settings.api.getEventExpire)
+            let eventsJson = await eventsResponse.json()
+            let events = getEventsFromJson(eventsJson)
+            console.log(settings.api.getEventExpire);
+            dispatch(receiveEvents(events))
+
+            // Fetch the events registered by logged user
+            let registeredEventsResponse = await fetch(settings.api.getEventsByRegisteredUser(user.id))
+            let registeredEventsJson = await registeredEventsResponse.json()
+            let registeredEvents = getRegisteredEventsIdsFromJson(registeredEventsJson)
+            registeredEvents.forEach(eventId => {
+                dispatch({
+                    type: types.REGISTER_USER,
+                    eventId,
+                    userId: user.id
+                })
+            })
+
+        } catch (error) {
+            console.warn('ActionCreators/events::fetchEvents ' + error)
+            dispatch({
+                type: types.FETCH_EVENTS_FAILED,
+                error
+            })
+        }
+
+    }
+}
 function getEventsFromJson(json) {
     let events = [];
     for (let i = 0; i < json.length; i++) {
         let event = json[i];
+
         events.push({
             id: event.id,
             name: event.name,

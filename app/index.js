@@ -7,13 +7,14 @@ import SignIn from "./containers/SignInForm";
 import SignUp from "./scenes/signUp";
 import RecoverPassword from "./scenes/recoverPassword";
 import Home from "./scenes/home";
+import History from "./scenes/History";
 import strings from "./util/localizedStrings";
 import setDateLang from "./util/dateHandler";
 import AddEvent from './scenes/addEvent';
 import {Provider} from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import viseoCompanionApp from './reducers';
-import {fetchEvents} from './actionCreators/events'
+import {fetchEvents, fetchEventsExp} from './actionCreators/events'
 import Event from './scenes/Event'
 import UserProfile from "./scenes/UserProfile";
 import {compose, applyMiddleware, createStore} from 'redux'
@@ -55,7 +56,6 @@ persistStore(store, {
     ]
 });
 
-store.dispatch(fetchEvents(store.getState().user));
 
 export default class ViseoCompanion extends Component {
     constructor(props) {
@@ -90,11 +90,12 @@ export default class ViseoCompanion extends Component {
             {title: 'Event'},
             {title: 'AddEvent'},
             {title: 'Profile'},
+            {title: 'History'},
         ];
         return (
             <Provider store={store}>
                 <Navigator
-                    initialRoute={routes[3]}
+                    initialRoute={routes[0]}
                     renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'SignIn') {
@@ -110,6 +111,8 @@ export default class ViseoCompanion extends Component {
                             <RecoverPassword navigator={navigator} {...route.passProps}/>
                         );
                     } else if(route.title === 'Home') {
+
+                        store.dispatch(fetchEvents(store.getState().user));
                         return (
                             <Home navigator={navigator} {...route.passProps}/>
                         );
@@ -124,6 +127,13 @@ export default class ViseoCompanion extends Component {
                     } else if(route.title === 'Profile') {
                         return (
                             <UserProfile navigator={navigator} {...route.passProps}/>
+                        );
+                    }
+                    else if(route.title === 'History') {
+
+                        store.dispatch(fetchEventsExp(store.getState().user));
+                        return (
+                            <History navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}

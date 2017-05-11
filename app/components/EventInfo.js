@@ -49,11 +49,11 @@ export default class Event extends Component {
             modalDeleteVisible: false,
             editedEvent: {
                 ...event,
-                host:this.props.user,
+                host: this.props.user,
 
                 //|| Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
             },
-            username:event.host.firstName+" "+event.host.lastName
+            username: event.host.firstName + " " + event.host.lastName
         };
     }
 
@@ -88,8 +88,8 @@ export default class Event extends Component {
 
     toggleEditEvent = (editing) => {
 
-       if (!editing) {
-           console.log(this.state.editedEvent);
+        if (!editing) {
+            console.log(this.state.editedEvent);
             if (this.state.newEvent) {
 
                 this.setState({newEvent: false})
@@ -469,17 +469,32 @@ export default class Event extends Component {
         let {editedEvent} = this.state
         let {user, participants} = this.props
         let [day, time] = this.formatDate(editedEvent.date)
+        let {participate} = this.props
+        const countParticipants = participate ? (
+            <View style={styles.participationInfoItem}>
+                <AppText style={styles.participationInfoContainer}>
+                    {participants.length}
+                </AppText>
+                <AppText style={styles.secondaryParticipationInfoText}>
+                    {strings.participantsLabel}
+                </AppText>
+            </View>) :
+            null
+        const checkParticipate = participate ?
+
+            <View style={styles.participationInfoItem}>
+                <CheckBox
+                    isChecked={participants.indexOf(user.id) !== -1}
+                    onClick={this.onParticipationChange}
+                />
+                <AppText>{strings.participationLabel}</AppText>
+            </View> :
+            null
         return (
             <View style={{alignItems: 'center'}}>
                 <View style={styles.participationInfoRectangle}>
-                    <View style={styles.participationInfoItem}>
-                        <AppText style={styles.participationInfoContainer}>
-                            {participants.length}
-                        </AppText>
-                        <AppText style={styles.secondaryParticipationInfoText}>
-                            {strings.participantsLabel}
-                        </AppText>
-                    </View>
+
+                    {countParticipants}
                     <View style={styles.participationInfoItem}>
                         <AppText style={styles.participationInfoContainer}>
                             {day}
@@ -488,12 +503,8 @@ export default class Event extends Component {
                             {time}
                         </AppText>
                     </View>
-                    <View style={styles.participationInfoItem}>
-                        <CheckBox
-                            isChecked={participants.indexOf(user.id) !== -1}
-                            onClick={this.onParticipationChange}/>
-                        <AppText>{strings.participationLabel}</AppText>
-                    </View>
+                    {checkParticipate}
+
                 </View>
             </View>
         );
@@ -582,7 +593,7 @@ Event.defaultProps = {
         location: '',
         keywords: '',
     },
-   // userName: 'Wafa Salandre',
+    // userName: 'Wafa Salandre',
 }
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
