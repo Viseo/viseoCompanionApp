@@ -58,7 +58,6 @@ let strings = new LocalizedStrings({
         profileEditionLabel: 'Profile edition',
         firstName: "Firstname",
         lastName: "Lastname",
-        email: "Email",
         birthDate: "Birthdate",
         invalidForm: "Please correct fields before submitting the form.",
         history: "History",
@@ -66,12 +65,13 @@ let strings = new LocalizedStrings({
         home: "Home",
         profile: "Profile",
         settings: "Settings",
-        resetPassword: "Reset password"
+        resetPassword: "Reset password",
+        unknownEmail: "This email address does not exist"
     },
     "fr": {
         accountCreated: "Compte créé avec succès!",
         createAccountLink:'Vous êtes nouveau? cliquez ici',
-        email: 'Adresse mail',
+        // email: 'Adresse mail',
         emailAlreadyUsed: 'Ce mail est déjà utilisé',
         forgotPassword:'Oublié?',
         invalidEmailFormat: "L'adresse mail entrée n'est pas valide",
@@ -125,7 +125,8 @@ let strings = new LocalizedStrings({
         home: "Accueil",
         profile: "Profil",
         settings: "Paramètres",
-        resetPassword: "Réinitialiser le mot de passe"
+        resetPassword: "Réinitialiser le mot de passe",
+        unknownEmail: "Cette adresse mail n\'existe pas"
     }
 });
 
