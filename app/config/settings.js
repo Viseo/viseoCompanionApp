@@ -6,7 +6,8 @@
 
 ///////////SERVER CONNECTION////////////////
 // Localhost
-let SERVER_API_URL = 'http://10.33.178.119:8080/';
+ //let SERVER_API_URL = 'http://10.56.166.177:8080/';
+ let SERVER_API_URL = 'http://10.33.178.149:8080/';
 
 // Home
 //  let SERVER_API_URL = 'http://192.168.1.8:8080/api/';
@@ -20,7 +21,7 @@ let EVENT_API_URL = SERVER_API_URL + '/event/';
 const restRoutes = {
     addEvent: SERVER_API_URL + 'events',
     getEvent: SERVER_API_URL + 'events/',
-    getEvents: SERVER_API_URL + 'events/',
+    getEvents: SERVER_API_URL + 'events',
     addUser: SERVER_API_URL + 'users',
     getUsers: SERVER_API_URL + 'users',
     getUser: SERVER_API_URL + 'users/',

@@ -5,7 +5,7 @@ import settings from '../config/settings';
 
 export async function addEvent(event) {
     try {
-        let response = await fetch(settings.api.addEvent, {
+        let response = await fetch(settings.api.addEvent+"?host="+event.host.id, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -17,7 +17,8 @@ export async function addEvent(event) {
                 "keywords": event.keywords || '',
                 "place": event.location,
                 "version": "0",
-                "category": event.category
+                "category": event.category,
+                "hostId":event.host.id
             })
         })
         if (response)

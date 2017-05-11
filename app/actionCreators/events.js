@@ -84,7 +84,8 @@ function getEventsFromJson(json) {
             date: event.datetime,
             location: event.place,
             version: event.version,
-            category: event.category
+            category: event.category,
+            host:event.host
         })
     }
     return events

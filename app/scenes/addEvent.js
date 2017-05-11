@@ -29,7 +29,8 @@ export default class AddEvent extends Component {
             place: '',
             category: 0,
             errorType: '',
-            modalVisible: false
+            modalVisible: false,
+            hostId:this.props.hostId
         };
     }
 
@@ -68,6 +69,7 @@ export default class AddEvent extends Component {
                         {this.renderTitle()}
                         <EditableImage/>
                         <KeyboardAvoidingView behavior='position'>
+                            {this.renderHostInput()}
                             {this.renderNameInput()}
                             {this.renderLocationInput()}
                             {this.renderDateInput()}
@@ -109,6 +111,14 @@ export default class AddEvent extends Component {
                 returnKeyType="next"
                 underlineColorAndroid={"lightgray"}
                 onChangeText={(name) => this.setState({name})}
+            />
+        );
+    }
+
+    renderHostInput() {
+        return (
+            <TextInput
+                value={this.state.hostId}
             />
         );
     }

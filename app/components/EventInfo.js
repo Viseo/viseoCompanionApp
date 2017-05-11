@@ -49,9 +49,11 @@ export default class Event extends Component {
             modalDeleteVisible: false,
             editedEvent: {
                 ...event,
-                //id: event.id
+                host:this.props.user,
+
                 //|| Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
-            }
+            },
+            username:event.host.firstName+" "+event.host.lastName
         };
     }
 
@@ -87,7 +89,9 @@ export default class Event extends Component {
     toggleEditEvent = (editing) => {
 
        if (!editing) {
+           console.log(this.state.editedEvent);
             if (this.state.newEvent) {
+
                 this.setState({newEvent: false})
                 this.props.addEvent(this.state.editedEvent)
             }
@@ -126,6 +130,7 @@ export default class Event extends Component {
     renderHeader() {
         let {editing, newEvent} = this.state
         let {canEdit} = this.props
+
         const backButton = (
             <BackButton navigator={this.props.navigator}/>
         )
@@ -155,6 +160,8 @@ export default class Event extends Component {
                         "Evènement"
                     }
                 </AppText>
+
+
                 <View style={{flex: 3, flexDirection: 'row'}}>
                     {canEdit && (
                         <View style={{flex: 1, flexDirection: 'row'}}>
@@ -227,7 +234,7 @@ export default class Event extends Component {
                 <FlexImage source={require('./../images/user.png')}/>
                 <ItemSpacer/>
                 <AppText style={{flex: 5, textAlign: 'left'}}>
-                    {this.props.userName}
+                    {this.state.username}
                 </AppText>
             </View>
         )
@@ -274,6 +281,7 @@ export default class Event extends Component {
 
     renderDetails() {
         let {event} = this.props
+
 
         return (
             <View style={{flex: 30, flexDirection: 'column'}}>
@@ -574,7 +582,7 @@ Event.defaultProps = {
         location: '',
         keywords: '',
     },
-    userName: 'Wafa Salandre',
+   // userName: 'Wafa Salandre',
 }
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
