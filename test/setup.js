@@ -51,6 +51,7 @@ register(config);
 global.__DEV__ = true;
 global.expect = chai.expect;
 // chai.use(chaiEnzyme());
+
 // Setup mocks
 require('react-native-mock/mock');
 const React = require('react-native')

@@ -35,7 +35,7 @@ const initialState = {
         email: '',
         password: '',
         authenticationStatus: 0,
-        updateStatus: 0,
+        // resetPasswordStatus: 0,0updateStatus: 0,
     }
 };
 
@@ -94,7 +94,7 @@ export default class ViseoCompanion extends Component {
         return (
             <Provider store={store}>
                 <Navigator
-                    initialRoute={routes[0]}
+                    initialRoute={routes[3]}
                     renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'SignIn') {
