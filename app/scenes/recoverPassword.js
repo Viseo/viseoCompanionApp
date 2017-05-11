@@ -82,6 +82,8 @@ export default class RecoverPassword extends Component {
                         }
 
                     }
+                } else {
+
                 }
             } catch (error) {
                 console.warn('recoverPassword::onPressResetPassword ' + error);
@@ -89,6 +91,19 @@ export default class RecoverPassword extends Component {
             }
         }
     };
+
+    renderDisplayErrorMessages = () => {
+        let errorMessage = '';
+        // il faut y mettre la requete
+        if(this.state.email != "test@viseo.com")
+        {
+            errorMessage = "Cette adresse mail n'existe pas";
+        }
+
+        return (
+            <AppText style={styles.errorInfo}>{errorMessage}</AppText>
+        );
+    }
 
     onChangeEmailText(text) {
         this.setState({
@@ -123,6 +138,8 @@ export default class RecoverPassword extends Component {
                                     style={[styles.textInput, !this.state.isEmailValid && styles.invalidFormat]}
                                     onChangeText={this.onChangeEmailText}
                         />
+
+                        {this.renderDisplayErrorMessages()}
 
                         {/* RESET PASSWORD button */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>
