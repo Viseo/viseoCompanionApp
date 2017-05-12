@@ -17,26 +17,32 @@ class FooterMenu extends Component {
     render() {
         return (
             <View style={styles.footerMenu}>
+
                 <TouchableOpacity style={styles.itemStyle}>
                     <Icon name="md-timer" style={styles.itemImage}/>
                     <AppText style={styles.itemText}>{strings.history}</AppText>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.itemStyle}>
                     <Icon name="md-calendar" style={styles.itemImage}/>
                     <AppText style={[styles.itemText, {textAlign:'center'}]}>{strings.myEvents}</AppText>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.itemStyle}>
                     <Icon name="md-home" style={styles.itemImage}/>
                     <AppText style={styles.itemText}>{strings.home}</AppText>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.itemStyle}>
                     <Icon name="md-person" style={styles.itemImage}/>
                     <AppText style={styles.itemText}>{strings.profile}</AppText>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.itemStyle}>
                     <Icon name="md-settings" style={styles.itemImage}/>
                     <AppText style={styles.itemText}>{strings.settings}</AppText>
                 </TouchableOpacity>
+
             </View>
         );
     }

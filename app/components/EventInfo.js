@@ -56,7 +56,7 @@ export default class Event extends Component {
 
                 //|| Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
             },
-            username:event.host.firstName+" "+event.host.lastName
+            username: this.props.id ? (event.host.firstName + " " + event.host.lastName): this.props.user.firstName
         };
     }
 
@@ -593,7 +593,7 @@ Event.defaultProps = {
         location: '',
         keywords: '',
     },
-   // userName: 'Wafa Salandre',
+   userName: '',
 }
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');

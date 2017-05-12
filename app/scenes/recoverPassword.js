@@ -14,6 +14,7 @@ import {
 import AppText from '../components/appText';
 import {isEmailValid} from "../util/util";
 import settings from '../config/settings';
+import {getUserByEmail} from "../util/db";
 import strings from "../util/localizedStrings";
 import EmailInput from "./../components/emailInput";
 
@@ -32,85 +33,69 @@ export default class RecoverPassword extends Component {
         this.onPressResetPassword = this.onPressResetPassword.bind(this);
     }
 
-    onPressResetPassword = async () => {
-        if (isEmailValid(this.state.email)) {
-            try {
-                let email_verification_response = await fetch(
-                    settings.api.resetPassword, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            "email": this.state.email
-                        })
-                    });
-                // if (email_verification_response.headers.get("content-length") != 0) {
-                if(email_verification_response.status == 404) {
-                    let email_request_response = await fetch(
-                        settings.api.resetPassword, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                "email": this.state.email
-                            })
-                        });
-                    // if (email_request_response.headers.get("content-length") != 0) {
-                    if(email_request_response.status == 404) {
-                        // let user = await email_request_response.json();
-                        let user = {
-                            id: '1',
-                            email: 'test@viseo.com'
-                        }
-                        if (user) {
-                            Alert.alert(
-                                'Mot de passe réinitialisé avec succès',
-                                'Vérifiez votre email',
-                                [
-                                    {text: 'OK', onPress: () => console.log('OK Pressed!')},
-                                ],
-                                {
-                                    cancelable: false
-                                }
-                            )
-                            return {
-                                id: user.id,
-                                email: user.email
-                            };
-                        }
-
-                    }
-                } else {
-
-                }
-            } catch (error) {
-                console.warn('recoverPassword::onPressResetPassword ' + error);
-                return -1;
-            }
-        }
-    };
-
-    renderDisplayErrorMessages = () => {
-        let errorMessage = '';
-        // il faut y mettre la requete
-        if(this.state.email != "test@viseo.com")
-        {
-            errorMessage = "Cette adresse mail n'existe pas";
-        }
-
-        return (
-            <AppText style={styles.errorInfo}>{errorMessage}</AppText>
-        );
-    }
-
     onChangeEmailText(text) {
         this.setState({
             email: text,
             isEmailValid: isEmailValid(text) || !text.length,
             isFormCompletelyFilled: true
         });
+    }
+
+    resetPassword = async () => {
+        try {
+            let email_verification_response = await fetch(settings.api.resetPassword + '?email=' + this.state.email,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            let didEmailSend = await email_verification_response.json()
+            return didEmailSend;
+        } catch (error) {
+            console.warn('ResetPassword::SendEmailError')
+        }
+        return 404;
+    };
+
+    onPressResetPassword = async () => {
+        if (isEmailValid(this.state.email)) {
+            let status = await this.resetPassword();
+            let emailNotFoundCode = false
+            switch (status) {
+                case 404:
+                    console.warn("Serveur introuvable");
+                    break;
+                case true:
+                    this.showSuccessModal();
+                    break;
+                case emailNotFoundCode:
+                    this.setState({errorMessage: "Cette adresse mail n\'existe pas"});
+                    break;
+                default:
+                    console.warn("erreur inconnu");
+            }
+        } else {
+            this.setState({errorMessage: "Veuillez entrer votre adresse mail :"})
+        }
+    };
+
+    showSuccessModal() {
+        Alert.alert(
+            'Mot de passe réinitialisé avec succès',
+            'Vérifiez votre email',
+            [
+                {
+                    text: 'OK', onPress: () =>
+                    this.props.navigator.resetTo({
+                        title: 'SignIn'
+                    })
+                },
+            ],
+            {
+                cancelable: false
+            }
+        )
     }
 
     render() {
@@ -139,7 +124,7 @@ export default class RecoverPassword extends Component {
                                     onChangeText={this.onChangeEmailText}
                         />
 
-                        {this.renderDisplayErrorMessages()}
+                        <AppText style={styles.errorInfo}>{this.state.errorMessage}</AppText>
 
                         {/* RESET PASSWORD button */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>

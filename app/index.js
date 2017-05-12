@@ -93,7 +93,7 @@ export default class ViseoCompanion extends Component {
         return (
             <Provider store={store}>
                 <Navigator
-                    initialRoute={routes[7]}
+                    initialRoute={routes[1]}
                     renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if(route.title === 'SignIn') {
@@ -127,7 +127,6 @@ export default class ViseoCompanion extends Component {
                         );
                     }
                     else if(route.title === 'History') {
-                        // store.dispatch(fetchEventsExp(store.getState().user));
                         return (
                             <History navigator={navigator} {...route.passProps}/>
                         );
