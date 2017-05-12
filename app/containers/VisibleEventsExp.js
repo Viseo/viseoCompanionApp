@@ -86,7 +86,7 @@ const getVisibleEventListExp = (events,
 
 const mapStateToProps = (state) => ({
     events: getVisibleEventListExp(
-        state.events.items,
+        state.events.itemsExpired,
         state.visibilityFilter,
         state.filters,
         state.searchWords,

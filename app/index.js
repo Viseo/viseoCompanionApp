@@ -26,6 +26,7 @@ const initialState = {
         isFetching: false,
         didInvalidate: false,
         items: [],
+        itemsExpired: [],
     },
     filters: [],
     searchWords: [],
@@ -65,9 +66,6 @@ export default class ViseoCompanion extends Component {
         this.state = {};
     }
 
-    /**
-     * When the back button is pressed, navigate back to the previous scene.
-     */
     componentWillMount() {
         strings.setLanguage('fr');
         setDateLang(strings.getLanguage());
@@ -111,8 +109,7 @@ export default class ViseoCompanion extends Component {
                             <RecoverPassword navigator={navigator} {...route.passProps}/>
                         );
                     } else if(route.title === 'Home') {
-
-                        store.dispatch(fetchEvents(store.getState().user));
+                        // store.dispatch(fetchEvents(store.getState().user));
                         return (
                             <Home navigator={navigator} {...route.passProps}/>
                         );
@@ -130,8 +127,7 @@ export default class ViseoCompanion extends Component {
                         );
                     }
                     else if(route.title === 'History') {
-
-                        store.dispatch(fetchEventsExp(store.getState().user));
+                        // store.dispatch(fetchEventsExp(store.getState().user));
                         return (
                             <History navigator={navigator} {...route.passProps}/>
                         );

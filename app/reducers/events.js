@@ -25,7 +25,8 @@ const event = (state, action) => {
 const events = (state = {
     isFetching: false,
     didInvalidate: false,
-    items: []
+    items: [],
+    itemsExpired:[]
 }, action) => {
     switch (action.type) {
         case types.ADD_EVENT:
@@ -64,6 +65,12 @@ const events = (state = {
                 items: action.events,
                 lastUpdated: action.receivedAt
             })
+        case types.RECEIVE_EVENTS_EXPIRED:
+            return Object.assign({}, state, {
+                isFetching: false,
+                didInvalidate: false,
+                itemsExpired: action.events
+            })
         case types.REGISTER_USER: {
             let eventToRegisterFor = state.items.find(event => event.id === action.eventId)
             if (!eventToRegisterFor) {
@@ -96,6 +103,11 @@ const events = (state = {
             })
         }
         case types.REQUEST_EVENTS:
+            return Object.assign({}, state, {
+                isFetching: true,
+                didInvalidate: false
+            })
+        case types.REQUEST_EVENTS_EXPIRED:
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false

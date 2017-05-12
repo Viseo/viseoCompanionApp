@@ -13,10 +13,12 @@ export const types = {
     GET_EVENT: 'GET_EVENT',
     GET_EVENT_EXPIRE:'GET_EVENT_EXPIRE',
     INVALIDATE_EVENTS: 'INVALIDATE_EVENTS',
+    REQUEST_EVENTS_EXPIRED:'REQUEST_EVENTS_EXPIRED',
+    RECEIVE_EVENTS_EXPIRED: 'RECEIVE_EVENTS_EXPIRED',
+    REQUEST_EVENTS: 'REQUEST_EVENTS',
     RECEIVE_EVENTS: 'RECEIVE_EVENTS',
     REGISTER_USER: 'REGISTER_USER',
     REMOVE_EVENT: 'REMOVE_EVENT',
-    REQUEST_EVENTS: 'REQUEST_EVENTS',
     UNREGISTER_USER: 'UNREGISTER_USER',
     UPDATE_EVENT: 'UPDATE_EVENT',
     UPDATE_EVENT_PARTICIPANTS: 'UPDATE_EVENT_PARTICIPANTS',
@@ -76,14 +78,13 @@ export const fetchEvents = (user) => {
 
 export const fetchEventsExp = (user) => {
     return async (dispatch) => {
-        dispatch(requestEvents())
+        dispatch(requestEventsExpired())
         try {
             // Fetch all events
             let eventsResponse = await fetch(settings.api.getEventExpire)
             let eventsJson = await eventsResponse.json()
             let events = getEventsFromJson(eventsJson)
-            console.log(settings.api.getEventExpire);
-            dispatch(receiveEvents(events))
+            dispatch(receiveEventsExpired(events))
 
             // Fetch the events registered by logged user
             let registeredEventsResponse = await fetch(settings.api.getEventsByRegisteredUser(user.id))
@@ -107,6 +108,7 @@ export const fetchEventsExp = (user) => {
 
     }
 }
+
 function getEventsFromJson(json) {
     let events = [];
     for (let i = 0; i < json.length; i++) {
@@ -145,6 +147,11 @@ export const receiveEvents = (events) => ({
     receivedAt: Date.now()
 })
 
+export const receiveEventsExpired = (events) => ({
+    type: types.RECEIVE_EVENTS_EXPIRED,
+    events
+})
+
 export const registerUser = (event, userId) => {
     let eventId = event.id
     return async (dispatch) => {
@@ -166,6 +173,10 @@ export const registerUser = (event, userId) => {
         }
     }
 }
+
+export const requestEventsExpired = () => ({
+    type: types.REQUEST_EVENTS_EXPIRED,
+})
 
 export const requestEvents = () => ({
     type: types.REQUEST_EVENTS,
@@ -195,7 +206,6 @@ export const unregisterUser = (event, userId) => {
 
 export const updateEvent = (event) => {
     return async (dispatch) => {
-
         dispatch({
             type: types.UPDATE_EVENT,
             event
@@ -217,10 +227,7 @@ export const deleteEvent = (id) => {
             id
         })
         try {
-            // todo Delete from DATABASE
-
             await deleteEventDb(id)
-
         } catch (error) {
             console.warn('ActionCreators/events::deleteEvent ' + error)
         }

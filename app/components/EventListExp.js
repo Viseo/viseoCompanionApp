@@ -46,6 +46,10 @@ export default class EventListExp extends Component {
         });
     }
 
+    componentWillMount() {
+        this.props.refresh(this.props.user)
+    }
+
     formatDate(date) {
         if (!date)
             return [];
@@ -60,7 +64,7 @@ export default class EventListExp extends Component {
                     <RefreshControl
                         refreshing={this.props.refreshing}
                         onRefresh={() => {
-                            this.props.refresh()
+                            this.props.refresh(this.props.user)
                         }}
                     />
                 }

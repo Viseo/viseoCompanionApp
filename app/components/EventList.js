@@ -46,6 +46,10 @@ export default class EventList extends Component {
         });
     }
 
+    componentWillMount() {
+        this.props.refresh(this.props.user)
+    }
+
     formatDate(date) {
         if (!date)
             return [];

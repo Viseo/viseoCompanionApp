@@ -55,6 +55,19 @@ export default class Home extends Component {
                 <Icon name="ios-person" style={styles.icon}/>
             </ActionButton.Item>
         )
+        const HistoryButton = (
+            <ActionButton.Item
+                buttonColor="#9b59b6"
+                title="Historique"
+                onPress={() => {
+                    this.props.navigator.push({
+                        title: 'History',
+                    });
+                }}
+            >
+                <Icon name="ios-timer" style={styles.icon}/>
+            </ActionButton.Item>
+        )
         return (
             <View style={styles.mainContainer}>
                 <PushController/>
@@ -70,6 +83,7 @@ export default class Home extends Component {
                 <ActionButton buttonColor='#5A61FF' >
                     {editProfileButton}
                     {createNewEventButton}
+                    {HistoryButton}
                 </ActionButton>
             </View>
         );
