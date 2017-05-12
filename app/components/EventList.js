@@ -104,7 +104,6 @@ export default class EventList extends Component {
         let [day, time] = this.formatDate(event.date);
         let {user} = this.props;
         let edited = user.id === event.host.id ? true : false;
-        let participating = user.id === event.host.id ? true : false;
         return (
             <EventCard
                 name={event.name}
@@ -123,7 +122,7 @@ export default class EventList extends Component {
                         passProps: {
                             id: event.id,
                             edit: edited,
-                            participate: participating,
+                            canParticipate: true,
                             onParticipationChange: () => {
                                 this.props.toggleParticipation(event, user)
                             }

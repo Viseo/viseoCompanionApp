@@ -2,7 +2,10 @@
  * Created by AAB3605 on 20/03/2017.
  */
 import React, {Component} from "react";
-import {StyleSheet, Image, ScrollView, View, Platform, Button, Modal, Dimensions, Picker} from "react-native";
+import {
+    StyleSheet, Image, ScrollView, View, Platform, Button, Modal, Dimensions, Picker,
+    TouchableOpacity
+} from "react-native";
 import AppText from "./appText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
@@ -49,11 +52,11 @@ export default class Event extends Component {
             modalDeleteVisible: false,
             editedEvent: {
                 ...event,
-                host: this.props.user,
+                host:this.props.user,
 
                 //|| Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
             },
-            username: event.host.firstName + " " + event.host.lastName
+            username:event.host.firstName+" "+event.host.lastName
         };
     }
 
@@ -88,8 +91,8 @@ export default class Event extends Component {
 
     toggleEditEvent = (editing) => {
 
-        if (!editing) {
-            console.log(this.state.editedEvent);
+       if (!editing) {
+         //  console.log(this.state.editedEvent);
             if (this.state.newEvent) {
 
                 this.setState({newEvent: false})
@@ -469,27 +472,17 @@ export default class Event extends Component {
         let {editedEvent} = this.state
         let {user, participants} = this.props
         let [day, time] = this.formatDate(editedEvent.date)
-        let {participate} = this.props
-        const countParticipants = participate ? (
-            <View style={styles.participationInfoItem}>
-                <AppText style={styles.participationInfoContainer}>
-                    {participants.length}
-                </AppText>
-                <AppText style={styles.secondaryParticipationInfoText}>
-                    {strings.participantsLabel}
-                </AppText>
-            </View>) :
-            null
-        const checkParticipate = participate ?
+        let {canParticipate}=this.props
 
-            <View style={styles.participationInfoItem}>
-                <CheckBox
-                    isChecked={participants.indexOf(user.id) !== -1}
-                    onClick={this.onParticipationChange}
-                />
-                <AppText>{strings.participationLabel}</AppText>
-            </View> :
-            null
+        const countParticipants= canParticipate ? ( <View style={styles.participationInfoItem}>
+            <AppText style={styles.participationInfoContainer}>
+                {participants.length}
+            </AppText>
+            <AppText style={styles.secondaryParticipationInfoText}>
+                {strings.participantsLabel}
+            </AppText>
+        </View>):null;
+        let disable= canParticipate ? true:false;
         return (
             <View style={{alignItems: 'center'}}>
                 <View style={styles.participationInfoRectangle}>
@@ -503,8 +496,15 @@ export default class Event extends Component {
                             {time}
                         </AppText>
                     </View>
-                    {checkParticipate}
+                    <View style={styles.participationInfoItem}>
+                        <TouchableOpacity disabled={disable}>
+                        <CheckBox
+                            isChecked={participants.indexOf(user.id) !== -1}
+                            onClick={this.onParticipationChange} disabled={disable} />
+                        </TouchableOpacity>
+                        <AppText>{strings.participationLabel}</AppText>
 
+                    </View>
                 </View>
             </View>
         );
@@ -593,7 +593,7 @@ Event.defaultProps = {
         location: '',
         keywords: '',
     },
-    // userName: 'Wafa Salandre',
+   // userName: 'Wafa Salandre',
 }
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');

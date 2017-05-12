@@ -17,7 +17,7 @@ export default class Event extends Component {
                     navigator={this.props.navigator}
                     id={this.props.id}
                     canEdit={this.props.edit}
-                    canParticipate={this.props.participate}
+                    canParticipate={this.props.canParticipate}
                 />
             </View>
         )
