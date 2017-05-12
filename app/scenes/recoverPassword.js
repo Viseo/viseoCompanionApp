@@ -61,7 +61,6 @@ export default class RecoverPassword extends Component {
     onPressResetPassword = async () => {
         if (isEmailValid(this.state.email)) {
             let status = await this.resetPassword();
-            console.warn(status)
             let emailNotFoundCode = false
             switch (status) {
                 case 404:
@@ -77,7 +76,7 @@ export default class RecoverPassword extends Component {
                     console.warn("erreur inconnu");
             }
         } else {
-            this.setState({errorMessage: "Veuillez entrer une adresse mail valide"})
+            this.setState({errorMessage: "Veuillez entrer votre adresse mail :"})
         }
     };
 
