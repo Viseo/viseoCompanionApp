@@ -43,33 +43,31 @@ export default class RecoverPassword extends Component {
 
     resetPassword = async () => {
         try {
-            let email_verification_response = await fetch(
-                settings.api.resetPassword, {
+            let email_verification_response = await fetch(settings.api.resetPassword + '?email=' + this.state.email,
+                {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        "email": this.state.email
-                    })
+                    }
                 });
-            return email_verification_response.status;
+            let didEmailSend = await email_verification_response.json()
+            return didEmailSend;
         } catch (error) {
-
+            console.warn('ResetPassword::SendEmailError')
         }
         return 404;
     };
 
     onPressResetPassword = async () => {
         if (isEmailValid(this.state.email)) {
-            let status = 200;
-            // let status = await this.resetPassword();
-            let emailNotFoundCode = 999;
+            let status = await this.resetPassword();
+            console.warn(status)
+            let emailNotFoundCode = false
             switch (status) {
                 case 404:
-                    console.warn("serveur introuvable");
+                    console.warn("Serveur introuvable");
                     break;
-                case 200:
+                case true:
                     this.showSuccessModal();
                     break;
                 case emailNotFoundCode:
