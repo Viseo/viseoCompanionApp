@@ -5,6 +5,7 @@ import settings from '../config/settings';
 
 export async function addEvent(event) {
     try {
+        //TODO: make a function to add the host as a param
         let response = await fetch(settings.api.addEvent+"?host="+event.host.id, {
             method: 'POST',
             headers: {
@@ -117,6 +118,8 @@ export async function authenticate(email, password) {
 
     return null;
 }
+
+//TODO: clean the useless methods
 
 export async function getEvents() {
     try {

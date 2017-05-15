@@ -56,7 +56,7 @@ export default class Event extends Component {
 
                 //|| Math.floor(Math.random() * (999999 - 9999)) + 9999 // TODO remove this atrocity
             },
-            username: this.props.id ? (event.host.firstName + " " + event.host.lastName): this.props.user.firstName
+            // username: this.props.id ? (event.host.firstName + " " + event.host.lastName): this.props.user.firstName
         };
     }
 

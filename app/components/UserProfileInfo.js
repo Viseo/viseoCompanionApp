@@ -408,9 +408,8 @@ export default class Profile extends Component {
             null;
     }
 
-    //todo change string
     renderNotifySuccess() {
-        const notificationMessage = this.state.cannotSave ? strings.invalidForm : strings.modified;
+        const notificationMessage = this.state.cannotSave ? strings.invalidForm : profilModified;
         const pressFunction = this.state.cannotSave ? () => {
             this.setState({modalVisible: false})
         } : () => {

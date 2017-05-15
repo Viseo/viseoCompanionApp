@@ -4,7 +4,7 @@ import {
 } from './TestUtil/'
 
 
-//todo make it works by asking Alex how test worked
+//TODO: make it works by asking Alex how test worked
 describe('Avatar', () => {
 
     it('should render a Apptext with the initials', () => {
