@@ -22,7 +22,6 @@ const restRoutes = {
     addEvent: SERVER_API_URL + 'events',
     getEvent: SERVER_API_URL + 'events/',
     getEvents: SERVER_API_URL + 'events',
-    getEventExpire: SERVER_API_URL + 'events/expire',
     addUser: SERVER_API_URL + 'users',
     getUsers: SERVER_API_URL + 'users',
     getUser: SERVER_API_URL + 'users/',
@@ -54,6 +53,12 @@ const restRoutes = {
     },
     getEventsByRegisteredUser: userId => {
         return SERVER_API_URL + 'events/users/' + userId;
+    },
+    getEventsBefore: dateBefore => {
+        return SERVER_API_URL + 'events?before=' + dateBefore;
+    },
+    getEventAfter: dateAfter => {
+        return SERVER_API_URL + 'events?after=' + dateAfter;
     }
 }
 
