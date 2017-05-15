@@ -4,6 +4,7 @@
 import settings from "./../config/settings";
 import {getEventParticipants, addEvent as pushEvent, updateEvent as updateEventDb, deleteEventDb} from "./../util/db";
 import PushController from "../util/pushController";
+import moment from "moment";
 
 export const types = {
     ADD_EVENT: 'ADD_EVENT',
@@ -50,7 +51,7 @@ export const fetchEvents = (user) => {
         dispatch(requestEvents())
         try {
             // Fetch all events
-            let eventsResponse = await fetch(settings.api.getEvents)
+            let eventsResponse = await fetch(settings.api.getEventAfter(moment().toDate().getTime()))
             let eventsJson = await eventsResponse.json()
             let events = getEventsFromJson(eventsJson)
             dispatch(receiveEvents(events))
@@ -81,7 +82,7 @@ export const fetchEventsExp = (user) => {
         dispatch(requestEventsExpired())
         try {
             // Fetch all events
-            let eventsResponse = await fetch(settings.api.getEventExpire)
+            let eventsResponse = await fetch(settings.api.getEventsBefore(moment().toDate().getTime()))
             let eventsJson = await eventsResponse.json()
             let events = getEventsFromJson(eventsJson)
             dispatch(receiveEventsExpired(events))
