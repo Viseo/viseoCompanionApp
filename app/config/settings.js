@@ -7,7 +7,7 @@
 ///////////SERVER CONNECTION////////////////
 // Localhost
  //let SERVER_API_URL = 'http://10.56.166.177:8080/';
- let SERVER_API_URL = 'http://10.33.178.43:8080/';
+ let SERVER_API_URL = 'http://10.33.179.112:8080/';                 
 
 // Home
 //  let SERVER_API_URL = 'http://192.168.1.8:8080/api/';
@@ -61,7 +61,8 @@ const settings = {
     SERVER_API_URL,
     ACCOUNT_API_URL,
     EVENT_API_URL,
-    api: restRoutes
+    api: restRoutes,
+    minSplashScreenDuration: 1000,
 };
 
 export default settings;

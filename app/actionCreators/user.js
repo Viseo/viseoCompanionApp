@@ -29,7 +29,7 @@ export const authenticate = (email, password) => {
             let response = await authenticateDB(email, password);
             const unabledToReachServerCode = -1;
             const wrongCredentials = null;
-            if (response == unabledToReachServerCode) {
+            if (response === unabledToReachServerCode) {
                 dispatch({
                     type: types.AUTHENTICATION_FAILURE,
                     code: 2

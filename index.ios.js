@@ -2,6 +2,6 @@ import React, { Component } from 'react';
 import {
     AppRegistry,
 } from 'react-native';
-import ViseoCompanion from "./app/index";
+import Root from "./app/containers/Root";
 
-AppRegistry.registerComponent('ViseoCompanion', () => ViseoCompanion);
+AppRegistry.registerComponent('ViseoCompanion', () => Root);
