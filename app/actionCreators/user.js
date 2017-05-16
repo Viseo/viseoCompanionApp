@@ -10,6 +10,7 @@ import {
 export const types = {
     UPDATE_USER: 'UPDATE_USER',
     REMEMBER_USER: 'REMEMBER_USER',
+    REMEMBER_USER_WHEN_SIGNUP: 'REMEMBER_USER_WHEN_SIGNUP',
     AUTHENTICATION_SUCCESS: 'AUTHENTICATION_SUCCESS',
     AUTHENTICATION_FAILURE: 'AUTHENTICATION_FAILURE',
     UPDATE_USER_FAILURE: 'UPDATE_USER_FAILURE',
@@ -21,6 +22,12 @@ export const types = {
 export const rememberUser = (shouldRemember) => ({
     type: types.REMEMBER_USER,
     shouldRemember
+})
+
+export const rememberUserWhenSignUp = (email, password) => ({
+    type: types.REMEMBER_USER_WHEN_SIGNUP,
+    email,
+    password
 })
 
 export const authenticate = (email, password) => {
@@ -47,48 +54,12 @@ export const authenticate = (email, password) => {
                     code: 1
                 })
             }
-
         } catch (error) {
             console.warn('ActionCreators/user::authenticate ' + error)
         }
     }
 }
-/*
-export const resetPassword = (shouldResetPassword) => ({
-    type: types.RESET_PASSWORD_SUCCESS,
-    shouldResetPassword
-})
 
-export const resetPasswordRequest = (email) => {
-    return async (dispatch) => {
-        try {
-            let response = await resetPWD(email);
-            const unabledToReachServerCode = -1;
-            const wrongCredentials = null;
-            if (response == unabledToReachServerCode) {
-                dispatch({
-                    type: types.RESET_PASSWORD_FAILURE,
-                    code: 2
-                })
-            } else if (response === wrongCredentials) {
-                dispatch({
-                    type: types.RESET_PASSWORD_FAILURE,
-                    code: 3
-                })
-            } else {
-                dispatch({
-                    type: types.RESET_PASSWORD_SUCCESS,
-                    email,
-                    code: 1
-                })
-            }
-
-        } catch (error) {
-            console.warn('ActionCreators/user::authenticate ' + error)
-        }
-    }
-}
-*/
 export const updateUser = (user) => {
     return async (dispatch) => {
         if (user.firstName.length > 0
@@ -102,7 +73,7 @@ export const updateUser = (user) => {
             return
         }
         try {
-            // console.warn('I need the backend to update ' + event.name + event.location)
+            console.warn('I need the backend to update ' + event.name + event.location)
         } catch (error) {
             console.warn('ActionCreators/user::updateUser ' + error)
         }

@@ -11,7 +11,15 @@ const user = (state = [], action) => {
                 ...action.user
             });
         case types.REMEMBER_USER:
-            return Object.assign({}, state, {rememberMe:action.shouldRemember})
+            return Object.assign({}, state, {
+                rememberMe: action.shouldRemember
+            })
+        case types.REMEMBER_USER_WHEN_SIGNUP:
+            return Object.assign({}, state, {
+                rememberMe: true,
+                email: action.email,
+                password: action.password
+            })
         case types.AUTHENTICATION_SUCCESS:
             return Object.assign({}, state, {
                 email: action.email,
@@ -28,12 +36,12 @@ const user = (state = [], action) => {
                 ...state,
                 ...incoming,
                 authenticationStatus: state.authenticationStatus,
-                email: incoming.rememberMe ? incoming.email : '',
+                email: incoming.email,
                 password: incoming.rememberMe ? incoming.password : '',
             }
-            return {...state, updateStatus:action.code}
+            return {...state, updateStatus: action.code}
         case types.UPDATE_USER_FAILURE:
-            return {...state, updateStatus:action.code}
+            return {...state, updateStatus: action.code}
         default:
             return state
     }

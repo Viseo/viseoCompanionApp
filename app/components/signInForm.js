@@ -42,6 +42,7 @@ export default class SignInForm extends Component {
             this.autoSubmitFormWhenLastInputIsFilled();
         });
         if (authenticationStatus === 1) {
+            this.props.rememberUser(this.state.rememberUser)
             this.navigateTo('Home');
         }
     }
@@ -72,7 +73,6 @@ export default class SignInForm extends Component {
         } else {
             this.props.onSubmitEditing(this.state.email, this.state.password);
         }
-
     }
 
     onPressSignUp() {

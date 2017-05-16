@@ -559,6 +559,7 @@ export default class Event extends Component {
                         });
                     }}
                             title="Supprimer"
+                            color="#F74C56"
                     />
 
 
