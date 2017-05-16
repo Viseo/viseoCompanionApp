@@ -1,20 +1,11 @@
 /**
  * Created by AAB3605 on 17/02/2017.
  */
-import React, {Component} from 'react';
-import {
-    View,
-    Alert,
-    StyleSheet,
-    Button,
-    ScrollView,
-    Image,
-    TouchableHighlight
-} from 'react-native';
-import AppText from '../components/appText';
+import React, {Component} from "react";
+import {Alert, Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
+import AppText from "../components/appText";
 import {isEmailValid} from "../util/util";
-import settings from '../config/settings';
-import {getUserByEmail} from "../util/db";
+import settings from "../config/settings";
 import strings from "../util/localizedStrings";
 import EmailInput from "./../components/emailInput";
 

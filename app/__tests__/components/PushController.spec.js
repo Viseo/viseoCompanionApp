@@ -4,9 +4,9 @@ describe('PushController', () => {
 //TODO: understand why the function are not called (testing method must be wrong!)
     it('should function when the component is instantiated', () => {
         const FCM = {
-            requestPermissions : createTestFunction(),
-            getFCMToken : createTestFunction(),
-            subscribeToTopic : createTestFunction()
+            requestPermissions: createTestFunction(),
+            getFCMToken: createTestFunction(),
+            subscribeToTopic: createTestFunction()
         }
 
         const pushController = createComponent("pushController")

@@ -1,11 +1,11 @@
 import {
     checkIsComponent,
+    checkTestFunction,
+    compareChildren,
     createComponent,
     createTestFunction,
-    compareChildren,
-    checkTestFunction,
-    press,
-} from '../TestUtil/index'
+    press
+} from "../TestUtil/index";
 
 describe('Toggle', () => {
 

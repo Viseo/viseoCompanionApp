@@ -7,11 +7,14 @@ import Profile from "../../components/UserProfileInfo";
 
 export const storeFake = (state) => {
     return {
-        default: () => {},
-        subscribe: () => {},
-        dispatch: () => {},
+        default: () => {
+        },
+        subscribe: () => {
+        },
+        dispatch: () => {
+        },
         getState: () => {
-            return { ...state };
+            return {...state};
         },
     };
 };

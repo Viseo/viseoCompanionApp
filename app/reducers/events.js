@@ -2,7 +2,7 @@
  * Created by AAB3605 on 29/03/2017.
  */
 
-import {types} from './../actionCreators/events'
+import {types} from "./../actionCreators/events";
 
 const event = (state, action) => {
     switch (action.type) {
@@ -26,7 +26,7 @@ const events = (state = {
     isFetching: false,
     didInvalidate: false,
     items: [],
-    itemsExpired:[]
+    itemsExpired: []
 }, action) => {
     switch (action.type) {
         case types.ADD_EVENT:
@@ -139,10 +139,10 @@ const events = (state = {
             })
         }
         case types.UPDATE_EVENT:
-            return Object.assign({},state, {
+            return Object.assign({}, state, {
                 items: state.items.map(item => {
                     return item.id === action.event.id ?
-                        action.event:
+                        action.event :
                         item
                 })
             })

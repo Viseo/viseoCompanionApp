@@ -1,8 +1,4 @@
-import {
-    checkIsComponent,
-    createComponent,
-    compareChildren,
-} from '../TestUtil/index';
+import {checkIsComponent, compareChildren, createComponent} from "../TestUtil/index";
 
 describe('AppTextInput', () => {
 

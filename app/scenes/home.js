@@ -2,12 +2,7 @@
  * Created by LMA3606 on 13/02/2017.
  */
 import React, {Component} from "react";
-import {
-    StyleSheet,
-    NavMenu,
-    View,
-    Platform,
-} from "react-native";
+import {NavMenu, Platform, StyleSheet, View} from "react-native";
 import Header from "./../components/header";
 import VisibleEventList from "./../containers/VisibleEvents";
 import SearchBar from "./../components/SearchBar";
@@ -75,12 +70,12 @@ export default class Home extends Component {
                 <View style={styles.body}>
                     <View style={styles.searchBar}>
                         <ItemSpacer/>
-                        <SearchBar style={{flex:22}}/>
+                        <SearchBar style={{flex: 22}}/>
                         <ItemSpacer/>
                     </View>
                 </View>
-                <VisibleEventList style={{flex:22}} navigator={this.props.navigator}/>
-                <ActionButton buttonColor='#5A61FF' >
+                <VisibleEventList style={{flex: 22}} navigator={this.props.navigator}/>
+                <ActionButton buttonColor='#5A61FF'>
                     {editProfileButton}
                     {createNewEventButton}
                     {HistoryButton}

@@ -1,21 +1,12 @@
 /**
  * Created by AAB3605 on 29/03/2017.
  */
-import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    Button,
-    TouchableOpacity,
-    ListView,
-    Keyboard,
-    TextInput,
-    RefreshControl
-} from 'react-native'
-import EventCard from './events/eventCard'
-import AppText from './appText'
-import moment from 'moment'
-import colors from './colors'
+import React, {Component} from "react";
+import {ListView, RefreshControl, View} from "react-native";
+import EventCard from "./events/eventCard";
+import AppText from "./appText";
+import moment from "moment";
+import colors from "./colors";
 
 export default class EventList extends Component {
 

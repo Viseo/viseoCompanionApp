@@ -1,10 +1,10 @@
 import React, {Component} from "react";
-import {Platform, AppState} from "react-native";
+import {AppState, Platform} from "react-native";
 import FCM, {
     FCMEvent,
+    NotificationType,
     RemoteNotificationResult,
-    WillPresentNotificationResult,
-    NotificationType
+    WillPresentNotificationResult
 } from "react-native-fcm";
 import moment from "moment";
 

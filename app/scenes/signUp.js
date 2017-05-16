@@ -2,24 +2,14 @@
  * Created by AAB3605 on 14/02/2017.
  */
 'use strict';
-import React, {Component} from "react";
-import {
-    StyleSheet,
-    Image,
-    NavMenu,
-    ScrollView,
-    View,
-    Button,
-    TouchableHighlight,
-    Modal
-} from "react-native";
-import {isEmailValid, isPasswordValid, hasEmptyElement} from "../util/util";
-import {getUserByEmail, addUser} from "../util/db";
+import React from "react";
+import {Button, Image, Modal, NavMenu, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
+import {hasEmptyElement, isEmailValid, isPasswordValid} from "../util/util";
+import {addUser, getUserByEmail} from "../util/db";
 import strings from "../util/localizedStrings";
 import AppText from "../components/appText";
 import EmailInput from "./../components/emailInput";
 import PasswordInput from "./../components/passwordInput";
-import {bindActionCreators} from "redux";
 import {rememberUserWhenSignUp} from "../actionCreators/user";
 import {connect} from "react-redux";
 

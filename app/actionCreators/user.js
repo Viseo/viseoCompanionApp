@@ -2,10 +2,7 @@
  * Created by VBO3596 on 18/04/2017.
  */
 
-import {
-    authenticate as authenticateDB,
-    resetPassword as resetPWD
-} from './../util/db'
+import {authenticate as authenticateDB} from "./../util/db";
 
 export const types = {
     UPDATE_USER: 'UPDATE_USER',

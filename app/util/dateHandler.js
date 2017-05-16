@@ -2,10 +2,10 @@
  * Created by LMA3606 on 21/03/2017.
  */
 
-import moment from 'moment';
+import moment from "moment";
 
 export default function setDateLang(lang) {
-    if(lang === 'en-US') {
+    if (lang === 'en-US') {
         moment.updateLocale('en');
     } else {
         moment.updateLocale('fr', {

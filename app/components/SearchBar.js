@@ -2,7 +2,7 @@
  * Created by AAB3605 on 15/03/2017.
  */
 import React, {Component} from "react";
-import {View, StyleSheet, Image} from "react-native";
+import {Image, StyleSheet, View} from "react-native";
 import FilterToggle from "../containers/FilterToggle";
 import SearchInput from "../containers/SearchInput";
 import VisibilityToggle from "../containers/VisibilityToggle";
@@ -59,17 +59,17 @@ class SearchBar extends Component {
                     text={"J'y vais"}
                 />
                 <FilterToggle
-                    filter={{category:0}}
+                    filter={{category: 0}}
                     selectedColor={colors.red}
                     text={"important"}
                 />
                 <FilterToggle
-                    filter={{category:1}}
+                    filter={{category: 1}}
                     selectedColor={colors.orange}
                     text={"informatif"}
                 />
                 <FilterToggle
-                    filter={{category:2}}
+                    filter={{category: 2}}
                     selectedColor={colors.green}
                     text={"divers"}
                 />
@@ -111,8 +111,8 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         borderRadius: 4,
-        borderWidth:1.75,
-        borderColor:'white'
+        borderWidth: 1.75,
+        borderColor: 'white'
     },
     searchBarInput: {
         flex: 0,

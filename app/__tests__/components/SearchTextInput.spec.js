@@ -1,7 +1,4 @@
-import {
-    createComponent,
-    checkIsComponent,
-} from '../TestUtil/index'
+import {checkIsComponent, createComponent} from "../TestUtil/index";
 
 describe('SearchTextInput', () => {
 

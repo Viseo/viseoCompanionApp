@@ -2,9 +2,8 @@
  * Created by VBO3596 on 25/04/2017.
  */
 import React, {Component} from "react";
-import {View, StyleSheet, Platform, Image, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import AppText from "./appText";
-import FlexImage from "./FlexImage";
 import Icon from "react-native-vector-icons/Ionicons";
 import strings from "../util/localizedStrings";
 
@@ -25,7 +24,7 @@ class FooterMenu extends Component {
 
                 <TouchableOpacity style={styles.itemStyle}>
                     <Icon name="md-calendar" style={styles.itemImage}/>
-                    <AppText style={[styles.itemText, {textAlign:'center'}]}>{strings.myEvents}</AppText>
+                    <AppText style={[styles.itemText, {textAlign: 'center'}]}>{strings.myEvents}</AppText>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.itemStyle}>
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row',
         flex: 3,
-        alignItems:'center'
+        alignItems: 'center'
     },
 
     itemStyle: {
@@ -66,9 +65,9 @@ const styles = StyleSheet.create({
     },
 
     itemText: {
-        fontSize:10,
-        flex:1,
-        alignSelf:'center',
+        fontSize: 10,
+        flex: 1,
+        alignSelf: 'center',
         color: 'white'
     },
 

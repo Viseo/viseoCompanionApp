@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Navigator, BackAndroid, View, StyleSheet} from "react-native";
+import {BackAndroid, Navigator, StyleSheet, View} from "react-native";
 import SignIn from "./../containers/SignInForm";
 import SignUp from "./../scenes/signUp";
 import RecoverPassword from "./../scenes/recoverPassword";
@@ -7,8 +7,8 @@ import Home from "./../scenes/home";
 import History from "./../scenes/History";
 import strings from "./../util/localizedStrings";
 import setDateLang from "./../util/dateHandler";
-import AddEvent from './../scenes/addEvent';
-import Event from './../scenes/Event'
+import AddEvent from "./../scenes/addEvent";
+import Event from "./../scenes/Event";
 import UserProfile from "./../scenes/UserProfile";
 import AppText from "./../components/appText";
 import {connect} from "react-redux";

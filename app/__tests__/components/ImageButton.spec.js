@@ -1,16 +1,16 @@
 import {
-    checkIsComponent,
     checkHasChildComponent,
+    checkIsComponent,
     checkTestFunction,
     createComponent,
     createTestFunction,
-    press,
-} from '../TestUtil/index'
+    press
+} from "../TestUtil/index";
 
 describe('ImageButton', () => {
 
     it('should render a clickable image', () => {
-        let onPress =  createTestFunction()
+        let onPress = createTestFunction()
         let source = require('../../images/BackButton.png')
         let imageButton = createComponent('ImageButton', {
             onPress,

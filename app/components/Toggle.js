@@ -1,8 +1,8 @@
 /**
  * Created by AAB3605 on 07/04/2017.
  */
-import React, {Component} from "react"
-import {TouchableOpacity, StyleSheet} from "react-native"
+import React, {Component} from "react";
+import {StyleSheet, TouchableOpacity} from "react-native";
 
 export default class Toggle extends Component {
 
@@ -26,7 +26,7 @@ export default class Toggle extends Component {
                 style={[
                     styles.main,
                     this.props.style
-                    ]}
+                ]}
                 onPress={this.toggle}
             >
                 {this.state.isOn ? this.props.on : this.props.off}
@@ -41,7 +41,8 @@ Toggle.displayName = 'Toggle'
 Toggle.defaultProps = {
     off: null,
     on: null,
-    onToggle: () => {},
+    onToggle: () => {
+    },
 }
 
 const styles = StyleSheet.create({

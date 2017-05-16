@@ -1,5 +1,5 @@
-import sinon from 'sinon'
-import {getComponentProp} from './traversal'
+import sinon from "sinon";
+import {getComponentProp} from "./traversal";
 
 export {get as createComponent} from './components'
 export {get as createContainer, storeFake} from './containers'
@@ -12,7 +12,7 @@ export function checkIsComponent(component,
                                  withValue = null) {
     expect(component.type().displayName).to.equal(expectedComponent)
     let shouldCheckProp = matchProp && withValue
-    if(shouldCheckProp)
+    if (shouldCheckProp)
         expect(component.props()).to.equal(withValue)
 }
 
@@ -34,7 +34,7 @@ export function checkHasStyle(component, expectedStyle, expectedValue) {
     let styleSheet = getComponentProp(component, 'style')
     let styleToCompare = null
     styleSheet.forEach(style => {
-        if(style.hasOwnProperty(expectedStyle))
+        if (style.hasOwnProperty(expectedStyle))
             styleToCompare = style[expectedStyle]
     })
     expect(styleToCompare).to.equal(expectedValue)

@@ -1,13 +1,8 @@
 /**
  * Created by AAB3605 on 10/04/2017.
  */
-import React, {Component} from 'react'
-import {
-    TouchableOpacity,
-    StyleSheet,
-    Image,
-    Navigator
-} from 'react-native'
+import React, {Component} from "react";
+import {Image, StyleSheet, TouchableOpacity} from "react-native";
 
 export default class BackButton extends Component {
 

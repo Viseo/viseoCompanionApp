@@ -3,12 +3,7 @@
  */
 
 import React, {Component} from "react";
-import {
-    StyleSheet,
-    NavMenu,
-    View,
-    Platform,
-} from "react-native";
+import {NavMenu, Platform, StyleSheet, View} from "react-native";
 import Header from "./../components/header";
 import VisibleEventListExp from "./../containers/VisibleEventsExp";
 import SearchBar from "./../components/SearchBar";
@@ -16,9 +11,6 @@ import ItemSpacer from "./../components/ItemSpacer";
 import colors from "../components/colors";
 import {dispatch} from "redux";
 import PushController from "../util/pushController";
-
-import ActionButton from "./../components/actionButton/ActionButton";
-import Icon from "react-native-vector-icons/Ionicons"; //https://infinitered.github.io/ionicons-version-3-search/
 
 export default class Home extends Component {
 
@@ -39,11 +31,11 @@ export default class Home extends Component {
                 <View style={styles.body}>
                     <View style={styles.searchBar}>
                         <ItemSpacer/>
-                        <SearchBar style={{flex:22}}/>
+                        <SearchBar style={{flex: 22}}/>
                         <ItemSpacer/>
                     </View>
                 </View>
-                <VisibleEventListExp style={{flex:22}} navigator={this.props.navigator}/>
+                <VisibleEventListExp style={{flex: 22}} navigator={this.props.navigator}/>
 
             </View>
         );

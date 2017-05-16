@@ -2,7 +2,7 @@
  * Created by VBO3596 on 17/03/2017.
  */
 import React, {Component} from "react";
-import {View, TextInput, StyleSheet} from "react-native";
+import {StyleSheet, TextInput, View} from "react-native";
 import strings from "../util/localizedStrings";
 
 export default class PasswordInput extends Component {
@@ -10,10 +10,12 @@ export default class PasswordInput extends Component {
     static defaultProps = {
         placeholder: strings.password,
         underlineColorAndroid: "white",
-        minLength:6,
+        minLength: 6,
         returnKeyType: "done",
-        onSubmitEditing: () => {},
-        onChangeText:(password) => {}
+        onSubmitEditing: () => {
+        },
+        onChangeText: (password) => {
+        }
     }
 
     constructor(props) {
@@ -30,17 +32,17 @@ export default class PasswordInput extends Component {
         this.props.onChangeText(password);
     }
 
-    focus(){
+    focus() {
         this.refs.password.focus();
     }
 
     render() {
         return (
-            <View style={{flexDirection:'row', flex: 1}}>
+            <View style={{flexDirection: 'row', flex: 1}}>
                 <TextInput
-                    style={[this.props.style, styles.textInput, {flex:1, textAlign: 'center'}]}
+                    style={[this.props.style, styles.textInput, {flex: 1, textAlign: 'center'}]}
                     onChangeText={this.editPassword}
-                    placeholder= {this.props.placeholder}
+                    placeholder={this.props.placeholder}
                     ref="password"
                     password={true}
                     autoCorrect={false}
@@ -50,7 +52,7 @@ export default class PasswordInput extends Component {
                     minLength={this.props.minLength}
                     returnKeyType={this.props.returnKeyType}
                     keyboardType={this.props.keyboardType}
-                    onSubmitEditing= {this.props.onSubmitEditing}
+                    onSubmitEditing={this.props.onSubmitEditing}
                     value={this.props.value}
                 />
             </View>

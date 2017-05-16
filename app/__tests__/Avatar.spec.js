@@ -1,7 +1,4 @@
-import {
-    checkIsComponent,
-    createComponent
-} from './TestUtil/'
+import {checkIsComponent, createComponent} from "./TestUtil/";
 
 
 //TODO: make it works by asking Alex how test worked

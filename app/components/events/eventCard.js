@@ -2,7 +2,7 @@
  * Created by AAB3605 on 10/03/2017.
  */
 import React, {Component} from "react";
-import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState, Dimensions, Platform, Image} from "react-native";
+import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
 import strings from "../../util/localizedStrings";
 import Highlighter from "react-native-highlight-words";
@@ -30,8 +30,8 @@ export default class EventCard extends Component {
         let icon = this.props.participating ? require("../../images/crossWhite.png") : require("../../images/checkWhite.png");
         return [{
             component: <View className="participate" style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={icon} style={{ width: 33, height: 33}}/>
-                <Text style={{color:'white', fontSize:14}}>
+                <Image source={icon} style={{width: 33, height: 33}}/>
+                <Text style={{color: 'white', fontSize: 14}}>
                     {textOption}
                 </Text>
             </View>,
@@ -51,7 +51,7 @@ export default class EventCard extends Component {
             <View>
                 <Swipeout
                     className="swipeout"
-                    style={{ backgroundColor: 'white' }}
+                    style={{backgroundColor: 'white'}}
                     left={swipeOption}
                     right={swipeOption}
                     autoClose={true}
@@ -75,8 +75,8 @@ export default class EventCard extends Component {
         return (
             <View
                 style={{
-                    flex:1,
-                    alignSelf:'stretch'
+                    flex: 1,
+                    alignSelf: 'stretch'
                 }}
             >
             </View>
@@ -94,7 +94,7 @@ export default class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor:(this.props.participating) ? colors.blueLight : 'white'}
+                    {backgroundColor: (this.props.participating) ? colors.blueLight : 'white'}
                 ]}/>
             </View>
         );
@@ -161,25 +161,25 @@ export default class EventCard extends Component {
     renderLocation() {
         return (
             <View style={styles.location}>
-                <View style={{flex:3}}>
+                <View style={{flex: 3}}>
                     <Highlighter
                         numberOfLines={1}
                         highlightStyle={styles.highlightStyle}
                         style={[
-                        styles.locationText,
-                        styleFont.textFont,
+                            styles.locationText,
+                            styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
                         textToHighlight={this.props.location || ''}
                     />
                 </View>
-                <View style={{flex:1}}>
+                <View style={{flex: 1}}>
                     <Highlighter
                         numberOfLines={1}
                         highlightStyle={styles.highlightStyle}
                         style={[
-                        styles.dateText,
-                        styleFont.textFont,
+                            styles.dateText,
+                            styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
                         textToHighlight={this.props.time || ''}

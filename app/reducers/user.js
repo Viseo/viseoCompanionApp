@@ -1,8 +1,8 @@
 /**
  * Created by VBO3596 on 18/04/2017.
  */
-import {types} from './../actionCreators/user'
-import {REHYDRATE} from 'redux-persist/constants'
+import {types} from "./../actionCreators/user";
+import {REHYDRATE} from "redux-persist/constants";
 
 const user = (state = [], action) => {
     switch (action.type) {

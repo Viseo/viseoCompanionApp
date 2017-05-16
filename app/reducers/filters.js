@@ -1,16 +1,16 @@
- /**
+/**
  * Created by AAB3605 on 04/04/2017.
  */
 
- const deepEqual = (first, second) => {
-     for (let key in first) {
-         if (!second.hasOwnProperty(key))
-             return false
-         if (first[key] !== second[key])
-             return false
-     }
-     return true
- }
+const deepEqual = (first, second) => {
+    for (let key in first) {
+        if (!second.hasOwnProperty(key))
+            return false
+        if (first[key] !== second[key])
+            return false
+    }
+    return true
+}
 
 const filters = (state = [], action) => {
     switch (action.type) {
@@ -18,7 +18,7 @@ const filters = (state = [], action) => {
             let filterIndex = state.findIndex((element) => {
                 return deepEqual(action.filter, element)
             });
-            if(filterIndex === -1) {
+            if (filterIndex === -1) {
                 state = state.slice()
                 state.push(action.filter)
             }

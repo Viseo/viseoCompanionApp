@@ -1,7 +1,4 @@
-import {
-    createComponent,
-    compareChildren
-} from '../TestUtil/index';
+import {compareChildren, createComponent} from "../TestUtil/index";
 
 describe('AppText', () => {
 

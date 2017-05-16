@@ -4,8 +4,8 @@
 import colors from "../components/colors";
 
 export function hasEmptyElement() {
-    for(let i = 0; i < arguments.length; i++) {
-        if(!arguments[i] || arguments[i] == '')
+    for (let i = 0; i < arguments.length; i++) {
+        if (!arguments[i] || arguments[i] == '')
             return true;
     }
 
@@ -21,7 +21,7 @@ export function isPasswordValid(password) {
     return password.length >= 6 ? true : false;
 };
 
-export function getCategoryColor(categoryId){
+export function getCategoryColor(categoryId) {
     let eventCategoriesColors = [colors.red, colors.orange, colors.green];
     return eventCategoriesColors[categoryId];
 };

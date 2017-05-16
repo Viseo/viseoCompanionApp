@@ -1,16 +1,16 @@
 'use strict';
 import React, {Component} from "react";
 import {
+    Button,
+    Dimensions,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    ScrollView,
     StyleSheet,
     Text,
     TextInput,
-    ScrollView,
-    View,
-    Dimensions,
-    Button,
-    Modal,
-    KeyboardAvoidingView,
-    Platform
+    View
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Header from "./../components/header";
@@ -30,7 +30,7 @@ export default class AddEvent extends Component {
             category: 0,
             errorType: '',
             modalVisible: false,
-            hostId:this.props.hostId
+            hostId: this.props.hostId
         };
     }
 
@@ -62,7 +62,12 @@ export default class AddEvent extends Component {
 
     render() {
         return (
-            <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white', marginTop: (Platform.OS === 'ios') ? 20 : 0}}>
+            <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                backgroundColor: 'white',
+                marginTop: (Platform.OS === 'ios') ? 20 : 0
+            }}>
                 <Header/>
                 <ScrollView>
                     <View style={styles.mainContainer}>

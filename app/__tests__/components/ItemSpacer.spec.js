@@ -1,8 +1,4 @@
-import {
-    createComponent,
-    checkIsComponent,
-    checkHasStyle
-} from '../TestUtil/index'
+import {checkHasStyle, checkIsComponent, createComponent} from "../TestUtil/index";
 
 describe('ItemSpacer', () => {
 
