@@ -94,11 +94,8 @@ export default class Event extends Component {
     }
 
     toggleEditEvent = (editing) => {
-
         if (!editing) {
-            //  console.log(this.state.editedEvent);
             if (this.state.newEvent) {
-
                 this.setState({newEvent: false})
                 this.props.addEvent(this.state.editedEvent)
             }
@@ -110,7 +107,7 @@ export default class Event extends Component {
         })
     }
 
-    DeleteEvent = () => {
+    deleteEvent = () => {
 
         this.props.deleteEvent(this.state.editedEvent.id);
 
@@ -121,7 +118,6 @@ export default class Event extends Component {
 
 
     render() {
-        let {event} = this.props
         return (
             <View style={{flex: 1}}>
                 {this.renderHeader()}
@@ -216,8 +212,7 @@ export default class Event extends Component {
                     this.setState({
                         editedEvent: {...editedEvent, category}
                     })
-                }
-                }
+                }}
                 style={{width: 130}}
             >
                 <Item label={this.getCategoryNameFromId(0)} value={0}/>
@@ -236,12 +231,14 @@ export default class Event extends Component {
             ]}
             />
         )
+        //todo this is the HOST
         const username = (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>
                 <ItemSpacer/>
                 <AppText style={{flex: 5, textAlign: 'left'}}>
                     {this.state.username}
+                    {editedEvent.host}
                 </AppText>
             </View>
         )
@@ -419,7 +416,7 @@ export default class Event extends Component {
                                 />
                                 <Button
                                     onPress={() => {
-                                        this.DeleteEvent();
+                                        this.deleteEvent();
 
                                     }}
                                     title="Supprimer"

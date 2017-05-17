@@ -269,9 +269,7 @@ export async function removeEventParticipant(eventId, userId) {
 
 export async function updateEvent(event) {
     try {
-
-        let response = await fetch(settings.api.updatedEvent(event.id), {
-
+        let response = await fetch(settings.api.updatedEvent, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
