@@ -1,17 +1,17 @@
 /**
  * Created by AAB3605 on 10/04/2017.
  */
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 import {
+    addEvent,
+    deleteEvent,
     fetchEventParticipants,
     registerUser,
     unregisterUser,
-    updateEvent,
-    deleteEvent,
-    addEvent
-} from './../actionCreators/events'
-import Event from '../components/EventInfo'
+    updateEvent
+} from "./../actionCreators/events";
+import Event from "../components/EventInfo";
 
 const getEventWithId = (events, id) => {
     return events.find(event => event.id === id)

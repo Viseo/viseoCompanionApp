@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {View, StyleSheet, Platform, Dimensions, Image, Text} from "react-native";
+import {Dimensions, StyleSheet, View} from "react-native";
 import AppText from "./appText";
 
 class Header extends Component {

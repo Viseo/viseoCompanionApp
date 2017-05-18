@@ -53,8 +53,8 @@ const addParticipationInfo = (events, userId) => {
     return events.map(event => {
         let {participants} = event
         let participating = false
-        if(participants) {
-            if(participants.indexOf(userId) !== -1) {
+        if (participants) {
+            if (participants.indexOf(userId) !== -1) {
                 participating = true
             }
         }

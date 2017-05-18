@@ -2,7 +2,7 @@
  * Created by AAB3605 on 05/04/2017.
  */
 import React, {Component} from "react";
-import {View, StyleSheet, Text} from "react-native";
+import {StyleSheet} from "react-native";
 import Toggle from "./Toggle";
 import AppText from "./appText";
 
@@ -31,7 +31,7 @@ export default class FilterToggle extends Component {
                     styles.mainContainer,
                     isOn && {backgroundColor: this.props.selectedColor},
                     !isOn && {backgroundColor: this.props.unselectedColor}
-                    ]}
+                ]}
                 onToggle={this.toggleFilter}
                 on={
                     <AppText style={styles.innerText}>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        minHeight:30,
+        minHeight: 30,
         borderRadius: 2
     },
     innerText: {

@@ -1,5 +1,3 @@
-import db from '../util/db';
-
 describe('Database', () => {
 
     describe('#addUser(email, password)', () => {

@@ -2,17 +2,15 @@
  * Created by AAB3605 on 20/02/2017.
  */
 
-import moment from 'moment';
+import moment from "moment";
 
 export default class Event {
-    constructor(
-        id,
-        name,
-        description,
-        date,
-        location,
-        category
-    ) {
+    constructor(id,
+                name,
+                description,
+                date,
+                location,
+                category) {
 
         this.id = id;
         this.name = name;
@@ -23,7 +21,7 @@ export default class Event {
     }
 
     getDateToString = () => {
-        if(!this.date)
+        if (!this.date)
             return null;
         let dateTime = moment(this.date);
         return dateTime.calendar();

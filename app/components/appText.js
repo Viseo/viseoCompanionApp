@@ -2,11 +2,7 @@
  * Created by LMA3606 on 21/03/2017.
  */
 import React, {Component} from "react";
-import {
-    Text,
-    StyleSheet,
-    Platform
-} from "react-native";
+import {Platform, StyleSheet, Text} from "react-native";
 import colors from "./colors";
 
 class AppText extends Component {
@@ -38,6 +34,6 @@ const style = StyleSheet.create({
         backgroundColor: 'transparent',
         padding: 0,
         color: colors.mediumGray,
-        textAlignVertical:'center'
+        textAlignVertical: 'center'
     }
 });

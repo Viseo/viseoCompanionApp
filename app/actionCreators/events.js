@@ -2,7 +2,7 @@
  * Created by AAB3605 on 03/04/2017.
  */
 import settings from "./../config/settings";
-import {getEventParticipants, addEvent as pushEvent, updateEvent as updateEventDb, deleteEventDb} from "./../util/db";
+import {addEvent as pushEvent, deleteEventDb, getEventParticipants, updateEvent as updateEventDb} from "./../util/db";
 import PushController from "../util/pushController";
 import moment from "moment";
 
@@ -12,9 +12,9 @@ export const types = {
     FETCH_EVENTS: 'FETCH_EVENTS',
     FETCH_EVENTS_FAILED: 'FETCH_EVENTS_FAILED',
     GET_EVENT: 'GET_EVENT',
-    GET_EVENT_EXPIRE:'GET_EVENT_EXPIRE',
+    GET_EVENT_EXPIRE: 'GET_EVENT_EXPIRE',
     INVALIDATE_EVENTS: 'INVALIDATE_EVENTS',
-    REQUEST_EVENTS_EXPIRED:'REQUEST_EVENTS_EXPIRED',
+    REQUEST_EVENTS_EXPIRED: 'REQUEST_EVENTS_EXPIRED',
     RECEIVE_EVENTS_EXPIRED: 'RECEIVE_EVENTS_EXPIRED',
     REQUEST_EVENTS: 'REQUEST_EVENTS',
     RECEIVE_EVENTS: 'RECEIVE_EVENTS',

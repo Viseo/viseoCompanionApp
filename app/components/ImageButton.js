@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import Button from './Button'
-import Image from './FlexImage'
+import React, {Component} from "react";
+import Button from "./Button";
+import Image from "./FlexImage";
 
 export default class ImageButton extends Component {
 

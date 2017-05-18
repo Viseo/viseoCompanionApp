@@ -1,12 +1,10 @@
 /**
  * Created by VBO3596 on 18/04/2017.
  */
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {
-    updateUser
-} from './../actionCreators/user'
-import Profile from '../components/UserProfileInfo'
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {updateUser} from "./../actionCreators/user";
+import Profile from "../components/UserProfileInfo";
 
 
 const mapStateToProps = (state, ownProps) => ({

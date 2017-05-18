@@ -3,9 +3,7 @@
  */
 
 import React, {Component} from "react";
-import {View, Text, TouchableOpacity, Picker, StyleSheet, AppState, Dimensions, Platform, Image} from "react-native";
-import Swipeout from "react-native-swipe-out";
-import strings from "../../util/localizedStrings";
+import {Dimensions, Platform, StyleSheet, TouchableOpacity, View} from "react-native";
 import Highlighter from "react-native-highlight-words";
 import * as util from "../../util/util";
 import colors from "../colors";
@@ -31,14 +29,14 @@ export default class EventCardExp extends Component {
         return (
             <View>
 
-                    <TouchableOpacity
-                        style={styles.card}
-                        onPress={this.props.onPress}
-                    >
-                        {this.renderParticipationIndicator()}
-                        {this.renderTypeIndicator()}
-                        {this.renderEventInfo()}
-                    </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.card}
+                    onPress={this.props.onPress}
+                >
+                    {this.renderParticipationIndicator()}
+                    {this.renderTypeIndicator()}
+                    {this.renderEventInfo()}
+                </TouchableOpacity>
 
             </View>
         );
@@ -48,8 +46,8 @@ export default class EventCardExp extends Component {
         return (
             <View
                 style={{
-                    flex:1,
-                    alignSelf:'stretch'
+                    flex: 1,
+                    alignSelf: 'stretch'
                 }}
             >
             </View>
@@ -67,7 +65,7 @@ export default class EventCardExp extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor:(this.props.participating) ? colors.blueLight : 'white'}
+                    {backgroundColor: (this.props.participating) ? colors.blueLight : 'white'}
                 ]}/>
             </View>
         );
@@ -134,7 +132,7 @@ export default class EventCardExp extends Component {
     renderLocation() {
         return (
             <View style={styles.location}>
-                <View style={{flex:3}}>
+                <View style={{flex: 3}}>
                     <Highlighter
                         numberOfLines={1}
                         highlightStyle={styles.highlightStyle}
@@ -146,7 +144,7 @@ export default class EventCardExp extends Component {
                         textToHighlight={this.props.location || ''}
                     />
                 </View>
-                <View style={{flex:1}}>
+                <View style={{flex: 1}}>
                     <Highlighter
                         numberOfLines={1}
                         highlightStyle={styles.highlightStyle}

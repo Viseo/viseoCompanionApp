@@ -1,10 +1,10 @@
 /**
  * Created by MBE3664 on 24/04/2017.
  */
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {authenticate} from './../actionCreators/user'
-import Form from './../components/signInForm'
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {authenticate} from "./../actionCreators/user";
+import Form from "./../components/signInForm";
 import {rememberUser} from "../actionCreators/user";
 
 const mapStateToProps = (state, ownProps) => ({

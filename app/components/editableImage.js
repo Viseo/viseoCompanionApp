@@ -2,19 +2,11 @@
  * Created by LMA3606 on 04/04/2017.
  */
 
-import React, {Component} from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    PixelRatio,
-    TouchableOpacity,
-    Image,
-} from 'react-native';
-import ImagePicker from 'react-native-image-picker';
-import strings from './../util/localizedStrings';
-import FlexImage from './../components/FlexImage'
+import React, {Component} from "react";
+import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import ImagePicker from "react-native-image-picker";
+import strings from "./../util/localizedStrings";
+import FlexImage from "./../components/FlexImage";
 
 export default class EditableImage extends Component {
 
@@ -55,7 +47,7 @@ export default class EditableImage extends Component {
     render() {
         return (
             <TouchableOpacity
-                style={{flex:1}}
+                style={{flex: 1}}
                 onPress={this.selectPhotoTapped}
             >
                 {

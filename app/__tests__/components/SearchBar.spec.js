@@ -1,9 +1,4 @@
-import {
-    createComponent,
-    checkIsComponent,
-    checkHasChildComponent,
-    getChildComponent
-} from '../TestUtil/index'
+import {checkHasChildComponent, createComponent, getChildComponent} from "../TestUtil/index";
 
 describe('SearchBar', () => {
 

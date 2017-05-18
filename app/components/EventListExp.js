@@ -1,21 +1,12 @@
 /**
  * Created by HEL3666 on 11/05/2017.
  */
-import React, {Component} from 'react'
-import {
-    View,
-    Text,
-    Button,
-    TouchableOpacity,
-    ListView,
-    Keyboard,
-    TextInput,
-    RefreshControl
-} from 'react-native'
-import EventCardExp from './events/eventCardExp'
-import AppText from './appText'
-import moment from 'moment'
-import colors from './colors'
+import React, {Component} from "react";
+import {ListView, RefreshControl, View} from "react-native";
+import EventCardExp from "./events/eventCardExp";
+import AppText from "./appText";
+import moment from "moment";
+import colors from "./colors";
 
 export default class EventListExp extends Component {
 
@@ -118,8 +109,8 @@ export default class EventListExp extends Component {
                         title: 'Event',
                         passProps: {
                             id: event.id,
-                            edit:false,
-                            canParticipate:false
+                            edit: false,
+                            canParticipate: false
                             //onParticipationChange: () => {this.props.toggleParticipation(event, user)}
                         }
                     });

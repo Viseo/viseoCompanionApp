@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {View, Dimensions, Platform} from "react-native";
+import {Dimensions, Platform, View} from "react-native";
 import EventInfo from "./../containers/EventInfo";
 
 const {height} = Dimensions.get('window');
@@ -11,7 +11,7 @@ export default class Event extends Component {
     }
 
     render() {
-        return(
+        return (
             <View style={{height, marginTop: (Platform.OS === 'ios') ? 20 : 0}}>
                 <EventInfo
                     navigator={this.props.navigator}

@@ -1,18 +1,11 @@
 /**
  * Created by MBE3664 on 24/04/2017.
  */
-import React, {Component} from 'react';
-import {
-    View,
-    Button,
-    Image,
-    TouchableHighlight,
-    ScrollView,
-    StyleSheet,
-} from 'react-native';
-import AppText from '../components/appText';
-import EmailInput from './../components/emailInput';
-import PasswordInput from './../components/passwordInput';
+import React, {Component} from "react";
+import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
+import AppText from "../components/appText";
+import EmailInput from "./../components/emailInput";
+import PasswordInput from "./../components/passwordInput";
 import CheckBox from "react-native-check-box";
 import strings from "../util/localizedStrings";
 import * as util from "../util/util.js";
@@ -42,6 +35,7 @@ export default class SignInForm extends Component {
             this.autoSubmitFormWhenLastInputIsFilled();
         });
         if (authenticationStatus === 1) {
+            this.props.rememberUser(this.state.rememberUser)
             this.navigateTo('Home');
         }
     }
@@ -72,7 +66,6 @@ export default class SignInForm extends Component {
         } else {
             this.props.onSubmitEditing(this.state.email, this.state.password);
         }
-
     }
 
     onPressSignUp() {

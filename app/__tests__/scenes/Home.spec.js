@@ -1,7 +1,4 @@
-import {
-    createComponent,
-    checkHasChildComponent,
-} from '../TestUtil/index'
+import {checkHasChildComponent, createComponent} from "../TestUtil/index";
 
 describe('Home', () => {
 

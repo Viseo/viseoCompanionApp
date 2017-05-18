@@ -2,7 +2,7 @@
  * Created by VBO3596 on 17/03/2017.
  */
 import React, {Component} from "react";
-import {View, TextInput, StyleSheet} from "react-native";
+import {StyleSheet, TextInput, View} from "react-native";
 import strings from "../util/localizedStrings";
 
 export default class EmailInput extends Component {
@@ -11,8 +11,10 @@ export default class EmailInput extends Component {
         placeholder: strings.email,
         keyboardType: "email-address",
         underlineColorAndroid: "white",
-        onSubmitEditing: () => {},
-        onChangeText:(email) => {}
+        onSubmitEditing: () => {
+        },
+        onChangeText: (email) => {
+        }
     }
 
     constructor(props) {
@@ -29,7 +31,7 @@ export default class EmailInput extends Component {
         this.props.onChangeText(email);
     }
 
-    focus(){
+    focus() {
         this.refs.email.focus();
     }
 
@@ -39,7 +41,7 @@ export default class EmailInput extends Component {
                 <TextInput
                     style={[styles.textInput, this.props.style]}
                     onChangeText={this.editEmail}
-                    placeholder= {this.props.placeholder}
+                    placeholder={this.props.placeholder}
                     ref="email"
                     keyboardType={this.props.keyboardType}
                     autoCorrect={false}
@@ -47,8 +49,8 @@ export default class EmailInput extends Component {
                     underlineColorAndroid={this.props.underlineColorAndroid}
                     returnKeyType="next"
                     autoCapitalize="none"
-                    onSubmitEditing= {this.props.onSubmitEditing}
-                    value= {this.props.value}
+                    onSubmitEditing={this.props.onSubmitEditing}
+                    value={this.props.value}
                 />
             </View>
         );

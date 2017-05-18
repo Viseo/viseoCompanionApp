@@ -2,17 +2,7 @@
  * Created by VBO3596 on 18/04/2017.
  */
 import React, {Component} from "react";
-import {
-    View,
-    StyleSheet,
-    Dimensions,
-    ScrollView,
-    Image,
-    Button,
-    Platform,
-    TouchableOpacity,
-    Modal,
-} from "react-native";
+import {Button, Dimensions, Image, Modal, Platform, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
 import PasswordInput from "./passwordInput";
 import EditableImage from "./editableImage";
 import AppText from "./appText";
@@ -24,7 +14,7 @@ import * as util from "../util/util";
 import FlexImage from "./FlexImage";
 import ItemSpacer from "./ItemSpacer";
 import BackButton from "./BackButton";
-import TextField from 'react-native-md-textinput'
+import TextField from "react-native-md-textinput";
 import Toggle from "./Toggle";
 import Avatar from "./Avatar";
 
@@ -70,9 +60,11 @@ export default class Profile extends Component {
                 style={{color: colors.mediumGray}}
                 wrapper={styles.textFieldContainer}
                 secureTextEntry={true}
-                highlightColor={passwordValid ? '#00BCD4': '#d41a0e'}
+                highlightColor={passwordValid ? '#00BCD4' : '#d41a0e'}
                 value={editedProfile.password}
-                onChangeText={(password) => { this.setState({editedProfile:{...editedProfile, password}})}}
+                onChangeText={(password) => {
+                    this.setState({editedProfile: {...editedProfile, password}})
+                }}
             />
         )
         const passwordCheck = (
@@ -81,9 +73,11 @@ export default class Profile extends Component {
                 wrapper={styles.textFieldContainer}
                 style={{color: colors.mediumGray}}
                 secureTextEntry={true}
-                highlightColor={passwordMatch ? '#00BCD4': '#d41a0e'}
+                highlightColor={passwordMatch ? '#00BCD4' : '#d41a0e'}
                 value={editedProfile.passwordCheck}
-                onChangeText={(passwordCheck) => { this.setState({editedProfile:{...editedProfile, passwordCheck}})}}
+                onChangeText={(passwordCheck) => {
+                    this.setState({editedProfile: {...editedProfile, passwordCheck}})
+                }}
             />
         )
         return (
@@ -109,7 +103,7 @@ export default class Profile extends Component {
         return (
             <Avatar firstName={this.state.editedProfile.firstName}
                     lastName={this.state.editedProfile.lastName}
-                    style={{marginTop:20}}
+                    style={{marginTop: 20}}
             />
         )
     }
@@ -138,7 +132,7 @@ export default class Profile extends Component {
                 label={strings.firstName}
                 wrapper={styles.textFieldContainer}
                 style={{color: colors.mediumGray}}
-                highlightColor={firstNameValid ? '#00BCD4': '#d41a0e'}
+                highlightColor={firstNameValid ? '#00BCD4' : '#d41a0e'}
                 onChangeText={(firstName) => {
                     this.setState({editedProfile: {...editedProfile, firstName}});
                 }}
@@ -162,7 +156,7 @@ export default class Profile extends Component {
                 label={strings.lastName}
                 style={{color: colors.mediumGray}}
                 wrapper={styles.textFieldContainer}
-                highlightColor={lastNameValid ? '#00BCD4': '#d41a0e'}
+                highlightColor={lastNameValid ? '#00BCD4' : '#d41a0e'}
                 onChangeText={(lastName) => {
                     this.setState({editedProfile: {...editedProfile, lastName}});
                 }}
@@ -356,7 +350,7 @@ export default class Profile extends Component {
     renderBirthDate() {
         const birthDateValue = new Date(this.state.editedProfile.birthDate);
         const {editedProfile} = this.state
-        const dateLabel = <AppText style={{color:'gray', fontSize:14}}>{strings.birthDate}</AppText>
+        const dateLabel = <AppText style={{color: 'gray', fontSize: 14}}>{strings.birthDate}</AppText>
         const dateText = (<AppText style={styles.displayText}>{this.props.birthDate}</AppText>)
         const datePicker = (<DatePicker
             date={birthDateValue}

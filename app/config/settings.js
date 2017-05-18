@@ -6,8 +6,8 @@
 
 ///////////SERVER CONNECTION////////////////
 // Localhost
- //let SERVER_API_URL = 'http://10.56.166.177:8080/';
- let SERVER_API_URL = 'http://10.33.179.112:8080/';                 
+    //let SERVER_API_URL = 'http://10.56.166.177:8080/';
+let SERVER_API_URL = 'http://10.33.178.43:8080/';
 
 // Home
 //  let SERVER_API_URL = 'http://192.168.1.8:8080/api/';
@@ -37,10 +37,10 @@ const restRoutes = {
         return SERVER_API_URL + 'events/' + eventId + '/users';
     },
     updatedEvent: eventId => {
-        return SERVER_API_URL + 'events/' + eventId ;
+        return SERVER_API_URL + 'events/' + eventId;
     },
     removeEvent: eventId => {
-        return SERVER_API_URL + 'events/' + eventId ;
+        return SERVER_API_URL + 'events/' + eventId;
     },
     getEventParticipant: (eventId, userId) => {
         return SERVER_API_URL + 'events/' + eventId + '/users/' + userId;

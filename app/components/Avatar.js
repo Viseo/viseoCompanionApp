@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {View, StyleSheet, Dimensions} from "react-native";
+import {Dimensions, StyleSheet, View} from "react-native";
 import AppText from "./appText";
 import colors from "./colors";
 

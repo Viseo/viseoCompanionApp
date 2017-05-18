@@ -2,32 +2,18 @@
  * Created by AAB3605 on 14/02/2017.
  */
 'use strict';
-import React, {Component} from "react";
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    TextInput,
-    Image,
-    NavMenu,
-    ScrollView,
-    View,
-    TouchableOpacity,
-    ListView,
-    Dimensions,
-    Button,
-    Alert,
-    TouchableHighlight,
-    Modal
-} from "react-native";
-import {isEmailValid, isPasswordValid, hasEmptyElement} from "../util/util";
-import {getUserByEmail, addUser} from "../util/db";
+import React from "react";
+import {Button, Image, Modal, NavMenu, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
+import {hasEmptyElement, isEmailValid, isPasswordValid} from "../util/util";
+import {addUser, getUserByEmail} from "../util/db";
 import strings from "../util/localizedStrings";
 import AppText from "../components/appText";
 import EmailInput from "./../components/emailInput";
 import PasswordInput from "./../components/passwordInput";
+import {rememberUserWhenSignUp} from "../actionCreators/user";
+import {connect} from "react-redux";
 
-export default class SignUp extends React.Component {
+class SignUp extends React.Component {
 
     constructor(props) {
         super(props);
@@ -56,7 +42,6 @@ export default class SignUp extends React.Component {
         this.setState({
             modalVisible: false
         });
-
         this.props.navigator.resetTo({
             title: 'Home'
         });
@@ -112,6 +97,7 @@ export default class SignUp extends React.Component {
                     let email = this.state.email.toLowerCase();
                     let userAddedSuccessfully = await addUser(email, this.state.password);
                     if (userAddedSuccessfully) {
+                        this.props.rememberUserWhenSignUp(this.state.email, this.state.password)
                         this.setState({modalVisible: true});
                     } else {
                         this.setState({errorMessage: strings.unableToReachServer});
@@ -125,7 +111,7 @@ export default class SignUp extends React.Component {
     }
 
     autoSubmitFormWhenLastInputIsFilled() {
-        if(this.state.email.length && this.state.password.length && this.state.passwordCheck.length) {
+        if (this.state.email.length && this.state.password.length && this.state.passwordCheck.length) {
             this.onPressSignUp();
             return true;
         }
@@ -135,12 +121,12 @@ export default class SignUp extends React.Component {
 
     render() {
         return (
-            <View style={{flex:1, justifyContent: 'center', backgroundColor:'white'}}>
+            <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
                 <ScrollView>
-                    <View style={{flexDirection: 'column', justifyContent: 'center', padding:30}}>
+                    <View style={{flexDirection: 'column', justifyContent: 'center', padding: 30}}>
 
                         {/* VISEO or SIGN UP logo */}
-                        <View style={{alignItems: 'center', paddingBottom:50}}>
+                        <View style={{alignItems: 'center', paddingBottom: 50}}>
                             <Image
                                 source={require('./../images/signUpLogo.png')}
                                 style={{width: 110, height: 110}}
@@ -149,30 +135,35 @@ export default class SignUp extends React.Component {
 
                         {/* User email input */}
                         <EmailInput ref="email"
-                                    style={[styles.textInput,!this.state.isEmailValid && styles.invalidFormat]}
+                                    style={[styles.textInput, !this.state.isEmailValid && styles.invalidFormat]}
                                     onChangeText={this.onChangeEmailText}
-                                    onSubmitEditing={() => {this.refs.password.focus();}}/>
+                                    onSubmitEditing={() => {
+                                        this.refs.password.focus();
+                                    }}/>
 
                         {/* User password input */}
                         <PasswordInput ref="password"
-                                       style={[styles.textInput,!this.state.isPasswordValid && styles.invalidFormat]}
+                                       style={[styles.textInput, !this.state.isPasswordValid && styles.invalidFormat]}
                                        returnKeyType="next"
                                        onChangeText={this.onChangePasswordText}
                                        onSubmitEditing={() => {
-                                    this.refs.passwordBis.focus();}}/>
+                                           this.refs.passwordBis.focus();
+                                       }}/>
 
                         {/* User password verification input */}
                         <PasswordInput ref="passwordBis"
                                        placeholder={strings.verifyPassword}
-                                       style={[styles.textInput,!this.state.isPasswordValid && styles.invalidFormat]}
+                                       style={[styles.textInput, !this.state.isPasswordValid && styles.invalidFormat]}
                                        returnKeyType="done"
                                        onChangeText={this.onChangePasswordCheckText}
                                        onSubmitEditing={() => {
-                                        if (!hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)
-                                            && isEmailValid(this.state.email)
-                                            && isPasswordValid(this.state.password)
-                                            && this.state.password == this.state.passwordCheck) {
-                                            this.autoSubmitFormWhenLastInputIsFilled();}}}/>
+                                           if (!hasEmptyElement(this.state.email, this.state.password, this.state.passwordCheck)
+                                               && isEmailValid(this.state.email)
+                                               && isPasswordValid(this.state.password)
+                                               && this.state.password == this.state.passwordCheck) {
+                                               this.autoSubmitFormWhenLastInputIsFilled();
+                                           }
+                                       }}/>
 
                         {/* Display error messages to help the user fill out the form */}
                         {this.renderFormFillingInformation()}
@@ -181,8 +172,8 @@ export default class SignUp extends React.Component {
                         {this.renderAccountCreationPopout()}
 
                         {/* SIGN UP button */}
-                        <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:30}}>
-                            <View style={{flex:1, padding:5}}>
+                        <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>
+                            <View style={{flex: 1, padding: 5}}>
                                 <Button
                                     onPress={this.onPressSignUp}
                                     title={strings.signUp}
@@ -194,7 +185,13 @@ export default class SignUp extends React.Component {
                         {/* Log in instead of creating a new account */}
                         <TouchableHighlight onPress={this.onPressSignIn} underlayColor='transparent'>
                             <AppText
-                                style={{textAlign: 'center', fontSize: 12, color: 'blue', fontStyle: 'italic', paddingTop:15}}>
+                                style={{
+                                    textAlign: 'center',
+                                    fontSize: 12,
+                                    color: 'blue',
+                                    fontStyle: 'italic',
+                                    paddingTop: 15
+                                }}>
                                 {strings.signInLink}
                             </AppText>
                         </TouchableHighlight>
@@ -215,17 +212,17 @@ export default class SignUp extends React.Component {
                         this.onAccountCreatedNotificationPressed;
                     }}
                 >
-                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
                     <View
                         style={{
-                            flex:1,
+                            flex: 1,
                             justifyContent: 'center',
-                            alignItems:'center',
+                            alignItems: 'center',
                             backgroundColor: 'rgba(186, 242, 255, 1)'
                         }}
                     >
                         <View>
-                            <AppText style={{textAlign:'center'}}>
+                            <AppText style={{textAlign: 'center'}}>
                                 {strings.accountCreated}
                             </AppText>
                             <Button
@@ -235,7 +232,7 @@ export default class SignUp extends React.Component {
                             />
                         </View>
                     </View>
-                    <View style={{flex:2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
+                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
                 </Modal>
             </View>
         );
@@ -267,6 +264,11 @@ export default class SignUp extends React.Component {
         );
     }
 }
+
+export default connect(
+    null,
+    {rememberUserWhenSignUp}
+)(SignUp)
 
 const styles = StyleSheet.create({
     errorInfo: {

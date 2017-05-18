@@ -4,13 +4,13 @@ import {
     compareChildren,
     createComponent,
     createTestFunction,
-    press,
-} from '../TestUtil/index';
+    press
+} from "../TestUtil/index";
 
 describe('Button', () => {
 
     it('should render a clickable button and its children passed in props', () => {
-        const onPress =  createTestFunction();
+        const onPress = createTestFunction();
         const children = 'someLovelyChildren';
         const button = createComponent('Button', {
             onPress,

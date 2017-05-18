@@ -2,7 +2,7 @@
  * Created by AAB3605 on 15/03/2017.
  */
 import React, {Component} from "react";
-import {View, TextInput, StyleSheet, Image} from "react-native";
+import {StyleSheet, TextInput} from "react-native";
 
 class SearchTextInput extends Component {
 
@@ -13,7 +13,7 @@ class SearchTextInput extends Component {
     render() {
         return (
             <TextInput
-                style={[styles.input,this.props.style]}
+                style={[styles.input, this.props.style]}
                 placeholder={this.props.placeholder}
                 onChangeText={this.props.onChangeText}
                 underlineColorAndroid='rgba(0,0,0,0)'
