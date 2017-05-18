@@ -16,7 +16,6 @@ import {authenticate} from "../actionCreators/user";
 import {bindActionCreators} from "redux";
 import settings from "../config/settings";
 import colors from "../components/colors";
-import Main from "../components/Main";
 
 class App extends Component {
     state = {
@@ -53,7 +52,6 @@ class App extends Component {
     }
 
     render() {
-        return this.renderNewReadyView();
         const {isReady, shouldShowSplashScreen} = this.state;
         return !shouldShowSplashScreen && isReady ?
             this.renderReadyView() :
@@ -128,25 +126,6 @@ class App extends Component {
         )
     }
 
-    renderNewReadyView() {
-        const navigationBar = (
-            <View style={{flexDirection: 'row', height:50, alignItems:'center'}}>
-                <View style={{flex: 1}}><Text style={{textAlign:'center'}}>Coin Secret</Text></View>
-                <View style={{flex: 1}}><Text style={{textAlign:'center'}}>Accueil</Text></View>
-                <View style={{flex: 1}}><Text style={{textAlign:'center'}}>Paramètres</Text></View>
-            </View>
-        );
-        return (
-            <Navigator
-                configureScene={this._configureScene}
-                style={styles.navigator}
-                initialRoute={{component: Main}}
-                renderScene={this._renderScene}
-                navigationBar={navigationBar}
-            />
-        );
-    }
-
     _authenticateSaveUser(email, password) {
         this.setState({
             isAuthenticatingSavedUser: true,
@@ -170,22 +149,6 @@ class App extends Component {
             }
             return false;
         });
-    }
-
-    _configureScene(route, routeStack) {
-        if (route.type === 'Modal') {
-            return Navigator.SceneConfigs.FloatFromBottom;
-        }
-        return Navigator.SceneConfigs.PushFromRight;
-    }
-
-    _renderScene(route, navigator) {
-        return (
-            <route.component
-                navigator={navigator}
-                {...route.passProps}
-            />
-        );
     }
 
     _setLanguage() {

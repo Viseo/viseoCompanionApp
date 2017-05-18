@@ -12,6 +12,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
+import com.reactnativenavigation.NavigationApplication;
 //import com.smixx.fabric.FabricPackage;
 //import com.crashlytics.android.Crashlytics;
 //import io.fabric.sdk.android.Fabric;
@@ -19,35 +20,26 @@ import com.imagepicker.ImagePickerPackage;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends NavigationApplication {
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
+    public boolean isDebug() {
+        // Make sure you are using BuildConfig from your own application
+        return BuildConfig.DEBUG;
     }
 
-    @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          // new FabricPackage(),
-          new MainReactPackage(),
+        // Add additional packages you require here
+        // No need to add RnnPackage and MainReactPackage
+        return Arrays.<ReactPackage>asList(
             new FIRMessagingPackage(),
-          new VectorIconsPackage(),
-          new ImagePickerPackage()
-      );
+            new VectorIconsPackage(),
+            new ImagePickerPackage()
+        );
     }
-  };
 
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-    // Fabric.with(this, new Crashlytics());
-  }
+    @Override
+    public List<ReactPackage> createAdditionalReactPackages() {
+        return getPackages();
+    }
 }
