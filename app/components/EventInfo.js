@@ -28,6 +28,7 @@ import moment from "moment";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import {Item} from "react-native-mock/build/components/Picker";
 import Avatar from "./Avatar";
+import Comment from "./../scenes/comment";
 
 const eventIdToImages = {
     "40": require('./../images/events/formation_securite.jpg'),
@@ -128,8 +129,11 @@ export default class Event extends Component {
                 <View style={styles.container}>
                     {this.renderMainInfo()}
                     <ItemSpacer/>
+
                     {this.renderDetails()}
+
                 </View>
+
             </View>
         );
     }
@@ -303,11 +307,13 @@ export default class Event extends Component {
                             this.renderEventDateAndParticipants()
                     }
                     {this.renderEventDescription(this.state.description)}
+                    {this.renderCommentButton()}
                     {this.renderEventDelete()}
                     {/*{this.renderEventKeywords(event.keywords)}*/}
                     {this.renderNotifySuccess()}
                     {this.renderNotifyDelete()}
                 </ScrollView>
+
                 <KeyboardSpacer/>
             </View>
         )
@@ -513,7 +519,19 @@ export default class Event extends Component {
             </View>
         );
     }
+    renderCommentButton () {
+        return (
+            <Button
+                title="commentaire"
+                onPress={() => {
+                    console.warn("ok")
+                    this.props.navigator.resetTo({
 
+                    })
+                }}
+            />
+        );
+    }
     renderEventDescription() {
         let {editing} = this.state
         let placeholder = editing ?

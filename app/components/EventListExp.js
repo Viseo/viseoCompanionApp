@@ -2,11 +2,12 @@
  * Created by HEL3666 on 11/05/2017.
  */
 import React, {Component} from "react";
-import {ListView, RefreshControl, View} from "react-native";
+import {ListView, Button, RefreshControl, View} from "react-native";
 import EventCardExp from "./events/eventCardExp";
 import AppText from "./appText";
 import moment from "moment";
 import colors from "./colors";
+import ActionButton from "./../components/actionButton/ActionButton";
 
 export default class EventListExp extends Component {
 
@@ -90,8 +91,21 @@ export default class EventListExp extends Component {
             </View>
         )
     }
-
     renderEventCardExp = (event) => {
+        const createComment = (
+            <ActionButton.Item
+                buttonColor="#9b59b6"
+                title="Nouveau commentaire"
+                onPress={() => {
+                    {/*this.props.navigator.push({*/}
+                    {/*title: 'AddEvent',*/}
+                    {/*});*/}
+                    console.warn("ok");
+                }}
+            >
+                <Icon name="md-create" style={styles.icon}/>
+            </ActionButton.Item>
+        );
         let [day, time] = this.formatDate(event.date);
         //let {user} = this.props;
         return (

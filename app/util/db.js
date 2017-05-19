@@ -292,7 +292,36 @@ export async function updateEvent(event) {
     } catch (error) {
         console.warn(error);
     }
+
 }
 
+export async function addComment(Calendar, Commentaire, UserId, EventId) {
+    try {
+        let response = await fetch(settings.api.addComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "datetime": "9894950354112",
+                "uzer": {
+                    "id": 88
+                },
+                "evenement": {
+                    "id": 99
+                },
+                "commentaire": "haifa"
+            })
+        });
 
+        let responseJson = await response.json();
+        if (responseJson) {
+            return true;
+        }
+    } catch (error) {
+        console.warn('db::addComment ' + error);
+    }
+
+    return false;
+}
 

@@ -7,7 +7,7 @@
 ///////////SERVER CONNECTION////////////////
 // Localhost
     //let SERVER_API_URL = 'http://10.56.166.177:8080/';
-let SERVER_API_URL = 'http://10.33.178.43:8080/';
+let SERVER_API_URL = 'http://10.33.178.119:8080/';
 
 // Home
 //  let SERVER_API_URL = 'http://192.168.1.8:8080/api/';
@@ -27,6 +27,7 @@ const restRoutes = {
     getUser: SERVER_API_URL + 'users/',
     authenticate: SERVER_API_URL + 'authenticate',
     resetPassword: SERVER_API_URL + 'resetPassword',
+    addComment: SERVER_API_URL + 'comment',
     addEventParticipant: (eventId, userId) => {
         return SERVER_API_URL + 'events/' + eventId + '/users/' + userId;
     },
@@ -59,8 +60,11 @@ const restRoutes = {
     },
     getEventAfter: dateAfter => {
         return SERVER_API_URL + 'events?after=' + dateAfter;
+    },
+    addCommentParticipant: (eventId,userId) => {
+        return SERVER_API_URL + 'comment/' + eventId + '/users/' + userId;
     }
-}
+};
 
 const settings = {
     SERVER_API_URL,
