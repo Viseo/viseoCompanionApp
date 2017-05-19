@@ -7,7 +7,7 @@
 ///////////SERVER CONNECTION////////////////
 // Localhost
     //let SERVER_API_URL = 'http://10.56.166.177:8080/';
-let SERVER_API_URL = 'http://10.33.178.119:8080/';
+let SERVER_API_URL = 'http://10.33.171.198:8080/';
 
 // Home
 //  let SERVER_API_URL = 'http://192.168.1.8:8080/api/';

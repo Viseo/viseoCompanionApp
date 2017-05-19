@@ -6,6 +6,7 @@ import {Button, Dimensions, Platform, StyleSheet, TextInput, View} from "react-n
 const {height} = Dimensions.get('window');
 import Header from "./../components/header";
 import AppText from "../components/appText";
+import * as comment from "./../util/db"
 
 export default class Comment extends Component {
     onPressSendNewComment = async () => {
@@ -40,8 +41,8 @@ export default class Comment extends Component {
                 <Button
                     title="envoyer"
                     onPress={() => {
-                        console.warn("envoyer")
-                        {this.onPressSendNewComment}
+                        console.warn("envoyer");
+                        {comment.addComment()};
                     }}
                 />
                 <Button
