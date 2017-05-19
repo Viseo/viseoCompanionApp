@@ -1,13 +1,10 @@
-/**
- * Created by AAB3605 on 10/03/2017.
- */
 import React, {Component} from "react";
 import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
-import strings from "../../util/localizedStrings";
+import strings from "../../../util/localizedStrings";
 import Highlighter from "react-native-highlight-words";
-import * as util from "../../util/util";
-import colors from "../colors";
+import * as util from "../../../util/util";
+import colors from "../../global/colors";
 
 export default class EventCard extends Component {
 
@@ -27,7 +24,7 @@ export default class EventCard extends Component {
 
     getSwipeOption = () => {
         let textOption = this.props.participating ? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
-        let icon = this.props.participating ? require("../../images/crossWhite.png") : require("../../images/checkWhite.png");
+        let icon = this.props.participating ? require("../../../images/crossWhite.png") : require("../../../images/checkWhite.png");
         return [{
             component: <View className="participate" style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={icon} style={{width: 33, height: 33}}/>
@@ -209,11 +206,7 @@ const styles = StyleSheet.create({
         flex: 100,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        paddingLeft: 10
-        // borderBottomWidth: 0.5,
-        // borderBottomColor: '#999999',
-        // borderTopWidth: 0.5,
-        // borderTopColor: '#999999',
+        paddingLeft: 10,
     },
     firstRow: {
         flex: 3,
@@ -255,9 +248,7 @@ const styles = StyleSheet.create({
         fontWeight: '100',
         fontSize: 14,
         overflow: 'hidden',
-        // fontSize: deviceWidth * 0.045,
         color: colors.mediumGray,
-        // textAlignVertical: 'bottom',
     },
     location: {
         flex: 1,
@@ -301,7 +292,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.highlight
     }
 });
-
 
 const styleFont = StyleSheet.create({
     textFont: {

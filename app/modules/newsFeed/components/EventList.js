@@ -1,17 +1,14 @@
-/**
- * Created by AAB3605 on 29/03/2017.
- */
 import React, {Component} from "react";
 import {ListView, RefreshControl, View} from "react-native";
-import EventCard from "./events/eventCard";
-import AppText from "./appText";
+import EventCard from "./EventCard";
+import AppText from "../../../components/appText";
 import moment from "moment";
-import colors from "./colors";
+import colors from "../../global/colors";
 
 export default class EventList extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => {
                 if (this.props.searchWords) {
@@ -19,13 +16,13 @@ export default class EventList extends Component {
                 }
                 for (let key in r1) {
                     if (!r2.hasOwnProperty(key))
-                        return true
+                        return true;
                     if (r1[key] !== r2[key])
                         return true
                 }
                 return false
             }
-        })
+        });
         this.state = {
             dataSource: ds.cloneWithRows(this.props.events),
         }
@@ -64,7 +61,7 @@ export default class EventList extends Component {
                 dataSource={this.state.dataSource}
                 renderRow={this.renderEventCard}
             />
-        )
+        );
         const nothingToShow = (
             <AppText
                 style={{
@@ -79,7 +76,7 @@ export default class EventList extends Component {
             >
                 Aucun évènement.
             </AppText>
-        )
+        );
         return (
             <View style={[{flex: 1, flexDirection: 'column'}, this.props.style]}>
                 {
@@ -94,7 +91,7 @@ export default class EventList extends Component {
     renderEventCard = (event) => {
         let [day, time] = this.formatDate(event.date);
         let {user} = this.props;
-        let edited = user.id === event.host.id ? true : false;
+        let edited = user.id === event.host.id;
         return (
             <EventCard
                 name={event.name}
@@ -126,4 +123,4 @@ export default class EventList extends Component {
     }
 }
 
-EventList.displayName = 'EventList'
+EventList.displayName = 'EventList';

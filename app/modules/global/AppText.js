@@ -1,9 +1,6 @@
-/**
- * Created by LMA3606 on 21/03/2017.
- */
 import React, {Component} from "react";
 import {Platform, StyleSheet, Text} from "react-native";
-import colors from "../modules/global/colors";
+import colors from "./colors";
 
 class AppText extends Component {
     setNativeProps(nativeProps) {

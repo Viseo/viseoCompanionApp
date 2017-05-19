@@ -6,7 +6,7 @@ import {ListView, RefreshControl, View} from "react-native";
 import EventCardExp from "./events/eventCardExp";
 import AppText from "./appText";
 import moment from "moment";
-import colors from "./colors";
+import colors from "../modules/global/colors";
 
 export default class EventListExp extends Component {
 

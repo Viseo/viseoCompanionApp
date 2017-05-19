@@ -7,7 +7,7 @@ import FilterToggle from "../containers/FilterToggle";
 import SearchInput from "../containers/SearchInput";
 import VisibilityToggle from "../containers/VisibilityToggle";
 import Toggle from "./Toggle";
-import colors from "./colors";
+import colors from "../modules/global/colors";
 
 class SearchBar extends Component {
 

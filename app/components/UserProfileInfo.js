@@ -8,7 +8,7 @@ import EditableImage from "./editableImage";
 import AppText from "./appText";
 import EditableAppText from "./editableAppText";
 import strings from "../util/localizedStrings";
-import colors from "./colors";
+import colors from "../modules/global/colors";
 import DatePicker from "react-native-datepicker";
 import * as util from "../util/util";
 import FlexImage from "./FlexImage";

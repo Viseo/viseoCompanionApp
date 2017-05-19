@@ -16,7 +16,7 @@ import DatePicker from "react-native-datepicker";
 import Header from "./../components/header";
 import AppText from "./../components/appText";
 import EditableImage from "./../components/editableImage";
-import colors from "../components/colors";
+import colors from "../modules/global/colors";
 
 export default class AddEvent extends Component {
     constructor(props) {

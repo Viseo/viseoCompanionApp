@@ -1,7 +1,7 @@
 /**
  * Created by AAB3605 on 16/02/2017.
  */
-import colors from "../components/colors";
+import colors from "../modules/global/colors";
 
 export function hasEmptyElement() {
     for (let i = 0; i < arguments.length; i++) {

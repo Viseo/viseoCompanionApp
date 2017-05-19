@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {Platform, StyleSheet, TextInput} from "react-native";
-import colors from "./colors";
+import colors from "../modules/global/colors";
 
 export default class AppTextInput extends Component {
 

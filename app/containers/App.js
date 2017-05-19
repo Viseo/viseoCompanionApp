@@ -11,11 +11,7 @@ import AddEvent from "./../scenes/addEvent";
 import Event from "./../scenes/Event";
 import UserProfile from "./../scenes/UserProfile";
 import AppText from "./../components/appText";
-import {connect} from "react-redux";
-import {authenticate} from "../actionCreators/user";
-import {bindActionCreators} from "redux";
-import settings from "../config/settings";
-import colors from "../components/colors";
+import colors from "../modules/global/colors";
 
 class App extends Component {
     state = {
@@ -32,23 +28,6 @@ class App extends Component {
     componentWillMount() {
         this._setLanguage();
         this._configureBackButtonForAndroidDevices();
-        this._setSplashScreenDuration();
-    }
-
-    componentWillReceiveProps(props) {
-        const {hasSavedUser, email, password, authenticationStatus} = props;
-        const authenticationInProgressCode = 0;
-        if (authenticationStatus !== authenticationInProgressCode) {
-            this._checkIfUserIsAuthenticated(authenticationStatus);
-        } else if (hasSavedUser) {
-            if (!this.state.isAuthenticatingSavedUser) {
-                this._authenticateSaveUser(email, password);
-            }
-        } else {
-            this.setState({
-                isReady: true,
-            });
-        }
     }
 
     render() {
@@ -126,21 +105,6 @@ class App extends Component {
         )
     }
 
-    _authenticateSaveUser(email, password) {
-        this.setState({
-            isAuthenticatingSavedUser: true,
-        });
-        this.props.authenticate(email, password);
-    }
-
-    _checkIfUserIsAuthenticated(authenticationCode) {
-        const authenticationSuccessfulCode = 1;
-        this.setState({
-            isSavedUserAuthenticated: authenticationCode === authenticationSuccessfulCode,
-            isReady: true,
-        });
-    }
-
     _configureBackButtonForAndroidDevices() {
         BackAndroid.addEventListener('hardwareBackPress', () => {
             if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
@@ -154,14 +118,6 @@ class App extends Component {
     _setLanguage() {
         strings.setLanguage('fr');
         setDateLang(strings.getLanguage());
-    }
-
-    _setSplashScreenDuration = () => {
-        setTimeout(() => {
-            this.setState({
-                shouldShowSplashScreen: false,
-            })
-        }, settings.minSplashScreenDuration);
     }
 }
 
@@ -185,22 +141,4 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({user}, ownProps) => ({
-    hasSavedUser: user.rememberMe,
-    email: user.email,
-    password: user.passwordInput,
-    authenticationStatus: user.authenticationStatus,
-    ...ownProps
-})
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-            authenticate
-        },
-        dispatch)
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps)(App);
 

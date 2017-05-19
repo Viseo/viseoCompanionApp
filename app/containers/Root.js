@@ -1,43 +1,23 @@
-import React, {Component} from "react";
-import {Provider} from "react-redux";
 import configureStore from "./../store/configureStore";
-import App from "./App";
+import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
-import { registerScreens } from './../screens/';
+import { registerScreens } from './../screens/index';
 
 const store = configureStore();
-registerScreens();
+registerScreens(store, Provider);
 
 Navigation.startTabBasedApp({
     tabs: [
         {
-            label: 'One',
-            screen: 'example.FirstTabScreen', // this is a registered name for a screen
+            label: 'AppLoader',
+            screen: 'AppLoader',
             icon: require('../images/eye.png'),
-            selectedIcon: require('../images/filter.png'), // iOS only
-            title: 'Screen One'
         },
         {
-            label: 'Two',
-            screen: 'example.SecondTabScreen',
-            icon: require('../images/lock.png'),
-            selectedIcon: require('../images/filter.png'), // iOS only
-            title: 'Screen Two'
-        }
+            label: 'Home',
+            screen: 'NewsFeed',
+            icon: require('../images/eye.png'),
+            title: 'Actualités'
+        },
     ]
 });
-
-// export default class Root extends Component {
-//
-//     constructor(props) {
-//         super(props)
-//     }
-//
-//     render() {
-//         return (
-//             <Provider store={store}>
-//                 <App/>
-//             </Provider>
-//         );
-//     }
-// }

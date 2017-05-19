@@ -1,49 +1,10 @@
 import { Navigation } from 'react-native-navigation';
-import React, {Component} from 'react';
-import {Text, View} from "react-native";
+import NewsFeed from "../modules/newsFeed/Newsfeed";
+import AppLoader from "../modules/appLoader/AppLoader";
+import SignIn from "../modules/authentication/SignIn";
 
-class FirstTabScreen extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <View>
-                <Text>FirstTabScreen</Text>
-            </View>
-        );
-    }
-}
-class SecondTabScreen extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <View>
-                <Text>SecondTabScreen</Text>
-            </View>
-        );
-    }
-}
-class PushedScreen extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <View>
-                <Text>PushedScreen</Text>
-            </View>
-        );
-    }
-}
-
-export function registerScreens() {
-    Navigation.registerComponent('example.FirstTabScreen', () => FirstTabScreen);
-    Navigation.registerComponent('example.SecondTabScreen', () => SecondTabScreen);
-    Navigation.registerComponent('example.PushedScreen', () => PushedScreen);
+export function registerScreens(store, provider) {
+    Navigation.registerComponent('NewsFeed', () => NewsFeed, store, provider);
+    Navigation.registerComponent('AppLoader', () => AppLoader, store, provider);
+    Navigation.registerComponent('SignIn', () => SignIn, store, provider);
 }

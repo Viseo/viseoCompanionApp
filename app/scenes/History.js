@@ -8,7 +8,7 @@ import Header from "./../components/header";
 import VisibleEventListExp from "./../containers/VisibleEventsExp";
 import SearchBar from "./../components/SearchBar";
 import ItemSpacer from "./../components/ItemSpacer";
-import colors from "../components/colors";
+import colors from "../modules/global/colors";
 import {dispatch} from "redux";
 import PushController from "../util/pushController";
 

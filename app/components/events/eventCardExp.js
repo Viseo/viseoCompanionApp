@@ -6,7 +6,7 @@ import React, {Component} from "react";
 import {Dimensions, Platform, StyleSheet, TouchableOpacity, View} from "react-native";
 import Highlighter from "react-native-highlight-words";
 import * as util from "../../util/util";
-import colors from "../colors";
+import colors from "../../modules/global/colors";
 
 export default class EventCardExp extends Component {
     static defaultProps = {
