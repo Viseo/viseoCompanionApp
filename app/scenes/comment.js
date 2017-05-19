@@ -40,9 +40,11 @@ export default class Comment extends Component {
                 />
                 <Button
                     title="envoyer"
-                    onPress={() => {
+                    onPress={ async () => {
                         console.warn("envoyer");
-                        {comment.addComment()};
+                        //{comment.addComment()};
+                        let sendComment = await comment.addComment();
+                        console.warn(sendComment);
                     }}
                 />
                 <Button

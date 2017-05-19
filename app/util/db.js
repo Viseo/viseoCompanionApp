@@ -3,6 +3,7 @@
  */
 import settings from "../config/settings";
 
+
 export async function addEvent(event) {
     try {
         //TODO: make a function to add the host as a param
@@ -271,7 +272,6 @@ export async function updateEvent(event) {
     try {
 
         let response = await fetch(settings.api.updatedEvent(event.id), {
-
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -303,17 +303,16 @@ export async function addComment(/*Calendar, Commentaire, UserId, EventId*/) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "datetime": "9894950354112",
+                "datetime": "9994950354112",
                 "uzer": {
-                    "id": 88
+                    "id": 1
                 },
                 "evenement": {
-                    "id": 99
+                    "id": 2
                 },
-                "commentaire": "haifa"
+                "commentaire": "test 1"
             })
         });
-
         let responseJson = await response.json();
         if (responseJson) {
             return true;
@@ -321,7 +320,5 @@ export async function addComment(/*Calendar, Commentaire, UserId, EventId*/) {
     } catch (error) {
         console.warn('db::addComment ' + error);
     }
-
     return false;
 }
-
