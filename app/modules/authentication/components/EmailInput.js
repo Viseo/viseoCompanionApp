@@ -4,6 +4,7 @@ import TextField from "react-native-md-textinput";
 import colors from "../../global/colors";
 import AppText from "../../global/AppText";
 import strings from "../../global/localizedStrings";
+import PropTypes from 'prop-types';
 
 export default class EmailInput extends Component {
 
@@ -29,7 +30,7 @@ export default class EmailInput extends Component {
                     value={email}
                     onChangeText={email => {
                         this._setEmail(email);
-                        email = this.state.isValid ? email : '';
+                        email = this._isEmailValid(email) ? email : '';
                         this.props.onEmailChange(email);
                     }}
                 />
@@ -55,8 +56,8 @@ export default class EmailInput extends Component {
         this.setState({email, isValid});
     };
 }
-EmailInput.defaultProps = {
-    onEmailChange: () => {},
+EmailInput.propTypes = {
+    onEmailChange: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

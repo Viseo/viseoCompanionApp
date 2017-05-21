@@ -5,6 +5,7 @@ import colors from "../../global/colors";
 import {View} from "react-native";
 import AppText from "../../global/AppText";
 import strings from "../../global/localizedStrings";
+import PropTypes from 'prop-types';
 
 export default class PasswordInput extends Component {
 
@@ -31,7 +32,7 @@ export default class PasswordInput extends Component {
                     secureTextEntry={true}
                     onChangeText={password => {
                         this._setPassword(password);
-                        password = this.state.isValid ? password : '';
+                        password = this._isPasswordValid(password) ? password : '';
                         this.props.onPasswordChange(password);
                     }}
                 />
@@ -56,6 +57,10 @@ export default class PasswordInput extends Component {
         this.setState({password, isValid});
     };
 }
+
+PasswordInput.propTypes = {
+    onPasswordChange: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
     errorInfo: {

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {View, StyleSheet} from "react-native";
+import React, {Component} from "react";
+import {StyleSheet, View} from "react-native";
 import AppText from "../../components/appText";
 import colors from "../global/colors";
 import {authenticate} from "../../actionCreators/user";
@@ -7,9 +7,9 @@ import {connect} from "react-redux";
 
 class AppLoader extends Component {
 
-    minSplashScreenDuration = 1;
+    minSplashScreenDuration = 1000;
+    maxSplashScreenDuration = 3000;
     state = {
-        isReady: false,
         isAuthenticatingSavedUser: false,
         isSavedUserAuthenticated: false,
         shouldShowSplashScreen: true,
@@ -23,17 +23,13 @@ class AppLoader extends Component {
         this._setSplashScreenDuration();
     }
 
-    componentWillReceiveProps(props) {
-        const {hasSavedUser, email, password, authenticationStatus} = props;
-        const authenticationInProgressCode = 0;
-        if (authenticationStatus !== authenticationInProgressCode) {
-            this._checkIfUserIsAuthenticated(authenticationStatus);
-        } else if (hasSavedUser) {
-            if (!this.state.isAuthenticatingSavedUser) {
-                this._authenticateSavedUser(email, password);
-            }
+    componentWillReceiveProps({isAuthenticated, savedUser}) {
+        if(isAuthenticated) {
+            this.setState({
+                isSavedUserAuthenticated: true
+            })
         } else {
-            this._navigateToHome();
+            this._authenticateSavedUser(savedUser.email, savedUser.password);
         }
     }
 
@@ -46,35 +42,26 @@ class AppLoader extends Component {
     }
 
     _authenticateSavedUser(email, password) {
-        this.setState({
-            isAuthenticatingSavedUser: true,
-        });
-        this.props.authenticate(email, password);
-    }
-
-    _allowCloseSplashScreen() {
-        if(!this.state.isAuthenticatingSavedUser) {
-            this._navigateToSignIn();
-        } else {
+        const hasSavedUser = email.length > 0 && password.length > 0;
+        if (hasSavedUser && !this.state.isAuthenticatingSavedUser) {
             this.setState({
-                shouldShowSplashScreen: false,
+                isAuthenticatingSavedUser: true,
             });
+            this.props.authenticate(email, password);
         }
     }
 
-    _checkIfUserIsAuthenticated(authenticationCode) {
-        const authenticationSuccessfulCode = 1;
-        this.setState({
-            isSavedUserAuthenticated: authenticationCode === authenticationSuccessfulCode,
-            isReady: true,
-        });
+    _closeSplashScreenIfEverythingIsLoaded() {
+        if (this.state.isSavedUserAuthenticated) {
+            this._navigateToHome();
+        }
+        else if (!this.state.isAuthenticatingSavedUser) {
+            this._navigateToSignIn();
+        } else {
+            const remainingLoadingTime = this.maxSplashScreenDuration - this.minSplashScreenDuration;
+            setTimeout(() => this._navigateToSignIn(), remainingLoadingTime);
+        }
     }
-
-    _setSplashScreenDuration = () => {
-        setTimeout(() => {
-            this._allowCloseSplashScreen();
-        }, this.minSplashScreenDuration);
-    };
 
     _navigateToHome() {
         this.props.navigator.switchToTab({
@@ -84,10 +71,14 @@ class AppLoader extends Component {
 
     _navigateToSignIn() {
         this.props.navigator.push({
-            screen:'SignIn',
-            title:'Connexion',
+            screen: 'SignIn',
+            title: 'Connexion',
             backButtonHidden: true,
         });
+    }
+
+    _setSplashScreenDuration() {
+        setTimeout(() => this._closeSplashScreenIfEverythingIsLoaded(), this.minSplashScreenDuration);
     }
 }
 
@@ -96,12 +87,9 @@ AppLoader.navigatorStyle = {
     tabBarHidden: true,
 };
 
-const mapStateToProps = ({user}, ownProps) => ({
-    hasSavedUser: user.rememberMe,
-    email: user.email,
-    password: user.passwordInput,
-    authenticationStatus: user.authenticationStatus,
-    ...ownProps
+const mapStateToProps = ({authentication}) => ({
+    isAuthenticated: authentication.isAuthenticated,
+    savedUser: authentication.savedUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({

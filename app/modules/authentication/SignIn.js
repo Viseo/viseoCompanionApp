@@ -1,11 +1,14 @@
 import React, {Component} from "react";
-import {ScrollView, StyleSheet, Text, Button} from "react-native";
+import {Button, ScrollView, StyleSheet} from "react-native";
 import EmailInput from "./components/EmailInput";
 import PasswordInput from "./components/PasswordInput";
 import strings from "../global/localizedStrings";
 import AppText from "../global/AppText";
+import {authenticate} from "./authentication.actions";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
-export default class SignIn extends Component {
+class SignIn extends Component {
 
     state = {
         email: '',
@@ -67,8 +70,38 @@ export default class SignIn extends Component {
 
     _signIn() {
         this.setState({hasSubmittedForm: true});
+        if(this._isFormValid()) {
+            console.warn(this.state.email + ' ' + this.state.password)
+            const {email, password} = this.state;
+            this.props.authenticate(email, password);
+        }
     }
 }
+
+SignIn.navigatorButtons = {
+    rightButtons: [
+        {
+            title: 'Créer un compte',
+            id: 'signUp',
+            buttonColor: 'blue',
+            buttonFontSize: 12,
+            buttonFontWeight: '400',
+        },
+    ]
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+            authenticate,
+        },
+        dispatch
+    )
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(SignIn);
 
 const styles = StyleSheet.create({
     errorInfo: {
