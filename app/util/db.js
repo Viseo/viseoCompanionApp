@@ -303,18 +303,19 @@ export async function addComment(/*Calendar, Commentaire, UserId, EventId*/) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "datetime": "9994950354112",
-                "uzer": {
-                    "id": 1
-                },
-                "evenement": {
-                    "id": 2
-                },
-                "commentaire": "test 1"
+                "id": 859,
+                "version": 0,
+                "datetime": 11,
+                "commentaire": "aziz",
+                "evenement_id": 1,
+                "uzer_id": 1
             })
         });
         let responseJson = await response.json();
         if (responseJson) {
+            this.props.navigator.push({
+                title: 'Event',
+            })
             return true;
         }
     } catch (error) {

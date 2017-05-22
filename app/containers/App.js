@@ -16,7 +16,7 @@ import {authenticate} from "../actionCreators/user";
 import {bindActionCreators} from "redux";
 import settings from "../config/settings";
 import colors from "../components/colors";
-import Comment from "../scenes/comment";
+import Comment from "../scenes/addComment";
 
 class App extends Component {
     state = {
@@ -24,6 +24,7 @@ class App extends Component {
         isAuthenticatingSavedUser: false,
         isSavedUserAuthenticated: false,
         shouldShowSplashScreen: true,
+        shouldCloseSplashScreen: false,
     };
 
     constructor(props) {
@@ -39,9 +40,11 @@ class App extends Component {
     componentWillReceiveProps(props) {
         const {hasSavedUser, email, password, authenticationStatus} = props;
         const authenticationInProgressCode = 0;
+        // console.warn(authenticationInProgressCode)
         if (authenticationStatus !== authenticationInProgressCode) {
             this._checkIfUserIsAuthenticated(authenticationStatus);
         } else if (hasSavedUser) {
+            // console.warn('authenticating ' + email + ' ' + password)
             if (!this.state.isAuthenticatingSavedUser) {
                 this._authenticateSaveUser(email, password);
             }
@@ -53,8 +56,8 @@ class App extends Component {
     }
 
     render() {
-        const {isReady, shouldShowSplashScreen} = this.state;
-        return !shouldShowSplashScreen && isReady ?
+        const {isReady, shouldShowSplashScreen, isAuthenticatingSavedUser, shouldCloseSplashScreen} = this.state;
+        return shouldCloseSplashScreen || !shouldShowSplashScreen && (isReady || !isAuthenticatingSavedUser) ?
             this.renderReadyView() :
             this.renderLoadingView();
     }
@@ -77,12 +80,12 @@ class App extends Component {
             {title: 'AddEvent'},
             {title: 'Profile'},
             {title: 'History'},
-            {title: 'Comment'}
+            {title: 'Comment'},
         ];
         const initialRoute = this.state.isSavedUserAuthenticated ? 0 : 1;
         return (
             <Navigator
-                initialRoute={routes[7]}
+                initialRoute={routes[initialRoute]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if (route.title === 'SignIn') {
@@ -169,6 +172,11 @@ class App extends Component {
                 shouldShowSplashScreen: false,
             })
         }, settings.minSplashScreenDuration);
+        setTimeout(() => {
+            this.setState({
+                shouldCloseSplashScreen: true,
+            })
+        }, settings.maxSplashScreenDuration);
     }
 }
 

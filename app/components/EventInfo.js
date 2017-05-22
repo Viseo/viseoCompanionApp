@@ -28,7 +28,7 @@ import moment from "moment";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import {Item} from "react-native-mock/build/components/Picker";
 import Avatar from "./Avatar";
-import Comment from "./../scenes/comment";
+import Comment from "../scenes/addComment";
 
 const eventIdToImages = {
     "40": require('./../images/events/formation_securite.jpg'),
@@ -524,9 +524,8 @@ export default class Event extends Component {
             <Button
                 title="commentaire"
                 onPress={() => {
-                    console.warn("ok")
-                    this.props.navigator.resetTo({
-
+                    this.props.navigator.push({
+                        title: 'Comment',
                     })
                 }}
             />
