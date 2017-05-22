@@ -4,6 +4,7 @@ export default {
         rememberUser: true,
         loggedUser: {
             email: '',
+            password: '',
         },
         savedUser: {
             email: '',

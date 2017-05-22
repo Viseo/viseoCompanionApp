@@ -12,19 +12,18 @@ export const authenticate = (email, password) => {
                 dispatch({
                     type: AUTHENTICATION_FAILURE,
                     code: 2
-                })
+                });
             } else if (response === wrongCredentials) {
                 dispatch({
                     type: AUTHENTICATION_FAILURE,
                     code: 3
-                })
+                });
             } else {
                 dispatch({
                     type: AUTHENTICATION_SUCCESS,
                     email,
                     password,
-                    code: 1
-                })
+                });
             }
         } catch (error) {
             console.warn('authentication.actionCreators::authenticate ' + error)

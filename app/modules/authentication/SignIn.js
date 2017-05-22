@@ -22,6 +22,13 @@ class SignIn extends Component {
         super(props);
     }
 
+    componentWillReceiveProps({isAuthenticated}) {
+        if (isAuthenticated) {
+            this._navigateToHome();
+        }
+    }
+
+
     render() {
         const shouldDisplayErrorMessage = this.state.hasSubmittedForm && !this._isFormValid();
         const errorMessage = shouldDisplayErrorMessage ? this.renderErrorMessage() : null;
@@ -56,6 +63,15 @@ class SignIn extends Component {
             && this.state.password;
     }
 
+    _navigateToHome() {
+        this.props.navigator.popToRoot();
+        this.props.navigator.push({
+            screen: 'NewsFeed',
+            title: 'Actualités',
+            backButtonHidden: true,
+        });
+    }
+
     _setEmail(email) {
         this.setState({
             email
@@ -70,13 +86,17 @@ class SignIn extends Component {
 
     _signIn() {
         this.setState({hasSubmittedForm: true});
-        if(this._isFormValid()) {
-            console.warn(this.state.email + ' ' + this.state.password)
+        if (this._isFormValid()) {
             const {email, password} = this.state;
             this.props.authenticate(email, password);
         }
     }
 }
+
+SignIn.defaultProps = {
+    savedEmail: null,
+    savedPassword: null,
+};
 
 SignIn.navigatorButtons = {
     rightButtons: [
@@ -90,6 +110,11 @@ SignIn.navigatorButtons = {
     ]
 };
 
+const mapStateToProps = ({authentication}, ownProps) => ({
+    isAuthenticated: authentication.isAuthenticated,
+    ...ownProps,
+});
+
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             authenticate,
@@ -99,7 +124,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(SignIn);
 

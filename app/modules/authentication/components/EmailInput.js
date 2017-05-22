@@ -33,6 +33,8 @@ export default class EmailInput extends Component {
                         email = this._isEmailValid(email) ? email : '';
                         this.props.onEmailChange(email);
                     }}
+                    returnKeyType = {"next"}
+                    autoFocus = {true}
                 />
                 {errorMessage}
             </View>

@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 
 class AppLoader extends Component {
 
-    minSplashScreenDuration = 1000;
+    minSplashScreenDuration = 2000;
     maxSplashScreenDuration = 3000;
     state = {
         isAuthenticatingSavedUser: false,
@@ -64,8 +64,11 @@ class AppLoader extends Component {
     }
 
     _navigateToHome() {
-        this.props.navigator.switchToTab({
-            tabIndex: 1
+        this.props.navigator.popToRoot();
+        this.props.navigator.push({
+            screen: 'NewsFeed',
+            title: 'Actualités',
+            backButtonHidden: true,
         });
     }
 

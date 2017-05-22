@@ -23,7 +23,7 @@ const configureStore = (preloadedState) => {
     persistStore(store, {
         storage: AsyncStorage,
         whitelist: [
-            'user'
+            'authentication'
         ]
     });
 

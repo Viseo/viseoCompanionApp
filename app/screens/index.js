@@ -1,5 +1,5 @@
 import { Navigation } from 'react-native-navigation';
-import NewsFeed from "../modules/newsFeed/Newsfeed";
+import NewsFeed from "../modules/newsFeed/NewsFeed";
 import AppLoader from "../modules/appLoader/AppLoader";
 import SignIn from "../modules/authentication/SignIn";
 

@@ -35,6 +35,7 @@ export default class PasswordInput extends Component {
                         password = this._isPasswordValid(password) ? password : '';
                         this.props.onPasswordChange(password);
                     }}
+                    returnKeyType = {"next"}
                 />
                 {errorMessage}
             </View>

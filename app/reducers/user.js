@@ -31,15 +31,15 @@ const user = (state = [], action) => {
                 authenticationStatus: action.code
             })
         case REHYDRATE:
-            let incoming = action.payload.user
+            let incoming = action.payload.user;
             if (incoming) return {
                 ...state,
                 ...incoming,
                 authenticationStatus: state.authenticationStatus,
                 email: incoming.email,
                 password: incoming.rememberMe ? incoming.password : '',
-            }
-            return {...state, updateStatus: action.code}
+            };
+            return {...state, updateStatus: action.code};
         case types.UPDATE_USER_FAILURE:
             return {...state, updateStatus: action.code}
         default:

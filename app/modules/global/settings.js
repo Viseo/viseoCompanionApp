@@ -1,8 +1,8 @@
 /////////// SERVER CONNECTION ////////////////
 
 // Localhost (set your localhost IP here)
-const localhostIp = '10.33.179.112';
-const localhostURL = 'http://${localhostIp}:8080/';
+const localhostIp = '192.168.1.62';
+const localhostURL = 'http://' + localhostIp + ':8080/';
 
 // The server URL, you usually shouldn't have to change this
 const remoteURL = 'http://54.229.99.105:8080/viseocompanion/api/';
