@@ -48,12 +48,12 @@ export default class Event extends Component {
 
     constructor(props) {
         super(props);
-        let image = eventIdToImages[this.props.event.id] || defaultImage;
+      //  let image = eventIdToImages[this.props.event.id] || defaultImage;
         let {event} = this.props
         this.state = {
             newEvent: !this.props.id,
             editing: !this.props.id,
-            picture: image,
+            picture: event.imageUrl,
             modalVisible: false,
             modalDeleteVisible: false,
             editedEvent: {
@@ -314,6 +314,8 @@ export default class Event extends Component {
     }
 
     renderEventPicture() {
+
+        let url=this.state.picture;
         const picture = this.state.editing ?
             (
                 <EditableImage
@@ -329,7 +331,7 @@ export default class Event extends Component {
             (
                 <FlexImage
                     style={{minHeight: height / 3}}
-                    source={this.state.picture}
+                    source={{uri: url }}
                     resizeMode="cover"
                 />
             )

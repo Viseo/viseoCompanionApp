@@ -52,8 +52,8 @@ class App extends Component {
     }
 
     render() {
-        const {isReady, shouldShowSplashScreen} = this.state;
-        return !shouldShowSplashScreen && isReady ?
+        const {isReady, shouldShowSplashScreen, isAuthenticatingSavedUser} = this.state;
+        return !shouldShowSplashScreen && (isReady || !isAuthenticatingSavedUser) ?
             this.renderReadyView() :
             this.renderLoadingView();
     }

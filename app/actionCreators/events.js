@@ -123,7 +123,8 @@ function getEventsFromJson(json) {
             location: event.place,
             version: event.version,
             category: event.category,
-            host: event.host
+            host: event.host,
+            imageUrl:event.imageUrl
         })
     }
     return events
