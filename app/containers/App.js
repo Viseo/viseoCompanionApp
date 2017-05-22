@@ -82,7 +82,7 @@ class App extends Component {
         const initialRoute = this.state.isSavedUserAuthenticated ? 0 : 1;
         return (
             <Navigator
-                initialRoute={routes[8]}
+                initialRoute={routes[7]}
                 renderScene={(route, navigator) => {
                     this.navigator = navigator;
                     if (route.title === 'SignIn') {
