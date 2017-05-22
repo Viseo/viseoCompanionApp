@@ -16,6 +16,7 @@ import {authenticate} from "../actionCreators/user";
 import {bindActionCreators} from "redux";
 import settings from "../config/settings";
 import colors from "../components/colors";
+import Comments from "../scenes/Comments";
 
 class App extends Component {
     state = {
@@ -76,8 +77,9 @@ class App extends Component {
             {title: 'AddEvent'},
             {title: 'Profile'},
             {title: 'History'},
+            {title: 'Comments'},
         ];
-        const initialRoute = this.state.isSavedUserAuthenticated ? 0 : 1;
+        const initialRoute = this.state.isSavedUserAuthenticated ? 8 : 1;
         return (
             <Navigator
                 initialRoute={routes[initialRoute]}
@@ -116,6 +118,11 @@ class App extends Component {
                     else if (route.title === 'History') {
                         return (
                             <History navigator={navigator} {...route.passProps}/>
+                        );
+                    }
+                    else if (route.title === 'Comments') {
+                        return (
+                            <Comments navigator={navigator} {...route.passProps}/>
                         );
                     }
                 }}
