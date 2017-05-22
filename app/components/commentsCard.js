@@ -10,7 +10,7 @@ import  Icon from "react-native-vector-icons/FontAwesome";
 class CommentsCard extends Component {
 
     static defaultProps = {
-        comment: {comment: "ceeehh"},
+        comment: {comment: "ceehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhehh"},
         user: {id: 1, name: "user"},
         event: {id: 1, title: "Event1"},
         date: '18/05/1990',
