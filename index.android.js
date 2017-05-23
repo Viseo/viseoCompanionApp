@@ -1,6 +1,6 @@
 import {
   AppRegistry,
 } from 'react-native';
-import Root from "./app/modules/Root";
+import Root from "./app/Root.depreciated";
 
 AppRegistry.registerComponent('ViseoCompanion', () => Root);

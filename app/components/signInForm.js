@@ -211,6 +211,18 @@ export default class SignInForm extends Component {
     }
 }
 
+SignInForm.navigatorButtons = {
+    rightButtons: [
+        {
+            title: 'Créer un compte',
+            id: 'signUp',
+            buttonColor: 'blue',
+            buttonFontSize: 12,
+            buttonFontWeight: '400',
+        },
+    ]
+};
+
 const styles = StyleSheet.create({
     errorInfo: {
         textAlign: 'center',
