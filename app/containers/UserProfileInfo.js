@@ -4,7 +4,7 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {updateUser} from "./../actionCreators/user";
-import Profile from "../components/UserProfileInfo";
+import UserProfileInfo from "../components/UserProfileInfo";
 
 
 const mapStateToProps = (state, ownProps) => ({
@@ -22,6 +22,6 @@ const mapDispatchToProps = (dispatch) => {
 const ProfileInfo = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Profile)
+)(UserProfileInfo)
 
 export default ProfileInfo
