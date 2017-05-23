@@ -8,8 +8,8 @@ import {hasEmptyElement, isEmailValid, isPasswordValid} from "../util/util";
 import {addUser, getUserByEmail} from "../util/db";
 import strings from "../util/localizedStrings";
 import AppText from "../components/appText";
-import EmailInput from "./../components/emailInput";
-import PasswordInput from "./../components/passwordInput";
+import EmailInput from "../components/emailInput";
+import PasswordInput from "../components/passwordInput";
 import {rememberUserWhenSignUp} from "../actionCreators/user";
 import {connect} from "react-redux";
 
@@ -128,7 +128,7 @@ class SignUp extends React.Component {
                         {/* VISEO or SIGN UP logo */}
                         <View style={{alignItems: 'center', paddingBottom: 50}}>
                             <Image
-                                source={require('./../images/signUpLogo.png')}
+                                source={require('../images/signUpLogo.png')}
                                 style={{width: 110, height: 110}}
                             />
                         </View>

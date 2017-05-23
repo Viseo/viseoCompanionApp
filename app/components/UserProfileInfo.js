@@ -2,16 +2,11 @@
  * Created by VBO3596 on 18/04/2017.
  */
 import React, {Component} from "react";
-import {Button, Dimensions, Image, Modal, Platform, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
-import PasswordInput from "./passwordInput";
-import EditableImage from "./editableImage";
+import {Button, Dimensions, Modal, Platform, ScrollView, StyleSheet, View} from "react-native";
 import AppText from "./appText";
-import EditableAppText from "./editableAppText";
 import strings from "../util/localizedStrings";
 import colors from "./colors";
-import DatePicker from "react-native-datepicker";
 import * as util from "../util/util";
-import FlexImage from "./FlexImage";
 import ItemSpacer from "./ItemSpacer";
 import BackButton from "./BackButton";
 import TextField from "react-native-md-textinput";
@@ -31,7 +26,7 @@ export default class Profile extends Component {
                 picture: defaultImage,
                 firstName: this.props.firstName,
                 lastName: this.props.lastName,
-                email: this.props.email,
+                email: this.props.user.email,
                 password: this.props.password,
                 birthDate: this.props.birthDate,
             },
@@ -91,7 +86,6 @@ export default class Profile extends Component {
                     {this.renderFirstName()}
                     {this.renderLastName()}
                     {this.renderEmail()}
-                    {this.renderBirthDate()}
                     {editing && password}
                     {editing && passwordCheck}
                 </ScrollView>
@@ -206,202 +200,6 @@ export default class Profile extends Component {
         )
     }
 
-    renderPasswordField() {
-
-    }
-
-    oldrender() {
-        const {editedProfile} = this.state
-        const firstName = (<EditableAppText
-            fieldName={strings.firstName}
-            style={styles.field}
-            isInModificationMode={this.state.editing}
-            content={editedProfile.firstName}
-            mandatory={true}
-            onValidate={(firstName) => {
-                this.setState({editedProfile: {...editedProfile, firstName}});
-            }}/>);
-        const lastName = (<EditableAppText
-            fieldName={strings.lastName}
-            style={styles.field}
-            isInModificationMode={this.state.editing}
-            content={editedProfile.lastName}
-            mandatory={true}
-            onValidate={(lastName) => {
-                this.setState({editedProfile: {...editedProfile, lastName}});
-            }}/>)
-        const newPassword = (<PasswordInput ref="password"
-                                            style={styles.field}
-                                            underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
-                                            returnKeyType="next"
-                                            onChangeText={this.onChangePasswordText}
-                                            onSubmitEditing={() => {
-                                                this.refs.passwordCheck.focus();
-                                            }}/>)
-        const passwordCheck = (<PasswordInput ref="passwordCheck"
-                                              placeholder={strings.verifyPassword}
-                                              style={styles.field}
-                                              underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
-                                              returnKeyType="done"
-                                              onChangeText={this.onChangePasswordCheckText}/>)
-        const email = (
-            <AppText style={[styles.field, {color: colors.lightGray, flex: 1}]}>{editedProfile.email}</AppText>)
-        return (
-            <View style={{flex: 1}}>
-                {this.renderHeader()}
-                <View style={styles.container}>
-                    <View style={{flex: 30, flexDirection: 'column'}}>
-                        <ScrollView style={{flex: 2}}
-                                    contentContainerStyle={{flex: 1, alignItems: 'center', paddingHorizontal: 30}}>
-                            <ItemSpacer/>
-                            {this.renderUserPicture()}
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {firstName}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {lastName}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {email}
-                            </View>
-                            <ItemSpacer/>
-                            {this.renderBirthDate()}
-                            <ItemSpacer/>
-                            {this.renderCurrentPassword()}
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {this.state.editing ? newPassword : null}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {this.state.editing ? passwordCheck : null}
-                            </View>
-                            <ItemSpacer/>
-                            {this.renderNotifySuccess()}
-                        </ScrollView>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-
-    oldrenderHeader() {
-        const backButton = (<BackButton navigator={this.props.navigator}/>)
-        const cancelButton = (
-            <BackButton
-                navigator={this.props.navigator}
-                source={require("./../images/crossWhite.png")}
-                style={{padding: 8}}
-                onPress={() => this.setState({editing: false, passwordVisible: false})}/>)
-        const label = (<AppText style={styles.topBarText}>{strings.profileEditionLabel}</AppText>)
-        const editButton = (<Button title={strings.edit} style={{flex: 1, margin: 1}}
-                                    onPress={() => this.setState({editing: true})}/>)
-        const saveButton = (<Button title={strings.save} style={{flex: 1, marginLeft: 5}}
-                                    onPress={() => {
-                                        this.save();
-                                    }}/>)
-        return (
-            <View style={styles.topBar}>
-                <View style={{flex: 3, flexDirection: 'row', justifyContent: 'flex-start'}}>
-                    {this.state.editing ? cancelButton : backButton}
-                    {label}
-                </View>
-                <View style={{flex: 2, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        {this.state.editing ? saveButton : editButton}
-                    </View>
-
-                </View>
-            </View>
-        );
-    }
-
-    renderUserPicture() {
-        const {editedProfile} = this.state
-        const picture = this.state.editing ?
-            (
-                <EditableImage
-                    defaultPicture={editedProfile.picture}
-                    onSelected={(selected) => {
-                        this.updateImage(selected)
-                    }}
-                    style={styles.organizatorPictureCircle}
-                />
-            ) :
-            (
-                <FlexImage
-                    source={editedProfile.picture}
-                    style={styles.organizatorPictureCircle}
-                    resizeMode="stretch"
-                />
-            );
-        return (
-            <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center', height: 100}}>
-                <ItemSpacer/>
-                {picture}
-                <ItemSpacer/>
-            </View>
-        );
-    }
-
-    renderBirthDate() {
-        const birthDateValue = new Date(this.state.editedProfile.birthDate);
-        const {editedProfile} = this.state
-        const dateLabel = <AppText style={{color: 'gray', fontSize: 14}}>{strings.birthDate}</AppText>
-        const dateText = (<AppText style={styles.displayText}>{this.props.birthDate}</AppText>)
-        const datePicker = (<DatePicker
-            date={birthDateValue}
-            placeholder={strings.birthDate}
-            mode="date"
-            format="YYYY/MM/DD"
-            confirmBtnText="OK"
-            cancelBtnText="Annuler"
-            onDateChange={(birthDate) => {
-                this.setState({editedProfile: {...editedProfile, birthDate}});
-                this.validate(birthDate);
-            }}
-            customStyles={{
-                dateIcon: {position: 'absolute', left: 0, top: 4, marginLeft: 0},
-                dateInput: {marginLeft: 36, borderWidth: 0}
-            }}/>)
-        const errorMessage = (
-            <AppText style={{color: 'red'}}>
-                {editedProfile.birthDate === undefined ? strings.field + ' ' + strings.mandatory : ''}
-            </AppText>)
-
-        return (
-            <View style={styles.textFieldContainer}>
-                {dateLabel}
-                {this.state.editing && datePicker}
-                {this.state.editing ? errorMessage : dateText}
-            </View>
-        )
-    }
-
-    renderCurrentPassword() {
-        const passwordLabel = ( <AppText>{strings.password + ' : '}</AppText>)
-        const passwordValue = this.state.passwordVisible ?
-            this.state.editedProfile.password :
-            '******'
-        const passwordContent = (<AppText>{passwordValue}</AppText>)
-        const showPasswordButton = (
-            <TouchableOpacity style={{marginLeft: 10}} onPress={() => this.setState({passwordVisible: true})}>
-                <Image source={require('./../images/eye.png')}/>
-            </TouchableOpacity>
-        )
-        return this.state.canEdit ? (
-            <View style={{flex: 2, flexDirection: 'row'}}>
-                {passwordLabel}
-                {passwordContent}
-                {showPasswordButton}
-            </View>
-        ) :
-            null;
-    }
-
     renderNotifySuccess() {
         const notificationMessage = this.state.cannotSave ? strings.invalidForm : profilModified;
         const pressFunction = this.state.cannotSave ? () => {
@@ -443,20 +241,6 @@ export default class Profile extends Component {
         this.setState({cannotSave});
     }
 
-    save = () => {
-        const {editedProfile} = this.state
-        const cannotSave = editedProfile.firstName === ''
-            || editedProfile.lastName === ''
-            || editedProfile.password === ''
-            || editedProfile.birthDate === undefined
-            || !this.state.isPasswordCheckValid;
-        this.setState({cannotSave})
-        if (this.state.isPasswordCheckValid) {
-            this.props.updateUser(this.state.editedProfile)
-        }
-        this.setState({modalVisible: true});
-    }
-
     updateImage(selected) {
         const {editedProfile} = this.state
         let picture = {uri: selected};
@@ -483,11 +267,11 @@ export default class Profile extends Component {
 
 Profile.defaultProps = {
     picture: require('./../images/userAvatar.jpg'),
-    firstName: 'Jean-Michel',
-    lastName: 'Durand',
-    email: 'jm.Durand@mail.com',
+    firstName: 'Non renseigné',
+    lastName: 'Non renseigné',
+    email: 'Non renseigné',
     password: '',
-    birthDate: '1988/04/05',
+    birthDate: '',
 }
 
 const styles = StyleSheet.create({

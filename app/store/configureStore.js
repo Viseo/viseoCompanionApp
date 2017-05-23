@@ -19,6 +19,8 @@ const initialState = {
         rememberMe: true,
         email: '',
         password: '',
+        firstName: '',
+        lastName: '',
         authenticationStatus: 0,
     },
 };

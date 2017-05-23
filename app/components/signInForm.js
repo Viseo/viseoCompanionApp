@@ -64,7 +64,7 @@ export default class SignInForm extends Component {
         if (util.hasEmptyElement(this.state.email, this.state.password)) {
             this.setState({errorMessage: strings.missingFormFields});
         } else {
-            this.props.onSubmitEditing(this.state.email, this.state.password);
+            this.props.authenticate(this.state.email, this.state.password);
         }
     }
 

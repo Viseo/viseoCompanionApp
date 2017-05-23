@@ -56,11 +56,14 @@ export default class Event extends Component {
             picture: image,
             modalVisible: false,
             modalDeleteVisible: false,
-            editedEvent: {
-                ...event,
-                host: this.props.user,
-            },
-            // username: this.props.id ? (event.host.firstName + " " + event.host.lastName): this.props.user.firstName
+            editedEvent: this.props.id ?
+                {
+                    ...event,
+                    host : event.host ? event.host : {firstName : "Viseo", lastName: ''}
+                } :
+                {
+                    host: this.props.user.firstName
+                },
         };
     }
 
@@ -115,7 +118,6 @@ export default class Event extends Component {
             title: 'Home'
         });
     }
-
 
     render() {
         return (
@@ -188,9 +190,8 @@ export default class Event extends Component {
     renderMainInfo() {
         let {editedEvent} = this.state
         let {editing} = this.state
-        const hostName = 'wafa'
-        const hostLastName = 'Salandre'
-        const hostAvatar = <Avatar firstName={hostName} lastName={hostLastName} style={{flex: 3}}/>
+        const hostAvatar = <Avatar firstName={this.state.editedEvent.host.firstName}
+                                   lastName={this.state.editedEvent.host.lastName} style={{flex: 3}}/>
         const name = (
             editing ?
                 <AppTextInput
@@ -231,14 +232,12 @@ export default class Event extends Component {
             ]}
             />
         )
-        //todo this is the HOST
-        const username = (
+        const host = (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>
                 <ItemSpacer/>
                 <AppText style={{flex: 5, textAlign: 'left'}}>
-                    {this.state.username}
-                    {editedEvent.host}
+                    {editedEvent.host.firstName} {editedEvent.host.lastName}
                 </AppText>
             </View>
         )
@@ -269,7 +268,7 @@ export default class Event extends Component {
                 {name}
                 {category}
                 <View style={styles.locationAndDateContainer}>
-                    {username}
+                    {host}
                     {location}
                 </View>
             </View>
@@ -379,7 +378,6 @@ export default class Event extends Component {
             </View>
         );
     }
-
 
     renderNotifyDelete() {
         return (
@@ -594,8 +592,11 @@ Event.defaultProps = {
         description: '',
         location: '',
         keywords: '',
+        host: {
+            firstName: 'Admin',
+            lastName: ''
+        }
     },
-    userName: '',
 }
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
