@@ -1,6 +1,3 @@
-/**
- * Created by LMA3606 on 13/02/2017.
- */
 import React, {Component} from "react";
 import {NavMenu, Platform, StyleSheet, View} from "react-native";
 import Header from "./../components/header";
@@ -36,7 +33,7 @@ export default class Home extends Component {
             >
                 <Icon name="md-create" style={styles.icon}/>
             </ActionButton.Item>
-        )
+        );
         const editProfileButton = (
             <ActionButton.Item
                 buttonColor="#9b59b6"
@@ -49,7 +46,7 @@ export default class Home extends Component {
             >
                 <Icon name="ios-person" style={styles.icon}/>
             </ActionButton.Item>
-        )
+        );
         const HistoryButton = (
             <ActionButton.Item
                 buttonColor="#9b59b6"
@@ -62,11 +59,10 @@ export default class Home extends Component {
             >
                 <Icon name="ios-timer" style={styles.icon}/>
             </ActionButton.Item>
-        )
+        );
         return (
             <View style={styles.mainContainer}>
                 <PushController/>
-                <Header/>
                 <View style={styles.body}>
                     <View style={styles.searchBar}>
                         <ItemSpacer/>
@@ -84,6 +80,11 @@ export default class Home extends Component {
         );
     }
 }
+
+Home.navigatorStyle = {
+    navBarHidden: false,
+    title: 'Actualités'
+};
 
 const styles = StyleSheet.create({
     mainContainer: {

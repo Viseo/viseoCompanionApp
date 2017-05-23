@@ -1,9 +1,5 @@
-/**
- * Created by AAB3605 on 14/02/2017.
- */
-'use strict';
 import React from "react";
-import {Button, Image, Modal, NavMenu, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
+import {Button, Image, Modal, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
 import {hasEmptyElement, isEmailValid, isPasswordValid} from "../util/util";
 import {addUser, getUserByEmail} from "../util/db";
 import strings from "../util/localizedStrings";
@@ -28,7 +24,7 @@ class SignUp extends React.Component {
             isFormCompletelyFilled: true,
             errorMessage: '',
             modalVisible: false
-        }
+        };
 
         this.onAccountCreatedNotificationPressed = this.onAccountCreatedNotificationPressed.bind(this);
         this.onChangeEmailText = this.onChangeEmailText.bind(this);
@@ -97,7 +93,7 @@ class SignUp extends React.Component {
                     let email = this.state.email.toLowerCase();
                     let userAddedSuccessfully = await addUser(email, this.state.password);
                     if (userAddedSuccessfully) {
-                        this.props.rememberUserWhenSignUp(this.state.email, this.state.password)
+                        this.props.rememberUserWhenSignUp(this.state.email, this.state.password);
                         this.setState({modalVisible: true});
                     } else {
                         this.setState({errorMessage: strings.unableToReachServer});
@@ -264,6 +260,10 @@ class SignUp extends React.Component {
         );
     }
 }
+
+SignUp.navigatorStyle = {
+    navBarHidden: true,
+};
 
 export default connect(
     null,

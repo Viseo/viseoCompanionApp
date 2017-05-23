@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Navigator, BackAndroid, View, StyleSheet} from "react-native";
+import {BackAndroid, Navigator, StyleSheet, View} from "react-native";
 import SignIn from "./../containers/SignInForm";
 import SignUp from "./../scenes/signUp";
 import RecoverPassword from "./../scenes/recoverPassword";
@@ -11,11 +11,15 @@ import AddEvent from "./../scenes/addEvent";
 import Event from "./../scenes/Event";
 import UserProfile from "./../scenes/UserProfile";
 import AppText from "./../components/appText";
-import colors from "../modules/global/colors";
+import {connect} from "react-redux";
+import {authenticate} from "../actionCreators/user";
+import {bindActionCreators} from "redux";
+import settings from "../config/settings";
+import colors from "../components/colors";
+import { Navigation } from 'react-native-navigation';
 
 class App extends Component {
     state = {
-        isReady: false,
         isAuthenticatingSavedUser: false,
         isSavedUserAuthenticated: false,
         shouldShowSplashScreen: true,
@@ -28,16 +32,27 @@ class App extends Component {
     componentWillMount() {
         this._setLanguage();
         this._configureBackButtonForAndroidDevices();
+        this._setSplashScreenDuration();
+        this.props.navigator.toggleTabs({
+            to: 'hidden',
+            animated: true,
+        });
     }
 
+    componentWillReceiveProps(props) {
+        const {hasSavedUser, email, password, authenticationStatus} = props;
+        const authenticationInProgressCode = 0;
+        if (authenticationStatus !== authenticationInProgressCode) {
+            this._checkIfUserIsAuthenticated(authenticationStatus);
+        } else if (hasSavedUser) {
+            if (!this.state.isAuthenticatingSavedUser) {
+                this._authenticateSaveUser(email, password);
+            }
+        } else {
+            this._navigateToHomeScreen();
+        }
+    }
     render() {
-        const {isReady, shouldShowSplashScreen} = this.state;
-        return !shouldShowSplashScreen && isReady ?
-            this.renderReadyView() :
-            this.renderLoadingView();
-    }
-
-    renderLoadingView() {
         return (
             <View style={styles.splashScreen}>
                 <AppText style={styles.splashScreenTitle}>Viseo Companion</AppText>
@@ -45,7 +60,7 @@ class App extends Component {
         );
     }
 
-    renderReadyView() {
+    oldrenderReadyView() {
         const routes = [
             {title: 'Home'},
             {title: 'SignIn'},
@@ -75,7 +90,6 @@ class App extends Component {
                             <RecoverPassword navigator={navigator} {...route.passProps}/>
                         );
                     } else if (route.title === 'Home') {
-                        // store.dispatch(fetchEvents(store.getState().user));
                         return (
                             <Home navigator={navigator} {...route.passProps}/>
                         );
@@ -105,6 +119,21 @@ class App extends Component {
         )
     }
 
+    _authenticateSaveUser(email, password) {
+        this.setState({
+            isAuthenticatingSavedUser: true,
+        });
+        this.props.authenticate(email, password);
+    }
+
+    _checkIfUserIsAuthenticated(authenticationCode) {
+        const authenticationSuccessfulCode = 1;
+        this.setState({
+            isSavedUserAuthenticated: authenticationCode === authenticationSuccessfulCode,
+            isReady: true,
+        });
+    }
+
     _configureBackButtonForAndroidDevices() {
         BackAndroid.addEventListener('hardwareBackPress', () => {
             if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
@@ -115,20 +144,62 @@ class App extends Component {
         });
     }
 
+    _navigateToHomeScreen() {
+        Navigation.startTabBasedApp({
+            tabs: [
+                {
+                    label: 'Home',
+                    screen: 'Home',
+                    title: 'Viseo Companion',
+                    icon: require('./../images/eye.png'),
+                },
+                {
+                    label: 'Shop',
+                    screen: 'Shop',
+                    icon: require('./../images/eye.png'),
+                },
+                {
+                    label: 'VizzManagement',
+                    screen: 'VizzManagement',
+                    icon: require('./../images/eye.png'),
+                },
+                {
+                    label: 'Notifications',
+                    screen: 'Notifications',
+                    icon: require('./../images/eye.png'),
+                }
+            ],
+        });
+    }
+
     _setLanguage() {
         strings.setLanguage('fr');
         setDateLang(strings.getLanguage());
     }
+
+    _setSplashScreenDuration = () => {
+        setTimeout(() => {
+            this.setState({
+                shouldShowSplashScreen: false,
+            })
+        }, settings.minSplashScreenDuration);
+        setTimeout(() => {
+            this.props.navigator.push({
+                screen:'SignIn',
+            });
+        }, settings.maxSplashScreenDuration);
+    }
 }
+
+App.navigatorStyle = {
+    navBarHidden: true,
+};
 
 App.defaultProps = {
     isReady: false,
-}
+};
 
 const styles = StyleSheet.create({
-    navigator: {
-        flex: 1,
-    },
     splashScreen: {
         flex: 1,
         justifyContent: 'center',
@@ -141,4 +212,22 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = ({user}, ownProps) => ({
+    hasSavedUser: user.rememberMe,
+    email: user.email,
+    password: user.passwordInput,
+    authenticationStatus: user.authenticationStatus,
+    ...ownProps
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+            authenticate
+        },
+        dispatch)
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps)(App);
 

@@ -6,12 +6,8 @@ import { registerScreens } from './screens/index.depreciated';
 const store = configureStore();
 registerScreens(store, Provider);
 
-Navigation.startTabBasedApp({
-    tabs: [
-        {
-            label: 'Home',
-            screen: 'SignIn',
-            icon: require('./images/eye.png'),
-        },
-    ]
+Navigation.startSingleScreenApp({
+    screen: {
+        screen: 'App',
+    }
 });

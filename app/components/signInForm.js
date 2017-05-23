@@ -1,6 +1,3 @@
-/**
- * Created by MBE3664 on 24/04/2017.
- */
 import React, {Component} from "react";
 import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
 import AppText from "../components/appText";
@@ -9,6 +6,7 @@ import PasswordInput from "./../components/passwordInput";
 import CheckBox from "react-native-check-box";
 import strings from "../util/localizedStrings";
 import * as util from "../util/util.js";
+import {Navigation} from "react-native-navigation";
 
 export default class SignInForm extends Component {
 
@@ -36,15 +34,10 @@ export default class SignInForm extends Component {
         });
         if (authenticationStatus === 1) {
             this.props.rememberUser(this.state.rememberUser)
-            this.navigateTo('Home');
+            this._navigateToHomeScreen();
         }
     }
 
-    navigateTo = (destination) => {
-        this.props.navigator.resetTo({
-            title: destination
-        });
-    }
 
     onPressRememberMe() {
         this.props.rememberUser(!this.state.rememberUser)
@@ -70,7 +63,7 @@ export default class SignInForm extends Component {
 
     onPressSignUp() {
         this.props.navigator.push({
-            title: 'SignUp'
+            screen: 'SignUp',
         });
     }
 
@@ -209,18 +202,38 @@ export default class SignInForm extends Component {
             </View>
         );
     }
+
+    _navigateToHomeScreen() {
+        Navigation.startTabBasedApp({
+            tabs: [
+                {
+                    label: 'Accueil',
+                    screen: 'Home',
+                    title: 'Viseo Companion',
+                    icon: require('./../images/tabBar/home.png'),
+                },
+                {
+                    label: 'Catalogue',
+                    screen: 'Shop',
+                    icon: require('./../images/tabBar/shop.png'),
+                },
+                {
+                    label: 'Mes vizz',
+                    screen: 'VizzManagement',
+                    icon: require('./../images/tabBar/vizz.png'),
+                },
+                {
+                    label: 'Notifications',
+                    screen: 'Notifications',
+                    icon: require('./../images/tabBar/notifications.png'),
+                }
+            ],
+        });
+    }
 }
 
-SignInForm.navigatorButtons = {
-    rightButtons: [
-        {
-            title: 'Créer un compte',
-            id: 'signUp',
-            buttonColor: 'blue',
-            buttonFontSize: 12,
-            buttonFontWeight: '400',
-        },
-    ]
+SignInForm.navigatorStyle = {
+    navBarHidden: true,
 };
 
 const styles = StyleSheet.create({
