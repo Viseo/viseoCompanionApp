@@ -13,23 +13,25 @@ const user = (state = [], action) => {
         case types.REMEMBER_USER:
             return Object.assign({}, state, {
                 rememberMe: action.shouldRemember
-            })
+            });
         case types.REMEMBER_USER_WHEN_SIGNUP:
             return Object.assign({}, state, {
                 rememberMe: true,
                 email: action.email,
                 password: action.password
-            })
+            });
         case types.AUTHENTICATION_SUCCESS:
-            return Object.assign({}, state, {
+            return  {
+                ...state,
                 email: action.email,
                 password: action.password,
-                authenticationStatus: action.code
-            })
+                authenticationStatus: action.code,
+                isAuthenticated: true,
+            };
         case types.AUTHENTICATION_FAILURE:
             return Object.assign({}, state, {
                 authenticationStatus: action.code
-            })
+            });
         case REHYDRATE:
             let incoming = action.payload.user;
             if (incoming) return {
@@ -41,7 +43,7 @@ const user = (state = [], action) => {
             };
             return {...state, updateStatus: action.code};
         case types.UPDATE_USER_FAILURE:
-            return {...state, updateStatus: action.code}
+            return {...state, updateStatus: action.code};
         default:
             return state
     }

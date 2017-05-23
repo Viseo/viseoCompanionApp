@@ -33,18 +33,14 @@ class App extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const {hasSavedUser, email, password, authenticationStatus} = props;
-        const authenticationInProgressCode = 0;
-        if (authenticationStatus !== authenticationInProgressCode) {
-            this._checkIfUserIsAuthenticated(authenticationStatus);
-        } else if (hasSavedUser) {
+        const {hasSavedUser, email, password, isAuthenticated} = props;
+        if (!isAuthenticated && hasSavedUser) {
             if (!this.state.isAuthenticatingSavedUser) {
                 this._authenticateSaveUser(email, password);
             }
-        } else {
-            this._navigateToHomeScreen();
         }
     }
+
     render() {
         return (
             <View style={styles.splashScreen}>
@@ -60,12 +56,16 @@ class App extends Component {
         this.props.authenticate(email, password);
     }
 
-    _checkIfUserIsAuthenticated(authenticationCode) {
-        const authenticationSuccessfulCode = 1;
-        this.setState({
-            isSavedUserAuthenticated: authenticationCode === authenticationSuccessfulCode,
-            isReady: true,
-        });
+    _closeSplashScreenIfAuthenticated() {
+        if (this.props.isAuthenticated) {
+            this._navigateToHomeScreen();
+        } else {
+            setTimeout(() => {
+                this.props.navigator.push({
+                    screen: 'SignIn',
+                });
+            }, settings.maxSplashScreenDuration - settings.minSplashScreenDuration);
+        }
     }
 
     _configureBackButtonForAndroidDevices() {
@@ -91,13 +91,9 @@ class App extends Component {
         setTimeout(() => {
             this.setState({
                 shouldShowSplashScreen: false,
-            })
-        }, settings.minSplashScreenDuration);
-        setTimeout(() => {
-            this.props.navigator.push({
-                screen:'SignIn',
             });
-        }, settings.maxSplashScreenDuration);
+            this._closeSplashScreenIfAuthenticated();
+        }, settings.minSplashScreenDuration);
     }
 }
 
@@ -125,8 +121,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({user}, ownProps) => ({
     hasSavedUser: user.rememberMe,
     email: user.email,
-    password: user.passwordInput,
+    password: user.password,
     authenticationStatus: user.authenticationStatus,
+    isAuthenticated: user.isAuthenticated,
     ...ownProps
 });
 

@@ -20,6 +20,7 @@ const initialState = {
         email: '',
         password: '',
         authenticationStatus: 0,
+        isAuthenticated: false,
         firstName: 'Nom non renseigné',
         lastName: 'Prénom non renseigné',
     },
