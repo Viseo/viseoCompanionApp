@@ -4,7 +4,7 @@
 import React, {Component} from "react";
 import {
     Button,
-    Dimensions,
+    Dimensions, Image,
     Modal,
     Picker,
     Platform,
@@ -29,6 +29,7 @@ import KeyboardSpacer from "react-native-keyboard-spacer";
 import {Item} from "react-native-mock/build/components/Picker";
 import Avatar from "./Avatar";
 import addComment from "../scenes/addComment";
+import ImageButton from "./ImageButton";
 
 const eventIdToImages = {
     "40": require('./../images/events/formation_securite.jpg'),
@@ -291,9 +292,11 @@ export default class Event extends Component {
     }
 
     renderDetails() {
-        let {event} = this.props
-
-
+        let {event} = this.props;
+        const shouldRenderCommentButton = this.formatDate(this.state.editedEvent.date) <= this.formatDate(new Date());
+        const commentButton = shouldRenderCommentButton ?
+            this.renderAddCommentButton() :
+            null;
         return (
             <View style={{flex: 30, flexDirection: 'column'}}>
                 <ScrollView
@@ -306,9 +309,8 @@ export default class Event extends Component {
                             this.renderDatePicker() :
                             this.renderEventDateAndParticipants()
                     }
-
                     {this.renderEventDescription(this.state.description)}
-                    {this.renderAddCommentButton()}
+                    {commentButton}
                     {this.renderEventDelete()}
                     {/*{this.renderEventKeywords(event.keywords)}*/}
                     {this.renderNotifySuccess()}
@@ -484,7 +486,7 @@ export default class Event extends Component {
         let {user, participants} = this.props
         let [day, time] = this.formatDate(editedEvent.date)
         let {canParticipate} = this.props
-
+        let enabled = canParticipate ? true : false;
         const countParticipants = canParticipate ? ( <View style={styles.participationInfoItem}>
             <AppText style={styles.participationInfoContainer}>
                 {participants.length}
@@ -493,7 +495,25 @@ export default class Event extends Component {
                 {strings.participantsLabel}
             </AppText>
         </View>) : null;
-        let disable = canParticipate ? true : false;
+
+        const checkParticipation =
+            enabled ?
+                (<View>
+                    <CheckBox
+                        isChecked={participants.indexOf(user.id) !== -1}
+                        onClick={this.onParticipationChange}
+                    />
+                    <AppText>
+                        {strings.participationLabel}
+                    </AppText>
+                </View>)
+                :
+                (<View style={{flex:1,flexDirection:"row",justifyContent:"space-between",alignItems:"stretch"}}>
+                    <Image source={require('./../images/check_box.png')} />
+                    <AppText>
+                        Participation
+                    </AppText>
+                </View>);
         return (
             <View style={{alignItems: 'center'}}>
                 <View style={styles.participationInfoRectangle}>
@@ -508,33 +528,36 @@ export default class Event extends Component {
                         </AppText>
                     </View>
                     <View style={styles.participationInfoItem}>
-                        <TouchableOpacity disabled={disable}>
-                            <CheckBox
-                                isChecked={participants.indexOf(user.id) !== -1}
-                                onClick={this.onParticipationChange} disabled={disable}/>
-                        </TouchableOpacity>
-                        <AppText>{strings.participationLabel}</AppText>
 
+                        {checkParticipation}
                     </View>
                 </View>
             </View>
         );
     }
-    renderAddCommentButton () {
+
+    renderAddCommentButton() {
         return (
-            <Button
-                title="commentaire"
-                onPress={() => {
-                    this.props.navigator.push({
-                        title: 'addComment',
-                    })
-                }}
-            />
+            <View style={{flex: 1, marginTop: 20, flexDirection: 'row', justifyContent:'center'}}>
+                <View style={{flex:2}}/>
+                <ImageButton
+                    style={{width: 50, height: 50}}
+                    source={require("./../images/comments-128x128.png")}
+                    onPress={() => {
+                        this.props.navigator.push({
+                            title: 'addComment',
+                            passProps: {
+                                name: this.state.editedEvent.name
+
+                            }
+                        })
+                    }}
+                />
+                <View style={{flex:2}}/>
+            </View>
         );
     }
-    renderLikeEventButton () {
 
-    }
     renderEventDescription() {
         let {editing} = this.state
         let placeholder = editing ?

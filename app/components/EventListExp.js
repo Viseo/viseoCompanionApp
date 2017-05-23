@@ -92,22 +92,8 @@ export default class EventListExp extends Component {
         )
     }
     renderEventCardExp = (event) => {
-        const createComment = (
-            <ActionButton.Item
-                buttonColor="#9b59b6"
-                title="Nouveau commentaire"
-                onPress={() => {
-                    {/*this.props.navigator.push({*/}
-                    {/*title: 'AddEvent',*/}
-                    {/*});*/}
-                    console.warn("ok");
-                }}
-            >
-                <Icon name="md-create" style={styles.icon}/>
-            </ActionButton.Item>
-        );
+
         let [day, time] = this.formatDate(event.date);
-        //let {user} = this.props;
         return (
             <EventCardExp
                 name={event.name}
@@ -117,7 +103,6 @@ export default class EventListExp extends Component {
                 time={time}
                 participating={event.participating}
                 categoryId={event.category}
-                //onParticipationChange={() => {this.props.toggleParticipation(event, user)}}
                 onPress={() => {
                     this.props.navigator.push({
                         title: 'Event',
@@ -125,7 +110,6 @@ export default class EventListExp extends Component {
                             id: event.id,
                             edit: false,
                             canParticipate: false
-                            //onParticipationChange: () => {this.props.toggleParticipation(event, user)}
                         }
                     });
                 }}

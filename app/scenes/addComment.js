@@ -1,24 +1,24 @@
-/**
- * Created by HEL3666 on 18/05/2017.
- */
 import React, {Component} from "react";
 import {Button, Dimensions, Platform, StyleSheet, TextInput, View} from "react-native";
 const {height} = Dimensions.get('window');
 import AppText from "../components/appText";
 import * as comment from "./../util/db"
 import BackButton from "./../components/BackButton";
-import Toggle from "./../components/Toggle";
 import colors from "./../components/colors";
 import ItemSpacer from "./../components/ItemSpacer";
+import ImageButton from "../components/ImageButton";
+import * as event from "./../components/EventInfo";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 export default class Comment extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            editing: false
+            editing: false,
+            name: this.props.name
         }
     }
+
     // onPressSendNewComment = async () => {
     //     this.setState({
     //         errorType: ''
@@ -34,28 +34,35 @@ export default class Comment extends Component {
         return (
             <View style={{height, marginTop: (Platform.OS === 'ios') ? 20 : 0, backgroundColor: colors.white}}>
                 {this.renderHeader()}
-                {/*<ItemSpacer/>*/}
-                <View>
-                    <AppText style={{marginVertical:50}}>
-                        Veuillez entrer votre commentaire
+                <View style={{padding: 25}}>
+                    <AppText style={{marginVertical: 50, fontSize: 30}}>
+                        {this.state.name}
                     </AppText>
                 </View>
-                <TextInput
-                    style={{height: 200, borderColor: 'gray', borderWidth: 1}}
-                    onChangeText={(text) => this.setState({text})}
-                    multiline={true}
-                />
-                <Button
-                    title="envoyer"
-                    onPress={ async () => {
-                        console.warn("envoyer");
-                        let sendComment = await comment.addComment();
-                        console.warn(sendComment);
-                    }}
-                />
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <TextInput
+                        style={{width: 360, height: 200, borderColor: 'gray', borderWidth: 1}}
+                        defaultValue="Veuillez entrer votre commentaire ..."
+                        onChangeText={(text) => this.setState({text})}
+                        multiline={true}
+                    />
+                </View>
+                <View style={{padding: 25}}>
+                    <View style={{width: 200, height: 50}}/>
+                    <Button
+                        style={{width: 200, height: 100}}
+                        title="envoyer"
+                        onPress={ async () => {
+                            let sendComment = await comment.addComment();
+                            console.warn("envoyer");
+                            console.warn(sendComment);
+                        }}
+                    />
+                </View>
             </View>
         )
     }
+
     renderHeader() {
         let {editing} = this.state
         const backButton = (
