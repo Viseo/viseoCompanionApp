@@ -80,7 +80,7 @@ class App extends Component {
             {title: 'AddEvent'},
             {title: 'Profile'},
             {title: 'History'},
-            {title: 'Comment'},
+            {title: 'addComment'},
         ];
         const initialRoute = this.state.isSavedUserAuthenticated ? 0 : 1;
         return (
@@ -123,7 +123,7 @@ class App extends Component {
                             <History navigator={navigator} {...route.passProps}/>
                         );
                     }
-                    else if (route.title === 'Comment') {
+                    else if (route.title === 'addComment') {
                         return (
                             <Comment navigator={navigator} {...route.passProps}/>
                         );

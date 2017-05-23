@@ -295,7 +295,7 @@ export async function updateEvent(event) {
 
 }
 
-export async function addComment(/*Calendar, Commentaire, UserId, EventId*/) {
+export async function addComment() {
     try {
         let response = await fetch(settings.api.addComment, {
             method: 'POST',

@@ -19,7 +19,6 @@ export default class Comment extends Component {
             editing: false
         }
     }
-
     // onPressSendNewComment = async () => {
     //     this.setState({
     //         errorType: ''
@@ -31,19 +30,19 @@ export default class Comment extends Component {
     //         // this.setState({modalVisible: true});
     //     // }
     // };
-
     render() {
         return (
-            <View style={{height, marginTop: (Platform.OS === 'ios') ? 20 : 0,backgroundColor: colors.white}}>
-
+            <View style={{height, marginTop: (Platform.OS === 'ios') ? 20 : 0, backgroundColor: colors.white}}>
                 {this.renderHeader()}
-                <View >
-                    <AppText>Veuillez entrer votre commentaire</AppText>
+                {/*<ItemSpacer/>*/}
+                <View>
+                    <AppText style={{marginVertical:50}}>
+                        Veuillez entrer votre commentaire
+                    </AppText>
                 </View>
-
                 <TextInput
-                    onChangeText={(text)=>this.setState({text})}
-                    style={{height: 100, borderColor: 'gray', borderWidth: 1}}
+                    style={{height: 200, borderColor: 'gray', borderWidth: 1}}
+                    onChangeText={(text) => this.setState({text})}
                     multiline={true}
                 />
                 <Button
@@ -57,7 +56,6 @@ export default class Comment extends Component {
             </View>
         )
     }
-
     renderHeader() {
         let {editing} = this.state
         const backButton = (
@@ -82,15 +80,6 @@ export default class Comment extends Component {
                 </AppText>
                 <View style={{flex: 3, flexDirection: 'row'}}>
                     <View style={{flex: 1, flexDirection: 'row'}}>
-                        <Toggle
-                            isOn={false}
-                            style={{flex: 5}}
-                            onToggle={this.toggleEditProfile}
-                        >
-                            <AppText style={{color: 'white', textAlign: 'right'}}>
-                                {editing ? 'Enregistrer' : 'Modifier'}
-                            </AppText>
-                        </Toggle>
                         <ItemSpacer/>
                     </View>
                 </View>
@@ -98,6 +87,7 @@ export default class Comment extends Component {
         )
     }
 }
+
 const styles = StyleSheet.create({
 
     avatar: {

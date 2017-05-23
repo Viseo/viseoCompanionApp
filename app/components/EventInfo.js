@@ -28,7 +28,7 @@ import moment from "moment";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import {Item} from "react-native-mock/build/components/Picker";
 import Avatar from "./Avatar";
-import Comment from "../scenes/addComment";
+import addComment from "../scenes/addComment";
 
 const eventIdToImages = {
     "40": require('./../images/events/formation_securite.jpg'),
@@ -306,8 +306,9 @@ export default class Event extends Component {
                             this.renderDatePicker() :
                             this.renderEventDateAndParticipants()
                     }
+
                     {this.renderEventDescription(this.state.description)}
-                    {this.renderCommentButton()}
+                    {this.renderAddCommentButton()}
                     {this.renderEventDelete()}
                     {/*{this.renderEventKeywords(event.keywords)}*/}
                     {this.renderNotifySuccess()}
@@ -519,17 +520,20 @@ export default class Event extends Component {
             </View>
         );
     }
-    renderCommentButton () {
+    renderAddCommentButton () {
         return (
             <Button
                 title="commentaire"
                 onPress={() => {
                     this.props.navigator.push({
-                        title: 'Comment',
+                        title: 'addComment',
                     })
                 }}
             />
         );
+    }
+    renderLikeEventButton () {
+
     }
     renderEventDescription() {
         let {editing} = this.state
