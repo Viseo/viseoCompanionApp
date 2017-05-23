@@ -6,27 +6,41 @@ import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} f
 import Swipeout from "react-native-swipe-out";
 import colors from "./colors";
 import  Icon from "react-native-vector-icons/FontAwesome";
+import Avatar from "./Avatar";
 
 class CommentsCard extends Component {
 
     static defaultProps = {
         comment: {comment: "ceehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhehh"},
-        user: {id: 1, name: "user"},
+        user: {id: 1, lastName: "he", firstName: "miu"},
         event: {id: 1, title: "Event1"},
-        date: '18/05/1990',
+        date: '18/05/2020',
 
     }
 
     constructor(props) {
         super(props);
+
+        event:{id:1}
+        let {comments} = this.props
     }
 
+
+    componentWillMount() {
+        if (this.props.event.id)
+            this.props.refresh(this.props.event.id)
+    }
     renderIcon = () => {
 
-        let icon = this.props.user.id ? require("../images/user.png") : require("../images/checkWhite.png");
+        let lName = this.props.user.id ? this.props.user.lastName : "N";
+        let fName = this.props.user.id ? this.props.user.firstName : "N";
         return (
-            <View style={{flex:.5}}>
-                <Image source={icon} style={{width: 33, height: 33}}/>
+            <View style={{flex: 0.25}}>
+                <Avatar lastName={lName}
+                        firstName={fName}
+                        style={{paddingTop: 10, paddingLeft: 5}}
+                        size={8}
+                />
             </View>
         )
     };
@@ -38,8 +52,9 @@ class CommentsCard extends Component {
             <View>
                 {this.renderEventInfo()}
                 <Swipeout
+
                     className="swipeout"
-                    style={{backgroundColor: 'white'}}
+                    style={{backgroundColor: 'transparent'}}
                     autoClose={true}
                     overflow="hidden"
                     sensitivity={(Platform.OS === 'ios') ? 1 : 2}
@@ -50,12 +65,17 @@ class CommentsCard extends Component {
                     >
                         <View style={{
                             flex: 1,
+                            flexDirection: 'row',
                             justifyContent: 'space-between',
                         }}>
+                            {this.renderIcon()}
+                            {this.renderSpacer()}
+                            <View style={{flex: .75,justifyContent:'space-around'}}>
 
-                            {this.renderParticipantDate()}
-                            {this.renderComment()}
-                            {this.renderActionComment()}
+                                {this.renderParticipantDate()}
+                                {this.renderComment()}
+                                {this.renderActionComment()}
+                            </View>
                         </View>
                     </TouchableOpacity>
                 </Swipeout>
@@ -67,7 +87,7 @@ class CommentsCard extends Component {
         return (
             <View style={{
                 flex: 1,
-                flexDirection: 'row',alignSelf:'flex-end'
+                flexDirection: 'row', alignSelf: 'flex-end',marginRight:5,marginTop:5
             }}>
                 {this.renderReply()}
                 {this.renderDelete()}
@@ -80,7 +100,7 @@ class CommentsCard extends Component {
 
     renderReply() {
         const reply = (
-            <Icon.Button  name="reply" style={styles.icon} size={30} color="#900" />
+            <Icon.Button name="reply" style={styles.icon} size={20} color={colors.green}/>
         );
         return (
             <View >
@@ -93,7 +113,7 @@ class CommentsCard extends Component {
 
     renderDelete() {
         const reply = (
-            <Icon.Button style={styles.icon}  name="trash" size={30} color="#900" />
+            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red}/>
         );
         return (
             <View>
@@ -105,7 +125,7 @@ class CommentsCard extends Component {
 
     renderLike() {
         const reply = (
-            <Icon.Button style={styles.icon}   name="thumbs-o-up" size={30} color="#900" />
+            <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue}/>
         );
         return (
             <View >
@@ -117,7 +137,7 @@ class CommentsCard extends Component {
 
     renderEdit() {
         const reply = (
-            <Icon.Button name="edit" style={styles.icon}  size={30} color="#900" />
+            <Icon.Button name="edit" style={styles.icon} size={20} color={colors.mediumGray}/>
         );
         return (
             <View >
@@ -131,7 +151,7 @@ class CommentsCard extends Component {
         return (
             <View
                 style={{
-                    flex: 1,
+                    flex: 0.05,
                     alignSelf: 'stretch'
                 }}
             >
@@ -142,12 +162,12 @@ class CommentsCard extends Component {
 
     renderParticipantDate() {
         return (
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center',alignItems:'stretch'}}>
-                {this.renderIcon()}
-                <View style={{flex:.5}} >
-                <Text style={{color: 'blue', fontSize: 14}}>
-                    {this.props.user.name}
-                </Text>
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10}}>
+
+                <View style={{flex: .5}}>
+                    <Text style={{color: 'blue', fontSize: 14}}>
+                        {this.props.user.lastName + this.props.user.lastName}
+                    </Text>
                 </View>
 
                 {this.renderDate()}
@@ -172,14 +192,14 @@ class CommentsCard extends Component {
     renderTitle() {
         return (
             <View >
-                <Text style={{fontWeight:'bold',fontSize:20,color:'white'}}>{this.props.event.title}</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 20, color: 'white'}}>{this.props.event.title}</Text>
             </View>
         )
     }
 
     renderComment() {
         return (
-            <View style={{alignItems:"center"}}>
+            <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
                 <Text>{this.props.comment.comment}</Text>
             </View>
         );
@@ -187,8 +207,8 @@ class CommentsCard extends Component {
 
     renderDate() {
         return (
-            <View style={{flex:.5}}>
-                <Text>12/05/2233</Text>
+            <View style={{flex: .5}}>
+                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.date}</Text>
             </View>
         );
     }
@@ -207,17 +227,18 @@ const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        backgroundColor: 'white',
-        height: 100,
+        backgroundColor: 'rgb(255,255,255)',
+        borderRadius: 8,
+        height: 150,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
     },
     firstRow: {
-        paddingBottom:10,
+        paddingBottom: 10,
 
     },
-    icon:{
-        backgroundColor:'#fff'
+    icon: {
+        backgroundColor: 'rgb(255,255,255)'
     }
 
 

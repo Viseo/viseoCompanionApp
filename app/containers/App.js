@@ -16,7 +16,7 @@ import {authenticate} from "../actionCreators/user";
 import {bindActionCreators} from "redux";
 import settings from "../config/settings";
 import colors from "../components/colors";
-import Comments from "../scenes/Comments";
+import Comments from "../scenes/commentsList";
 
 class App extends Component {
     state = {
@@ -125,6 +125,7 @@ class App extends Component {
                             <Comments navigator={navigator} {...route.passProps}/>
                         );
                     }
+
                 }}
                 configureScene={(route, routeStack) =>
                     Navigator.SceneConfigs.PushFromRight
@@ -199,7 +200,7 @@ const mapStateToProps = ({user}, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-            authenticate
+            authenticate,
         },
         dispatch)
 }
