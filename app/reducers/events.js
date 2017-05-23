@@ -16,11 +16,11 @@ const event = (state, action) => {
                 location: action.location,
                 date: action.date,
                 participants: [],
-            }
+            };
         default:
             return state
     }
-}
+};
 
 const events = (state = {
     isFetching: false,
@@ -35,14 +35,14 @@ const events = (state = {
                     ...state.items,
                     event(undefined, action)
                 ]
-            })
+            });
         case types.ADD_EVENTS: {
             let events = action.events.map(e => {
                 return event(undefined, {
                     type: types.ADD_EVENT,
                     ...e
                 })
-            })
+            });
             return Object.assign({}, state, {
                 items: [
                     ...state.items,
@@ -53,36 +53,36 @@ const events = (state = {
         case types.FETCH_EVENTS_FAILED:
             return Object.assign({}, state, {
                 isFetching: false,
-            })
+            });
         case types.INVALIDATE_EVENTS:
             return Object.assign({}, state, {
                 didInvalidate: true
-            })
+            });
         case types.RECEIVE_EVENTS:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
                 items: action.events,
                 lastUpdated: action.receivedAt
-            })
+            });
         case types.RECEIVE_EVENTS_EXPIRED:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
                 itemsExpired: action.events
-            })
+            });
         case types.REGISTER_USER: {
-            let eventToRegisterFor = state.items.find(event => event.id === action.eventId)
+            let eventToRegisterFor = state.items.find(event => event.id === action.eventId);
             if (!eventToRegisterFor) {
                 return state
             }
-            let participants = eventToRegisterFor.participants || []
-            let isAlreadyRegistered = participants.indexOf(action.userId) !== -1
+            let participants = eventToRegisterFor.participants || [];
+            let isAlreadyRegistered = participants.indexOf(action.userId) !== -1;
             if (!isAlreadyRegistered) {
-                participants = participants.slice()
+                participants = participants.slice();
                 participants.push(action.userId)
             }
-            eventToRegisterFor.participants = participants
+            eventToRegisterFor.participants = participants;
             return Object.assign({}, state, {
                 items: state.items.map(event => {
                     return event.id === action.eventId ?
@@ -94,7 +94,7 @@ const events = (state = {
         case types.REMOVE_EVENT: {
             let eventToRemove = state.items.findIndex(event => {
                 return event.id === action.id
-            })
+            });
             return Object.assign({}, state, {
                 items: [
                     ...state.items.slice(0, eventToRemove),
@@ -106,21 +106,21 @@ const events = (state = {
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false
-            })
+            });
         case types.REQUEST_EVENTS_EXPIRED:
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false
-            })
+            });
         case types.UNREGISTER_USER: {
-            let eventToUnregisterFrom = state.items.find(event => event.id === action.eventId)
+            let eventToUnregisterFrom = state.items.find(event => event.id === action.eventId);
             if (!eventToUnregisterFrom) {
                 return state
             }
             let participants = eventToUnregisterFrom.hasOwnProperty('participants') ?
                 eventToUnregisterFrom.participants :
-                []
-            let participantIndex = participants.indexOf(action.userId)
+                [];
+            let participantIndex = participants.indexOf(action.userId);
             if (participantIndex !== -1) {
                 participants = [
                     ...participants.slice(0, participantIndex),
@@ -145,7 +145,7 @@ const events = (state = {
                         action.event :
                         item
                 })
-            })
+            });
 
         case types.UPDATE_EVENT_PARTICIPANTS:
             return Object.assign({}, state, {
@@ -157,10 +157,10 @@ const events = (state = {
                         } :
                         item
                 })
-            })
+            });
         default:
             return state
     }
-}
+};
 
 export default events

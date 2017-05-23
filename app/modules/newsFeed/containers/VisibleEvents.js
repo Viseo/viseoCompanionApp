@@ -1,7 +1,8 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {fetchEvents, registerUser, unregisterUser} from "../../../actionCreators/events";
-import EventList from "../components/EventList";
+import EventList from "../../events/components/EventList";
+import moment from "moment";
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
@@ -75,6 +76,14 @@ const getVisibleEventList = (events,
             return events.filter(event => event.participating);
         case 'SHOW_NOT_GOING':
             return events.filter(event => !event.participating);
+        case 'SHOW_PAST':
+            return events.filter(event => {
+                return moment(event.date).isBefore(moment());
+            });
+        case 'SHOW_UPCOMING':
+            return events.filter(event => {
+                return moment(event.date).isAfter(moment());
+            });
         default:
             throw new Error('Unknown filter: ' + visibilityFilter)
     }
@@ -101,7 +110,8 @@ const mapDispatchToProps = (dispatch) => {
             return event.participating ?
                 unregisterUser(event, user.id) :
                 registerUser(event, user.id)
-        }
+        },
+
     }, dispatch)
 };
 

@@ -1,0 +1,71 @@
+import React, {Component} from 'react';
+import {View, StyleSheet} from "react-native";
+import {connect} from "react-redux";
+import ItemSpacer from "../../components/ItemSpacer";
+import VisibleEventList from "../newsFeed/containers/VisibleEvents";
+import SearchBar from "../../components/SearchBar";
+import colors from "../global/colors";
+import {bindActionCreators} from "redux";
+import {setVisibilityFilter} from "../../actionCreators/visibilityFilter";
+
+class PastEvents extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentWillMount() {
+        this.props.setVisibilityFilter('SHOW_PAST');
+    }
+
+    render() {
+        return (
+            <View style={styles.mainContainer}>
+                <View style={styles.body}>
+                    <View style={styles.searchBar}>
+                        <ItemSpacer/>
+                        <SearchBar style={{flex: 22}}/>
+                        <ItemSpacer/>
+                    </View>
+                </View>
+                <VisibleEventList style={{flex: 22}} navigator={this.props.navigator}/>
+            </View>
+        );
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        setVisibilityFilter
+    }, dispatch)
+};
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(PastEvents);
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        backgroundColor: colors.blue,
+        padding: 8,
+        paddingBottom: 0,
+        paddingTop: 0,
+    },
+    body: {
+        flex: 0,
+        flexDirection: 'column',
+        paddingBottom: 10,
+        marginTop: 20,
+    },
+    searchBar: {
+        flex: 0,
+        flexDirection: 'row'
+    },
+    icon: {
+        fontSize: 24,
+        height: 22,
+        color: 'white',
+    }
+});

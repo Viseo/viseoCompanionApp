@@ -1,13 +1,11 @@
-/**
- * Created by AAB3605 on 05/04/2017.
- */
-
+export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 export const setVisibilityFilter = (filter) => ({
-    type: 'SET_VISIBILITY_FILTER',
+    type: SET_VISIBILITY_FILTER,
     filter
-})
+});
 
+export const REMOVE_VISIBILITY_FILTER = 'REMOVE_VISIBILITY_FILTER';
 export const removeVisibilityFilter = () => ({
-    type: 'REMOVE_VISIBILITY_FILTER',
-})
+    type: REMOVE_VISIBILITY_FILTER,
+});
 

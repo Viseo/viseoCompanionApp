@@ -6,7 +6,7 @@ import PasswordInput from "./../components/passwordInput";
 import CheckBox from "react-native-check-box";
 import strings from "../util/localizedStrings";
 import * as util from "../util/util.js";
-import {Navigation} from "react-native-navigation";
+import startApp from "../modules/global/startApp";
 
 export default class SignInForm extends Component {
 
@@ -204,31 +204,7 @@ export default class SignInForm extends Component {
     }
 
     _navigateToHomeScreen() {
-        Navigation.startTabBasedApp({
-            tabs: [
-                {
-                    label: 'Accueil',
-                    screen: 'Home',
-                    title: 'Viseo Companion',
-                    icon: require('./../images/tabBar/home.png'),
-                },
-                {
-                    label: 'Catalogue',
-                    screen: 'Shop',
-                    icon: require('./../images/tabBar/shop.png'),
-                },
-                {
-                    label: 'Mes vizz',
-                    screen: 'VizzManagement',
-                    icon: require('./../images/tabBar/vizz.png'),
-                },
-                {
-                    label: 'Notifications',
-                    screen: 'Notifications',
-                    icon: require('./../images/tabBar/notifications.png'),
-                }
-            ],
-        });
+        startApp();
     }
 }
 

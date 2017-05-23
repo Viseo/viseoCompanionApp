@@ -28,7 +28,6 @@ class SignIn extends Component {
         }
     }
 
-
     render() {
         const shouldDisplayErrorMessage = this.state.hasSubmittedForm && !this._isFormValid();
         const errorMessage = shouldDisplayErrorMessage ? this.renderErrorMessage() : null;

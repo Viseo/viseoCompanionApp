@@ -41,15 +41,6 @@ export default class Profile extends Component {
         this.validate = this.validate.bind(this);
     }
 
-    toggleEditProfile = (editing) => {
-        if (!editing) {
-            this.props.updateUser(this.state.editedEvent)
-        }
-        this.setState({
-            editing
-        })
-    }
-
     render() {
         const {editing, editedProfile} = this.state
         let passwordValid = editedProfile.password.length >= 6
@@ -82,7 +73,6 @@ export default class Profile extends Component {
         )
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
-                {this.renderHeader()}
                 <ScrollView
                     style={{flex: 15}}
                     contentContainerStyle={{paddingHorizontal: 20, justifyContent: 'flex-start'}}
@@ -166,187 +156,6 @@ export default class Profile extends Component {
         return editing ? lastNameField : lastNameText
     }
 
-    renderHeader() {
-        let {editing} = this.state
-        const backButton = (
-            <BackButton navigator={this.props.navigator}/>
-        )
-        const cancelButton = (
-            <BackButton
-                navigator={this.props.navigator}
-                source={require("./../images/crossWhite.png")}
-                style={{padding: 8}}
-                onPress={() => this.setState({editing: false})}
-            />
-        )
-        return (
-            <View
-                style={{flex: 0, height: 40, flexDirection: 'row', backgroundColor: colors.blue, alignItems: 'center'}}>
-                {editing ? cancelButton :
-                    backButton
-                }
-                <AppText style={{flex: 5, color: 'white', fontSize: 20}}>
-                    {editing ? "Modification du profil" : "Profil"}
-                </AppText>
-                <View style={{flex: 3, flexDirection: 'row'}}>
-                    <View style={{flex: 1, flexDirection: 'row'}}>
-                        <Toggle
-                            isOn={false}
-                            style={{flex: 5}}
-                            onToggle={this.toggleEditProfile}
-                        >
-                            <AppText style={{color: 'white', textAlign: 'right'}}>
-                                {editing ? 'Enregistrer' : 'Modifier'}
-                            </AppText>
-                        </Toggle>
-                        <ItemSpacer/>
-                    </View>
-                </View>
-            </View>
-        )
-    }
-
-    renderPasswordField() {
-
-    }
-
-    oldrender() {
-        const {editedProfile} = this.state
-        const firstName = (<EditableAppText
-            fieldName={strings.firstName}
-            style={styles.field}
-            isInModificationMode={this.state.editing}
-            content={editedProfile.firstName}
-            mandatory={true}
-            onValidate={(firstName) => {
-                this.setState({editedProfile: {...editedProfile, firstName}});
-            }}/>);
-        const lastName = (<EditableAppText
-            fieldName={strings.lastName}
-            style={styles.field}
-            isInModificationMode={this.state.editing}
-            content={editedProfile.lastName}
-            mandatory={true}
-            onValidate={(lastName) => {
-                this.setState({editedProfile: {...editedProfile, lastName}});
-            }}/>)
-        const newPassword = (<PasswordInput ref="password"
-                                            style={styles.field}
-                                            underlineColorAndroid={this.state.isNewPasswordValid ? 'lightgray' : 'red'}
-                                            returnKeyType="next"
-                                            onChangeText={this.onChangePasswordText}
-                                            onSubmitEditing={() => {
-                                                this.refs.passwordCheck.focus();
-                                            }}/>)
-        const passwordCheck = (<PasswordInput ref="passwordCheck"
-                                              placeholder={strings.verifyPassword}
-                                              style={styles.field}
-                                              underlineColorAndroid={this.state.isPasswordCheckValid ? 'lightgray' : 'red'}
-                                              returnKeyType="done"
-                                              onChangeText={this.onChangePasswordCheckText}/>)
-        const email = (
-            <AppText style={[styles.field, {color: colors.lightGray, flex: 1}]}>{editedProfile.email}</AppText>)
-        return (
-            <View style={{flex: 1}}>
-                {this.renderHeader()}
-                <View style={styles.container}>
-                    <View style={{flex: 30, flexDirection: 'column'}}>
-                        <ScrollView style={{flex: 2}}
-                                    contentContainerStyle={{flex: 1, alignItems: 'center', paddingHorizontal: 30}}>
-                            <ItemSpacer/>
-                            {this.renderUserPicture()}
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {firstName}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {lastName}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {email}
-                            </View>
-                            <ItemSpacer/>
-                            {this.renderBirthDate()}
-                            <ItemSpacer/>
-                            {this.renderCurrentPassword()}
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {this.state.editing ? newPassword : null}
-                            </View>
-                            <ItemSpacer/>
-                            <View style={{flex: 2, flexDirection: 'row'}}>
-                                {this.state.editing ? passwordCheck : null}
-                            </View>
-                            <ItemSpacer/>
-                            {this.renderNotifySuccess()}
-                        </ScrollView>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-
-    oldrenderHeader() {
-        const backButton = (<BackButton navigator={this.props.navigator}/>)
-        const cancelButton = (
-            <BackButton
-                navigator={this.props.navigator}
-                source={require("./../images/crossWhite.png")}
-                style={{padding: 8}}
-                onPress={() => this.setState({editing: false, passwordVisible: false})}/>)
-        const label = (<AppText style={styles.topBarText}>{strings.profileEditionLabel}</AppText>)
-        const editButton = (<Button title={strings.edit} style={{flex: 1, margin: 1}}
-                                    onPress={() => this.setState({editing: true})}/>)
-        const saveButton = (<Button title={strings.save} style={{flex: 1, marginLeft: 5}}
-                                    onPress={() => {
-                                        this.save();
-                                    }}/>)
-        return (
-            <View style={styles.topBar}>
-                <View style={{flex: 3, flexDirection: 'row', justifyContent: 'flex-start'}}>
-                    {this.state.editing ? cancelButton : backButton}
-                    {label}
-                </View>
-                <View style={{flex: 2, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        {this.state.editing ? saveButton : editButton}
-                    </View>
-
-                </View>
-            </View>
-        );
-    }
-
-    renderUserPicture() {
-        const {editedProfile} = this.state
-        const picture = this.state.editing ?
-            (
-                <EditableImage
-                    defaultPicture={editedProfile.picture}
-                    onSelected={(selected) => {
-                        this.updateImage(selected)
-                    }}
-                    style={styles.organizatorPictureCircle}
-                />
-            ) :
-            (
-                <FlexImage
-                    source={editedProfile.picture}
-                    style={styles.organizatorPictureCircle}
-                    resizeMode="stretch"
-                />
-            );
-        return (
-            <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center', height: 100}}>
-                <ItemSpacer/>
-                {picture}
-                <ItemSpacer/>
-            </View>
-        );
-    }
-
     renderBirthDate() {
         const birthDateValue = new Date(this.state.editedProfile.birthDate);
         const {editedProfile} = this.state
@@ -381,80 +190,10 @@ export default class Profile extends Component {
         )
     }
 
-    renderCurrentPassword() {
-        const passwordLabel = ( <AppText>{strings.password + ' : '}</AppText>)
-        const passwordValue = this.state.passwordVisible ?
-            this.state.editedProfile.password :
-            '******'
-        const passwordContent = (<AppText>{passwordValue}</AppText>)
-        const showPasswordButton = (
-            <TouchableOpacity style={{marginLeft: 10}} onPress={() => this.setState({passwordVisible: true})}>
-                <Image source={require('./../images/eye.png')}/>
-            </TouchableOpacity>
-        )
-        return this.state.canEdit ? (
-            <View style={{flex: 2, flexDirection: 'row'}}>
-                {passwordLabel}
-                {passwordContent}
-                {showPasswordButton}
-            </View>
-        ) :
-            null;
-    }
-
-    renderNotifySuccess() {
-        const notificationMessage = this.state.cannotSave ? strings.invalidForm : profilModified;
-        const pressFunction = this.state.cannotSave ? () => {
-            this.setState({modalVisible: false})
-        } : () => {
-            this.props.navigator.resetTo({title: 'Home'});
-        }
-        return (
-            <View>
-                <Modal
-                    animationType={"fade"}
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        this.props.navigator.resetTo({title: 'Home'});
-                    }}>
-                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
-                    <View style={styles.modal}>
-                        <View>
-                            <AppText style={{textAlign: 'center'}}>
-                                {notificationMessage}
-                            </AppText>
-                            <Button
-                                onPress={pressFunction}
-                                title="OK"
-                                color="#6ABEFF"
-                            />
-                        </View>
-                    </View>
-                    <View style={{flex: 2, backgroundColor: 'rgba(227, 254, 255, 0.5)'}}></View>
-                </Modal>
-            </View>
-        );
-    }
-
     validate() {
         let cannotSave = !this.state.isNewPasswordValid || !this.state.isPasswordCheckValid
             || this.state.firstname === '' || this.state.lastname === '';
         this.setState({cannotSave});
-    }
-
-    save = () => {
-        const {editedProfile} = this.state
-        const cannotSave = editedProfile.firstName === ''
-            || editedProfile.lastName === ''
-            || editedProfile.password === ''
-            || editedProfile.birthDate === undefined
-            || !this.state.isPasswordCheckValid;
-        this.setState({cannotSave})
-        if (this.state.isPasswordCheckValid) {
-            this.props.updateUser(this.state.editedProfile)
-        }
-        this.setState({modalVisible: true});
     }
 
     updateImage(selected) {

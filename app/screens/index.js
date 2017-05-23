@@ -1,7 +1,7 @@
 import { Navigation } from 'react-native-navigation';
 import NewsFeed from "../modules/newsFeed/NewsFeed";
 import AppLoader from "../modules/appLoader/AppLoader";
-import SignIn from "../modules/authentication/SignIn";
+import SignIn from "../modules/user/SignIn";
 
 export function registerScreens(store, provider) {
     Navigation.registerComponent('NewsFeed', () => NewsFeed, store, provider);

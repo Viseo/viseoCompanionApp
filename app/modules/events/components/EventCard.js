@@ -91,7 +91,7 @@ export default class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor: (this.props.participating) ? colors.blueLight : 'white'}
+                    {backgroundColor: (this.props.participating) ? colors.lightBlue : 'white'}
                 ]}/>
             </View>
         );
