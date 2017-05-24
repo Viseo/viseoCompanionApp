@@ -9,12 +9,12 @@ import {NavMenu, Platform, StyleSheet, View} from "react-native";
 import Header from "./../components/header";
 import colors from "../components/colors";
 import {dispatch} from "redux";
-import commentList from "../containers/CommentsList";
+import CommentsList from "../containers/CommentsList";
 
 export default class Comments extends Component {
 
     static defaultProps = {
-        event: {id: 1}
+        event: {id: 2}
     };
 
     constructor(props) {
@@ -28,7 +28,9 @@ export default class Comments extends Component {
 
             <View style={styles.mainContainer}>
                 <Header/>
-                <commentList style={{flex: 22}} navigator={this.props.navigator}/>
+
+                <CommentsList style={{flex: 22}} eventId={this.props.event.id} />
+
             </View>
         );
     }

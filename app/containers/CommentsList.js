@@ -8,10 +8,11 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getComments} from "../actionCreators/comments";
-import CommentsCard from "../components/commentsCard";
+import CommentList from "../components/commentsList";
 
 const mapStateToProps = (state, ownProps) => ({
-    events:  state.comments.commentsItems,
+    comments:  state.comments.commentsItems,
+    refreshing: state.comments.isFetching,
         ...ownProps
 
 })
@@ -23,10 +24,10 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch)
 }
 
-const commentList = connect(
+const CommentsList = connect(
     mapStateToProps,
     mapDispatchToProps
 
-)(CommentsCard)
+)(CommentList)
 
-export default commentList
+export default CommentsList

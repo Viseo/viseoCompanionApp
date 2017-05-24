@@ -12,7 +12,8 @@ const initialState = {
         itemsExpired: [],
     },
     comments:{
-        commentsItems:[]
+        commentsItems:[],
+        isFetching: false,
     },
     filters: [],
     searchWords: [],

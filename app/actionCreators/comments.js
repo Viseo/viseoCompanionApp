@@ -2,36 +2,54 @@
  * Created by IBO3693 on 23/05/2017.
  */
 import settings from "../config/settings";
-import {fetch} from "react-native";
 export const types = {
-    RECEIVE_COMMENTS: 'RECEIVE_COMMENTS'
+    RECEIVE_COMMENTS: 'RECEIVE_COMMENTS',
+    REQUEST_COMMENTS: 'REQUEST_COMMENTS'
 }
+
+export const requestComments = () => ({
+    type: types.REQUEST_COMMENTS,
+})
+export const receiveComments = (comments) => ({
+    type: types.RECEIVE_COMMENTS,
+    comments
+})
+
 export const getComments = (idEvent) => {
-    try {
+
     return async (dispatch) => {
-        let comments = await await fetch(settings.api.getComments);
-        let commentsJson = await comments.json();
+        dispatch(requestComments())
+        try {
+            // Fetch  comments By Event
+            let commentsResponse = await fetch(settings.api.getCommentsByEvent(idEvent));
 
-        for (let i = 0; i < commentsJson.length; i++) {
-            let comment = commentsJson[i];
-            comments.push(new Comment(
-                comment.id,
-                comment.commentaire,
-                comment.userId,
-                comment.datetime,
-                comment.eventId,
+            let commentsJson = await commentsResponse.json();
+            let comments = []
+            for (let i = 0; i < commentsJson.length; i++) {
+                let comment = commentsJson[i];
 
-            ));
+                comments.push({
+                    id: comment.id,
+                    version: comment.version,
+                    content: comment.content,
+                    date: comment.datetime,
+                    writer: comment.writer,
+                    eventId: comment.eventId,
+                    children: comment.childComments,
+                    nbLike: comment.nbLike,
+                    likerIds: comment.likers,
+
+                });
+            }
+
+            dispatch(receiveComments(comments))
+
+
+        } catch (error) {
+            console.warn('ActionCreators/comments::fetchComments ' + error)
+
         }
-        dispatch({
-            type: types.RECEIVE_COMMENTS,
-            idEvent,
-            comments
-        })
-    }
 
-    } catch (error) {
-        console.warn('db::getComments ' + error);
     }
 
 
