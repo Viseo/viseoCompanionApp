@@ -16,7 +16,7 @@ export default class ImageButton extends Component {
             >
                 <Image
                     source={this.props.source}
-                    resizeMode="stretch"
+                    resizeMode="center"
                 />
             </Button>
         )

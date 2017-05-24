@@ -36,7 +36,6 @@ export default class Home extends Component {
                     </View>
                 </View>
                 <VisibleEventListExp style={{flex: 22}} navigator={this.props.navigator}/>
-
             </View>
         );
     }

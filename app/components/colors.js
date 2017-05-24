@@ -10,5 +10,6 @@ export default {
     red: '#f76d79',
     green: '#78D564',
     orange: '#ffc770',
-    highlight: '#c2effc'
+    highlight: '#c2effc',
+    white: 'white'
 }

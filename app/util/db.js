@@ -3,6 +3,7 @@
  */
 import settings from "../config/settings";
 
+
 export async function addEvent(event) {
     try {
         //TODO: make a function to add the host as a param
@@ -271,7 +272,6 @@ export async function updateEvent(event) {
     try {
 
         let response = await fetch(settings.api.updatedEvent(event.id), {
-
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -292,7 +292,34 @@ export async function updateEvent(event) {
     } catch (error) {
         console.warn(error);
     }
+
 }
 
-
-
+export async function addComment() {
+    try {
+        let response = await fetch(settings.api.addComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id": 859,
+                "version": 0,
+                "datetime": 11,
+                "commentaire": "aziz",
+                "evenement_id": 1,
+                "uzer_id": 1
+            })
+        });
+        let responseJson = await response.json();
+        if (responseJson) {
+            this.props.navigator.push({
+                title: 'Event',
+            })
+            return true;
+        }
+    } catch (error) {
+        console.warn('db::addComment ' + error);
+    }
+    return false;
+}

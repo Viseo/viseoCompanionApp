@@ -2,10 +2,11 @@
  * Created by HEL3666 on 11/05/2017.
  */
 import React, {Component} from "react";
-import {ListView, RefreshControl, View} from "react-native";
+import {ListView, Button, RefreshControl, View} from "react-native";
 import EventCardExp from "./events/eventCardExp";
 import AppText from "./appText";
 import moment from "moment";
+import ActionButton from "./../components/actionButton/ActionButton";
 import colors from "../modules/global/colors";
 
 export default class EventListExp extends Component {
@@ -90,10 +91,8 @@ export default class EventListExp extends Component {
             </View>
         )
     }
-
     renderEventCardExp = (event) => {
         let [day, time] = this.formatDate(event.date);
-        //let {user} = this.props;
         return (
             <EventCardExp
                 name={event.name}
@@ -103,7 +102,6 @@ export default class EventListExp extends Component {
                 time={time}
                 participating={event.participating}
                 categoryId={event.category}
-                //onParticipationChange={() => {this.props.toggleParticipation(event, user)}}
                 onPress={() => {
                     this.props.navigator.push({
                         title: 'Event',
@@ -111,7 +109,6 @@ export default class EventListExp extends Component {
                             id: event.id,
                             edit: false,
                             canParticipate: false
-                            //onParticipationChange: () => {this.props.toggleParticipation(event, user)}
                         }
                     });
                 }}
