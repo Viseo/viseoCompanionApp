@@ -1,6 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 import SignIn from './../containers/SignInForm';
-import SignUp from './../scenes/signUp';
+import SignUp from './../containers/signUp';
 import App from "../containers/App";
 import Notifications from "../modules/notifications/Notifications";
 import Shop from "../modules/shop/Shop";

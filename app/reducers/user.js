@@ -1,6 +1,3 @@
-/**
- * Created by VBO3596 on 18/04/2017.
- */
 import {types} from "./../actionCreators/user";
 import {REHYDRATE} from "redux-persist/constants";
 
@@ -29,7 +26,7 @@ const user = (state = [], action) => {
                 ...action.user,
                 email: action.email,
                 password: action.password,
-                authenticationStatus: action.code
+                authenticationStatus: action.code,
                 isAuthenticated: true,
             };
         case types.AUTHENTICATION_FAILURE:
