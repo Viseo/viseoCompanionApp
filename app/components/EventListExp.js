@@ -12,7 +12,7 @@ import colors from "../modules/global/colors";
 export default class EventListExp extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => {
                 if (this.props.searchWords) {
@@ -20,13 +20,13 @@ export default class EventListExp extends Component {
                 }
                 for (let key in r1) {
                     if (!r2.hasOwnProperty(key))
-                        return true
+                        return true;
                     if (r1[key] !== r2[key])
                         return true
                 }
                 return false
             }
-        })
+        });
         this.state = {
             dataSource: ds.cloneWithRows(this.props.events),
         }
@@ -65,7 +65,7 @@ export default class EventListExp extends Component {
                 dataSource={this.state.dataSource}
                 renderRow={this.renderEventCardExp}
             />
-        )
+        );
         const nothingToShow = (
             <AppText
                 style={{
@@ -80,7 +80,7 @@ export default class EventListExp extends Component {
             >
                 Aucun évènement.
             </AppText>
-        )
+        );
         return (
             <View style={[{flex: 1, flexDirection: 'column'}, this.props.style]}>
                 {
@@ -118,4 +118,4 @@ export default class EventListExp extends Component {
     }
 }
 
-EventListExp.displayName = 'EventList expired'
+EventListExp.displayName = 'EventList expired';

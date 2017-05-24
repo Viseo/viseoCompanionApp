@@ -2,20 +2,16 @@ import React, {Component} from 'react';
 import {View, StyleSheet} from "react-native";
 import {connect} from "react-redux";
 import ItemSpacer from "../../components/ItemSpacer";
-import VisibleEventList from "../newsFeed/containers/VisibleEvents";
 import SearchBar from "../../components/SearchBar";
 import colors from "../global/colors";
 import {bindActionCreators} from "redux";
 import {setVisibilityFilter} from "../../actionCreators/visibilityFilter";
+import VisibleEventListExp from "../../containers/VisibleEventsExp";
 
 class PastEvents extends Component {
 
     constructor(props) {
         super(props);
-    }
-
-    componentWillMount() {
-        this.props.setVisibilityFilter('SHOW_PAST');
     }
 
     render() {
@@ -28,7 +24,7 @@ class PastEvents extends Component {
                         <ItemSpacer/>
                     </View>
                 </View>
-                <VisibleEventList style={{flex: 22}} navigator={this.props.navigator}/>
+                <VisibleEventListExp style={{flex: 22}} navigator={this.props.navigator}/>
             </View>
         );
     }
