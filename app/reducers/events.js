@@ -23,11 +23,11 @@ const event = (state, action) => {
 }
 
 const events = (state = {
-    isFetching: false,
-    didInvalidate: false,
-    items: [],
-    itemsExpired: []
-}, action) => {
+                    isFetching: false,
+                    didInvalidate: false,
+                    items: [],
+                    itemsExpired: []
+                }, action) => {
     switch (action.type) {
         case types.ADD_EVENT:
             return Object.assign({}, state, {

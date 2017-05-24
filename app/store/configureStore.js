@@ -11,6 +11,10 @@ const initialState = {
         items: [],
         itemsExpired: [],
     },
+    comments:{
+        commentsItems:[],
+        isFetching: false,
+    },
     filters: [],
     searchWords: [],
     visibilityFilter: 'SHOW_ALL',

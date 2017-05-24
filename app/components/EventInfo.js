@@ -50,7 +50,7 @@ export default class Event extends Component {
         super(props);
       //  let image = eventIdToImages[this.props.event.id] || defaultImage;
         let {event} = this.props
-        this.state = {
+            this.state = {
             newEvent: !this.props.id,
             editing: !this.props.id,
             picture: event.imageUrl,

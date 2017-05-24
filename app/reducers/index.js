@@ -4,6 +4,7 @@ import filters from "./filters";
 import events from "./events";
 import searchWords from "./searchWords";
 import user from "./user";
+import comments from "./comments";
 
 const viseoCompanionApp = combineReducers({
     events,
@@ -11,6 +12,7 @@ const viseoCompanionApp = combineReducers({
     searchWords,
     visibilityFilter,
     user,
+    comments,
 })
 
 export default viseoCompanionApp;
