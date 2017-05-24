@@ -30,15 +30,15 @@ export const rememberUserWhenSignUp = (email, password) => ({
 export const authenticate = (email, password) => {
     return async (dispatch) => {
         try {
-            let response = await authenticateDB(email, password);
+            let user = await authenticateDB(email, password);
             const unabledToReachServerCode = -1;
             const wrongCredentials = null;
-            if (response === unabledToReachServerCode) {
+            if (user === unabledToReachServerCode) {
                 dispatch({
                     type: types.AUTHENTICATION_FAILURE,
                     code: 2
                 })
-            } else if (response === wrongCredentials) {
+            } else if (user === wrongCredentials) {
                 dispatch({
                     type: types.AUTHENTICATION_FAILURE,
                     code: 3
@@ -46,7 +46,7 @@ export const authenticate = (email, password) => {
             } else {
                 dispatch({
                     type: types.AUTHENTICATION_SUCCESS,
-                    email,
+                    user,
                     password,
                     code: 1
                 })

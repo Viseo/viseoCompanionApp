@@ -21,6 +21,7 @@ let EVENT_API_URL = SERVER_API_URL + '/event/';
 
 const restRoutes = {
     addEvent: SERVER_API_URL + 'events',
+    updatedEvent: SERVER_API_URL + 'events',
     getEvent: SERVER_API_URL + 'events/',
     getEvents: SERVER_API_URL + 'events',
     addUser: SERVER_API_URL + 'users',
@@ -39,9 +40,6 @@ const restRoutes = {
     },
     getEventParticipants: eventId => {
         return SERVER_API_URL + 'events/' + eventId + '/users';
-    },
-    updatedEvent: eventId => {
-        return SERVER_API_URL + 'events/' + eventId;
     },
     removeEvent: eventId => {
         return SERVER_API_URL + 'events/' + eventId;

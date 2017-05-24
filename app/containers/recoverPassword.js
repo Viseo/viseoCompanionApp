@@ -7,19 +7,20 @@ import AppText from "../components/appText";
 import {isEmailValid} from "../util/util";
 import settings from "../config/settings";
 import strings from "../util/localizedStrings";
-import EmailInput from "./../components/emailInput";
+import EmailInput from "../components/emailInput";
+import {connect} from "react-redux";
 
-export default class RecoverPassword extends Component {
+class RecoverPassword extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            email: '',
+            email: this.props.email,
             isEmailValid: true,
             isFormCompletelyFilled: true
         }
-
+        this.onChangeEmailText = this.onChangeEmailText.bind(this);
         this.onChangeEmailText = this.onChangeEmailText.bind(this);
         this.onPressResetPassword = this.onPressResetPassword.bind(this);
     }
@@ -99,7 +100,7 @@ export default class RecoverPassword extends Component {
                         {/* VISEO or SIGN UP logo */}
                         <View style={{alignItems: 'center', paddingBottom: 50}}>
                             <Image
-                                source={require('./../images/signUpLogo.png')}
+                                source={require('../images/signUpLogo.png')}
                                 style={{width: 110, height: 110}}
                             />
                         </View>
@@ -112,14 +113,13 @@ export default class RecoverPassword extends Component {
                         {/* User email input */}
                         <EmailInput ref="email"
                                     style={[styles.textInput, !this.state.isEmailValid && styles.invalidFormat]}
+                                    value={this.state.email}
                                     onChangeText={this.onChangeEmailText}
                         />
-
                         <AppText style={styles.errorInfo}>{this.state.errorMessage}</AppText>
 
                         {/* RESET PASSWORD button */}
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>
-
                             <TouchableHighlight>
                                 <View style={{flex: 1, padding: 5}}>
                                     <Button
@@ -129,7 +129,6 @@ export default class RecoverPassword extends Component {
                                     />
                                 </View>
                             </TouchableHighlight>
-
                         </View>
                     </View>
                 </ScrollView>
@@ -138,6 +137,14 @@ export default class RecoverPassword extends Component {
     }
 }
 
+const mapStateToProps = ({user}, ownProps) => ({
+    email: user.email,
+})
+
+export default connect(
+    mapStateToProps,
+    null
+)(RecoverPassword);
 
 const styles = StyleSheet.create({
     errorInfo: {

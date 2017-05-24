@@ -16,8 +16,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-            onSubmitEditing: authenticate,
-            rememberUser: rememberUser
+            authenticate,
+            rememberUser
         },
         dispatch
     )

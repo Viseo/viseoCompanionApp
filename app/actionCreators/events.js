@@ -100,7 +100,7 @@ export const fetchEventsExp = (user) => {
             })
 
         } catch (error) {
-            console.warn('ActionCreators/events::fetchEvents ' + error)
+            console.warn('ActionCreators/events::fetchEventsExp' + error)
             dispatch({
                 type: types.FETCH_EVENTS_FAILED,
                 error

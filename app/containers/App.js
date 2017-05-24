@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {BackAndroid, Navigator, StyleSheet, View} from "react-native";
 import SignIn from "./../containers/SignInForm";
-import SignUp from "./../scenes/signUp";
-import RecoverPassword from "./../scenes/recoverPassword";
+import SignUp from "./signUp";
+import RecoverPassword from "./recoverPassword";
 import Home from "./../scenes/home";
 import History from "./../scenes/History";
 import strings from "./../util/localizedStrings";
@@ -98,7 +98,6 @@ class App extends Component {
                             <RecoverPassword navigator={navigator} {...route.passProps}/>
                         );
                     } else if (route.title === 'Home') {
-                        // store.dispatch(fetchEvents(store.getState().user));
                         return (
                             <Home navigator={navigator} {...route.passProps}/>
                         );
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({user}, ownProps) => ({
     hasSavedUser: user.rememberMe,
     email: user.email,
-    password: user.passwordInput,
+    password: user.password,
     authenticationStatus: user.authenticationStatus,
     ...ownProps
 })
