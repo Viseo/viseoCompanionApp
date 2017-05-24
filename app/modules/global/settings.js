@@ -67,6 +67,7 @@ const settings = {
     EVENT_API_URL,
     api: restRoutes,
     minSplashScreenDuration: 1000,
+    maxSplashScreenDuration: 2500,
 };
 
 export default settings;

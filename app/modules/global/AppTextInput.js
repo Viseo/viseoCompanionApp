@@ -18,7 +18,7 @@ class AppTextInput extends Component {
 
     render() {
         const {value, isValid} = this.state;
-        const {validColor, invalidColor, label, validator, onChangeText, secureTextEntry} = this.props;
+        const {validColor, invalidColor, label, validator, onChangeText, secureTextEntry, multiline, style} = this.props;
         const errorMessage = this.renderErrorMessage();
         const highlightColor = isValid ? validColor : invalidColor;
         return (
@@ -26,7 +26,10 @@ class AppTextInput extends Component {
                 <TextField
                     label={label}
                     highlightColor={highlightColor}
-                    style={{color: colors.mediumGray}}
+                    style={[
+                        {color: colors.mediumGray},
+                        style,
+                    ]}
                     value={value}
                     onChangeText={value => {
                         const isValid = validator(value);
@@ -35,6 +38,7 @@ class AppTextInput extends Component {
                         onChangeText(value);
                     }}
                     secureTextEntry={secureTextEntry}
+                    {...this.props.passProps}
                 />
                 {errorMessage}
             </View>
@@ -59,6 +63,8 @@ AppTextInput.defaultProps = {
     invalidTextMessage: 'Veuillez remplir ce champ.',
     value: '',
     secureTextEntry: false,
+    style: {},
+    passProps: {},
 };
 
 AppTextInput.propTypes = {
@@ -69,6 +75,8 @@ AppTextInput.propTypes = {
     validColor: PropTypes.string,
     invalidColor: PropTypes.string,
     secureTextEntry: PropTypes.bool,
+    style: PropTypes.object,
+    passProps: PropTypes.object,
 };
 
 export default AppTextInput;

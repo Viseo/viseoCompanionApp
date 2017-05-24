@@ -13,6 +13,7 @@ import ImageButton from "../../components/ImageButton";
 import PropTypes from 'prop-types';
 import strings from "../global/localizedStrings";
 import moment from "moment";
+import {defaultNavBarStyle} from "../global/navigatorStyle";
 
 const eventIdToImages = {
     "40": require('./../../images/events/formation_securite.jpg'),
@@ -37,6 +38,7 @@ class PastEvent extends Component {
         this.state = {
             picture,
         };
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentWillMount() {
@@ -132,7 +134,6 @@ class PastEvent extends Component {
 
     renderDetails() {
         let {event} = this.props;
-        const commentButton = this.renderAddCommentButton();
         return (
             <View style={{flex: 30, flexDirection: 'column'}}>
                 <ScrollView
@@ -142,7 +143,6 @@ class PastEvent extends Component {
                     {this.renderEventPicture(this.props.id)}
                     {this.renderEventDateAndParticipants()}
                     {this.renderEventDescription(this.state.description)}
-                    {commentButton}
                 </ScrollView>
                 <KeyboardSpacer/>
             </View>
@@ -203,33 +203,29 @@ class PastEvent extends Component {
         );
     }
 
-    renderAddCommentButton() {
-        return (
-            <View style={{flex: 1, marginTop: 20, flexDirection: 'row', justifyContent: 'center'}}>
-                <View style={{flex: 2}}/>
-                <ImageButton
-                    style={{width: 50, height: 50}}
-                    source={require("./../../images/comments-128x128.png")}
-                    onPress={() => {
-                        this.props.navigator.push({
-                            title: 'addComment',
-                            passProps: {
-                                name: this.props.name
-                            }
-                        })
-                    }}
-                />
-                <View style={{flex: 2}}/>
-            </View>
-        );
-    }
-
     renderEventDescription() {
         return (
             <AppText style={[styles.description, {marginTop: 20}]}>
                 {this.props.description}
             </AppText>
         );
+    }
+
+    onNavigatorEvent(event) {
+        if(event.id === 'showComments') {
+            this._goToComments();
+        }
+    }
+
+    _goToComments() {
+        this.props.navigator.push({
+            screen: 'Comments',
+            title: 'Commentaires',
+            navigatorStyle: defaultNavBarStyle,
+            passProps: {
+                eventId: this.props.eventId
+            }
+        });
     }
 }
 
@@ -241,6 +237,16 @@ PastEvent.propTypes = {
     id: PropTypes.number.isRequired,
     participants: PropTypes.number.isRequired,
     username: PropTypes.string.isRequired,
+};
+
+PastEvent.navigatorButtons = {
+    rightButtons: [
+        {
+            icon: require('../../images/comments-128x128.png'),
+            iconColor: 'white',
+            id: 'showComments'
+        },
+    ],
 };
 
 const getEventWithId = (events, id) => {
@@ -265,11 +271,12 @@ const getEventParticipantsFromId = (events, id) => {
 const mapStateToProps = ({events, user}, ownProps) => {
     const event = getEventWithId(events.itemsExpired, ownProps.id);
     const participants = getEventParticipantsFromId(events.items, ownProps.id).length;
-    const username = user.firstName + ' ' + user.lastName;
+    const username = user.firstName;
     return {
         ...event,
         participants,
         username,
+        eventId: ownProps.id,
         ...ownProps,
     }
 };

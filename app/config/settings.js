@@ -24,7 +24,7 @@ const restRoutes = {
     getUser: SERVER_API_URL + 'users/',
     authenticate: SERVER_API_URL + 'authenticate',
     resetPassword: SERVER_API_URL + 'resetPassword',
-    addComment: SERVER_API_URL + 'comment',
+    addComment: SERVER_API_URL + 'comments',
     getCommentsByEvent: (eventId) => {
         return SERVER_API_URL + 'comments/events/' + eventId ;
     },
@@ -68,6 +68,8 @@ const settings = {
     ACCOUNT_API_URL,
     EVENT_API_URL,
     api: restRoutes,
+    minSplashScreenDuration: 1000,
+    maxSplashScreenDuration: 2500,
 };
 
 export default settings;

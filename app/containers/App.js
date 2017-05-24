@@ -9,7 +9,6 @@ import {authenticate} from "../actionCreators/user";
 import {bindActionCreators} from "redux";
 import settings from "../config/settings";
 import colors from "../components/colors";
-import Comments from "../scenes/commentsList";
 import startApp from "../modules/global/startApp";
 
 class App extends Component {

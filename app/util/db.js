@@ -286,29 +286,15 @@ export async function updateEvent(event) {
     }
 }
 
-export async function addComment() {
+export async function addComment(comment) {
     try {
-        let response = await fetch(settings.api.addComment, {
+        await fetch(settings.api.addComment, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                "id": 859,
-                "version": 0,
-                "datetime": 11,
-                "commentaire": "aziz",
-                "evenement_id": 1,
-                "uzer_id": 1
-            })
+            body: JSON.stringify(comment)
         });
-        let responseJson = await response.json();
-        if (responseJson) {
-            this.props.navigator.push({
-                title: 'Event',
-            })
-            return true;
-        }
     } catch (error) {
         console.warn('db::addComment ' + error);
     }

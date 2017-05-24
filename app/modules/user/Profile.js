@@ -74,6 +74,7 @@ class Profile extends Component {
         this.props.navigator.push({
             screen: 'EditUserProfile',
             title: 'Modifier mon profil',
+            navigatorStyle: defaultNavBarStyle,
         });
     }
 }

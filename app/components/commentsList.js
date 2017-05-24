@@ -106,7 +106,7 @@ export default class CommentList extends Component {
     }
 
     renderTitle() {
-        let event = this.props.comments.length > 0 ? "Event " + this.props.comments[0].eventId : ""
+        let event = this.props.event.name;
         return (
             <View style={{flex:7}}>
                 <Text style={{

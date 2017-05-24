@@ -11,6 +11,7 @@ import * as event from "./../components/EventInfo";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 export default class Comment extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
@@ -19,17 +20,6 @@ export default class Comment extends Component {
         }
     }
 
-    // onPressSendNewComment = async () => {
-    //     this.setState({
-    //         errorType: ''
-    //     });
-    //     // if (this.isFormCorrect()) {
-    //         await this.props.db.addComment({
-    //
-    //         });
-    //         // this.setState({modalVisible: true});
-    //     // }
-    // };
     render() {
         return (
             <View style={{height, marginTop: (Platform.OS === 'ios') ? 20 : 0, backgroundColor: colors.white}}>
