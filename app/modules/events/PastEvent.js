@@ -169,14 +169,14 @@ class PastEvent extends Component {
         const countParticipants =
             <View style={styles.participationInfoItem}>
                 <AppText style={styles.participationInfoContainer}>
-                    {this.props.participants}
+                    {'1'}
                 </AppText>
                 <AppText style={styles.secondaryParticipationInfoText}>
                     {strings.participantsLabel}
                 </AppText>
             </View>;
         const checkParticipation =
-            <View style={{flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "stretch"}}>
+            <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "stretch"}}>
                 <Image source={require('./../../images/check_box.png')}/>
                 <AppText>
                     Participation

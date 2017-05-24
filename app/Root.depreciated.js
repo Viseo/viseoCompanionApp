@@ -9,5 +9,6 @@ registerScreens(store, Provider);
 Navigation.startSingleScreenApp({
     screen: {
         screen: 'App',
-    }
+    },
+    animationType: 'fade',
 });

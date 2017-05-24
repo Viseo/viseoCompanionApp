@@ -42,6 +42,7 @@ export default startApp = () => {
         ],
         tabsStyle: tabBarStyle,
         appStyle: tabBarStyle,
-        navigatorStyle: defaultNavBarStyle
+        navigatorStyle: defaultNavBarStyle,
+        animationType: 'fade',
     });
 }
