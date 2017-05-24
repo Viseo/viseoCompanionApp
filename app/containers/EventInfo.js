@@ -15,10 +15,10 @@ import Event from "../components/EventInfo";
 
 const getEventWithId = (events, id) => {
     return events.find(event => event.id === id)
-}
+};
 
 const getEventParticipantsFromId = (events, id) => {
-    let event = events.find(event => event.id === id)
+    let event = events.find(event => event.id === id);
     if (!event)
         event = {
             name: '',
@@ -26,18 +26,18 @@ const getEventParticipantsFromId = (events, id) => {
             date: '',
             location: '',
             keywords: ''
-        }
+        };
     return event.hasOwnProperty('participants') ?
         event.participants :
         []
-}
+};
 
 const mapStateToProps = (state, ownProps) => ({
     event: getEventWithId(state.events.items, ownProps.id),
     participants: getEventParticipantsFromId(state.events.items, ownProps.id),
     user: state.user,
     ...ownProps,
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
@@ -49,11 +49,11 @@ const mapDispatchToProps = (dispatch) => {
             addEvent
         },
         dispatch)
-}
+};
 
 const EventInfo = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Event)
+)(Event);
 
 export default EventInfo

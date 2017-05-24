@@ -8,6 +8,7 @@ import AppText from "./appText";
 import moment from "moment";
 import ActionButton from "./../components/actionButton/ActionButton";
 import colors from "../modules/global/colors";
+import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
 export default class EventListExp extends Component {
 
@@ -104,18 +105,18 @@ export default class EventListExp extends Component {
                 categoryId={event.category}
                 onPress={() => {
                     this.props.navigator.push({
-                        title: 'Event',
+                        screen: 'PastEvent',
+                        title: "Détails de l'évènement",
+                        navigatorStyle: defaultNavBarStyle,
                         passProps: {
                             id: event.id,
-                            edit: false,
-                            canParticipate: false
                         }
                     });
                 }}
                 searchWords={this.props.searchWords}
             />
         );
-    }
+    };
 }
 
 EventListExp.displayName = 'EventList expired';

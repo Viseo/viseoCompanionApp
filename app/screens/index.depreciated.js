@@ -12,6 +12,7 @@ import CreateEvent from "../modules/events/CreateEvent";
 import Events from "../modules/events/Events";
 import NewsFeed from "../modules/newsFeed/NewsFeed";
 import PastEvents from "../modules/events/PastEvents";
+import PastEvent from "../modules/events/PastEvent";
 
 export function registerScreens(store, provider) {
     Navigation.registerComponent('SignIn', () => SignIn, store, provider);
@@ -23,6 +24,7 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('Event', () => EventInfo, store, provider);
     Navigation.registerComponent('Events', () => Events, store, provider);
     Navigation.registerComponent('PastEvents', () => PastEvents, store, provider);
+    Navigation.registerComponent('PastEvent', () => PastEvent, store, provider);
     Navigation.registerComponent('UserProfile', () => Profile, store, provider);
     Navigation.registerComponent('EditUserProfile', () => EditProfile, store, provider);
     Navigation.registerComponent('CreateEvent', () => CreateEvent, store, provider);

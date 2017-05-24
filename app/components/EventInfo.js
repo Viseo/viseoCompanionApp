@@ -42,7 +42,7 @@ const eventIdToImages = {
     "43": require('./../images/events/reactive-nativingitup-png-800x600_q96.png'),
     "38": require('./../images/events/soiree_nouveaux.jpg'),
     "46": require('./../images/events/tdd.png'),
-}
+};
 let defaultImage = require('./../images/events/defaultEventImage.jpeg');
 const {height} = Dimensions.get('window');
 
@@ -51,7 +51,7 @@ export default class Event extends Component {
     constructor(props) {
         super(props);
         let image = eventIdToImages[this.props.event.id] || defaultImage;
-        let {event} = this.props
+        let {event} = this.props;
         this.state = {
             newEvent: !this.props.id,
             editing: !this.props.id,
@@ -85,11 +85,11 @@ export default class Event extends Component {
     getCategoryColorFromId(id) {
         switch (id) {
             case 0:
-                return colors.red
+                return colors.red;
             case 1:
-                return colors.orange
+                return colors.orange;
             case 2:
-                return colors.green
+                return colors.green;
             default:
                 return 'transparent'
         }
@@ -101,7 +101,7 @@ export default class Event extends Component {
             //  console.log(this.state.editedEvent);
             if (this.state.newEvent) {
 
-                this.setState({newEvent: false})
+                this.setState({newEvent: false});
                 this.props.addEvent(this.state.editedEvent)
             }
             else
@@ -110,7 +110,7 @@ export default class Event extends Component {
         this.setState({
             editing
         })
-    }
+    };
 
     DeleteEvent = () => {
 
@@ -119,11 +119,10 @@ export default class Event extends Component {
         this.props.navigator.resetTo({
             title: 'Home'
         });
-    }
-
+    };
 
     render() {
-        let {event} = this.props
+        let {event} = this.props;
         return (
             <View style={{flex: 1}}>
                 {this.renderHeader()}
@@ -140,12 +139,12 @@ export default class Event extends Component {
     }
 
     renderHeader() {
-        let {editing, newEvent} = this.state
-        let {canEdit} = this.props
+        let {editing, newEvent} = this.state;
+        let {canEdit} = this.props;
 
         const backButton = (
             <BackButton navigator={this.props.navigator}/>
-        )
+        );
         const cancelButton = (
             <BackButton
                 navigator={this.props.navigator}
@@ -153,7 +152,7 @@ export default class Event extends Component {
                 style={{padding: 8}}
                 onPress={() => this.setState({editing: false})}
             />
-        )
+        );
         return (
             <View style={{
                 flex: 1,
@@ -195,11 +194,11 @@ export default class Event extends Component {
     }
 
     renderMainInfo() {
-        let {editedEvent} = this.state
-        let {editing} = this.state
-        const hostName = 'wafa'
-        const hostLastName = 'Salandre'
-        const hostAvatar = <Avatar firstName={hostName} lastName={hostLastName} style={{flex: 3}}/>
+        let {editedEvent} = this.state;
+        let {editing} = this.state;
+        const hostName = 'wafa';
+        const hostLastName = 'Salandre';
+        const hostAvatar = <Avatar firstName={hostName} lastName={hostLastName} style={{flex: 3}}/>;
         const name = (
             editing ?
                 <AppTextInput
@@ -213,7 +212,7 @@ export default class Event extends Component {
                 <AppText style={styles.name}>
                     {editedEvent.name || 'Pas de nom'}
                 </AppText>
-        )
+        );
         const categoryDropdown = (
             <Picker
                 selectedValue={editedEvent.category}
@@ -229,18 +228,18 @@ export default class Event extends Component {
                 <Item label={this.getCategoryNameFromId(1)} value={1}/>
                 <Item label={this.getCategoryNameFromId(2)} value={2}/>
             </Picker>
-        )
+        );
         const categoryLabel = (
             <AppText>{this.getCategoryNameFromId(editedEvent.category)}</AppText>
-        )
-        const category = editing ? categoryDropdown : categoryLabel
+        );
+        const category = editing ? categoryDropdown : categoryLabel;
         const categoryIndicator = (
             <View style={[
                 styles.categoryIndicator,
                 {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
             ]}
             />
-        )
+        );
         const username = (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>
@@ -249,7 +248,7 @@ export default class Event extends Component {
                     {this.state.username}
                 </AppText>
             </View>
-        )
+        );
         const location = (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/location.png')}/>
@@ -271,7 +270,7 @@ export default class Event extends Component {
                 }
 
             </View>
-        )
+        );
         const eventInfo = (
             <View style={{flex: 6, flexDirection: 'column'}}>
                 {name}
@@ -281,7 +280,7 @@ export default class Event extends Component {
                     {location}
                 </View>
             </View>
-        )
+        );
         return (
             <View style={{flex: 8, flexDirection: 'row'}}>
                 {hostAvatar}
@@ -312,11 +311,9 @@ export default class Event extends Component {
                     {this.renderEventDescription(this.state.description)}
                     {commentButton}
                     {this.renderEventDelete()}
-                    {/*{this.renderEventKeywords(event.keywords)}*/}
                     {this.renderNotifySuccess()}
                     {this.renderNotifyDelete()}
                 </ScrollView>
-
                 <KeyboardSpacer/>
             </View>
         )
@@ -341,7 +338,7 @@ export default class Event extends Component {
                     source={this.state.picture}
                     resizeMode="cover"
                 />
-            )
+            );
         return (
             <View style={{flex: 2, marginBottom: -20}}>
                 {picture}
@@ -391,7 +388,6 @@ export default class Event extends Component {
             </View>
         );
     }
-
 
     renderNotifyDelete() {
         return (
@@ -444,7 +440,7 @@ export default class Event extends Component {
     }
 
     renderDatePicker() {
-        let {editedEvent, newEvent} = this.state
+        let {editedEvent, newEvent} = this.state;
         return (
             <View style={{alignItems: 'center'}}>
                 <View style={[styles.participationInfoRectangle, {justifyContent: 'center', borderColor: colors.blue}]}>
@@ -457,7 +453,7 @@ export default class Event extends Component {
                         confirmBtnText="OK"
                         cancelBtnText="Annuler"
                         onDateChange={(date) => {
-                            let formattedDate = moment(new Date(date).toISOString())
+                            let formattedDate = moment(new Date(date).toISOString());
                             this.setState({editedEvent: {...editedEvent, date: formattedDate}})
                         }}
                         customStyles={{
@@ -482,10 +478,10 @@ export default class Event extends Component {
     }
 
     renderEventDateAndParticipants() {
-        let {editedEvent} = this.state
-        let {user, participants} = this.props
-        let [day, time] = this.formatDate(editedEvent.date)
-        let {canParticipate} = this.props
+        let {editedEvent} = this.state;
+        let {user, participants} = this.props;
+        let [day, time] = this.formatDate(editedEvent.date);
+        let {canParticipate} = this.props;
         let enabled = canParticipate ? true : false;
         const countParticipants = canParticipate ? ( <View style={styles.participationInfoItem}>
             <AppText style={styles.participationInfoContainer}>
@@ -559,10 +555,10 @@ export default class Event extends Component {
     }
 
     renderEventDescription() {
-        let {editing} = this.state
+        let {editing} = this.state;
         let placeholder = editing ?
             'Description..' :
-            'Aucune description'
+            'Aucune description';
         placeholder = this.state.editedEvent.description ? '' : placeholder;
         return (
             editing ?
@@ -591,7 +587,7 @@ export default class Event extends Component {
     }
 
     renderEventDelete() {
-        let {editing} = this.state
+        let {editing} = this.state;
 
         return (
             editing ?
@@ -618,15 +614,9 @@ export default class Event extends Component {
         );
     }
 
-    renderEventKeywords() {
-        return (
-            <AppText style={styles.keywords}>{this.state.editedEvent.keywords || 'Aucun mot clé'}</AppText>
-        );
-    }
-
     onParticipationChange = () => {
-        let {user, event} = this.props
-        let going = event.participants.indexOf(user.id) !== -1
+        let {user, event} = this.props;
+        let going = event.participants.indexOf(user.id) !== -1;
         going ?
             this.props.unregisterUser(event, user.id) :
             this.props.registerUser(event, user.id)
@@ -643,7 +633,7 @@ Event.defaultProps = {
         keywords: '',
     },
     userName: '',
-}
+};
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 const styles = StyleSheet.create({
