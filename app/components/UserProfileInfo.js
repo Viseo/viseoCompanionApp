@@ -2,16 +2,12 @@
  * Created by VBO3596 on 18/04/2017.
  */
 import React, {Component} from "react";
-import {Button, Dimensions, Image, Modal, Platform, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
-import PasswordInput from "./passwordInput";
-import EditableImage from "./editableImage";
+import {Button, Dimensions, Modal, Platform, ScrollView, StyleSheet, View} from "react-native";
 import AppText from "./appText";
-import EditableAppText from "./editableAppText";
 import strings from "../util/localizedStrings";
 import colors from "../modules/global/colors";
 import DatePicker from "react-native-datepicker";
 import * as util from "../util/util";
-import FlexImage from "./FlexImage";
 import ItemSpacer from "./ItemSpacer";
 import BackButton from "./BackButton";
 import TextField from "react-native-md-textinput";
@@ -31,7 +27,7 @@ export default class Profile extends Component {
                 picture: defaultImage,
                 firstName: this.props.firstName,
                 lastName: this.props.lastName,
-                email: this.props.email,
+                email: this.props.user.email,
                 password: this.props.password,
                 birthDate: this.props.birthDate,
             },
@@ -81,7 +77,6 @@ export default class Profile extends Component {
                     {this.renderFirstName()}
                     {this.renderLastName()}
                     {this.renderEmail()}
-                    {this.renderBirthDate()}
                     {editing && password}
                     {editing && passwordCheck}
                 </ScrollView>
@@ -156,40 +151,6 @@ export default class Profile extends Component {
         return editing ? lastNameField : lastNameText
     }
 
-    renderBirthDate() {
-        const birthDateValue = new Date(this.state.editedProfile.birthDate);
-        const {editedProfile} = this.state
-        const dateLabel = <AppText style={{color: 'gray', fontSize: 14}}>{strings.birthDate}</AppText>
-        const dateText = (<AppText style={styles.displayText}>{this.props.birthDate}</AppText>)
-        const datePicker = (<DatePicker
-            date={birthDateValue}
-            placeholder={strings.birthDate}
-            mode="date"
-            format="YYYY/MM/DD"
-            confirmBtnText="OK"
-            cancelBtnText="Annuler"
-            onDateChange={(birthDate) => {
-                this.setState({editedProfile: {...editedProfile, birthDate}});
-                this.validate(birthDate);
-            }}
-            customStyles={{
-                dateIcon: {position: 'absolute', left: 0, top: 4, marginLeft: 0},
-                dateInput: {marginLeft: 36, borderWidth: 0}
-            }}/>)
-        const errorMessage = (
-            <AppText style={{color: 'red'}}>
-                {editedProfile.birthDate === undefined ? strings.field + ' ' + strings.mandatory : ''}
-            </AppText>)
-
-        return (
-            <View style={styles.textFieldContainer}>
-                {dateLabel}
-                {this.state.editing && datePicker}
-                {this.state.editing ? errorMessage : dateText}
-            </View>
-        )
-    }
-
     validate() {
         let cannotSave = !this.state.isNewPasswordValid || !this.state.isPasswordCheckValid
             || this.state.firstname === '' || this.state.lastname === '';
@@ -222,11 +183,11 @@ export default class Profile extends Component {
 
 Profile.defaultProps = {
     picture: require('./../images/userAvatar.jpg'),
-    firstName: 'Jean-Michel',
-    lastName: 'Durand',
-    email: 'jm.Durand@mail.com',
+    firstName: 'Non renseigné',
+    lastName: 'Non renseigné',
+    email: 'Non renseigné',
     password: '',
-    birthDate: '1988/04/05',
+    birthDate: '',
 }
 
 const styles = StyleSheet.create({

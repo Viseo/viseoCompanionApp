@@ -1,41 +1,36 @@
 /**
- * Created by HEL3666 on 11/05/2017.
+ * Created by HEL3666 on 22/05/2017.
  */
-
+/**
+ * Created by LMA3606 on 13/02/2017.
+ */
 import React, {Component} from "react";
 import {NavMenu, Platform, StyleSheet, View} from "react-native";
 import Header from "./../components/header";
-import VisibleEventListExp from "./../containers/VisibleEventsExp";
-import SearchBar from "./../components/SearchBar";
-import ItemSpacer from "./../components/ItemSpacer";
-import colors from "../modules/global/colors";
+import colors from "../components/colors";
 import {dispatch} from "redux";
-import PushController from "../util/pushController";
+import CommentsList from "../containers/CommentsList";
 
-export default class History extends Component {
+export default class Comments extends Component {
 
     static defaultProps = {
-        user: {id: 1}
+        event: {id: 2}
     };
 
     constructor(props) {
         super(props);
     }
 
+
     render() {
 
         return (
+
             <View style={styles.mainContainer}>
-                <PushController/>
                 <Header/>
-                <View style={styles.body}>
-                    <View style={styles.searchBar}>
-                        <ItemSpacer/>
-                        <SearchBar style={{flex: 22}}/>
-                        <ItemSpacer/>
-                    </View>
-                </View>
-                <VisibleEventListExp style={{flex: 22}} navigator={this.props.navigator}/>
+
+                <CommentsList style={{flex: 22}} eventId={this.props.event.id} />
+
             </View>
         );
     }

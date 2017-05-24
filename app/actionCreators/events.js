@@ -100,7 +100,7 @@ export const fetchEventsExp = (user) => {
             })
 
         } catch (error) {
-            console.warn('ActionCreators/events::fetchEvents ' + error);
+            console.warn('ActionCreators/events::fetchEventsExp' + error)
             dispatch({
                 type: types.FETCH_EVENTS_FAILED,
                 error
@@ -123,7 +123,8 @@ function getEventsFromJson(json) {
             location: event.place,
             version: event.version,
             category: event.category,
-            host: event.host
+            host: event.host,
+            imageUrl:event.imageUrl
         })
     }
     return events

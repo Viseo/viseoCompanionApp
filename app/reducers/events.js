@@ -15,6 +15,7 @@ const event = (state, action) => {
                 keywords: action.keywords,
                 location: action.location,
                 date: action.date,
+                host: action.host,
                 participants: [],
             };
         default:
@@ -23,11 +24,11 @@ const event = (state, action) => {
 };
 
 const events = (state = {
-    isFetching: false,
-    didInvalidate: false,
-    items: [],
-    itemsExpired: []
-}, action) => {
+                    isFetching: false,
+                    didInvalidate: false,
+                    items: [],
+                    itemsExpired: []
+                }, action) => {
     switch (action.type) {
         case types.ADD_EVENT:
             return Object.assign({}, state, {

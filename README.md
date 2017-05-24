@@ -12,3 +12,5 @@ Projet Viseo Companion - ReactNative
 -> In Webstorm, set the Android React-native configuration
 
 -> Start the emulator from he emulator, run it in AndroidStudio
+
+

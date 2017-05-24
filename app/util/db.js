@@ -1,12 +1,7 @@
-/**
- * Created by AAB3605 on 16/02/2017.
- */
 import settings from "../config/settings";
-
 
 export async function addEvent(event) {
     try {
-        //TODO: make a function to add the host as a param
         let response = await fetch(settings.api.addEvent + "?host=" + event.host.id, {
             method: 'POST',
             headers: {
@@ -19,8 +14,7 @@ export async function addEvent(event) {
                 "keywords": event.keywords || '',
                 "place": event.location,
                 "version": "0",
-                "category": event.category,
-                "hostId": event.host.id
+                "category": event.category
             })
         })
         if (response)
@@ -116,7 +110,6 @@ export async function authenticate(email, password) {
         console.warn('db::authenticate ' + error);
         return -1;
     }
-
     return null;
 }
 
@@ -270,7 +263,6 @@ export async function removeEventParticipant(eventId, userId) {
 
 export async function updateEvent(event) {
     try {
-
         let response = await fetch(settings.api.updatedEvent(event.id), {
             method: 'PUT',
             headers: {
@@ -292,7 +284,6 @@ export async function updateEvent(event) {
     } catch (error) {
         console.warn(error);
     }
-
 }
 
 export async function addComment() {

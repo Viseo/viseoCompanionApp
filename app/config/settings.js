@@ -1,7 +1,3 @@
-/**
- * Created by LMA3606 on 13/02/2017.
- */
-
 // If you're running on another computer, make sure to put your own server ip address
 
 ///////////SERVER CONNECTION////////////////
@@ -20,6 +16,7 @@ let EVENT_API_URL = SERVER_API_URL + '/event/';
 
 const restRoutes = {
     addEvent: SERVER_API_URL + 'events',
+    updatedEvent: SERVER_API_URL + 'events',
     getEvent: SERVER_API_URL + 'events/',
     getEvents: SERVER_API_URL + 'events',
     addUser: SERVER_API_URL + 'users',
@@ -28,6 +25,9 @@ const restRoutes = {
     authenticate: SERVER_API_URL + 'authenticate',
     resetPassword: SERVER_API_URL + 'resetPassword',
     addComment: SERVER_API_URL + 'comment',
+    getCommentsByEvent: (eventId) => {
+        return SERVER_API_URL + 'comments/events/' + eventId ;
+    },
     addEventParticipant: (eventId, userId) => {
         return SERVER_API_URL + 'events/' + eventId + '/users/' + userId;
     },
@@ -36,9 +36,6 @@ const restRoutes = {
     },
     getEventParticipants: eventId => {
         return SERVER_API_URL + 'events/' + eventId + '/users';
-    },
-    updatedEvent: eventId => {
-        return SERVER_API_URL + 'events/' + eventId;
     },
     removeEvent: eventId => {
         return SERVER_API_URL + 'events/' + eventId;
