@@ -2902,11 +2902,7 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-moment@2.x.x:
-  version "2.17.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.17.1.tgz#fed9506063f36b10f066c8b59a144d7faebe1d82"
-
-moment@^2.18.0:
+moment@2.x.x, moment@^2.18.0:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -3277,7 +3273,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.0.0, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
+prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -3422,17 +3418,25 @@ react-native-highlight-words@^1.0.0:
   dependencies:
     highlight-words-core "^1.0.3"
 
+react-native-image-button@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-button/-/react-native-image-button-1.0.0.tgz#4d53e76ee776e36e1988ae40cb764c13ca945bde"
+
 react-native-image-picker@^0.26.2:
   version "0.26.3"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.3.tgz#0ad2eede49501a7046d8046a73813696539c3dcd"
+
+react-native-img-button@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-img-button/-/react-native-img-button-1.0.1.tgz#766033b2c0125bc281d72e0bd0dd6cc05450fa11"
 
 react-native-keyboard-spacer@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/react-native-keyboard-spacer/-/react-native-keyboard-spacer-0.3.1.tgz#9580297ebfd078202dc4c65303d29cda35de67f1"
 
-react-native-md-textinput@^2.0.4:
+"react-native-md-textinput@git+https://github.com/evblurbs/react-native-md-textinput.git":
   version "2.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-md-textinput/-/react-native-md-textinput-2.0.4.tgz#9f81cff16ceba0bc595fc58ed1239bd13a4023a8"
+  resolved "git+https://github.com/evblurbs/react-native-md-textinput.git#d7918218de38318071835748f94144a616c705fd"
 
 react-native-mock@^0.3.1:
   version "0.3.1"
@@ -3451,9 +3455,9 @@ react-native-mock@^0.3.1:
     react-timer-mixin "^0.13.3"
     warning "^2.1.0"
 
-react-native-navigation@^1.1.72:
-  version "1.1.72"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.72.tgz#18e5067e74d5690b7bfddd100b06d5a7126ba2a8"
+react-native-navigation@^1.1.81:
+  version "1.1.81"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.81.tgz#eb16adcabf84494abc0f351ce0c0ea7db6e40abf"
   dependencies:
     lodash "4.x.x"
 
@@ -4084,7 +4088,7 @@ strip-bom@^2.0.0:
   dependencies:
     is-utf8 "^0.2.0"
 
-supports-color@3.1.2:
+supports-color@3.1.2, supports-color@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -4093,12 +4097,6 @@ supports-color@3.1.2:
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
-
-supports-color@^3.1.2:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
-  dependencies:
-    has-flag "^1.0.0"
 
 symbol-observable@^1.0.2:
   version "1.0.4"
