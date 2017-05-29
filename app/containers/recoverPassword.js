@@ -5,7 +5,7 @@ import React, {Component} from "react";
 import {Alert, Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
 import AppText from "../components/appText";
 import {isEmailValid} from "../util/util";
-import settings from "../config/settings";
+import settings from "../modules/global/settings";
 import strings from "../util/localizedStrings";
 import EmailInput from "../components/emailInput";
 import {connect} from "react-redux";

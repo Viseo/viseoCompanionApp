@@ -7,7 +7,7 @@ import AppText from "./../components/appText";
 import {connect} from "react-redux";
 import {authenticate} from "../actionCreators/user";
 import {bindActionCreators} from "redux";
-import settings from "../config/settings";
+import settings from "../modules/global/settings";
 import colors from "../components/colors";
 import startApp from "../modules/global/startApp";
 
@@ -24,7 +24,6 @@ class App extends Component {
 
     componentWillMount() {
         this._setLanguage();
-        this._configureBackButtonForAndroidDevices();
         this._setSplashScreenDuration();
         this.props.navigator.toggleTabs({
             to: 'hidden',
@@ -66,16 +65,6 @@ class App extends Component {
                 });
             }, settings.maxSplashScreenDuration - settings.minSplashScreenDuration);
         }
-    }
-
-    _configureBackButtonForAndroidDevices() {
-        BackAndroid.addEventListener('hardwareBackPress', () => {
-            if (this.navigator && this.navigator.getCurrentRoutes().length > 1) {
-                this.navigator.pop();
-                return true;
-            }
-            return false;
-        });
     }
 
     _navigateToHomeScreen() {

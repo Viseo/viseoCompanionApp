@@ -1,9 +1,11 @@
-// If you're running on another computer, make sure to put your own server ip address
+// DO NOT USE THIS FILE ANYMORE
+
+// USE THE ONE LOCATED IN modules/global/settings.js
 
 ///////////SERVER CONNECTION////////////////
 // Localhost
     //let SERVER_API_URL = 'http://10.56.166.177:8080/';
-let SERVER_API_URL = 'http://10.33.171.42:8080/';
+let SERVER_API_URL = 'http://10.33.171.57:8080/';
 
 // Home
 //  let SERVER_API_URL = 'http://192.168.1.8:8080/api/';

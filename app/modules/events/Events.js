@@ -46,6 +46,7 @@ export default class Events extends Component {
         this.props.navigator.push({
             screen:'CreateEvent',
             title:'Nouvel évènement',
+            navigatorStyle: defaultNavBarStyle,
         });
     }
 
