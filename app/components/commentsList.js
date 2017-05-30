@@ -160,7 +160,7 @@ export default class CommentList extends Component {
                 children={comment.childComments}
                 nbLik={comment.nbLike}
                 likerIds={comment.likers}
-
+                navigator={this.props.navigator}
             />
         )
             ;

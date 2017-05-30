@@ -30,6 +30,7 @@ export default class Comments extends Component {
                 <CommentsList
                     style={{flex: 22}}
                     eventId={this.props.eventId}
+                    navigator={this.props.navigator}
                 />
             </View>
         );
@@ -43,7 +44,7 @@ export default class Comments extends Component {
 
     _goToAddComment() {
         this.props.navigator.push({
-            screen:'CreateComment',
+            screen:'CreateChildComment',
             title:'Ajouter un commentaire',
             navigatorStyle: defaultNavBarStyle,
             passProps: {

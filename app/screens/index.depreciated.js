@@ -33,4 +33,5 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('App', () => App, store, provider);
     Navigation.registerComponent('Comments', () => Comments, store, provider);
     Navigation.registerComponent('CreateComment', () => CreateComment, store, provider);
+    Navigation.registerComponent('CreateChildComment', () => CreateComment, store, provider);
 }

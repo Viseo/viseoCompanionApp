@@ -300,3 +300,18 @@ export async function addComment(comment) {
     }
     return false;
 }
+
+export async function addChildComment(childComment) {
+    try {
+        await fetch(settings.api.addChildComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(childComment)
+        });
+    } catch (error) {
+        console.warn('db::addChildComment ' + error);
+    }
+    return false;
+}

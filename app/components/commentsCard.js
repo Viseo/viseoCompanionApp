@@ -7,6 +7,7 @@ import Swipeout from "react-native-swipe-out";
 import colors from "./colors";
 import  Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
+import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
 export default class CommentsCard extends Component {
 
@@ -91,7 +92,24 @@ export default class CommentsCard extends Component {
 
     renderReply() {
         const reply = (
-            <Icon.Button name="reply" style={styles.icon} size={20} color={colors.green}/>
+            <Icon.Button
+                name="reply"
+                style={styles.icon}
+                size={20}
+                color={colors.green}
+                onPress={()=>{
+                    this.props.navigator.push({
+                        screen: 'CreateChildComment',
+                        title: 'Ajouter une réponse au commentaire',
+                        navigatorStyle: defaultNavBarStyle,
+                        passProps: {
+                            eventId: this.props.eventId,
+                            commentId: this.props.commentId,
+                        }
+
+                    })
+                }}
+            />
         );
         return (
             <View >
