@@ -1,4 +1,4 @@
-import configureStore from "./store/configureStore.depreciated";
+import configureStore from "./store/configureStore.deprecated";
 import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import { registerScreens } from './screens/index.deprecated';

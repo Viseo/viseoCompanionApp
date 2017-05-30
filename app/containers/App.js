@@ -28,11 +28,9 @@ class App extends Component {
             to: 'hidden',
             animated: true,
         });
-    }
 
-    componentWillReceiveProps(props) {
-        const {hasSavedUser, email, password, isAuthenticated} = props;
-        if (!isAuthenticated && hasSavedUser) {
+        const {email, password, isAuthenticated} = this.props;
+        if (!isAuthenticated && email && password) {
             if (!this.state.isAuthenticatingSavedUser) {
                 this._authenticateSaveUser(email, password);
             }
@@ -106,13 +104,10 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({user}, ownProps) => ({
-    hasSavedUser: user.rememberMe,
+const mapStateToProps = ({user}) => ({
     email: user.email,
     password: user.password,
-    authenticationStatus: user.authenticationStatus,
     isAuthenticated: user.isAuthenticated,
-    ...ownProps
 });
 
 const mapDispatchToProps = (dispatch) => {

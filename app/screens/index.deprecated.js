@@ -13,7 +13,6 @@ import PastEvents from "../modules/events/PastEvents";
 import PastEvent from "../modules/events/PastEvent";
 import Comments from "../scenes/commentsList";
 import CreateComment from "../modules/events/CreateComment";
-import AppLoader from "../modules/appLoader/AppLoader";
 import App from "../containers/App";
 import EventInfo from "../containers/EventInfo";
 
