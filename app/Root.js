@@ -1,14 +1,14 @@
-import configureStore from "./store/configureStore.deprecated";
+import configureStore from "./store/configureStore";
 import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
-import { registerScreens } from './screens/index.deprecated';
+import { registerScreens } from './modules/global/registerScreens';
 
 const store = configureStore();
 registerScreens(store, Provider);
 
 Navigation.startSingleScreenApp({
     screen: {
-        screen: 'App',
+        screen: 'appLoader.splashScreen',
     },
     animationType: 'fade',
 });

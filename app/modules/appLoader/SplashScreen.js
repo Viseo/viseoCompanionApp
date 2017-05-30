@@ -2,16 +2,17 @@ import React, {Component} from "react";
 import {StyleSheet, View} from "react-native";
 import AppText from "../../components/appText";
 import colors from "../global/colors";
-import {authenticate} from "../../actionCreators/user";
+import {authenticate} from "./../user/authentication.actions";
 import {connect} from "react-redux";
+import startApp from "../global/startApp";
+import {bindActionCreators} from "redux";
 
-class AppLoader extends Component {
+class SplashScreen extends Component {
 
     minSplashScreenDuration = 2000;
     maxSplashScreenDuration = 2500;
     state = {
         isAuthenticatingSavedUser: false,
-        isSavedUserAuthenticated: false,
         shouldShowSplashScreen: true,
     };
 
@@ -20,17 +21,16 @@ class AppLoader extends Component {
     }
 
     componentWillMount() {
+        this._hideTabBar();
         this._setSplashScreenDuration();
+        const {email, password} = this.props.loggedUser;
+        this._authenticateSavedUser(email, password);
     }
 
-    componentWillReceiveProps({isAuthenticated, savedUser}) {
-        if (isAuthenticated) {
-            this.setState({
-                isSavedUserAuthenticated: true
-            })
-        } else {
-            this._authenticateSavedUser(savedUser.email, savedUser.password);
-        }
+    componentWillReceiveProps({isAuthenticated}) {
+        this.setState({
+            isAuthenticated
+        });
     }
 
     render() {
@@ -52,7 +52,7 @@ class AppLoader extends Component {
     }
 
     _closeSplashScreenIfEverythingIsLoaded() {
-        if (this.state.isSavedUserAuthenticated) {
+        if (this.props.isAuthenticated) {
             this._navigateToHome();
         }
         else if (!this.state.isAuthenticatingSavedUser) {
@@ -63,20 +63,20 @@ class AppLoader extends Component {
         }
     }
 
-    _navigateToHome() {
-        this.props.navigator.popToRoot();
-        this.props.navigator.push({
-            screen: 'NewsFeed',
-            title: 'Actualités',
-            backButtonHidden: true,
+    _hideTabBar() {
+        this.props.navigator.toggleTabs({
+            to: 'hidden',
+            animated: false,
         });
+    }
+
+    _navigateToHome() {
+        startApp();
     }
 
     _navigateToSignIn() {
         this.props.navigator.push({
-            screen: 'SignIn',
-            title: 'Connexion',
-            backButtonHidden: true,
+            screen: 'authentication.signIn',
         });
     }
 
@@ -88,23 +88,25 @@ class AppLoader extends Component {
     }
 }
 
-AppLoader.navigatorStyle = {
+SplashScreen.navigatorStyle = {
     navBarHidden: true,
     tabBarHidden: true,
 };
 
 const mapStateToProps = ({authentication}) => ({
     isAuthenticated: authentication.isAuthenticated,
-    savedUser: authentication.savedUser,
+    loggedUser: authentication.loggedUser,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    authenticate
-});
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        authenticate
+    }, dispatch);
+};
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps)(AppLoader);
+    mapDispatchToProps)(SplashScreen);
 
 const styles = StyleSheet.create({
     navigator: {

@@ -5,10 +5,25 @@ export default {
         loggedUser: {
             email: '',
             password: '',
-        },
-        savedUser: {
-            email: '',
-            password: '',
         }
+    },
+    events: {
+        isFetching: false,
+        items: [],
+        itemsExpired: [],
+    },
+    comments:{
+        commentsItems:[],
+        isFetching: false,
+    },
+    filters: [],
+    searchWords: [],
+    visibilityFilter: 'SHOW_ALL',
+    user: {
+        id: 1,
+        email: '',
+        password: '',
+        firstName: 'non renseigné',
+        lastName: 'non renseigné',
     },
 };
