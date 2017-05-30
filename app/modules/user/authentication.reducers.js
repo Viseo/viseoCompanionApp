@@ -16,6 +16,8 @@ export default (state = [], action) => {
             let incoming = action.payload.authentication;
             if (incoming) return {
                 ...state,
+                isAuthenticated: false,
+                loggedUser: {},
                 savedUser: {...incoming.savedUser},
             };
             return state;

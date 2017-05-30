@@ -13,8 +13,8 @@ export default class SignInForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: this.props.email,
-            password: this.props.password,
+            email: this.props.email || '',
+            password: this.props.password || '',
             errorMessage: '',
             rememberUser: true
         }

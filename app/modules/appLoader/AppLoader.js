@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 class AppLoader extends Component {
 
     minSplashScreenDuration = 2000;
-    maxSplashScreenDuration = 3000;
+    maxSplashScreenDuration = 2500;
     state = {
         isAuthenticatingSavedUser: false,
         isSavedUserAuthenticated: false,
@@ -24,7 +24,7 @@ class AppLoader extends Component {
     }
 
     componentWillReceiveProps({isAuthenticated, savedUser}) {
-        if(isAuthenticated) {
+        if (isAuthenticated) {
             this.setState({
                 isSavedUserAuthenticated: true
             })
@@ -81,7 +81,10 @@ class AppLoader extends Component {
     }
 
     _setSplashScreenDuration() {
-        setTimeout(() => this._closeSplashScreenIfEverythingIsLoaded(), this.minSplashScreenDuration);
+        setTimeout(() => {
+                this._closeSplashScreenIfEverythingIsLoaded()
+            }, this.minSplashScreenDuration
+        );
     }
 }
 

@@ -1,4 +1,4 @@
-import settings from "../modules/global/settings";
+import settings from "./settings";
 
 export async function addEvent(event) {
     try {

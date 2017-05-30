@@ -56,7 +56,7 @@ const restRoutes = {
 };
 
 /////////// EXPORTED SETTINGS ////////////////
-export default settings = {
+export default {
     serverURL,
     api: restRoutes,
 };

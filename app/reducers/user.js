@@ -38,10 +38,10 @@ const user = (state = [], action) => {
             let incoming = action.payload.user;
             if (incoming) return {
                 ...state,
-                ...incoming,
+                isAuthenticated: false,
                 authenticationStatus: state.authenticationStatus,
-                email: incoming.email,
-                password: incoming.rememberMe ? incoming.password : ''
+                email: incoming.email || '',
+                password: incoming.password || '',
             };
             return {...state, updateStatus: action.code};
         case types.UPDATE_USER_FAILURE:

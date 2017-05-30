@@ -48,6 +48,7 @@ export const authenticate = (email, password) => {
                     type: types.AUTHENTICATION_SUCCESS,
                     user,
                     password,
+                    email,
                     code: 1
                 })
             }

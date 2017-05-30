@@ -1,11 +1,9 @@
 import { Navigation } from 'react-native-navigation';
 import SignIn from './../containers/SignInForm';
 import SignUp from './../containers/signUp';
-import App from "../containers/App";
 import Notifications from "../modules/notifications/Notifications";
 import Shop from "../modules/shop/Shop";
 import VizzManagement from "../modules/vizz/VizzManagement";
-import EventInfo from '../../'
 import Profile from "../modules/user/Profile";
 import EditProfile from "../modules/user/EditProfile";
 import CreateEvent from "../modules/events/CreateEvent";
@@ -15,6 +13,9 @@ import PastEvents from "../modules/events/PastEvents";
 import PastEvent from "../modules/events/PastEvent";
 import Comments from "../scenes/commentsList";
 import CreateComment from "../modules/events/CreateComment";
+import AppLoader from "../modules/appLoader/AppLoader";
+import App from "../containers/App";
+import EventInfo from "../containers/EventInfo";
 
 export function registerScreens(store, provider) {
     Navigation.registerComponent('SignIn', () => SignIn, store, provider);

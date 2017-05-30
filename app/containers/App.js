@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {BackAndroid, StyleSheet, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import SignIn from "./../containers/SignInForm";
 import strings from "./../util/localizedStrings";
 import setDateLang from "./../util/dateHandler";
@@ -7,7 +7,6 @@ import AppText from "./../components/appText";
 import {connect} from "react-redux";
 import {authenticate} from "../actionCreators/user";
 import {bindActionCreators} from "redux";
-import settings from "../modules/global/settings";
 import colors from "../components/colors";
 import startApp from "../modules/global/startApp";
 
@@ -63,7 +62,7 @@ class App extends Component {
                 this.props.navigator.push({
                     screen: 'SignIn',
                 });
-            }, settings.maxSplashScreenDuration - settings.minSplashScreenDuration);
+            }, 1500);
         }
     }
 
@@ -82,7 +81,7 @@ class App extends Component {
                 shouldShowSplashScreen: false,
             });
             this._closeSplashScreenIfAuthenticated();
-        }, settings.minSplashScreenDuration);
+        }, 1000);
     }
 }
 
