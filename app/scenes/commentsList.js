@@ -44,7 +44,7 @@ export default class Comments extends Component {
 
     _goToAddComment() {
         this.props.navigator.push({
-            screen:'CreateComment',
+            screen:'CreateChildComment',
             title:'Ajouter un commentaire',
             navigatorStyle: defaultNavBarStyle,
             passProps: {

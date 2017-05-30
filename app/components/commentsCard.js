@@ -7,6 +7,7 @@ import Avatar from "./Avatar";
 import AppText from "./appText";
 import {addLike, dislike} from "../util/db";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
+import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
 export default class CommentsCard extends Component {
 
@@ -92,7 +93,24 @@ export default class CommentsCard extends Component {
 
     renderReply() {
         const reply = (
-            <Icon.Button name="reply" style={styles.icon} size={20} color={colors.green}/>
+            <Icon.Button
+                name="reply"
+                style={styles.icon}
+                size={20}
+                color={colors.green}
+                onPress={()=>{
+                    this.props.navigator.push({
+                        screen: 'CreateChildComment',
+                        title: 'Ajouter une réponse au commentaire',
+                        navigatorStyle: defaultNavBarStyle,
+                        passProps: {
+                            eventId: this.props.eventId,
+                            commentId: this.props.commentId,
+                        }
+
+                    })
+                }}
+            />
         );
         return (
             <View >

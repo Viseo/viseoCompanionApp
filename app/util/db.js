@@ -312,6 +312,7 @@ export async function removeEventParticipant(eventId, userId) {
     return false;
 }
 
+
 export async function updateEvent(event) {
     try {
         let response = await fetch(settings.api.updatedEvent(event.id), {
@@ -376,4 +377,19 @@ export async function updateComment(comment) {
     } catch (error) {
         console.warn(error);
     }
+}
+
+export async function addChildComment(childComment) {
+    try {
+        await fetch(settings.api.addChildComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(childComment)
+        });
+    } catch (error) {
+        console.warn('db::addChildComment ' + error);
+    }
+    return false;
 }

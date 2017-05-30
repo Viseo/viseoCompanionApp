@@ -33,11 +33,7 @@ export default class CommentList extends Component {
     }
 
     componentWillReceiveProps({comments}) {
-        // if (comments.length > 0)
-        //     console.warn(comments.length + '  ' + comments[0].content)
-        // else
-        //     console.warn('0 comments')
-        this.setState({
+            this.setState({
             dataSource: this.state.dataSource.cloneWithRows(comments)
         });
     }
