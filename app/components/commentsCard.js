@@ -7,6 +7,8 @@ import Swipeout from "react-native-swipe-out";
 import colors from "./colors";
 import  Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
+import AppText from "./appText";
+import {addLike, deleteComment, dislike} from "../util/db";
 
 export default class CommentsCard extends Component {
 
@@ -66,6 +68,7 @@ export default class CommentsCard extends Component {
                                 {this.renderParticipantDate()}
                                 {this.renderComment()}
                                 {this.renderActionComment()}
+                                {this.renderLikeCount()}
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -88,6 +91,17 @@ export default class CommentsCard extends Component {
         );
     }
 
+    renderLikeCount() {
+        return (
+            <View style={{
+                flex: 1,
+                flexDirection: 'row', alignSelf: 'flex-end', marginRight: 30, marginTop: -30
+            }}>
+                <AppText>{this.props.nbLike}</AppText>
+            </View>
+        );
+    }
+
 
     renderReply() {
         const reply = (
@@ -104,7 +118,7 @@ export default class CommentsCard extends Component {
 
     renderDelete() {
         const reply = (
-            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red}/>
+            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red} onPress={this.deleteComment()}/>
         );
         return (
             <View>
@@ -115,9 +129,18 @@ export default class CommentsCard extends Component {
     }
 
     renderLike() {
+
+        let liked = this.props.likers.filter( (obj)  => {
+              return obj.id == this.props.userId;
+        });
+
         const reply = (
-            <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue}/>
-        );
+                <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue} onPress={ ()=>
+                    liked ?
+                       this.dislikeComment() : this.likeComment()}
+                />
+            )
+        ;
         return (
             <View >
                 {reply}
@@ -156,8 +179,8 @@ export default class CommentsCard extends Component {
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10}}>
 
                 <View style={{flex: .5}}>
-                    <Text style={{color:colors.blue, fontSize: 14}}>
-                        {this.props.writer.lastName +' '+ this.props.writer.firstName}
+                    <Text style={{color: colors.blue, fontSize: 14}}>
+                        {this.props.writer.lastName + ' ' + this.props.writer.firstName}
                     </Text>
                 </View>
 
@@ -166,7 +189,6 @@ export default class CommentsCard extends Component {
             </View>
         );
     }
-
 
 
     renderComment() {
@@ -183,6 +205,21 @@ export default class CommentsCard extends Component {
                 <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
             </View>
         );
+    }
+
+    likeComment = () => {
+        addLike(this.props.id, this.props.userId);
+
+    }
+
+    dislikeComment = () => {
+        dislike(this.props.id, this.props.userId);
+    }
+
+
+    deleteComment() {
+        deleteComment(this.props.id);
+        this.props.navigator.pop();
     }
 }
 
@@ -203,7 +240,7 @@ const styles = StyleSheet.create({
         height: 150,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
-        marginTop:10
+        marginTop: 10
     },
 
     icon: {

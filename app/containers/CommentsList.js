@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => ({
     comments:  state.comments.commentsItems,
     event: state.events.itemsExpired.find(event => event.id === ownProps.eventId),
     refreshing: state.comments.isFetching,
-    userId:state.userId,
+    userId:state.user.id,
         ...ownProps
 
 })

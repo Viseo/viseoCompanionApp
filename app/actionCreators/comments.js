@@ -38,8 +38,7 @@ export const getComments = (idEvent) => {
                     eventId: comment.eventId,
                     children: comment.childComments,
                     nbLike: comment.nbLike,
-                    likerIds: comment.likers,
-
+                    likers: comment.likers,
                 });
             }
 

@@ -148,6 +148,7 @@ export default class CommentList extends Component {
 
     renderEventCard = (comment) => {
         let [day, time] = this.formatDate(comment.date);
+
         return (
             <CommentsCard
                 id={comment.id}
@@ -157,9 +158,10 @@ export default class CommentList extends Component {
                 writer={comment.writer}
                 eventId={comment.eventId}
                 children={comment.childComments}
-                nbLik={comment.nbLike}
-                likerIds={comment.likers}
-                userId:{this.props.userId}
+                nbLike={comment.nbLike}
+                likers={comment.likers}
+                userId={this.props.userId}
+                navigator={this.props.navigator}
             />
         )
             ;
