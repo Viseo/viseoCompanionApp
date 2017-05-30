@@ -5,6 +5,8 @@ import strings from "../../../util/localizedStrings";
 import Highlighter from "react-native-highlight-words";
 import * as util from "../../../util/util";
 import colors from "../../global/colors";
+import AppText from "../../../components/appText";
+import moment from "moment";
 
 export default class EventCard extends Component {
 
@@ -98,10 +100,12 @@ export default class EventCard extends Component {
     }
 
     renderEventInfo() {
+        const liveIndicator = this._isLive() ? this.renderLiveIndicator() : null;
         return (
             <View style={styles.eventInfo}>
                 {this.renderSpacer()}
                 <View style={styles.firstRow}>
+                    {liveIndicator}
                     {this.renderTitle()}
                     {this.renderDate()}
                 </View>
@@ -110,6 +114,14 @@ export default class EventCard extends Component {
                     {this.renderDescription()}
                 </View>
                 {this.renderSpacer()}
+            </View>
+        );
+    }
+
+    renderLiveIndicator() {
+        return (
+            <View>
+                <AppText style={{color: colors.red}}>Live</AppText>
             </View>
         );
     }
@@ -185,6 +197,12 @@ export default class EventCard extends Component {
             </View>
 
         );
+    }
+
+    _isLive() {
+        const startDate = moment(this.props.date);
+        const endDate = moment(startDate).add(2, 'hours');
+        return moment().isBetween(startDate, endDate);
     }
 }
 

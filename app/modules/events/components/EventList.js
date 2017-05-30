@@ -99,6 +99,7 @@ export default class EventList extends Component {
                 location={event.location}
                 day={day}
                 time={time}
+                date={event.date}
                 participating={event.participating}
                 categoryId={event.category}
                 onParticipationChange={() => {
