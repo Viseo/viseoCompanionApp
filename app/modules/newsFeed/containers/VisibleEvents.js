@@ -89,7 +89,7 @@ const getVisibleEventList = (events,
     }
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
     events: getVisibleEventList(
         state.events.items,
         state.visibilityFilter,
@@ -101,6 +101,7 @@ const mapStateToProps = (state) => ({
     searchWords: state.searchWords,
     loading: state.loading,
     user: state.user,
+    ...ownProps,
 });
 
 const mapDispatchToProps = (dispatch) => {

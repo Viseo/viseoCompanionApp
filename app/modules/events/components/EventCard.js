@@ -7,6 +7,7 @@ import * as util from "../../../util/util";
 import colors from "../../global/colors";
 import AppText from "../../../components/appText";
 import moment from "moment";
+import {defaultNavBarStyle} from "../../global/navigatorStyle";
 
 export default class EventCard extends Component {
 
@@ -59,7 +60,7 @@ export default class EventCard extends Component {
                 >
                     <TouchableOpacity
                         style={styles.card}
-                        onPress={this.props.onPress}
+                        onPress={() => {this._goToEvent();}}
                     >
                         {this.renderParticipationIndicator()}
                         {this.renderTypeIndicator()}
@@ -197,6 +198,22 @@ export default class EventCard extends Component {
             </View>
 
         );
+    }
+
+    _goToEvent() {
+        if(this._isLive()) {
+            this._goToLiveEvent();
+        } else {
+            // todo go to event's details
+        }
+    }
+
+    _goToLiveEvent() {
+        this.props.navigator.push({
+            title: this.props.name,
+            screen: 'events.liveEvent',
+            navigatorStyle: defaultNavBarStyle,
+        });
     }
 
     _isLive() {

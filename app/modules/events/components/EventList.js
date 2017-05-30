@@ -118,6 +118,7 @@ export default class EventList extends Component {
                         }
                     });
                 }}
+                navigator={this.props.navigator}
                 searchWords={this.props.searchWords}
             />
         );

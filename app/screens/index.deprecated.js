@@ -15,21 +15,24 @@ import Comments from "../scenes/commentsList";
 import CreateComment from "../modules/events/CreateComment";
 import App from "../containers/App";
 import EventInfo from "../containers/EventInfo";
+import LiveEvent from "../modules/events/LiveEvent";
 
 export function registerScreens(store, provider) {
+    Navigation.registerComponent('events.event', () => EventInfo, store, provider);
+    Navigation.registerComponent('events.liveEvent', () => LiveEvent, store, provider);
+    Navigation.registerComponent('events.events', () => Events, store, provider);
+    Navigation.registerComponent('events.pastEvents', () => PastEvents, store, provider);
+    Navigation.registerComponent('events.pastEvent', () => PastEvent, store, provider);
+    Navigation.registerComponent('events.createEvent', () => CreateEvent, store, provider);
+
     Navigation.registerComponent('SignIn', () => SignIn, store, provider);
     Navigation.registerComponent('SignUp', () => SignUp, store, provider);
     Navigation.registerComponent('NewsFeed', () => NewsFeed, store, provider);
     Navigation.registerComponent('Notifications', () => Notifications, store, provider);
     Navigation.registerComponent('Shop', () => Shop, store, provider);
     Navigation.registerComponent('VizzManagement', () => VizzManagement, store, provider);
-    Navigation.registerComponent('Event', () => EventInfo, store, provider);
-    Navigation.registerComponent('Events', () => Events, store, provider);
-    Navigation.registerComponent('PastEvents', () => PastEvents, store, provider);
-    Navigation.registerComponent('PastEvent', () => PastEvent, store, provider);
     Navigation.registerComponent('UserProfile', () => Profile, store, provider);
     Navigation.registerComponent('EditUserProfile', () => EditProfile, store, provider);
-    Navigation.registerComponent('CreateEvent', () => CreateEvent, store, provider);
     Navigation.registerComponent('App', () => App, store, provider);
     Navigation.registerComponent('Comments', () => Comments, store, provider);
     Navigation.registerComponent('CreateComment', () => CreateComment, store, provider);
