@@ -29,7 +29,6 @@ export default class CommentList extends Component {
         this.state = {
             dataSource: ds.cloneWithRows(this.props.comments),
 
-
         }
     }
 
@@ -160,7 +159,7 @@ export default class CommentList extends Component {
                 children={comment.childComments}
                 nbLik={comment.nbLike}
                 likerIds={comment.likers}
-
+                userId:{this.props.userId}
             />
         )
             ;

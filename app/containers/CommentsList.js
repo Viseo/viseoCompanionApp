@@ -1,9 +1,7 @@
 /**
  * Created by IBO3693 on 23/05/2017.
  */
-/**
- * Created by HEL3666 on 11/05/2017.
- */
+
 
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -14,6 +12,7 @@ const mapStateToProps = (state, ownProps) => ({
     comments:  state.comments.commentsItems,
     event: state.events.itemsExpired.find(event => event.id === ownProps.eventId),
     refreshing: state.comments.isFetching,
+    userId:state.userId,
         ...ownProps
 
 })
