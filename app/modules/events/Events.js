@@ -44,7 +44,7 @@ export default class Events extends Component {
 
     _goToAddEvent() {
         this.props.navigator.push({
-            screen:'CreateEvent',
+            screen:'events.createEvent',
             title:'Nouvel évènement',
             navigatorStyle: defaultNavBarStyle,
         });
@@ -52,7 +52,7 @@ export default class Events extends Component {
 
     _goToPastEvents() {
         this.props.navigator.push({
-            screen:'PastEvents',
+            screen:'events.pastEvents',
             title:'Evènements passés',
             navigatorStyle: defaultNavBarStyle,
         });

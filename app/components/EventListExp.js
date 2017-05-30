@@ -105,7 +105,7 @@ export default class EventListExp extends Component {
                 categoryId={event.category}
                 onPress={() => {
                     this.props.navigator.push({
-                        screen: 'PastEvent',
+                        screen: 'events.pastEvent',
                         title: "Détails de l'évènement",
                         navigatorStyle: defaultNavBarStyle,
                         passProps: {

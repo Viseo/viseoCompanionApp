@@ -104,22 +104,17 @@ export default class EventList extends Component {
                 onParticipationChange={() => {
                     this.props.toggleParticipation(event, user)
                 }}
-                onPress={() => {
-                    this.props.navigator.push({
-                        title: 'Event',
-                        passProps: {
-                            id: event.id,
-                            edit: edited,
-                            canParticipate: true,
-                            onParticipationChange: () => {
-                                this.props.toggleParticipation(event, user)
-                            }
-                        }
-                    });
-                }}
+                onPress={() => this._showEventDetails()}
                 searchWords={this.props.searchWords}
             />
         );
+    }
+
+    _showEventDetails() {
+        this.props.navigator.push({
+            title: "Détails de l'évènement",
+            screen: 'events.event',
+        });
     }
 }
 
