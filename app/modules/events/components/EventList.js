@@ -105,6 +105,7 @@ export default class EventList extends Component {
                 onParticipationChange={() => {
                     this.props.toggleParticipation(event, user)
                 }}
+                navigator={this.props.navigator}
                 onPress={() => {
                     this.props.navigator.push({
                         title: 'Event',

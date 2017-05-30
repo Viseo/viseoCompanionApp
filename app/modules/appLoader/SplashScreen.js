@@ -6,6 +6,7 @@ import {authenticate} from "./../user/authentication.actions";
 import {connect} from "react-redux";
 import startApp from "../global/startApp";
 import {bindActionCreators} from "redux";
+import {hideTabBar} from "../global/navigationUtil";
 
 class SplashScreen extends Component {
 
@@ -21,7 +22,7 @@ class SplashScreen extends Component {
     }
 
     componentWillMount() {
-        this._hideTabBar();
+        hideTabBar(this.props.navigator);
         this._setSplashScreenDuration();
         const {email, password} = this.props.loggedUser;
         this._authenticateSavedUser(email, password);
@@ -61,13 +62,6 @@ class SplashScreen extends Component {
             const remainingLoadingTime = this.maxSplashScreenDuration - this.minSplashScreenDuration;
             setTimeout(() => this._navigateToSignIn(), remainingLoadingTime);
         }
-    }
-
-    _hideTabBar() {
-        this.props.navigator.toggleTabs({
-            to: 'hidden',
-            animated: false,
-        });
     }
 
     _navigateToHome() {

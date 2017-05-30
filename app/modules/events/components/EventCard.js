@@ -60,7 +60,7 @@ export default class EventCard extends Component {
                 >
                     <TouchableOpacity
                         style={styles.card}
-                        onPress={() => {this._goToEvent();}}
+                        onPress={() => this._goToEvent()}
                     >
                         {this.renderParticipationIndicator()}
                         {this.renderTypeIndicator()}
@@ -202,13 +202,21 @@ export default class EventCard extends Component {
 
     _goToEvent() {
         if(this._isLive()) {
-            this._goToLiveEvent();
+            this._showLiveEvent();
         } else {
-            // todo go to event's details
+            this._showEventDetails();
         }
     }
 
-    _goToLiveEvent() {
+    _showEventDetails() {
+        this.props.navigator.push({
+            title: "Détails de l'évènement",
+            screen: 'events.event',
+            navigatorStyle: defaultNavBarStyle,
+        });
+    }
+
+    _showLiveEvent() {
         this.props.navigator.push({
             title: this.props.name,
             screen: 'events.liveEvent',
