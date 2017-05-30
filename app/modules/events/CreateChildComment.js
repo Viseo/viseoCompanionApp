@@ -40,11 +40,9 @@ export default class CreateChildComment extends Component {
         const childComment = {
             content: this.state.childComment,
             datetime: moment().valueOf(),
-            writer: {
-                id: 1,
-            },
+            userId: this.props.userId,
             eventId: this.props.eventId,
-            commentId: this.props.commentId,
+            // commentId: this.props.commentId,
         };
         addChildComment(childComment);
         this.props.navigator.pop();
