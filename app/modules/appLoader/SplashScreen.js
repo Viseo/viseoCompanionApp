@@ -7,6 +7,8 @@ import {connect} from "react-redux";
 import startApp from "../global/startApp";
 import {bindActionCreators} from "redux";
 import {hideTabBar} from "../global/navigationUtil";
+import strings from "./../global/localizedStrings";
+import setDateLang from './../global/dateHandler';
 
 class SplashScreen extends Component {
 
@@ -23,6 +25,7 @@ class SplashScreen extends Component {
 
     componentWillMount() {
         hideTabBar(this.props.navigator);
+        this._setLanguage();
         this._setSplashScreenDuration();
         const {email, password} = this.props.loggedUser;
         this._authenticateSavedUser(email, password);
@@ -72,6 +75,11 @@ class SplashScreen extends Component {
         this.props.navigator.push({
             screen: 'authentication.signIn',
         });
+    }
+
+    _setLanguage() {
+        strings.setLanguage('fr');
+        setDateLang(strings.getLanguage());
     }
 
     _setSplashScreenDuration() {

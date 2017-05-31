@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {StyleSheet, View} from "react-native";
 import SignIn from "./../containers/SignInForm";
 import strings from "./../util/localizedStrings";
-import setDateLang from "./../util/dateHandler";
+import setDateLang from "../modules/global/dateHandler";
 import AppText from "./../components/appText";
 import {connect} from "react-redux";
 import {authenticate} from "../actionCreators/user";

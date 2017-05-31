@@ -22,6 +22,7 @@ export default class ChatInput extends Component {
                     onChangeText={(text) => this._onChangeText(text)}
                     onFocus={() => hideTabBar(this.props.navigator)}
                     onBlur={() => showTabBar(this.props.navigator)}
+                    onEndEditing={() => showTabBar(this.props.navigator)}
                     value={this.state.text}
                 />
                 <TouchableOpacity
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 5,
+        height:40,
     },
     sendButton: {
         flex: 1,

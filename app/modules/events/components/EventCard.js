@@ -131,6 +131,7 @@ export default class EventCard extends Component {
         return (
             <View style={styles.name}>
                 <Highlighter
+                    numberOfLines={1}
                     highlightStyle={styles.highlightStyle}
                     style={[styles.nameText, styleFont.textFont]}
                     searchWords={this.props.searchWords}

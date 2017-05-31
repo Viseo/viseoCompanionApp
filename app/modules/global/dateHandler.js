@@ -1,7 +1,3 @@
-/**
- * Created by LMA3606 on 21/03/2017.
- */
-
 import moment from "moment";
 
 export default function setDateLang(lang) {
