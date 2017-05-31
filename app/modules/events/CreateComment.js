@@ -58,7 +58,7 @@ export default class CreateComment extends Component {
             writer: {
                 id: 1,
             },
-            eventId: this.props.eventId,
+            eventId: 2,
         };
         addComment(comment);
         this.props.navigator.pop();

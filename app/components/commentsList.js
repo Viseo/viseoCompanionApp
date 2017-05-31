@@ -51,7 +51,6 @@ export default class CommentList extends Component {
     }
 
     render() {
-        // console.warn(this.props.comments.length);
         const commentsList = (
             <ListView
                 refreshControl={
@@ -161,6 +160,7 @@ export default class CommentList extends Component {
                 likers={comment.likers}
                 userId={this.props.userId}
                 navigator={this.props.navigator}
+                refresh={this.props.refresh}
             />
         )
             ;
