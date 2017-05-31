@@ -16,6 +16,7 @@ import CreateComment from "../modules/events/CreateComment";
 import UpdateComment from "../modules/events/UpdateComment";
 import App from "../containers/App";
 import EventInfo from "../containers/EventInfo";
+import CreateChildComment from "../modules/events/CreateChildComment";
 
 export function registerScreens(store, provider) {
     Navigation.registerComponent('SignIn', () => SignIn, store, provider);

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
 import colors from "./colors";
-import  Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
 import AppText from "./appText";
 import {addLike, dislike} from "../util/db";
@@ -98,7 +98,7 @@ export default class CommentsCard extends Component {
                 style={styles.icon}
                 size={20}
                 color={colors.green}
-                onPress={()=>{
+                onPress={() => {
                     this.props.navigator.push({
                         screen: 'CreateChildComment',
                         title: 'Ajouter une réponse au commentaire',
@@ -242,6 +242,7 @@ export default class CommentsCard extends Component {
         );
     }
 
+
     renderDate() {
         return (
             <View style={{flex: .5}}>
@@ -249,6 +250,15 @@ export default class CommentsCard extends Component {
             </View>
         );
     }
+
+    renderComment() {
+        return (
+            <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
+                <Text>{this.props.content}</Text>
+            </View>
+        );
+    }
+}
 
     likeComment = async () => {
         await addLike(this.props.id, this.props.userId);
@@ -288,3 +298,4 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(255,255,255)'
     }
 });
+
