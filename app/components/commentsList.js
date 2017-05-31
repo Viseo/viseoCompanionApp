@@ -1,15 +1,12 @@
-/**
- * Created by IBO3693 on 23/05/2017.
- */
-
-
 import React, {Component} from "react";
 import {ListView, RefreshControl, Text, View} from "react-native";
 import CommentsCard from "./commentsCard";
+import ChildCommentsCards from "./childCommentsCard";
 import AppText from "./appText";
 import moment from "moment";
 import colors from "./colors";
-import  Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome";
+
 export default class CommentList extends Component {
 
     constructor(props) {
@@ -66,7 +63,7 @@ export default class CommentList extends Component {
                 scrollEventThrottle={200}
                 enableEmptySections={true}
                 dataSource={this.state.dataSource}
-                renderRow={this.renderEventCard}
+                renderRow={this.renderCommentCard}
             />
         )
         const nothingToShow = (
@@ -147,7 +144,7 @@ export default class CommentList extends Component {
         )
     }
 
-    renderEventCard = (comment) => {
+    renderCommentCard = (comment) => {
         let [day, time] = this.formatDate(comment.date);
         return (
             <CommentsCard
@@ -164,6 +161,20 @@ export default class CommentList extends Component {
             />
         )
             ;
+    }
+    renderChildCommentCard = (childComment) => {
+        return (
+            <ChildCommentsCards
+                id={childComment.id}
+                content={childComment.content}
+                day={day}
+                time={time}
+                writer={childComment.writer}
+                eventId={childComment.eventId}
+                nbLik={childComment.nbLike}
+                navigator={this.props.navigator}
+            />
+        )
     }
 }
 

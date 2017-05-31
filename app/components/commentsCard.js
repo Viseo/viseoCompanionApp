@@ -26,8 +26,8 @@ export default class CommentsCard extends Component {
         return (
             <View style={{flex: 0.25}}>
                 <Avatar
-                    firstName={fName}
                     lastName={lName}
+                    firstName={fName}
                     style={{paddingTop: 10, paddingLeft: 5}}
                     size={4}
                 />
@@ -80,7 +80,6 @@ export default class CommentsCard extends Component {
             </View>
         );
     }
-
 
     renderReply() {
         const reply = (
@@ -178,18 +177,18 @@ export default class CommentsCard extends Component {
     }
 
 
-    renderDate() {
-        return (
-            <View style={{flex: .5}}>
-                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
-            </View>
-        );
-    }
-
     renderComment() {
         return (
             <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
                 <Text>{this.props.content}</Text>
+            </View>
+        );
+    }
+
+    renderDate() {
+        return (
+            <View style={{flex: .5}}>
+                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
             </View>
         );
     }
