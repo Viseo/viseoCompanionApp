@@ -26,6 +26,9 @@ const restRoutes = {
     resetPassword: SERVER_API_URL + 'resetPassword',
     addComment: SERVER_API_URL + 'comments',
     addChildComment: SERVER_API_URL + 'comments/2',
+    /*addChildComment: (commentId) => {
+        return SERVER_API_URL + 'comments/' + commentId ;
+    },*/
     getCommentsByEvent: (eventId) => {
         return SERVER_API_URL + 'comments/events/' + eventId ;
     },
