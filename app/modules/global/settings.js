@@ -1,6 +1,7 @@
 /////////// SERVER CONNECTION ////////////////
 
 // Localhost (set your localhost IP here)
+// const localhostIp = '10.56.208.56';
 const localhostIp = '10.33.178.149';
 const localhostURL = 'http://' + localhostIp + ':8080/';
 

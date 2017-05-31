@@ -1,4 +1,5 @@
 import settings from "../modules/global/settings";
+import {getComments} from "../actionCreators/comments";
 
 export async function addEvent(event) {
     try {
@@ -35,7 +36,7 @@ export async function addLike(commentId, userId) {
             }
         })
         if (response) {
-            return true;
+                    return true;
         }
     } catch (error
         ) {

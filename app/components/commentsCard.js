@@ -117,33 +117,39 @@ export default class CommentsCard extends Component {
 
 
     renderDelete() {
-        const reply = (
-            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red} onPress={this.deleteComment()}/>
+        const renderDelete = (
+            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red} onPress={this.deleteComment}/>
         );
         return (
             <View>
-                {reply}
+                {renderDelete}
             </View>
         );
 
     }
 
+    filterUser = (element) => {
+        return element.id == this.props.userId;
+    }
+
+
     renderLike() {
+        let liked = false;
+        if (this.props.nbLike > 0) {
+            liked = this.props.likers.filter(this.filterUser).length > 0 ? true : false;
+        }
 
-        let liked = this.props.likers.filter( (obj)  => {
-              return obj.id == this.props.userId;
-        });
-
-        const reply = (
-                <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue} onPress={ ()=>
-                    liked ?
-                       this.dislikeComment() : this.likeComment()}
+        const like = (
+                <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue} onPress={ () => {
+                        liked ?
+                        this.dislikeComment() : this.likeComment()
+                }}
                 />
             )
         ;
         return (
             <View >
-                {reply}
+                {like}
             </View>
         );
 
@@ -207,19 +213,20 @@ export default class CommentsCard extends Component {
         );
     }
 
-    likeComment = () => {
-        addLike(this.props.id, this.props.userId);
-
+    likeComment = async () => {
+        await addLike(this.props.id, this.props.userId);
+        this.props.refresh(this.props.eventId);
     }
 
-    dislikeComment = () => {
-        dislike(this.props.id, this.props.userId);
+    dislikeComment = async () => {
+        await dislike(this.props.id, this.props.userId);
+        this.props.refresh(this.props.eventId);
     }
 
 
-    deleteComment() {
-        deleteComment(this.props.id);
-        this.props.navigator.pop();
+    deleteComment = async () => {
+        await deleteComment(this.props.id);
+        this.props.refresh(this.props.eventId);
     }
 }
 

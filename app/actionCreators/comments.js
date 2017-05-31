@@ -22,6 +22,7 @@ export const getComments = (idEvent) => {
         dispatch(requestComments())
         try {
             // Fetch  comments By Event
+
             let commentsResponse = await fetch(settings.api.getCommentsByEvent(idEvent));
 
             let commentsJson = await commentsResponse.json();
