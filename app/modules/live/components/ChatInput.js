@@ -20,16 +20,13 @@ export default class ChatInput extends Component {
                 <TextInput
                     style={styles.textInput}
                     onChangeText={(text) => this._onChangeText(text)}
-                    onFocus={() => hideTabBar(this.props.navigator)}
-                    onBlur={() => showTabBar(this.props.navigator)}
-                    onEndEditing={() => showTabBar(this.props.navigator)}
                     value={this.state.text}
                 />
                 <TouchableOpacity
                     style={styles.sendButton}
                     onPress={() => {}}
                 >
-                    <Icon name="paper-plane"/>
+                    <Icon name="paper-plane" style={{fontSize: 20}}/>
                 </TouchableOpacity>
             </View>
         );
@@ -48,14 +45,14 @@ ChatInput.propTypes = {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex: 1,
         flexDirection: 'row',
+        height:50,
     },
     textInput: {
         flex: 5,
         height:40,
     },
     sendButton: {
-        flex: 1,
+        flex: 1
     }
 });

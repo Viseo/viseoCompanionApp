@@ -7,18 +7,20 @@ export default {
             password: '',
         }
     },
+    comments:{
+        commentsItems:[],
+        isFetching: false,
+    },
     events: {
         isFetching: false,
         items: [],
         itemsExpired: [],
     },
-    comments:{
-        commentsItems:[],
-        isFetching: false,
-    },
     filters: [],
+    live: {
+        chatMessages: [],
+    },
     searchWords: [],
-    visibilityFilter: 'SHOW_ALL',
     user: {
         id: 1,
         email: '',
@@ -26,4 +28,5 @@ export default {
         firstName: 'non renseigné',
         lastName: 'non renseigné',
     },
+    visibilityFilter: 'SHOW_ALL',
 };

@@ -4,7 +4,7 @@ import PastEvents from "./PastEvents";
 import PastEvent from "./PastEvent";
 import CreateEvent from "./CreateEvent";
 import Event from './Event';
-import LiveEvent from "./LiveEvent";
+import LiveEvent from "../live/LiveEvent";
 
 export default function(store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);

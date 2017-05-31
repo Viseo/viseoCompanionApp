@@ -9,7 +9,6 @@ import FlexImage from "../../components/FlexImage";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import colors from "../global/colors";
 import Avatar from "../../components/Avatar";
-import ImageButton from "../../components/ImageButton";
 import PropTypes from 'prop-types';
 import strings from "../global/localizedStrings";
 import moment from "moment";

@@ -15,7 +15,7 @@ import Comments from "../scenes/commentsList";
 import CreateComment from "../modules/events/CreateComment";
 import App from "../containers/App";
 import EventInfo from "../containers/EventInfo";
-import LiveEvent from "../modules/events/LiveEvent";
+import LiveEvent from "../modules/live/LiveEvent";
 
 export function registerScreens(store, provider) {
     Navigation.registerComponent('events.event', () => EventInfo, store, provider);
