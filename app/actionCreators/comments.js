@@ -2,10 +2,12 @@
  * Created by IBO3693 on 23/05/2017.
  */
 import settings from "../modules/global/settings";
+import {updateComment as updateCommentDb} from "./../util/db";
 
 export const types = {
     RECEIVE_COMMENTS: 'RECEIVE_COMMENTS',
-    REQUEST_COMMENTS: 'REQUEST_COMMENTS'
+    REQUEST_COMMENTS: 'REQUEST_COMMENTS',
+    UPDATE_COMMENT: 'UPDATE_COMMENT'
 }
 
 export const requestComments = () => ({
@@ -38,8 +40,7 @@ export const getComments = (idEvent) => {
                     eventId: comment.eventId,
                     children: comment.childComments,
                     nbLike: comment.nbLike,
-                    likerIds: comment.likers,
-
+                    likers: comment.likers,
                 });
             }
 
@@ -54,4 +55,20 @@ export const getComments = (idEvent) => {
     }
 
 
+}
+
+export const updateComment = (comment) => {
+    return async (dispatch) => {
+        dispatch({
+            type: types.UPDATE_COMMENT,
+            comment
+        })
+        try {
+
+            await updateCommentDb(comment)
+
+        } catch (error) {
+            console.warn('ActionCreators/comments::updatedComment ' + error)
+        }
+    }
 }

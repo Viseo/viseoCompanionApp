@@ -28,6 +28,7 @@ const CommentsList = connect(
     mapStateToProps,
     mapDispatchToProps
 
+
 )(CommentList)
 
 export default CommentsList

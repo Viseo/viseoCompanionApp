@@ -300,3 +300,32 @@ export async function addComment(comment) {
     }
     return false;
 }
+
+
+export async function updateComment(comment) {
+    try {
+        console.warn(settings.api.updatedComment(comment.id));
+        let response = await fetch(settings.api.updatedComment(comment.id), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id":comment.id,
+                "content": comment.content,
+                "datetime": comment.datetime,
+                "eventId": comment.event_id,
+                "writer": comment.writer,
+                "childComments": comment.childComments,
+                "likers": comment.likers,
+                "nbLike": comment.nbLike
+      })
+
+        })
+        if (response)
+            return true;
+    } catch (error) {
+
+        console.warn(error);
+    }
+}

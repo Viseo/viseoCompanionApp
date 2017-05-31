@@ -7,6 +7,7 @@ import Swipeout from "react-native-swipe-out";
 import colors from "./colors";
 import  Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
+import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
 export default class CommentsCard extends Component {
 
@@ -126,9 +127,34 @@ export default class CommentsCard extends Component {
 
     }
 
+    updateComment = () => {
+
+        if (this.props.userId == this.props.writer.id) {
+            this.props.navigator.push({
+                screen: 'CreateComment',
+                title: "Modification du commentaire",
+                navigatorStyle: defaultNavBarStyle,
+                passProps: {
+                    comment: {
+                        id: this.props.id,
+                        content: this.props.content,
+                        day: this.props.day,
+                        time: this.props.time,
+                        writer: this.props.writer,
+                        version: this.props.version,
+                        eventId: this.props.eventId,
+                        userId: this.props.userId
+                    },
+                    modifComment: true
+                }
+            });
+        }
+    }
+
     renderEdit() {
         const reply = (
-            <Icon.Button name="edit" style={styles.icon} size={20} color={colors.mediumGray}/>
+            <Icon.Button name="edit" style={styles.icon} size={20} color={colors.mediumGray}
+                         onPress={this.updateComment}/>
         );
         return (
             <View >
@@ -156,8 +182,8 @@ export default class CommentsCard extends Component {
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10}}>
 
                 <View style={{flex: .5}}>
-                    <Text style={{color:colors.blue, fontSize: 14}}>
-                        {this.props.writer.lastName +' '+ this.props.writer.firstName}
+                    <Text style={{color: colors.blue, fontSize: 14}}>
+                        {this.props.writer.lastName + ' ' + this.props.writer.firstName}
                     </Text>
                 </View>
 
@@ -166,7 +192,6 @@ export default class CommentsCard extends Component {
             </View>
         );
     }
-
 
 
     renderComment() {
@@ -203,7 +228,7 @@ const styles = StyleSheet.create({
         height: 150,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
-        marginTop:10
+        marginTop: 10
     },
 
     icon: {
