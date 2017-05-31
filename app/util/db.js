@@ -36,7 +36,7 @@ export async function addLike(commentId, userId) {
             }
         })
         if (response) {
-                    return true;
+            return true;
         }
     } catch (error
         ) {
@@ -358,22 +358,24 @@ export async function addComment(comment) {
 
 export async function updateComment(comment) {
     try {
-        console.warn(settings.api.updatedComment(comment.id));
-        let response = await fetch(settings.api.updatedComment(comment.id), {
+       // console.warn(comment.id+' '+comment.version+' '+comment.event_id+' '+ comment.childComments+' '+comment.likers+' '+comment.nbLike);
+
+        let response = await fetch(settings.api.updatedComment, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "id":comment.id,
+                "id": comment.id,
+                "version": comment.version,
                 "content": comment.content,
                 "datetime": comment.datetime,
                 "eventId": comment.event_id,
                 "writer": comment.writer,
-                "childComments": comment.childComments,
+                "childComments": comment.children,
                 "likers": comment.likers,
                 "nbLike": comment.nbLike
-      })
+            })
 
         })
         if (response)

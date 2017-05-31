@@ -6,8 +6,6 @@ import * as comment from "./../util/db"
 import BackButton from "./../components/BackButton";
 import colors from "./../components/colors";
 import ItemSpacer from "./../components/ItemSpacer";
-import ImageButton from "../components/ImageButton";
-import * as event from "./../components/EventInfo";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 export default class Comment extends Component {
@@ -44,7 +42,6 @@ export default class Comment extends Component {
                         title="envoyer"
                         onPress={ async () => {
                             let sendComment = await comment.addComment();
-                            console.warn("envoyer");
                             console.warn(sendComment);
                         }}
                     />

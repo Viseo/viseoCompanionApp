@@ -68,17 +68,19 @@ export default class CreateComment extends Component {
     async ModifyComment(){
 
         const comment = {
+
+            id: this.props.comment.id,
             content: this.state.comment,
             datetime: moment().valueOf(),
-            id: this.props.comment.id,
-            version: this.props.comment.version,
             event_id: this.props.comment.eventId,
-            user_id: this.props.comment.userId,
-            children: this.props.comment.children,
-            nbLike: this.props.comment.nbLike,
-            likerIds: this.props.comment.likerIds,
             writer: this.props.comment.writer,
+            version: this.props.comment.version,
+            children: this.props.children,
+            likers: this.props.comment.likers,
+            nbLike: this.props.comment.nbLike,
+
         };
+
 
         updateComment(comment);
         this.props.navigator.pop();

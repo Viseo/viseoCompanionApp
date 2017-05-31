@@ -154,8 +154,9 @@ export default class CommentList extends Component {
                 day={day}
                 time={time}
                 writer={comment.writer}
+                version={comment.version}
                 eventId={comment.eventId}
-                children={comment.childComments}
+                children={comment.children}
                 nbLike={comment.nbLike}
                 likers={comment.likers}
                 userId={this.props.userId}

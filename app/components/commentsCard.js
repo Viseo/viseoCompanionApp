@@ -9,6 +9,7 @@ import  Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
 import AppText from "./appText";
 import {addLike, deleteComment, dislike} from "../util/db";
+import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
 export default class CommentsCard extends Component {
 
@@ -118,7 +119,7 @@ export default class CommentsCard extends Component {
 
     renderDelete() {
         const reply = (
-            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red} onPress={this.deleteComment()}/>
+            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red} onPress={this.deleteComment}/>
         );
         return (
             <View>
@@ -171,7 +172,9 @@ export default class CommentsCard extends Component {
                         writer: this.props.writer,
                         version: this.props.version,
                         eventId: this.props.eventId,
-                        userId: this.props.userId
+                        userId: this.props.userId,
+                        children:this.props.children,
+                        likers: this.props.likers
                     },
                     modifComment: true
                 }
