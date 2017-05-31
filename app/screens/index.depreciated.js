@@ -15,6 +15,7 @@ import PastEvents from "../modules/events/PastEvents";
 import PastEvent from "../modules/events/PastEvent";
 import Comments from "../scenes/commentsList";
 import CreateComment from "../modules/events/CreateComment";
+import CreateChildComment from "../modules/events/CreateChildComment";
 
 export function registerScreens(store, provider) {
     Navigation.registerComponent('SignIn', () => SignIn, store, provider);
@@ -33,5 +34,5 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('App', () => App, store, provider);
     Navigation.registerComponent('Comments', () => Comments, store, provider);
     Navigation.registerComponent('CreateComment', () => CreateComment, store, provider);
-    Navigation.registerComponent('CreateChildComment', () => CreateComment, store, provider);
+    Navigation.registerComponent('CreateChildComment', () => CreateChildComment, store, provider);
 }

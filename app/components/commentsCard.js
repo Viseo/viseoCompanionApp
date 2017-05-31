@@ -1,11 +1,8 @@
-/**
- * Created by HEL3666 on 22/05/2017.
- */
 import React, {Component} from "react";
 import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
 import colors from "./colors";
-import  Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
@@ -23,17 +20,16 @@ export default class CommentsCard extends Component {
 
     }
 
-
     renderIcon = () => {
-
-        let lName = this.props.writer.id ? this.props.writer.lastName : "N";
         let fName = this.props.writer.id ? this.props.writer.firstName : "N";
+        let lName = this.props.writer.id ? this.props.writer.lastName : "N";
         return (
             <View style={{flex: 0.25}}>
-                <Avatar lastName={lName}
-                        firstName={fName}
-                        style={{paddingTop: 10, paddingLeft: 5}}
-                        size={4}
+                <Avatar
+                    firstName={fName}
+                    lastName={lName}
+                    style={{paddingTop: 10, paddingLeft: 5}}
+                    size={4}
                 />
             </View>
         )
@@ -41,11 +37,8 @@ export default class CommentsCard extends Component {
 
     render() {
         return (
-
             <View>
-
                 <Swipeout
-
                     className="swipeout"
                     style={{backgroundColor: 'transparent'}}
                     autoClose={true}
@@ -54,7 +47,6 @@ export default class CommentsCard extends Component {
                 >
                     <TouchableOpacity
                         style={styles.card}
-
                     >
                         <View style={{
                             flex: 1,
@@ -97,7 +89,7 @@ export default class CommentsCard extends Component {
                 style={styles.icon}
                 size={20}
                 color={colors.green}
-                onPress={()=>{
+                onPress={() => {
                     this.props.navigator.push({
                         screen: 'CreateChildComment',
                         title: 'Ajouter une réponse au commentaire',
@@ -174,8 +166,8 @@ export default class CommentsCard extends Component {
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10}}>
 
                 <View style={{flex: .5}}>
-                    <Text style={{color:colors.blue, fontSize: 14}}>
-                        {this.props.writer.lastName +' '+ this.props.writer.firstName}
+                    <Text style={{color: colors.blue, fontSize: 14}}>
+                        {this.props.writer.firstName + ' ' + this.props.writer.lastName}
                     </Text>
                 </View>
 
@@ -186,19 +178,18 @@ export default class CommentsCard extends Component {
     }
 
 
+    renderDate() {
+        return (
+            <View style={{flex: .5}}>
+                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
+            </View>
+        );
+    }
 
     renderComment() {
         return (
             <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
                 <Text>{this.props.content}</Text>
-            </View>
-        );
-    }
-
-    renderDate() {
-        return (
-            <View style={{flex: .5}}>
-                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
             </View>
         );
     }
@@ -221,7 +212,7 @@ const styles = StyleSheet.create({
         height: 150,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
-        marginTop:10
+        marginTop: 10
     },
 
     icon: {

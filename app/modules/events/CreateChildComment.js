@@ -25,7 +25,7 @@ export default class CreateChildComment extends Component {
                 />
                 <Button
                     style={{width: 200, height: 100}}
-                    title="Répondre"
+                    title="Repondre"
                     onPress={() => this.sendChildComment()}
                 />
             </ScrollView>
@@ -40,10 +40,12 @@ export default class CreateChildComment extends Component {
         const childComment = {
             content: this.state.childComment,
             datetime: moment().valueOf(),
-            userId: this.props.userId,
-            eventId: this.props.eventId,
-            // commentId: this.props.commentId,
+            writer:{
+                id: 1
+            },
+            eventId: 25,
         };
+
         addChildComment(childComment);
         this.props.navigator.pop();
     }
