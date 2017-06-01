@@ -13,10 +13,11 @@ export default (state = [], action) => {
                 }
             };
         case REHYDRATE:
-            let incoming = action.payload.authentication;
-            if (incoming) return {
+            let {authentication} = action.payload;
+            if (authentication) return {
                 ...state,
-                savedUser: {...incoming.savedUser},
+                isAuthenticated: false,
+                loggedUser: {...authentication.loggedUser},
             };
             return state;
         default:

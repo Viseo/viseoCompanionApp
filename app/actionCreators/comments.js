@@ -1,7 +1,8 @@
 /**
  * Created by IBO3693 on 23/05/2017.
  */
-import settings from "../config/settings";
+import settings from "../modules/global/settings";
+
 export const types = {
     RECEIVE_COMMENTS: 'RECEIVE_COMMENTS',
     REQUEST_COMMENTS: 'REQUEST_COMMENTS'
