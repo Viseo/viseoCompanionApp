@@ -22,7 +22,7 @@ class SearchBar extends Component {
         this.setState({
             filterBarVisible: isOn
         })
-    }
+    };
 
     render() {
         return (
@@ -101,7 +101,7 @@ class SearchBar extends Component {
     }
 }
 
-SearchBar.displayName = 'SearchBar'
+SearchBar.displayName = 'SearchBar';
 
 export default SearchBar;
 

@@ -20,26 +20,26 @@ export const storeFake = (state) => {
 };
 
 export function get(containerName, store = storeFake({}), props = {}) {
-    let wrapper, container, component
+    let wrapper, container, component;
     switch (containerName) {
         case 'FilterToggle':
             wrapper = mount(
                 <Provider store={store}>
                     <FilterToggle {...props}/>
                 </Provider>
-            )
-            container = wrapper.find(FilterToggle)
-            component = container.find(FilterToggle)
-            break
+            );
+            container = wrapper.find(FilterToggle);
+            component = container.find(FilterToggle);
+            break;
         case 'UserProfileInfo':
             wrapper = mount(
                 <Provider store={store}>
                     <UserProfileInfo {...props}/>
                 </Provider>
-            )
-            container = wrapper.find(UserProfileInfo)
-            component = container.find(Profile)
-            break
+            );
+            container = wrapper.find(UserProfileInfo);
+            component = container.find(Profile);
+            break;
         default:
             break
     }

@@ -10,14 +10,14 @@ import {
 describe('BackButton', () => {
 
     it('should render a clickable image', () => {
-        let onPress = createTestFunction()
+        let onPress = createTestFunction();
         const backButton = createComponent('BackButton', {
             onPress
-        })
-        checkIsComponent(backButton, 'TouchableOpacity')
-        checkHasChildComponent(backButton, 'Image')
-        press(backButton)
+        });
+        checkIsComponent(backButton, 'TouchableOpacity');
+        checkHasChildComponent(backButton, 'Image');
+        press(backButton);
         checkTestFunction(onPress)
     })
 
-})
+});

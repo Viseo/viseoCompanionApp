@@ -45,7 +45,7 @@ config.ignore = function(filename) {
         const shouldIgnore = matches.length === 0;
         return shouldIgnore;
     }
-}
+};
 register(config);
 // Setup globals / chai
 global.__DEV__ = true;
@@ -54,7 +54,7 @@ global.expect = chai.expect;
 
 // Setup mocks
 require('react-native-mock/mock');
-const React = require('react-native')
+const React = require('react-native');
 React.NavigationExperimental = {
     AnimatedView: React.View
 };

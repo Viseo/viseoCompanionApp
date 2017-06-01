@@ -1,9 +1,11 @@
-// If you're running on another computer, make sure to put your own server ip address
+// DO NOT USE THIS FILE ANYMORE
+
+// USE THE ONE LOCATED IN modules/global/settings.js
 
 ///////////SERVER CONNECTION////////////////
 // Localhost
     //let SERVER_API_URL = 'http://10.56.166.177:8080/';
-let SERVER_API_URL = 'http://10.33.171.42:8080/';
+let SERVER_API_URL = 'http://10.33.178.119:8080/';
 
 // Home
 //  let SERVER_API_URL = 'http://192.168.1.8:8080/api/';
@@ -25,10 +27,8 @@ const restRoutes = {
     authenticate: SERVER_API_URL + 'authenticate',
     resetPassword: SERVER_API_URL + 'resetPassword',
     addComment: SERVER_API_URL + 'comments',
-    addChildComment: SERVER_API_URL + 'comments/2',
-    /*addChildComment: (commentId) => {
-        return SERVER_API_URL + 'comments/' + commentId ;
-    },*/
+
+
     getCommentsByEvent: (eventId) => {
         return SERVER_API_URL + 'comments/events/' + eventId ;
     },
@@ -64,7 +64,9 @@ const restRoutes = {
     },
     addCommentParticipant: (eventId,userId) => {
         return SERVER_API_URL + 'comment/' + eventId + '/users/' + userId;
-    }
+    },
+
+
 };
 
 const settings = {

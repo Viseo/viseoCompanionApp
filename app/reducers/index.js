@@ -13,6 +13,6 @@ const viseoCompanionApp = combineReducers({
     visibilityFilter,
     user,
     comments,
-})
+});
 
 export default viseoCompanionApp;

@@ -23,7 +23,7 @@ class SearchTextInput extends Component {
     }
 }
 
-SearchTextInput.displayName = 'SearchTextInput'
+SearchTextInput.displayName = 'SearchTextInput';
 
 export default SearchTextInput;
 

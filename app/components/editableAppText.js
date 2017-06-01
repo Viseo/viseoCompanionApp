@@ -17,7 +17,7 @@ class EditableAppText extends Component {
         onValidate: () => {
         },
         fieldName: strings.field,
-    }
+    };
 
     constructor(props) {
         super(props);

@@ -9,22 +9,22 @@ import AppText from "./appText";
 export default class FilterToggle extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             isOn: false
         }
     }
 
     toggleFilter = (isOn) => {
-        let {filter} = this.props
+        let {filter} = this.props;
         isOn ? this.props.onSelect(filter) : this.props.onUnselect(filter);
         this.setState({
             isOn
         })
-    }
+    };
 
     render() {
-        let {isOn} = this.state
+        let {isOn} = this.state;
         return (
             <Toggle
                 style={[
@@ -52,7 +52,7 @@ FilterToggle.defaultProps = {
     selectedColor: 'lightgray',
     unselectedColor: 'transparent',
     filter: {}
-}
+};
 
 const styles = StyleSheet.create({
     mainContainer: {

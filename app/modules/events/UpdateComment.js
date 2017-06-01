@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, Button} from "react-native";
 import AppTextInput from "../global/AppTextInput";
-import {addComment, updateComment} from "../../util/db";
+import {updateComment} from "../../util/db";
 import moment from "moment";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {getComments} from "../../actionCreators/comments";
 
-class CreateComment extends Component {
+class UpdateComment extends Component {
 
     state = {
         comment: this.props.comment.content,
@@ -18,16 +18,12 @@ class CreateComment extends Component {
     }
 
     render() {
-
         const renderButtons =
-
-
-            (<Button
+            <Button
                 style={{width: 200, height: 100}}
-                title="Envoyer"
-                onPress={() => this.sendComment()}
-            />);
-
+                title="Modifier"
+                onPress={() => this.modifyComment()}
+            />;
         return (
             <ScrollView contentContainerStyle={styles.mainContainer}>
                 <AppTextInput
@@ -41,26 +37,45 @@ class CreateComment extends Component {
         );
     }
 
-
     isNonEmpty(text) {
         return text.length > 0;
     }
 
-
-    async sendComment() {
+    modifyComment = async () => {
         const comment = {
+            id: this.props.comment.id,
             content: this.state.comment,
             datetime: moment().valueOf(),
-            writer: {
-                id: 1,
-            },
-            eventId: 2,
+            event_id: this.props.comment.eventId,
+            writer: this.props.comment.writer,
+            version: this.props.comment.version,
+            children: this.props.children,
+            likers: this.props.comment.likers,
+            nbLike: this.props.comment.nbLike,
         };
-        addComment(comment);
+        await updateComment(comment);
+        this.props.getComments(comment.event_id);
         this.props.navigator.pop();
     }
-
-
-
 }
 
+const mapStateToProps = (state, ownProps) => ({
+    ...ownProps,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        getComments
+    }, dispatch)
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UpdateComment);
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        paddingHorizontal: 15,
+    },
+});

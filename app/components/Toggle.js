@@ -7,18 +7,18 @@ import {StyleSheet, TouchableOpacity} from "react-native";
 export default class Toggle extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             isOn: this.props.isOn,
         }
     }
 
     toggle = () => {
-        this.props.onToggle(!this.state.isOn)
+        this.props.onToggle(!this.state.isOn);
         this.setState({
             isOn: !this.state.isOn
         })
-    }
+    };
 
     render() {
         return (
@@ -36,14 +36,14 @@ export default class Toggle extends Component {
     }
 }
 
-Toggle.displayName = 'Toggle'
+Toggle.displayName = 'Toggle';
 
 Toggle.defaultProps = {
     off: null,
     on: null,
     onToggle: () => {
     },
-}
+};
 
 const styles = StyleSheet.create({
     main: {
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
         padding: 0,
         backgroundColor: 'transparent',
     }
-})
+});

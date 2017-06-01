@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => ({
     password: state.user.password,
     authenticationStatus: state.user.authenticationStatus,
     ...ownProps
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
@@ -21,11 +21,11 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatch
     )
-}
+};
 
 const SignInForm = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Form)
+)(Form);
 
 export default SignInForm

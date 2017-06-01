@@ -1,12 +1,15 @@
+/**
+ * Created by IBO3693 on 23/05/2017.
+ */
+
+
 import React, {Component} from "react";
 import {ListView, RefreshControl, Text, View} from "react-native";
 import CommentsCard from "./commentsCard";
 import AppText from "./appText";
 import moment from "moment";
 import colors from "./colors";
-import Icon from "react-native-vector-icons/FontAwesome";
-import ChildCommentList from "./childCommentsList";
-
+import  Icon from "react-native-vector-icons/FontAwesome";
 export default class CommentList extends Component {
 
     constructor(props) {
@@ -24,13 +27,18 @@ export default class CommentList extends Component {
             }
         });
         this.state = {
-            dataSource: ds.cloneWithRows(this.props.comments)
+            dataSource: ds.cloneWithRows(this.props.comments),
+
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps({comments}) {
+        // if (comments.length > 0)
+        //     console.warn(comments.length + '  ' + comments[0].content)
+        // else
+        //     console.warn('0 comments')
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.comments)
+            dataSource: this.state.dataSource.cloneWithRows(comments)
         });
     }
 
@@ -39,6 +47,7 @@ export default class CommentList extends Component {
     }
 
     formatDate(date) {
+
         if (!date)
             return [];
         let dateTime = moment(date);
@@ -143,27 +152,25 @@ export default class CommentList extends Component {
 
     renderCommentCard = (comment) => {
         let [day, time] = this.formatDate(comment.date);
-
         return (
-            <View>
-                <CommentsCard
-                    id={comment.id}
-                    content={comment.content}
-                    day={day}
-                    time={time}
-                    writer={comment.writer}
-                    eventId={comment.eventId}
-                    children={comment.children}
-                    nbLik={comment.nbLike}
-                    likerIds={comment.likers}
-                    navigator={this.props.navigator}
-                />
-                <ChildCommentList
-                    childComment={comment.children}
-                />
-            </View>
-        );
-    };
+            <CommentsCard
+                id={comment.id}
+                content={comment.content}
+                day={day}
+                time={time}
+                writer={comment.writer}
+                version={comment.version}
+                eventId={comment.eventId}
+                children={comment.children}
+                nbLike={comment.nbLike}
+                likers={comment.likers}
+                userId={this.props.userId}
+                navigator={this.props.navigator}
+                refresh={this.props.refresh}
+            />
+        )
+            ;
+    }
 }
 
 CommentList.displayName = 'CommentList';

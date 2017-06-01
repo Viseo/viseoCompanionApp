@@ -1,25 +1,23 @@
-/**
- * Created by IBO3693 on 23/05/2017.
- */
 import settings from "../modules/global/settings";
+import {updateComment as updateCommentDb} from "./../util/db";
 
 export const types = {
     RECEIVE_COMMENTS: 'RECEIVE_COMMENTS',
-    REQUEST_COMMENTS: 'REQUEST_COMMENTS'
-}
+    REQUEST_COMMENTS: 'REQUEST_COMMENTS',
+    UPDATE_COMMENT: 'UPDATE_COMMENT'
+};
 
 export const requestComments = () => ({
     type: types.REQUEST_COMMENTS,
-})
+});
 export const receiveComments = (comments) => ({
     type: types.RECEIVE_COMMENTS,
     comments
-})
+});
 
 export const getComments = (idEvent) => {
-
     return async (dispatch) => {
-        dispatch(requestComments())
+        dispatch(requestComments());
         try {
             // Fetch  comments By Event
             let commentsResponse = await fetch(settings.api.getCommentsByEvent(idEvent));
@@ -38,13 +36,12 @@ export const getComments = (idEvent) => {
                     nbLike: comment.nbLike,
                     likers: comment.likers,
                 });
-
             }
             dispatch(receiveComments(comments))
         } catch (error) {
             console.warn('ActionCreators/comments::fetchComments ' + error)
         }
     }
+};
 
 
-}

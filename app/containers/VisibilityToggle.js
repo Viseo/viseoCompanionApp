@@ -8,7 +8,7 @@ import Toggle from "../components/FilterToggle";
 
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
@@ -16,13 +16,13 @@ const mapDispatchToProps = (dispatch) => {
             onUnselect: removeVisibilityFilter,
         },
         dispatch)
-}
+};
 
 const VisibilityToggle = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Toggle)
+)(Toggle);
 
-VisibilityToggle.displayName = 'VisibilityToggle'
+VisibilityToggle.displayName = 'VisibilityToggle';
 
 export default VisibilityToggle

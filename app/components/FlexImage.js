@@ -28,7 +28,7 @@ export default class FlexImage extends Component {
     }
 }
 
-FlexImage.displayName = 'FlexImage'
+FlexImage.displayName = 'FlexImage';
 
 const styles = StyleSheet.create({
     fitImage: {
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     }
-})
+});
