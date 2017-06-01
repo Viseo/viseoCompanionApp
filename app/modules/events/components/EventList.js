@@ -1,9 +1,10 @@
-import React, {Component} from "react";
-import {ListView, RefreshControl, View} from "react-native";
-import EventCard from "./EventCard";
-import AppText from "../../../components/appText";
-import moment from "moment";
-import colors from "../../global/colors";
+import React, {Component} from 'react';
+import {ListView, RefreshControl, View} from 'react-native';
+import EventCard from './EventCard';
+import AppText from '../../../components/appText';
+import moment from 'moment';
+import colors from '../../global/colors';
+import {defaultNavBarStyle} from '../../global/navigatorStyle';
 
 export default class EventList extends Component {
 
@@ -12,30 +13,30 @@ export default class EventList extends Component {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => {
                 if (this.props.searchWords) {
-                    return true
+                    return true;
                 }
                 for (let key in r1) {
                     if (!r2.hasOwnProperty(key))
                         return true;
                     if (r1[key] !== r2[key])
-                        return true
+                        return true;
                 }
-                return false
-            }
+                return false;
+            },
         });
         this.state = {
             dataSource: ds.cloneWithRows(this.props.events),
-        }
+        };
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.events)
+            dataSource: this.state.dataSource.cloneWithRows(nextProps.events),
         });
     }
 
     componentWillMount() {
-        this.props.refresh(this.props.user)
+        this.props.refresh(this.props.user);
     }
 
     formatDate(date) {
@@ -52,7 +53,7 @@ export default class EventList extends Component {
                     <RefreshControl
                         refreshing={this.props.refreshing}
                         onRefresh={() => {
-                            this.props.refresh(this.props.user)
+                            this.props.refresh(this.props.user);
                         }}
                     />
                 }
@@ -85,7 +86,7 @@ export default class EventList extends Component {
                         nothingToShow
                 }
             </View>
-        )
+        );
     }
 
     renderEventCard = (event) => {
@@ -102,18 +103,29 @@ export default class EventList extends Component {
                 participating={event.participating}
                 categoryId={event.category}
                 onParticipationChange={() => {
-                    this.props.toggleParticipation(event, user)
+                    this.props.toggleParticipation(event, user);
                 }}
-                onPress={() => this._showEventDetails()}
+                onPress={() => this._showEventDetails(event)}
                 searchWords={this.props.searchWords}
             />
         );
-    }
+    };
 
-    _showEventDetails() {
+    _showEventDetails(event) {
         this.props.navigator.push({
-            title: "Détails de l'évènement",
+            title: 'Détails de l\'évènement',
             screen: 'events.event',
+            navigatorStyle: defaultNavBarStyle,
+            passProps: {
+                hostFirstName: 'nom',
+                hostLastName: 'prénom',
+                id: event.id,
+                location: event.location,
+                name: event.name,
+                numberOfParticipants: -1,
+                description: event.description,
+                imageUrl: event.images,
+            },
         });
     }
 }

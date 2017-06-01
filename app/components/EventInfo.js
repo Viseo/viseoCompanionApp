@@ -10,7 +10,6 @@ import {
     Platform,
     ScrollView,
     StyleSheet,
-    TouchableOpacity,
     View
 } from "react-native";
 import AppText from "./appText";
