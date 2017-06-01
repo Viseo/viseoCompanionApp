@@ -63,7 +63,7 @@ export default class SignInForm extends Component {
 
     onPressSignUp() {
         this.props.navigator.push({
-            screen: 'SignUp',
+            screen: 'authentication.signUp',
         });
     }
 

@@ -13,7 +13,7 @@ export default startApp = () => {
             },
             {
                 label: 'Calendrier',
-                screen: 'Events',
+                screen: 'events.events',
                 title: 'Evènements à venir',
                 icon: require('../../images/navigation/calendar.png'),
                 navigatorStyle: defaultNavBarStyle,
