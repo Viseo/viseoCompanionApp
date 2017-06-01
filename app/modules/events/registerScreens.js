@@ -4,6 +4,7 @@ import PastEvents from "./PastEvents";
 import PastEvent from "./PastEvent";
 import CreateEvent from "./CreateEvent";
 import Event from './Event';
+import UpdateComment from "./UpdateComment";
 
 export default function(store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);
@@ -11,4 +12,5 @@ export default function(store, provider) {
     Navigation.registerComponent('events.pastEvents', () => PastEvents, store, provider);
     Navigation.registerComponent('events.pastEvent', () => PastEvent, store, provider);
     Navigation.registerComponent('CreateEvent', () => CreateEvent, store, provider);
+    Navigation.registerComponent('UpdateComment', () => UpdateComment, store, provider);
 }
