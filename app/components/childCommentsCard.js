@@ -82,7 +82,12 @@ export default class ChildCommentsCard extends Component {
 
     renderDelete() {
         const reply = (
-            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red}/>
+            <Icon.Button
+                style={styles.icon}
+                name="trash"
+                size={20}
+                color={colors.red}
+            />
         );
         return (
             <View>
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        backgroundColor: 'rgb(255,255,255)',
+        backgroundColor: 'rgba(255,255,255,0.9)',
         borderRadius: 8,
         height: 120,
         width: 380,

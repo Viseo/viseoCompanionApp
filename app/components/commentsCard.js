@@ -110,10 +110,14 @@ export default class CommentsCard extends Component {
 
     }
 
-
     renderDelete() {
         const reply = (
-            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red}/>
+            <Icon.Button
+                style={styles.icon}
+                name="trash"
+                size={20}
+                color={colors.red}
+            />
         );
         return (
             <View>
@@ -123,9 +127,14 @@ export default class CommentsCard extends Component {
 
     }
 
-    renderLike() {
+    renderEdit() {
         const reply = (
-            <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue}/>
+            <Icon.Button
+                name="edit"
+                style={styles.icon}
+                size={20}
+                color={colors.mediumGray}
+            />
         );
         return (
             <View >
@@ -135,9 +144,9 @@ export default class CommentsCard extends Component {
 
     }
 
-    renderEdit() {
+    renderLike() {
         const reply = (
-            <Icon.Button name="edit" style={styles.icon} size={20} color={colors.mediumGray}/>
+            <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue}/>
         );
         return (
             <View >
@@ -180,7 +189,7 @@ export default class CommentsCard extends Component {
     renderComment() {
         return (
             <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
-                <Text>{this.props.content}</Text>
+                <Text style={{fontSize: 15}}>{this.props.content}</Text>
             </View>
         );
     }
@@ -220,9 +229,3 @@ const styles = StyleSheet.create({
 
 
 });
-
-// const styleFont = StyleSheet.create({
-//     textFont: {
-//         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-//     }
-// });

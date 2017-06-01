@@ -1,32 +1,30 @@
 import React, {Component} from "react";
 import {ListView, RefreshControl, Text, View} from "react-native";
 import CommentsCard from "./commentsCard";
-import ChildCommentsCards from "./childCommentsCard";
 import AppText from "./appText";
 import moment from "moment";
 import colors from "./colors";
 import Icon from "react-native-vector-icons/FontAwesome";
+import ChildCommentList from "./childCommentsList";
 
 export default class CommentList extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => {
 
                 for (let key in r1) {
                     if (!r2.hasOwnProperty(key))
-                        return true
+                        return true;
                     if (r1[key] !== r2[key])
                         return true
                 }
                 return false
             }
-        })
+        });
         this.state = {
-            dataSource: ds.cloneWithRows(this.props.comments),
-
-
+            dataSource: ds.cloneWithRows(this.props.comments)
         }
     }
 
@@ -41,7 +39,6 @@ export default class CommentList extends Component {
     }
 
     formatDate(date) {
-
         if (!date)
             return [];
         let dateTime = moment(date);
@@ -49,7 +46,6 @@ export default class CommentList extends Component {
     }
 
     render() {
-        // console.warn(this.props.comments.length);
         const commentsList = (
             <ListView
                 refreshControl={
@@ -65,7 +61,7 @@ export default class CommentList extends Component {
                 dataSource={this.state.dataSource}
                 renderRow={this.renderCommentCard}
             />
-        )
+        );
         const nothingToShow = (
             <AppText
                 style={{
@@ -80,7 +76,7 @@ export default class CommentList extends Component {
             >
                 Aucun commentaire.
             </AppText>
-        )
+        );
         return (
             <View style={[{flex: 1, flexDirection: 'column'}, this.props.style]}>
                 {this.renderEventInfo()}
@@ -95,17 +91,17 @@ export default class CommentList extends Component {
 
     renderEventInfo() {
         return (
-                <View style={{flexDirection:'row',flex:0.05,alignItems:'stretch'}}>
-                    {this.renderTitle()}
-                    {this.renderAvis()}
-                </View>
+            <View style={{flexDirection: 'row', flex: 0.05, alignItems: 'stretch'}}>
+                {this.renderTitle()}
+                {this.renderAvis()}
+            </View>
         );
     }
 
     renderTitle() {
         let event = this.props.event.name;
         return (
-            <View style={{flex:7}}>
+            <View style={{flex: 7}}>
                 <Text style={{
                     fontWeight: 'bold',
                     textAlign: 'left',
@@ -122,7 +118,7 @@ export default class CommentList extends Component {
     renderAvis() {
 
         return (
-            <View style={{flexDirection:'row',flex:3}}>
+            <View style={{flexDirection: 'row', flex: 3}}>
                 <Text style={{
                     fontWeight: 'bold',
                     textAlign: 'left',
@@ -131,7 +127,8 @@ export default class CommentList extends Component {
                 }}>
                     75%
                 </Text>
-                <Icon name="star" style={{backgroundColor:'transparent',textAlign:'left'}} size={20} color={colors.green}/>
+                <Icon name="star" style={{backgroundColor: 'transparent', textAlign: 'left'}} size={20}
+                      color={colors.green}/>
                 <Text style={{
                     fontWeight: 'bold',
                     textAlign: 'left',
@@ -146,36 +143,27 @@ export default class CommentList extends Component {
 
     renderCommentCard = (comment) => {
         let [day, time] = this.formatDate(comment.date);
+
         return (
-            <CommentsCard
-                id={comment.id}
-                content={comment.content}
-                day={day}
-                time={time}
-                writer={comment.writer}
-                eventId={comment.eventId}
-                children={comment.childComments}
-                nbLik={comment.nbLike}
-                likerIds={comment.likers}
-                navigator={this.props.navigator}
-            />
-        )
-            ;
-    }
-    renderChildCommentCard = (childComment) => {
-        return (
-            <ChildCommentsCards
-                id={childComment.id}
-                content={childComment.content}
-                day={day}
-                time={time}
-                writer={childComment.writer}
-                eventId={childComment.eventId}
-                nbLik={childComment.nbLike}
-                navigator={this.props.navigator}
-            />
-        )
-    }
+            <View>
+                <CommentsCard
+                    id={comment.id}
+                    content={comment.content}
+                    day={day}
+                    time={time}
+                    writer={comment.writer}
+                    eventId={comment.eventId}
+                    children={comment.children}
+                    nbLik={comment.nbLike}
+                    likerIds={comment.likers}
+                    navigator={this.props.navigator}
+                />
+                <ChildCommentList
+                    childComment={comment.children}
+                />
+            </View>
+        );
+    };
 }
 
-CommentList.displayName = 'CommentList'
+CommentList.displayName = 'CommentList';

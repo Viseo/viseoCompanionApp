@@ -35,11 +35,9 @@ export const getComments = (idEvent) => {
                     eventId: comment.eventId,
                     children: comment.childComments,
                     nbLike: comment.nbLike,
-                    likerIds: comment.likers,
+                    likers: comment.likers,
                 });
-                for (let j = 0; j < comments[i].children.length; j++) {
-                    console.warn(comments[i].children[j].content);
-                }
+
             }
             dispatch(receiveComments(comments))
         } catch (error) {
