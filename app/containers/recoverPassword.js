@@ -19,7 +19,7 @@ class RecoverPassword extends Component {
             email: this.props.email,
             isEmailValid: true,
             isFormCompletelyFilled: true
-        }
+        };
         this.onChangeEmailText = this.onChangeEmailText.bind(this);
         this.onChangeEmailText = this.onChangeEmailText.bind(this);
         this.onPressResetPassword = this.onPressResetPassword.bind(this);
@@ -42,7 +42,7 @@ class RecoverPassword extends Component {
                         'Content-Type': 'application/json'
                     }
                 });
-            let didEmailSend = await email_verification_response.json()
+            let didEmailSend = await email_verification_response.json();
             return didEmailSend;
         } catch (error) {
             console.warn('ResetPassword::SendEmailError')
@@ -53,7 +53,7 @@ class RecoverPassword extends Component {
     onPressResetPassword = async () => {
         if (isEmailValid(this.state.email)) {
             let status = await this.resetPassword();
-            let emailNotFoundCode = false
+            let emailNotFoundCode = false;
             switch (status) {
                 case 404:
                     console.warn("Serveur introuvable");
@@ -139,7 +139,7 @@ class RecoverPassword extends Component {
 
 const mapStateToProps = ({user}, ownProps) => ({
     email: user.email,
-})
+});
 
 export default connect(
     mapStateToProps,

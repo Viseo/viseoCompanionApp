@@ -10,8 +10,8 @@ export default class Avatar extends Component {
     }
 
     render() {
-        const lastNameInitial = (this.props.lastName ? this.props.lastName[0] : '').toUpperCase()
-        const firstNameInitial = (this.props.firstName ? this.props.firstName[0] : '').toUpperCase()
+        const lastNameInitial = (this.props.lastName ? this.props.lastName[0] : '').toUpperCase();
+        const firstNameInitial = (this.props.firstName ? this.props.firstName[0] : '').toUpperCase();
         const avatarSize = this._getSize();
         return (
             <View style={[{justifyContent: 'center'}, this.props.style]}>

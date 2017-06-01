@@ -5,12 +5,12 @@
 const deepEqual = (first, second) => {
     for (let key in first) {
         if (!second.hasOwnProperty(key))
-            return false
+            return false;
         if (first[key] !== second[key])
             return false
     }
     return true
-}
+};
 
 const filters = (state = [], action) => {
     switch (action.type) {
@@ -19,10 +19,10 @@ const filters = (state = [], action) => {
                 return deepEqual(action.filter, element)
             });
             if (filterIndex === -1) {
-                state = state.slice()
+                state = state.slice();
                 state.push(action.filter)
             }
-            return state
+            return state;
         case 'REMOVE_FILTER':
             let filterToRemove = state.findIndex((element) => {
                 return deepEqual(action.filter, element)
@@ -32,10 +32,10 @@ const filters = (state = [], action) => {
                 [
                     ...state.slice(0, filterToRemove),
                     ...state.slice(filterToRemove + 1)
-                ]
+                ];
         default:
             return state
     }
-}
+};
 
 export default filters

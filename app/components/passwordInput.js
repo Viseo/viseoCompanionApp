@@ -16,7 +16,7 @@ export default class PasswordInput extends Component {
         },
         onChangeText: (password) => {
         }
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -28,9 +28,9 @@ export default class PasswordInput extends Component {
     editPassword = (password) => {
         this.setState({
             password: password
-        })
+        });
         this.props.onChangeText(password);
-    }
+    };
 
     focus() {
         this.refs.password.focus();

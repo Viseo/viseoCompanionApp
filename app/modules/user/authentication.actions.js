@@ -29,4 +29,4 @@ export const authenticate = (email, password) => {
             console.warn('authentication.actionCreators::authenticate ' + error)
         }
     }
-}
+};

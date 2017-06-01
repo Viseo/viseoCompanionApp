@@ -1,5 +1,4 @@
 import settings from "../modules/global/settings";
-import {getComments} from "../actionCreators/comments";
 
 export async function addEvent(event) {
     try {
@@ -17,14 +16,13 @@ export async function addEvent(event) {
                 "version": "0",
                 "category": event.category
             })
-        })
+        });
         if (response)
             return true;
     } catch (error) {
         console.warn(error);
     }
 }
-
 
 export async function addLike(commentId, userId) {
     try {
@@ -34,7 +32,7 @@ export async function addLike(commentId, userId) {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        });
         if (response) {
             return true;
         }
@@ -51,7 +49,7 @@ export async function dislike(commentId, userId) {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        });
         if (response) {
             return true;
         }
@@ -68,7 +66,7 @@ export async function deleteComment(commentId) {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        });
         if (response) {
             return true;
         }
@@ -86,7 +84,7 @@ export async function deleteEventDb(id) {
                 'Content-Type': 'application/json'
             },
 
-        })
+        });
         if (response)
             return true;
     } catch (error) {
@@ -314,7 +312,6 @@ export async function removeEventParticipant(eventId, userId) {
     return false;
 }
 
-
 export async function updateEvent(event) {
     try {
         let response = await fetch(settings.api.updatedEvent(event.id), {
@@ -332,7 +329,7 @@ export async function updateEvent(event) {
                 "version": event.version,
                 "category": event.category
             })
-        })
+        });
         if (response)
             return true;
     } catch (error) {
@@ -355,11 +352,8 @@ export async function addComment(comment) {
     return false;
 }
 
-
 export async function updateComment(comment) {
     try {
-       // console.warn(comment.id+' '+comment.version+' '+comment.event_id+' '+ comment.childComments+' '+comment.likers+' '+comment.nbLike);
-
         let response = await fetch(settings.api.updatedComment, {
             method: 'PUT',
             headers: {
@@ -376,12 +370,10 @@ export async function updateComment(comment) {
                 "likers": comment.likers,
                 "nbLike": comment.nbLike
             })
-
-        })
+        });
         if (response)
             return true;
     } catch (error) {
-
         console.warn(error);
     }
 }

@@ -49,7 +49,7 @@ export default class AddEvent extends Component {
             });
             this.setState({modalVisible: true});
         }
-    }
+    };
 
     isFormCorrect = () => {
         if (this.state.name == '' || this.state.datetime == '' || this.state.place == '') {
@@ -58,7 +58,7 @@ export default class AddEvent extends Component {
         } else {
             return true;
         }
-    }
+    };
 
     render() {
         return (

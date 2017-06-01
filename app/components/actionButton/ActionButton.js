@@ -10,7 +10,7 @@ export default class ActionButton extends Component {
         this.state = {
             resetToken: props.resetToken,
             active: props.active,
-        }
+        };
 
         this.anim = new Animated.Value(props.active ? 1 : 0);
         this.timeout = null;
@@ -137,7 +137,7 @@ export default class ActionButton extends Component {
                     activeOpacity={this.props.activeOpacity}
                     onLongPress={this.props.onLongPress}
                     onPress={() => {
-                        this.props.onPress()
+                        this.props.onPress();
                         if (this.props.children) this.animateButton()
                     }}>
                     <Animated.View style={[wrapperStyle, !this.props.hideShadow && shadowStyle]}>
@@ -154,7 +154,7 @@ export default class ActionButton extends Component {
         const {icon, btnOutRangeTxt, buttonTextStyle, buttonText} = this.props;
         if (icon) return icon;
 
-        const textColor = buttonTextStyle.color || 'rgba(255,255,255,1)'
+        const textColor = buttonTextStyle.color || 'rgba(255,255,255,1)';
 
         return (
             <Animated.Text style={[styles.btnText, buttonTextStyle, {

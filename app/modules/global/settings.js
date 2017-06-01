@@ -37,7 +37,7 @@ const restRoutes = {
         return serverURL + 'comments/'+commentId+'/like/'+userId;
     },
     dislikeComment:(commentId,userId)=> {
-        return serverURL + 'comments/'+commentId+'/dislike/'+userId;
+        return serverURL + 'comments/'+commentId+'/like/'+userId;
     },
     deleteComment:(commentId)=> {
         return serverURL + 'comments/'+commentId;

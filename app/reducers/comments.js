@@ -12,11 +12,11 @@ const comments = (state = {
             return Object.assign({}, state, {
                 commentsItems: action.comments,
                 isFetching: false
-            })
+            });
         case types.REQUEST_COMMENTS:
             return Object.assign({}, state, {
                 isFetching: true
-            })
+            });
         case types.UPDATE_COMMENT:
             return Object.assign({}, state, {
                 items: state.items.map(item => {
@@ -24,10 +24,10 @@ const comments = (state = {
                         action.comment :
                         item
                 })
-            })
+            });
         default:
             return state
     }
-}
+};
 
 export default comments

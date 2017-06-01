@@ -7,9 +7,9 @@ describe('PushController', () => {
             requestPermissions: createTestFunction(),
             getFCMToken: createTestFunction(),
             subscribeToTopic: createTestFunction()
-        }
+        };
 
-        const pushController = createComponent("pushController")
+        const pushController = createComponent("pushController");
 
         checkTestFunction(FCM.requestPermissions);
         checkTestFunction(FCM.getFCMToken);
