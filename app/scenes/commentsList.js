@@ -1,9 +1,3 @@
-/**
- * Created by HEL3666 on 22/05/2017.
- */
-/**
- * Created by LMA3606 on 13/02/2017.
- */
 import React, {Component} from "react";
 import {NavMenu, Platform, StyleSheet, View} from "react-native";
 import colors from "../components/colors";
@@ -24,7 +18,6 @@ export default class Comments extends Component {
 
 
     render() {
-
         return (
             <View style={styles.mainContainer}>
                 <CommentsList
