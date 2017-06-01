@@ -15,7 +15,7 @@ export default class EmailInput extends Component {
         },
         onChangeText: (email) => {
         }
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -27,9 +27,9 @@ export default class EmailInput extends Component {
     editEmail = (email) => {
         this.setState({
             email: email
-        })
+        });
         this.props.onChangeText(email);
-    }
+    };
 
     focus() {
         this.refs.email.focus();

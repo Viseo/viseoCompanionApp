@@ -8,7 +8,7 @@ import SearchTextInput from "../components/SearchTextInput";
 
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
@@ -16,13 +16,13 @@ const mapDispatchToProps = (dispatch) => {
         },
         dispatch
     )
-}
+};
 
 const SearchInput = connect(
     mapStateToProps,
     mapDispatchToProps
-)(SearchTextInput)
+)(SearchTextInput);
 
-SearchInput.displayName = 'SearchInput'
+SearchInput.displayName = 'SearchInput';
 
 export default SearchInput

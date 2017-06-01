@@ -17,7 +17,7 @@ export default class EventCardExp extends Component {
         categoryId: '',
         onParticipationChange: () => {
         },
-    }
+    };
 
     constructor(props) {
         super(props);

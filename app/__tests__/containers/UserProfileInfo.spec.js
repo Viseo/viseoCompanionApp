@@ -4,14 +4,14 @@ import {describe} from "mocha";
 describe('UserProfileInfo', () => {
 
     it('should render', () => {
-        let result = createContainer('UserProfileInfo')
-        let container = result.container
-        let component = result.component
-        expect(container.length).to.equal(1)
+        let result = createContainer('UserProfileInfo');
+        let container = result.container;
+        let component = result.component;
+        expect(container.length).to.equal(1);
         expect(component.length).to.equal(1)
     })
 
-})
+});
 
 
 // import {

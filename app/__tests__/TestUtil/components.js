@@ -21,27 +21,27 @@ import Avatar from "../../components/Avatar";
 export function get(componentName, props) {
     switch (componentName) {
         case 'AppText':
-            return shallow(<AppText {...props}/>)
+            return shallow(<AppText {...props}/>);
         case 'AppTextInput':
-            return shallow(<AppTextInput {...props}/>)
+            return shallow(<AppTextInput {...props}/>);
         case 'BackButton':
-            return shallow(<BackButton {...props}/>)
+            return shallow(<BackButton {...props}/>);
         case 'Button':
-            return shallow(<Button {...props}/>)
+            return shallow(<Button {...props}/>);
         case 'ImageButton':
-            return shallow(<ImageButton {...props}/>)
+            return shallow(<ImageButton {...props}/>);
         case 'ItemSpacer':
-            return shallow(<ItemSpacer {...props}/>)
+            return shallow(<ItemSpacer {...props}/>);
         case 'FilterToggle':
-            return shallow(<FilterToggle {...props}/>)
+            return shallow(<FilterToggle {...props}/>);
         case 'FlexImage':
-            return shallow(<FlexImage {...props}/>)
+            return shallow(<FlexImage {...props}/>);
         case 'Toggle':
-            return shallow(<Toggle {...props}/>)
+            return shallow(<Toggle {...props}/>);
         case 'SearchTextInput':
-            return shallow(<SearchTextInput {...props}/>)
+            return shallow(<SearchTextInput {...props}/>);
         case 'SearchBar':
-            return shallow(<SearchBar {...props}/>)
+            return shallow(<SearchBar {...props}/>);
 
         case 'EventCard':
             return shallow(<EventCard {...props}/>);

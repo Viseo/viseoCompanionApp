@@ -11,13 +11,13 @@ import startApp from "../modules/global/startApp";
 export default class SignInForm extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             email: this.props.email || '',
             password: this.props.password || '',
             errorMessage: '',
             rememberUser: true
-        }
+        };
         this.autoSubmitFormWhenLastInputIsFilled = this.autoSubmitFormWhenLastInputIsFilled.bind(this);
         this.onPressRememberMe = this.onPressRememberMe.bind(this);
         this.onPressRecoverPassword = this.onPressRecoverPassword.bind(this);
@@ -33,14 +33,14 @@ export default class SignInForm extends Component {
             this.autoSubmitFormWhenLastInputIsFilled();
         });
         if (authenticationStatus === 1) {
-            this.props.rememberUser(this.state.rememberUser)
+            this.props.rememberUser(this.state.rememberUser);
             this._navigateToHomeScreen();
         }
     }
 
 
     onPressRememberMe() {
-        this.props.rememberUser(!this.state.rememberUser)
+        this.props.rememberUser(!this.state.rememberUser);
         this.setState({
             rememberUser: !this.state.rememberUser
         });
@@ -118,7 +118,7 @@ export default class SignInForm extends Component {
         return (
             <AppText style={styles.errorInfo}>{errorMessage}</AppText>
         );
-    }
+    };
 
     renderEmailInput() {
         return (

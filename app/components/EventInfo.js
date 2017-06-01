@@ -100,7 +100,7 @@ export default class Event extends Component {
     toggleEditEvent = (editing) => {
         if (!editing) {
             if (this.state.newEvent) {
-                this.setState({newEvent: false})
+                this.setState({newEvent: false});
                 this.props.addEvent(this.state.editedEvent)
             }
             else
@@ -190,10 +190,10 @@ export default class Event extends Component {
     }
 
     renderMainInfo() {
-        let {editedEvent} = this.state
-        let {editing} = this.state
+        let {editedEvent} = this.state;
+        let {editing} = this.state;
         const hostAvatar = <Avatar firstName={this.state.editedEvent.host.firstName}
-                                   lastName={this.state.editedEvent.host.lastName} style={{flex: 3}}/>
+                                   lastName={this.state.editedEvent.host.lastName} style={{flex: 3}}/>;
         const name = (
             editing ?
                 <AppTextInput
@@ -233,7 +233,7 @@ export default class Event extends Component {
                 {borderTopColor: this.getCategoryColorFromId(editedEvent.category)}
             ]}
             />
-        )
+        );
         const host = (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../images/user.png')}/>

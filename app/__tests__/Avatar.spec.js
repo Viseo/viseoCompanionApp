@@ -9,11 +9,11 @@ describe('Avatar', () => {
         const avatar = createComponent('Avatar', {
             name: "bob",
             lastName: "marley"
-        })
+        });
 
-        checkIsComponent(avatar, 'View')
-        const text = getChildComponent(avatar, 'AppText')
+        checkIsComponent(avatar, 'View');
+        const text = getChildComponent(avatar, 'AppText');
         checkHasChildComponent(text, "BM")
     })
 
-})
+});

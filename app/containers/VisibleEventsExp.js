@@ -26,10 +26,10 @@ const getFilteredEvents = (events, filters) => {
                     acceptEvent = true
                 }
             }
-        })
+        });
         return acceptEvent
     })
-}
+};
 
 const getSearchedEvents = (events, searchWords) => {
     return events.filter(event => {
@@ -47,42 +47,42 @@ const getSearchedEvents = (events, searchWords) => {
         });
         return acceptEvent
     })
-}
+};
 
 const addParticipationInfo = (events, userId) => {
     return events.map(event => {
-        let {participants} = event
-        let participating = false
+        let {participants} = event;
+        let participating = false;
         if (participants) {
             if (participants.indexOf(userId) !== -1) {
                 participating = true
             }
         }
-        event.participating = participating
+        event.participating = participating;
         return event
     })
-}
+};
 
 const getVisibleEventListExp = (events,
                                 visibilityFilter,
                                 filters,
                                 searchWords,
                                 user) => {
-    let filteredEvents = getFilteredEvents(events, filters)
-    events = filteredEvents.length > 0 ? filteredEvents : events
-    events = searchWords.length > 0 ? getSearchedEvents(events, searchWords) : events
-    events = addParticipationInfo(events, user.id)
+    let filteredEvents = getFilteredEvents(events, filters);
+    events = filteredEvents.length > 0 ? filteredEvents : events;
+    events = searchWords.length > 0 ? getSearchedEvents(events, searchWords) : events;
+    events = addParticipationInfo(events, user.id);
     switch (visibilityFilter) {
         case 'SHOW_ALL':
-            return events
+            return events;
         case 'SHOW_GOING':
-            return events.filter(event => event.participating)
+            return events.filter(event => event.participating);
         case 'SHOW_NOT_GOING':
-            return events.filter(event => !event.participating)
+            return events.filter(event => !event.participating);
         default:
             throw new Error('Unknown filter: ' + visibilityFilter)
     }
-}
+};
 
 const mapStateToProps = (state) => ({
     events: getVisibleEventListExp(
@@ -96,7 +96,7 @@ const mapStateToProps = (state) => ({
     searchWords: state.searchWords,
     loading: state.loading,
     user: state.user,
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
@@ -107,11 +107,11 @@ const mapDispatchToProps = (dispatch) => {
                 registerUser(event, user.id)
         }
     }, dispatch)
-}
+};
 
 const VisibleEventListExp = connect(
     mapStateToProps,
     mapDispatchToProps
-)(EventListExp)
+)(EventListExp);
 
 export default VisibleEventListExp

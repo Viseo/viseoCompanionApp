@@ -76,7 +76,7 @@ class EditProfile extends Component {
         const isValid = password.length >= 6;
         this.setState({
             password: isValid ? password : '',
-        })
+        });
         return isValid;
     }
 

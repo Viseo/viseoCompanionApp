@@ -11,7 +11,7 @@ export default class ItemSpacer extends Component {
     }
 
     render() {
-        const flex = parseInt(this.props.flex) || 1
+        const flex = parseInt(this.props.flex) || 1;
         return (
             <View style={[
                 {backgroundColor: 'transparent'},
