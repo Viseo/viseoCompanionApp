@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
-export default class CommentsCard extends Component {
+export default class ChildCommentsCard extends Component {
 
     static defaultProps = {
         user: {id: 1, lastName: "he", firstName: "miu"},
@@ -26,8 +26,8 @@ export default class CommentsCard extends Component {
         return (
             <View style={{flex: 0.25}}>
                 <Avatar
-                    lastName={lName}
                     firstName={fName}
+                    lastName={lName}
                     style={{paddingTop: 10, paddingLeft: 5}}
                     size={4}
                 />
@@ -73,41 +73,11 @@ export default class CommentsCard extends Component {
                 flex: 1,
                 flexDirection: 'row', alignSelf: 'flex-end', marginRight: 5, marginTop: 5
             }}>
-                {this.renderReply()}
                 {this.renderDelete()}
                 {this.renderEdit()}
                 {this.renderLike()}
             </View>
         );
-    }
-
-    renderReply() {
-        const reply = (
-            <Icon.Button
-                name="reply"
-                style={styles.icon}
-                size={20}
-                color={colors.green}
-                onPress={() => {
-                    this.props.navigator.push({
-                        screen: 'CreateChildComment',
-                        title: 'Ajouter une réponse au commentaire',
-                        navigatorStyle: defaultNavBarStyle,
-                        passProps: {
-                            eventId: this.props.eventId,
-                            commentId: this.props.commentId,
-                        }
-
-                    })
-                }}
-            />
-        );
-        return (
-            <View >
-                {reply}
-            </View>
-        );
-
     }
 
     renderDelete() {
@@ -127,14 +97,9 @@ export default class CommentsCard extends Component {
 
     }
 
-    renderEdit() {
+    renderLike() {
         const reply = (
-            <Icon.Button
-                name="edit"
-                style={styles.icon}
-                size={20}
-                color={colors.mediumGray}
-            />
+            <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue}/>
         );
         return (
             <View >
@@ -144,9 +109,9 @@ export default class CommentsCard extends Component {
 
     }
 
-    renderLike() {
+    renderEdit() {
         const reply = (
-            <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue}/>
+            <Icon.Button name="edit" style={styles.icon} size={20} color={colors.mediumGray}/>
         );
         return (
             <View >
@@ -186,14 +151,6 @@ export default class CommentsCard extends Component {
     }
 
 
-    renderComment() {
-        return (
-            <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
-                <Text style={{fontSize: 15}}>{this.props.content}</Text>
-            </View>
-        );
-    }
-
     renderDate() {
         return (
             <View style={{flex: .5}}>
@@ -201,9 +158,17 @@ export default class CommentsCard extends Component {
             </View>
         );
     }
+
+    renderComment() {
+        return (
+            <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
+                <Text>{this.props.content}</Text>
+            </View>
+        );
+    }
 }
 
-CommentsCard.displayName = 'commentsCard'
+ChildCommentsCard.displayName = 'childCommentsCard'
 
 
 let {
@@ -215,12 +180,14 @@ const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        backgroundColor: 'rgb(255,255,255)',
+        backgroundColor: 'rgba(255,255,255,0.9)',
         borderRadius: 8,
-        height: 150,
+        height: 120,
+        width: 380,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
-        marginTop: 10
+        marginTop: 10,
+        marginLeft: 15
     },
 
     icon: {
@@ -229,3 +196,9 @@ const styles = StyleSheet.create({
 
 
 });
+
+// const styleFont = StyleSheet.create({
+//     textFont: {
+//         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
+//     }
+// });

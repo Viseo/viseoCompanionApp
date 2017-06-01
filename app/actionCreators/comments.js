@@ -23,12 +23,10 @@ export const getComments = (idEvent) => {
         try {
             // Fetch  comments By Event
             let commentsResponse = await fetch(settings.api.getCommentsByEvent(idEvent));
-
             let commentsJson = await commentsResponse.json();
-            let comments = []
+            let comments = [];
             for (let i = 0; i < commentsJson.length; i++) {
                 let comment = commentsJson[i];
-
                 comments.push({
                     id: comment.id,
                     version: comment.version,
@@ -38,19 +36,14 @@ export const getComments = (idEvent) => {
                     eventId: comment.eventId,
                     children: comment.childComments,
                     nbLike: comment.nbLike,
-                    likerIds: comment.likers,
-
+                    likers: comment.likers,
                 });
+
             }
-
             dispatch(receiveComments(comments))
-
-
         } catch (error) {
             console.warn('ActionCreators/comments::fetchComments ' + error)
-
         }
-
     }
 
 
