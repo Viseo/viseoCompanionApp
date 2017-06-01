@@ -24,6 +24,7 @@ class ChatView extends Component {
     }
 
     componentWillMount() {
+        this._initConnection();
         this._refresh(this.props.chatMessages);
     }
 
@@ -47,12 +48,38 @@ class ChatView extends Component {
         return first.id !== second.id;
     }
 
-    _onPress() {
-        const messageToSend = {
-            type: 'sent',
-            message: 'new message sent'
+    _initConnection() {
+        this.ws = new WebSocket('ws://10.33.171.57:8080/liveEvent');
+        this.ws.onopen = () => {
         };
-        this.props.addChatMessage(messageToSend);
+        this.ws.onmessage = (e) => {
+        };
+        this.ws.onerror = (e) => {
+            console.warn(e.message);
+        };
+        this.ws.onclose = (e) => {
+        };
+    }
+
+    _onPress() {
+        const message = {
+            content:"Depuis le tel ma gueule !",
+            datetime:"1492116035",
+            writer: {
+                id:"1"
+            },
+            eventId:"2"
+        };
+        this.props.addChatMessage({
+            type: 'sent',
+            message: message.content
+        });
+        const jsonMessage = JSON.stringify(message);
+        this.ws.send(jsonMessage);
+    }
+
+    _onReceivedMessage(message) {
+
     }
 
     _renderChatCard(chatData) {

@@ -1,6 +1,8 @@
 import {serverURL} from './../global/settings';
 
 let ws = new WebSocket('ws://' + serverURL + 'liveEvent');
+console.log('bla');
+console.warn('bla');
 
 ws.onopen = () => {
     // connection opened
@@ -22,3 +24,5 @@ ws.onclose = (e) => {
     // connection closed
     console.log(e.code, e.reason);
 };
+
+export default ws;
