@@ -154,7 +154,7 @@ export default class ChildCommentsCard extends Component {
     renderDate() {
         return (
             <View style={{flex: .5}}>
-                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
+                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} {this.props.time}</Text>
             </View>
         );
     }

@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {ListView, RefreshControl, Text, View} from "react-native";
-import CommentsCard from "./commentsCard";
-import ChildCommentsCards from "./childCommentsCard";
-import AppText from "./appText";
-import moment from "moment";
-import colors from "./colors";
-import Icon from "react-native-vector-icons/FontAwesome";
+import React, {Component} from 'react';
+import {ListView, RefreshControl, Text, View} from 'react-native';
+import CommentsCard from './commentsCard';
+import ChildCommentsList from './childCommentsList';
+import AppText from './appText';
+import moment from 'moment';
+import colors from './colors';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class CommentList extends Component {
 
@@ -18,25 +18,25 @@ export default class CommentList extends Component {
                     if (!r2.hasOwnProperty(key))
                         return true;
                     if (r1[key] !== r2[key])
-                        return true
+                        return true;
                 }
-                return false
-            }
+                return false;
+            },
         });
         this.state = {
             dataSource: ds.cloneWithRows(this.props.comments),
 
-        }
+        };
     }
 
     componentWillReceiveProps({comments}) {
-            this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(comments)
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(comments),
         });
     }
 
     componentWillMount() {
-        this.props.refresh(this.props.eventId)
+        this.props.refresh(this.props.eventId);
     }
 
     formatDate(date) {
@@ -54,7 +54,7 @@ export default class CommentList extends Component {
                     <RefreshControl
                         refreshing={this.props.refreshing}
                         onRefresh={() => {
-                            this.props.refresh(this.props.eventId)
+                            this.props.refresh(this.props.eventId);
                         }}
                     />
                 }
@@ -88,7 +88,7 @@ export default class CommentList extends Component {
                         nothingToShow
                 }
             </View>
-        )
+        );
     }
 
     renderEventInfo() {
@@ -109,12 +109,12 @@ export default class CommentList extends Component {
                     textAlign: 'left',
                     fontSize: 20,
 
-                    color: 'white'
+                    color: 'white',
                 }}>
                     {event}
                 </Text>
             </View>
-        )
+        );
     }
 
     renderAvis() {
@@ -125,7 +125,7 @@ export default class CommentList extends Component {
                     fontWeight: 'bold',
                     textAlign: 'left',
                     fontSize: 16,
-                    color: 'white'
+                    color: 'white',
                 }}>
                     75%
                 </Text>
@@ -135,49 +135,41 @@ export default class CommentList extends Component {
                     fontWeight: 'bold',
                     textAlign: 'left',
                     fontSize: 16,
-                    color: 'white'
+                    color: 'white',
                 }}>
                     (10 avis)
                 </Text>
             </View>
-        )
+        );
     }
 
     renderCommentCard = (comment) => {
         let [day, time] = this.formatDate(comment.date);
+
         return (
-            <CommentsCard
-                id={comment.id}
-                content={comment.content}
-                day={day}
-                time={time}
-                writer={comment.writer}
-                version={comment.version}
-                eventId={comment.eventId}
-                children={comment.children}
-                nbLike={comment.nbLike}
-                likers={comment.likers}
-                userId={this.props.userId}
-                navigator={this.props.navigator}
-                refresh={this.props.refresh}
-            />
-        )
-            ;
-    }
-    renderChildCommentCard = (childComment) => {
-        return (
-            <ChildCommentsCards
-                id={childComment.id}
-                content={childComment.content}
-                day={day}
-                time={time}
-                writer={childComment.writer}
-                eventId={childComment.eventId}
-                nbLik={childComment.nbLike}
-                navigator={this.props.navigator}
-            />
-        )
-    }
-}
+            <View>
+                <CommentsCard
+                    id={comment.id}
+                    content={comment.content}
+                    day={day}
+                    time={time}
+                    writer={comment.writer}
+                    version={comment.version}
+                    eventId={comment.eventId}
+                    children={comment.children}
+                    nbLike={comment.nbLike}
+                    likers={comment.likers}
+                    userId={this.props.userId}
+                    navigator={this.props.navigator}
+                    refresh={this.props.refresh}
+                />
+                <ChildCommentsList
+                childComment={comment.children}
+                />
+            </View>
+        );
+    };
+
+};
 
 CommentList.displayName = 'CommentList';

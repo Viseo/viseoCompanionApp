@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, Button} from "react-native";
 import AppTextInput from "../global/AppTextInput";
-import {updateComment} from "../../util/db";
+import {updateComment} from "../global/db";
 import moment from "moment";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";

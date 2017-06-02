@@ -21,6 +21,10 @@ const restRoutes = {
     authenticate: serverURL + 'authenticate',
     resetPassword: serverURL + 'resetPassword',
     updatedComment: serverURL + 'comments',
+    addComment: serverURL + 'comments',
+    addChildComment: (commentId) => {
+        return serverURL + 'comments/'+commentId;
+    },
     addEventParticipant: (eventId, userId) => {
         return serverURL + 'events/' + eventId + '/users/' + userId;
     },

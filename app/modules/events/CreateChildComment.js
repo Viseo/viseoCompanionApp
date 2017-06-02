@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, Button} from "react-native";
-import AppTextInput from "../global/AppTextInput";
-import {addChildComment} from "../global/db";
-import moment from "moment";
+import {StyleSheet, ScrollView, Button} from 'react-native';
+import AppTextInput from '../global/AppTextInput';
+import {addChildComment} from '../global/db';
+import moment from 'moment';
 
 export default class CreateChildComment extends Component {
 
@@ -40,16 +40,17 @@ export default class CreateChildComment extends Component {
         const childComment = {
             content: this.state.childComment,
             datetime: moment().valueOf(),
-            writer:{
-                id: 1
+            writer: {
+                id: this.props.userId,
             },
-            eventId: 25,
+            eventId: this.props.eventId,
+            commentId:this.props.commentId
         };
 
         addChildComment(childComment);
         this.props.navigator.pop();
     }
-}
+};
 
 const styles = StyleSheet.create({
     mainContainer: {

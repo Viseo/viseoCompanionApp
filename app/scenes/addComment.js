@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, Dimensions, Platform, StyleSheet, TextInput, View} from "react-native";
 const {height} = Dimensions.get('window');
 import AppText from "../components/appText";
-import * as comment from "./../util/db"
+import * as comment from "../modules/global/db"
 import BackButton from "./../components/BackButton";
 import colors from "./../components/colors";
 import ItemSpacer from "./../components/ItemSpacer";

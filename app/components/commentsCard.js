@@ -7,7 +7,6 @@ import Avatar from "./Avatar";
 import AppText from "./appText";
 import {addLike, dislike} from "../util/db";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
-import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
 export default class CommentsCard extends Component {
 
@@ -105,7 +104,8 @@ export default class CommentsCard extends Component {
                         navigatorStyle: defaultNavBarStyle,
                         passProps: {
                             eventId: this.props.eventId,
-                            commentId: this.props.commentId,
+                            commentId: this.props.id,
+                            userId:this.props.userId
                         }
 
                     })
@@ -246,7 +246,7 @@ export default class CommentsCard extends Component {
     renderDate() {
         return (
             <View style={{flex: .5}}>
-                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
+                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day}  {this.props.time}</Text>
             </View>
         );
     }
@@ -274,7 +274,7 @@ export default class CommentsCard extends Component {
         await deleteComment(this.props.id);
         this.props.refresh(this.props.eventId);
     }
-}
+
 
 CommentsCard.displayName = 'commentsCard';
 
