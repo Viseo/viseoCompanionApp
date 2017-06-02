@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {ScrollView, View, StyleSheet} from "react-native";
-import {connect} from "react-redux";
-import Avatar from "../../components/Avatar";
-import AppText from "../global/AppText";
-import {defaultNavBarStyle} from "../global/navigatorStyle";
+import {ScrollView, View, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import Avatar from '../../components/Avatar';
+import AppText from '../global/AppText';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
+import {Navigation} from  'react-native-navigation';
 
 class Profile extends Component {
 
@@ -34,7 +35,7 @@ class Profile extends Component {
                 lastName={this.props.lastName}
                 style={{marginTop: 20}}
             />
-        )
+        );
     }
 
     renderEmail() {
@@ -67,6 +68,8 @@ class Profile extends Component {
     onNavigatorEvent(event) {
         if (event.id === 'edit') {
             this._goToEditProfile();
+        } else if(event.id === 'signOut') {
+            this._signOut();
         }
     }
 
@@ -77,18 +80,32 @@ class Profile extends Component {
             navigatorStyle: defaultNavBarStyle,
         });
     }
+
+    _signOut() {
+        Navigation.showLightBox({
+            screen: "authentication.signOut",
+            style: {
+                backgroundBlur: "dark",
+                backgroundColor: "#135caa70"
+            }
+        });
+    }
 }
 
 Profile.navigatorButtons = {
     rightButtons: [
         {
+            icon: require('../../images/navigation/signOut.png'),
+            id: 'signOut',
+        },
+        {
             icon: require('../../images/navigation/edit.png'),
-            id: 'edit'
-        }
-    ]
+            id: 'edit',
+        },
+    ],
 };
 
-Profile.navigatorStyle  = defaultNavBarStyle;
+Profile.navigatorStyle = defaultNavBarStyle;
 
 const mapStateToProps = ({user}, ownProps) => ({
     firstName: user.firstName,
@@ -109,7 +126,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     mainContainer: {
-        marginHorizontal:20,
+        marginHorizontal: 20,
     },
     textFieldContainer: {
         marginTop: 20,

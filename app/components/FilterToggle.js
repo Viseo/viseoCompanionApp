@@ -4,7 +4,7 @@
 import React, {Component} from "react";
 import {StyleSheet} from "react-native";
 import Toggle from "./Toggle";
-import AppText from "./appText";
+import AppText from "../modules/global/AppText";
 
 export default class FilterToggle extends Component {
 

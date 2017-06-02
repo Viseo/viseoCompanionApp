@@ -5,7 +5,7 @@
 import React, {Component} from "react";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import ImagePicker from "react-native-image-picker";
-import strings from "./../util/localizedStrings";
+import strings from "../modules/global/localizedStrings";
 import FlexImage from "./../components/FlexImage";
 
 export default class EditableImage extends Component {

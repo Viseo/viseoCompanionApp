@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Header from "./../components/header";
-import AppText from "./../components/appText";
+import AppText from "../modules/global/AppText";
 import EditableImage from "./../components/editableImage";
 import colors from "../modules/global/colors";
 

@@ -6,9 +6,9 @@
 import React, {Component} from "react";
 import {ListView, RefreshControl, Text, View} from "react-native";
 import CommentsCard from "./commentsCard";
-import AppText from "./appText";
+import AppText from "../modules/global/AppText";
 import moment from "moment";
-import colors from "./colors";
+import colors from "../modules/global/colors";
 import  Icon from "react-native-vector-icons/FontAwesome";
 export default class CommentList extends Component {
 

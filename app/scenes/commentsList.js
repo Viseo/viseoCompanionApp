@@ -6,7 +6,7 @@
  */
 import React, {Component} from "react";
 import {NavMenu, Platform, StyleSheet, View} from "react-native";
-import colors from "../components/colors";
+import colors from "../modules/global/colors";
 import {dispatch} from "redux";
 import CommentsList from "../containers/CommentsList";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";

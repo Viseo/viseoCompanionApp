@@ -1,13 +1,22 @@
-import {Navigation} from "react-native-navigation";
-import {defaultNavBarStyle, tabBarStyle} from "./navigatorStyle";
+import {Navigation} from 'react-native-navigation';
+import {defaultNavBarStyle, tabBarStyle} from './navigatorStyle';
 
-export default startApp = () => {
+export const startLoader = () => {
+    Navigation.startSingleScreenApp({
+        screen: {
+            screen: 'appLoader.splashScreen',
+        },
+        animationType: 'fade',
+    });
+};
+
+export const startApp = () => {
     Navigation.startTabBasedApp({
         tabs: [
             {
-                label: "Accueil",
+                label: 'Accueil',
                 screen: 'NewsFeed',
-                title: "Fil d'actualité",
+                title: 'Fil d\'actualité',
                 icon: require('../../images/navigation/home.png'),
                 navigatorStyle: defaultNavBarStyle,
             },
@@ -38,11 +47,11 @@ export default startApp = () => {
                 title: 'Mes notifications',
                 icon: require('../../images/navigation/notifications.png'),
                 navigatorStyle: defaultNavBarStyle,
-            }
+            },
         ],
         tabsStyle: tabBarStyle,
         appStyle: tabBarStyle,
         navigatorStyle: defaultNavBarStyle,
         animationType: 'fade',
     });
-}
+};

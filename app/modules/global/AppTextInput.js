@@ -18,7 +18,7 @@ class AppTextInput extends Component {
 
     render() {
         const {value, isValid} = this.state;
-        const {validColor, invalidColor, label, validator, onChangeText, secureTextEntry, multiline, style} = this.props;
+        const {validColor, invalidColor, label, validator, onChangeText, secureTextEntry, style} = this.props;
         const errorMessage = this.renderErrorMessage();
         const highlightColor = isValid ? validColor : invalidColor;
         return (

@@ -1,5 +1,5 @@
-import {AUTHENTICATION_SUCCESS} from "./authentication.actions";
-import {REHYDRATE} from "redux-persist/constants";
+import {AUTHENTICATION_SUCCESS, REMEMBER_USER, SIGN_OUT} from './authentication.actions';
+import {REHYDRATE} from 'redux-persist/constants';
 
 export default (state = [], action) => {
     switch (action.type) {
@@ -10,16 +10,36 @@ export default (state = [], action) => {
                 loggedUser: {
                     email: action.email,
                     password: action.password,
-                }
+                },
             };
         case REHYDRATE:
             let {authentication} = action.payload;
+            let loggedUser = authentication.rememberUser ?
+                authentication.loggedUser :
+                {
+                    email: '',
+                    password: '',
+                };
             if (authentication) return {
                 ...state,
                 isAuthenticated: false,
-                loggedUser: {...authentication.loggedUser},
+                loggedUser,
             };
             return state;
+        case REMEMBER_USER:
+            return {
+                ...state,
+                rememberUser: action.rememberUser,
+            };
+        case SIGN_OUT:
+            return {
+                ...state,
+                isAuthenticated: false,
+                loggedUser: {
+                    email: '',
+                    password: '',
+                },
+            };
         default:
             return state;
     }

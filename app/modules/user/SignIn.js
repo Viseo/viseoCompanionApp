@@ -1,19 +1,23 @@
-import React, {Component} from "react";
-import {Button, ScrollView, StyleSheet} from "react-native";
-import EmailInput from "./components/EmailInput";
-import PasswordInput from "./components/PasswordInput";
-import strings from "../global/localizedStrings";
-import AppText from "../global/AppText";
-import {authenticate} from "./authentication.actions";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import React, {Component} from 'react';
+import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from 'react-native';
+import EmailInput from './components/EmailInput';
+import PasswordInput from './components/PasswordInput';
+import strings from '../global/localizedStrings';
+import AppText from '../global/AppText';
+import {authenticate} from './authentication.actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {startApp} from '../global/navigationLoader';
+import CheckBox from 'react-native-check-box';
+import {rememberUser as toggleRememberUser} from '../../actionCreators/user';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
+import colors from '../global/colors';
 
 class SignIn extends Component {
 
     state = {
         email: '',
         password: '',
-        rememberUser: true,
         errorMessage: '',
         hasSubmittedForm: false,
     };
@@ -25,70 +29,122 @@ class SignIn extends Component {
     componentWillReceiveProps({isAuthenticated}) {
         if (isAuthenticated) {
             this._navigateToHome();
+        } else {
+            this.setState({
+                errorMessage: strings.wrongCredentials,
+            });
         }
     }
 
     render() {
-        const shouldDisplayErrorMessage = this.state.hasSubmittedForm && !this._isFormValid();
-        const errorMessage = shouldDisplayErrorMessage ? this.renderErrorMessage() : null;
-        const signInButton = this.renderSignInButton();
+        const logo = this._renderLogo();
+        const shouldDisplayErrorMessage = this.state.hasSubmittedForm && !this._isFormFilled();
+        const errorMessage = shouldDisplayErrorMessage ? this._renderErrorMessage() : null;
+        const signInButton = this._renderSignInButton();
+        const rememberUserCheckBox = this._renderRememberUserCheckbox();
+        const recoverPasswordLink = this._renderRecoverPassword();
         return (
-            <ScrollView>
+            <ScrollView contentContainerStyle={styles.mainContainer}>
+                {logo}
                 <EmailInput onEmailChange={email => this._setEmail(email)}/>
                 <PasswordInput onPasswordChange={password => this._setPassword(password)}/>
+                <View style={{flexDirection: 'row', flex: 1}}>
+                    {rememberUserCheckBox}
+                    {recoverPasswordLink}
+                </View>
                 {errorMessage}
                 {signInButton}
             </ScrollView>
         );
     }
 
-    renderErrorMessage() {
-        const errorMessage = strings.wrongCredentials;
-        return <AppText style={styles.errorInfo}>{errorMessage}</AppText>;
-    }
-
-    renderSignInButton() {
-        return (
-            <Button
-                title={strings.signIn}
-                onPress={() => this._signIn()}
-                color="#841584"
-            />
-        )
-    }
-
-    _isFormValid() {
+    _isFormFilled() {
         return this.state.email
             && this.state.password;
     }
 
     _navigateToHome() {
-        this.props.navigator.popToRoot();
+        startApp();
+    }
+
+    _navigateToRecoverPassword() {
         this.props.navigator.push({
-            screen: 'NewsFeed',
-            title: 'Actualités',
-            backButtonHidden: true,
+            screen: 'authentication.recoverPassword',
+            title: 'Récupération de mot de passe',
+            navigatorStyle: defaultNavBarStyle,
         });
+    }
+
+    _renderErrorMessage() {
+        return <AppText style={styles.errorInfo}>{this.state.errorMessage}</AppText>;
+    }
+
+    _renderLogo() {
+        return (
+            <View style={{alignItems: 'center', paddingBottom: 50}}>
+                <Image
+                    source={require('../../images/user/loginLogo.png')}
+                    style={{width: 110, height: 110}}
+                />
+            </View>
+        );
+    }
+
+    _renderRecoverPassword() {
+        return (
+            <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <TouchableHighlight onPress={() => this._navigateToRecoverPassword()}>
+                    <AppText style={styles.rememberPasswordLink}>{strings.forgotPassword}</AppText>
+                </TouchableHighlight>
+            </View>
+        );
+    }
+
+    _renderRememberUserCheckbox() {
+        return (
+            <CheckBox
+                style={{flex: 1, padding: 10}}
+                onClick={() => this._toggleRememberUser()}
+                isChecked={this.props.rememberUser}
+                rightText={strings.rememberMe}
+            />
+        );
+    }
+
+    _renderSignInButton() {
+        return (
+            <View style={styles.signInButton}>
+                <Button
+                    title={strings.signIn}
+                    onPress={() => this._signIn()}
+                    color={colors.blue}
+                />
+            </View>
+        );
     }
 
     _setEmail(email) {
         this.setState({
-            email
-        })
+            email,
+        });
     }
 
     _setPassword(password) {
         this.setState({
-            password
-        })
+            password,
+        });
     }
 
     _signIn() {
         this.setState({hasSubmittedForm: true});
-        if (this._isFormValid()) {
+        if (this._isFormFilled()) {
             const {email, password} = this.state;
             this.props.authenticate(email, password);
         }
+    }
+
+    _toggleRememberUser() {
+        this.props.toggleRememberUser(!this.props.rememberUser);
     }
 }
 
@@ -106,25 +162,27 @@ SignIn.navigatorButtons = {
             buttonFontSize: 12,
             buttonFontWeight: '400',
         },
-    ]
+    ],
 };
 
 const mapStateToProps = ({authentication}, ownProps) => ({
     isAuthenticated: authentication.isAuthenticated,
+    rememberUser: authentication.rememberUser,
     ...ownProps,
 });
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             authenticate,
+            toggleRememberUser,
         },
-        dispatch
-    )
+        dispatch,
+    );
 };
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(SignIn);
 
 const styles = StyleSheet.create({
@@ -132,6 +190,21 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
         color: 'brown',
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+    },
+    mainContainer: {
+        paddingHorizontal: 60,
+        paddingTop: 30,
+        backgroundColor: 'white',
+    },
+    rememberPasswordLink: {
+        textAlign: 'right',
+        fontSize: 12,
+        color: 'brown',
+        fontStyle: 'italic',
+        paddingRight: 5,
+    },
+    signInButton: {
+        marginTop: 30,
     },
 });

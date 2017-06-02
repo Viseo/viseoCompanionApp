@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
-import AppText from "../components/appText";
+import AppText from "../modules/global/AppText";
 import EmailInput from "./../components/emailInput";
 import PasswordInput from "./../components/passwordInput";
 import CheckBox from "react-native-check-box";
-import strings from "../util/localizedStrings";
+import strings from "../modules/global/localizedStrings";
 import * as util from "../util/util.js";
-import startApp from "../modules/global/startApp";
+import startApp from "../modules/global/navigationLoader";
 
 export default class SignInForm extends Component {
 
@@ -38,6 +38,33 @@ export default class SignInForm extends Component {
         }
     }
 
+
+    render() {
+        return (
+            <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
+                <ScrollView>
+                    <View style={{flexDirection: 'column', justifyContent: 'center', padding: 30}}>
+
+                        {this.renderLogo()}
+                        {this.renderEmailInput()}
+                        {this.renderPasswordInput()}
+
+                        <View style={{flexDirection: 'row', flex: 1}}>
+                            {this.renderRememberPasswordCheckbox()}
+
+                            <View style={{flex: 1, alignItems: 'flex-end'}}>
+                                {this.renderRecoverPassword()}
+                            </View>
+                        </View>
+
+                        {this.renderDisplayErrorMessages()}
+                        {this.renderSubmit()}
+                        {this.renderGoToSignUpForm()}
+                    </View>
+                </ScrollView>
+            </View>
+        )
+    }
 
     onPressRememberMe() {
         this.props.rememberUser(!this.state.rememberUser);
@@ -73,33 +100,6 @@ export default class SignInForm extends Component {
             return true;
         }
         return false;
-    }
-
-    render() {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
-                <ScrollView>
-                    <View style={{flexDirection: 'column', justifyContent: 'center', padding: 30}}>
-
-                        {this.renderLogo()}
-                        {this.renderEmailInput()}
-                        {this.renderPasswordInput()}
-
-                        <View style={{flexDirection: 'row', flex: 1}}>
-                            {this.renderRememberPasswordCheckbox()}
-
-                            <View style={{flex: 1, alignItems: 'flex-end'}}>
-                                {this.renderRecoverPassword()}
-                            </View>
-                        </View>
-
-                        {this.renderDisplayErrorMessages()}
-                        {this.renderSubmit()}
-                        {this.renderGoToSignUpForm()}
-                    </View>
-                </ScrollView>
-            </View>
-        )
     }
 
     renderDisplayErrorMessages = () => {
@@ -148,7 +148,7 @@ export default class SignInForm extends Component {
         return (
             <View style={{alignItems: 'center', paddingBottom: 50}}>
                 <Image
-                    source={require('./../images/loginLogo.png')}
+                    source={require('../images/user/loginLogo.png')}
                     style={{width: 110, height: 110}}
                 />
             </View>

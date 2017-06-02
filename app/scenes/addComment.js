@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {Button, Dimensions, Platform, StyleSheet, TextInput, View} from "react-native";
 const {height} = Dimensions.get('window');
-import AppText from "../components/appText";
+import AppText from "../modules/global/AppText";
 import * as comment from "./../util/db"
 import BackButton from "./../components/BackButton";
-import colors from "./../components/colors";
+import colors from "../modules/global/colors";
 import ItemSpacer from "./../components/ItemSpacer";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');

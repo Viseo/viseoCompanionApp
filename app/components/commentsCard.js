@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
-import colors from "./colors";
+import colors from "../modules/global/colors";
 import  Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
-import AppText from "./appText";
+import AppText from "../modules/global/AppText";
 import {addLike, dislike} from "../util/db";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 

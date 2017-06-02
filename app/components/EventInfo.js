@@ -12,11 +12,11 @@ import {
     StyleSheet,
     View
 } from "react-native";
-import AppText from "./appText";
+import AppText from "../modules/global/AppText";
 import EditableImage from "./editableImage";
 import CheckBox from "react-native-check-box";
 import DatePicker from "react-native-datepicker";
-import strings from "../util/localizedStrings";
+import strings from "../modules/global/localizedStrings";
 import colors from "../modules/global/colors";
 import BackButton from "./BackButton";
 import Toggle from "./Toggle";

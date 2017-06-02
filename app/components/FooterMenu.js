@@ -3,9 +3,9 @@
  */
 import React, {Component} from "react";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
-import AppText from "./appText";
+import AppText from "../modules/global/AppText";
 import Icon from "react-native-vector-icons/Ionicons";
-import strings from "../util/localizedStrings";
+import strings from "../modules/global/localizedStrings";
 
 class FooterMenu extends Component {
 

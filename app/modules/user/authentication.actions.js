@@ -6,17 +6,10 @@ export const authenticate = (email, password) => {
     return async (dispatch) => {
         try {
             let response = await authenticateDb(email, password);
-            const unabledToReachServerCode = -1;
             const wrongCredentials = null;
-            if (response === unabledToReachServerCode) {
+            if (response === wrongCredentials) {
                 dispatch({
                     type: AUTHENTICATION_FAILURE,
-                    code: 2
-                });
-            } else if (response === wrongCredentials) {
-                dispatch({
-                    type: AUTHENTICATION_FAILURE,
-                    code: 3
                 });
             } else {
                 dispatch({
@@ -26,7 +19,18 @@ export const authenticate = (email, password) => {
                 });
             }
         } catch (error) {
-            console.warn('authentication.actionCreators::authenticate ' + error)
+            console.warn('authentication.actionCreators::authenticate ' + error);
         }
-    }
+    };
 };
+
+export const REMEMBER_USER = 'REMEMBER_USER';
+export const rememberUser = (shouldRemember) => ({
+    type: REMEMBER_USER,
+    shouldRemember,
+});
+
+export const SIGN_OUT = 'SIGN_OUT';
+export const signOut = () => ({
+    type: SIGN_OUT,
+});

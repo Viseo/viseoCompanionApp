@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {StyleSheet, TextInput, View} from "react-native";
-import strings from "../util/localizedStrings";
+import strings from "../modules/global/localizedStrings";
 
 export default class EmailInput extends Component {
 

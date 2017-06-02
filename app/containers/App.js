@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 import {StyleSheet, View} from "react-native";
 import SignIn from "./../containers/SignInForm";
-import strings from "./../util/localizedStrings";
+import strings from "../modules/global/localizedStrings";
 import setDateLang from "../modules/global/dateHandler";
-import AppText from "./../components/appText";
+import AppText from "../modules/global/AppText";
 import {connect} from "react-redux";
 import {authenticate} from "../actionCreators/user";
 import {bindActionCreators} from "redux";
-import colors from "../components/colors";
-import startApp from "../modules/global/startApp";
+import colors from "../modules/global/colors";
+import startApp from "../modules/global/navigationLoader";
 
 class App extends Component {
     state = {

@@ -1,7 +1,3 @@
-/**
- * Created by AAB3605 on 27/03/2017.
- */
-
 export default {
     blue: '#498ff7',
     lightBlue: '#559ff7',

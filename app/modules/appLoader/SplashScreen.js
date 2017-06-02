@@ -1,19 +1,20 @@
-import React, {Component} from "react";
-import {StyleSheet, View} from "react-native";
-import AppText from "../../components/appText";
-import colors from "../global/colors";
-import {authenticate} from "./../user/authentication.actions";
-import {connect} from "react-redux";
-import startApp from "../global/startApp";
-import {bindActionCreators} from "redux";
-import {hideTabBar} from "../global/navigationUtil";
-import strings from "./../global/localizedStrings";
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import AppText from '../global/AppText';
+import colors from '../global/colors';
+import {authenticate} from './../user/authentication.actions';
+import {connect} from 'react-redux';
+import {startApp} from '../global/navigationLoader';
+import {bindActionCreators} from 'redux';
+import {hideTabBar} from '../global/navigationUtil';
+import strings from './../global/localizedStrings';
 import setDateLang from './../global/dateHandler';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 class SplashScreen extends Component {
 
-    minSplashScreenDuration = 2000;
-    maxSplashScreenDuration = 2500;
+    minSplashScreenDuration = 1500;
+    maxSplashScreenDuration = 5000;
     state = {
         isAuthenticatingSavedUser: false,
         shouldShowSplashScreen: true,
@@ -33,7 +34,7 @@ class SplashScreen extends Component {
 
     componentWillReceiveProps({isAuthenticated}) {
         this.setState({
-            isAuthenticated
+            isAuthenticated,
         });
     }
 
@@ -72,8 +73,12 @@ class SplashScreen extends Component {
     }
 
     _navigateToSignIn() {
+        this.props.navigator.popToRoot();
         this.props.navigator.push({
             screen: 'authentication.signIn',
+            title: 'Connexion',
+            navigatorStyle: defaultNavBarStyle,
+            backButtonHidden: true,
         });
     }
 
@@ -84,8 +89,8 @@ class SplashScreen extends Component {
 
     _setSplashScreenDuration() {
         setTimeout(() => {
-                this._closeSplashScreenIfEverythingIsLoaded()
-            }, this.minSplashScreenDuration
+                this._closeSplashScreenIfEverythingIsLoaded();
+            }, this.minSplashScreenDuration,
         );
     }
 }
@@ -102,7 +107,7 @@ const mapStateToProps = ({authentication}) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        authenticate
+        authenticate,
     }, dispatch);
 };
 
@@ -123,5 +128,5 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: colors.blue,
         fontWeight: 'bold',
-    }
+    },
 });

@@ -4,7 +4,7 @@ import EventCard from "../../components/events/eventCard";
 import ViseoCompanion from "../../index";
 import Home from "../../scenes/home";
 import EditableImage from "../../components/editableImage";
-import AppText from "../../components/appText";
+import AppText from "../../modules/global/AppText";
 import AppTextInput from "../../components/AppTextInput";
 import BackButton from "../../components/BackButton";
 import Button from "../../components/Button";

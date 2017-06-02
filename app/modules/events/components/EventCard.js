@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
-import strings from "../../../util/localizedStrings";
+import strings from "../../global/localizedStrings";
 import Highlighter from "react-native-highlight-words";
 import * as util from "../../../util/util";
 import colors from "../../global/colors";
-import AppText from "../../../components/appText";
+import AppText from "../../global/AppText";
 import moment from "moment";
 import {defaultNavBarStyle} from "../../global/navigatorStyle";
 

@@ -7,11 +7,6 @@ const user = (state = [], action) => {
                 ...state,
                 ...action.user
             };
-        case types.REMEMBER_USER:
-            return {
-                ...state,
-                rememberMe: action.shouldRemember
-            };
         case types.REMEMBER_USER_WHEN_SIGNUP:
             return {
                 ...state,
