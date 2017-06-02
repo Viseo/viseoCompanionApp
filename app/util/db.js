@@ -329,7 +329,7 @@ export async function updateEvent(event) {
                 "version": event.version,
                 "category": event.category
             })
-        });
+        })
         if (response)
             return true;
     } catch (error) {
@@ -346,8 +346,24 @@ export async function addComment(comment) {
             },
             body: JSON.stringify(comment)
         });
+
     } catch (error) {
         console.warn('db::addComment ' + error);
+    }
+    return false;
+}
+
+export async function addChildComment(childComment) {
+    try {
+        await fetch(settings.api.addChildComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(childComment)
+        });
+    } catch (error) {
+        console.warn('db::addChildComment ' + error);
     }
     return false;
 }

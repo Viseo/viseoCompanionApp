@@ -291,5 +291,35 @@ export async function updateEvent(event) {
     }
 }
 
+export async function addComment(comment) {
+    try {
+        await fetch(settings.api.addComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(comment)
+        });
+
+    } catch (error) {
+        console.warn('db::addComment ' + error);
+    }
+    return false;
+}
+
+export async function addChildComment(childComment) {
+    try {
+        await fetch(settings.api.addChildComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(childComment)
+        });
+    } catch (error) {
+        console.warn('db::addChildComment ' + error);
+    }
+    return false;
+}
 
 

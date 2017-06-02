@@ -20,6 +20,7 @@ const restRoutes = {
     getUser: serverURL + 'users/',
     authenticate: serverURL + 'authenticate',
     resetPassword: serverURL + 'resetPassword',
+    addComment: serverURL + 'comments',
     addChildComment: serverURL + 'comments/2',
     /*addChildComment: (commentId) => {
      return SERVER_API_URL + 'comments/' + commentId ;
