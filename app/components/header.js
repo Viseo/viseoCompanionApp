@@ -17,7 +17,7 @@ class Header extends Component {
     }
 }
 
-Header.displayName = 'Header'
+Header.displayName = 'Header';
 
 export default Header;
 

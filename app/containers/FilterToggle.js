@@ -8,7 +8,7 @@ import Toggle from "../components/FilterToggle";
 
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
@@ -16,13 +16,13 @@ const mapDispatchToProps = (dispatch) => {
             onUnselect: removeFilter,
         },
         dispatch)
-}
+};
 
 const FilterToggle = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Toggle)
+)(Toggle);
 
-FilterToggle.displayName = 'FilterToggle'
+FilterToggle.displayName = 'FilterToggle';
 
 export default FilterToggle

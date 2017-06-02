@@ -38,9 +38,9 @@ export default class Profile extends Component {
     }
 
     render() {
-        const {editing, editedProfile} = this.state
-        let passwordValid = editedProfile.password.length >= 6
-        let passwordMatch = editedProfile.passwordCheck === editedProfile.password
+        const {editing, editedProfile} = this.state;
+        let passwordValid = editedProfile.password.length >= 6;
+        let passwordMatch = editedProfile.passwordCheck === editedProfile.password;
         const password = (
             <TextField
                 label={'Mot de passe'}
@@ -53,7 +53,7 @@ export default class Profile extends Component {
                     this.setState({editedProfile: {...editedProfile, password}})
                 }}
             />
-        )
+        );
         const passwordCheck = (
             <TextField
                 label={'Confirmez le mot de passe'}
@@ -66,7 +66,7 @@ export default class Profile extends Component {
                     this.setState({editedProfile: {...editedProfile, passwordCheck}})
                 }}
             />
-        )
+        );
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
                 <ScrollView
@@ -94,7 +94,7 @@ export default class Profile extends Component {
     }
 
     renderEmail() {
-        let {editedProfile, editing} = this.state
+        let {editedProfile, editing} = this.state;
         return editing ?
             <View/> :
             <View style={styles.textFieldContainer}>
@@ -104,14 +104,14 @@ export default class Profile extends Component {
     }
 
     renderFirstName() {
-        let {editedProfile, editing} = this.state
+        let {editedProfile, editing} = this.state;
         const firstNameText = (
             <View style={styles.textFieldContainer}>
                 <AppText style={styles.label}>Nom</AppText>
                 <AppText style={styles.displayText}>{editedProfile.firstName}</AppText>
             </View>
-        )
-        let firstNameValid = editedProfile.firstName.length > 0
+        );
+        let firstNameValid = editedProfile.firstName.length > 0;
         const firstNameField = (
             <TextField
                 label={strings.firstName}
@@ -123,19 +123,19 @@ export default class Profile extends Component {
                 }}
                 value={editedProfile.firstName}
             />
-        )
+        );
         return editing ? firstNameField : firstNameText
     }
 
     renderLastName() {
-        let {editedProfile, editing} = this.state
+        let {editedProfile, editing} = this.state;
         const lastNameText = (
             <View style={styles.textFieldContainer}>
                 <AppText style={styles.label}>Prénom</AppText>
                 <AppText style={styles.displayText}>{editedProfile.lastName}</AppText>
             </View>
-        )
-        let lastNameValid = editedProfile.lastName.length > 0
+        );
+        let lastNameValid = editedProfile.lastName.length > 0;
         const lastNameField = (
             <TextField
                 label={strings.lastName}
@@ -147,7 +147,7 @@ export default class Profile extends Component {
                 }}
                 value={editedProfile.lastName}
             />
-        )
+        );
         return editing ? lastNameField : lastNameText
     }
 
@@ -158,14 +158,14 @@ export default class Profile extends Component {
     }
 
     updateImage(selected) {
-        const {editedProfile} = this.state
+        const {editedProfile} = this.state;
         let picture = {uri: selected};
         this.setState({editedProfile: {...editedProfile, picture}})
     }
 
     onChangePasswordText(password) {
-        const {editedProfile} = this.state
-        let isNewPasswordValid = util.isPasswordValid(password) || !password.length
+        const {editedProfile} = this.state;
+        let isNewPasswordValid = util.isPasswordValid(password) || !password.length;
         if (isNewPasswordValid) {
             this.setState({
                 editedProfile: {...editedProfile, password},
@@ -175,7 +175,7 @@ export default class Profile extends Component {
     }
 
     onChangePasswordCheckText(text) {
-        const {editedProfile} = this.state
+        const {editedProfile} = this.state;
         let isPasswordCheckValid = editedProfile.password === text;
         this.setState({isPasswordCheckValid: isPasswordCheckValid});
     }
@@ -188,7 +188,7 @@ Profile.defaultProps = {
     email: 'Non renseigné',
     password: '',
     birthDate: '',
-}
+};
 
 const styles = StyleSheet.create({
 

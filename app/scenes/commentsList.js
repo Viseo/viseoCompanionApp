@@ -30,6 +30,7 @@ export default class Comments extends Component {
                 <CommentsList
                     style={{flex: 22}}
                     eventId={this.props.eventId}
+                    navigator={this.props.navigator}
                 />
             </View>
         );

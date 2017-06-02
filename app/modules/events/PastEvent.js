@@ -37,7 +37,7 @@ class PastEvent extends Component {
         this.state = {
             picture,
         };
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+       this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentWillMount() {

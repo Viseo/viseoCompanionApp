@@ -10,18 +10,18 @@ import UserProfileInfo from "../components/UserProfileInfo";
 const mapStateToProps = (state, ownProps) => ({
     user: state.user,
     ...ownProps
-})
+});
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             updateUser
         },
         dispatch)
-}
+};
 
 const ProfileInfo = connect(
     mapStateToProps,
     mapDispatchToProps
-)(UserProfileInfo)
+)(UserProfileInfo);
 
 export default ProfileInfo

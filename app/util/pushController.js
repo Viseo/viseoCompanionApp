@@ -65,7 +65,7 @@ export default class PushController extends Component {
             FCM.removeAllDeliveredNotifications();
         }
         this.setState({appState: nextAppState});
-    }
+    };
 
     showLocalNotification(notif) {
         FCM.presentLocalNotification({
@@ -101,7 +101,7 @@ PushController.scheduleTest = async (event) => {
             priority: "high",
             badge: 1
         }
-    )
+    );
     FCM.scheduleLocalNotification(
         {
             fire_date: moment().add(20, 'seconds').toDate().getTime(),
@@ -115,7 +115,7 @@ PushController.scheduleTest = async (event) => {
             badge: 1
         }
     )
-}
+};
 
 PushController.scheduleEventNotifications = (event) => {
     FCM.scheduleLocalNotification(

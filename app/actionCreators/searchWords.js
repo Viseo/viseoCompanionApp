@@ -10,4 +10,4 @@ export const setWords = (searchString = []) => ({
             .replace(/\s+/g, ' ')
             .split(' ')
         : [],
-})
+});

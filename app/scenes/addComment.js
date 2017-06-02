@@ -6,14 +6,12 @@ import * as comment from "./../util/db"
 import BackButton from "./../components/BackButton";
 import colors from "./../components/colors";
 import ItemSpacer from "./../components/ItemSpacer";
-import ImageButton from "../components/ImageButton";
-import * as event from "./../components/EventInfo";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 export default class Comment extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             editing: false,
             name: this.props.name
@@ -44,7 +42,6 @@ export default class Comment extends Component {
                         title="envoyer"
                         onPress={ async () => {
                             let sendComment = await comment.addComment();
-                            console.warn("envoyer");
                             console.warn(sendComment);
                         }}
                     />
@@ -54,10 +51,10 @@ export default class Comment extends Component {
     }
 
     renderHeader() {
-        let {editing} = this.state
+        let {editing} = this.state;
         const backButton = (
             <BackButton navigator={this.props.navigator}/>
-        )
+        );
         const cancelButton = (
             <BackButton
                 navigator={this.props.navigator}
@@ -65,7 +62,7 @@ export default class Comment extends Component {
                 style={{padding: 8}}
                 onPress={() => this.setState({editing: false})}
             />
-        )
+        );
         return (
             <View
                 style={{flex: 0, height: 40, flexDirection: 'row', backgroundColor: colors.blue, alignItems: 'center'}}>

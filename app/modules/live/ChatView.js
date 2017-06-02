@@ -63,12 +63,12 @@ class ChatView extends Component {
 
     _onPress() {
         const message = {
-            content:"Depuis le tel ma gueule !",
-            datetime:"1492116035",
+            content: "Depuis le tel ma gueule !",
+            datetime: "1492116035",
             writer: {
-                id:"1"
+                id: "1"
             },
-            eventId:"2"
+            eventId: "2"
         };
         this.props.addChatMessage({
             type: 'sent',

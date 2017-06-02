@@ -13,6 +13,7 @@ import PastEvents from "../modules/events/PastEvents";
 import PastEvent from "../modules/events/PastEvent";
 import Comments from "../scenes/commentsList";
 import CreateComment from "../modules/events/CreateComment";
+import UpdateComment from "../modules/events/UpdateComment";
 import App from "../containers/App";
 import EventInfo from "../containers/EventInfo";
 import LiveEvent from "../modules/live/LiveEvent";
@@ -36,4 +37,5 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('App', () => App, store, provider);
     Navigation.registerComponent('Comments', () => Comments, store, provider);
     Navigation.registerComponent('CreateComment', () => CreateComment, store, provider);
+    Navigation.registerComponent('UpdateComment', () => UpdateComment, store, provider);
 }

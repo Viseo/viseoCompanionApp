@@ -14,18 +14,18 @@ export const types = {
 
     RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
     RESET_PASSWORD_FAILURE: 'RESET_PASSWORD_FAILURE'
-}
+};
 
 export const rememberUser = (shouldRemember) => ({
     type: types.REMEMBER_USER,
     shouldRemember
-})
+});
 
 export const rememberUserWhenSignUp = (email, password) => ({
     type: types.REMEMBER_USER_WHEN_SIGNUP,
     email,
     password
-})
+});
 
 export const authenticate = (email, password) => {
     return async (dispatch) => {
@@ -56,7 +56,7 @@ export const authenticate = (email, password) => {
             console.warn('ActionCreators/user::authenticate ' + error)
         }
     }
-}
+};
 
 export const updateUser = (user) => {
     return async (dispatch) => {
@@ -67,7 +67,7 @@ export const updateUser = (user) => {
             dispatch({
                 type: types.UPDATE_USER_FAILURE,
                 code: -1
-            })
+            });
             return
         }
         try {
@@ -80,4 +80,4 @@ export const updateUser = (user) => {
             code: 1
         })
     }
-}
+};

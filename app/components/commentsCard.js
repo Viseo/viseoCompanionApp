@@ -1,12 +1,12 @@
-/**
- * Created by HEL3666 on 22/05/2017.
- */
 import React, {Component} from "react";
-import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
 import colors from "./colors";
 import  Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
+import AppText from "./appText";
+import {addLike, dislike} from "../util/db";
+import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
 export default class CommentsCard extends Component {
 
@@ -14,17 +14,13 @@ export default class CommentsCard extends Component {
         user: {id: 1, lastName: "he", firstName: "miu"},
         event: {id: 1, title: "Event1"},
         date: '18/05/2020',
-
-    }
+    };
 
     constructor(props) {
         super(props);
-
     }
 
-
     renderIcon = () => {
-
         let lName = this.props.writer.id ? this.props.writer.lastName : "N";
         let fName = this.props.writer.id ? this.props.writer.firstName : "N";
         return (
@@ -40,21 +36,15 @@ export default class CommentsCard extends Component {
 
     render() {
         return (
-
             <View>
-
                 <Swipeout
-
                     className="swipeout"
                     style={{backgroundColor: 'transparent'}}
                     autoClose={true}
                     overflow="hidden"
                     sensitivity={(Platform.OS === 'ios') ? 1 : 2}
                 >
-                    <TouchableOpacity
-                        style={styles.card}
-
-                    >
+                    <TouchableOpacity style={styles.card}>
                         <View style={{
                             flex: 1,
                             flexDirection: 'row',
@@ -66,6 +56,7 @@ export default class CommentsCard extends Component {
                                 {this.renderParticipantDate()}
                                 {this.renderComment()}
                                 {this.renderActionComment()}
+                                {this.renderLikeCount()}
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -88,6 +79,16 @@ export default class CommentsCard extends Component {
         );
     }
 
+    renderLikeCount() {
+        return (
+            <View style={{
+                flex: 1,
+                flexDirection: 'row', alignSelf: 'flex-end', marginRight: 30, marginTop: -30
+            }}>
+                <AppText>{this.props.nbLike}</AppText>
+            </View>
+        );
+    }
 
     renderReply() {
         const reply = (
@@ -101,41 +102,93 @@ export default class CommentsCard extends Component {
 
     }
 
-
     renderDelete() {
         const reply = (
-            <Icon.Button style={styles.icon} name="trash" size={20} color={colors.red}/>
+            <Icon.Button
+                style={styles.icon}
+                name="trash" size={20}
+                color={colors.red}
+                onPress={this.deleteComment}
+            />
         );
         return (
             <View>
                 {reply}
             </View>
         );
-
     }
+
+    filterUser = (element) => {
+        return element.id == this.props.userId;
+    };
+
 
     renderLike() {
-        const reply = (
-            <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue}/>
-        );
+        let liked = false;
+        if (this.props.nbLike > 0) {
+            liked = this.props.likers.filter(this.filterUser).length > 0 ? true : false;
+        }
+
+        const like = (
+                <Icon.Button
+                    style={styles.icon}
+                    name="thumbs-o-up"
+                    size={20}
+                    color={colors.blue}
+                    onPress={ () => {
+                        liked ?
+                            this.dislikeComment() : this.likeComment()
+                    }}
+                />
+            )
+        ;
         return (
             <View >
-                {reply}
+                {like}
             </View>
         );
-
     }
+
+    updateComment = () => {
+        if (this.props.userId == this.props.writer.id) {
+            this.props.navigator.push({
+                screen: 'UpdateComment',
+                title: "Modification du commentaire",
+                navigatorStyle: defaultNavBarStyle,
+                passProps: {
+                    comment: {
+                        id: this.props.id,
+                        content: this.props.content,
+                        day: this.props.day,
+                        time: this.props.time,
+                        writer: this.props.writer,
+                        version: this.props.version,
+                        eventId: this.props.eventId,
+                        userId: this.props.userId,
+                        children: this.props.children,
+                        likers: this.props.likers,
+                    },
+                    modifComment: true
+                }
+            });
+        }
+    };
 
     renderEdit() {
         const reply = (
-            <Icon.Button name="edit" style={styles.icon} size={20} color={colors.mediumGray}/>
+            <Icon.Button
+                name="edit"
+                style={styles.icon}
+                size={20}
+                color={colors.mediumGray}
+                onPress={this.updateComment}
+            />
         );
         return (
             <View >
                 {reply}
             </View>
         );
-
     }
 
     renderSpacer() {
@@ -150,24 +203,18 @@ export default class CommentsCard extends Component {
         );
     }
 
-
     renderParticipantDate() {
         return (
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10}}>
-
                 <View style={{flex: .5}}>
-                    <Text style={{color:colors.blue, fontSize: 14}}>
-                        {this.props.writer.lastName +' '+ this.props.writer.firstName}
+                    <Text style={{color: colors.blue, fontSize: 14}}>
+                        {this.props.writer.lastName + ' ' + this.props.writer.firstName}
                     </Text>
                 </View>
-
                 {this.renderDate()}
-
             </View>
         );
     }
-
-
 
     renderComment() {
         return (
@@ -184,10 +231,24 @@ export default class CommentsCard extends Component {
             </View>
         );
     }
+
+    likeComment = async () => {
+        await addLike(this.props.id, this.props.userId);
+        this.props.refresh(this.props.eventId);
+    };
+
+    dislikeComment = async () => {
+        await dislike(this.props.id, this.props.userId);
+        this.props.refresh(this.props.eventId);
+    };
+
+    deleteComment = async () => {
+        await deleteComment(this.props.id);
+        this.props.refresh(this.props.eventId);
+    }
 }
 
-CommentsCard.displayName = 'commentsCard'
-
+CommentsCard.displayName = 'commentsCard';
 
 let {
     height: deviceHeight,
@@ -203,18 +264,9 @@ const styles = StyleSheet.create({
         height: 150,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
-        marginTop:10
+        marginTop: 10
     },
-
     icon: {
         backgroundColor: 'rgb(255,255,255)'
     }
-
-
 });
-
-// const styleFont = StyleSheet.create({
-//     textFont: {
-//         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-//     }
-// });

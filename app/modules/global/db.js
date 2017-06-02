@@ -18,7 +18,7 @@ export async function addEvent(event) {
                 "category": event.category,
                 "hostId": event.host.id
             })
-        })
+        });
         if (response)
             return true;
     } catch (error) {
@@ -34,7 +34,7 @@ export async function deleteEventDb(id) {
                 'Content-Type': 'application/json'
             },
 
-        })
+        });
         if (response)
             return true;
     } catch (error) {
@@ -283,7 +283,7 @@ export async function updateEvent(event) {
                 "version": event.version,
                 "category": event.category
             })
-        })
+        });
         if (response)
             return true;
     } catch (error) {
