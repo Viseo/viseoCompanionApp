@@ -5,7 +5,7 @@ import colors from "./colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
 import AppText from "./appText";
-import {addLike, dislike} from "../util/db";
+import {addLike, dislike, deleteCommentDb} from "../modules/global/db";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
 
 export default class CommentsCard extends Component {
@@ -258,7 +258,7 @@ export default class CommentsCard extends Component {
             </View>
         );
     }
-}
+
 
     likeComment = async () => {
         await addLike(this.props.id, this.props.userId);
@@ -271,10 +271,10 @@ export default class CommentsCard extends Component {
     };
 
     deleteComment = async () => {
-        await deleteComment(this.props.id);
+        await deleteCommentDb(this.props.id);
         this.props.refresh(this.props.eventId);
     }
-
+}
 
 CommentsCard.displayName = 'commentsCard';
 

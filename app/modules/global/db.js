@@ -264,6 +264,59 @@ export async function removeEventParticipant(eventId, userId) {
 }
 
 
+export async function addLike(commentId, userId) {
+    try {
+
+        let response = await fetch(settings.api.likeComment(commentId, userId), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response) {
+            return true;
+        }
+    } catch (error
+        ) {
+        console.warn(error);
+    }
+}
+
+export async function dislike(commentId, userId) {
+    try {
+        let response = await fetch(settings.api.dislikeComment(commentId, userId), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response) {
+            return true;
+        }
+    } catch (error
+        ) {
+        console.warn(error);
+    }
+}
+
+export async function deleteCommentDb(commentId) {
+    try {
+        let response = await fetch(settings.api.deleteComment(commentId), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response) {
+            return true;
+        }
+    } catch (error
+        ) {
+        console.warn(error);
+    }
+}
+
+
 export async function updateEvent(event) {
     try {
 
@@ -334,7 +387,6 @@ export async function updateComment(comment) {
 
 export async function addChildComment(childComment) {
     try {
-        console.warn(settings.api.addChildComment(childComment.commentId))
         await fetch(settings.api.addChildComment(childComment.commentId), {
             method: 'POST',
             headers: {
