@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, Button} from "react-native";
 import AppTextInput from "../global/AppTextInput";
-import {addComment, updateComment} from "../../util/db";
+import {addComment} from "../global/db";
 import moment from "moment";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
-import {getComments} from "../../actionCreators/comments";
 
-class CreateComment extends Component {
+export default class CreateComment extends Component {
 
     state = {
-        comment: this.props.comment.content,
+        comment: '',
     };
 
     constructor(props) {
@@ -18,10 +15,7 @@ class CreateComment extends Component {
     }
 
     render() {
-
         const renderButtons =
-
-
             (<Button
                 style={{width: 200, height: 100}}
                 title="Envoyer"
@@ -33,7 +27,7 @@ class CreateComment extends Component {
                 <AppTextInput
                     label="Votre commentaire"
                     validator={(text) => this.isNonEmpty(text)}
-                    value={this.props.comment.content}
+                    value={this.state.comment}
                     onChangeText={(comment) => this.setState({comment})}
                 />
                 {renderButtons}
@@ -54,7 +48,7 @@ class CreateComment extends Component {
             writer: {
                 id: 1,
             },
-            eventId: 2,
+            eventId: this.props.eventId,
         };
         addComment(comment);
         this.props.navigator.pop();
@@ -64,3 +58,8 @@ class CreateComment extends Component {
 
 }
 
+const styles = StyleSheet.create({
+    mainContainer: {
+        paddingHorizontal: 15,
+    },
+});

@@ -1,7 +1,7 @@
 /////////// SERVER CONNECTION ////////////////
 
 // Localhost (set your localhost IP here)
-const localhostIp = '192.168.43.64';
+const localhostIp = '10.33.178.119';
 const localhostURL = 'http://' + localhostIp + ':8080/';
 
 // The server URL, you usually shouldn't have to change this
@@ -20,7 +20,14 @@ const restRoutes = {
     getUser: serverURL + 'users/',
     authenticate: serverURL + 'authenticate',
     resetPassword: serverURL + 'resetPassword',
+    getCommentsByEvent: (eventId) => {
+        return serverURL + 'comments/events/' + eventId ;
+    },
     updatedComment: serverURL + 'comments',
+    addComment: serverURL + 'comments',
+    addChildComment: (commentId) => {
+        return serverURL + 'comments/'+commentId;
+    },
     addEventParticipant: (eventId, userId) => {
         return serverURL + 'events/' + eventId + '/users/' + userId;
     },

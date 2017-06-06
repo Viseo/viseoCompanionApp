@@ -1,5 +1,4 @@
 import settings from "../modules/global/settings";
-import {updateComment as updateCommentDb} from "./../util/db";
 
 export const types = {
     RECEIVE_COMMENTS: 'RECEIVE_COMMENTS',

@@ -264,6 +264,59 @@ export async function removeEventParticipant(eventId, userId) {
 }
 
 
+export async function addLike(commentId, userId) {
+    try {
+
+        let response = await fetch(settings.api.likeComment(commentId, userId), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response) {
+            return true;
+        }
+    } catch (error
+        ) {
+        console.warn(error);
+    }
+}
+
+export async function dislike(commentId, userId) {
+    try {
+        let response = await fetch(settings.api.dislikeComment(commentId, userId), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response) {
+            return true;
+        }
+    } catch (error
+        ) {
+        console.warn(error);
+    }
+}
+
+export async function deleteCommentDb(commentId) {
+    try {
+        let response = await fetch(settings.api.deleteComment(commentId), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response) {
+            return true;
+        }
+    } catch (error
+        ) {
+        console.warn(error);
+    }
+}
+
+
 export async function updateEvent(event) {
     try {
 
@@ -291,5 +344,58 @@ export async function updateEvent(event) {
     }
 }
 
+export async function addComment(comment) {
+    try {
+        await fetch(settings.api.addComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(comment)
+        });
+    } catch (error) {
+        console.warn('db::addComment ' + error);
+    }
+    return false;
+}
 
+export async function updateComment(comment) {
+    try {
+        let response = await fetch(settings.api.updatedComment, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id": comment.id,
+                "version": comment.version,
+                "content": comment.content,
+                "datetime": comment.datetime,
+                "eventId": comment.event_id,
+                "writer": comment.writer,
+                "childComments": comment.children,
+                "likers": comment.likers,
+                "nbLike": comment.nbLike
+            })
+        });
+        if (response)
+            return true;
+    } catch (error) {
+        console.warn(error);
+    }
+}
 
+export async function addChildComment(childComment) {
+    try {
+        await fetch(settings.api.addChildComment(childComment.commentId), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(childComment)
+        });
+    } catch (error) {
+        console.warn('db::addChildComment ' + error);
+    }
+    return false;
+}

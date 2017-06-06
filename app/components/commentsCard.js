@@ -92,7 +92,25 @@ export default class CommentsCard extends Component {
 
     renderReply() {
         const reply = (
-            <Icon.Button name="reply" style={styles.icon} size={20} color={colors.green}/>
+            <Icon.Button
+                name="reply"
+                style={styles.icon}
+                size={20}
+                color={colors.green}
+                onPress={() => {
+                    this.props.navigator.push({
+                        screen: 'CreateChildComment',
+                        title: 'Ajouter une réponse au commentaire',
+                        navigatorStyle: defaultNavBarStyle,
+                        passProps: {
+                            eventId: this.props.eventId,
+                            commentId: this.props.id,
+                            userId:this.props.userId
+                        }
+
+                    })
+                }}
+            />
         );
         return (
             <View >
@@ -224,6 +242,7 @@ export default class CommentsCard extends Component {
         );
     }
 
+
     renderDate() {
         return (
             <View style={{flex: .5}}>
@@ -231,6 +250,15 @@ export default class CommentsCard extends Component {
             </View>
         );
     }
+
+    renderComment() {
+        return (
+            <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
+                <Text>{this.props.content}</Text>
+            </View>
+        );
+    }
+
 
     likeComment = async () => {
         await addLike(this.props.id, this.props.userId);
@@ -243,7 +271,7 @@ export default class CommentsCard extends Component {
     };
 
     deleteComment = async () => {
-        await deleteComment(this.props.id);
+        await deleteCommentDb(this.props.id);
         this.props.refresh(this.props.eventId);
     }
 }

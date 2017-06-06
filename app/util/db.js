@@ -24,58 +24,6 @@ export async function addEvent(event) {
     }
 }
 
-export async function addLike(commentId, userId) {
-    try {
-
-        let response = await fetch(settings.api.likeComment(commentId, userId), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (response) {
-            return true;
-        }
-    } catch (error
-        ) {
-        console.warn(error);
-    }
-}
-
-export async function dislike(commentId, userId) {
-    try {
-        let response = await fetch(settings.api.dislikeComment(commentId, userId), {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (response) {
-            return true;
-        }
-    } catch (error
-        ) {
-        console.warn(error);
-    }
-}
-
-export async function deleteComment(commentId) {
-    try {
-        let response = await fetch(settings.api.deleteComment(commentId), {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (response) {
-            return true;
-        }
-    } catch (error
-        ) {
-        console.warn(error);
-    }
-}
-
 export async function deleteEventDb(id) {
     try {
         let response = await fetch(settings.api.removeEvent(id), {
@@ -312,6 +260,7 @@ export async function removeEventParticipant(eventId, userId) {
     return false;
 }
 
+
 export async function updateEvent(event) {
     try {
         let response = await fetch(settings.api.updatedEvent(event.id), {
@@ -376,4 +325,19 @@ export async function updateComment(comment) {
     } catch (error) {
         console.warn(error);
     }
+}
+
+export async function addChildComment(childComment) {
+    try {
+        await fetch(settings.api.addChildComment, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(childComment)
+        });
+    } catch (error) {
+        console.warn('db::addChildComment ' + error);
+    }
+    return false;
 }
