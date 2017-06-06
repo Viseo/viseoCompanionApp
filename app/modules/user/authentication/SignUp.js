@@ -6,7 +6,7 @@ import strings from '../../global/localizedStrings';
 import AppText from '../../global/AppText';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {rememberUser as toggleRememberUser} from '../../../actionCreators/user';
+import {authenticate, rememberUser as toggleRememberUser} from '../../../actionCreators/user';
 import colors from '../../global/colors';
 import PasswordCheckInput from './PasswordCheckInput';
 import {addUser, getUserByEmail} from '../../global/db';
@@ -99,11 +99,11 @@ class SignUp extends Component {
 
     _showSignUpSuccessfulPopUp() {
         Navigation.showLightBox({
-            screen: "user.authentication.signUpSuccessfulPopup",
+            screen: 'user.authentication.signUpSuccessfulPopup',
             style: {
-                backgroundBlur: "dark",
-                backgroundColor: "#135caa70"
-            }
+                backgroundBlur: 'dark',
+                backgroundColor: '#135caa70',
+            },
         });
     }
 
@@ -119,6 +119,8 @@ class SignUp extends Component {
                 const lowercaseEmail = email.toLowerCase();
                 let userAddedSuccessfully = await addUser(lowercaseEmail, password);
                 if (userAddedSuccessfully) {
+                    // todo remember user for next signin
+                    this.props.authenticate(email, password);
                     this.props.toggleRememberUser(true);
                     this._showSignUpSuccessfulPopUp();
                 } else {
@@ -131,6 +133,7 @@ class SignUp extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
+            authenticate,
             toggleRememberUser,
         },
         dispatch,
