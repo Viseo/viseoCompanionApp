@@ -83,7 +83,7 @@ class Profile extends Component {
 
     _signOut() {
         Navigation.showLightBox({
-            screen: "authentication.signOut",
+            screen: "user.authentication.signOut",
             style: {
                 backgroundBlur: "dark",
                 backgroundColor: "#135caa70"

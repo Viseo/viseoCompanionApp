@@ -75,7 +75,7 @@ class SplashScreen extends Component {
     _navigateToSignIn() {
         this.props.navigator.popToRoot();
         this.props.navigator.push({
-            screen: 'authentication.signIn',
+            screen: 'user.authentication.signIn',
             title: 'Connexion',
             navigatorStyle: defaultNavBarStyle,
             backButtonHidden: true,

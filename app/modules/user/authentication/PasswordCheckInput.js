@@ -24,7 +24,7 @@ export default class PasswordCheckInput extends Component {
         return (
             <View>
                 <TextField
-                    label={'Mot de passe'}
+                    label={'Confirmation du mot de passe'}
                     style={{color: colors.mediumGray}}
                     highlightColor={isValid ? '#00BCD4' : '#d41a0e'}
                     value={passwordCheck}

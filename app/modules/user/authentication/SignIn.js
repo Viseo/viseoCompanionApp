@@ -76,7 +76,7 @@ class SignIn extends Component {
 
     _navigateToRecoverPassword() {
         this.props.navigator.push({
-            screen: 'authentication.recoverPassword',
+            screen: 'user.authentication.recoverPassword',
             title: 'Récupération de mot de passe',
             navigatorStyle: defaultNavBarStyle,
         });
@@ -86,7 +86,7 @@ class SignIn extends Component {
         this.props.navigator.push({
             screen: 'user.authentication.signUp',
             title: 'Nouvel utilisateur',
-            navigatorStyle: defau
+            navigatorStyle: defaultNavBarStyle,
         })
     }
 

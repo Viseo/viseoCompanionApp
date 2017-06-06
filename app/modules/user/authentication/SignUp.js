@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
-import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from 'react-native';
+import {Button, Image, ScrollView, StyleSheet, View} from 'react-native';
 import EmailInput from './EmailInput';
 import PasswordInput from './PasswordInput';
 import strings from '../../global/localizedStrings';
 import AppText from '../../global/AppText';
-import {authenticate} from './authentication.actions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {startApp} from '../../global/navigationLoader';
 import {rememberUser as toggleRememberUser} from '../../../actionCreators/user';
-import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import colors from '../../global/colors';
 import PasswordCheckInput from './PasswordCheckInput';
+import {addUser, getUserByEmail} from '../../global/db';
+import {Navigation} from 'react-native-navigation';
 
 class SignUp extends Component {
 
@@ -39,7 +38,7 @@ class SignUp extends Component {
                 <PasswordInput onPasswordChange={password => this._setPassword(password)}/>
                 <PasswordCheckInput
                     password={this.state.password}
-                    onPasswordCheckChange={passwordCheck => this._setPassword(passwordCheck)}
+                    onPasswordCheckChange={passwordCheck => this._setPasswordCheck(passwordCheck)}
                 />
                 {errorMessage}
                 {signUpButton}
@@ -51,10 +50,6 @@ class SignUp extends Component {
         return this.state.email
             && this.state.password
             && this.state.passwordCheck;
-    }
-
-    _navigateToHome() {
-        startApp();
     }
 
     _renderErrorMessage() {
@@ -77,7 +72,7 @@ class SignUp extends Component {
             <View style={styles.signUpButton}>
                 <Button
                     title={strings.signUp}
-                    onPress={() => this._signIn()}
+                    onPress={() => this._signUp()}
                     color={colors.blue}
                 />
             </View>
@@ -96,24 +91,46 @@ class SignUp extends Component {
         });
     }
 
-    _signIn() {
+    _setPasswordCheck(passwordCheck) {
+        this.setState({
+            passwordCheck,
+        });
+    }
+
+    _showSignUpSuccessfulPopUp() {
+        Navigation.showLightBox({
+            screen: "user.authentication.signUpSuccessfulPopup",
+            style: {
+                backgroundBlur: "dark",
+                backgroundColor: "#135caa70"
+            }
+        });
+    }
+
+    async _signUp() {
         this.setState({hasSubmittedForm: true});
         if (this._isFormFilled()) {
+            this.setState({errorMessage: ''});
             const {email, password} = this.state;
-            this.props.authenticate(email, password);
+            const userAlreadyExists = await getUserByEmail(email);
+            if (userAlreadyExists) {
+                this.setState({errorMessage: strings.emailAlreadyUsed});
+            } else {
+                const lowercaseEmail = email.toLowerCase();
+                let userAddedSuccessfully = await addUser(lowercaseEmail, password);
+                if (userAddedSuccessfully) {
+                    this.props.toggleRememberUser(true);
+                    this._showSignUpSuccessfulPopUp();
+                } else {
+                    this.setState({errorMessage: strings.unableToReachServer});
+                }
+            }
         }
     }
 }
 
-const mapStateToProps = ({authentication}, ownProps) => ({
-    isAuthenticated: authentication.isAuthenticated,
-    rememberUser: authentication.rememberUser,
-    ...ownProps,
-});
-
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-            authenticate,
             toggleRememberUser,
         },
         dispatch,
@@ -121,7 +138,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps,
 )(SignUp);
 
