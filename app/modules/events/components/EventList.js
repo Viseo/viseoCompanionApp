@@ -108,6 +108,7 @@ export default class EventList extends Component {
                 }}
                 onPress={() => this._showEventDetails(event)}
                 searchWords={this.props.searchWords}
+                navigator={this.props.navigator}
             />
         );
     };

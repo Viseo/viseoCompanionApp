@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Dimensions, Button} from 'react-native';
-import AppText from '../global/AppText';
+import AppText from '../../global/AppText';
 import {Navigation} from 'react-native-navigation';
-import colors from '../global/colors';
+import colors from '../../global/colors';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {signOut} from './authentication.actions';
-import {startLoader} from '../global/navigationLoader';
+import {startLoader} from '../../global/navigationLoader';
 
 class SignOut extends Component {
 

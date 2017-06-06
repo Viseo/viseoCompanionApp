@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from 'react-native';
-import EmailInput from './components/EmailInput';
-import PasswordInput from './components/PasswordInput';
-import strings from '../global/localizedStrings';
-import AppText from '../global/AppText';
+import EmailInput from './EmailInput';
+import PasswordInput from './PasswordInput';
+import strings from '../../global/localizedStrings';
+import AppText from '../../global/AppText';
 import {authenticate} from './authentication.actions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {startApp} from '../global/navigationLoader';
+import {startApp} from '../../global/navigationLoader';
 import CheckBox from 'react-native-check-box';
-import {rememberUser as toggleRememberUser} from '../../actionCreators/user';
-import {defaultNavBarStyle} from '../global/navigatorStyle';
-import colors from '../global/colors';
+import {rememberUser as toggleRememberUser} from '../../../actionCreators/user';
+import {defaultNavBarStyle} from '../../global/navigatorStyle';
+import colors from '../../global/colors';
 
 class SignIn extends Component {
 
@@ -24,6 +24,7 @@ class SignIn extends Component {
 
     constructor(props) {
         super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentWillReceiveProps({isAuthenticated}) {
@@ -58,6 +59,12 @@ class SignIn extends Component {
         );
     }
 
+    onNavigatorEvent(event) {
+        if (event.id === 'signUp') {
+            this._navigateToSignUp();
+        }
+    }
+
     _isFormFilled() {
         return this.state.email
             && this.state.password;
@@ -75,6 +82,14 @@ class SignIn extends Component {
         });
     }
 
+    _navigateToSignUp() {
+        this.props.navigator.push({
+            screen: 'user.authentication.signUp',
+            title: 'Nouvel utilisateur',
+            navigatorStyle: defau
+        })
+    }
+
     _renderErrorMessage() {
         return <AppText style={styles.errorInfo}>{this.state.errorMessage}</AppText>;
     }
@@ -83,7 +98,7 @@ class SignIn extends Component {
         return (
             <View style={{alignItems: 'center', paddingBottom: 50}}>
                 <Image
-                    source={require('../../images/user/loginLogo.png')}
+                    source={require('../../../images/user/loginLogo.png')}
                     style={{width: 110, height: 110}}
                 />
             </View>
@@ -147,11 +162,6 @@ class SignIn extends Component {
         this.props.toggleRememberUser(!this.props.rememberUser);
     }
 }
-
-SignIn.defaultProps = {
-    savedEmail: null,
-    savedPassword: null,
-};
 
 SignIn.navigatorButtons = {
     rightButtons: [

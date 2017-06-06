@@ -122,7 +122,7 @@ export default class EventCard extends Component {
     renderLiveIndicator() {
         return (
             <View>
-                <AppText style={{color: colors.red}}>Live</AppText>
+                <AppText style={styles.liveIndicator}>Live</AppText>
             </View>
         );
     }
@@ -256,6 +256,15 @@ const styles = StyleSheet.create({
         flex: 3,
         flexDirection: 'row',
         paddingRight: 10
+    },
+    liveIndicator: {
+        backgroundColor: colors.red,
+        color: 'white',
+        marginRight: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 2,
+        borderRadius: 2,
+        fontWeight: 'bold'
     },
     secondRow: {
         flex: 6,

@@ -124,7 +124,7 @@ class SignUp extends React.Component {
                         {/* VISEO or SIGN UP logo */}
                         <View style={{alignItems: 'center', paddingBottom: 50}}>
                             <Image
-                                source={require('../images/signUpLogo.png')}
+                                source={require('../images/user/signUpLogo.png')}
                                 style={{width: 110, height: 110}}
                             />
                         </View>

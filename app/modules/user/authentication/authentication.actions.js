@@ -1,4 +1,4 @@
-import {authenticate as authenticateDb} from '../global/db';
+import {authenticate as authenticateDb} from '../../global/db';
 
 export const AUTHENTICATION_FAILURE = 'AUTHENTICATION_FAILURE';
 export const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';

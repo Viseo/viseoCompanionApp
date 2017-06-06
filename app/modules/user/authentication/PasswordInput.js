@@ -1,17 +1,16 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-import TextField from "react-native-md-textinput";
-import colors from "../../global/colors";
-import {View} from "react-native";
-import AppText from "../../global/AppText";
-import strings from "../../global/localizedStrings";
+import TextField from 'react-native-md-textinput';
+import colors from '../../global/colors';
+import {View} from 'react-native';
+import AppText from '../../global/AppText';
+import strings from '../../global/localizedStrings';
 import PropTypes from 'prop-types';
 
 export default class PasswordInput extends Component {
 
     state = {
         isValid: true,
-        email: '',
         password: '',
     };
 
@@ -35,7 +34,7 @@ export default class PasswordInput extends Component {
                         password = this._isPasswordValid(password) ? password : '';
                         this.props.onPasswordChange(password);
                     }}
-                    returnKeyType = {"next"}
+                    returnKeyType={'next'}
                 />
                 {errorMessage}
             </View>
@@ -44,7 +43,7 @@ export default class PasswordInput extends Component {
 
     renderErrorMessage() {
         const errorMessage = strings.invalidPasswordFormat;
-        return this.state.isValid?
+        return this.state.isValid ?
             null :
             <AppText style={styles.errorInfo}>{errorMessage}</AppText>;
     }
@@ -68,6 +67,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
         color: 'brown',
-        fontStyle: 'italic'
+        fontStyle: 'italic',
     },
 });
