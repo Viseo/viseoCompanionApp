@@ -106,7 +106,6 @@ export default class EventList extends Component {
                 onParticipationChange={() => {
                     this.props.toggleParticipation(event, user);
                 }}
-                onPress={() => this._showEventDetails(event)}
                 searchWords={this.props.searchWords}
                 navigator={this.props.navigator}
             />

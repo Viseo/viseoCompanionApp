@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
-import {TextInput, View, StyleSheet, TouchableOpacity} from "react-native";
+import React, {Component} from "react";
+import {StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import PropTypes from 'prop-types';
-import {hideTabBar, showTabBar} from "../../global/navigationUtil";
+import PropTypes from "prop-types";
 
 export default class ChatInput extends Component {
 
@@ -24,7 +23,10 @@ export default class ChatInput extends Component {
                 />
                 <TouchableOpacity
                     style={styles.sendButton}
-                    onPress={() => {}}
+                    onPress={() => {
+                        this.props.sendMessage(this.state.text);
+                        this.setState({text: ""});
+                    }}
                 >
                     <Icon name="paper-plane" style={{fontSize: 20}}/>
                 </TouchableOpacity>
@@ -46,13 +48,15 @@ ChatInput.propTypes = {
 const styles = StyleSheet.create({
     mainContainer: {
         flexDirection: 'row',
-        height:50,
+        height: 50,
     },
     textInput: {
         flex: 5,
-        height:40,
+        height: 40,
     },
     sendButton: {
-        flex: 1
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });

@@ -222,6 +222,7 @@ export default class EventCard extends Component {
             title: this.props.name,
             screen: 'events.liveEvent',
             navigatorStyle: defaultNavBarStyle,
+            //todo add passProps here
         });
     }
 
