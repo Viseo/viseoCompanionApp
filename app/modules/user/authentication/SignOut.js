@@ -6,7 +6,7 @@ import colors from '../../global/colors';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {signOut} from './authentication.actions';
-import {startLoader} from '../../global/navigationLoader';
+import {startAppLoader} from '../../global/navigationLoader';
 
 class SignOut extends Component {
 
@@ -16,7 +16,7 @@ class SignOut extends Component {
 
     componentWillReceiveProps({isAuthenticated}) {
         if(!isAuthenticated) {
-            startLoader();
+            startAppLoader();
         }
     }
 
