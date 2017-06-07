@@ -8,6 +8,7 @@ import registerNotificationsModule from '../notifications/registerScreens';
 import registerShopModule from '../shop/registerScreens';
 import registerUserModule from '../user/registerScreens';
 import registerVizzModule from '../vizz/registerScreens';
+import UnreachableServerPopup from './UnreachableServerPopup';
 
 export function registerScreens(store, provider) {
     registerAppLoader(store, provider);
@@ -20,4 +21,5 @@ export function registerScreens(store, provider) {
 
     Navigation.registerComponent('Comments', () => Comments, store, provider);
     Navigation.registerComponent('CreateComment', () => CreateComment, store, provider);
+    Navigation.registerComponent('global.unreachableServerPopup', () => UnreachableServerPopup);
 }

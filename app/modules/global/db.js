@@ -1,23 +1,49 @@
-import settings from "./settings";
+import settings from './settings';
+import {showUnreachableServerPopup} from './navigationUtil';
+
+const serverTimeout = 2000;
+
+export async function callWithTimeout(func, onServerTimeout) {
+    let funcPromise = new Promise(async (resolve) => {
+        await func();
+        resolve();
+    });
+    let timeoutPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            reject();
+        }, serverTimeout)
+    });
+    let race = Promise.race([funcPromise, timeoutPromise]);
+    race.catch(() => {
+        onServerTimeout();
+    });
+}
+
+export async function doServerCall(func) {
+    await callWithTimeout(
+        () => func(),
+        showUnreachableServerPopup,
+    );
+}
 
 export async function addEvent(event) {
     try {
         //TODO: make a function to add the host as a param
-        let response = await fetch(settings.api.addEvent + "?host=" + event.host.id, {
+        let response = await fetch(settings.api.addEvent + '?host=' + event.host.id, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "name": event.name,
-                "description": event.description,
-                "datetime": event.date,
-                "keywords": event.keywords || '',
-                "place": event.location,
-                "version": "0",
-                "category": event.category,
-                "hostId": event.host.id
-            })
+                'name': event.name,
+                'description': event.description,
+                'datetime': event.date,
+                'keywords': event.keywords || '',
+                'place': event.location,
+                'version': '0',
+                'category': event.category,
+                'hostId': event.host.id,
+            }),
         });
         if (response)
             return true;
@@ -31,7 +57,7 @@ export async function deleteEventDb(id) {
         let response = await fetch(settings.api.removeEvent(id), {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
 
         });
@@ -47,7 +73,7 @@ export async function addEventParticipant(eventId, userId) {
         let response = await fetch(settings.api.addEventParticipant(eventId, userId), {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
         });
         let responseJson = await response.json();
@@ -65,12 +91,12 @@ export async function addUser(email, password) {
         let response = await fetch(settings.api.addUser, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "email": email,
-                "password": password
-            })
+                'email': email,
+                'password': password,
+            }),
         });
 
         let responseJson = await response.json();
@@ -89,14 +115,14 @@ export async function authenticate(email, password) {
         let response = await fetch(settings.api.authenticate, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "email": email,
-                "password": password
-            })
+                'email': email,
+                'password': password,
+            }),
         });
-        if (response.headers.get("content-length") != 0) {
+        if (response.headers.get('content-length') != 0) {
             let user = await response.json();
             if (user) {
                 return {
@@ -104,7 +130,7 @@ export async function authenticate(email, password) {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
-                    password: user.password
+                    password: user.password,
                 };
             }
         }
@@ -131,7 +157,7 @@ export async function getEvents() {
                 event.description,
                 event.datetime,
                 event.place,
-                event.category
+                event.category,
             ));
         }
         return events;
@@ -153,7 +179,7 @@ export async function getEventsByRegisteredUser(userId) {
                 name: event.name,
                 description: event.description,
                 date: event.datetime,
-                location: event.place
+                location: event.place,
             });
         }
         return events;
@@ -166,7 +192,7 @@ export async function getEventsByRegisteredUser(userId) {
 export async function getUserByEmail(email) {
     try {
         let response = await fetch(settings.api.getUserByEmail(email));
-        if (response.headers.get("content-length") == null) {
+        if (response.headers.get('content-length') == null) {
             let user = await response.json();
             if (user) {
                 return {
@@ -174,7 +200,7 @@ export async function getUserByEmail(email) {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
-                    password: user.password
+                    password: user.password,
                 };
             }
         }
@@ -187,7 +213,7 @@ export async function getUserByEmail(email) {
 export async function getEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
-        if (response.headers.get("content-length") != 0) {
+        if (response.headers.get('content-length') != 0) {
             let user = await response.json();
             if (user) {
                 return {
@@ -195,7 +221,7 @@ export async function getEventParticipant(eventId, userId) {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
-                    password: user.password
+                    password: user.password,
                 };
             }
         }
@@ -212,7 +238,7 @@ export async function getEventParticipants(eventId) {
         let participants = [];
         for (let i = 0; i < participantsJson.length; i++) {
             let participant = participantsJson[i];
-            participants.push(participant.id)
+            participants.push(participant.id);
         }
         return participants;
     } catch
@@ -235,7 +261,7 @@ export async function getEventsWithParticipant(userId) {
                 event.description,
                 event.datetime,
                 event.place,
-                event.category
+                event.category,
             ));
         }
         return events;
@@ -250,7 +276,7 @@ export async function removeEventParticipant(eventId, userId) {
         let response = await fetch(settings.api.removeEventParticipant(eventId, userId), {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
         });
         let responseJson = await response.json();
@@ -263,15 +289,14 @@ export async function removeEventParticipant(eventId, userId) {
     return false;
 }
 
-
 export async function addLike(commentId, userId) {
     try {
 
         let response = await fetch(settings.api.likeComment(commentId, userId), {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         });
         if (response) {
             return true;
@@ -287,8 +312,8 @@ export async function dislike(commentId, userId) {
         let response = await fetch(settings.api.dislikeComment(commentId, userId), {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         });
         if (response) {
             return true;
@@ -304,8 +329,8 @@ export async function deleteCommentDb(commentId) {
         let response = await fetch(settings.api.deleteComment(commentId), {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         });
         if (response) {
             return true;
@@ -316,7 +341,6 @@ export async function deleteCommentDb(commentId) {
     }
 }
 
-
 export async function updateEvent(event) {
     try {
 
@@ -324,18 +348,18 @@ export async function updateEvent(event) {
 
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "id": event.id,
-                "name": event.name,
-                "description": event.description,
-                "datetime": event.date,
-                "keywords": event.keywords || '',
-                "place": event.location,
-                "version": event.version,
-                "category": event.category
-            })
+                'id': event.id,
+                'name': event.name,
+                'description': event.description,
+                'datetime': event.date,
+                'keywords': event.keywords || '',
+                'place': event.location,
+                'version': event.version,
+                'category': event.category,
+            }),
         });
         if (response)
             return true;
@@ -349,9 +373,9 @@ export async function addComment(comment) {
         await fetch(settings.api.addComment, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(comment)
+            body: JSON.stringify(comment),
         });
     } catch (error) {
         console.warn('db::addComment ' + error);
@@ -364,19 +388,19 @@ export async function updateComment(comment) {
         let response = await fetch(settings.api.updatedComment, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "id": comment.id,
-                "version": comment.version,
-                "content": comment.content,
-                "datetime": comment.datetime,
-                "eventId": comment.event_id,
-                "writer": comment.writer,
-                "childComments": comment.children,
-                "likers": comment.likers,
-                "nbLike": comment.nbLike
-            })
+                'id': comment.id,
+                'version': comment.version,
+                'content': comment.content,
+                'datetime': comment.datetime,
+                'eventId': comment.event_id,
+                'writer': comment.writer,
+                'childComments': comment.children,
+                'likers': comment.likers,
+                'nbLike': comment.nbLike,
+            }),
         });
         if (response)
             return true;
@@ -390,9 +414,9 @@ export async function addChildComment(childComment) {
         await fetch(settings.api.addChildComment(childComment.commentId), {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(childComment)
+            body: JSON.stringify(childComment),
         });
     } catch (error) {
         console.warn('db::addChildComment ' + error);

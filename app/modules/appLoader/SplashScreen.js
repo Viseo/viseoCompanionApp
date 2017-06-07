@@ -6,10 +6,11 @@ import {authenticate} from '../user/authentication/authentication.actions';
 import {connect} from 'react-redux';
 import {startApp} from '../global/navigationLoader';
 import {bindActionCreators} from 'redux';
-import {hideTabBar} from '../global/navigationUtil';
+import {hideTabBar, showUnreachableServerPopup} from '../global/navigationUtil';
 import strings from './../global/localizedStrings';
 import setDateLang from './../global/dateHandler';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import {callWithTimeout} from '../global/db';
 
 class SplashScreen extends Component {
 
@@ -17,7 +18,7 @@ class SplashScreen extends Component {
     maxSplashScreenDuration = 5000;
     state = {
         isAuthenticatingSavedUser: false,
-        shouldShowSplashScreen: true,
+        preventSplashScreenFromClosing: false,
     };
 
     constructor(props) {
@@ -46,13 +47,22 @@ class SplashScreen extends Component {
         );
     }
 
-    _authenticateSavedUser(email, password) {
+    async _authenticateSavedUser(email, password) {
         const hasSavedUser = email.length > 0 && password.length > 0;
         if (hasSavedUser && !this.state.isAuthenticatingSavedUser) {
             this.setState({
                 isAuthenticatingSavedUser: true,
             });
-            this.props.authenticate(email, password);
+            const onServerTimeout = () => {
+                this.setState({
+                    preventSplashScreenFromClosing: true,
+                });
+                showUnreachableServerPopup();
+            };
+            await callWithTimeout(
+                () => this.props.authenticate(email, password),
+                onServerTimeout,
+            );
         }
     }
 
@@ -64,7 +74,11 @@ class SplashScreen extends Component {
             this._navigateToSignIn();
         } else {
             const remainingLoadingTime = this.maxSplashScreenDuration - this.minSplashScreenDuration;
-            setTimeout(() => this._navigateToSignIn(), remainingLoadingTime);
+            setTimeout(() => {
+                if (!this.state.preventSplashScreenFromClosing) {
+                    this._navigateToSignIn();
+                }
+            }, remainingLoadingTime);
         }
     }
 
