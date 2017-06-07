@@ -1,4 +1,5 @@
 import {authenticate as authenticateDb} from '../../global/db';
+import {UPDATE_USER} from "../user.actions";
 
 export const AUTHENTICATION_FAILURE = 'AUTHENTICATION_FAILURE';
 export const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
@@ -17,6 +18,14 @@ export const authenticate = (email, password) => {
                     email,
                     password,
                 });
+                dispatch({
+                    type: UPDATE_USER,
+                    user: {
+                        ...response,
+                        email,
+                        password
+                    }
+                })
             }
         } catch (error) {
             console.warn('authentication.actionCreators::authenticate ' + error);

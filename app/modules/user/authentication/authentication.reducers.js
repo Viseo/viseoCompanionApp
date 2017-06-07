@@ -8,13 +8,14 @@ export default (state = [], action) => {
                 ...state,
                 isAuthenticated: true,
                 loggedUser: {
+                    firstName: action.firstName,
                     email: action.email,
                     password: action.password,
                 },
             };
         case REHYDRATE:
             let {authentication} = action.payload;
-            if(!authentication) {
+            if (!authentication) {
                 return state;
             }
             let loggedUser = authentication.rememberUser ?

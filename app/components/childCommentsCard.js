@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
-import colors from "./colors";
+import colors from "../modules/global/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";

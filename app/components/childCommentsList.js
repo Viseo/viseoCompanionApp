@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {ListView,  View} from "react-native";
 import ChildCommentsCards from "./childCommentsCard";
-import AppText from "./appText";
+import AppText from "../modules/global/AppText";
 import moment from "moment";
-import colors from "./colors";
+import colors from "../modules/global/colors";
 
 export default class ChildCommentList extends Component {
 

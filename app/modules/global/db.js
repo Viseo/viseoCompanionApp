@@ -84,6 +84,28 @@ export async function addUser(email, password) {
     return false;
 }
 
+export async function updateUser(user) {
+    try {
+        let response = await fetch(settings.api.updateUser, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "id": user.id,
+                "version": user.version,
+                "email": user.email,
+                "firstName": user.firstName,
+                "lastName": user.lastName,
+                "password": user.password
+            })
+        });
+        return await response.json();
+    } catch (error) {
+        console.warn('db::updateUser ' + error);
+    }
+}
+
 export async function authenticate(email, password) {
     try {
         let response = await fetch(settings.api.authenticate, {
@@ -100,11 +122,8 @@ export async function authenticate(email, password) {
             let user = await response.json();
             if (user) {
                 return {
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    password: user.password
+                    ...user,
+                    password: user.password,
                 };
             }
         }
