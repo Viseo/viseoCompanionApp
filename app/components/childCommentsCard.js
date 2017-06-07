@@ -1,19 +1,18 @@
-import React, {Component} from "react";
-import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import Swipeout from "react-native-swipe-out";
-import colors from "./colors";
-import Icon from "react-native-vector-icons/FontAwesome";
-import Avatar from "./Avatar";
-import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
+import React, {Component} from 'react';
+import {Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Swipeout from 'react-native-swipe-out';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Avatar from './Avatar';
+import colors from '../modules/global/colors';
 
 export default class ChildCommentsCard extends Component {
 
     static defaultProps = {
-        user: {id: 1, lastName: "he", firstName: "miu"},
-        event: {id: 1, title: "Event1"},
+        user: {id: 1, lastName: 'he', firstName: 'miu'},
+        event: {id: 1, title: 'Event1'},
         date: '18/05/2020',
 
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -21,8 +20,8 @@ export default class ChildCommentsCard extends Component {
     }
 
     renderIcon = () => {
-        let fName = this.props.writer.id ? this.props.writer.firstName : "N";
-        let lName = this.props.writer.id ? this.props.writer.lastName : "N";
+        let fName = this.props.writer.id ? this.props.writer.firstName : 'N';
+        let lName = this.props.writer.id ? this.props.writer.lastName : 'N';
         return (
             <View style={{flex: 0.25}}>
                 <Avatar
@@ -32,7 +31,7 @@ export default class ChildCommentsCard extends Component {
                     size={4}
                 />
             </View>
-        )
+        );
     };
 
     render() {
@@ -71,7 +70,7 @@ export default class ChildCommentsCard extends Component {
         return (
             <View style={{
                 flex: 1,
-                flexDirection: 'row', alignSelf: 'flex-end', marginRight: 5, marginTop: 5
+                flexDirection: 'row', alignSelf: 'flex-end', marginRight: 5, marginTop: 5,
             }}>
                 {this.renderDelete()}
                 {this.renderEdit()}
@@ -126,13 +125,12 @@ export default class ChildCommentsCard extends Component {
             <View
                 style={{
                     flex: 0.05,
-                    alignSelf: 'stretch'
+                    alignSelf: 'stretch',
                 }}
             >
             </View>
         );
     }
-
 
     renderParticipantDate() {
         return (
@@ -149,7 +147,6 @@ export default class ChildCommentsCard extends Component {
             </View>
         );
     }
-
 
     renderDate() {
         return (
@@ -168,12 +165,11 @@ export default class ChildCommentsCard extends Component {
     }
 }
 
-ChildCommentsCard.displayName = 'childCommentsCard'
-
+ChildCommentsCard.displayName = 'childCommentsCard';
 
 let {
     height: deviceHeight,
-    width: deviceWidth
+    width: deviceWidth,
 } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -187,18 +183,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
         marginTop: 10,
-        marginLeft: 15
+        marginLeft: 15,
     },
 
     icon: {
-        backgroundColor: 'rgb(255,255,255)'
-    }
-
+        backgroundColor: 'rgb(255,255,255)',
+    },
 
 });
-
-// const styleFont = StyleSheet.create({
-//     textFont: {
-//         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-//     }
-// });

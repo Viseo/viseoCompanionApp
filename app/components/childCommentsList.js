@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import {ListView,  View} from "react-native";
 import ChildCommentsCards from "./childCommentsCard";
-import AppText from "./appText";
 import moment from "moment";
-import colors from "./colors";
 
 export default class ChildCommentList extends Component {
 
@@ -42,7 +40,6 @@ export default class ChildCommentList extends Component {
     render() {
         const childCommentsList = (
             <ListView
-
                 scrollEventThrottle={200}
                 enableEmptySections={true}
                 dataSource={this.state.dataSource}

@@ -28,6 +28,10 @@ class ChatView extends Component {
         this._refresh(this.props.chatMessages);
     }
 
+    componentWillUnmount() {
+        this.ws.close();
+    }
+
     componentWillReceiveProps({chatMessages}) {
         this._refresh(chatMessages);
     }
@@ -53,6 +57,11 @@ class ChatView extends Component {
         this.ws.onopen = () => {
         };
         this.ws.onmessage = (e) => {
+            let chatMessage = JSON.parse(e.data);
+            this.props.addChatMessage({
+                type: 'received',
+                message: chatMessage.content
+            })
         };
         this.ws.onerror = (e) => {
             console.warn(e.message);
