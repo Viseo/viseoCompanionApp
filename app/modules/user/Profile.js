@@ -31,8 +31,8 @@ class Profile extends Component {
     renderAvatar() {
         return (
             <Avatar
-                firstName={this.props.firstName}
-                lastName={this.props.lastName}
+                firstName={this.props.user.firstName}
+                lastName={this.props.user.lastName}
                 style={{marginTop: 20}}
             />
         );
@@ -42,7 +42,7 @@ class Profile extends Component {
         return (
             <View style={styles.textFieldContainer}>
                 <AppText style={styles.label}>Email</AppText>
-                <AppText style={styles.displayText}>{this.props.email}</AppText>
+                <AppText style={styles.displayText}>{this.props.user.email}</AppText>
             </View>
         );
     }
@@ -51,7 +51,7 @@ class Profile extends Component {
         return (
             <View style={styles.textFieldContainer}>
                 <AppText style={styles.label}>Nom</AppText>
-                <AppText style={styles.displayText}>{this.props.firstName}</AppText>
+                <AppText style={styles.displayText}>{this.props.user.firstName}</AppText>
             </View>
         );
     }
@@ -60,7 +60,7 @@ class Profile extends Component {
         return (
             <View style={styles.textFieldContainer}>
                 <AppText style={styles.label}>Prénom</AppText>
-                <AppText style={styles.displayText}>{this.props.lastName}</AppText>
+                <AppText style={styles.displayText}>{this.props.user.lastName}</AppText>
             </View>
         );
     }
@@ -108,8 +108,7 @@ Profile.navigatorButtons = {
 Profile.navigatorStyle = defaultNavBarStyle;
 
 const mapStateToProps = ({user}, ownProps) => ({
-    firstName: user.firstName,
-    lastName: user.lastName,
+    user,
     ...ownProps,
 });
 

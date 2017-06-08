@@ -13,6 +13,7 @@ export default class UserProfile extends Component {
     }
 
     render() {
+        console.warn(this.props.user.firstName);
         return (
             <View style={{flex: 1, flexDirection: 'column', marginTop: (Platform.OS === 'ios') ? 20 : 0}}>
                 <UserProfileInfo navigator={this.props.navigator}/>

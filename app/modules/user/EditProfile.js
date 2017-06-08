@@ -3,29 +3,38 @@ import {ScrollView, StyleSheet} from "react-native";
 import {connect} from "react-redux";
 import AppTextInput from "../global/AppTextInput";
 import PropTypes from 'prop-types';
+import {updateUser as updateUserDb} from "../global/db";
+import PasswordInput from "./authentication/PasswordInput";
+import PasswordCheckInput from "./authentication/PasswordCheckInput";
+import {bindActionCreators} from "redux";
+import {updateUser} from "./user.actions";
+import {signOut} from "./authentication/authentication.actions";
+import {startLoader} from "../global/navigationLoader";
 
 class EditProfile extends Component {
 
     state = {
-        password: '',
-        passwordsMatch: false,
+        user: {...this.props.user},
+        passwordCheck: '',
     };
 
     constructor(props) {
         super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     render() {
         const firstName = this.renderFirstNameField();
         const lastName = this.renderLastNameField();
-        const passwordField = this.renderPasswordField();
-        const passwordCheckField = this.renderPasswordCheckField();
         return (
             <ScrollView contentContainerStyle={styles.mainContainer}>
                 {firstName}
                 {lastName}
-                {passwordField}
-                {passwordCheckField}
+                <PasswordInput onPasswordChange={password => this._setPassword(password)}/>
+                <PasswordCheckInput
+                    password={this.state.user.password}
+                    onPasswordCheckChange={passwordCheck => this._setPasswordCheck(passwordCheck)}
+                />
             </ScrollView>
         );
     }
@@ -35,7 +44,10 @@ class EditProfile extends Component {
             <AppTextInput
                 label="Nom"
                 validator={(text) => this.isNonEmpty(text)}
-                value={this.props.firstName}
+                value={this.state.user.firstName}
+                onChangeText={firstName => {
+                    this._setFirstName(firstName);
+                }}
             />
         );
     }
@@ -45,82 +57,110 @@ class EditProfile extends Component {
             <AppTextInput
                 label="Prénom"
                 validator={(text) => this.isNonEmpty(text)}
-                value={this.props.lastName}
+                value={this.state.user.lastName}
+                onChangeText={lastName => {
+                    this._setLastName(lastName);
+                }}
             />
         );
-    }
-
-    renderPasswordField() {
-        return (
-            <AppTextInput
-                label="Mot de passe"
-                validator={(text) => this.verifyPassword(text)}
-                secureTextEntry={true}
-                value={this.props.password}
-            />
-        );
-    }
-
-    renderPasswordCheckField() {
-        return (
-            <AppTextInput
-                label="Vérifiez le mot de passe"
-                validator={(text) => this.verifyPasswordCheck(text)}
-                secureTextEntry={true}
-                value={this.props.password}
-            />
-        );
-    }
-
-    verifyPassword(password) {
-        const isValid = password.length >= 6;
-        this.setState({
-            password: isValid ? password : '',
-        });
-        return isValid;
-    }
-
-    verifyPasswordCheck(passwordCheck) {
-        const passwordsMatch = this.state.password === passwordCheck;
-        this.setState({
-            passwordsMatch
-        });
-        return passwordsMatch;
     }
 
     isNonEmpty(text) {
         return text.length > 0;
     }
+
+    async updateProfile() {
+        const updatedUser = await updateUserDb(this.state.user);
+        this.props.updateUser(updatedUser);
+    }
+
+    async submitProfileForm() {
+        const passwordWasEdited = this.state.user.password && this.state.passwordCheck;
+        const isPasswordValid = this.state.user.password === this.state.passwordCheck;
+        if(!passwordWasEdited) {
+            let updatedPassword = this.props.user.password;
+            this._setPassword(updatedPassword);
+            await this.updateProfile();
+            this.props.navigator.pop();
+        } else if(isPasswordValid) {
+            await this.updateProfile();
+            this.props.signOut();
+            startLoader();
+        }
+    }
+
+    onNavigatorEvent(event) {
+        if (event.id === 'save') {
+            this.submitProfileForm();
+        }
+    }
+
+    _setFirstName(firstName) {
+        this.setState({
+            user: {
+                ...this.state.user,
+                firstName,
+            }
+        })
+    }
+
+    _setLastName(lastName) {
+        this.setState({
+            user: {
+                ...this.state.user,
+                lastName,
+            }
+        })
+    }
+
+    _setPassword(password) {
+        this.setState({
+            user: {
+                ...this.state.user,
+                password,
+            }
+        })
+    }
+
+    _setPasswordCheck(passwordCheck) {
+        this.setState({
+            passwordCheck,
+        })
+    }
 }
 
 EditProfile.propTypes = {
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 EditProfile.navigatorButtons = {
     rightButtons: [
         {
-            title:'Enregistrer',
+            title: 'Enregistrer',
             id: 'save'
         }
     ]
 };
 
 const mapStateToProps = ({user}, ownProps) => ({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    password: user.password,
+    user,
     ...ownProps,
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        updateUser,
+        signOut,
+    }, dispatch)
+};
+
 export default connect(
     mapStateToProps,
+    mapDispatchToProps,
 )(EditProfile);
 
 const styles = StyleSheet.create({
     mainContainer: {
-        paddingHorizontal:20,
+        paddingHorizontal: 20,
     }
 });
