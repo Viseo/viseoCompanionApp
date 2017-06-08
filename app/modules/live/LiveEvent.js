@@ -44,7 +44,7 @@ class LiveEvent extends Component {
             this._onReceivedMessage(wsMessage.data)
         };
         this.ws.onerror = (e) => {
-            console.warn(e.message);
+            console.warn("Lost Connexion");
         };
         this.ws.onclose = (e) => {
         };
@@ -65,34 +65,39 @@ class LiveEvent extends Component {
 
     _onReceivedMessage = (message) => {
         let chatMessage = JSON.parse(message);
+        let messageType = chatMessage.writerId === this.props.user.id ? 'sent' : 'received'
+        this._addMessageToChat(chatMessage, messageType);
+    }
+
+    _addMessageToChat = (chatMessage, type) => {
         this.props.addChatMessage({
-            type: 'received',
-            message: chatMessage.content
+            type: type,
+            message: chatMessage.content,
+            dateTime: chatMessage.dateTime,
+            writerId: chatMessage.writerId,
         })
     }
 
     sendMessage = (messageContent) => {
+        let contentEscaped = "\"" + messageContent.replace(/"/g, '\\"') + "\"";
         const message = {
             type: "2",
             payload: {
                 //todo link with writer and event id
-                content: "\"" + messageContent + "\"",
+                content: contentEscaped,
                 datetime: moment().valueOf(),
-                writerId: 1,
+                writerId: this.props.user.id,
                 eventId: 2,
             }
         };
-        this.props.addChatMessage({
-            type: 'sent',
-            message: messageContent
-        });
         const jsonMessage = JSON.stringify(message);
         this.ws.send(jsonMessage);
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = ({user}, ownProps) => {
     return {
+        user,
         ...ownProps,
     }
 };
