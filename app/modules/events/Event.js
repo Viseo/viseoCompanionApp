@@ -9,7 +9,7 @@ import ItemSpacer from '../../components/ItemSpacer';
 import colors from '../global/colors';
 import CheckBox from 'react-native-check-box';
 
-const {deviceWidth, deviceHeight} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 export default class Event extends Component {
 
@@ -47,7 +47,7 @@ export default class Event extends Component {
         const dateAndParticipants = this._renderEventDateAndParticipants();
         const description = <AppText style={styles.description}>{this.props.description}</AppText>;
         return (
-            <View style={{flex: 30, flexDirection: 'column'}}>
+            <View style={styles.eventDetails}>
                 <ScrollView
                     style={{flex: 1}}
                     contentContainerStyle={{flex: 0}}
@@ -83,7 +83,7 @@ export default class Event extends Component {
             </View>
         );
         return (
-            <View style={{alignItems: 'center'}}>
+            <View style={styles.dateAndParticipantsContainer}>
                 <View style={styles.participationInfoRectangle}>
                     {countParticipants}
                     <View style={styles.participationInfoItem}>
@@ -106,7 +106,7 @@ export default class Event extends Component {
         const defaultImage = require('./../../images/events/defaultEventImage.jpeg');
         return (
             <Image
-                style={{height: 200, width: deviceWidth}}
+                style={{height: 200, width: width}}
                 source={defaultImage}
             />
         );
@@ -117,8 +117,7 @@ export default class Event extends Component {
         return (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../../images/user.png')}/>
-                <ItemSpacer/>
-                <AppText style={{flex: 5, textAlign: 'left'}}>{fullHostName}</AppText>
+                <AppText style={styles.locationAndDateText}>{fullHostName}</AppText>
             </View>
         );
     }
@@ -127,7 +126,7 @@ export default class Event extends Component {
         return (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../../images/location.png')}/>
-                <AppText style={styles.locationText}>{this.props.location}</AppText>
+                <AppText style={styles.locationAndDateText}>{this.props.location}</AppText>
             </View>
         );
     }
@@ -147,7 +146,7 @@ export default class Event extends Component {
         const hostInfo = this._renderHostInfo();
         const location = this._renderLocation();
         return (
-            <View style={{flex: 8, flexDirection: 'row'}}>
+            <View style={styles.mainInfo}>
                 {hostAvatar}
                 <View style={{flex: 6, flexDirection: 'column'}}>
                     {name}
@@ -194,6 +193,15 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 20,
     },
+    dateAndParticipantsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: -20},
+    eventDetails: {
+        flex: 30,
+        flexDirection: 'column',
+    },
     hostName: {
         color: 'black',
         fontWeight: 'bold',
@@ -210,7 +218,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'flex-start',
     },
-    locationText: {
+    locationAndDateText: {
         flex: 5,
         textAlign: 'left',
         textAlignVertical: 'center',
@@ -221,6 +229,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         flex: 15,
+    },
+    mainInfo: {
+        flex: 8,
+        flexDirection: 'row',
+        padding: 10,
+        paddingBottom:20,
     },
     name: {
         color: 'black',
@@ -233,14 +247,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: deviceHeight * 0.1,
-        width: deviceWidth * 0.85,
+        height: height * 0.1,
+        width: width * 0.85,
         borderRadius: 10,
         borderWidth: 1,
         backgroundColor: 'white',
         borderColor: 'grey',
-        paddingLeft: deviceWidth * 0.05,
-        paddingRight: deviceWidth * 0.05,
+        paddingHorizontal: 20,
+        paddingVertical: 5,
     },
     participationInfoItem: {
         flexDirection: 'column',

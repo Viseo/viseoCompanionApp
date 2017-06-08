@@ -95,14 +95,10 @@ export default class EventList extends Component {
         let edited = user.id === event.host.id;
         return (
             <EventCard
-                name={event.name}
-                description={event.description}
-                location={event.location}
+                {...event}
                 day={day}
                 time={time}
-                date={event.date}
-                participating={event.participating}
-                categoryId={event.category}
+                imageUrl={event.images}
                 onParticipationChange={() => {
                     this.props.toggleParticipation(event, user);
                 }}
