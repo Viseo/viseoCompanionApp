@@ -217,6 +217,7 @@ export default class EventCard extends Component {
                 time: this.props.time,
                 onParticipationChange: this.props.onParticipationChange,
                 participating: this.props.participating,
+                category: this.props.category,
             },
         });
     }
