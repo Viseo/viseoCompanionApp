@@ -98,7 +98,7 @@ export default class EventList extends Component {
                 day={day}
                 time={time}
                 host={event.host}
-                imageUrl={event.images}
+                imageUrl={event.imageUrl}
                 onParticipationChange={() => {
                     this.props.toggleParticipation(event, user);
                 }}

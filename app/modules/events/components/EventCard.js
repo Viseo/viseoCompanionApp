@@ -212,7 +212,7 @@ export default class EventCard extends Component {
                 name: this.props.name,
                 numberOfParticipants: this.props.participants.length,
                 description: this.props.description,
-                imageUrl: this.props.images,
+                imageUrl: this.props.imageUrl,
                 day: this.props.day,
                 time: this.props.time,
                 onParticipationChange: this.props.onParticipationChange,

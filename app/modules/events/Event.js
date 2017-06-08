@@ -101,11 +101,15 @@ export default class Event extends Component {
     }
 
     _renderEventPicture() {
-        const defaultImage = require('./../../images/events/defaultEventImage.jpeg');
+        const image = require('./../../images/events/defaultEventImage.jpeg');
+        if(this.props.imageUrl) {
+            console.warn('Image url found, should load from server');
+            // todo load from server
+        }
         return (
             <Image
                 style={{height: 200, width: width}}
-                source={defaultImage}
+                source={image}
             />
         );
     }
