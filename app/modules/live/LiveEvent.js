@@ -151,7 +151,7 @@ export default connect(
 )(LiveEvent);
 
 const styles = StyleSheet.create({
-    mainContainer: {
+    textContainer: {
         flex: 1,
     },
     chatView: {

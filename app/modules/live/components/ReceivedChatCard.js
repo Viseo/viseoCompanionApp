@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import AppText from "../../global/AppText";
 import PropTypes from 'prop-types';
 import {View, StyleSheet} from "react-native";
+import colors from "../../global/colors";
+
 
 export default class ReceivedChatCard extends Component {
 
@@ -11,8 +13,9 @@ export default class ReceivedChatCard extends Component {
 
     render() {
         return (
-            <View>
-                <AppText style={styles.mainContainer}>{this.props.message}</AppText>
+            <View style={styles.mainContainer}>
+                <AppText style={styles.textContainer}>{this.props.chatData.message}</AppText>
+                <View style={{flex:10}}/>
             </View>
         );
     }
@@ -24,6 +27,14 @@ ReceivedChatCard.propTypes = {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        textAlign: 'left',
+        flexDirection: 'row',
+    },
+    textContainer: {
+        flex:9,
+        textAlign: 'right',
+        backgroundColor: colors.blue,
+        padding: 6,
+        margin:3,
+        borderRadius: 5
     },
 });
