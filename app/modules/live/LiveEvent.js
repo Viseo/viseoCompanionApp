@@ -7,8 +7,15 @@ import {addChatMessage, flushChatMessage} from "./live.actions";
 import {bindActionCreators} from "redux";
 import settings from "../global/settings";
 import moment from "moment";
+import colors from "../global/colors";
+import AppText from "../global/AppText";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class LiveEvent extends Component {
+
+    state = {
+        connected: false
+    };
 
     constructor(props) {
         super(props);
@@ -24,12 +31,18 @@ class LiveEvent extends Component {
     }
 
     render() {
+        let lostConnexionModal = !this.state.connected ? this.renderLostConnexionModal() : null;
+        let participantsCounter = this.renderParticipantsCounter();
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 10}}>
+                    {lostConnexionModal}
                     <ChatView/>
                 </View>
-                <ChatInput navigator={this.props.navigator} sendMessage={this.sendMessage}/>
+                <View style={{flexDirection: "row"}}>
+                    <ChatInput style={{flex: 9}} navigator={this.props.navigator} sendMessage={this.sendMessage}/>
+                    {participantsCounter}
+                </View>
             </View>
         );
     }
@@ -37,14 +50,14 @@ class LiveEvent extends Component {
     _initConnection = () => {
         this.ws = new WebSocket(settings.api.liveEvent);
         this.ws.onopen = () => {
-            //todo link with the eventId
-            this._joinChatRoom(2)
+            this._joinChatRoom(this.props.eventId)
+            this.setState({connected: true});
         };
         this.ws.onmessage = (wsMessage) => {
             this._onReceivedMessage(wsMessage.data)
         };
         this.ws.onerror = (e) => {
-            console.warn("Lost Connexion");
+            this.setState({connected: false});
         };
         this.ws.onclose = (e) => {
         };
@@ -83,15 +96,37 @@ class LiveEvent extends Component {
         const message = {
             type: "2",
             payload: {
-                //todo link with writer and event id
                 content: contentEscaped,
-                datetime: moment().valueOf(),
+                dateTime: moment().valueOf(),
                 writerId: this.props.user.id,
-                eventId: 2,
+                eventId: this.props.eventId,
             }
         };
         const jsonMessage = JSON.stringify(message);
         this.ws.send(jsonMessage);
+    }
+
+    renderLostConnexionModal() {
+        return (
+            <View style={{backgroundColor: colors.red}}>
+                <AppText style={{
+                    color: colors.lightGray,
+                    textAlign: 'center',
+                    fontSize: 17
+                }}>
+                    Erreur de connexion
+                </AppText>
+            </View>
+        );
+    }
+
+    renderParticipantsCounter() {
+        return (
+            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
+                <Icon name="ios-people" size={30}/>
+                <AppText>{this.props.numberOfParticipants}</AppText>
+            </View>
+        );
     }
 }
 
