@@ -92,44 +92,21 @@ export default class EventList extends Component {
     renderEventCard = (event) => {
         let [day, time] = this.formatDate(event.date);
         let {user} = this.props;
-        let edited = user.id === event.host.id;
         return (
             <EventCard
-                name={event.name}
-                description={event.description}
-                location={event.location}
+                {...event}
                 day={day}
                 time={time}
-                date={event.date}
-                participating={event.participating}
-                categoryId={event.category}
+                host={event.host}
+                imageUrl={event.imageUrl}
                 onParticipationChange={() => {
                     this.props.toggleParticipation(event, user);
                 }}
-                onPress={() => this._showEventDetails(event)}
                 searchWords={this.props.searchWords}
                 navigator={this.props.navigator}
             />
         );
     };
-
-    _showEventDetails(event) {
-        this.props.navigator.push({
-            title: 'Détails de l\'évènement',
-            screen: 'events.event',
-            navigatorStyle: defaultNavBarStyle,
-            passProps: {
-                hostFirstName: 'nom',
-                hostLastName: 'prénom',
-                id: event.id,
-                location: event.location,
-                name: event.name,
-                numberOfParticipants: -1,
-                description: event.description,
-                imageUrl: event.images,
-            },
-        });
-    }
 }
 
 EventList.displayName = 'EventList';

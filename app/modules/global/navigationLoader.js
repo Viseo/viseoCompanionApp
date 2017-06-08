@@ -1,7 +1,7 @@
 import {Navigation} from 'react-native-navigation';
 import {defaultNavBarStyle, tabBarStyle} from './navigatorStyle';
 
-export const startLoader = () => {
+export const startAppLoader = () => {
     Navigation.startSingleScreenApp({
         screen: {
             screen: 'appLoader.splashScreen',

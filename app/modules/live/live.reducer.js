@@ -1,4 +1,4 @@
-import {ADD_CHAT_MESSAGE} from "./live.actions";
+import {ADD_CHAT_MESSAGE, FLUSH_CHAT_MESSAGE} from "./live.actions";
 
 export default (state = [], action) => {
     switch (action.type) {
@@ -10,6 +10,11 @@ export default (state = [], action) => {
                     ...chatMessages,
                     action.chatMessage,
                 ],
+            };
+        case FLUSH_CHAT_MESSAGE:
+            return {
+                ...state,
+                chatMessages: []
             };
         default:
             return state;

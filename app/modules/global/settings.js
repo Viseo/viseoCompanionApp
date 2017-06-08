@@ -5,10 +5,11 @@ const localhostIp = '10.33.179.15';
 const localhostURL = 'http://' + localhostIp + ':8080/';
 
 // The server URL, you usually shouldn't have to change this
-const remoteURL = 'http://54.229.99.105:8080/viseocompanion/api/';
+const remoteIp = '54.229.99.105';
+const remoteURL = 'http://' + remoteIp + ':8080/viseocompanion/api/';
 
-// The URL you want to use (should be either localhostURL or remoteURL)
 let serverURL = localhostURL;
+let serverIp = localhostIp;
 
 /////////// RESTFUL API ////////////////
 const restRoutes = {
@@ -21,15 +22,15 @@ const restRoutes = {
     getUser: serverURL + 'users/',
     authenticate: serverURL + 'authenticate',
     resetPassword: serverURL + 'resetPassword',
+    updatedComment: serverURL + 'comments',
     addComment: serverURL + 'comments',
     addChildComment: (commentId) => {
-        return SERVER_API_URL + 'comments/' + commentId ;
+        return serverURL + 'comments/' + commentId ;
      },
+    liveEvent: 'ws://' + serverIp + ':8080/liveEvent',
     getCommentsByEvent: (eventId) => {
         return serverURL + 'comments/events/' + eventId ;
     },
-    updatedComment: serverURL + 'comments',
-    addComment: serverURL + 'comments',
     addChildComment: (commentId) => {
         return serverURL + 'comments/'+commentId;
     },

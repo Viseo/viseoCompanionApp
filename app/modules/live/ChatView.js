@@ -1,16 +1,9 @@
-import React, {Component} from 'react';
-import {
-    ListView,
-    Text,
-    TouchableHighlight,
-    StyleSheet,
-} from 'react-native';
+import React, {Component} from "react";
+import {ListView, StyleSheet} from "react-native";
 import InvertibleScrollView from "react-native-invertible-scroll-view";
 import SentChatCard from "./components/SentChatCard";
 import ReceivedChatCard from "./components/ReceivedChatCard";
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {addChatMessage} from "./live.actions";
 
 class ChatView extends Component {
 
@@ -24,7 +17,6 @@ class ChatView extends Component {
     }
 
     componentWillMount() {
-        this._initConnection();
         this._refresh(this.props.chatMessages);
     }
 
@@ -37,9 +29,9 @@ class ChatView extends Component {
             <ListView
                 renderScrollComponent={props => <InvertibleScrollView {...props} inverted/>}
                 dataSource={this.state.dataSource}
-                renderHeader={() => this._renderHeader()}
                 renderRow={(chatData) => this._renderChatCard(chatData)}
                 style={styles.container}
+                enableEmptySections={true}
             />
         );
     }
@@ -48,54 +40,10 @@ class ChatView extends Component {
         return first.id !== second.id;
     }
 
-    _initConnection() {
-        this.ws = new WebSocket('ws://10.33.171.57:8080/liveEvent');
-        this.ws.onopen = () => {
-        };
-        this.ws.onmessage = (e) => {
-        };
-        this.ws.onerror = (e) => {
-            console.warn(e.message);
-        };
-        this.ws.onclose = (e) => {
-        };
-    }
-
-    _onPress() {
-        const message = {
-            content: "Depuis le tel ma gueule !",
-            datetime: "1492116035",
-            writer: {
-                id: "1"
-            },
-            eventId: "2"
-        };
-        this.props.addChatMessage({
-            type: 'sent',
-            message: message.content
-        });
-        const jsonMessage = JSON.stringify(message);
-        this.ws.send(jsonMessage);
-    }
-
-    _onReceivedMessage(message) {
-
-    }
-
     _renderChatCard(chatData) {
         return chatData.type === 'sent' ?
             <SentChatCard message={chatData.message}/> :
             <ReceivedChatCard message={chatData.message}/>;
-    }
-
-    _renderHeader() {
-        return (
-            <TouchableHighlight
-                onPress={() => this._onPress()}
-                style={styles.button}>
-                <Text>Add a row</Text>
-            </TouchableHighlight>
-        );
     }
 
     _refresh(chatMessages) {
@@ -111,16 +59,8 @@ const mapStateToProps = ({live}, ownProps) => ({
     ...ownProps,
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-            addChatMessage,
-        },
-        dispatch)
-};
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
+    mapStateToProps
 )(ChatView);
 
 const styles = StyleSheet.create({

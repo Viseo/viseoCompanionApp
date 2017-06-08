@@ -11,16 +11,6 @@ import {defaultNavBarStyle} from "../../global/navigatorStyle";
 
 export default class EventCard extends Component {
 
-    static defaultProps = {
-        name: '',
-        description: '',
-        location: '',
-        date: '',
-        categoryId: '',
-        onParticipationChange: () => {
-        },
-    };
-
     constructor(props) {
         super(props);
     }
@@ -85,7 +75,7 @@ export default class EventCard extends Component {
 
     renderTypeIndicator() {
         return (
-            <View style={[styles.eventType, {backgroundColor: util.getCategoryColor(this.props.categoryId)}]}/>
+            <View style={[styles.eventType, {backgroundColor: util.getCategoryColor(this.props.category)}]}/>
         );
     }
 
@@ -214,6 +204,21 @@ export default class EventCard extends Component {
             title: "Détails de l'évènement",
             screen: 'events.event',
             navigatorStyle: defaultNavBarStyle,
+            passProps: {
+                hostFirstName: this.props.host.firstName,
+                hostLastName: this.props.host.lastName,
+                id: this.props.id,
+                location: this.props.location,
+                name: this.props.name,
+                numberOfParticipants: this.props.participants.length,
+                description: this.props.description,
+                imageUrl: this.props.imageUrl,
+                day: this.props.day,
+                time: this.props.time,
+                onParticipationChange: this.props.onParticipationChange,
+                participating: this.props.participating,
+                category: this.props.category,
+            },
         });
     }
 
@@ -222,6 +227,7 @@ export default class EventCard extends Component {
             title: this.props.name,
             screen: 'events.liveEvent',
             navigatorStyle: defaultNavBarStyle,
+            //todo add passProps here
         });
     }
 

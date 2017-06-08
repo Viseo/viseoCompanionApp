@@ -9,7 +9,7 @@ import ItemSpacer from '../../components/ItemSpacer';
 import colors from '../global/colors';
 import CheckBox from 'react-native-check-box';
 
-const {deviceWidth, deviceHeight} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 export default class Event extends Component {
 
@@ -47,7 +47,7 @@ export default class Event extends Component {
         const dateAndParticipants = this._renderEventDateAndParticipants();
         const description = <AppText style={styles.description}>{this.props.description}</AppText>;
         return (
-            <View style={{flex: 30, flexDirection: 'column'}}>
+            <View style={styles.eventDetails}>
                 <ScrollView
                     style={{flex: 1}}
                     contentContainerStyle={{flex: 0}}
@@ -61,8 +61,7 @@ export default class Event extends Component {
     }
 
     _renderEventDateAndParticipants() {
-        const day = 'jour';
-        const time = 'horaire';
+        const {day, time} = this.props;
         const countParticipants =
             <View style={styles.participationInfoItem}>
                 <AppText style={styles.participationInfoContainer}>
@@ -73,17 +72,16 @@ export default class Event extends Component {
                 </AppText>
             </View>;
         const checkParticipation = (
-            <View>
+            <View style={{alignItems: 'center'}}>
                 <CheckBox
-                    isChecked={true}
-                    onClick={() => {
-                    }}
+                    isChecked={this.props.participating}
+                    onClick={() => this.props.onParticipationChange()}
                 />
                 <AppText>{strings.participationLabel}</AppText>
             </View>
         );
         return (
-            <View style={{alignItems: 'center'}}>
+            <View style={styles.dateAndParticipantsContainer}>
                 <View style={styles.participationInfoRectangle}>
                     {countParticipants}
                     <View style={styles.participationInfoItem}>
@@ -103,11 +101,12 @@ export default class Event extends Component {
     }
 
     _renderEventPicture() {
-        const defaultImage = require('./../../images/events/defaultEventImage.jpeg');
+        const imageUrl = this.props.imageUrl || 'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
         return (
             <Image
-                style={{height: 200, width: deviceWidth}}
-                source={defaultImage}
+                style={{height: 200, width: width}}
+                source={{uri: imageUrl}}
+
             />
         );
     }
@@ -117,8 +116,7 @@ export default class Event extends Component {
         return (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../../images/user.png')}/>
-                <ItemSpacer/>
-                <AppText style={{flex: 5, textAlign: 'left'}}>{fullHostName}</AppText>
+                <AppText style={styles.locationAndDateText}>{fullHostName}</AppText>
             </View>
         );
     }
@@ -127,7 +125,7 @@ export default class Event extends Component {
         return (
             <View style={styles.locationAndDate}>
                 <FlexImage source={require('./../../images/location.png')}/>
-                <AppText style={styles.locationText}>{this.props.location}</AppText>
+                <AppText style={styles.locationAndDateText}>{this.props.location}</AppText>
             </View>
         );
     }
@@ -137,19 +135,19 @@ export default class Event extends Component {
             <Avatar
                 firstName={this.props.hostFirstName}
                 lastName={this.props.hostLastName}
-                style={{flex: 3}}
+                style={{flex: 3, paddingHorizontal: 10}}
             />;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.category];
         const category = <AppText>{categoryName}</AppText>;
-        const categoryColor = this._getCategoryColorFromId(this.props.id);
+        const categoryColor = this._getCategoryColorFromId(this.props.category);
         const categoryIndicator = <View style={[styles.categoryIndicator, {borderTopColor: categoryColor}]}/>;
         const hostInfo = this._renderHostInfo();
         const location = this._renderLocation();
         return (
-            <View style={{flex: 8, flexDirection: 'row'}}>
+            <View style={styles.mainInfo}>
                 {hostAvatar}
-                <View style={{flex: 6, flexDirection: 'column'}}>
+                <View style={{flex: 6, flexDirection: 'column', paddingBottom: 20}}>
                     {name}
                     {category}
                     <View style={styles.locationAndDateContainer}>
@@ -165,6 +163,7 @@ export default class Event extends Component {
 }
 
 Event.propTypes = {
+    category: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     hostFirstName: PropTypes.string.isRequired,
     hostLastName: PropTypes.string.isRequired,
@@ -172,6 +171,8 @@ Event.propTypes = {
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     numberOfParticipants: PropTypes.number.isRequired,
+    onParticipationChange: PropTypes.func.isRequired,
+    participating: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -194,6 +195,16 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 20,
     },
+    dateAndParticipantsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: -20
+    },
+    eventDetails: {
+        flex: 30,
+        flexDirection: 'column',
+    },
     hostName: {
         color: 'black',
         fontWeight: 'bold',
@@ -210,7 +221,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'flex-start',
     },
-    locationText: {
+    locationAndDateText: {
         flex: 5,
         textAlign: 'left',
         textAlignVertical: 'center',
@@ -221,6 +232,10 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         flex: 15,
+    },
+    mainInfo: {
+        flexDirection: 'row',
+        height: height / 5,
     },
     name: {
         color: 'black',
@@ -233,14 +248,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: deviceHeight * 0.1,
-        width: deviceWidth * 0.85,
+        height: height * 0.1,
+        width: width * 0.85,
         borderRadius: 10,
         borderWidth: 1,
         backgroundColor: 'white',
         borderColor: 'grey',
-        paddingLeft: deviceWidth * 0.05,
-        paddingRight: deviceWidth * 0.05,
+        paddingHorizontal: 20,
+        paddingVertical: 5,
     },
     participationInfoItem: {
         flexDirection: 'column',

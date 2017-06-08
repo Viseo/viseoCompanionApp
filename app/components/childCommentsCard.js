@@ -23,7 +23,7 @@ export default class ChildCommentsCard extends Component {
         },
         date: '18/05/2020',
 
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -31,8 +31,8 @@ export default class ChildCommentsCard extends Component {
     }
 
     renderIcon = () => {
-        let fName = this.props.writer.id ? this.props.writer.firstName : "N";
-        let lName = this.props.writer.id ? this.props.writer.lastName : "N";
+        let fName = this.props.writer.id ? this.props.writer.firstName : 'N';
+        let lName = this.props.writer.id ? this.props.writer.lastName : 'N';
         return (
             <View style={{flex: 0.25}}>
                 <Avatar
@@ -42,7 +42,7 @@ export default class ChildCommentsCard extends Component {
                     size={4}
                 />
             </View>
-        )
+        );
     };
 
     render() {
@@ -193,13 +193,12 @@ export default class ChildCommentsCard extends Component {
             <View
                 style={{
                     flex: 0.05,
-                    alignSelf: 'stretch'
+                    alignSelf: 'stretch',
                 }}
             >
             </View>
         );
     }
-
 
     renderParticipantDate() {
         return (
@@ -216,7 +215,6 @@ export default class ChildCommentsCard extends Component {
             </View>
         );
     }
-
 
     renderDate() {
         return (

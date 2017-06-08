@@ -42,7 +42,6 @@ export default class Comment extends Component {
                         title="envoyer"
                         onPress={ async () => {
                             let sendComment = await comment.addComment();
-                            console.warn(sendComment);
                         }}
                     />
                 </View>

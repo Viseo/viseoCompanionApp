@@ -12,6 +12,7 @@ import CheckBox from 'react-native-check-box';
 import {rememberUser as toggleRememberUser} from '../../../actionCreators/user';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import colors from '../../global/colors';
+import {doServerCall} from '../../global/db';
 
 class SignIn extends Component {
 
@@ -154,7 +155,7 @@ class SignIn extends Component {
         this.setState({hasSubmittedForm: true});
         if (this._isFormFilled()) {
             const {email, password} = this.state;
-            this.props.authenticate(email, password);
+            doServerCall(() => this.props.authenticate(email, password));
         }
     }
 
