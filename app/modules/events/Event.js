@@ -61,8 +61,7 @@ export default class Event extends Component {
     }
 
     _renderEventDateAndParticipants() {
-        const day = 'jour';
-        const time = 'horaire';
+        const {day, time} = this.props;
         const countParticipants =
             <View style={styles.participationInfoItem}>
                 <AppText style={styles.participationInfoContainer}>
@@ -73,11 +72,10 @@ export default class Event extends Component {
                 </AppText>
             </View>;
         const checkParticipation = (
-            <View>
+            <View style={{alignItems: 'center'}}>
                 <CheckBox
-                    isChecked={true}
-                    onClick={() => {
-                    }}
+                    isChecked={this.props.participating}
+                    onClick={() => this.props.onParticipationChange()}
                 />
                 <AppText>{strings.participationLabel}</AppText>
             </View>
@@ -171,6 +169,8 @@ Event.propTypes = {
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     numberOfParticipants: PropTypes.number.isRequired,
+    onParticipationChange: PropTypes.func.isRequired,
+    participating: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({

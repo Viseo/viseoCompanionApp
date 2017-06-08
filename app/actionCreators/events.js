@@ -124,7 +124,8 @@ function getEventsFromJson(json) {
             version: event.version,
             category: event.category,
             host: event.host,
-            imageUrl:event.imageUrl
+            imageUrl:event.imageUrl,
+            participants: event.participants,
         })
     }
     return events
