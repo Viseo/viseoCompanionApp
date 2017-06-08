@@ -12,10 +12,13 @@ export default class SentChatCard extends Component {
     }
 
     render() {
-        let dateTime = moment(this.props.chatData.datetime).format("HH[h]HH");
+
+        let dateTime = this.props.chatData.dateTime ?
+            moment(this.props.chatData.dateTime).format("HH[h]mm") :
+            null;
         return (
             <View style={styles.mainContainer}>
-                <View style={{flex:10}}/>
+                <View style={{flex:1}}/>
                 <AppText style={styles.timeContainer}>{dateTime}</AppText>
                 <AppText style={styles.textContainer}>{this.props.chatData.message}</AppText>
             </View>
@@ -32,14 +35,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     textContainer: {
-        flex:9,
+        flex:7,
         textAlign: 'right',
         backgroundColor: colors.green,
         padding: 6,
-        margin:3,
-        borderRadius: 5
+        margin:5,
+        borderRadius: 5,
+        color: 'black',
     },
     timeContainer: {
+        flex:1,
         fontSize: 10
     }
 });
