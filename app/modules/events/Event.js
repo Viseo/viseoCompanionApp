@@ -61,8 +61,7 @@ export default class Event extends Component {
     }
 
     _renderEventDateAndParticipants() {
-        const day = 'jour';
-        const time = 'horaire';
+        const {day, time} = this.props;
         const countParticipants =
             <View style={styles.participationInfoItem}>
                 <AppText style={styles.participationInfoContainer}>
@@ -73,11 +72,10 @@ export default class Event extends Component {
                 </AppText>
             </View>;
         const checkParticipation = (
-            <View>
+            <View style={{alignItems: 'center'}}>
                 <CheckBox
-                    isChecked={true}
-                    onClick={() => {
-                    }}
+                    isChecked={this.props.participating}
+                    onClick={() => this.props.onParticipationChange()}
                 />
                 <AppText>{strings.participationLabel}</AppText>
             </View>
@@ -136,19 +134,19 @@ export default class Event extends Component {
             <Avatar
                 firstName={this.props.hostFirstName}
                 lastName={this.props.hostLastName}
-                style={{flex: 3}}
+                style={{flex: 3, paddingHorizontal:10}}
             />;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.category];
         const category = <AppText>{categoryName}</AppText>;
-        const categoryColor = this._getCategoryColorFromId(this.props.id);
+        const categoryColor = this._getCategoryColorFromId(this.props.category);
         const categoryIndicator = <View style={[styles.categoryIndicator, {borderTopColor: categoryColor}]}/>;
         const hostInfo = this._renderHostInfo();
         const location = this._renderLocation();
         return (
             <View style={styles.mainInfo}>
                 {hostAvatar}
-                <View style={{flex: 6, flexDirection: 'column'}}>
+                <View style={{flex: 6, flexDirection: 'column', paddingBottom:20}}>
                     {name}
                     {category}
                     <View style={styles.locationAndDateContainer}>
@@ -164,6 +162,7 @@ export default class Event extends Component {
 }
 
 Event.propTypes = {
+    category: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     hostFirstName: PropTypes.string.isRequired,
     hostLastName: PropTypes.string.isRequired,
@@ -171,6 +170,8 @@ Event.propTypes = {
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     numberOfParticipants: PropTypes.number.isRequired,
+    onParticipationChange: PropTypes.func.isRequired,
+    participating: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -231,10 +232,8 @@ const styles = StyleSheet.create({
         flex: 15,
     },
     mainInfo: {
-        flex: 8,
         flexDirection: 'row',
-        padding: 10,
-        paddingBottom:20,
+        height: height / 5,
     },
     name: {
         color: 'black',

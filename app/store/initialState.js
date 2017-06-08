@@ -27,6 +27,7 @@ export default {
         password: '',
         firstName: 'non renseigné',
         lastName: 'non renseigné',
+        version: 1,
     },
     visibilityFilter: 'SHOW_ALL',
 };

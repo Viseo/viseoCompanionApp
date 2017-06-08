@@ -18,6 +18,7 @@ const restRoutes = {
     getEvent: serverURL + 'events/',
     getEvents: serverURL + 'events',
     addUser: serverURL + 'users/',
+    updateUser: serverURL + 'users/',
     getUsers: serverURL + 'users',
     getUser: serverURL + 'users/',
     authenticate: serverURL + 'authenticate',
@@ -39,9 +40,6 @@ const restRoutes = {
     },
     getEventParticipants: eventId => {
         return serverURL + 'events/' + eventId + '/users';
-    },
-    getCommentsByEvent: (eventId) => {
-        return serverURL + 'comments/events/' + eventId ;
     },
     likeComment:(commentId,userId)=> {
         return serverURL + 'comments/'+commentId+'/like/'+userId;

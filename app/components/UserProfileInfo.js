@@ -25,6 +25,7 @@ export default class Profile extends Component {
             modalVisible: false,
             editedProfile: {
                 picture: defaultImage,
+                id: this.props.userId,
                 firstName: this.props.firstName,
                 lastName: this.props.lastName,
                 email: this.props.user.email,

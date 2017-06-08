@@ -1,12 +1,12 @@
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {fetchEvents, registerUser, unregisterUser} from "../../../actionCreators/events";
-import EventList from "../../events/components/EventList";
-import moment from "moment";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {fetchEvents, registerUser, unregisterUser} from '../../../actionCreators/events';
+import EventList from '../../events/components/EventList';
+import moment from 'moment';
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
-        return false
+        return false;
     }
     let sourceString = caseSensitive ? source.toString() : source.toString().toLowerCase();
     let searchString = caseSensitive ? search.toString() : search.toString().toLowerCase();
@@ -20,12 +20,12 @@ const getFilteredEvents = (events, filters) => {
             for (let key in filter) {
                 let value = filter[key];
                 if (event.hasOwnProperty(key) && event[key] === value) {
-                    acceptEvent = true
+                    acceptEvent = true;
                 }
             }
         });
-        return acceptEvent
-    })
+        return acceptEvent;
+    });
 };
 
 const getSearchedEvents = (events, searchWords) => {
@@ -35,29 +35,22 @@ const getSearchedEvents = (events, searchWords) => {
             let foundWordInAtLeastOneProperty = false;
             for (let key in event) {
                 if (containsString(event[key], word)) {
-                    foundWordInAtLeastOneProperty = true
+                    foundWordInAtLeastOneProperty = true;
                 }
             }
             if (!foundWordInAtLeastOneProperty) {
-                acceptEvent = false
+                acceptEvent = false;
             }
         });
-        return acceptEvent
-    })
+        return acceptEvent;
+    });
 };
 
 const addParticipationInfo = (events, userId) => {
     return events.map(event => {
-        let {participants} = event;
-        let participating = false;
-        if (participants) {
-            if (participants.indexOf(userId) !== -1) {
-                participating = true
-            }
-        }
-        event.participating = participating;
-        return event
-    })
+        event.participating = event.participants.indexOf(userId) !== -1;
+        return event;
+    });
 };
 
 const getVisibleEventList = (events,
@@ -85,7 +78,7 @@ const getVisibleEventList = (events,
                 return moment(event.date).isAfter(moment());
             });
         default:
-            throw new Error('Unknown filter: ' + visibilityFilter)
+            throw new Error('Unknown filter: ' + visibilityFilter);
     }
 };
 
@@ -95,7 +88,7 @@ const mapStateToProps = (state, ownProps) => ({
         state.visibilityFilter,
         state.filters,
         state.searchWords,
-        state.user
+        state.user,
     ),
     refreshing: state.events.isFetching,
     searchWords: state.searchWords,
@@ -110,15 +103,15 @@ const mapDispatchToProps = (dispatch) => {
         toggleParticipation: (event, user) => {
             return event.participating ?
                 unregisterUser(event, user.id) :
-                registerUser(event, user.id)
+                registerUser(event, user.id);
         },
 
-    }, dispatch)
+    }, dispatch);
 };
 
 const VisibleEventList = connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(EventList);
 
-export default VisibleEventList
+export default VisibleEventList;

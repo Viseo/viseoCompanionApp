@@ -205,14 +205,19 @@ export default class EventCard extends Component {
             screen: 'events.event',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
-                hostFirstName: 'nom',
-                hostLastName: 'prénom',
+                hostFirstName: this.props.host.firstName,
+                hostLastName: this.props.host.lastName,
                 id: this.props.id,
                 location: this.props.location,
                 name: this.props.name,
-                numberOfParticipants: -1,
+                numberOfParticipants: this.props.participants.length,
                 description: this.props.description,
                 imageUrl: this.props.images,
+                day: this.props.day,
+                time: this.props.time,
+                onParticipationChange: this.props.onParticipationChange,
+                participating: this.props.participating,
+                category: this.props.category,
             },
         });
     }
