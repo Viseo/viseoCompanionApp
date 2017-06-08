@@ -162,7 +162,10 @@ export default class CommentList extends Component {
                     refresh={this.props.refresh}
                 />
                 <ChildCommentsList
-                childComment={comment.children}
+                    childComment={comment.children}
+                    userId={this.props.userId}
+                    navigator={this.props.navigator}
+                    refresh={this.props.refresh}
                 />
             </View>
         );

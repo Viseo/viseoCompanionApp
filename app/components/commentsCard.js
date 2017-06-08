@@ -5,8 +5,9 @@ import colors from "../modules/global/colors";
 import  Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
 import AppText from "../modules/global/AppText";
-import {addLike, dislike} from "../util/db";
+import {addLike, deleteCommentDb, dislike} from "../modules/global/db";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
+import moment from "moment";
 
 export default class CommentsCard extends Component {
 
@@ -136,18 +137,17 @@ export default class CommentsCard extends Component {
         );
     }
 
-    filterUser = (element) => {
-        return element.id == this.props.userId;
-    };
-
+    filterUser(user) {
+        return user.id == this.props.userId;
+    }
 
     renderLike() {
         let liked = false;
         if (this.props.nbLike > 0) {
-            liked = this.props.likers.filter(this.filterUser).length > 0 ? true : false;
+            liked = this.props.likers.filter((user) => this.filterUser(user)).length > 0;
         }
 
-        const like = (
+        const likeButton = (
                 <Icon.Button
                     style={styles.icon}
                     name="thumbs-o-up"
@@ -162,12 +162,12 @@ export default class CommentsCard extends Component {
         ;
         return (
             <View >
-                {like}
+                {likeButton}
             </View>
         );
     }
 
-    updateComment = () => {
+    updateComment() {
         if (this.props.userId == this.props.writer.id) {
             this.props.navigator.push({
                 screen: 'UpdateComment',
@@ -177,16 +177,11 @@ export default class CommentsCard extends Component {
                     comment: {
                         id: this.props.id,
                         content: this.props.content,
-                        day: this.props.day,
-                        time: this.props.time,
-                        writer: this.props.writer,
+                        datetime: moment.valueOf(),
                         version: this.props.version,
                         eventId: this.props.eventId,
-                        userId: this.props.userId,
-                        children: this.props.children,
-                        likers: this.props.likers,
                     },
-                    modifComment: true
+                    refresh: this.props.refresh,
                 }
             });
         }
@@ -199,7 +194,7 @@ export default class CommentsCard extends Component {
                 style={styles.icon}
                 size={20}
                 color={colors.mediumGray}
-                onPress={this.updateComment}
+                onPress={() => this.updateComment()}
             />
         );
         return (
@@ -242,7 +237,6 @@ export default class CommentsCard extends Component {
         );
     }
 
-
     renderDate() {
         return (
             <View style={{flex: .5}}>
@@ -251,26 +245,17 @@ export default class CommentsCard extends Component {
         );
     }
 
-    renderComment() {
-        return (
-            <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
-                <Text>{this.props.content}</Text>
-            </View>
-        );
-    }
-
-
-    likeComment = async () => {
+    async likeComment() {
         await addLike(this.props.id, this.props.userId);
         this.props.refresh(this.props.eventId);
-    };
+    }
 
-    dislikeComment = async () => {
+    async dislikeComment() {
         await dislike(this.props.id, this.props.userId);
         this.props.refresh(this.props.eventId);
-    };
+    }
 
-    deleteComment = async () => {
+    async deleteComment() {
         await deleteCommentDb(this.props.id);
         this.props.refresh(this.props.eventId);
     }

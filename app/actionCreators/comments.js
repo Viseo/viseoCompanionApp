@@ -36,7 +36,7 @@ export const getComments = (idEvent) => {
                     likers: comment.likers,
                 });
             }
-            dispatch(receiveComments(comments))
+            dispatch(receiveComments(comments));
         } catch (error) {
             console.warn('ActionCreators/comments::fetchComments ' + error)
         }

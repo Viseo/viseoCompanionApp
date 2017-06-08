@@ -22,9 +22,8 @@ const restRoutes = {
     authenticate: serverURL + 'authenticate',
     resetPassword: serverURL + 'resetPassword',
     addComment: serverURL + 'comments',
-    //addChildComment: serverURL + 'comments/2',
     addChildComment: (commentId) => {
-     return SERVER_API_URL + 'comments/' + commentId ;
+        return SERVER_API_URL + 'comments/' + commentId ;
      },
     getCommentsByEvent: (eventId) => {
         return serverURL + 'comments/events/' + eventId ;

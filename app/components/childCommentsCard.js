@@ -5,12 +5,22 @@ import colors from "../modules/global/colors";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Avatar from "./Avatar";
 import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
+import {addLike, deleteCommentDb, dislike} from "../modules/global/db";
+import moment from "moment";
+import AppText from "../modules/global/AppText";
 
 export default class ChildCommentsCard extends Component {
 
     static defaultProps = {
-        user: {id: 1, lastName: "he", firstName: "miu"},
-        event: {id: 1, title: "Event1"},
+        user: {
+            id: 1,
+            lastName: "he",
+            firstName: "miu"
+        },
+        event: {
+            id: 1,
+            title: "Event1"
+        },
         date: '18/05/2020',
 
     }
@@ -57,8 +67,9 @@ export default class ChildCommentsCard extends Component {
                             {this.renderSpacer()}
                             <View style={{flex: .75, justifyContent: 'space-around'}}>
                                 {this.renderParticipantDate()}
-                                {this.renderComment()}
+                                {this.renderChildComment()}
                                 {this.renderActionComment()}
+                                {this.renderLikeCount()}
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -80,6 +91,17 @@ export default class ChildCommentsCard extends Component {
         );
     }
 
+    renderLikeCount() {
+        return (
+            <View style={{
+                flex: 1,
+                flexDirection: 'row', alignSelf: 'flex-end', marginRight: 30, marginTop: -30
+            }}>
+                <AppText>{this.props.nbLike}</AppText>
+            </View>
+        );
+    }
+
     renderDelete() {
         const reply = (
             <Icon.Button
@@ -87,6 +109,7 @@ export default class ChildCommentsCard extends Component {
                 name="trash"
                 size={20}
                 color={colors.red}
+                onPress={this.deleteChildComment}
             />
         );
         return (
@@ -97,9 +120,27 @@ export default class ChildCommentsCard extends Component {
 
     }
 
+    filterUser = (element) => {
+        return element.id == this.props.userId;
+    };
+
     renderLike() {
+
+        let liked = false;
+        if (this.props.nbLike > 0) {
+            liked = this.props.likers.filter((user) => this.filterUser(user)).length > 0;
+        }
         const reply = (
-            <Icon.Button style={styles.icon} name="thumbs-o-up" size={20} color={colors.blue}/>
+            <Icon.Button
+                style={styles.icon}
+                name="thumbs-o-up"
+                size={20}
+                color={colors.blue}
+                onPress={ () => {
+                    liked ?
+                        this.dislikeChildComment() : this.likeChildComment()
+                }}
+            />
         );
         return (
             <View >
@@ -111,7 +152,13 @@ export default class ChildCommentsCard extends Component {
 
     renderEdit() {
         const reply = (
-            <Icon.Button name="edit" style={styles.icon} size={20} color={colors.mediumGray}/>
+            <Icon.Button
+                name="edit"
+                style={styles.icon}
+                size={20}
+                color={colors.mediumGray}
+                onPress={this.updateChildComment}
+            />
         );
         return (
             <View >
@@ -120,6 +167,26 @@ export default class ChildCommentsCard extends Component {
         );
 
     }
+
+    updateChildComment = () => {
+        if (this.props.userId == this.props.writer.id) {
+            this.props.navigator.push({
+                screen: 'UpdateComment',
+                title: "Modification du commentaire",
+                navigatorStyle: defaultNavBarStyle,
+                passProps: {
+                    comment: {
+                        id: this.props.id,
+                        content: this.props.content,
+                        datetime: moment.valueOf(),
+                        version: this.props.version,
+                        eventId: this.props.eventId,
+                    },
+                    refresh:this.props.refresh,
+                }
+            });
+        }
+    };
 
     renderSpacer() {
         return (
@@ -159,17 +226,32 @@ export default class ChildCommentsCard extends Component {
         );
     }
 
-    renderComment() {
+    renderChildComment() {
         return (
             <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
                 <Text>{this.props.content}</Text>
             </View>
         );
     }
+
+    deleteChildComment = async () => {
+        await deleteCommentDb(this.props.id);
+        this.props.refresh(this.props.eventId);
+    };
+
+
+    likeChildComment = async () => {
+        await addLike(this.props.id, this.props.userId);
+        this.props.refresh(this.props.eventId);
+    };
+
+    dislikeChildComment = async () => {
+        await dislike(this.props.id, this.props.userId);
+        this.props.refresh(this.props.eventId);
+    };
 }
 
 ChildCommentsCard.displayName = 'childCommentsCard'
-
 
 let {
     height: deviceHeight,
@@ -189,16 +271,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginLeft: 15
     },
-
     icon: {
         backgroundColor: 'rgb(255,255,255)'
     }
-
-
 });
-
-// const styleFont = StyleSheet.create({
-//     textFont: {
-//         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-//     }
-// });

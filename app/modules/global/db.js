@@ -285,7 +285,6 @@ export async function removeEventParticipant(eventId, userId) {
 
 export async function addLike(commentId, userId) {
     try {
-
         let response = await fetch(settings.api.likeComment(commentId, userId), {
             method: 'POST',
             headers: {
@@ -390,11 +389,6 @@ export async function updateComment(comment) {
                 "version": comment.version,
                 "content": comment.content,
                 "datetime": comment.datetime,
-                "eventId": comment.event_id,
-                "writer": comment.writer,
-                "childComments": comment.children,
-                "likers": comment.likers,
-                "nbLike": comment.nbLike
             })
         });
         if (response)

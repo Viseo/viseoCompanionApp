@@ -46,15 +46,11 @@ class UpdateComment extends Component {
             id: this.props.comment.id,
             content: this.state.comment,
             datetime: moment().valueOf(),
-            event_id: this.props.comment.eventId,
-            writer: this.props.comment.writer,
             version: this.props.comment.version,
-            children: this.props.children,
-            likers: this.props.comment.likers,
-            nbLike: this.props.comment.nbLike,
         };
         await updateComment(comment);
-        this.props.getComments(comment.event_id);
+        // TODO use getComment instead of getCommentsByEvent
+        this.props.refresh(this.props.comment.eventId);
         this.props.navigator.pop();
     }
 }

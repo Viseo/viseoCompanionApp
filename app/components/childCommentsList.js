@@ -42,7 +42,6 @@ export default class ChildCommentList extends Component {
     render() {
         const childCommentsList = (
             <ListView
-
                 scrollEventThrottle={200}
                 enableEmptySections={true}
                 dataSource={this.state.dataSource}
@@ -74,10 +73,14 @@ export default class ChildCommentList extends Component {
                 content={childComment.content}
                 day={day}
                 time={time}
+                version={childComment.version}
                 writer={childComment.writer}
                 eventId={childComment.eventId}
-                nbLik={childComment.nbLike}
+                nbLike={childComment.nbLike}
                 navigator={this.props.navigator}
+                userId={this.props.userId}
+                refresh={this.props.refresh}
+                likers={childComment.likers}
             />
         )
     }
