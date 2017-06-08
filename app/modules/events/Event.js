@@ -101,15 +101,12 @@ export default class Event extends Component {
     }
 
     _renderEventPicture() {
-        const image = require('./../../images/events/defaultEventImage.jpeg');
-        if(this.props.imageUrl) {
-            console.warn('Image url found, should load from server');
-            // todo load from server
-        }
+        const imageUrl = this.props.imageUrl || 'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
         return (
             <Image
                 style={{height: 200, width: width}}
-                source={image}
+                source={{uri: imageUrl}}
+
             />
         );
     }
@@ -138,7 +135,7 @@ export default class Event extends Component {
             <Avatar
                 firstName={this.props.hostFirstName}
                 lastName={this.props.hostLastName}
-                style={{flex: 3, paddingHorizontal:10}}
+                style={{flex: 3, paddingHorizontal: 10}}
             />;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.category];
@@ -150,7 +147,7 @@ export default class Event extends Component {
         return (
             <View style={styles.mainInfo}>
                 {hostAvatar}
-                <View style={{flex: 6, flexDirection: 'column', paddingBottom:20}}>
+                <View style={{flex: 6, flexDirection: 'column', paddingBottom: 20}}>
                     {name}
                     {category}
                     <View style={styles.locationAndDateContainer}>
@@ -202,7 +199,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: -20},
+        marginTop: -20
+    },
     eventDetails: {
         flex: 30,
         flexDirection: 'column',
