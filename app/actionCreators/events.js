@@ -55,18 +55,6 @@ export const fetchEvents = (user) => {
             let eventsJson = await eventsResponse.json();
             let events = getEventsFromJson(eventsJson);
             dispatch(receiveEvents(events));
-
-            // Fetch the events registered by logged user
-            let registeredEventsResponse = await fetch(settings.api.getEventsByRegisteredUser(user.id));
-            let registeredEventsJson = await registeredEventsResponse.json();
-            let registeredEvents = getRegisteredEventsIdsFromJson(registeredEventsJson);
-            registeredEvents.forEach(eventId => {
-                dispatch({
-                    type: types.REGISTER_USER,
-                    eventId,
-                    userId: user.id
-                })
-            })
         } catch (error) {
             console.warn('ActionCreators/events::fetchEvents ' + error);
             dispatch({
@@ -86,19 +74,6 @@ export const fetchEventsExp = (user) => {
             let eventsJson = await eventsResponse.json();
             let events = getEventsFromJson(eventsJson);
             dispatch(receiveEventsExpired(events));
-
-            // Fetch the events registered by logged user
-            let registeredEventsResponse = await fetch(settings.api.getEventsByRegisteredUser(user.id));
-            let registeredEventsJson = await registeredEventsResponse.json();
-            let registeredEvents = getRegisteredEventsIdsFromJson(registeredEventsJson);
-            registeredEvents.forEach(eventId => {
-                dispatch({
-                    type: types.REGISTER_USER,
-                    eventId,
-                    userId: user.id
-                })
-            })
-
         } catch (error) {
             console.warn('ActionCreators/events::fetchEventsExp' + error);
             dispatch({
@@ -131,19 +106,6 @@ function getEventsFromJson(json) {
     return events
 }
 
-function getRegisteredEventsIdsFromJson(json) {
-    let registeredEvents = [];
-    for (let i = 0; i < json.length; i++) {
-        let event = json[i];
-        registeredEvents.push(event.id)
-    }
-    return registeredEvents
-}
-
-export const invalidateEvents = () => ({
-    type: types.INVALIDATE_EVENTS,
-});
-
 export const receiveEvents = (events) => ({
     type: types.RECEIVE_EVENTS,
     events,
@@ -158,11 +120,6 @@ export const receiveEventsExpired = (events) => ({
 export const registerUser = (event, userId) => {
     let eventId = event.id;
     return async (dispatch) => {
-        dispatch({
-            type: types.REGISTER_USER,
-            eventId,
-            userId,
-        });
         PushController.scheduleEventNotifications(event);
         try {
             await fetch(settings.api.addEventParticipant(eventId, userId), {

@@ -48,7 +48,7 @@ const getSearchedEvents = (events, searchWords) => {
 
 const addParticipationInfo = (events, userId) => {
     return events.map(event => {
-        event.participating = event.participants.indexOf(userId) !== -1;
+        event.participating = event.participants.findIndex(user => user.id === userId) !== -1;
         return event;
     });
 };
