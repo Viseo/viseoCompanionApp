@@ -176,8 +176,11 @@ class PastEvent extends Component {
                 </AppText>
             </View>;
         const checkParticipation =
-            <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "stretch"}}>
-                <Image source={require('./../../images/check_box.png')}/>
+            <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                <Image source={this.props.participating ?
+                    require('./../../images/check_box.png'):
+                    require('./../../images/incheck_box.png')
+                }/>
                 <AppText>
                     Participation
                 </AppText>

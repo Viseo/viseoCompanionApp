@@ -45,6 +45,7 @@ class Comments extends Component {
             passProps: {
                 eventId: this.props.eventId,
                 refresh: this.props.refresh,
+                user: this.props.user
             }
         });
     }
@@ -59,6 +60,10 @@ Comments.navigatorButtons = {
     ],
 };
 
+const mapStateToProps = ({user}) => ({
+    user
+})
+
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         refresh: getComments
@@ -66,7 +71,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Comments);
 

@@ -110,8 +110,9 @@ export default class EventListExp extends Component {
                         navigatorStyle: defaultNavBarStyle,
                         passProps: {
                             id: event.id,
-                            hostFirstName: event.host.firstName || "Admin",
-                            hostLastName: event.host.lastName || "",
+                            hostFirstName: event.host ? event.host.firstName : "Admin",
+                            hostLastName: event.host ? event.host.lastName : "",
+                            participating: event.participating
                         }
                     });
                 }}

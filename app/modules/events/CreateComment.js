@@ -49,7 +49,7 @@ export default class CreateComment extends Component {
             content: this.state.comment,
             datetime: moment().valueOf(),
             writer: {
-                id: 1,
+                id: this.props.user.id,
             },
             eventId: this.props.eventId,
         };
