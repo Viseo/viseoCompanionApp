@@ -1,6 +1,7 @@
 /////////// SERVER CONNECTION ////////////////
 
 // Localhost (set your localhost IP here)
+// The URL you want to use (should be either localhostURL or remoteURL)
 const localhostIp = '10.33.179.15';
 const localhostURL = 'http://' + localhostIp + ':8080/';
 
@@ -24,9 +25,6 @@ const restRoutes = {
     resetPassword: serverURL + 'resetPassword',
     updatedComment: serverURL + 'comments',
     addComment: serverURL + 'comments',
-    addChildComment: (commentId) => {
-        return serverURL + 'comments/' + commentId ;
-     },
     liveEvent: 'ws://' + serverIp + ':8080/liveEvent',
     getCommentsByEvent: (eventId) => {
         return serverURL + 'comments/events/' + eventId ;
@@ -42,9 +40,6 @@ const restRoutes = {
     },
     getEventParticipants: eventId => {
         return serverURL + 'events/' + eventId + '/users';
-    },
-    getCommentsByEvent: (eventId) => {
-        return serverURL + 'comments/events/' + eventId ;
     },
     likeComment:(commentId,userId)=> {
         return serverURL + 'comments/'+commentId+'/like/'+userId;

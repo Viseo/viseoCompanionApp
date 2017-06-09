@@ -224,10 +224,14 @@ export default class EventCard extends Component {
 
     _showLiveEvent() {
         this.props.navigator.push({
-            title: this.props.name,
+            title: this.props.name + " - LIVE",
             screen: 'events.liveEvent',
             navigatorStyle: defaultNavBarStyle,
-            //todo add passProps here
+            passProps: {
+                eventId: this.props.id,
+                name: this.props.name,
+                numberOfParticipants: this.props.participants.length,
+            }
         });
     }
 

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import AppText from "../../global/AppText";
 import PropTypes from 'prop-types';
 import {View, StyleSheet} from "react-native";
+import colors from "../../global/colors";
+import moment from "moment";
 
 export default class SentChatCard extends Component {
 
@@ -10,20 +12,39 @@ export default class SentChatCard extends Component {
     }
 
     render() {
+
+        let dateTime = this.props.chatData.dateTime ?
+            moment(this.props.chatData.dateTime).format("HH[h]mm") :
+            null;
         return (
-            <View>
-                <AppText style={styles.mainContainer}>{this.props.message}</AppText>
+            <View style={styles.mainContainer}>
+                <View style={{flex:1}}/>
+                <AppText style={styles.timeContainer}>{dateTime}</AppText>
+                <AppText style={styles.textContainer}>{this.props.chatData.message}</AppText>
             </View>
         );
     }
 }
 
 SentChatCard.propTypes = {
-    message: PropTypes.string.isRequired,
+    chatData: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({
     mainContainer: {
-        textAlign: 'right',
+        flexDirection: 'row',
     },
+    textContainer: {
+        flex:7,
+        textAlign: 'right',
+        backgroundColor: colors.green,
+        padding: 6,
+        margin:5,
+        borderRadius: 5,
+        color: 'black',
+    },
+    timeContainer: {
+        flex:1,
+        fontSize: 10
+    }
 });

@@ -10,6 +10,7 @@ export default (state = [], action) => {
                     ...chatMessages,
                     action.chatMessage,
                 ],
+                lastUpdate: action.lastUpdate,
             };
         case FLUSH_CHAT_MESSAGE:
             return {

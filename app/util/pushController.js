@@ -88,39 +88,10 @@ export default class PushController extends Component {
     }
 }
 
-PushController.scheduleTest = async (event) => {
-    FCM.scheduleLocalNotification(
-        {
-            fire_date: moment().add(10, 'seconds').toDate().getTime(),
-            id: event.id + "day",
-            title: "Rappel : " + event.name,
-            body: "Aujourd'hui à " + moment(event.date).format("h[h]mm"),
-            icon: "ic_notif",
-            large_icon: "ic_launcher",
-            "show_in_foreground": true,
-            priority: "high",
-            badge: 1
-        }
-    );
-    FCM.scheduleLocalNotification(
-        {
-            fire_date: moment().add(20, 'seconds').toDate().getTime(),
-            id: event.id + "min",
-            title: "Dans 15min : " + event.name,
-            body: "Lieu : " + event.location,
-            icon: "ic_notif",
-            large_icon: "ic_launcher",
-            "show_in_foreground": true,
-            priority: "high",
-            badge: 1
-        }
-    )
-};
-
 PushController.scheduleEventNotifications = (event) => {
     FCM.scheduleLocalNotification(
         {
-            fire_date: moment(event.date).hour(8).minute(0).toDate().getTime(),
+            fire_date: moment(event.date).hour(8).minute(0),
             id: event.id + "day",
             title: "Rappel : " + event.name,
             body: "Aujourd'hui à " + moment(event.date).format("h[h]mm"),
@@ -133,7 +104,7 @@ PushController.scheduleEventNotifications = (event) => {
     );
     FCM.scheduleLocalNotification(
         {
-            fire_date: moment(event.date).subtract(15, 'minute').toDate().getTime(),
+            fire_date: moment(event.date).subtract(15, 'minutes'),
             id: event.id + "min",
             title: "Dans 15min : " + event.name,
             body: "Lieu : " + event.location,

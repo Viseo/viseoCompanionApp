@@ -42,8 +42,8 @@ class ChatView extends Component {
 
     _renderChatCard(chatData) {
         return chatData.type === 'sent' ?
-            <SentChatCard message={chatData.message}/> :
-            <ReceivedChatCard message={chatData.message}/>;
+            <SentChatCard chatData={chatData}/> :
+            <ReceivedChatCard chatData={chatData}/>;
     }
 
     _refresh(chatMessages) {

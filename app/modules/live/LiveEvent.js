@@ -7,8 +7,15 @@ import {addChatMessage, flushChatMessage} from "./live.actions";
 import {bindActionCreators} from "redux";
 import settings from "../global/settings";
 import moment from "moment";
+import colors from "../global/colors";
+import AppText from "../global/AppText";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class LiveEvent extends Component {
+
+    state = {
+        connected: false
+    };
 
     constructor(props) {
         super(props);
@@ -20,16 +27,22 @@ class LiveEvent extends Component {
 
     componentWillUnmount() {
         this.ws.close();
-        this.props.flushChatMessage();
+        // this.props.flushChatMessage();
     }
 
     render() {
+        let lostConnexionModal = !this.state.connected ? this.renderLostConnexionModal() : null;
+        let participantsCounter = this.renderParticipantsCounter();
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 10}}>
+                    {lostConnexionModal}
                     <ChatView/>
                 </View>
-                <ChatInput navigator={this.props.navigator} sendMessage={this.sendMessage}/>
+                <View style={{flexDirection: "row"}}>
+                    <ChatInput style={{flex: 9}} navigator={this.props.navigator} sendMessage={this.sendMessage}/>
+                    {participantsCounter}
+                </View>
             </View>
         );
     }
@@ -37,14 +50,14 @@ class LiveEvent extends Component {
     _initConnection = () => {
         this.ws = new WebSocket(settings.api.liveEvent);
         this.ws.onopen = () => {
-            //todo link with the eventId
-            this._joinChatRoom(2)
+            this._joinChatRoom(this.props.eventId)
+            this.setState({connected: true});
         };
         this.ws.onmessage = (wsMessage) => {
             this._onReceivedMessage(wsMessage.data)
         };
         this.ws.onerror = (e) => {
-            console.warn(e.message);
+            this.setState({connected: false});
         };
         this.ws.onclose = (e) => {
         };
@@ -54,8 +67,7 @@ class LiveEvent extends Component {
         const message = {
             type: 1,
             payload: {
-                //todo handle the last updated
-                lastUpdated: 0,
+                lastUpdated: this.props.lastUpdate,
                 eventId: eventId
             }
         }
@@ -65,34 +77,62 @@ class LiveEvent extends Component {
 
     _onReceivedMessage = (message) => {
         let chatMessage = JSON.parse(message);
+        let messageType = chatMessage.writerId === this.props.user.id ? 'sent' : 'received'
+        this._addMessageToChat(chatMessage, messageType);
+    }
+
+    _addMessageToChat = (chatMessage, type) => {
         this.props.addChatMessage({
-            type: 'received',
-            message: chatMessage.content
+            type: type,
+            message: chatMessage.content,
+            dateTime: chatMessage.dateTime,
+            writerId: chatMessage.writerId,
         })
     }
 
     sendMessage = (messageContent) => {
+        let contentEscaped = "\"" + messageContent.replace(/"/g, '\\"') + "\"";
         const message = {
             type: "2",
             payload: {
-                //todo link with writer and event id
-                content: "\"" + messageContent + "\"",
-                datetime: moment().valueOf(),
-                writerId: 1,
-                eventId: 2,
+                content: contentEscaped,
+                dateTime: moment().valueOf(),
+                writerId: this.props.user.id,
+                eventId: this.props.eventId,
             }
         };
-        this.props.addChatMessage({
-            type: 'sent',
-            message: messageContent
-        });
         const jsonMessage = JSON.stringify(message);
         this.ws.send(jsonMessage);
     }
+
+    renderLostConnexionModal() {
+        return (
+            <View style={{backgroundColor: colors.red}}>
+                <AppText style={{
+                    color: colors.lightGray,
+                    textAlign: 'center',
+                    fontSize: 17
+                }}>
+                    Erreur de connexion
+                </AppText>
+            </View>
+        );
+    }
+
+    renderParticipantsCounter() {
+        return (
+            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
+                <Icon name="ios-people" size={30}/>
+                <AppText>{this.props.numberOfParticipants}</AppText>
+            </View>
+        );
+    }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = ({user, live}, ownProps) => {
     return {
+        user,
+        lastUpdate: live.lastUpdate,
         ...ownProps,
     }
 };
@@ -111,7 +151,7 @@ export default connect(
 )(LiveEvent);
 
 const styles = StyleSheet.create({
-    mainContainer: {
+    textContainer: {
         flex: 1,
     },
     chatView: {
