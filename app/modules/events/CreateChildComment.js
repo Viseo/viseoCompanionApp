@@ -46,9 +46,9 @@ export default class CreateChildComment extends Component {
             eventId: this.props.eventId,
             commentId:this.props.commentId
         };
-
-        addChildComment(childComment);
+        await addChildComment(childComment);
         this.props.navigator.pop();
+        this.props.refresh(this.props.eventId);
     }
 };
 

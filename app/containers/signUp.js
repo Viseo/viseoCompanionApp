@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Image, Modal, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
 import {hasEmptyElement, isEmailValid, isPasswordValid} from "../util/util";
-import {addUser, getUserByEmail} from "../util/db";
+import {addUser, getUserByEmail} from "../modules/global/db";
 import strings from "../modules/global/localizedStrings";
 import AppText from "../modules/global/AppText";
 import EmailInput from "../components/emailInput";

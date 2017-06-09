@@ -538,7 +538,8 @@ export default class Event extends Component {
                         this.props.navigator.push({
                             title: 'addComment',
                             passProps: {
-                                name: this.state.editedEvent.name
+                                name: this.state.editedEvent.name,
+                                eventId: this.props.eventId,
 
                             }
                         })

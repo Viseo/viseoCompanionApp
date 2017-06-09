@@ -355,8 +355,7 @@ export async function deleteCommentDb(commentId) {
         if (response) {
             return true;
         }
-    } catch (error
-        ) {
+    } catch (error) {
         console.warn(error);
     }
 }

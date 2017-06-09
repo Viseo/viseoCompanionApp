@@ -106,7 +106,8 @@ export default class CommentsCard extends Component {
                         passProps: {
                             eventId: this.props.eventId,
                             commentId: this.props.id,
-                            userId:this.props.userId
+                            userId:this.props.userId,
+                            refresh: this.props.refresh,
                         }
 
                     })
@@ -127,7 +128,7 @@ export default class CommentsCard extends Component {
                 style={styles.icon}
                 name="trash" size={20}
                 color={colors.red}
-                onPress={this.deleteComment}
+                onPress={() => this.deleteComment()}
             />
         );
         return (
@@ -221,7 +222,7 @@ export default class CommentsCard extends Component {
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10}}>
                 <View style={{flex: .5}}>
                     <Text style={{color: colors.blue, fontSize: 14}}>
-                        {this.props.writer.lastName + ' ' + this.props.writer.firstName}
+                        {this.props.writer.firstName + ' ' + this.props.writer.lastName}
                     </Text>
                 </View>
                 {this.renderDate()}

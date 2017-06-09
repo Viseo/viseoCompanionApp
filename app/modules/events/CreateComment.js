@@ -19,7 +19,10 @@ export default class CreateComment extends Component {
             (<Button
                 style={{width: 200, height: 100}}
                 title="Envoyer"
-                onPress={() => this.sendComment()}
+                onPress={() => {
+                    this.sendComment();
+                    //this.props.refresh(this.props.eventId);
+                }}
             />);
 
         return (
@@ -50,8 +53,9 @@ export default class CreateComment extends Component {
             },
             eventId: this.props.eventId,
         };
-        addComment(comment);
+        await addComment(comment);
         this.props.navigator.pop();
+        this.props.refresh(this.props.eventId);
     }
 
 
