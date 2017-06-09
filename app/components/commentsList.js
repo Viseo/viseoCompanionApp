@@ -64,19 +64,21 @@ export default class CommentList extends Component {
             />
         );
         const nothingToShow = (
-            <AppText
-                style={{
-                    textAlign: 'center',
-                    color: colors.mediumGray,
-                    backgroundColor: 'white',
-                    height: 50,
-                    borderRadius: 4,
-                    textAlignVertical: 'center',
-                    fontSize: 18,
-                }}
-            >
-                Aucun commentaire.
-            </AppText>
+            <View style={{top: -440}}>
+                <AppText
+                    style={{
+                        textAlign: 'center',
+                        color: colors.mediumGray,
+                        backgroundColor: 'white',
+                        height: 50,
+                        borderRadius: 4,
+                        textAlignVertical: 'center',
+                        fontSize: 18,
+                    }}
+                >
+                    Aucun commentaire.
+                </AppText>
+            </View>
         );
         return (
             <View style={[{flex: 1, flexDirection: 'column'}, this.props.style]}>
@@ -128,7 +130,10 @@ export default class CommentList extends Component {
                 }}>
                     75%
                 </Text>
-                <Icon name="star" style={{backgroundColor: 'transparent', textAlign: 'left'}} size={20}
+                <Icon name="star" style={{
+                    backgroundColor: 'transparent',
+                    textAlign: 'left'
+                }} size={20}
                       color={colors.green}/>
                 <Text style={{
                     fontWeight: 'bold',
