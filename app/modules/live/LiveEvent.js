@@ -58,6 +58,7 @@ class LiveEvent extends Component {
         };
         this.ws.onerror = (e) => {
             this.setState({connected: false});
+            this.addDisconnectedMessage();
         };
         this.ws.onclose = (e) => {
         };
@@ -126,6 +127,16 @@ class LiveEvent extends Component {
                 <AppText>{this.props.numberOfParticipants}</AppText>
             </View>
         );
+    }
+
+    addDisconnectedMessage() {
+        const message = {
+            content: "Vous avez été déconnecté du live.",
+            dateTime: moment().valueOf(),
+            writerId: 0,
+            eventId: this.props.eventId,
+        };
+        this._addMessageToChat(message, 'received');
     }
 }
 

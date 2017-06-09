@@ -14,7 +14,7 @@ export default class ReceivedChatCard extends Component {
     render() {
         let dateTime = this.props.chatData.dateTime ?
             moment(this.props.chatData.dateTime).format("HH[h]mm") :
-            null;
+            moment().format("HH[h]mm");
         return (
             <View style={styles.mainContainer}>
                 <AppText style={styles.textContainer}>{this.props.chatData.message}</AppText>
