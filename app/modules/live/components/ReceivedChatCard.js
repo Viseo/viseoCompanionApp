@@ -26,7 +26,7 @@ export default class ReceivedChatCard extends Component {
 }
 
 ReceivedChatCard.propTypes = {
-    message: PropTypes.string.isRequired,
+    chatData: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({

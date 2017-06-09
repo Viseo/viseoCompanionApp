@@ -27,7 +27,7 @@ class LiveEvent extends Component {
 
     componentWillUnmount() {
         this.ws.close();
-        this.props.flushChatMessage();
+        // this.props.flushChatMessage();
     }
 
     render() {
@@ -67,8 +67,7 @@ class LiveEvent extends Component {
         const message = {
             type: 1,
             payload: {
-                //todo handle the last updated
-                lastUpdated: 0,
+                lastUpdated: this.props.lastUpdate,
                 eventId: eventId
             }
         }
@@ -130,9 +129,10 @@ class LiveEvent extends Component {
     }
 }
 
-const mapStateToProps = ({user}, ownProps) => {
+const mapStateToProps = ({user, live}, ownProps) => {
     return {
         user,
+        lastUpdate: live.lastUpdate,
         ...ownProps,
     }
 };
