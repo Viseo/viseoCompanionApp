@@ -205,8 +205,8 @@ export default class EventCard extends Component {
             screen: 'events.event',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
-                hostFirstName: this.props.host.firstName,
-                hostLastName: this.props.host.lastName,
+                hostFirstName: this.props.host.firstName || "Admin",
+                hostLastName: this.props.host.lastName || "",
                 id: this.props.id,
                 location: this.props.location,
                 name: this.props.name,

@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Platform, View, Dimensions, StyleSheet, ScrollView, Image} from "react-native";
+import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from "react-native";
 import AppText from "../global/AppText";
 import {bindActionCreators} from "redux";
 import {fetchEventParticipants} from "../../actionCreators/events";
@@ -9,7 +9,7 @@ import FlexImage from "../../components/FlexImage";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import colors from "../global/colors";
 import Avatar from "../../components/Avatar";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import strings from "../global/localizedStrings";
 import moment from "moment";
 import {defaultNavBarStyle} from "../global/navigatorStyle";
@@ -37,7 +37,7 @@ class PastEvent extends Component {
         this.state = {
             picture,
         };
-       this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentWillMount() {
@@ -82,9 +82,10 @@ class PastEvent extends Component {
     }
 
     renderMainInfo() {
-        const hostName = 'wafa';
-        const hostLastName = 'Salandre';
-        const hostAvatar = <Avatar firstName={hostName} lastName={hostLastName} style={{flex: 3}}/>;
+        const {hostFirstName, hostLastName} = this.props;
+        // const hostFirstName = this.props.host.firstName;
+        // const hostLastName = this.props.host.lastName;
+        const hostAvatar = <Avatar firstName={hostFirstName} lastName={hostLastName} style={{flex: 3}}/>;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const category = <AppText>{this.getCategoryNameFromId(this.props.category)}</AppText>;
         const categoryIndicator = (
@@ -99,7 +100,7 @@ class PastEvent extends Component {
                 <FlexImage source={require('./../../images/user.png')}/>
                 <ItemSpacer/>
                 <AppText style={{flex: 5, textAlign: 'left'}}>
-                    {this.props.username}
+                    {hostFirstName} {hostLastName}
                 </AppText>
             </View>
         );
@@ -211,7 +212,7 @@ class PastEvent extends Component {
     }
 
     onNavigatorEvent(event) {
-        if(event.id === 'showComments') {
+        if (event.id === 'showComments') {
             this._goToComments();
         }
     }
@@ -235,7 +236,8 @@ PastEvent.propTypes = {
     date: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     participants: PropTypes.number.isRequired,
-    username: PropTypes.string.isRequired,
+    hostFirstName: PropTypes.string.isRequired,
+    hostLastName: PropTypes.string.isRequired,
 };
 
 PastEvent.navigatorButtons = {
