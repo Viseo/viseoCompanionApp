@@ -2,7 +2,7 @@
  * Created by AAB3605 on 03/04/2017.
  */
 import settings from "../modules/global/settings";
-import {addEvent as pushEvent, deleteEventDb, getEventParticipants, updateEvent as updateEventDb} from "./../util/db";
+import {addEvent as pushEvent, deleteEventDb, getEventParticipants, updateEvent as updateEventDb} from "../modules/global/db";
 import PushController from "../util/pushController";
 import moment from "moment";
 

@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import {NavMenu, Platform, StyleSheet, View} from "react-native";
-import colors from "../modules/global/colors";
-import {dispatch} from "redux";
-import CommentsList from "../containers/CommentsList";
-import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
+import colors from "../global/colors";
+import {bindActionCreators, dispatch} from "redux";
+import CommentsList from "../../containers/CommentsList";
+import {defaultNavBarStyle} from "../global/navigatorStyle";
+import {getComments} from "../../actionCreators/comments";
+import {connect} from "react-redux";
 
-export default class Comments extends Component {
+class Comments extends Component {
 
     static defaultProps = {
         event: {id: 2}
@@ -42,6 +44,7 @@ export default class Comments extends Component {
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 eventId: this.props.eventId,
+                refresh: this.props.refresh,
             }
         });
     }
@@ -50,11 +53,22 @@ export default class Comments extends Component {
 Comments.navigatorButtons = {
     rightButtons: [
         {
-            icon: require('../images/navigation/add.png'),
+            icon: require('../../images/navigation/add.png'),
             id: 'addComment'
         },
     ],
 };
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        refresh: getComments
+    }, dispatch)
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Comments);
 
 const styles = StyleSheet.create({
     mainContainer: {
