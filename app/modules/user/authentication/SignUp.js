@@ -12,6 +12,8 @@ import PasswordCheckInput from './PasswordCheckInput';
 import {addUser, getUserByEmail} from '../../global/db';
 import {Navigation} from 'react-native-navigation';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
+import AppTextInput from "../../global/AppTextInput";
+import TextField from "react-native-md-textinput";
 
 class SignUp extends Component {
 
@@ -19,6 +21,8 @@ class SignUp extends Component {
         email: '',
         password: '',
         passwordCheck: '',
+        firstName:'',
+        lastName:'',
         errorMessage: '',
         hasSubmittedForm: false,
     };
@@ -32,19 +36,74 @@ class SignUp extends Component {
         const shouldDisplayErrorMessage = this.state.hasSubmittedForm && !this._isFormFilled();
         const errorMessage = shouldDisplayErrorMessage ? this._renderErrorMessage() : null;
         const signUpButton = this._renderSignUpButton();
+        const firstNameInput = this._renderFirstNameInput();
+        const lastNameInput = this._renderLastNameInput();
         return (
             <ScrollView contentContainerStyle={styles.mainContainer}>
                 {logo}
-                <EmailInput onEmailChange={email => this._setEmail(email)}/>
-                <PasswordInput onPasswordChange={password => this._setPassword(password)}/>
+                <EmailInput
+                    ref="email"
+                    onEmailChange={email => this._setEmail(email)}
+                    onSubmitEditing={ () => {
+                        this.refs.password.focus();
+                    }}
+                />
+                <PasswordInput
+                    ref="password"
+                    onPasswordChange={password => this._setPassword(password)}
+                    onSubmitEditing={ () => {
+                        this.refs.passwordCheck.focus();
+                    }}
+                />
                 <PasswordCheckInput
+                    ref="passwordCheck"
                     password={this.state.password}
                     onPasswordCheckChange={passwordCheck => this._setPasswordCheck(passwordCheck)}
+                    onSubmitEditing={ () => {
+                        this.refs.firstName.focus();
+                    }}
                 />
+                {firstNameInput}
+                {lastNameInput}
                 {errorMessage}
                 {signUpButton}
             </ScrollView>
         );
+    }
+
+    _renderFirstNameInput() {
+        return (
+            <TextField
+                ref="firstName"
+                label={'Prénom'}
+                style={{color: colors.mediumGray}}
+                highlightColor='#00BCD4'
+                value={this.state.firstName}
+                onChangeText={firstName => {
+                    this.setState({firstName});
+                }}
+                returnKeyType = {"next"}
+                onSubmitEditing={ () => {
+                    this.refs.lastName.focus();
+                }}
+            />
+        )
+    }
+
+    _renderLastNameInput() {
+        return (
+            <TextField
+                ref="lastName"
+                label={'Nom'}
+                style={{color: colors.mediumGray}}
+                highlightColor='#00BCD4'
+                value={this.state.lastName}
+                onChangeText={lastName => {
+                    this.setState({lastName});
+                }}
+                returnKeyType = {"done"}
+            />
+        )
     }
 
     _authenticatedNewUser(email, password) {
@@ -64,7 +123,7 @@ class SignUp extends Component {
 
     _renderLogo() {
         return (
-            <View style={{alignItems: 'center', paddingBottom: 50}}>
+            <View style={{alignItems: 'center', paddingBottom: 30}}>
                 <Image
                     source={require('../../../images/user/signUpLogo.png')}
                     style={{width: 110, height: 110}}
@@ -120,13 +179,13 @@ class SignUp extends Component {
         this.setState({hasSubmittedForm: true});
         if (this._isFormFilled()) {
             this.setState({errorMessage: ''});
-            const {email, password} = this.state;
+            const {email, password, firstName, lastName} = this.state;
             const userAlreadyExists = await getUserByEmail(email);
             if (userAlreadyExists) {
                 this.setState({errorMessage: strings.emailAlreadyUsed});
             } else {
                 const lowercaseEmail = email.toLowerCase();
-                let userAddedSuccessfully = await addUser(lowercaseEmail, password);
+                let userAddedSuccessfully = await addUser(lowercaseEmail, password, firstName, lastName);
                 if (userAddedSuccessfully) {
                     this._showSignUpSuccessfulPopUp(() => this._authenticatedNewUser(email, password));
                 } else {

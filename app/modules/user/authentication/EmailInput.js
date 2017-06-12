@@ -35,6 +35,7 @@ export default class EmailInput extends Component {
                     }}
                     returnKeyType = {"next"}
                     autoFocus = {true}
+                    onSubmitEditing = {this.props.onSubmitEditing}
                 />
                 {errorMessage}
             </View>

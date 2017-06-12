@@ -24,6 +24,7 @@ export default class PasswordInput extends Component {
         return (
             <View>
                 <TextField
+                    ref="passwordInput"
                     label={'Mot de passe'}
                     style={{color: colors.mediumGray}}
                     highlightColor={isValid ? '#00BCD4' : '#d41a0e'}
@@ -35,10 +36,15 @@ export default class PasswordInput extends Component {
                         this.props.onPasswordChange(password);
                     }}
                     returnKeyType={'next'}
+                    onSubmitEditing = {this.props.onSubmitEditing}
                 />
                 {errorMessage}
             </View>
         );
+    }
+
+    focus() {
+        this.refs.passwordInput.focus();
     }
 
     renderErrorMessage() {
