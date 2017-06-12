@@ -33,7 +33,7 @@ export default (state = [], action) => {
         case REMEMBER_USER:
             return {
                 ...state,
-                rememberUser: action.rememberUser,
+                rememberUser: action.shouldRemember,
             };
         case SIGN_OUT:
             return {

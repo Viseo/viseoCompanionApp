@@ -6,11 +6,12 @@ import strings from '../../global/localizedStrings';
 import AppText from '../../global/AppText';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {authenticate, rememberUser as toggleRememberUser} from '../../../actionCreators/user';
+import {authenticate, rememberUser as toggleRememberUser} from './authentication.actions';
 import colors from '../../global/colors';
 import PasswordCheckInput from './PasswordCheckInput';
 import {addUser, getUserByEmail} from '../../global/db';
 import {Navigation} from 'react-native-navigation';
+import {defaultNavBarStyle} from '../../global/navigatorStyle';
 
 class SignUp extends Component {
 
@@ -44,6 +45,11 @@ class SignUp extends Component {
                 {signUpButton}
             </ScrollView>
         );
+    }
+
+    _authenticatedNewUser(email, password) {
+        this.props.authenticate(email, password);
+        this.props.toggleRememberUser(true);
     }
 
     _isFormFilled() {
@@ -97,12 +103,15 @@ class SignUp extends Component {
         });
     }
 
-    _showSignUpSuccessfulPopUp() {
+    _showSignUpSuccessfulPopUp(onOk) {
         Navigation.showLightBox({
             screen: 'user.authentication.signUpSuccessfulPopup',
             style: {
                 backgroundBlur: 'dark',
                 backgroundColor: '#135caa70',
+            },
+            passProps: {
+                onOk,
             },
         });
     }
@@ -119,10 +128,7 @@ class SignUp extends Component {
                 const lowercaseEmail = email.toLowerCase();
                 let userAddedSuccessfully = await addUser(lowercaseEmail, password);
                 if (userAddedSuccessfully) {
-                    // todo remember user for next signin
-                    this.props.authenticate(email, password);
-                    this.props.toggleRememberUser(true);
-                    this._showSignUpSuccessfulPopUp();
+                    this._showSignUpSuccessfulPopUp(() => this._authenticatedNewUser(email, password));
                 } else {
                     this.setState({errorMessage: strings.unableToReachServer});
                 }

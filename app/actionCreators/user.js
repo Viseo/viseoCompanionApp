@@ -16,11 +16,6 @@ export const types = {
     RESET_PASSWORD_FAILURE: 'RESET_PASSWORD_FAILURE'
 };
 
-export const rememberUser = (shouldRemember) => ({
-    type: types.REMEMBER_USER,
-    shouldRemember
-});
-
 export const rememberUserWhenSignUp = (email, password) => ({
     type: types.REMEMBER_USER_WHEN_SIGNUP,
     email,

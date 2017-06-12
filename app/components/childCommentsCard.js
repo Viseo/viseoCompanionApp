@@ -27,7 +27,6 @@ export default class ChildCommentsCard extends Component {
 
     constructor(props) {
         super(props);
-
     }
 
     renderIcon = () => {
