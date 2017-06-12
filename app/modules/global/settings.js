@@ -1,8 +1,9 @@
+import {localhostIp} from './localConf';
+
 /////////// SERVER CONNECTION ////////////////
 
 // Localhost (set your localhost IP here)
 // The URL you want to use (should be either localhostURL or remoteURL)
-const localhostIp = '10.33.9.172';
 const localhostURL = 'http://' + localhostIp + ':8080/';
 
 // The server URL, you usually shouldn't have to change this
