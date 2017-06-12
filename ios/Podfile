@@ -7,10 +7,9 @@ target 'ViseoCompanion' do
 
   # Pods for ViseoCompanion
   pod 'Firebase/Messaging'
+  pod 'Fabric'
+  pod 'Crashlytics'
 
-  target 'ViseoCompanionTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  workspace 'project'
 
 end
