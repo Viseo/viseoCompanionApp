@@ -3,6 +3,7 @@ import {View, StyleSheet, Dimensions, Button} from 'react-native';
 import AppText from '../../global/AppText';
 import colors from '../../global/colors';
 import {startApp} from '../../global/navigationLoader';
+import PropTypes from 'prop-types';
 
 export default class SignUpSuccessfulPopup extends Component {
 
@@ -21,18 +22,18 @@ export default class SignUpSuccessfulPopup extends Component {
                     <Button
                         style={styles.button}
                         title={'OK'}
-                        onPress={() => this._navigateToHome()}
+                        onPress={() => this.props.onOk()}
                         color={colors.blue}
                     />
                 </View>
             </View>
         );
     }
-
-    _navigateToHome() {
-        startApp();
-    }
 }
+
+SignUpSuccessfulPopup.propTypes = {
+    onOk: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
     button: {
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     buttonBar: {
         flex: 2,
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     },
     container: {
         width: Dimensions.get('window').width * 0.7,
