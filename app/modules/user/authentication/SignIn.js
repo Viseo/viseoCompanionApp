@@ -28,19 +28,22 @@ class SignIn extends Component {
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
-    componentWillReceiveProps({isAuthenticated}) {
-        if (isAuthenticated) {
-            this._navigateToHome();
-        } else {
-            this.setState({
-                errorMessage: strings.wrongCredentials,
-            });
+    componentWillReceiveProps({isAuthenticated, isAuthenticating}) {
+        if (!isAuthenticating) {
+            if (isAuthenticated) {
+                this._navigateToHome();
+            }
+            else {
+                this.setState({
+                    errorMessage: strings.wrongCredentials,
+                });
+            }
         }
     }
 
     render() {
         const logo = this._renderLogo();
-        const shouldDisplayErrorMessage = this.state.hasSubmittedForm ;
+        const shouldDisplayErrorMessage = this.state.hasSubmittedForm;
         const errorMessage = shouldDisplayErrorMessage ? this._renderErrorMessage() : null;
         const signInButton = this._renderSignInButton();
         const rememberUserCheckBox = this._renderRememberUserCheckbox();
@@ -198,6 +201,7 @@ SignIn.navigatorButtons = {
 };
 
 const mapStateToProps = ({authentication}, ownProps) => ({
+    isAuthenticating: authentication.isAuthenticating,
     isAuthenticated: authentication.isAuthenticated,
     rememberUser: authentication.rememberUser,
     ...ownProps,

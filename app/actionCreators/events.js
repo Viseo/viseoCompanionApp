@@ -106,13 +106,13 @@ function getEventsFromJson(json) {
     return events
 }
 
-export const receiveEvents = (events) => ({
+const receiveEvents = (events) => ({
     type: types.RECEIVE_EVENTS,
     events,
     receivedAt: Date.now()
 });
 
-export const receiveEventsExpired = (events) => ({
+const receiveEventsExpired = (events) => ({
     type: types.RECEIVE_EVENTS_EXPIRED,
     events
 });
@@ -134,11 +134,11 @@ export const registerUser = (event, userId) => {
     }
 };
 
-export const requestEventsExpired = () => ({
+const requestEventsExpired = () => ({
     type: types.REQUEST_EVENTS_EXPIRED,
 });
 
-export const requestEvents = () => ({
+const requestEvents = () => ({
     type: types.REQUEST_EVENTS,
 });
 

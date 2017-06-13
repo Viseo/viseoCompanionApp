@@ -1,5 +1,6 @@
 export default {
     authentication: {
+        isAuthenticating: false,
         isAuthenticated: false,
         rememberUser: true,
         loggedUser: {
@@ -7,8 +8,8 @@ export default {
             password: '',
         }
     },
-    comments:{
-        commentsItems:[],
+    comments: {
+        commentsItems: [],
         isFetching: false,
     },
     events: {
