@@ -29,8 +29,9 @@ export default class EmailInput extends Component {
                     highlightColor={isValid ? '#00BCD4' : '#d41a0e'}
                     value={email}
                     onChangeText={email => {
-                        this._setEmail(email);
-                        email = this._isEmailValid(email) ? email : '';
+                        const isValid = this._isEmailValid(email);
+                        this._setEmail(email, isValid);
+                        email = isValid ? email : '';
                         this.props.onEmailChange(email);
                     }}
                     returnKeyType = {"next"}
@@ -53,8 +54,7 @@ export default class EmailInput extends Component {
         return regex.test(email);
     };
 
-    _setEmail(email) {
-        const isValid = this._isEmailValid(email);
+    _setEmail(email, isValid) {
         this.setState({email, isValid});
     };
 }

@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {fetchEvents, registerUser, unregisterUser} from '../../../actionCreators/events';
-import EventList from '../../events/components/EventList';
+import EventList from '../../events/EventList';
 import moment from 'moment';
 
 const containsString = (source, search, caseSensitive = false) => {

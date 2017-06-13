@@ -8,7 +8,7 @@ export default {
         }
     },
     comments:{
-        commentsItems:[],
+        items:[],
         isFetching: false,
     },
     events: {

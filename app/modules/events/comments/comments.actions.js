@@ -1,4 +1,4 @@
-import settings from "../modules/global/settings";
+import settings from "../../global/settings";
 
 export const types = {
     RECEIVE_COMMENTS: 'RECEIVE_COMMENTS',
@@ -14,26 +14,16 @@ export const receiveComments = (comments) => ({
     comments
 });
 
-export const getComments = (idEvent) => {
+export const getComments = (eventId) => {
     return async (dispatch) => {
         dispatch(requestComments());
         try {
-            // Fetch  comments By Event
-            let commentsResponse = await fetch(settings.api.getCommentsByEvent(idEvent));
+            let commentsResponse = await fetch(settings.api.getCommentsByEvent(eventId));
             let commentsJson = await commentsResponse.json();
             let comments = [];
             for (let i = 0; i < commentsJson.length; i++) {
-                let comment = commentsJson[i];
                 comments.push({
-                    id: comment.id,
-                    version: comment.version,
-                    content: comment.content,
-                    date: comment.datetime,
-                    writer: comment.writer,
-                    eventId: comment.eventId,
-                    children: comment.childComments,
-                    nbLike: comment.nbLike,
-                    likers: comment.likers,
+                    ...commentsJson[i]
                 });
             }
             dispatch(receiveComments(comments));

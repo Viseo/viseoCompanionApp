@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Swipeout from "react-native-swipe-out";
-import strings from "../../global/localizedStrings";
+import strings from "../global/localizedStrings";
 import Highlighter from "react-native-highlight-words";
-import * as util from "../../../util/util";
-import colors from "../../global/colors";
-import AppText from "../../global/AppText";
+import * as util from "../../util/util";
+import colors from "../global/colors";
+import AppText from "../global/AppText";
 import moment from "moment";
-import {defaultNavBarStyle} from "../../global/navigatorStyle";
+import {defaultNavBarStyle} from "../global/navigatorStyle";
 
 export default class EventCard extends Component {
 
@@ -17,7 +17,7 @@ export default class EventCard extends Component {
 
     getSwipeOption = () => {
         let textOption = this.props.participating ? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
-        let icon = this.props.participating ? require("../../../images/crossWhite.png") : require("../../../images/checkWhite.png");
+        let icon = this.props.participating ? require("../../images/crossWhite.png") : require("../../images/checkWhite.png");
         return [{
             component: <View className="participate" style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={icon} style={{width: 33, height: 33}}/>

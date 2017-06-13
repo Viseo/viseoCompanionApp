@@ -5,7 +5,7 @@ import {updateComment} from "../global/db";
 import moment from "moment";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {getComments} from "../../actionCreators/comments";
+import {getComments} from "./comments/comments.actions";
 
 class UpdateComment extends Component {
 

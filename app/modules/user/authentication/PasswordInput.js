@@ -30,8 +30,9 @@ export default class PasswordInput extends Component {
                     value={password}
                     secureTextEntry={true}
                     onChangeText={password => {
-                        this._setPassword(password);
-                        password = this._isPasswordValid(password) ? password : '';
+                        const isValid = this._isPasswordValid(password);
+                        this._setPassword(password, isValid);
+                        password = isValid ? password : '';
                         this.props.onPasswordChange(password);
                     }}
                     returnKeyType={'next'}
@@ -52,8 +53,7 @@ export default class PasswordInput extends Component {
         return password.length >= 6;
     };
 
-    _setPassword(password) {
-        const isValid = this._isPasswordValid(password);
+    _setPassword(password, isValid) {
         this.setState({password, isValid});
     };
 }
