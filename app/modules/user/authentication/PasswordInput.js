@@ -35,7 +35,7 @@ export default class PasswordInput extends Component {
                         password = this._isPasswordValid(password) ? password : '';
                         this.props.onPasswordChange(password);
                     }}
-                    returnKeyType={'next'}
+                    returnKeyType={this.props.returnKeyType || 'next'}
                     onSubmitEditing = {this.props.onSubmitEditing}
                 />
                 {errorMessage}
@@ -66,6 +66,8 @@ export default class PasswordInput extends Component {
 
 PasswordInput.propTypes = {
     onPasswordChange: PropTypes.func.isRequired,
+    returnKeyType: PropTypes.string,
+    onSubmitEditing: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

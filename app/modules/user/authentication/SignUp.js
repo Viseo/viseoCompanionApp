@@ -1,18 +1,16 @@
-import React, {Component} from 'react';
-import {Button, Image, ScrollView, StyleSheet, View} from 'react-native';
-import EmailInput from './EmailInput';
-import PasswordInput from './PasswordInput';
-import strings from '../../global/localizedStrings';
-import AppText from '../../global/AppText';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {authenticate, rememberUser as toggleRememberUser} from './authentication.actions';
-import colors from '../../global/colors';
-import PasswordCheckInput from './PasswordCheckInput';
-import {addUser, getUserByEmail} from '../../global/db';
-import {Navigation} from 'react-native-navigation';
-import {defaultNavBarStyle} from '../../global/navigatorStyle';
-import AppTextInput from "../../global/AppTextInput";
+import React, {Component} from "react";
+import {Button, Image, ScrollView, StyleSheet, View} from "react-native";
+import EmailInput from "./EmailInput";
+import PasswordInput from "./PasswordInput";
+import strings from "../../global/localizedStrings";
+import AppText from "../../global/AppText";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {authenticate, rememberUser as toggleRememberUser} from "./authentication.actions";
+import colors from "../../global/colors";
+import PasswordCheckInput from "./PasswordCheckInput";
+import {addUser, getUserByEmail} from "../../global/db";
+import {Navigation} from "react-native-navigation";
 import TextField from "react-native-md-textinput";
 
 class SignUp extends Component {
@@ -21,8 +19,8 @@ class SignUp extends Component {
         email: '',
         password: '',
         passwordCheck: '',
-        firstName:'',
-        lastName:'',
+        firstName: '',
+        lastName: '',
         errorMessage: '',
         hasSubmittedForm: false,
     };
@@ -33,7 +31,7 @@ class SignUp extends Component {
 
     render() {
         const logo = this._renderLogo();
-        const shouldDisplayErrorMessage = this.state.hasSubmittedForm && !this._isFormFilled();
+        const shouldDisplayErrorMessage = this.state.hasSubmittedForm;
         const errorMessage = shouldDisplayErrorMessage ? this._renderErrorMessage() : null;
         const signUpButton = this._renderSignUpButton();
         const firstNameInput = this._renderFirstNameInput();
@@ -45,6 +43,7 @@ class SignUp extends Component {
                     ref="email"
                     onEmailChange={email => this._setEmail(email)}
                     onSubmitEditing={ () => {
+                        this._autoSubmitWhenFilled();
                         this.refs.password.focus();
                     }}
                 />
@@ -52,6 +51,7 @@ class SignUp extends Component {
                     ref="password"
                     onPasswordChange={password => this._setPassword(password)}
                     onSubmitEditing={ () => {
+                        this._autoSubmitWhenFilled();
                         this.refs.passwordCheck.focus();
                     }}
                 />
@@ -60,6 +60,7 @@ class SignUp extends Component {
                     password={this.state.password}
                     onPasswordCheckChange={passwordCheck => this._setPasswordCheck(passwordCheck)}
                     onSubmitEditing={ () => {
+                        this._autoSubmitWhenFilled();
                         this.refs.firstName.focus();
                     }}
                 />
@@ -82,8 +83,9 @@ class SignUp extends Component {
                 onChangeText={firstName => {
                     this.setState({firstName});
                 }}
-                returnKeyType = {"next"}
+                returnKeyType={"next"}
                 onSubmitEditing={ () => {
+                    this._autoSubmitWhenFilled();
                     this.refs.lastName.focus();
                 }}
             />
@@ -101,7 +103,10 @@ class SignUp extends Component {
                 onChangeText={lastName => {
                     this.setState({lastName});
                 }}
-                returnKeyType = {"done"}
+                returnKeyType={"done"}
+                onSubmitEditing={ () => {
+                    this._autoSubmitWhenFilled();
+                }}
             />
         )
     }
@@ -114,7 +119,10 @@ class SignUp extends Component {
     _isFormFilled() {
         return this.state.email
             && this.state.password
-            && this.state.passwordCheck;
+            && this.state.passwordCheck
+            && this.state.firstName
+            && this.state.lastName
+            || this.setState({errorMessage: strings.missingFormFields});
     }
 
     _renderErrorMessage() {
@@ -123,7 +131,7 @@ class SignUp extends Component {
 
     _renderLogo() {
         return (
-            <View style={{alignItems: 'center', paddingBottom: 30}}>
+            <View style={{alignItems: 'center', paddingVertical: 10}}>
                 <Image
                     source={require('../../../images/user/signUpLogo.png')}
                     style={{width: 110, height: 110}}
@@ -148,6 +156,7 @@ class SignUp extends Component {
         this.setState({
             email,
         });
+        this._autoCompleteName(email);
     }
 
     _setPassword(password) {
@@ -173,6 +182,26 @@ class SignUp extends Component {
                 onOk,
             },
         });
+    }
+
+    _autoSubmitWhenFilled() {
+        if (this._isFormFilled()) {
+            this._signUp();
+        }
+    }
+
+    _autoCompleteName(email) {
+        const regex = /(\w*).(\w*)@viseo.com/;
+        const match = regex.exec(email);
+        if (match)
+            this.setState({
+                firstName: this._capitalizeFirstLetter(match[1]),
+                lastName: this._capitalizeFirstLetter(match[2])
+            });
+    }
+
+    _capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     async _signUp() {
@@ -213,13 +242,13 @@ export default connect(
 const styles = StyleSheet.create({
     errorInfo: {
         textAlign: 'center',
-        fontSize: 12,
+        fontSize: 13,
         color: 'brown',
         fontStyle: 'italic',
     },
     mainContainer: {
         paddingHorizontal: 60,
-        paddingTop: 30,
+        paddingTop: 0,
         backgroundColor: 'white',
     },
     rememberPasswordLink: {

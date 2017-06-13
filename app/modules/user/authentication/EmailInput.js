@@ -33,7 +33,7 @@ export default class EmailInput extends Component {
                         email = this._isEmailValid(email) ? email : '';
                         this.props.onEmailChange(email);
                     }}
-                    returnKeyType = {"next"}
+                    returnKeyType={this.props.returnKeyType || 'next'}
                     autoFocus = {true}
                     onSubmitEditing = {this.props.onSubmitEditing}
                 />
@@ -61,6 +61,8 @@ export default class EmailInput extends Component {
 }
 EmailInput.propTypes = {
     onEmailChange: PropTypes.func.isRequired,
+    returnKeyType: PropTypes.string,
+    onSubmitEditing: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
