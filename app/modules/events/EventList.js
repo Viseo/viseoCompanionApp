@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
-import {ListView, RefreshControl, View} from 'react-native';
-import EventCard from './EventCard';
-import AppText from '../global/AppText';
-import moment from 'moment';
-import colors from '../global/colors';
-import {defaultNavBarStyle} from '../global/navigatorStyle';
+import React, {Component} from "react";
+import {ListView, RefreshControl, View} from "react-native";
+import EventCard from "./EventCard";
+import AppText from "../global/AppText";
+import moment from "moment";
+import colors from "../global/colors";
 
 export default class EventList extends Component {
 

@@ -11,7 +11,7 @@ export async function callWithTimeout(func, onServerTimeout) {
     let timeoutPromise = new Promise((resolve, reject) => {
         setTimeout(() => {
             reject();
-        }, serverTimeout)
+        }, serverTimeout);
     });
     let race = Promise.race([funcPromise, timeoutPromise]);
     race.catch(() => {
@@ -76,14 +76,16 @@ export async function addEventParticipant(eventId, userId) {
                 'Content-Type': 'application/json',
             },
         });
-        let responseJson = await response.json();
-        if (responseJson) {
-            return true;
+        if (response.headers.get('content-length') != 0) {
+            let event = await response.json();
+            if (event) {
+                return event;
+            }
         }
+        return null;
     } catch (error) {
         console.warn('db::addEventParticipant ' + error);
     }
-    return false;
 }
 
 export async function addUser(email, password, firstName, lastName) {
@@ -97,7 +99,7 @@ export async function addUser(email, password, firstName, lastName) {
                 email,
                 password,
                 firstName,
-                lastName
+                lastName,
             }),
         });
 
@@ -117,17 +119,17 @@ export async function updateUser(user) {
         let response = await fetch(settings.api.updateUser, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "id": user.id,
-                "version": user.version,
-                "email": user.email,
-                "firstName": user.firstName,
-                "lastName": user.lastName,
-                "password": user.password,
-                "roles": user.roles
-            })
+                'id': user.id,
+                'version': user.version,
+                'email': user.email,
+                'firstName': user.firstName,
+                'lastName': user.lastName,
+                'password': user.password,
+                'roles': user.roles,
+            }),
         });
         return await response.json();
     } catch (error) {
@@ -311,7 +313,6 @@ export async function removeEventParticipant(eventId, userId) {
     return false;
 }
 
-
 export async function addLike(commentId, userId) {
     try {
 
@@ -363,7 +364,6 @@ export async function deleteCommentDb(commentId) {
     }
 }
 
-
 export async function updateEvent(event) {
     try {
 
@@ -414,11 +414,11 @@ export async function updateComment(comment) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "id": comment.id,
-                "version": comment.version,
-                "content": comment.content,
-                "datetime": comment.datetime,
-            })
+                'id': comment.id,
+                'version': comment.version,
+                'content': comment.content,
+                'datetime': comment.datetime,
+            }),
         });
         if (response)
             return true;

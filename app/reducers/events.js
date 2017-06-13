@@ -37,20 +37,6 @@ const events = (state = {
                     event(undefined, action)
                 ]
             });
-        case types.ADD_EVENTS: {
-            let events = action.events.map(e => {
-                return event(undefined, {
-                    type: types.ADD_EVENT,
-                    ...e
-                })
-            });
-            return Object.assign({}, state, {
-                items: [
-                    ...state.items,
-                    ...events
-                ]
-            })
-        }
         case types.FETCH_EVENTS_FAILED:
             return Object.assign({}, state, {
                 isFetching: false,
@@ -72,6 +58,7 @@ const events = (state = {
                 didInvalidate: false,
                 itemsExpired: action.events
             });
+
         case types.REGISTER_USER: {
             let eventToRegisterFor = state.items.find(event => event.id === action.eventId);
             if (!eventToRegisterFor) {
@@ -92,6 +79,7 @@ const events = (state = {
                 })
             })
         }
+
         case types.REMOVE_EVENT: {
             let eventToRemove = state.items.findIndex(event => {
                 return event.id === action.id
