@@ -20,12 +20,14 @@ export default class ChatInput extends Component {
                     style={styles.textInput}
                     onChangeText={(text) => this._onChangeText(text)}
                     value={this.state.text}
+                    onSubmitEditing={() => {
+                        this._sendMessage();
+                    }}
                 />
                 <TouchableOpacity
                     style={styles.sendButton}
                     onPress={() => {
-                        this.props.sendMessage(this.state.text);
-                        this.setState({text: ""});
+                        this._sendMessage();
                     }}
                 >
                     <Icon name="paper-plane" style={{fontSize: 20}}/>
@@ -39,10 +41,16 @@ export default class ChatInput extends Component {
             text,
         })
     }
+
+    _sendMessage() {
+        this.props.sendMessage(this.state.text);
+        this.setState({text: ""});
+    }
 }
 
 ChatInput.propTypes = {
     navigator: PropTypes.object.isRequired,
+    sendMessage: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({

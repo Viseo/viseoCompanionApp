@@ -38,6 +38,7 @@ class AppTextInput extends Component {
                         onChangeText(value);
                     }}
                     secureTextEntry={secureTextEntry}
+                    onSubmitEditing={this.props.onSubmitEditing}
                     {...this.props.passProps}
                 />
                 {errorMessage}
@@ -60,11 +61,11 @@ AppTextInput.defaultProps = {
     label: '',
     validator: () => {return true;},
     onChangeText: () => {},
+    onSubmitEditing: () => {},
     invalidTextMessage: 'Veuillez remplir ce champ.',
     value: '',
     secureTextEntry: false,
     style: {},
-    passProps: {},
 };
 
 AppTextInput.propTypes = {
@@ -77,6 +78,7 @@ AppTextInput.propTypes = {
     secureTextEntry: PropTypes.bool,
     style: PropTypes.object,
     passProps: PropTypes.object,
+    onSubmitEditing: PropTypes.func
 };
 
 export default AppTextInput;
