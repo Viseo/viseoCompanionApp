@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {Button, ScrollView, StyleSheet} from "react-native";
-import AppTextInput from "../global/AppTextInput";
-import {addChildComment} from "../global/db";
-import moment from "moment";
+import React, {Component} from 'react';
+import {StyleSheet, ScrollView, Button} from 'react-native';
+import AppTextInput from '../../global/AppTextInput';
+import {addChildComment} from '../../global/db';
+import moment from 'moment';
 import PropTypes from "prop-types";
 
 export default class CreateChildComment extends Component {

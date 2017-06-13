@@ -19,6 +19,7 @@ class SplashScreen extends Component {
     state = {
         isAuthenticatingSavedUser: false,
         preventSplashScreenFromClosing: false,
+        isOn: false,
     };
 
     constructor(props) {

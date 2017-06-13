@@ -6,9 +6,9 @@ import CreateEvent from "./CreateEvent";
 import Event from './Event';
 import UpdateComment from "./UpdateComment";
 import LiveEvent from "../live/LiveEvent";
-import CreateComment from './CreateComment';
-import CreateChildComment from './CreateChildComment';
-import Comments from './Comments';
+import CreateComment from './comments/CreateComment';
+import CreateChildComment from './comments/CreateChildComment';
+import Comments from './comments/Comments';
 
 export default function(store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);

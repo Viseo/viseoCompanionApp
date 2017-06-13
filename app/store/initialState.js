@@ -8,8 +8,8 @@ export default {
             password: '',
         }
     },
-    comments: {
-        commentsItems: [],
+    comments:{
+        items:[],
         isFetching: false,
     },
     events: {

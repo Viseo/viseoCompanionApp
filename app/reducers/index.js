@@ -4,7 +4,7 @@ import filters from "./filters";
 import events from "./events";
 import searchWords from "./searchWords";
 import user from "../modules/user/user.reducer";
-import comments from "./comments";
+import comments from "../modules/events/comments/comments.reducers";
 
 const viseoCompanionApp = combineReducers({
     events,

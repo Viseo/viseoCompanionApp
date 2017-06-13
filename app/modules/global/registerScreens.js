@@ -1,6 +1,6 @@
 import { Navigation } from 'react-native-navigation';
-import Comments from "../events/Comments";
-import CreateComment from "../events/CreateComment";
+import Comments from "../events/comments/Comments";
+import CreateComment from "../events/comments/CreateComment";
 import registerAppLoader from '../appLoader/registerScreens';
 import registerEventsModule from '../events/registerScreens';
 import registerNewsFeedModule from '../newsFeed/registerScreens';
