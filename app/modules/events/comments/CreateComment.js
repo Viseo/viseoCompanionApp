@@ -67,6 +67,7 @@ CreateComment.propTypes = {
 
 const styles = StyleSheet.create({
     mainContainer: {
+        backgroundColor: 'white',
         paddingHorizontal: 15,
     },
 });
