@@ -94,6 +94,10 @@ export default class EventListExp extends Component {
     }
     renderEventCardExp = (event) => {
         let [day, time] = this.formatDate(event.date);
+        let userId=this.props.user.id;
+        let participating = event.participants.filter(function(element) {
+                return element.id==userId;
+            }).length>0;
         return (
             <EventCardExp
                 name={event.name}
@@ -112,7 +116,7 @@ export default class EventListExp extends Component {
                             id: event.id,
                             hostFirstName: event.host ? event.host.firstName : "Admin",
                             hostLastName: event.host ? event.host.lastName : "",
-                            participating: event.participating
+                            participating: participating
                         }
                     });
                 }}

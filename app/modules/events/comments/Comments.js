@@ -42,7 +42,7 @@ class Comments extends Component {
     }
 
     onNavigatorEvent(event) {
-        if (event.id === 'addComment') {
+        if (event.id === 'addComment' && this.props.participating) {
             this._goToAddComment();
         }
     }
@@ -191,15 +191,6 @@ class Comments extends Component {
 
 Comments.propTypes = {
     eventId: PropTypes.number.isRequired,
-};
-
-Comments.navigatorButtons = {
-    rightButtons: [
-        {
-            icon: require('../../../images/navigation/add.png'),
-            id: 'addComment',
-        },
-    ],
 };
 
 const mapStateToProps = ({user, comments, events}, ownProps) => ({
