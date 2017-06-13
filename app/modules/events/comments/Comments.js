@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {ListView, RefreshControl, StyleSheet, Text, View} from 'react-native';
+import {FlatList, RefreshControl, StyleSheet, Text, View} from 'react-native';
 import colors from '../../global/colors';
 import {bindActionCreators, dispatch} from 'redux';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import {getComments} from './comments.actions';
 import {connect} from 'react-redux';
-import {compareListViewRows} from '../../global/util';
 import AppText from '../../global/AppText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
@@ -16,7 +15,6 @@ class Comments extends Component {
 
     constructor(props) {
         super(props);
-        this._initCommentList();
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
@@ -24,54 +22,21 @@ class Comments extends Component {
         this.props.refresh(this.props.eventId);
     }
 
-    componentWillReceiveProps({comments}) {
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(comments),
-        });
-    }
-
     render() {
         const commentsList = (
-            <ListView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.props.refreshing}
-                        onRefresh={() => {
-                            this.props.refresh(this.props.eventId);
-                        }}
-                    />
-                }
-                scrollEventThrottle={200}
-                enableEmptySections={true}
-                dataSource={this.state.dataSource}
-                renderRow={(comment) => this._renderCommentCard(comment)}
+            <FlatList
+                data={this.props.comments}
+                keyExtractor={(comment, index) => comment.id}
+                renderItem={({item}) => this._renderCommentCard(item)}
+                onRefresh={() => this.props.refresh(this.props.eventId)}
+                ListEmptyComponent={() => {return this._renderEmptyCommentCard()}}
+                refreshing={this.props.refreshing}
             />
-        );
-        const nothingToShow = (
-            <View style={{top: -440}}>
-                <AppText
-                    style={{
-                        textAlign: 'center',
-                        color: colors.mediumGray,
-                        backgroundColor: 'white',
-                        height: 50,
-                        borderRadius: 4,
-                        textAlignVertical: 'center',
-                        fontSize: 18,
-                    }}
-                >
-                    Aucun commentaire.
-                </AppText>
-            </View>
         );
         return (
             <View style={styles.mainContainer}>
                 {this._renderEventInfo()}
-                {
-                    this.state.dataSource.getRowCount() > 0 || this.props.refreshing ?
-                        commentsList :
-                        nothingToShow
-                }
+                {commentsList}
             </View>
         );
     }
@@ -100,15 +65,6 @@ class Comments extends Component {
                 user: this.props.user,
             },
         });
-    }
-
-    _initCommentList() {
-        const ds = new ListView.DataSource({
-            rowHasChanged: compareListViewRows,
-        });
-        this.state = {
-            dataSource: ds.cloneWithRows(this.props.comments),
-        };
     }
 
     _renderAvis() {
@@ -183,7 +139,28 @@ class Comments extends Component {
                 {commentChildren}
             </View>
         );
-    };
+    }
+
+    _renderEmptyCommentCard() {
+        return (
+            <View>
+                <AppText
+                    style={{
+                        textAlign: 'center',
+                        color: colors.mediumGray,
+                        backgroundColor: 'white',
+                        height: 50,
+                        borderRadius: 4,
+                        textAlignVertical: 'center',
+                        fontSize: 18,
+                        marginTop: 10,
+                    }}
+                >
+                    Aucun commentaire.
+                </AppText>
+            </View>
+        );
+    }
 
     _renderEventInfo() {
         return (
@@ -259,5 +236,5 @@ const styles = StyleSheet.create({
         borderColor: colors.blue,
         marginTop: 10,
         marginLeft: 15,
-    }
+    },
 });
