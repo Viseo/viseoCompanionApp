@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
-import {StyleSheet, ScrollView, Button} from "react-native";
+import React, {Component} from "react";
+import {Button, ScrollView, StyleSheet} from "react-native";
 import AppTextInput from "../global/AppTextInput";
 import {addComment} from "../global/db";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 export default class CreateComment extends Component {
 
@@ -15,36 +16,35 @@ export default class CreateComment extends Component {
     }
 
     render() {
-        const renderButtons =
+        const submitButton =
             (<Button
                 style={{width: 200, height: 100}}
                 title="Envoyer"
                 onPress={() => {
-                    this.sendComment();
-                    //this.props.refresh(this.props.eventId);
+                    this._sendComment();
                 }}
             />);
-
         return (
             <ScrollView contentContainerStyle={styles.mainContainer}>
                 <AppTextInput
                     label="Votre commentaire"
-                    validator={(text) => this.isNonEmpty(text)}
+                    validator={(text) => this._isNonEmpty(text)}
                     value={this.state.comment}
                     onChangeText={(comment) => this.setState({comment})}
+                    onSubmitEditing={ () => {
+                        this._sendComment();
+                    }}
                 />
-                {renderButtons}
+                {submitButton}
             </ScrollView>
         );
     }
 
-
-    isNonEmpty(text) {
+    _isNonEmpty(text) {
         return text.length > 0;
     }
 
-
-    async sendComment() {
+    async _sendComment() {
         const comment = {
             content: this.state.comment,
             datetime: moment().valueOf(),
@@ -57,9 +57,12 @@ export default class CreateComment extends Component {
         this.props.navigator.pop();
         this.props.refresh(this.props.eventId);
     }
+}
 
-
-
+CreateComment.propTypes = {
+    user: PropTypes.object.isRequired,
+    eventId: PropTypes.number.isRequired,
+    refresh: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({
