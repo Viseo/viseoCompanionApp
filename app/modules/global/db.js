@@ -125,7 +125,8 @@ export async function updateUser(user) {
                 "email": user.email,
                 "firstName": user.firstName,
                 "lastName": user.lastName,
-                "password": user.password
+                "password": user.password,
+                "roles": user.roles
             })
         });
         return await response.json();
