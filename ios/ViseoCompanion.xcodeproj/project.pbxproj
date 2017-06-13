@@ -32,12 +32,6 @@
 		B3341B931E89654900378497 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3341B911E89654900378497 /* Crashlytics.framework */; };
 		B372B5AB1EA6829000F8BC22 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B372B5A91EA6723800F8BC22 /* libRNFIRMessaging.a */; };
 		B372B5AC1EA6829B00F8BC22 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3E832E21E5C9AB200055D3A /* libRNVectorIcons.a */; };
-		B372B5B21EA755B200F8BC22 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B372B5AE1EA755B200F8BC22 /* FirebaseAnalytics.framework */; };
-		B372B5B31EA755B200F8BC22 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B372B5AF1EA755B200F8BC22 /* FirebaseCore.framework */; };
-		B372B5B41EA755B200F8BC22 /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B372B5B01EA755B200F8BC22 /* FirebaseInstanceID.framework */; };
-		B372B5B51EA755B200F8BC22 /* GoogleToolboxForMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B372B5B11EA755B200F8BC22 /* GoogleToolboxForMac.framework */; };
-		B372B5B81EA755BC00F8BC22 /* FirebaseMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B372B5B61EA755BC00F8BC22 /* FirebaseMessaging.framework */; };
-		B372B5B91EA755BC00F8BC22 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B372B5B71EA755BC00F8BC22 /* Protobuf.framework */; };
 		B372B5BC1EA7682D00F8BC22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B372B5BB1EA7682D00F8BC22 /* GoogleService-Info.plist */; };
 		B372B5BD1EA7682D00F8BC22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B372B5BB1EA7682D00F8BC22 /* GoogleService-Info.plist */; };
 		B372B5BF1EA8A6F000F8BC22 /* ViseoCompanion.png in Resources */ = {isa = PBXBuildFile; fileRef = B372B5BE1EA8A6F000F8BC22 /* ViseoCompanion.png */; };
@@ -279,15 +273,10 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		83E63129D242479DA420C38D /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		84F5E96E5B087AE016E9BBFF /* Pods-ViseoCompanion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViseoCompanion.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ViseoCompanion/Pods-ViseoCompanion.debug.xcconfig"; sourceTree = "<group>"; };
 		B3341B901E89654900378497 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		B3341B911E89654900378497 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		B35EE6C21E893B2700112B71 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		B372B5AE1EA755B200F8BC22 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = ../../../Downloads/Firebase/Analytics/FirebaseAnalytics.framework; sourceTree = "<group>"; };
-		B372B5AF1EA755B200F8BC22 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = ../../../Downloads/Firebase/Analytics/FirebaseCore.framework; sourceTree = "<group>"; };
-		B372B5B01EA755B200F8BC22 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = ../../../Downloads/Firebase/Analytics/FirebaseInstanceID.framework; sourceTree = "<group>"; };
-		B372B5B11EA755B200F8BC22 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = ../../../Downloads/Firebase/Analytics/GoogleToolboxForMac.framework; sourceTree = "<group>"; };
-		B372B5B61EA755BC00F8BC22 /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseMessaging.framework; path = ../../../Downloads/Firebase/Messaging/FirebaseMessaging.framework; sourceTree = "<group>"; };
-		B372B5B71EA755BC00F8BC22 /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Protobuf.framework; path = ../../../Downloads/Firebase/Messaging/Protobuf.framework; sourceTree = "<group>"; };
 		B372B5BA1EA760AE00F8BC22 /* ViseoCompanion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ViseoCompanion.entitlements; path = ViseoCompanion/ViseoCompanion.entitlements; sourceTree = "<group>"; };
 		B372B5BB1EA7682D00F8BC22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B372B5BE1EA8A6F000F8BC22 /* ViseoCompanion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ViseoCompanion.png; sourceTree = "<group>"; };
@@ -296,6 +285,7 @@
 		E57E57391A5C4ACDA2495BB6 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		EAF3AABC0DAB49F084354F35 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		ECAA02D42C2344F486A4956E /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		FD9DEABA21EB6A0B389BE405 /* Pods-ViseoCompanion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViseoCompanion.release.xcconfig"; path = "Pods/Target Support Files/Pods-ViseoCompanion/Pods-ViseoCompanion.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,20 +301,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B372B5B81EA755BC00F8BC22 /* FirebaseMessaging.framework in Frameworks */,
-				B372B5B91EA755BC00F8BC22 /* Protobuf.framework in Frameworks */,
-				B372B5B21EA755B200F8BC22 /* FirebaseAnalytics.framework in Frameworks */,
-				B372B5B31EA755B200F8BC22 /* FirebaseCore.framework in Frameworks */,
-				B372B5B41EA755B200F8BC22 /* FirebaseInstanceID.framework in Frameworks */,
-				B372B5B51EA755B200F8BC22 /* GoogleToolboxForMac.framework in Frameworks */,
 				B3341B931E89654900378497 /* Crashlytics.framework in Frameworks */,
+				B3341B921E89654900378497 /* Fabric.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
-				B3341B921E89654900378497 /* Fabric.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
@@ -451,7 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */,
-				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation-tvOS.a */,
+				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -503,6 +487,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				98C28657925444B7B0565D25 /* Resources */,
 				B372B5AD1EA755B200F8BC22 /* Frameworks */,
+				D2EE20F800A08FB7A7883676 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -547,12 +532,6 @@
 		B372B5AD1EA755B200F8BC22 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B372B5B61EA755BC00F8BC22 /* FirebaseMessaging.framework */,
-				B372B5B71EA755BC00F8BC22 /* Protobuf.framework */,
-				B372B5AE1EA755B200F8BC22 /* FirebaseAnalytics.framework */,
-				B372B5AF1EA755B200F8BC22 /* FirebaseCore.framework */,
-				B372B5B01EA755B200F8BC22 /* FirebaseInstanceID.framework */,
-				B372B5B11EA755B200F8BC22 /* GoogleToolboxForMac.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -563,6 +542,15 @@
 				B3E832E21E5C9AB200055D3A /* libRNVectorIcons.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D2EE20F800A08FB7A7883676 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				84F5E96E5B087AE016E9BBFF /* Pods-ViseoCompanion.debug.xcconfig */,
+				FD9DEABA21EB6A0B389BE405 /* Pods-ViseoCompanion.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -590,11 +578,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ViseoCompanion" */;
 			buildPhases = (
+				9AFC2DBAA887EBB5104A9DFF /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				B3341B8F1E89644100378497 /* ShellScript */,
+				309243A338DC98183D5F9FD3 /* [CP] Embed Pods Frameworks */,
+				81ECB6783AFA0F03697A0205 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -865,10 +856,10 @@
 			remoteRef = 5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		5E9157351DD0AC6500FF2AA8 /* libRCTAnimation-tvOS.a */ = {
+		5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libRCTAnimation-tvOS.a";
+			path = libRCTAnimation.a;
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -949,6 +940,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+		};
+		309243A338DC98183D5F9FD3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ViseoCompanion/Pods-ViseoCompanion-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		81ECB6783AFA0F03697A0205 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ViseoCompanion/Pods-ViseoCompanion-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9AFC2DBAA887EBB5104A9DFF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 		B3341B8F1E89644100378497 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1060,6 +1096,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84F5E96E5B087AE016E9BBFF /* Pods-ViseoCompanion.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ViseoCompanion/ViseoCompanion.entitlements;
@@ -1090,6 +1127,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD9DEABA21EB6A0B389BE405 /* Pods-ViseoCompanion.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ViseoCompanion/ViseoCompanion.entitlements;

@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from 'react-native';
-import EmailInput from './EmailInput';
-import PasswordInput from './PasswordInput';
-import strings from '../../global/localizedStrings';
-import AppText from '../../global/AppText';
-import {authenticate} from './authentication.actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {startApp} from '../../global/navigationLoader';
-import CheckBox from 'react-native-check-box';
-import {rememberUser as toggleRememberUser} from '../../../actionCreators/user';
-import {defaultNavBarStyle} from '../../global/navigatorStyle';
-import colors from '../../global/colors';
-import {doServerCall} from '../../global/db';
+import React, {Component} from "react";
+import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
+import EmailInput from "./EmailInput";
+import PasswordInput from "./PasswordInput";
+import strings from "../../global/localizedStrings";
+import AppText from "../../global/AppText";
+import {authenticate} from "./authentication.actions";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {startApp} from "../../global/navigationLoader";
+import CheckBox from "react-native-check-box";
+import {rememberUser as toggleRememberUser} from "../../../actionCreators/user";
+import {defaultNavBarStyle} from "../../global/navigatorStyle";
+import colors from "../../global/colors";
+import {doServerCall} from "../../global/db";
 
 class SignIn extends Component {
 
@@ -28,19 +28,22 @@ class SignIn extends Component {
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
-    componentWillReceiveProps({isAuthenticated}) {
-        if (isAuthenticated) {
-            this._navigateToHome();
-        } else {
-            this.setState({
-                errorMessage: strings.wrongCredentials,
-            });
+    componentWillReceiveProps({isAuthenticated, isAuthenticating}) {
+        if (!isAuthenticating) {
+            if (isAuthenticated) {
+                this._navigateToHome();
+            }
+            else {
+                this.setState({
+                    errorMessage: strings.wrongCredentials,
+                });
+            }
         }
     }
 
     render() {
         const logo = this._renderLogo();
-        const shouldDisplayErrorMessage = this.state.hasSubmittedForm && !this._isFormFilled();
+        const shouldDisplayErrorMessage = this.state.hasSubmittedForm;
         const errorMessage = shouldDisplayErrorMessage ? this._renderErrorMessage() : null;
         const signInButton = this._renderSignInButton();
         const rememberUserCheckBox = this._renderRememberUserCheckbox();
@@ -48,8 +51,21 @@ class SignIn extends Component {
         return (
             <ScrollView contentContainerStyle={styles.mainContainer}>
                 {logo}
-                <EmailInput onEmailChange={email => this._setEmail(email)}/>
-                <PasswordInput onPasswordChange={password => this._setPassword(password)}/>
+                <EmailInput
+                    onEmailChange={email => this._setEmail(email)}
+                    onSubmitEditing={ () => {
+                        this._autoSubmitWhenFilled();
+                        this.refs.password.focus();
+                    }}
+                />
+                <PasswordInput
+                    ref="password"
+                    onPasswordChange={password => this._setPassword(password)}
+                    returnKeyType="done"
+                    onSubmitEditing={ () => {
+                        this._autoSubmitWhenFilled();
+                    }}
+                />
                 <View style={{flexDirection: 'row', flex: 1}}>
                     {rememberUserCheckBox}
                     {recoverPasswordLink}
@@ -68,7 +84,8 @@ class SignIn extends Component {
 
     _isFormFilled() {
         return this.state.email
-            && this.state.password;
+            && this.state.password
+            || this.setState({errorMessage: strings.missingFormFields});
     }
 
     _navigateToHome() {
@@ -151,9 +168,16 @@ class SignIn extends Component {
         });
     }
 
+    _autoSubmitWhenFilled() {
+        if (this._isFormFilled()) {
+            this._signIn();
+        }
+    }
+
     _signIn() {
         this.setState({hasSubmittedForm: true});
         if (this._isFormFilled()) {
+            this.setState({errorMessage: ""})
             const {email, password} = this.state;
             doServerCall(() => this.props.authenticate(email, password));
         }
@@ -177,6 +201,7 @@ SignIn.navigatorButtons = {
 };
 
 const mapStateToProps = ({authentication}, ownProps) => ({
+    isAuthenticating: authentication.isAuthenticating,
     isAuthenticated: authentication.isAuthenticated,
     rememberUser: authentication.rememberUser,
     ...ownProps,

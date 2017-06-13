@@ -86,7 +86,7 @@ export async function addEventParticipant(eventId, userId) {
     return false;
 }
 
-export async function addUser(email, password) {
+export async function addUser(email, password, firstName, lastName) {
     try {
         let response = await fetch(settings.api.addUser, {
             method: 'POST',
@@ -94,8 +94,10 @@ export async function addUser(email, password) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                'email': email,
-                'password': password,
+                email,
+                password,
+                firstName,
+                lastName
             }),
         });
 

@@ -1,5 +1,6 @@
 export default {
     authentication: {
+        isAuthenticating: false,
         isAuthenticated: false,
         rememberUser: true,
         loggedUser: {

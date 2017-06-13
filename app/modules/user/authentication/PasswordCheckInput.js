@@ -24,6 +24,7 @@ export default class PasswordCheckInput extends Component {
         return (
             <View>
                 <TextField
+                    ref="passwordInputCheck"
                     label={'Confirmation du mot de passe'}
                     style={{color: colors.mediumGray}}
                     highlightColor={isValid ? '#00BCD4' : '#d41a0e'}
@@ -35,10 +36,15 @@ export default class PasswordCheckInput extends Component {
                         this.props.onPasswordCheckChange(passwordCheck);
                     }}
                     returnKeyType={'next'}
+                    onSubmitEditing = {this.props.onSubmitEditing}
                 />
                 {errorMessage}
             </View>
         );
+    }
+
+    focus() {
+        this.refs.passwordInputCheck.focus();
     }
 
     renderErrorMessage() {
