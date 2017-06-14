@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AppText from "../../global/AppText";
+import AppText from "../../global/components/AppText";
 import PropTypes from 'prop-types';
 import {View, StyleSheet} from "react-native";
 import colors from "../../global/colors";

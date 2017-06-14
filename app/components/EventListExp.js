@@ -4,7 +4,7 @@
 import React, {Component} from "react";
 import {ListView, Button, RefreshControl, View} from "react-native";
 import EventCardExp from "./events/eventCardExp";
-import AppText from "../modules/global/AppText";
+import AppText from "../modules/global/components/AppText";
 import moment from "moment";
 import ActionButton from "./../components/actionButton/ActionButton";
 import colors from "../modules/global/colors";

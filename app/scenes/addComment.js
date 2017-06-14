@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Button, Dimensions, Platform, StyleSheet, TextInput, View} from "react-native";
 const {height} = Dimensions.get('window');
-import AppText from "../modules/global/AppText";
+import AppText from "../modules/global/components/AppText";
 import * as comment from "../modules/global/db"
 import BackButton from "./../components/BackButton";
 import colors from "../modules/global/colors";

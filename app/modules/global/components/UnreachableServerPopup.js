@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Dimensions, Button} from 'react-native';
-import AppText from '../../global/components/AppText';
-import colors from '../../global/colors';
-import {startApp} from '../../global/navigationLoader';
-import PropTypes from 'prop-types';
+import {Button, View, Dimensions, StyleSheet} from 'react-native';
+import AppText from './AppText';
+import colors from '../colors';
+import {startAppLoader} from '../navigationLoader';
 
-export default class SignUpSuccessfulPopup extends Component {
+export default class UnreachableServerPopup extends Component {
 
     constructor(props) {
         super(props);
@@ -15,25 +14,25 @@ export default class SignUpSuccessfulPopup extends Component {
         return (
             <View style={styles.container}>
                 <View style={{flex: 8}}>
-                    <AppText style={styles.title}>{'Compte créé avec succès'}</AppText>
-                    <AppText style={styles.content}>{'Bienvenue sur Viseo Companion'}</AppText>
+                    <AppText style={styles.title}>{'Oops petit problème!'}</AppText>
+                    <AppText style={styles.content}>{"La connexion avec le serveur a échoué, veuillez réessayer plus tard."}</AppText>
                 </View>
                 <View style={styles.buttonBar}>
                     <Button
                         style={styles.button}
-                        title={'OK'}
-                        onPress={() => this.props.onOk()}
+                        title={'Réessayer'}
+                        onPress={() => this._restartApp()}
                         color={colors.blue}
                     />
                 </View>
             </View>
         );
     }
-}
 
-SignUpSuccessfulPopup.propTypes = {
-    onOk: PropTypes.func.isRequired,
-};
+    _restartApp() {
+        startAppLoader();
+    }
+}
 
 const styles = StyleSheet.create({
     button: {
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
     buttonBar: {
         flex: 2,
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-around'
     },
     container: {
         width: Dimensions.get('window').width * 0.7,

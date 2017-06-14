@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {TextInput, View} from "react-native";
-import AppText from "../modules/global/AppText";
+import AppText from "../modules/global/components/AppText";
 import strings from "../modules/global/localizedStrings";
 
 class EditableAppText extends Component {

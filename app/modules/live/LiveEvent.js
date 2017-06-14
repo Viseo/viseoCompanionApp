@@ -8,7 +8,7 @@ import {bindActionCreators} from "redux";
 import settings from "../global/settings";
 import moment from "moment";
 import colors from "../global/colors";
-import AppText from "../global/AppText";
+import AppText from "../global/components/AppText";
 import Icon from "react-native-vector-icons/Ionicons";
 
 class LiveEvent extends Component {

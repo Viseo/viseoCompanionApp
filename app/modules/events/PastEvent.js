@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from "react-native";
-import AppText from "../global/AppText";
+import AppText from "../global/components/AppText";
 import {bindActionCreators} from "redux";
 import {fetchEventParticipants} from "../../actionCreators/events";
 import ItemSpacer from "../../components/ItemSpacer";

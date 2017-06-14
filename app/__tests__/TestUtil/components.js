@@ -3,8 +3,8 @@ import {shallow} from "enzyme";
 import EventCard from "../../components/events/eventCard";
 import ViseoCompanion from "../../index";
 import Home from "../../scenes/home";
-import EditableImage from "../../components/editableImage";
-import AppText from "../../modules/global/AppText";
+import EditableImage from "../../modules/global/components/ImagePicker";
+import AppText from "../../modules/global/components/AppText";
 import AppTextInput from "../../components/AppTextInput";
 import BackButton from "../../components/BackButton";
 import Button from "../../components/Button";
@@ -53,7 +53,7 @@ export function get(componentName, props) {
             return shallow(<ViseoCompanion {...props}/>);
             break;
         case 'editableImage':
-            return shallow(<EditableImage {...props}/>);
+            return shallow(<ImagePicker {...props}/>);
             break;
         case 'pushController':
             return shallow(<PushController {...props}/>);

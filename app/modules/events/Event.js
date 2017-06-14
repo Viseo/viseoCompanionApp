@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AppText from '../global/AppText';
+import AppText from '../global/components/AppText';
 import {View, Dimensions, StyleSheet, ScrollView, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import Avatar from '../../components/Avatar';

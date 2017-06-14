@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from "react-native";
 import TextField from "react-native-md-textinput";
-import colors from "./colors";
+import colors from "../colors";
 import AppText from "./AppText";
 import PropTypes from 'prop-types';
 
@@ -61,8 +61,8 @@ class AppTextInput extends Component {
 AppTextInput.defaultProps = {
     passProps: {
     },
-    validColor: '#00BCD4',
-    invalidColor: '#d41a0e',
+    validColor: colors.validField,
+    invalidColor: colors.invalidField,
     label: '',
     validator: () => {return true;},
     onChangeText: () => {},

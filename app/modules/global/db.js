@@ -26,10 +26,9 @@ export async function doServerCall(func) {
     );
 }
 
-export async function addEvent(event) {
+export async function addEvent(event, userId) {
     try {
-        //TODO: make a function to add the host as a param
-        let response = await fetch(settings.api.addEvent + '?host=' + event.host.id, {
+        let response = await fetch(settings.api.addEvent(userId), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,12 +36,11 @@ export async function addEvent(event) {
             body: JSON.stringify({
                 'name': event.name,
                 'description': event.description,
-                'datetime': event.date,
+                'datetime': event.datetime,
                 'keywords': event.keywords || '',
                 'place': event.location,
                 'version': '0',
                 'category': event.category,
-                'hostId': event.host.id,
             }),
         });
         if (response)

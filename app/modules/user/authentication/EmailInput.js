@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {StyleSheet, View} from "react-native";
 import TextField from "react-native-md-textinput";
 import colors from "../../global/colors";
-import AppText from "../../global/AppText";
+import AppText from "../../global/components/AppText";
 import strings from "../../global/localizedStrings";
 import PropTypes from 'prop-types';
 
