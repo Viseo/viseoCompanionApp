@@ -52,6 +52,7 @@ export default class CreateComment extends Component {
                 id: this.props.user.id,
             },
             eventId: this.props.eventId,
+            publish: true,
         };
         await addComment(comment);
         this.props.navigator.pop();
