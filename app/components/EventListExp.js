@@ -1,14 +1,13 @@
 /**
  * Created by HEL3666 on 11/05/2017.
  */
-import React, {Component} from "react";
-import {ListView, Button, RefreshControl, View} from "react-native";
-import EventCardExp from "./events/eventCardExp";
-import AppText from "../modules/global/AppText";
-import moment from "moment";
-import ActionButton from "./../components/actionButton/ActionButton";
-import colors from "../modules/global/colors";
-import {defaultNavBarStyle} from "../modules/global/navigatorStyle";
+import React, {Component} from 'react';
+import {ListView, RefreshControl, View} from 'react-native';
+import EventCardExp from './events/eventCardExp';
+import AppText from '../modules/global/AppText';
+import moment from 'moment';
+import colors from '../modules/global/colors';
+import {defaultNavBarStyle} from '../modules/global/navigatorStyle';
 
 export default class EventListExp extends Component {
 
@@ -17,30 +16,30 @@ export default class EventListExp extends Component {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => {
                 if (this.props.searchWords) {
-                    return true
+                    return true;
                 }
                 for (let key in r1) {
                     if (!r2.hasOwnProperty(key))
                         return true;
                     if (r1[key] !== r2[key])
-                        return true
+                        return true;
                 }
-                return false
-            }
+                return false;
+            },
         });
         this.state = {
             dataSource: ds.cloneWithRows(this.props.events),
-        }
+        };
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.events)
+            dataSource: this.state.dataSource.cloneWithRows(nextProps.events),
         });
     }
 
     componentWillMount() {
-        this.props.refresh(this.props.user)
+        this.props.refresh(this.props.user);
     }
 
     formatDate(date) {
@@ -57,7 +56,7 @@ export default class EventListExp extends Component {
                     <RefreshControl
                         refreshing={this.props.refreshing}
                         onRefresh={() => {
-                            this.props.refresh(this.props.user)
+                            this.props.refresh(this.props.user);
                         }}
                     />
                 }
@@ -90,14 +89,15 @@ export default class EventListExp extends Component {
                         nothingToShow
                 }
             </View>
-        )
+        );
     }
+
     renderEventCardExp = (event) => {
         let [day, time] = this.formatDate(event.date);
-        let userId=this.props.user.id;
-        let participating = event.participants.filter(function(element) {
-                return element.id==userId;
-            }).length>0;
+        let userId = this.props.user.id;
+        let participating = event.participants.filter(function (element) {
+                return element.id === userId;
+            }).length > 0;
         return (
             <EventCardExp
                 name={event.name}
@@ -110,14 +110,14 @@ export default class EventListExp extends Component {
                 onPress={() => {
                     this.props.navigator.push({
                         screen: 'events.pastEvent',
-                        title: "Détails de l'évènement",
+                        title: 'Détails de l\'évènement',
                         navigatorStyle: defaultNavBarStyle,
                         passProps: {
                             id: event.id,
-                            hostFirstName: event.host ? event.host.firstName : "Admin",
-                            hostLastName: event.host ? event.host.lastName : "",
-                            participating: participating
-                        }
+                            hostFirstName: event.host ? event.host.firstName || 'Admin' : '',
+                            hostLastName: event.host ? event.host.lastName || '' : '',
+                            participating: participating,
+                        },
                     });
                 }}
                 searchWords={this.props.searchWords}
