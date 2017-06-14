@@ -183,7 +183,7 @@ export default class EventCard extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={this.props.time || ''}
+                        textToHighlight={'à '+this.props.time || ''}
                     />
                 </View>
             </View>
