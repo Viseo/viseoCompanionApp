@@ -16,6 +16,10 @@ class AppTextInput extends Component {
         super(props);
     }
 
+    focus() {
+        this.refs.textInput.focus();
+    }
+
     render() {
         const {value, isValid} = this.state;
         const {validColor, invalidColor, label, validator, onChangeText, secureTextEntry, style} = this.props;
@@ -24,6 +28,7 @@ class AppTextInput extends Component {
         return (
             <View>
                 <TextField
+                    ref="textInput"
                     label={label}
                     highlightColor={highlightColor}
                     style={[
