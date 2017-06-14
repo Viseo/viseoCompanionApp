@@ -27,11 +27,14 @@ const restRoutes = {
     updatedComment: serverURL + 'comments',
     addComment: serverURL + 'comments',
     liveEvent: 'ws://' + serverIp + ':8080/liveEvent',
-    getCommentsByEvent: (eventId) => {
-        return serverURL + 'comments/events/' + eventId ;
+    getAllCommentsByEvent: (eventId) => {
+        return serverURL + 'comments/events/' + eventId + '?filter=all';
+    },
+    getPublishedCommentsByEvent: (eventId) => {
+        return serverURL + 'comments/events/' + eventId + '?filter=published';
     },
     addChildComment: (commentId) => {
-        return serverURL + 'comments/'+commentId;
+        return serverURL + 'comments/' + commentId;
     },
     addEventParticipant: (eventId, userId) => {
         return serverURL + 'events/' + eventId + '/users/' + userId;
@@ -42,14 +45,14 @@ const restRoutes = {
     getEventParticipants: eventId => {
         return serverURL + 'events/' + eventId + '/users';
     },
-    likeComment:(commentId,userId)=> {
-        return serverURL + 'comments/'+commentId+'/like/'+userId;
+    likeComment: (commentId, userId) => {
+        return serverURL + 'comments/' + commentId + '/like/' + userId;
     },
-    dislikeComment:(commentId,userId)=> {
-        return serverURL + 'comments/'+commentId+'/like/'+userId;
+    dislikeComment: (commentId, userId) => {
+        return serverURL + 'comments/' + commentId + '/like/' + userId;
     },
-    deleteComment:(commentId)=> {
-        return serverURL + 'comments/'+commentId;
+    deleteComment: (commentId) => {
+        return serverURL + 'comments/' + commentId;
     },
     updatedEvent: eventId => {
         return serverURL + 'events/' + eventId;
@@ -74,7 +77,7 @@ const restRoutes = {
     },
     getEventAfter: dateAfter => {
         return serverURL + 'events?after=' + dateAfter;
-    }
+    },
 };
 
 /////////// EXPORTED SETTINGS ////////////////

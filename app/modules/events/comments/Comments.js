@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {FlatList, RefreshControl, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import colors from '../../global/colors';
-import {bindActionCreators, dispatch} from 'redux';
+import {bindActionCreators} from 'redux';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import {getComments} from './comments.actions';
 import {connect} from 'react-redux';
@@ -96,7 +96,6 @@ class Comments extends Component {
     }
 
     _renderCommentCard(comment) {
-        const [day, time] = this._formatDate(comment.datetime);
         const commentChildren = comment.childComments.map(childComment => {
             const [day, time] = this._formatDate(childComment.datetime);
             return (
@@ -119,6 +118,7 @@ class Comments extends Component {
                 />
             );
         });
+        const [day, time] = this._formatDate(comment.datetime);
         return (
             <View>
                 <CommentCard
