@@ -15,6 +15,7 @@ class LiveEvent extends Component {
 
     state = {
         connected: false,
+        participantsNumber: '',
     };
 
     constructor(props) {
@@ -27,12 +28,11 @@ class LiveEvent extends Component {
 
     componentWillUnmount() {
         this.ws.close();
-        // this.props.flushChatMessage();
     }
 
     render() {
         let lostConnexionModal = !this.state.connected ? this.renderLostConnexionModal() : null;
-        let participantsCounter = this.renderParticipantsCounter();
+        let participantsCounter = this.renderParticipantsNumber();
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 10}}>
@@ -52,15 +52,16 @@ class LiveEvent extends Component {
         this.ws.onopen = () => {
             this._joinChatRoom(this.props.eventId);
             this.setState({connected: true});
+            this._addConnectedMessage();
         };
         this.ws.onmessage = (wsMessage) => {
             this._onReceivedMessage(wsMessage.data);
         };
-        this.ws.onerror = (e) => {
+        this.ws.onerror = () => {
             this.setState({connected: false});
-            this.addDisconnectedMessage();
         };
-        this.ws.onclose = (e) => {
+        this.ws.onclose = () => {
+            this._addDisconnectedMessage();
         };
     };
 
@@ -77,16 +78,27 @@ class LiveEvent extends Component {
     };
 
     _onReceivedMessage = (message) => {
-        let chatMessage = JSON.parse(message);
-        let messageType = chatMessage.writerId === this.props.user.id ? 'sent' : 'received';
-        this._addMessageToChat(chatMessage, messageType);
+        let liveAction = JSON.parse(message);
+        switch (liveAction.type) {
+            case 2:
+                let chatMessage = liveAction.payload;
+                let messageType = chatMessage.writerId === this.props.user.id ? 'sent' : 'received';
+                this._addMessageToChat(chatMessage, messageType);
+                break;
+            case 3:
+                this._setParticipantsNumber(liveAction.payload);
+                break;
+            default:
+                break;
+        }
+
     };
 
     _addMessageToChat = (chatMessage, type) => {
         this.props.addChatMessage({
             type: type,
             message: chatMessage.content,
-            dateTime: chatMessage.dateTime,
+            datetime: chatMessage.datetime,
             writerId: chatMessage.writerId,
         });
     };
@@ -97,7 +109,7 @@ class LiveEvent extends Component {
             type: '2',
             payload: {
                 content: contentEscaped,
-                dateTime: moment().valueOf(),
+                datetime: moment().valueOf(),
                 writerId: this.props.user.id,
                 eventId: this.props.eventId,
             },
@@ -120,23 +132,33 @@ class LiveEvent extends Component {
         );
     }
 
-    renderParticipantsCounter() {
+    renderParticipantsNumber() {
         return (
             <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
                 <Icon name="ios-people" size={30}/>
-                <AppText>{this.props.numberOfParticipants}</AppText>
+                <AppText>{this.state.participantsNumber}</AppText>
             </View>
         );
     }
 
-    addDisconnectedMessage() {
+    _addDisconnectedMessage() {
         const message = {
             content: 'Vous avez été déconnecté du live.',
-            dateTime: moment().valueOf(),
-            writerId: 0,
-            eventId: this.props.eventId,
+            datetime: moment().valueOf(),
         };
-        this._addMessageToChat(message, 'received');
+        this._addMessageToChat(message, 'status');
+    }
+
+    _addConnectedMessage() {
+        const message = {
+            content: 'Vous avez rejoint le live.',
+            datetime: moment().valueOf(),
+        };
+        this._addMessageToChat(message, 'status');
+    }
+
+    _setParticipantsNumber(participantsNumber) {
+        this.setState({participantsNumber});
     }
 }
 
@@ -151,7 +173,6 @@ const mapStateToProps = ({user, live}, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             addChatMessage,
-            flushChatMessage,
         },
         dispatch);
 };

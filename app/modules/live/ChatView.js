@@ -4,6 +4,7 @@ import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import SentChatCard from './components/SentChatCard';
 import ReceivedChatCard from './components/ReceivedChatCard';
 import {connect} from 'react-redux';
+import StatusChatCard from './components/StatusChatCard';
 
 class ChatView extends Component {
 
@@ -37,7 +38,7 @@ class ChatView extends Component {
     }
 
     _compareChatCardsById(first, second) {
-        return first.id !== second.id;
+        return first.datetime !== second.datetime;
     }
 
     _renderChatCard(chatData) {
@@ -47,7 +48,7 @@ class ChatView extends Component {
             case 'received' :
                 return <ReceivedChatCard chatData={chatData}/>;
             case 'status' :
-                return chatData.message;
+                return <StatusChatCard chatData={chatData}/>;
             default:
                 return null;
 
@@ -55,6 +56,9 @@ class ChatView extends Component {
     }
 
     _refresh(chatMessages) {
+        chatMessages.sort(function (a, b) {
+            return a.datetime - b.datetime;
+        });
         const rowIds = chatMessages.map((message, index) => index).reverse();
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(chatMessages, rowIds),
