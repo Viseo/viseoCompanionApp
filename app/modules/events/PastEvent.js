@@ -221,13 +221,25 @@ class PastEvent extends Component {
     }
 
     _goToComments() {
+        const navigatorButtons = this.props.participating ?
+            {
+                rightButtons: [
+                    {
+                        icon: require('../../images/navigation/add.png'),
+                        id: 'addComment',
+                    },
+                ]
+            }:
+            {};
         this.props.navigator.push({
             screen: 'Comments',
             title: 'Commentaires',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
-                eventId: this.props.eventId
-            }
+                eventId: this.props.eventId,
+                participating:this.props.participating
+            },
+            navigatorButtons
         });
     }
 }
