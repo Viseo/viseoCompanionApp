@@ -55,10 +55,9 @@ export const registerUser = (event, userId) => {
             let event = db.addEventParticipant(eventId, userId);
             //todo handle the received event
             if(event) {
-                let event =
                 dispatch({
                     type: REGISTER_USER,
-                    eventId
+                    event
                 })
             }
         } catch (error) {
@@ -73,7 +72,7 @@ export const unregisterUser = (event, userId) => {
     return async (dispatch) => {
         PushController.unscheduleEventNotifications(event);
         dispatch({
-            type: types.UNREGISTER_USER,
+            type: UNREGISTER_USER,
             eventId,
             userId,
         });
