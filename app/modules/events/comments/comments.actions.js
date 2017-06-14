@@ -18,7 +18,7 @@ export const getComments = (eventId) => {
     return async (dispatch) => {
         dispatch(requestComments());
         try {
-            let commentsResponse = await fetch(settings.api.getCommentsByEvent(eventId));
+            let commentsResponse = await fetch(settings.api.getPublishedCommentsByEvent(eventId));
             let commentsJson = await commentsResponse.json();
             let comments = [];
             for (let i = 0; i < commentsJson.length; i++) {

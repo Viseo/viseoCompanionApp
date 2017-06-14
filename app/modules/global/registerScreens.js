@@ -1,6 +1,4 @@
 import { Navigation } from 'react-native-navigation';
-import Comments from "../events/comments/Comments";
-import CreateComment from "../events/comments/CreateComment";
 import registerAppLoader from '../appLoader/registerScreens';
 import registerEventsModule from '../events/registerScreens';
 import registerNewsFeedModule from '../newsFeed/registerScreens';
@@ -19,7 +17,5 @@ export function registerScreens(store, provider) {
     registerUserModule(store, provider);
     registerVizzModule(store, provider);
 
-    Navigation.registerComponent('Comments', () => Comments, store, provider);
-    Navigation.registerComponent('CreateComment', () => CreateComment, store, provider);
     Navigation.registerComponent('global.unreachableServerPopup', () => UnreachableServerPopup);
 }
