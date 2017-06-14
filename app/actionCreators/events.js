@@ -24,15 +24,16 @@ export const types = {
     UPDATE_EVENT_PARTICIPANTS: 'UPDATE_EVENT_PARTICIPANTS',
 };
 
-// export const addEvent = (event) => {
-//     return async (dispatch) => {
-//         dispatch({
-//             type: types.ADD_EVENT,
-//             ...event
-//         });
-//         await pushEvent(event)
-//     }
-// };
+//Ported
+export const addEvent = (event) => {
+    return async (dispatch) => {
+        dispatch({
+            type: types.ADD_EVENT,
+            ...event
+        });
+        await pushEvent(event)
+    }
+};
 
 //useless
 export const fetchEventParticipants = (id) => {
@@ -45,25 +46,25 @@ export const fetchEventParticipants = (id) => {
         })
     }
 };
-
-// export const fetchEvents = (user) => {
-//     return async (dispatch) => {
-//         dispatch(requestEvents());
-//         try {
-//             // Fetch all events
-//             let eventsResponse = await fetch(settings.api.getEventAfter(moment().toDate().getTime()));
-//             let eventsJson = await eventsResponse.json();
-//             let events = getEventsFromJson(eventsJson);
-//             dispatch(receiveEvents(events));
-//         } catch (error) {
-//             console.warn('ActionCreators/events::fetchEvents ' + error);
-//             dispatch({
-//                 type: types.FETCH_EVENTS_FAILED,
-//                 error
-//             })
-//         }
-//     }
-// };
+//Ported
+export const fetchEvents = (user) => {
+    return async (dispatch) => {
+        dispatch(requestEvents());
+        try {
+            // Fetch all events
+            let eventsResponse = await fetch(settings.api.getEventAfter(moment().toDate().getTime()));
+            let eventsJson = await eventsResponse.json();
+            let events = getEventsFromJson(eventsJson);
+            dispatch(receiveEvents(events));
+        } catch (error) {
+            console.warn('ActionCreators/events::fetchEvents ' + error);
+            dispatch({
+                type: types.FETCH_EVENTS_FAILED,
+                error
+            })
+        }
+    }
+};
 
 export const fetchEventsExp = (user) => {
     return async (dispatch) => {
@@ -85,37 +86,40 @@ export const fetchEventsExp = (user) => {
     }
 };
 
-// function getEventsFromJson(json) {
-//     let events = [];
-//     for (let i = 0; i < json.length; i++) {
-//         let event = json[i];
-//
-//         events.push({
-//             id: event.id,
-//             name: event.name,
-//             description: event.description,
-//             date: event.datetime,
-//             location: event.place,
-//             version: event.version,
-//             category: event.category,
-//             host: event.host,
-//             imageUrl:event.imageUrl,
-//             participants: event.participants,
-//         })
-//     }
-//     return events
-// }
+//Ported
+function getEventsFromJson(json) {
+    let events = [];
+    for (let i = 0; i < json.length; i++) {
+        let event = json[i];
 
-// const receiveEvents = (events) => ({
-//     type: types.RECEIVE_EVENTS,
-//     events,
-//     receivedAt: Date.now()
-// });
-//
-// const receiveEventsExpired = (events) => ({
-//     type: types.RECEIVE_EVENTS_EXPIRED,
-//     events
-// });
+        events.push({
+            id: event.id,
+            name: event.name,
+            description: event.description,
+            date: event.datetime,
+            location: event.place,
+            version: event.version,
+            category: event.category,
+            host: event.host,
+            imageUrl:event.imageUrl,
+            participants: event.participants,
+        })
+    }
+    return events
+}
+
+//Ported
+const receiveEvents = (events) => ({
+    type: types.RECEIVE_EVENTS,
+    events,
+    receivedAt: Date.now()
+});
+
+//Ported
+const receiveEventsExpired = (events) => ({
+    type: types.RECEIVE_EVENTS_EXPIRED,
+    events
+});
 
 export const registerUser = (event, userId) => {
     let eventId = event.id;

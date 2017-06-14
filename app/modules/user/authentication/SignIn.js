@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {startApp} from "../../global/navigationLoader";
 import CheckBox from "react-native-check-box";
-import {rememberUser as toggleRememberUser} from "../../../actionCreators/user";
+import {rememberUser as toggleRememberUser} from "./authentication.actions";
 import {defaultNavBarStyle} from "../../global/navigatorStyle";
 import colors from "../../global/colors";
 import {doServerCall} from "../../global/db";
