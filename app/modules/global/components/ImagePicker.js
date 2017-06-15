@@ -29,13 +29,13 @@ export default class ImagePicker extends Component {
 
         Picker.showImagePicker(options, (response) => {
             if (!response.didCancel && !response.error) {
-                let source = {uri: response.uri};
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let source = {uri: response.uri};
                 this.setState({
                     selectedPicture: source,
                 });
-                this.props.onSelected(response.uri);
+                this.props.onSelected(source);
             }
         });
     };

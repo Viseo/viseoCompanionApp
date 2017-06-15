@@ -26,6 +26,7 @@ const restRoutes = {
     updatedComment: serverURL + 'comments',
     addComment: serverURL + 'comments',
     liveEvent: 'ws://' + serverIp + ':8080/liveEvent',
+    uploadImage: serverURL + 'upload',
     addEvent: (userId) => {
         return serverURL + 'events?host=' + userId;
     },

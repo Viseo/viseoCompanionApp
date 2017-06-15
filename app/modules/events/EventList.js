@@ -103,6 +103,7 @@ export default class EventList extends Component {
                 }}
                 searchWords={this.props.searchWords}
                 navigator={this.props.navigator}
+                user={this.props.user}
             />
         );
     };

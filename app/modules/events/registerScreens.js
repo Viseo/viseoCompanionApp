@@ -4,7 +4,7 @@ import PastEvents from "./PastEvents";
 import PastEvent from "./PastEvent";
 import CreateEvent from "./CreateEvent";
 import Event from './Event';
-import UpdateComment from "./UpdateComment";
+import UpdateComment from "./comments/UpdateComment";
 import LiveEvent from "../live/LiveEvent";
 import CreateComment from './comments/CreateComment';
 import CreateChildComment from './comments/CreateChildComment';

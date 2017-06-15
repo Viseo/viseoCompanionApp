@@ -15,6 +15,13 @@ export default class Event extends Component {
 
     constructor(props) {
         super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    }
+
+    onNavigatorEvent(event) {
+        if (event.id === 'edit') {
+            this._goToEditEvent();
+        }
     }
 
     render() {
@@ -40,6 +47,10 @@ export default class Event extends Component {
             default:
                 return 'transparent';
         }
+    }
+
+    _goToEditEvent() {
+        
     }
 
     _renderDetails() {

@@ -28,6 +28,20 @@ export async function doServerCall(func) {
 
 export async function addEvent(event, userId) {
     try {
+        let imageUrl = null;
+        if(event.image) {
+            let formData = new FormData();
+            formData.append('file', {
+                uri: event.image.uri,
+                type: 'image/jpg',
+                name: 'image.jpg',
+            });
+            let responseImage = await fetch(settings.api.uploadImage, {
+                method: 'POST',
+                body: formData,
+            });
+            imageUrl = await responseImage.text();
+        }
         let response = await fetch(settings.api.addEvent(userId), {
             method: 'POST',
             headers: {
@@ -41,6 +55,7 @@ export async function addEvent(event, userId) {
                 'place': event.location,
                 'version': '0',
                 'category': event.category,
+                'imageUrl': imageUrl,
             }),
         });
         if (response)
