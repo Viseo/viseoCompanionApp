@@ -42,7 +42,7 @@ export async function addEvent(event, userId) {
             });
             imageUrl = await responseImage.text();
         }
-        let response = await fetch(settings.api.addEvent(userId), {
+        return await fetch(settings.api.addEvent(userId), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,10 +58,8 @@ export async function addEvent(event, userId) {
                 'imageUrl': imageUrl,
             }),
         });
-        if (response)
-            return true;
     } catch (error) {
-        console.warn(error);
+        console.warn('db::addEvent ' + error);
     }
 }
 

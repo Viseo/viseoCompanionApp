@@ -3,13 +3,13 @@ import settings from '../global/settings';
 import moment from 'moment';
 
 export const ADD_EVENT = 'ADD_EVENT';
-export const addEvent = (event) => {
+export const addEvent = (event, userId) => {
     return async (dispatch) => {
+        const createdEvent = await db.addEvent(event, userId);
         dispatch({
             type: ADD_EVENT,
-            ...event
+            event: createdEvent,
         });
-        await db.addEvent(event);
     };
 };
 
@@ -54,11 +54,11 @@ export const registerUser = (event, userId) => {
         try {
             let event = db.addEventParticipant(eventId, userId);
             //todo handle the received event
-            if(event) {
+            if (event) {
                 dispatch({
                     type: REGISTER_USER,
-                    event
-                })
+                    event,
+                });
             }
         } catch (error) {
             console.warn('ActionCreators/events::registerUser ' + error);
@@ -80,15 +80,14 @@ export const unregisterUser = (event, userId) => {
             await fetch(settings.api.removeEventParticipant(eventId, userId), {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+                    'Content-Type': 'application/json',
+                },
+            });
         } catch (error) {
-            console.warn('ActionCreators/events::unregisterUser ' + error)
+            console.warn('ActionCreators/events::unregisterUser ' + error);
         }
-    }
+    };
 };
-
 
 function getEventsFromJson(json) {
     let events = [];

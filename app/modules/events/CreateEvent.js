@@ -3,13 +3,10 @@ import {connect} from 'react-redux';
 import EventForm from './EventForm';
 import {showInvalidFormPopup} from '../global/navigationUtil';
 import moment from 'moment';
-import {addEvent} from '../global/db';
+import {bindActionCreators} from 'redux';
+import {addEvent, fetchEvents} from './event.actions';
 
 class CreateEvent extends Component {
-
-    // todo handle image upload
-    // todo auto refresh after addEvent
-    // todo dispatch addEvent into redux store
 
     state = {
         name: null,
@@ -47,7 +44,7 @@ class CreateEvent extends Component {
     async _saveEvent() {
         const isFormValid = this.state.name && this.state.location;
         if(isFormValid) {
-            await addEvent({
+            await this.props.addEvent({
                 name: this.state.name,
                 description: this.state.description,
                 datetime: moment(this.state.date, this.dateFormat).valueOf(),
@@ -55,6 +52,7 @@ class CreateEvent extends Component {
                 location: this.state.location,
                 image: this.state.image,
             }, this.props.user.id);
+            this.props.refresh();
             this.props.navigator.pop();
         } else {
             showInvalidFormPopup();
@@ -76,6 +74,14 @@ const mapStateToProps = ({user}, ownProps) => ({
     ...ownProps,
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        addEvent,
+        refresh: fetchEvents,
+    }, dispatch)
+}
+
 export default connect(
     mapStateToProps,
+    mapDispatchToProps
 )(CreateEvent);
