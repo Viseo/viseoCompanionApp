@@ -97,7 +97,7 @@ function getEventsFromJson(json) {
             id: event.id,
             name: event.name,
             description: event.description,
-            date: event.formattedDate,
+            date: event.datetime,
             location: event.place,
             version: event.version,
             category: event.category,

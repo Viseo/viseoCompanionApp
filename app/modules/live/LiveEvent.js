@@ -99,7 +99,7 @@ class LiveEvent extends Component {
         this.props.addChatMessage({
             type: type,
             message: chatMessage.content,
-            formattedDate: chatMessage.formattedDate,
+           datetime: chatMessage.datetime,
             writerId: chatMessage.writerId,
         });
     };
@@ -110,7 +110,7 @@ class LiveEvent extends Component {
             type: '2',
             payload: {
                 content: contentEscaped,
-                formattedDate: moment().valueOf(),
+               datetime: moment().valueOf(),
                 writerId: this.props.user.id,
                 eventId: this.props.eventId,
             },

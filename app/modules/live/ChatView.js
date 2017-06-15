@@ -38,7 +38,7 @@ class ChatView extends Component {
     }
 
     _compareChatCardsById(first, second) {
-        return first.formattedDate !== second.formattedDate;
+        return first.datetime !== second.datetime;
     }
 
     _renderChatCard(chatData) {
@@ -57,7 +57,7 @@ class ChatView extends Component {
 
     _refresh(chatMessages) {
         chatMessages.sort(function (a, b) {
-            return a.formattedDate - b.formattedDate;
+            return a.datetime - b.datetime;
         });
         const rowIds = chatMessages.map((message, index) => index).reverse();
         this.setState({

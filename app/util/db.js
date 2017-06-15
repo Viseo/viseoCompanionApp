@@ -126,7 +126,7 @@ export async function getEvents() {
                 event.id,
                 event.name,
                 event.description,
-                event.formattedDate,
+                event.datetime,
                 event.place,
                 event.category
             ));
@@ -149,7 +149,7 @@ export async function getEventsByRegisteredUser(userId) {
                 id: event.id,
                 name: event.name,
                 description: event.description,
-                date: event.formattedDate,
+                date: event.datetime,
                 location: event.place
             });
         }
@@ -230,7 +230,7 @@ export async function getEventsWithParticipant(userId) {
                 event.id,
                 event.name,
                 event.description,
-                event.formattedDate,
+                event.datetime,
                 event.place,
                 event.category
             ));
@@ -312,7 +312,7 @@ export async function updateComment(comment) {
                 "id": comment.id,
                 "version": comment.version,
                 "content": comment.content,
-                "datetime": comment.formattedDate,
+                "datetime": comment.datetime,
                 "eventId": comment.event_id,
                 "writer": comment.writer,
                 "childComments": comment.children,

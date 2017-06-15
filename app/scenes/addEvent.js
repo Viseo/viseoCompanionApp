@@ -39,10 +39,10 @@ export default class AddEvent extends Component {
             errorType: ''
         });
         if (this.isFormCorrect()) {
-            let formattedDate = moment(this.state.formattedDate).valueOf();
+            let datetime = moment(this.state.datetime).valueOf();
             await this.props.db.addEvent({
                 name: this.state.name,
-                formattedDate: formattedDate,
+                datetime,
                 keyWords: this.state.keyWords,
                 location: this.state.place,
                 description: this.state.description
@@ -52,7 +52,7 @@ export default class AddEvent extends Component {
     };
 
     isFormCorrect = () => {
-        if (this.state.name == '' || this.state.formattedDate == '' || this.state.place == '') {
+        if (this.state.name == '' || this.state.datetime == '' || this.state.place == '') {
             this.setState({errorType: 'Veuillez entrer un nom, une date et un lieu.'});
             return false;
         } else {
@@ -143,7 +143,7 @@ export default class AddEvent extends Component {
     renderDateInput() {
         return (
             <DatePicker
-                date={this.state.formattedDate}
+                date={this.state.datetime}
                 mode="datetime"
                 format="YYYY/MM/DD HH:mm"
                 confirmBtnText="OK"

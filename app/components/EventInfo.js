@@ -449,8 +449,8 @@ export default class Event extends Component {
                         confirmBtnText="OK"
                         cancelBtnText="Annuler"
                         onDateChange={(date) => {
-                            let formattedDate = moment(new Date(date).toISOString());
-                            this.setState({editedEvent: {...editedEvent, date: formattedDate}})
+                            let datetime = moment(new Date(date).toISOString());
+                            this.setState({editedEvent: {...editedEvent, date:datetime}})
                         }}
                         customStyles={{
                             dateIcon: {
