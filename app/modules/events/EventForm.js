@@ -25,6 +25,10 @@ export default class EventForm extends Component {
         super(props);
     }
 
+    componentWillMount() {
+        this._setDefaultValues();
+    }
+
     render() {
         const nameField = this._renderNameField();
         const descriptionField = this._renderDescriptionField();
@@ -178,6 +182,11 @@ export default class EventForm extends Component {
                 }}
             />
         );
+    }
+
+    _setDefaultValues() {
+        this.props.setDate(this.state.datetime);
+        this.props.setCategory(this.state.category);
     }
 }
 
