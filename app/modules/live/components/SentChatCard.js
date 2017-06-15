@@ -13,13 +13,13 @@ export default class SentChatCard extends Component {
 
     render() {
 
-        let dateTime = this.props.chatData.dateTime ?
-            moment(this.props.chatData.dateTime).format("HH[h]mm") :
+        let datetime = this.props.chatData.datetime ?
+            moment(this.props.chatData.datetime).format("HH[h]mm") :
             null;
         return (
             <View style={styles.mainContainer}>
                 <View style={{flex:1}}/>
-                <AppText style={styles.timeContainer}>{dateTime}</AppText>
+                <AppText style={styles.timeContainer}>{datetime}</AppText>
                 <AppText style={styles.textContainer}>{this.props.chatData.message}</AppText>
             </View>
         );
