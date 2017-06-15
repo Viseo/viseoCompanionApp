@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, View} from 'react-native';
-import AppText from '../../global/AppText';
+import AppText from '../../global/components/AppText';
 
 export default class StatusChatCard extends Component {
 
