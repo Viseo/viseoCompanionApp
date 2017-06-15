@@ -3,7 +3,7 @@ import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "r
 import EmailInput from "./EmailInput";
 import PasswordInput from "./PasswordInput";
 import strings from "../../global/localizedStrings";
-import AppText from "../../global/AppText";
+import AppText from "../../global/components/AppText";
 import {authenticate} from "./authentication.actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";

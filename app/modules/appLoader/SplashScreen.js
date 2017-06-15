@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
-import AppText from '../global/AppText';
+import AppText from '../global/components/AppText';
 import colors from '../global/colors';
 import {authenticate} from '../user/authentication/authentication.actions';
 import {connect} from 'react-redux';

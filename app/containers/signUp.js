@@ -3,7 +3,7 @@ import {Button, Image, Modal, ScrollView, StyleSheet, TouchableHighlight, View} 
 import {hasEmptyElement, isEmailValid, isPasswordValid} from "../util/util";
 import {addUser, getUserByEmail} from "../modules/global/db";
 import strings from "../modules/global/localizedStrings";
-import AppText from "../modules/global/AppText";
+import AppText from "../modules/global/components/AppText";
 import EmailInput from "../components/emailInput";
 import PasswordInput from "../components/passwordInput";
 import {rememberUserWhenSignUp} from "../actionCreators/user";

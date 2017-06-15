@@ -12,8 +12,8 @@ import {
     StyleSheet,
     View
 } from "react-native";
-import AppText from "../modules/global/AppText";
-import EditableImage from "./editableImage";
+import AppText from "../modules/global/components/AppText";
+import EditableImage from "../modules/global/components/ImagePicker";
 import CheckBox from "react-native-check-box";
 import DatePicker from "react-native-datepicker";
 import strings from "../modules/global/localizedStrings";
@@ -318,7 +318,7 @@ export default class Event extends Component {
         let url=this.state.picture;
         const picture = this.state.editing ?
             (
-                <EditableImage
+                <ImagePicker
                     style={{minHeight: height / 3}}
                     refs="eventDescription"
                     resizeMode="stretch"

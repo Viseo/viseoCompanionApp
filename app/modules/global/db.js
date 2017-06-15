@@ -26,10 +26,23 @@ export async function doServerCall(func) {
     );
 }
 
-export async function addEvent(event) {
+export async function addEvent(event, userId) {
     try {
-        //TODO: make a function to add the host as a param
-        let response = await fetch(settings.api.addEvent + '?host=' + event.host.id, {
+        let imageUrl = null;
+        if(event.image) {
+            let formData = new FormData();
+            formData.append('file', {
+                uri: event.image.uri,
+                type: 'image/jpg',
+                name: 'image.jpg',
+            });
+            let responseImage = await fetch(settings.api.uploadImage, {
+                method: 'POST',
+                body: formData,
+            });
+            imageUrl = await responseImage.text();
+        }
+        return await fetch(settings.api.addEvent(userId), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,17 +50,16 @@ export async function addEvent(event) {
             body: JSON.stringify({
                 'name': event.name,
                 'description': event.description,
-                'datetime': event.date,
+                'datetime': event.formattedDate,
                 'keywords': event.keywords || '',
                 'place': event.location,
                 'version': '0',
                 'category': event.category,
-                'hostId': event.host.id,
+                'imageUrl': imageUrl,
             }),
         });
-        return true;
     } catch (error) {
-        console.log(error);
+        console.log('db::addEvent ' + error);
         return null;
     }
 }
@@ -61,7 +73,8 @@ export async function deleteEventDb(id) {
             },
 
         });
-        return true;
+        if (response)
+            return true;
     } catch (error) {
         console.log(error);
         return null;
@@ -165,7 +178,7 @@ export async function getEvents() {
                 event.id,
                 event.name,
                 event.description,
-                event.datetime,
+                event.formattedDate,
                 event.place,
                 event.category,
             ));
@@ -188,7 +201,7 @@ export async function getEventsByRegisteredUser(userId) {
                 id: event.id,
                 name: event.name,
                 description: event.description,
-                date: event.datetime,
+                date: event.formattedDate,
                 location: event.place,
             });
         }
@@ -246,7 +259,7 @@ export async function getEventsWithParticipant(userId) {
                 event.id,
                 event.name,
                 event.description,
-                event.datetime,
+                event.formattedDate,
                 event.place,
                 event.category,
             ));
@@ -333,9 +346,7 @@ export async function deleteCommentDb(commentId) {
 
 export async function updateEvent(event) {
     try {
-
         let response = await fetch(settings.api.updatedEvent(event.id), {
-
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -351,13 +362,10 @@ export async function updateEvent(event) {
                 'category': event.category,
             }),
         });
-        let responseJson = await response.json();
-        if (responseJson) {
-            return true;
-        }
+            return await response.json();
     } catch (error) {
         console.log(error);
-        return false;
+        return null;
     }
 }
 

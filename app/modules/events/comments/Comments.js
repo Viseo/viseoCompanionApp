@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import {getComments} from './comments.actions';
 import {connect} from 'react-redux';
-import AppText from '../../global/AppText';
+import AppText from '../../global/components/AppText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -97,7 +97,7 @@ class Comments extends Component {
 
     _renderCommentCard(comment) {
         const commentChildren = comment.childComments.map(childComment => {
-            const [day, time] = this._formatDate(childComment.datetime);
+            const [day, time] = this._formatDate(childComment.formattedDate);
             return (
                 <CommentCard
                     key={childComment.id}
@@ -118,7 +118,7 @@ class Comments extends Component {
                 />
             );
         });
-        const [day, time] = this._formatDate(comment.datetime);
+        const [day, time] = this._formatDate(comment.formattedDate);
         return (
             <View>
                 <CommentCard

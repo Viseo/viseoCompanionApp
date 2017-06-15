@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Dimensions, Button} from 'react-native';
-import AppText from '../../global/AppText';
+import AppText from '../../global/components/AppText';
 import {Navigation} from 'react-native-navigation';
 import colors from '../../global/colors';
 import {bindActionCreators} from 'redux';

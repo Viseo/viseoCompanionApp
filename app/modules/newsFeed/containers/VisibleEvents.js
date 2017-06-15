@@ -1,8 +1,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {fetchEvents, registerUser, unregisterUser} from '../../../actionCreators/events';
+import {registerUser, unregisterUser} from '../../../actionCreators/events';
 import EventList from '../../events/EventList';
 import moment from 'moment';
+import {fetchEvents} from '../../events/event.actions';
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {

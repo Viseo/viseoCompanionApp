@@ -14,7 +14,6 @@ let serverURL = conf === 'DEV' ? localhostURL : remoteURL;
 
 /////////// RESTFUL API ////////////////
 const restRoutes = {
-    addEvent: serverURL + 'events/',
     getEvent: serverURL + 'events/',
     getEvents: serverURL + 'events',
     addUser: serverURL + 'users/',
@@ -28,6 +27,10 @@ const restRoutes = {
     liveEvent: conf === 'PROD' ?
         serverURL + 'liveEvent':
         'ws://' + localhostIp + ':8080/liveEvent',
+    uploadImage: serverURL + 'upload',
+    addEvent: (userId) => {
+        return serverURL + 'events?host=' + userId;
+    },
     getAllCommentsByEvent: (eventId) => {
         return serverURL + 'comments/events/' + eventId + '?filter=all';
     },

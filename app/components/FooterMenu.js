@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
-import AppText from "../modules/global/AppText";
+import AppText from "../modules/global/components/AppText";
 import Icon from "react-native-vector-icons/Ionicons";
 import strings from "../modules/global/localizedStrings";
 

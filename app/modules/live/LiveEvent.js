@@ -3,13 +3,13 @@ import {StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import ChatInput from './components/ChatInput';
 import ChatView from './ChatView';
-import {addChatMessage, flushChatMessage} from './live.actions';
+import {addChatMessage} from './live.actions';
 import {bindActionCreators} from 'redux';
 import settings from '../global/settings';
 import moment from 'moment';
 import colors from '../global/colors';
-import AppText from '../global/AppText';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AppText from '../global/components/AppText';
 
 class LiveEvent extends Component {
 
@@ -99,7 +99,7 @@ class LiveEvent extends Component {
         this.props.addChatMessage({
             type: type,
             message: chatMessage.content,
-            datetime: chatMessage.datetime,
+            formattedDate: chatMessage.formattedDate,
             writerId: chatMessage.writerId,
         });
     };
@@ -110,7 +110,7 @@ class LiveEvent extends Component {
             type: '2',
             payload: {
                 content: contentEscaped,
-                datetime: moment().valueOf(),
+                formattedDate: moment().valueOf(),
                 writerId: this.props.user.id,
                 eventId: this.props.eventId,
             },

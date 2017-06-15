@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AppText from "../../global/AppText";
+import AppText from "../../global/components/AppText";
 import PropTypes from 'prop-types';
 import {View, StyleSheet} from "react-native";
 import colors from "../../global/colors";
@@ -13,8 +13,8 @@ export default class SentChatCard extends Component {
 
     render() {
 
-        let datetime = this.props.chatData.datetime ?
-            moment(this.props.chatData.datetime).format("HH[h]mm") :
+        let datetime = this.props.chatData.formattedDate ?
+            moment(this.props.chatData.formattedDate).format("HH[h]mm") :
             null;
         return (
             <View style={styles.mainContainer}>

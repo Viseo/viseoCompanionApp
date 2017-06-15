@@ -46,6 +46,7 @@ export const fetchEventParticipants = (id) => {
         })
     }
 };
+
 //Ported
 export const fetchEvents = (user) => {
     return async (dispatch) => {
@@ -96,7 +97,7 @@ function getEventsFromJson(json) {
             id: event.id,
             name: event.name,
             description: event.description,
-            date: event.datetime,
+            date: event.formattedDate,
             location: event.place,
             version: event.version,
             category: event.category,

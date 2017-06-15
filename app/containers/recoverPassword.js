@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {Alert, Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
-import AppText from "../modules/global/AppText";
+import AppText from "../modules/global/components/AppText";
 import {isEmailValid} from "../util/util";
 import settings from "../modules/global/settings";
 import strings from "../modules/global/localizedStrings";

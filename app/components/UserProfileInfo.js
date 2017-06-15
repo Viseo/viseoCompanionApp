@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {Button, Dimensions, Modal, Platform, ScrollView, StyleSheet, View} from "react-native";
-import AppText from "../modules/global/AppText";
+import AppText from "../modules/global/components/AppText";
 import strings from "../modules/global/localizedStrings";
 import colors from "../modules/global/colors";
 import DatePicker from "react-native-datepicker";

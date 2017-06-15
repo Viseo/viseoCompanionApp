@@ -3,26 +3,25 @@ import settings from '../global/settings';
 import moment from 'moment';
 
 export const ADD_EVENT = 'ADD_EVENT';
-export const addEvent = (event) => {
+export const addEvent = (event, userId) => {
     return async (dispatch) => {
+        const createdEvent = await db.addEvent(event, userId);
         dispatch({
             type: ADD_EVENT,
-            ...event
+            event: createdEvent,
         });
-        await db.addEvent(event);
     };
 };
 
 export const FETCH_EVENTS = 'FETCH_EVENTS';
 export const FETCH_EVENTS_FAILED = 'FETCH_EVENTS_FAILED';
-export const fetchEvents = (user) => {
+export const fetchEvents = () => {
     return async (dispatch) => {
         dispatch(requestEvents());
         try {
             // Fetch all events
             let eventsResponse = await fetch(settings.api.getEventAfter(moment().toDate().getTime()));
-            let eventsJson = await eventsResponse.json();
-            let events = getEventsFromJson(eventsJson);
+            let events = await eventsResponse.json();
             dispatch(receiveEvents(events));
         } catch (error) {
             console.warn('ActionCreators/events::fetchEvents ' + error);
@@ -54,17 +53,28 @@ export const registerUser = (event, userId) => {
         try {
             let event = db.addEventParticipant(eventId, userId);
             //todo handle the received event
-            if(event) {
+            if (event) {
                 dispatch({
                     type: REGISTER_USER,
-                    event
-                })
+                    event,
+                });
             }
         } catch (error) {
             console.warn('ActionCreators/events::registerUser ' + error);
         }
     };
 };
+
+export const UPDATE_EVENT = 'UPDATE_EVENT';
+export const updateEvent = (event) => {
+    return async (dispatch) => {
+        const updatedEvent = await db.updateEvent(event);
+        dispatch({
+            type: UPDATE_EVENT,
+            event: updatedEvent,
+        });
+    };
+}
 
 export const UNREGISTER_USER = 'UNREGISTER_USER';
 export const unregisterUser = (event, userId) => {
@@ -80,33 +90,11 @@ export const unregisterUser = (event, userId) => {
             await fetch(settings.api.removeEventParticipant(eventId, userId), {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+                    'Content-Type': 'application/json',
+                },
+            });
         } catch (error) {
-            console.warn('ActionCreators/events::unregisterUser ' + error)
+            console.warn('ActionCreators/events::unregisterUser ' + error);
         }
-    }
+    };
 };
-
-
-function getEventsFromJson(json) {
-    let events = [];
-    for (let i = 0; i < json.length; i++) {
-        let event = json[i];
-
-        events.push({
-            id: event.id,
-            name: event.name,
-            description: event.description,
-            date: event.datetime,
-            location: event.place,
-            version: event.version,
-            category: event.category,
-            host: event.host,
-            imageUrl: event.imageUrl,
-            participants: event.participants,
-        });
-    }
-    return events;
-}

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {ScrollView, View, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import Avatar from '../../components/Avatar';
-import AppText from '../global/AppText';
+import AppText from '../global/components/AppText';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import {Navigation} from  'react-native-navigation';
 
