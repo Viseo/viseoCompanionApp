@@ -59,6 +59,7 @@ class LiveEvent extends Component {
         };
         this.ws.onerror = () => {
             this.setState({connected: false});
+            this._initConnection();
         };
         this.ws.onclose = () => {
             this._addDisconnectedMessage();

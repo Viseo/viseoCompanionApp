@@ -35,7 +35,6 @@ export default class EmailInput extends Component {
                         this.props.onEmailChange(email);
                     }}
                     returnKeyType={this.props.returnKeyType || 'next'}
-                    autoFocus = {true}
                     onSubmitEditing = {this.props.onSubmitEditing}
                 />
                 {errorMessage}

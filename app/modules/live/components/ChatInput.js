@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import PropTypes from "prop-types";
+import React, {Component} from 'react';
+import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import PropTypes from 'prop-types';
 
 export default class ChatInput extends Component {
 
@@ -39,18 +39,21 @@ export default class ChatInput extends Component {
     _onChangeText(text) {
         this.setState({
             text,
-        })
+        });
     }
 
     _sendMessage() {
-        this.props.sendMessage(this.state.text);
-        this.setState({text: ""});
+        const {text} = this.state;
+        if (text !== '') {
+            this.props.sendMessage(this.state.text);
+            this.setState({text: ''});
+        }
     }
 }
 
 ChatInput.propTypes = {
     navigator: PropTypes.object.isRequired,
-    sendMessage: PropTypes.func.isRequired
+    sendMessage: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -65,6 +68,6 @@ const styles = StyleSheet.create({
     sendButton: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
-    }
+        justifyContent: 'center',
+    },
 });

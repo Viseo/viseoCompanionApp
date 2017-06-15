@@ -45,10 +45,10 @@ export async function addEvent(event) {
                 'hostId': event.host.id,
             }),
         });
-        if (response)
-            return true;
+        return true;
     } catch (error) {
-        console.warn(error);
+        console.log(error);
+        return null;
     }
 }
 
@@ -61,10 +61,10 @@ export async function deleteEventDb(id) {
             },
 
         });
-        if (response)
-            return true;
+        return true;
     } catch (error) {
-        console.warn(error);
+        console.log(error);
+        return null;
     }
 }
 
@@ -76,15 +76,10 @@ export async function addEventParticipant(eventId, userId) {
                 'Content-Type': 'application/json',
             },
         });
-        if (response.headers.get('content-length') != 0) {
-            let event = await response.json();
-            if (event) {
-                return event;
-            }
-        }
-        return null;
+        return await response.json();
     } catch (error) {
-        console.warn('db::addEventParticipant ' + error);
+        console.log('db::addEventParticipant ' + error);
+        return null;
     }
 }
 
@@ -103,15 +98,11 @@ export async function addUser(email, password, firstName, lastName) {
             }),
         });
 
-        let responseJson = await response.json();
-        if (responseJson) {
-            return true;
-        }
+        return await response.json();
     } catch (error) {
-        console.warn('db::addUser ' + error);
+        console.log('db::addUser ' + error);
+        return false;
     }
-
-    return false;
 }
 
 export async function updateUser(user) {
@@ -133,7 +124,8 @@ export async function updateUser(user) {
         });
         return await response.json();
     } catch (error) {
-        console.warn('db::updateUser ' + error);
+        console.log('db::updateUser ' + error);
+        return null;
     }
 }
 
@@ -149,21 +141,15 @@ export async function authenticate(email, password) {
                 'password': password,
             }),
         });
-        if (response.headers.get('content-length') != 0) {
-            let user = await response.json();
-            if (user) {
-                return {
-                    ...user,
-                    password: user.password,
-                };
-            }
-        }
+        let user = await response.json();
+        return {
+            ...user,
+            password: user.password,
+        };
     } catch (error) {
-        console.warn('db::authenticate ' + error);
-        return -1;
+        console.log('db::authenticate ' + error);
+        return null;
     }
-
-    return null;
 }
 
 //TODO: clean the useless methods
@@ -186,9 +172,9 @@ export async function getEvents() {
         }
         return events;
     } catch (error) {
-        console.warn('db::getEvents ' + error);
+        console.log('db::getEvents ' + error);
+        return [];
     }
-    return [];
 }
 
 export async function getEventsByRegisteredUser(userId) {
@@ -208,51 +194,29 @@ export async function getEventsByRegisteredUser(userId) {
         }
         return events;
     } catch (error) {
-        console.warn('db::getEventsByRegisteredUser ' + error);
+        console.log('db::getEventsByRegisteredUser ' + error);
+        return [];
     }
-    return [];
 }
 
 export async function getUserByEmail(email) {
     try {
         let response = await fetch(settings.api.getUserByEmail(email));
-        if (response.headers.get('content-length') == null) {
-            let user = await response.json();
-            if (user) {
-                return {
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    password: user.password,
-                };
-            }
-        }
+        return await response.json();
     } catch (error) {
-        console.warn('db::getUserByEmail ' + error);
+        console.log('db::getUserByEmail ' + error);
+        return null;
     }
-    return null;
 }
 
 export async function getEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
-        if (response.headers.get('content-length') != 0) {
-            let user = await response.json();
-            if (user) {
-                return {
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    password: user.password,
-                };
-            }
-        }
+        return await response.json();
     } catch (error) {
-        console.warn('db::getEventParticipant ' + error);
+        console.log('db::getEventParticipant ' + error);
+        return null;
     }
-    return null;
 }
 
 export async function getEventParticipants(eventId) {
@@ -265,11 +229,10 @@ export async function getEventParticipants(eventId) {
             participants.push(participant.id);
         }
         return participants;
-    } catch
-        (error) {
-        console.warn('db::getEventParticipants ' + error);
+    } catch (error) {
+        console.log('db::getEventParticipants ' + error);
+        return null;
     }
-    return null;
 }
 
 export async function getEventsWithParticipant(userId) {
@@ -290,9 +253,9 @@ export async function getEventsWithParticipant(userId) {
         }
         return events;
     } catch (error) {
-        console.warn('db::getEventsWithParticipant ' + error);
+        console.log('db::getEventsWithParticipant ' + error);
+        return null;
     }
-    return null;
 }
 
 export async function removeEventParticipant(eventId, userId) {
@@ -308,9 +271,9 @@ export async function removeEventParticipant(eventId, userId) {
             return true;
         }
     } catch (error) {
-        console.warn('db::removeEventParticipant ' + error);
+        console.log('db::removeEventParticipant ' + error);
+        return false;
     }
-    return false;
 }
 
 export async function addLike(commentId, userId) {
@@ -322,12 +285,13 @@ export async function addLike(commentId, userId) {
                 'Content-Type': 'application/json',
             },
         });
-        if (response) {
+        let responseJson = await response.json();
+        if (responseJson) {
             return true;
         }
-    } catch (error
-        ) {
-        console.warn(error);
+    } catch (error) {
+        console.log(error);
+        return false;
     }
 }
 
@@ -339,12 +303,13 @@ export async function dislike(commentId, userId) {
                 'Content-Type': 'application/json',
             },
         });
-        if (response) {
+        let responseJson = await response.json();
+        if (responseJson) {
             return true;
         }
-    } catch (error
-        ) {
-        console.warn(error);
+    } catch (error) {
+        console.log(error);
+        return false;
     }
 }
 
@@ -356,11 +321,13 @@ export async function deleteCommentDb(commentId) {
                 'Content-Type': 'application/json',
             },
         });
-        if (response) {
+        let responseJson = await response.json();
+        if (responseJson) {
             return true;
         }
     } catch (error) {
-        console.warn(error);
+        console.log(error);
+        return false;
     }
 }
 
@@ -384,10 +351,13 @@ export async function updateEvent(event) {
                 'category': event.category,
             }),
         });
-        if (response)
+        let responseJson = await response.json();
+        if (responseJson) {
             return true;
+        }
     } catch (error) {
-        console.warn(error);
+        console.log(error);
+        return false;
     }
 }
 
@@ -420,24 +390,31 @@ export async function updateComment(comment) {
                 'datetime': comment.datetime,
             }),
         });
-        if (response)
+        let responseJson = await response.json();
+        if (responseJson) {
             return true;
+        }
     } catch (error) {
-        console.warn(error);
+        console.log(error);
+        return false;
     }
 }
 
 export async function addChildComment(childComment) {
     try {
-        await fetch(settings.api.addChildComment(childComment.commentId), {
+        let response = await fetch(settings.api.addChildComment(childComment.commentId), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(childComment),
         });
+        let responseJson = await response.json();
+        if (responseJson) {
+            return true;
+        }
     } catch (error) {
-        console.warn('db::addChildComment ' + error);
+        console.log(error);
+        return false;
     }
-    return false;
 }
