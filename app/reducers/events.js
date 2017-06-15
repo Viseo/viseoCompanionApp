@@ -1,9 +1,5 @@
-/**
- * Created by AAB3605 on 29/03/2017.
- */
-
 import {types} from './../actionCreators/events';
-import {REFRESH} from '../modules/events/event.actions';
+import {UPDATE_EVENT} from '../modules/events/event.actions';
 
 function formatEvent(event) {
     return {
@@ -12,11 +8,12 @@ function formatEvent(event) {
         description: event.description,
         category: event.category,
         keywords: event.keywords,
-        location: event.location,
-        date: event.date,
+        location: event.place,
+        date: event.datetime,
         host: event.host,
         participants: [],
         imageUrl: event.imageUrl,
+        version: event.version,
     };
 };
 
@@ -47,7 +44,7 @@ const events = (state = {
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
-                items: action.events,
+                items: action.events.map(event => formatEvent(event)),
                 lastUpdated: action.receivedAt,
             });
         case types.RECEIVE_EVENTS_EXPIRED:
@@ -124,12 +121,12 @@ const events = (state = {
                 }),
             });
         }
-        case types.UPDATE_EVENT:
+        case UPDATE_EVENT:
             return Object.assign({}, state, {
                 items: state.items.map(item => {
                     return item.id === action.event.id ?
                         action.event :
-                        item;
+                        formatEvent(item);
                 }),
             });
 

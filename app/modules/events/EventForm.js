@@ -17,8 +17,8 @@ export default class EventForm extends Component {
         locationError: 'field not filled',
         name: this.props.name,
         nameError: 'field not filled',
-        datetime: this.props.datetime,
-        imageUri: null,
+        formattedDate: moment(this.props.datetime).format(this.dateFormat),
+        imageUrl: null,
     };
 
     constructor(props) {
@@ -90,8 +90,8 @@ export default class EventForm extends Component {
 
     _renderDatePicker() {
         const currentDate = moment().toDate();
-        const selectedDate = this.state.datetime.length > 0 ?
-            this.state.datetime :
+        const selectedDate = this.state.formattedDate.length > 0 ?
+            this.state.formattedDate :
             currentDate;
         return (
             <View style={styles.dateContainer}>
@@ -105,7 +105,10 @@ export default class EventForm extends Component {
                     placeholder='Sélectionnez une date..'
                     confirmBtnText="OK"
                     cancelBtnText="Annuler"
-                    onDateChange={datetime => this.props.setDate(datetime)}
+                    onDateChange={formattedDate => {
+                        const datetime = moment(formattedDate, this.dateFormat).valueOf();
+                        this.props.setDate(datetime)
+                    }}
                 />
             </View>
         );
@@ -136,7 +139,7 @@ export default class EventForm extends Component {
                 <ImagePicker
                     defaultPicture={defaultPicture}
                     style={styles.image}
-                    onSelected={imageUri => this.props.setImage(imageUri)}
+                    onSelected={imageUrl => this.props.setImage(imageUrl)}
                 />
             </View>
         );
@@ -185,8 +188,12 @@ export default class EventForm extends Component {
     }
 
     _setDefaultValues() {
+        this.props.setLocation(this.state.location);
         this.props.setDate(this.state.datetime);
         this.props.setCategory(this.state.category);
+        this.props.setImage(this.state.imageUrl);
+        this.props.setDescription(this.state.description);
+        this.props.setName(this.state.name);
     }
 }
 
@@ -195,8 +202,9 @@ EventForm.defaultProps = {
     description: '',
     location: '',
     name: '',
-    datetime: moment().format(this.dateFormat),
-    imageUri: null,
+    datetime: moment().valueOf(),
+    formattedDate: '',
+    imageUrl: null,
 };
 
 EventForm.propTypes = {
@@ -204,8 +212,9 @@ EventForm.propTypes = {
     description: PropTypes.string,
     location: PropTypes.string,
     name: PropTypes.string,
-    datetime: PropTypes.string,
-    imageUri: PropTypes.number,
+    formattedDate: PropTypes.string,
+    datetime: PropTypes.number,
+    imageUrl: PropTypes.number,
     setName: PropTypes.func.isRequired,
     setDescription: PropTypes.func.isRequired,
     setLocation: PropTypes.func.isRequired,

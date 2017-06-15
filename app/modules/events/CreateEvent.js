@@ -38,12 +38,12 @@ class CreateEvent extends Component {
                 setDate={(date) => this.setState({date})}
                 setImage={(image) => this.setState({image})}
             />
-        )
+        );
     }
 
     async _saveEvent() {
         const isFormValid = this.state.name && this.state.location;
-        if(isFormValid) {
+        if (isFormValid) {
             await this.props.addEvent({
                 name: this.state.name,
                 description: this.state.description,
@@ -78,10 +78,10 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         addEvent,
         refresh: fetchEvents,
-    }, dispatch)
-}
+    }, dispatch);
+};
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(CreateEvent);

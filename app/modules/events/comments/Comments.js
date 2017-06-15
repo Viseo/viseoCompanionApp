@@ -97,7 +97,7 @@ class Comments extends Component {
 
     _renderCommentCard(comment) {
         const commentChildren = comment.childComments.map(childComment => {
-            const [day, time] = this._formatDate(childComment.datetime);
+            const [day, time] = this._formatDate(childComment.formattedDate);
             return (
                 <CommentCard
                     key={childComment.id}
@@ -118,7 +118,7 @@ class Comments extends Component {
                 />
             );
         });
-        const [day, time] = this._formatDate(comment.datetime);
+        const [day, time] = this._formatDate(comment.formattedDate);
         return (
             <View>
                 <CommentCard

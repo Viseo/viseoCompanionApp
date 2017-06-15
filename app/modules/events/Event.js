@@ -8,6 +8,7 @@ import FlexImage from '../../components/FlexImage';
 import ItemSpacer from '../../components/ItemSpacer';
 import colors from '../global/colors';
 import CheckBox from 'react-native-check-box';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 const {height, width} = Dimensions.get('window');
 
@@ -50,7 +51,14 @@ export default class Event extends Component {
     }
 
     _goToEditEvent() {
-        
+        this.props.navigator.push({
+            screen: 'events.editEvent',
+            title: 'Modifier l\'évènement',
+            navigatorStyle: defaultNavBarStyle,
+            passProps: {
+                eventId: this.props.id,
+            },
+        });
     }
 
     _renderDetails() {
@@ -100,7 +108,7 @@ export default class Event extends Component {
                             {day}
                         </AppText>
                         <AppText style={styles.secondaryParticipationInfoText}>
-                           à {time}
+                            à {time}
                         </AppText>
                     </View>
                     <View style={styles.participationInfoItem}>
@@ -175,7 +183,7 @@ export default class Event extends Component {
 
 Event.propTypes = {
     category: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
     hostFirstName: PropTypes.string.isRequired,
     hostLastName: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
@@ -210,7 +218,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: -20
+        marginTop: -20,
     },
     eventDetails: {
         flex: 30,

@@ -50,7 +50,7 @@ export async function addEvent(event, userId) {
             body: JSON.stringify({
                 'name': event.name,
                 'description': event.description,
-                'datetime': event.datetime,
+                'datetime': event.formattedDate,
                 'keywords': event.keywords || '',
                 'place': event.location,
                 'version': '0',
@@ -190,7 +190,7 @@ export async function getEvents() {
                 event.id,
                 event.name,
                 event.description,
-                event.datetime,
+                event.formattedDate,
                 event.place,
                 event.category,
             ));
@@ -213,7 +213,7 @@ export async function getEventsByRegisteredUser(userId) {
                 id: event.id,
                 name: event.name,
                 description: event.description,
-                date: event.datetime,
+                date: event.formattedDate,
                 location: event.place,
             });
         }
@@ -294,7 +294,7 @@ export async function getEventsWithParticipant(userId) {
                 event.id,
                 event.name,
                 event.description,
-                event.datetime,
+                event.formattedDate,
                 event.place,
                 event.category,
             ));
@@ -377,9 +377,7 @@ export async function deleteCommentDb(commentId) {
 
 export async function updateEvent(event) {
     try {
-
         let response = await fetch(settings.api.updatedEvent(event.id), {
-
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -396,7 +394,8 @@ export async function updateEvent(event) {
             }),
         });
         if (response)
-            return true;
+            return await response.json();
+        return null;
     } catch (error) {
         console.warn(error);
     }
@@ -428,7 +427,7 @@ export async function updateComment(comment) {
                 'id': comment.id,
                 'version': comment.version,
                 'content': comment.content,
-                'datetime': comment.datetime,
+                'datetime': comment.formattedDate,
             }),
         });
         if (response)

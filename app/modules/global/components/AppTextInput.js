@@ -35,7 +35,7 @@ class AppTextInput extends Component {
                         {color: colors.mediumGray},
                         style,
                     ]}
-                    value={value}
+                    value={value || ''}
                     onChangeText={value => {
                         const isValid = validator(value);
                         this.setState({value, isValid});

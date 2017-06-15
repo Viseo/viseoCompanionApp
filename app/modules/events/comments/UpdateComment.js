@@ -45,7 +45,7 @@ class UpdateComment extends Component {
         const comment = {
             id: this.props.comment.id,
             content: this.state.comment,
-            datetime: moment().valueOf(),
+            formattedDate: moment().valueOf(),
             version: this.props.comment.version,
         };
         await updateComment(comment);
