@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from 'react-native';
-import AppText from '../global/AppText';
+import AppText from '../global/components/AppText';
 import {bindActionCreators} from 'redux';
 import {fetchEventParticipants} from '../../actionCreators/events';
 import ItemSpacer from '../../components/ItemSpacer';
@@ -247,11 +247,10 @@ class PastEvent extends Component {
 
     _goToNotationModal() {
         this.props.navigator.showLightBox({
-            screen: "notation.NotationVote", // unique ID registered with Navigation.registerScreen
-            title: "Modal", // title of the screen as appears in the nav bar (optional)
-            passProps: {eventName:this.props.name,location: this.props.location, date: this.props.date}, // simple serializable object that will pass as props to the modal (optional)
-            navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
-            animationType: 'slide-up' // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+            screen: "notation.NotationVote",
+            title: "Modal",
+            passProps: {eventName:this.props.name,location: this.props.location, date: this.props.date},
+            animationType: 'slide-up'
         });
     }
 }
