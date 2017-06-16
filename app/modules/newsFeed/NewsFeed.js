@@ -24,7 +24,7 @@ export default class NewsFeed extends Component {
 
     _goToUserProfile() {
         this.props.navigator.push({
-            screen:'user.profile',
+            screen:'user.myProfile',
             title:'Mon profil',
         });
     }

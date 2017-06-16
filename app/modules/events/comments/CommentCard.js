@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '../../global/colors';
-import  Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Avatar from '../../../components/Avatar';
 import AppText from '../../global/components/AppText';
 import {addLike, deleteCommentDb, dislike} from '../../global/db';
@@ -38,6 +38,16 @@ export default class CommentCard extends Component {
         );
     }
 
+    _goToUserProfile() {
+        this.props.navigator.push({
+            screen:'user.othersProfile',
+            title:'Profil détaillé',
+            passProps: {
+                user: this.props.writer
+            }
+        });
+    }
+
     _renderParticipantDate() {
         const date =
             <View style={{flex: .5}}>
@@ -69,14 +79,17 @@ export default class CommentCard extends Component {
 
     _renderUserAvatar() {
         return (
-            <View style={{flex: 0.25}}>
-                <Avatar
-                    lastName={this.props.writer.lastName}
-                    firstName={this.props.writer.firstName}
-                    style={{paddingTop: 10, paddingLeft: 5}}
-                    size={4}
-                />
-            </View>
+            <TouchableOpacity
+                onPress={() => this._goToUserProfile()}>
+                <View style={{flex: 0.25}}>
+                    <Avatar
+                        lastName={this.props.writer.lastName}
+                        firstName={this.props.writer.firstName}
+                        style={{paddingTop: 10, paddingLeft: 5}}
+                        size={4}
+                    />
+                </View>
+            </TouchableOpacity>
         );
     }
 
@@ -200,6 +213,7 @@ export default class CommentCard extends Component {
                         datetime: moment.valueOf(),
                         version: this.props.version,
                         eventId: this.props.eventId,
+                        publish: true,
                     },
                     refresh: this.props.refresh,
                 },

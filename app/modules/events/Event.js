@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import AppText from '../global/components/AppText';
-import {View, Dimensions, StyleSheet, ScrollView, Image} from 'react-native';
+import {View, Dimensions, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import Avatar from '../../components/Avatar';
 import strings from '../global/localizedStrings';
@@ -149,13 +149,26 @@ export default class Event extends Component {
         );
     }
 
+    _goToUserProfile() {
+        this.props.navigator.push({
+            screen:'user.othersProfile',
+            title:'Profil détaillé',
+            passProps: {
+                user: this.props.host
+            }
+        });
+    }
+
     _renderMainInfo() {
         const hostAvatar =
-            <Avatar
-                firstName={this.props.hostFirstName}
-                lastName={this.props.hostLastName}
-                style={{flex: 3, paddingHorizontal: 10}}
-            />;
+            <TouchableOpacity
+                onPress={() => this._goToUserProfile()}>
+                <Avatar
+                    firstName={this.props.hostFirstName}
+                    lastName={this.props.hostLastName}
+                    style={{flex: 3, paddingHorizontal: 10}}
+                />
+            </TouchableOpacity>;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.category];
         const category = <AppText>{categoryName}</AppText>;

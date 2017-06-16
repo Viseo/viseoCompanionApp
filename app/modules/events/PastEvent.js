@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from "react-native";
+import {Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
 import AppText from "../global/components/AppText";
 import {bindActionCreators} from "redux";
 import {fetchEventParticipants} from "../../actionCreators/events";
@@ -125,7 +125,10 @@ class PastEvent extends Component {
         );
         return (
             <View style={{flex: 8, flexDirection: 'row'}}>
-                {hostAvatar}
+                <TouchableOpacity
+                    onPress={() => this._goToUserProfile()}>
+                    {hostAvatar}
+                </TouchableOpacity>
                 {eventInfo}
                 {categoryIndicator}
             </View>
@@ -240,6 +243,16 @@ class PastEvent extends Component {
                 participating:this.props.participating
             },
             navigatorButtons
+        });
+    }
+
+    _goToUserProfile() {
+        this.props.navigator.push({
+            screen:'user.othersProfile',
+            title:'Profil détaillé',
+            passProps: {
+                user: this.props.host
+            }
         });
     }
 }

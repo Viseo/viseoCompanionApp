@@ -47,6 +47,7 @@ class UpdateComment extends Component {
             content: this.state.comment,
             datetime: moment().valueOf(),
             version: this.props.comment.version,
+            publish: true,
         };
         await updateComment(comment);
         // TODO use getComment instead of getCommentsByEvent

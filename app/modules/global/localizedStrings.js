@@ -50,7 +50,7 @@ let strings = new LocalizedStrings({
         title: "Title",
         location: "Location",
         description: "Description",
-        profileEditionLabel: 'Profile edition',
+        profileEditionLabel: 'MyProfile edition',
         firstName: "Firstname",
         lastName: "Lastname",
         birthDate: "Birthdate",
@@ -58,7 +58,7 @@ let strings = new LocalizedStrings({
         history: "History",
         myEvents: "My events",
         home: "Home",
-        profile: "Profile",
+        profile: "OthersProfile",
         settings: "Settings",
         resetPassword: "Reset password",
         unknownEmail: "This email address does not exist"

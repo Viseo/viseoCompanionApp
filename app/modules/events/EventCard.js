@@ -218,6 +218,7 @@ export default class EventCard extends Component {
             passProps: {
                 hostFirstName: this.props.host.firstName || 'Admin',
                 hostLastName: this.props.host.lastName || '',
+                host: this.props.host,
                 id: this.props.id,
                 location: this.props.location,
                 name: this.props.name,
