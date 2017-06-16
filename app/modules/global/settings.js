@@ -27,9 +27,6 @@ const restRoutes = {
     updatedComment: serverURL + 'comments',
     addComment: serverURL + 'comments',
     liveEvent: 'ws://' + serverIp + ':8080/liveEvent',
-    getAllCommentsByEvent: (eventId) => {
-        return serverURL + 'comments/events/' + eventId + '?filter=all';
-    },
     getPublishedCommentsByEvent: (eventId) => {
         return serverURL + 'comments/events/' + eventId + '?filter=published';
     },

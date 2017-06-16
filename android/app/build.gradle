@@ -150,6 +150,7 @@ dependencies {
     compile project(':react-native-navigation')
     compile project(':react-native-vector-icons')
     compile project(':react-native-image-picker')
+    compile project(':react-native-svg')
 
     //PushNotification
     compile project(':react-native-fcm')
