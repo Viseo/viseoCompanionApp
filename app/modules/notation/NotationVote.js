@@ -72,10 +72,13 @@ export default class NotationVote extends Component {
             });
         }
         else {
+            this.props.navigator.dismissLightBox({
+                animationType: 'slide-down'
+            });
             this.props.navigator.showLightBox({
                 screen: 'notation.NotationThanks',
                 title: 'Merci',
-                passProps: {textContent:"Merci de nous aider à nous améliorer !"},
+                passProps: {textContent:"Merci de nous aider à nous améliorer !",emotion:"happy"},
                 animationType: 'slide-up',
             });
         }

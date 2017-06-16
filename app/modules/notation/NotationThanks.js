@@ -1,27 +1,38 @@
 import React, {Component} from 'react';
-import {View,StyleSheet} from 'react-native';
+import {View, StyleSheet, Image} from 'react-native';
 import AppText from '../global/components/AppText';
 export default class NotationThanks extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            textContent: ""
-        }
+            textContent: '',
+        };
     }
+
     render() {
         return (
 
             <View style={styles.container}>
-                {<AppText>{this.props.textContent}</AppText>}
+                <View style={{flex: 1, flexDirection: 'column',alignItems:"center"}}>
+                <Image source={this.props.emotion==="happy"?
+                    require('./../../images/happy.png') :
+                    require('./../../images/check.png')
+                } style={{width:50,height:50}} />
+                    <AppText style={{fontSize:16,fontWeight:"bold"}} >{this.props.textContent}</AppText>
+                </View>
+
             </View>
-        )}
+        );
+    }
 
 };
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#ede3f2',
-        padding: 100,
-        alignItems: 'center',
+        padding: 10,
+        width: '100%',
+        height: '60%',
+        marginTop: 100,
     },
 });
 
