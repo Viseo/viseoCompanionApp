@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, Button} from "react-native";
-import AppTextInput from "../global/AppTextInput";
-import {updateComment} from "../global/db";
+import AppTextInput from "../../global/components/AppTextInput";
+import {updateComment} from "../../global/db";
 import moment from "moment";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {getComments} from "./comments/comments.actions";
+import {getComments} from "./comments.actions";
 
 class UpdateComment extends Component {
 

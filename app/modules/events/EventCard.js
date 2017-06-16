@@ -1,13 +1,13 @@
-import React, {Component} from "react";
-import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import Swipeout from "react-native-swipe-out";
-import strings from "../global/localizedStrings";
-import Highlighter from "react-native-highlight-words";
-import * as util from "../../util/util";
-import colors from "../global/colors";
-import AppText from "../global/AppText";
-import moment from "moment";
-import {defaultNavBarStyle} from "../global/navigatorStyle";
+import React, {Component} from 'react';
+import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Swipeout from 'react-native-swipe-out';
+import strings from '../global/localizedStrings';
+import Highlighter from 'react-native-highlight-words';
+import * as util from '../../util/util';
+import colors from '../global/colors';
+import AppText from '../global/components/AppText';
+import moment from 'moment';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 export default class EventCard extends Component {
 
@@ -17,7 +17,7 @@ export default class EventCard extends Component {
 
     getSwipeOption = () => {
         let textOption = this.props.participating ? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
-        let icon = this.props.participating ? require("../../images/crossWhite.png") : require("../../images/checkWhite.png");
+        let icon = this.props.participating ? require('../../images/crossWhite.png') : require('../../images/checkWhite.png');
         return [{
             component: <View className="participate" style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={icon} style={{width: 33, height: 33}}/>
@@ -27,11 +27,11 @@ export default class EventCard extends Component {
             </View>,
             onPress: () => {
                 setTimeout(() => {
-                    this.props.onParticipationChange()
+                    this.props.onParticipationChange();
                 }, 300);
             },
             backgroundColor: this.props.participating ? '#ff6d6d' : colors.blue,
-            color: 'white'
+            color: 'white',
         }];
     };
 
@@ -66,7 +66,7 @@ export default class EventCard extends Component {
             <View
                 style={{
                     flex: 1,
-                    alignSelf: 'stretch'
+                    alignSelf: 'stretch',
                 }}
             >
             </View>
@@ -84,7 +84,7 @@ export default class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor: (this.props.participating) ? colors.lightBlue : 'white'}
+                    {backgroundColor: (this.props.participating) ? colors.lightBlue : 'white'},
                 ]}/>
             </View>
         );
@@ -183,7 +183,7 @@ export default class EventCard extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={this.props.time || ''}
+                        textToHighlight={'à ' + this.props.time || ''}
                     />
                 </View>
             </View>
@@ -192,7 +192,7 @@ export default class EventCard extends Component {
     }
 
     _goToEvent() {
-        if(this._isLive()) {
+        if (this._isLive()) {
             this._showLiveEvent();
         } else {
             this._showEventDetails();
@@ -200,13 +200,24 @@ export default class EventCard extends Component {
     }
 
     _showEventDetails() {
+        const canEdit = this.props.user.id === this.props.host.id;
+        const navigatorButtons = canEdit ?
+            {
+                rightButtons: [
+                    {
+                        title: 'Modifier',
+                        id: 'edit',
+                    },
+                ],
+            } :
+            {};
         this.props.navigator.push({
-            title: "Détails de l'évènement",
+            title: 'Détails de l\'évènement',
             screen: 'events.event',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
-                hostFirstName: this.props.host.firstName || "Admin",
-                hostLastName: this.props.host.lastName || "",
+                hostFirstName: this.props.host.firstName || 'Admin',
+                hostLastName: this.props.host.lastName || '',
                 id: this.props.id,
                 location: this.props.location,
                 name: this.props.name,
@@ -218,20 +229,22 @@ export default class EventCard extends Component {
                 onParticipationChange: this.props.onParticipationChange,
                 participating: this.props.participating,
                 category: this.props.category,
+                user: this.user,
             },
+            navigatorButtons,
         });
     }
 
     _showLiveEvent() {
         this.props.navigator.push({
-            title: this.props.name + " - LIVE",
+            title: this.props.name + ' - LIVE',
             screen: 'events.liveEvent',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 eventId: this.props.id,
                 name: this.props.name,
                 numberOfParticipants: this.props.participants.length,
-            }
+            },
         });
     }
 
@@ -244,7 +257,7 @@ export default class EventCard extends Component {
 
 let {
     height: deviceHeight,
-    width: deviceWidth
+    width: deviceWidth,
 } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -265,7 +278,7 @@ const styles = StyleSheet.create({
     firstRow: {
         flex: 3,
         flexDirection: 'row',
-        paddingRight: 10
+        paddingRight: 10,
     },
     liveIndicator: {
         backgroundColor: colors.red,
@@ -274,12 +287,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 2,
         borderRadius: 2,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     secondRow: {
         flex: 6,
         flexDirection: 'column',
-        paddingRight: 10
+        paddingRight: 10,
     },
     name: {
         flex: 6,
@@ -299,7 +312,7 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         fontWeight: '100',
         color: colors.mediumGray,
-        fontSize: 14
+        fontSize: 14,
     },
     description: {
         flex: 1,
@@ -322,7 +335,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontWeight: '300',
         color: '#8c8c8c',
-        fontSize: 14
+        fontSize: 14,
     },
     dotContainer: {
         flex: 5,
@@ -352,12 +365,12 @@ const styles = StyleSheet.create({
     },
 
     highlightStyle: {
-        backgroundColor: colors.highlight
-    }
+        backgroundColor: colors.highlight,
+    },
 });
 
 const styleFont = StyleSheet.create({
     textFont: {
         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-    }
+    },
 });

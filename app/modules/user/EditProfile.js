@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet} from "react-native";
 import {connect} from "react-redux";
-import AppTextInput from "../global/AppTextInput";
+import AppTextInput from "../global/components/AppTextInput";
 import PropTypes from 'prop-types';
 import {updateUser as updateUserDb} from "../global/db";
 import PasswordInput from "./authentication/PasswordInput";

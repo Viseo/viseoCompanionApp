@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import {getComments} from './comments.actions';
 import {connect} from 'react-redux';
-import AppText from '../../global/AppText';
+import AppText from '../../global/components/AppText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import PropTypes from 'prop-types';

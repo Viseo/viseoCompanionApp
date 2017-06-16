@@ -3,7 +3,7 @@ import {Button, Image, ScrollView, StyleSheet, View} from "react-native";
 import EmailInput from "./EmailInput";
 import PasswordInput from "./PasswordInput";
 import strings from "../../global/localizedStrings";
-import AppText from "../../global/AppText";
+import AppText from "../../global/components/AppText";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {authenticate, rememberUser as toggleRememberUser} from "./authentication.actions";

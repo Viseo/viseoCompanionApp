@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Button, View, Dimensions, StyleSheet} from 'react-native';
 import AppText from './AppText';
-import colors from './colors';
-import {startAppLoader} from './navigationLoader';
+import colors from '../colors';
+import {Navigation} from 'react-native-navigation';
 
-export default class UnreachableServerPopup extends Component {
+export default class InvalidFormPopup extends Component {
 
     constructor(props) {
         super(props);
@@ -14,23 +14,19 @@ export default class UnreachableServerPopup extends Component {
         return (
             <View style={styles.container}>
                 <View style={{flex: 8}}>
-                    <AppText style={styles.title}>{'Oops petit problème!'}</AppText>
-                    <AppText style={styles.content}>{"La connexion avec le serveur a échoué, veuillez réessayer plus tard."}</AppText>
+                    <AppText style={styles.title}>{'Formulaire incomplet'}</AppText>
+                    <AppText style={styles.content}>{"Veuillez remplir correctement tous les champs requis."}</AppText>
                 </View>
                 <View style={styles.buttonBar}>
                     <Button
                         style={styles.button}
-                        title={'Réessayer'}
-                        onPress={() => this._restartApp()}
+                        title={'OK'}
+                        onPress={() => Navigation.dismissLightBox()}
                         color={colors.blue}
                     />
                 </View>
             </View>
         );
-    }
-
-    _restartApp() {
-        startAppLoader();
     }
 }
 

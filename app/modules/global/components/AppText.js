@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Platform, StyleSheet, Text} from "react-native";
-import colors from "./colors";
+import colors from "../colors";
 
 class AppText extends Component {
     setNativeProps(nativeProps) {

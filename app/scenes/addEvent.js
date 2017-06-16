@@ -14,8 +14,8 @@ import {
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Header from "./../components/header";
-import AppText from "../modules/global/AppText";
-import EditableImage from "./../components/editableImage";
+import AppText from "../modules/global/components/AppText";
+import EditableImage from "../modules/global/components/ImagePicker";
 import colors from "../modules/global/colors";
 
 export default class AddEvent extends Component {
@@ -39,10 +39,10 @@ export default class AddEvent extends Component {
             errorType: ''
         });
         if (this.isFormCorrect()) {
-            let formattedDate = moment(this.state.datetime).valueOf();
+            let datetime = moment(this.state.datetime).valueOf();
             await this.props.db.addEvent({
                 name: this.state.name,
-                datetime: formattedDate,
+                datetime,
                 keyWords: this.state.keyWords,
                 location: this.state.place,
                 description: this.state.description
@@ -72,7 +72,7 @@ export default class AddEvent extends Component {
                 <ScrollView>
                     <View style={styles.mainContainer}>
                         {this.renderTitle()}
-                        <EditableImage/>
+                        <ImagePicker/>
                         <KeyboardAvoidingView behavior='position'>
                             {this.renderHostInput()}
                             {this.renderNameInput()}

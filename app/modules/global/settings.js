@@ -1,4 +1,4 @@
-import {localhostIp} from './localConf';
+import {localhostIp, conf} from './localConf';
 
 /////////// SERVER CONNECTION ////////////////
 
@@ -7,15 +7,13 @@ import {localhostIp} from './localConf';
 const localhostURL = 'http://' + localhostIp + ':8080/';
 
 // The server URL, you usually shouldn't have to change this
-const remoteIp = '54.229.99.105';
-const remoteURL = 'http://' + remoteIp + ':8080/viseocompanion/api/';
 
-let serverURL = localhostURL;
-let serverIp = localhostIp;
+const remoteURL = 'http://companion-dev.viseolab.com/';
+
+let serverURL = conf === 'DEV' ? localhostURL : remoteURL;
 
 /////////// RESTFUL API ////////////////
 const restRoutes = {
-    addEvent: serverURL + 'events/',
     getEvent: serverURL + 'events/',
     getEvents: serverURL + 'events',
     addUser: serverURL + 'users/',
@@ -26,7 +24,13 @@ const restRoutes = {
     resetPassword: serverURL + 'resetPassword',
     updatedComment: serverURL + 'comments',
     addComment: serverURL + 'comments',
-    liveEvent: 'ws://' + serverIp + ':8080/liveEvent',
+    liveEvent: conf === 'PROD' ?
+        serverURL + 'liveEvent':
+        'ws://' + localhostIp + ':8080/liveEvent',
+    uploadImage: serverURL + 'upload',
+    addEvent: (userId) => {
+        return serverURL + 'events?host=' + userId;
+    },
     getPublishedCommentsByEvent: (eventId) => {
         return serverURL + 'comments/events/' + eventId + '?filter=published';
     },

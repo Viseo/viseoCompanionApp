@@ -8,7 +8,6 @@ import moment from "moment";
 
 export const types = {
     ADD_EVENT: 'ADD_EVENT',
-    ADD_EVENTS: 'ADD_EVENTS',
     FETCH_EVENTS: 'FETCH_EVENTS',
     FETCH_EVENTS_FAILED: 'FETCH_EVENTS_FAILED',
     GET_EVENT: 'GET_EVENT',
@@ -25,6 +24,7 @@ export const types = {
     UPDATE_EVENT_PARTICIPANTS: 'UPDATE_EVENT_PARTICIPANTS',
 };
 
+//Ported
 export const addEvent = (event) => {
     return async (dispatch) => {
         dispatch({
@@ -35,6 +35,7 @@ export const addEvent = (event) => {
     }
 };
 
+//useless
 export const fetchEventParticipants = (id) => {
     return async (dispatch) => {
         let participants = await getEventParticipants(id);
@@ -46,6 +47,7 @@ export const fetchEventParticipants = (id) => {
     }
 };
 
+//Ported
 export const fetchEvents = (user) => {
     return async (dispatch) => {
         dispatch(requestEvents());
@@ -85,6 +87,7 @@ export const fetchEventsExp = (user) => {
     }
 };
 
+//Ported
 function getEventsFromJson(json) {
     let events = [];
     for (let i = 0; i < json.length; i++) {
@@ -106,12 +109,14 @@ function getEventsFromJson(json) {
     return events
 }
 
+//Ported
 const receiveEvents = (events) => ({
     type: types.RECEIVE_EVENTS,
     events,
     receivedAt: Date.now()
 });
 
+//Ported
 const receiveEventsExpired = (events) => ({
     type: types.RECEIVE_EVENTS_EXPIRED,
     events

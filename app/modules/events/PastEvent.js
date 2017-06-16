@@ -195,7 +195,7 @@ class PastEvent extends Component {
                             {day}
                         </AppText>
                         <AppText style={styles.secondaryParticipationInfoText}>
-                            {time}
+                            à {time}
                         </AppText>
                     </View>
                     <View style={styles.participationInfoItem}>

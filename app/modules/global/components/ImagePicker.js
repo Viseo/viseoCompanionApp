@@ -1,14 +1,11 @@
-/**
- * Created by LMA3606 on 04/04/2017.
- */
+import React, {Component} from 'react';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import Picker from 'react-native-image-picker';
+import strings from '../localizedStrings';
+import AppText from './AppText';
+import PropTypes from 'prop-types';
 
-import React, {Component} from "react";
-import {StyleSheet, Text, TouchableOpacity} from "react-native";
-import ImagePicker from "react-native-image-picker";
-import strings from "../modules/global/localizedStrings";
-import FlexImage from "./../components/FlexImage";
-
-export default class EditableImage extends Component {
+export default class ImagePicker extends Component {
 
     constructor(props) {
         super(props);
@@ -30,16 +27,15 @@ export default class EditableImage extends Component {
             maxHeight: 500,
         };
 
-        ImagePicker.showImagePicker(options, (response) => {
+        Picker.showImagePicker(options, (response) => {
             if (!response.didCancel && !response.error) {
-                let source = {uri: response.uri};
-
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let source = {uri: response.uri};
                 this.setState({
-                    selectedPicture: source
+                    selectedPicture: source,
                 });
-                this.props.onSelected(response.uri);
+                this.props.onSelected(source);
             }
         });
     };
@@ -52,28 +48,29 @@ export default class EditableImage extends Component {
             >
                 {
                     this.state.selectedPicture ?
-                        <FlexImage
-                            resizeMode='stretch'
+                        <Image
                             source={this.state.selectedPicture}
-                            className="image"
                             style={this.props.style}
                         />
                         :
-                        <Text
+                        <AppText
                             className="placeholder"
                             style={styles.placeholder}
                         >
                             {strings.selectPicture}
-                        </Text>
+                        </AppText>
                 }
             </TouchableOpacity>
         );
     }
-
 }
+
+ImagePicker.propTypes = {
+    onSelected: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
     placeholder: {
-        textAlign: 'center'
-    }
+        textAlign: 'center',
+    },
 });

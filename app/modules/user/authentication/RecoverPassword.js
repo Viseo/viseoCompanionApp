@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AppText from '../../global/AppText';
+import AppText from '../../global/components/AppText';
 import {View} from 'react-native';
 
 export default class RecoverPassword extends Component {

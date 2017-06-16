@@ -1,9 +1,10 @@
-import React, {Component} from "react";
-import {ListView, StyleSheet} from "react-native";
-import InvertibleScrollView from "react-native-invertible-scroll-view";
-import SentChatCard from "./components/SentChatCard";
-import ReceivedChatCard from "./components/ReceivedChatCard";
-import {connect} from "react-redux";
+import React, {Component} from 'react';
+import {ListView, StyleSheet} from 'react-native';
+import InvertibleScrollView from 'react-native-invertible-scroll-view';
+import SentChatCard from './components/SentChatCard';
+import ReceivedChatCard from './components/ReceivedChatCard';
+import {connect} from 'react-redux';
+import StatusChatCard from './components/StatusChatCard';
 
 class ChatView extends Component {
 
@@ -37,16 +38,27 @@ class ChatView extends Component {
     }
 
     _compareChatCardsById(first, second) {
-        return first.id !== second.id;
+        return first.datetime !== second.datetime;
     }
 
     _renderChatCard(chatData) {
-        return chatData.type === 'sent' ?
-            <SentChatCard chatData={chatData}/> :
-            <ReceivedChatCard chatData={chatData}/>;
+        switch (chatData.type) {
+            case 'sent' :
+                return <SentChatCard chatData={chatData}/>;
+            case 'received' :
+                return <ReceivedChatCard chatData={chatData}/>;
+            case 'status' :
+                return <StatusChatCard chatData={chatData}/>;
+            default:
+                return null;
+
+        }
     }
 
     _refresh(chatMessages) {
+        chatMessages.sort(function (a, b) {
+            return a.datetime - b.datetime;
+        });
         const rowIds = chatMessages.map((message, index) => index).reverse();
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(chatMessages, rowIds),
@@ -60,7 +72,7 @@ const mapStateToProps = ({live}, ownProps) => ({
 });
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
 )(ChatView);
 
 const styles = StyleSheet.create({

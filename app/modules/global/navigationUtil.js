@@ -6,6 +6,16 @@ export function hideTabBar(navigator) {
     });
 }
 
+export function showInvalidFormPopup() {
+    Navigation.showLightBox({
+        screen: "global.invalidFormPopup",
+        style: {
+            backgroundBlur: "dark",
+            backgroundColor: "#135caa70"
+        }
+    });
+}
+
 export function showTabBar(navigator) {
     navigator.toggleTabs({
         to: 'shown',
