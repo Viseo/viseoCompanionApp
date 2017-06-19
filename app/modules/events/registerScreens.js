@@ -10,7 +10,7 @@ import CreateComment from './comments/CreateComment';
 import CreateChildComment from './comments/CreateChildComment';
 import Comments from './comments/Comments';
 import EditEvent from './EditEvent';
-import OthersProfile from '../user/OthersProfile';
+import OthersProfile from '../user/OtherProfile';
 
 export default function(store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);

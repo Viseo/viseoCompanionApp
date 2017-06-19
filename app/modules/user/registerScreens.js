@@ -1,7 +1,7 @@
 import { Navigation } from 'react-native-navigation';
 import EditProfile from "./EditProfile";
 import MyProfile from './MyProfile';
-import OthersProfile from './OthersProfile';
+import OthersProfile from './OtherProfile';
 import SignOut from './authentication/SignOut';
 import SignIn from './authentication/SignIn';
 import RecoverPassword from './authentication/RecoverPassword';

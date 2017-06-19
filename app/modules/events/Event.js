@@ -160,15 +160,14 @@ export default class Event extends Component {
     }
 
     _renderMainInfo() {
-        const hostAvatar =
-            <TouchableOpacity
-                onPress={() => this._goToUserProfile()}>
-                <Avatar
-                    firstName={this.props.hostFirstName}
-                    lastName={this.props.hostLastName}
-                    style={{flex: 3, paddingHorizontal: 10}}
-                />
-            </TouchableOpacity>;
+        const {hostFirstName, hostLastName, host, navigator} = this.props;
+        const hostAvatar = <Avatar
+            firstName={hostFirstName}
+            lastName={hostLastName}
+            style={{flex: 3}}
+            otherProfileId={host.id}
+            navigator={navigator}
+        />;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.category];
         const category = <AppText>{categoryName}</AppText>;

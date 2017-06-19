@@ -29,6 +29,8 @@ export default {
         firstName: 'non renseigné',
         lastName: 'non renseigné',
         version: 1,
+        isFetching: false,
+        otherProfile: '',
     },
     visibilityFilter: 'SHOW_ALL',
 };

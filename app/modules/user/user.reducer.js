@@ -1,4 +1,4 @@
-import {UPDATE_USER} from "./user.actions";
+import {RECEIVE_USER, REQUEST_USER, UPDATE_USER} from './user.actions';
 
 const user = (state = [], action) => {
     switch (action.type) {
@@ -7,9 +7,20 @@ const user = (state = [], action) => {
                 ...state,
                 ...action.user
             };
+        case RECEIVE_USER:
+            return {
+                ...state,
+                isFetching: false,
+                otherProfile: action.user,
+            };
+        case REQUEST_USER:
+            return {
+                ...state,
+                isFetching: true,
+            };
         default:
             return state;
     }
 };
 
-export default user
+export default user;

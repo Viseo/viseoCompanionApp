@@ -29,7 +29,7 @@ export async function doServerCall(func) {
 export async function addEvent(event, userId) {
     try {
         let imageUrl = null;
-        if(event.image) {
+        if (event.image) {
             let formData = new FormData();
             formData.append('file', {
                 uri: event.image.uri,
@@ -222,6 +222,16 @@ export async function getUserByEmail(email) {
     }
 }
 
+export async function getUser(userId) {
+    try {
+        let response = await fetch(settings.api.getUser(userId));
+        return await response.json();
+    } catch (error) {
+        console.log('db::getUser ' + error);
+        return null;
+    }
+}
+
 export async function getEventParticipant(eventId, userId) {
     try {
         let response = await fetch(settings.api.getEventParticipant(eventId, userId));
@@ -362,7 +372,7 @@ export async function updateEvent(event) {
                 'category': event.category,
             }),
         });
-            return await response.json();
+        return await response.json();
     } catch (error) {
         console.log(error);
         return null;

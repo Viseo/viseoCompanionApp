@@ -1,30 +1,30 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
-import AppText from "../global/components/AppText";
-import {bindActionCreators} from "redux";
-import {fetchEventParticipants} from "../../actionCreators/events";
-import ItemSpacer from "../../components/ItemSpacer";
-import FlexImage from "../../components/FlexImage";
-import KeyboardSpacer from "react-native-keyboard-spacer";
-import colors from "../global/colors";
-import Avatar from "../../components/Avatar";
-import PropTypes from "prop-types";
-import strings from "../global/localizedStrings";
-import moment from "moment";
-import {defaultNavBarStyle} from "../global/navigatorStyle";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import AppText from '../global/components/AppText';
+import {bindActionCreators} from 'redux';
+import {fetchEventParticipants} from '../../actionCreators/events';
+import ItemSpacer from '../../components/ItemSpacer';
+import FlexImage from '../../components/FlexImage';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import colors from '../global/colors';
+import Avatar from '../../components/Avatar';
+import PropTypes from 'prop-types';
+import strings from '../global/localizedStrings';
+import moment from 'moment';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 const eventIdToImages = {
-    "40": require('./../../images/events/formation_securite.jpg'),
-    "0": require('./../../images/events/0.jpg'),
-    "7": require('./../../images/events/blockchain-iot.jpg'),
-    "41": require('./../../images/events/poker_jeux.jpg'),
-    "42": require('./../../images/events/concert-de-rock.jpg'),
-    "39": require('./../../images/coderdojo.jpg'),
-    "44": require('./../../images/events/formationAgile.jpg'),
-    "43": require('./../../images/events/reactive-nativingitup-png-800x600_q96.png'),
-    "38": require('./../../images/events/soiree_nouveaux.jpg'),
-    "46": require('./../../images/events/tdd.png'),
+    '40': require('./../../images/events/formation_securite.jpg'),
+    '0': require('./../../images/events/0.jpg'),
+    '7': require('./../../images/events/blockchain-iot.jpg'),
+    '41': require('./../../images/events/poker_jeux.jpg'),
+    '42': require('./../../images/events/concert-de-rock.jpg'),
+    '39': require('./../../images/coderdojo.jpg'),
+    '44': require('./../../images/events/formationAgile.jpg'),
+    '43': require('./../../images/events/reactive-nativingitup-png-800x600_q96.png'),
+    '38': require('./../../images/events/soiree_nouveaux.jpg'),
+    '46': require('./../../images/events/tdd.png'),
 };
 let defaultImage = require('./../../images/events/defaultEventImage.jpeg');
 const {height} = Dimensions.get('window');
@@ -42,7 +42,7 @@ class PastEvent extends Component {
 
     componentWillMount() {
         if (this.props.id)
-            this.props.fetchEventParticipants(this.props.id)
+            this.props.fetchEventParticipants(this.props.id);
     }
 
     formatDate(date) {
@@ -53,7 +53,7 @@ class PastEvent extends Component {
     }
 
     getCategoryNameFromId(id) {
-        return strings.categoriesNames[id]
+        return strings.categoriesNames[id];
     }
 
     getCategoryColorFromId(id) {
@@ -65,7 +65,7 @@ class PastEvent extends Component {
             case 2:
                 return colors.green;
             default:
-                return 'transparent'
+                return 'transparent';
         }
     }
 
@@ -82,16 +82,20 @@ class PastEvent extends Component {
     }
 
     renderMainInfo() {
-        const {hostFirstName, hostLastName} = this.props;
-        // const hostFirstName = this.props.host.firstName;
-        // const hostLastName = this.props.host.lastName;
-        const hostAvatar = <Avatar firstName={hostFirstName} lastName={hostLastName} style={{flex: 3}}/>;
+        const {hostFirstName, hostLastName, host, navigator} = this.props;
+        const hostAvatar = <Avatar
+            firstName={hostFirstName}
+            lastName={hostLastName}
+            style={{flex: 3}}
+            otherProfileId={host.id}
+            navigator={navigator}
+        />;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const category = <AppText>{this.getCategoryNameFromId(this.props.category)}</AppText>;
         const categoryIndicator = (
             <View style={[
                 styles.categoryIndicator,
-                {borderTopColor: this.getCategoryColorFromId(this.props.category)}
+                {borderTopColor: this.getCategoryColorFromId(this.props.category)},
             ]}
             />
         );
@@ -125,14 +129,11 @@ class PastEvent extends Component {
         );
         return (
             <View style={{flex: 8, flexDirection: 'row'}}>
-                <TouchableOpacity
-                    onPress={() => this._goToUserProfile()}>
-                    {hostAvatar}
-                </TouchableOpacity>
+                {hostAvatar}
                 {eventInfo}
                 {categoryIndicator}
             </View>
-        )
+        );
     }
 
     renderDetails() {
@@ -149,7 +150,7 @@ class PastEvent extends Component {
                 </ScrollView>
                 <KeyboardSpacer/>
             </View>
-        )
+        );
     }
 
     renderEventPicture() {
@@ -164,7 +165,7 @@ class PastEvent extends Component {
             <View style={{flex: 2, marginBottom: -20}}>
                 {picture}
             </View>
-        )
+        );
     }
 
     renderEventDateAndParticipants() {
@@ -179,9 +180,9 @@ class PastEvent extends Component {
                 </AppText>
             </View>;
         const checkParticipation =
-            <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={this.props.participating ?
-                    require('./../../images/check_box.png'):
+                    require('./../../images/check_box.png') :
                     require('./../../images/incheck_box.png')
                 }/>
                 <AppText>
@@ -231,8 +232,8 @@ class PastEvent extends Component {
                         icon: require('../../images/navigation/add.png'),
                         id: 'addComment',
                     },
-                ]
-            }:
+                ],
+            } :
             {};
         this.props.navigator.push({
             screen: 'Comments',
@@ -240,19 +241,9 @@ class PastEvent extends Component {
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 eventId: this.props.eventId,
-                participating:this.props.participating
+                participating: this.props.participating,
             },
-            navigatorButtons
-        });
-    }
-
-    _goToUserProfile() {
-        this.props.navigator.push({
-            screen:'user.othersProfile',
-            title:'Profil détaillé',
-            passProps: {
-                user: this.props.host
-            }
+            navigatorButtons,
         });
     }
 }
@@ -273,13 +264,13 @@ PastEvent.navigatorButtons = {
         {
             icon: require('../../images/comments-128x128.png'),
             iconColor: 'white',
-            id: 'showComments'
+            id: 'showComments',
         },
     ],
 };
 
 const getEventWithId = (events, id) => {
-    return events.find(event => event.id === id)
+    return events.find(event => event.id === id);
 };
 
 const getEventParticipantsFromId = (events, id) => {
@@ -290,11 +281,11 @@ const getEventParticipantsFromId = (events, id) => {
             description: '',
             date: '',
             location: '',
-            keywords: ''
+            keywords: '',
         };
     return event.hasOwnProperty('participants') ?
         event.participants :
-        []
+        [];
 };
 
 const mapStateToProps = ({events, user}, ownProps) => {
@@ -307,14 +298,14 @@ const mapStateToProps = ({events, user}, ownProps) => {
         username,
         eventId: ownProps.id,
         ...ownProps,
-    }
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             fetchEventParticipants,
         },
-        dispatch)
+        dispatch);
 };
 
 export default connect(
@@ -336,7 +327,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         flexDirection: 'column',
         backgroundColor: 'white',
-        flex: 15
+        flex: 15,
     },
     description: {
         fontSize: 16,
@@ -358,8 +349,8 @@ const styles = StyleSheet.create({
         borderTopWidth: 30,
         borderRightColor: 'transparent',
         transform: [
-            {rotate: '90deg'}
-        ]
+            {rotate: '90deg'},
+        ],
     },
     avatar: {
         height: deviceWidth / 4,
@@ -388,13 +379,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left',
         fontSize: 22,
-        flex: 2
+        flex: 2,
     },
     category: {
         textAlign: 'left',
         flex: 1,
         justifyContent: 'flex-start',
-        paddingTop: 5
+        paddingTop: 5,
     },
     locationAndDateContainer: {
         flex: 3,
@@ -421,15 +412,15 @@ const styles = StyleSheet.create({
     participationInfoItem: {
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     participationInfoContainer: {
         fontWeight: 'bold',
         textAlign: 'center',
-        fontSize: 18
+        fontSize: 18,
     },
     secondaryParticipationInfoText: {
         textAlign: 'center',
-        fontSize: 16
+        fontSize: 16,
     },
 });

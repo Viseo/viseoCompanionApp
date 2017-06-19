@@ -65,7 +65,7 @@ export default class ProfileDetails extends Component {
 }
 
 ProfileDetails.propTypes= {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.any.isRequired,
 };
 
 const styles = StyleSheet.create({

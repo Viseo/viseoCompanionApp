@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Dimensions, StyleSheet, View} from "react-native";
-import AppText from "../modules/global/components/AppText";
-import colors from "../modules/global/colors";
+import React, {Component} from 'react';
+import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+import AppText from '../modules/global/components/AppText';
+import colors from '../modules/global/colors';
+import PropTypes from 'prop-types';
 
 export default class Avatar extends Component {
 
@@ -13,18 +14,36 @@ export default class Avatar extends Component {
         const lastNameInitial = (this.props.lastName ? this.props.lastName[0] : '').toUpperCase();
         const firstNameInitial = (this.props.firstName ? this.props.firstName[0] : '').toUpperCase();
         const avatarSize = this._getSize();
+        const appText =
+            <AppText
+                style={[
+                    styles.avatar,
+                    avatarSize,
+                ]}
+            >
+                {firstNameInitial + lastNameInitial}
+            </AppText>;
+        const avatarCircle = this.props.otherProfileId ?
+            <TouchableOpacity onPress={() => this._goToUserProfile()}>
+                {appText}
+            </TouchableOpacity>
+            :
+            appText;
         return (
             <View style={[{justifyContent: 'center'}, this.props.style]}>
-                <AppText
-                    style={[
-                        styles.avatar,
-                        avatarSize,
-                    ]}
-                >
-                    {firstNameInitial + lastNameInitial}
-                </AppText>
+                {avatarCircle}
             </View>
         );
+    }
+
+    _goToUserProfile() {
+        this.props.navigator.push({
+            screen: 'user.othersProfile',
+            title: 'Profil détaillé',
+            passProps: {
+                otherProfileId: this.props.otherProfileId,
+            },
+        });
     }
 
     _getSize() {
@@ -34,13 +53,17 @@ export default class Avatar extends Component {
             width: deviceWidth / size,
             borderRadius: deviceWidth / (size * 2),
             fontSize: size * 10,
-        }
+        };
 
     }
 }
 
 Avatar.defaultProps = {
     size: 4,
+};
+
+Avatar.propTypes = {
+    otherProfileId: PropTypes.number,
 };
 
 let {width: deviceWidth} = Dimensions.get('window');
@@ -52,5 +75,5 @@ const styles = StyleSheet.create({
         backgroundColor: colors.lightGray,
         textAlign: 'center',
         color: 'white',
-    }
+    },
 });

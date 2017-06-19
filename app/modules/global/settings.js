@@ -18,8 +18,6 @@ const restRoutes = {
     getEvents: serverURL + 'events',
     addUser: serverURL + 'users/',
     updateUser: serverURL + 'users/',
-    getUsers: serverURL + 'users',
-    getUser: serverURL + 'users/',
     authenticate: serverURL + 'authenticate',
     resetPassword: serverURL + 'resetPassword',
     updatedComment: serverURL + 'comments',
@@ -72,6 +70,9 @@ const restRoutes = {
     },
     getUserByEmail: email => {
         return serverURL + 'users/emails/' + email + '/';
+    },
+    getUser: userId => {
+        return serverURL + 'users/' + userId;
     },
     getEventsByRegisteredUser: userId => {
         return serverURL + 'events/users/' + userId;

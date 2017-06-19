@@ -40,11 +40,11 @@ export default class CommentCard extends Component {
 
     _goToUserProfile() {
         this.props.navigator.push({
-            screen:'user.othersProfile',
-            title:'Profil détaillé',
+            screen: 'user.othersProfile',
+            title: 'Profil détaillé',
             passProps: {
-                user: this.props.writer
-            }
+                user: this.props.writer,
+            },
         });
     }
 
@@ -78,18 +78,15 @@ export default class CommentCard extends Component {
     }
 
     _renderUserAvatar() {
+        const {writer} = this.props;
         return (
-            <TouchableOpacity
-                onPress={() => this._goToUserProfile()}>
-                <View style={{flex: 0.25}}>
-                    <Avatar
-                        lastName={this.props.writer.lastName}
-                        firstName={this.props.writer.firstName}
-                        style={{paddingTop: 10, paddingLeft: 5}}
-                        size={4}
-                    />
-                </View>
-            </TouchableOpacity>
+            <Avatar
+                lastName={writer.lastName}
+                firstName={writer.firstName}
+                style={{paddingTop: 10, paddingLeft: 5, flex: 0.25}}
+                navigator={this.props.navigator}
+                otherProfileId={writer.id}
+            />
         );
     }
 
