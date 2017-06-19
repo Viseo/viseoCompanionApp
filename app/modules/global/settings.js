@@ -28,6 +28,8 @@ const restRoutes = {
         serverURL + 'liveEvent':
         'ws://' + localhostIp + ':8080/liveEvent',
     uploadImage: serverURL + 'upload',
+    sendNotation: serverURL + 'notation',
+    sendReview : serverURL + 'notation',
     addEvent: (userId) => {
         return serverURL + 'events?host=' + userId;
     },
@@ -79,6 +81,7 @@ const restRoutes = {
     getEventAfter: dateAfter => {
         return serverURL + 'events?after=' + dateAfter;
     },
+
 };
 
 /////////// EXPORTED SETTINGS ////////////////

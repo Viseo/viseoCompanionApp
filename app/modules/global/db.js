@@ -29,7 +29,7 @@ export async function doServerCall(func) {
 export async function addEvent(event, userId) {
     try {
         let imageUrl = null;
-        if(event.image) {
+        if (event.image) {
             let formData = new FormData();
             formData.append('file', {
                 uri: event.image.uri,
@@ -362,7 +362,7 @@ export async function updateEvent(event) {
                 'category': event.category,
             }),
         });
-            return await response.json();
+        return await response.json();
     } catch (error) {
         console.log(error);
         return null;
@@ -425,4 +425,36 @@ export async function addChildComment(childComment) {
         console.log(error);
         return false;
     }
+}
+
+export async function sendReview(notation) {
+    try {
+        await fetch(settings.api.sendReview, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(notation),
+        });
+    } catch (error) {
+        console.warn('db::SendReview ' + error);
+    }
+    return false;
+}
+
+export async function sendNotation(notation) {
+    try {
+        let response = await fetch(settings.api.sendNotation, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(notation),
+        });
+
+        return response;
+    } catch (error) {
+        console.warn('db::SendNotation ' + error);
+    }
+    return {};
 }

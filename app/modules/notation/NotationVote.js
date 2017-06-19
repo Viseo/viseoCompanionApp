@@ -6,13 +6,15 @@ import {
 } from 'react-native';
 import AppText from '../global/components/AppText';
 import moment from 'moment';
+import * as db from "../global/db"
 
 export default class NotationVote extends Component {
     state = {
         modalVisible: false,
         startAngle: '',
         angleLength: '',
-        notation: 0,
+        note: 0,
+        notation: {},
 
     };
 
@@ -29,7 +31,7 @@ export default class NotationVote extends Component {
                     top: 110,
                     fontWeight: 'bold',
                     fontSize: 24,
-                }}>{this.state.notation} %</AppText>
+                }}>{this.state.note} %</AppText>
                 <CircularSlider
                     startAngle={this.state.startAngle}
                     segments={5}
@@ -41,7 +43,7 @@ export default class NotationVote extends Component {
                     onUpdate={({startAngle, angleLength}) => this.setState({
                         startAngle: this.state.startAngle,
                         angleLength,
-                        notation: Math.round((angleLength * 100) / (2 * Math.PI)),
+                        note: Math.round((angleLength * 100) / (2 * Math.PI)),
 
                     })}
                     bgCircleColor="#ffffff"
@@ -52,7 +54,17 @@ export default class NotationVote extends Component {
                 }}>
                     <Button title="Plus tard"/>
                     <Button title="Envoyer" style={{marginRight: 10, backgroundColor: '#C41F06'}}
-                    onPress={() => {this.redirect();}}/>
+                    onPress={async() => {
+                        let notationObj={
+                            userId: "1",
+                            eventId: "2",
+                            notation: this.state.note,
+                            avis: "",
+                        }
+
+                        this.state.notation = await db.sendNotation(notationObj);
+                        this.redirect();}}
+                    />
 
                 </View>
             </View>
@@ -61,14 +73,16 @@ export default class NotationVote extends Component {
     }
 
     redirect() {
-        if (this.state.notation <= 50) {
+        if (this.state.note <= 50) {
             this.props.navigator.dismissLightBox({
                 animationType: 'slide-down'
             });
             this.props.navigator.showLightBox({
-                screen: 'notation.NotationReview',
+                screen: 'notation.NotationRemark',
                 title: 'Avis',
                 animationType: 'slide-up',
+                navigator:this.props.navigator,
+                notation:this.state.notation,
             });
         }
         else {
