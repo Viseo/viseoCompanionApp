@@ -612,7 +612,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = C35G5EW7P5;
+						DevelopmentTeam = 6F7C4PC3SA;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -622,7 +622,7 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -997,7 +997,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run b5ed079b5800eae2b76ab7626c8205ac57b50377 b4ee2b284e385f4243cf7dbcc39601afcf59db52a7af3d2ad965c9b43f670ccb";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1104,7 +1104,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = C35G5EW7P5;
+				DEVELOPMENT_TEAM = 6F7C4PC3SA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1117,7 +1117,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.viseo.ViseoCompanion;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viseo.ViseoCompanion.dev;
 				PRODUCT_NAME = ViseoCompanion;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1134,7 +1134,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C35G5EW7P5;
+				DEVELOPMENT_TEAM = 6F7C4PC3SA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1147,7 +1147,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.viseo.ViseoCompanion;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viseo.ViseoCompanion.dev;
 				PRODUCT_NAME = ViseoCompanion;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
