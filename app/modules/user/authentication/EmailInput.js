@@ -10,7 +10,7 @@ export default class EmailInput extends Component {
 
     state = {
         isValid: true,
-        email: '',
+        email: this.props.value,
     };
 
     constructor(props) {
@@ -62,6 +62,7 @@ EmailInput.propTypes = {
     onEmailChange: PropTypes.func.isRequired,
     returnKeyType: PropTypes.string,
     onSubmitEditing: PropTypes.func,
+    email: PropTypes.string
 };
 
 const styles = StyleSheet.create({

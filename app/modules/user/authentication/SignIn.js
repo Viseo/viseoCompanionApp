@@ -97,6 +97,9 @@ class SignIn extends Component {
             screen: 'user.authentication.recoverPassword',
             title: 'Récupération de mot de passe',
             navigatorStyle: defaultNavBarStyle,
+            passProps: {
+                email: this.state.email
+            }
         });
     }
 

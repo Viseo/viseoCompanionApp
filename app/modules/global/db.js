@@ -436,3 +436,19 @@ export async function addChildComment(childComment) {
         return false;
     }
 }
+
+export async function sendEmailPassword(email) {
+    try {
+        let response = await fetch(settings.api.resetPassword(email),
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        return await response.text();
+    } catch (error) {
+        console.log('db::sendEmailPassword' + error);
+        return null;
+    }
+}

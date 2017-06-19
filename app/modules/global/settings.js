@@ -2,12 +2,10 @@ import {localhostIp, conf} from './localConf';
 
 /////////// SERVER CONNECTION ////////////////
 
-// Localhost (set your localhost IP here)
-// The URL you want to use (should be either localhostURL or remoteURL)
+//To change your LocalIp, edit the 'localConf.js' file.
 const localhostURL = 'http://' + localhostIp + ':8080/';
 
 // The server URL, you usually shouldn't have to change this
-
 const remoteURL = 'http://companion-dev.viseolab.com/';
 
 let serverURL = conf === 'DEV' ? localhostURL : remoteURL;
@@ -19,7 +17,6 @@ const restRoutes = {
     addUser: serverURL + 'users/',
     updateUser: serverURL + 'users/',
     authenticate: serverURL + 'authenticate',
-    resetPassword: serverURL + 'resetPassword',
     updatedComment: serverURL + 'comments',
     addComment: serverURL + 'comments',
     liveEvent: conf === 'PROD' ?
@@ -28,9 +25,6 @@ const restRoutes = {
     uploadImage: serverURL + 'upload',
     addEvent: (userId) => {
         return serverURL + 'events?host=' + userId;
-    },
-    getAllCommentsByEvent: (eventId) => {
-        return serverURL + 'comments/events/' + eventId + '?filter=all';
     },
     getPublishedCommentsByEvent: (eventId) => {
         return serverURL + 'comments/events/' + eventId + '?filter=published';
@@ -83,6 +77,9 @@ const restRoutes = {
     getEventAfter: dateAfter => {
         return serverURL + 'events?after=' + dateAfter;
     },
+    resetPassword: email => {
+        return serverURL + 'resetPassword?email=' + email;
+    }
 };
 
 /////////// EXPORTED SETTINGS ////////////////
