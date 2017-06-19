@@ -12,22 +12,20 @@ let serverURL = conf === 'DEV' ? localhostURL : remoteURL;
 
 /////////// RESTFUL API ////////////////
 const restRoutes = {
+    addUser: serverURL + 'users/',
+    addComment: serverURL + 'comments',
     getEvent: serverURL + 'events/',
     getEvents: serverURL + 'events',
-    addUser: serverURL + 'users/',
     updateUser: serverURL + 'users/',
-    authenticate: serverURL + 'authenticate',
+    updatedEvent: serverURL + 'events/',
     updatedComment: serverURL + 'comments',
-    addComment: serverURL + 'comments',
+    uploadImage: serverURL + 'upload',
+    authenticate: serverURL + 'authenticate',
     liveEvent: conf === 'PROD' ?
         serverURL + 'liveEvent':
         'ws://' + localhostIp + ':8080/liveEvent',
-    uploadImage: serverURL + 'upload',
     addEvent: (userId) => {
         return serverURL + 'events?host=' + userId;
-    },
-    getPublishedCommentsByEvent: (eventId) => {
-        return serverURL + 'comments/events/' + eventId + '?filter=published';
     },
     addChildComment: (commentId) => {
         return serverURL + 'comments/' + commentId;
@@ -38,23 +36,14 @@ const restRoutes = {
     removeEventParticipant: (eventId, userId) => {
         return serverURL + 'events/' + eventId + '/users/' + userId;
     },
-    getEventParticipants: eventId => {
-        return serverURL + 'events/' + eventId + '/users';
-    },
     likeComment: (commentId, userId) => {
         return serverURL + 'comments/' + commentId + '/like/' + userId;
     },
-    dislikeComment: (commentId, userId) => {
-        return serverURL + 'comments/' + commentId + '/like/' + userId;
+    getPublishedCommentsByEvent: (eventId) => {
+        return serverURL + 'comments/events/' + eventId + '?filter=published';
     },
-    deleteComment: (commentId) => {
-        return serverURL + 'comments/' + commentId;
-    },
-    updatedEvent: eventId => {
-        return serverURL + 'events/' + eventId;
-    },
-    removeEvent: eventId => {
-        return serverURL + 'events/' + eventId;
+    getEventParticipants: eventId => {
+        return serverURL + 'events/' + eventId + '/users';
     },
     getEventParticipant: (eventId, userId) => {
         return serverURL + 'events/' + eventId + '/users/' + userId;
@@ -79,6 +68,15 @@ const restRoutes = {
     },
     resetPassword: email => {
         return serverURL + 'resetPassword?email=' + email;
+    },
+    dislikeComment: (commentId, userId) => {
+        return serverURL + 'comments/' + commentId + '/like/' + userId;
+    },
+    deleteComment: (commentId) => {
+        return serverURL + 'comments/' + commentId;
+    },
+    removeEvent: eventId => {
+        return serverURL + 'events/' + eventId;
     }
 };
 

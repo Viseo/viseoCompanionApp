@@ -63,7 +63,10 @@ Avatar.defaultProps = {
 };
 
 Avatar.propTypes = {
-    otherProfileId: PropTypes.number,
+    otherProfileId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
 };
 
 let {width: deviceWidth} = Dimensions.get('window');

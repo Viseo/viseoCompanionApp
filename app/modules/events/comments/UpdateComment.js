@@ -50,7 +50,6 @@ class UpdateComment extends Component {
             publish: true,
         };
         await updateComment(comment);
-        // TODO use getComment instead of getCommentsByEvent
         this.props.refresh(this.props.comment.eventId);
         this.props.navigator.pop();
     }

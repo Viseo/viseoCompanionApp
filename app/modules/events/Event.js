@@ -130,7 +130,7 @@ export default class Event extends Component {
     }
 
     _renderHostInfo() {
-        const fullHostName = this.props.hostFirstName + '  ' + this.props.hostLastName;
+        const fullHostName = this.props.host.firstName + '  ' + this.props.host.lastName;
         return (
             <View style={styles.locationAndDate}>
                 <Image style={styles.icon} resizeMode="contain" source={require('./../../images/user.png')}/>
@@ -149,14 +149,15 @@ export default class Event extends Component {
     }
 
     _renderMainInfo() {
-        const {hostFirstName, hostLastName, host, navigator} = this.props;
-        const hostAvatar = <Avatar
-            firstName={hostFirstName}
-            lastName={hostLastName}
-            style={{flex: 3}}
-            otherProfileId={host.id}
-            navigator={navigator}
-        />;
+        const {host, navigator} = this.props;
+        const hostAvatar =
+            <Avatar
+                firstName={host.firstName}
+                lastName={host.lastName}
+                style={{flex: 2.5, marginLeft: 5}}
+                otherProfileId={host.id}
+                navigator={navigator}
+            />;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.category];
         const category = <AppText>{categoryName}</AppText>;
@@ -185,8 +186,7 @@ export default class Event extends Component {
 Event.propTypes = {
     category: PropTypes.number.isRequired,
     description: PropTypes.string,
-    hostFirstName: PropTypes.string.isRequired,
-    hostLastName: PropTypes.string.isRequired,
+    host: PropTypes.object.isRequired,
     id: PropTypes.number.isRequired,
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,

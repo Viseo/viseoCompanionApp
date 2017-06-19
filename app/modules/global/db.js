@@ -356,20 +356,14 @@ export async function deleteCommentDb(commentId) {
 
 export async function updateEvent(event) {
     try {
-        let response = await fetch(settings.api.updatedEvent(event.id), {
+        let response = await fetch(settings.api.updatedEvent, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                'id': event.id,
-                'name': event.name,
-                'description': event.description,
-                'datetime': event.date,
-                'keywords': event.keywords || '',
+                ...event,
                 'place': event.location,
-                'version': event.version,
-                'category': event.category,
             }),
         });
         return await response.json();
