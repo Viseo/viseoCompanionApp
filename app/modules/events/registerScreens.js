@@ -1,18 +1,18 @@
-import { Navigation } from 'react-native-navigation';
-import Events from "./Events";
-import PastEvents from "./PastEvents";
-import PastEvent from "./PastEvent";
-import CreateEvent from "./CreateEvent";
+import {Navigation} from 'react-native-navigation';
+import Events from './Events';
+import PastEvents from './PastEvents';
+import PastEvent from './PastEvent';
+import CreateEvent from './CreateEvent';
 import Event from './Event';
-import UpdateComment from "./comments/UpdateComment";
-import LiveEvent from "../live/LiveEvent";
+import UpdateComment from './comments/UpdateComment';
+import LiveEvent from '../live/LiveEvent';
 import CreateComment from './comments/CreateComment';
 import CreateChildComment from './comments/CreateChildComment';
 import Comments from './comments/Comments';
 import EditEvent from './EditEvent';
 import OthersProfile from '../user/OtherProfile';
 
-export default function(store, provider) {
+export default function (store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);
     Navigation.registerComponent('events.events', () => Events, store, provider);
     Navigation.registerComponent('events.pastEvents', () => PastEvents, store, provider);
