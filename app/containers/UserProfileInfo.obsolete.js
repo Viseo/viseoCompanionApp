@@ -4,7 +4,7 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {updateUser} from "./../actionCreators/user";
-import UserProfileInfo from "../components/UserProfileInfo";
+import UserProfileInfo from "../components/UserProfileInfo.obsolete";
 
 
 const mapStateToProps = (state, ownProps) => ({

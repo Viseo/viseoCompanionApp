@@ -5,7 +5,7 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {fetchEventsExp} from "../actionCreators/events";
-import EventListExp from "../components/EventListExp";
+import EventListExp from "../components/EventListExp.depreciated";
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {

@@ -14,7 +14,7 @@ export default function(store, provider) {
     Navigation.registerComponent('user.authentication.signUp', () => SignUp, store, provider);
     Navigation.registerComponent('user.authentication.signOut', () => SignOut, store, provider);
     Navigation.registerComponent('user.authentication.signUpSuccessfulPopup', () => SignUpSuccessfulPopup, store, provider);
+    Navigation.registerComponent('user.editProfile', () => EditProfile, store, provider);
     Navigation.registerComponent('user.myProfile', () => MyProfile, store, provider);
     Navigation.registerComponent('user.othersProfile', () => OthersProfile, store, provider);
-    Navigation.registerComponent('EditUserProfile', () => EditProfile, store, provider);
 }

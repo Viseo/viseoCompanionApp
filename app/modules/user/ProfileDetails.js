@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-import Avatar from "../../components/Avatar";
+import Avatar from "../global/components/Avatar";
 import AppText from "../global/components/AppText";
 import {ScrollView, View} from "react-native";
 import PropTypes from 'prop-types';

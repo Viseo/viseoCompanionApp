@@ -3,7 +3,7 @@
  */
 import settings from "../modules/global/settings";
 import {addEvent as pushEvent, deleteEventDb, getEventParticipants, updateEvent as updateEventDb} from "../modules/global/db";
-import PushController from "../util/pushController";
+import PushController from "../modules/global/pushController";
 import moment from "moment";
 
 export const types = {

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '../../global/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Avatar from '../../../components/Avatar';
+import Avatar from '../../global/components/Avatar';
 import AppText from '../../global/components/AppText';
 import {addLike, deleteCommentDb, dislike} from '../../global/db';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';

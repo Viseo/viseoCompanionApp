@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {ListView, RefreshControl, View} from 'react-native';
-import EventCardExp from './events/eventCardExp';
+import EventCardExp from './events/eventCardExp.depreciated';
 import AppText from '../modules/global/components/AppText';
 import moment from 'moment';
 import colors from '../modules/global/colors';

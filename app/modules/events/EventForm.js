@@ -37,7 +37,7 @@ export default class EventForm extends Component {
         const datePicker = this._renderDatePicker();
         const imagePicker = this._renderImagePicker();
         return (
-            <ScrollView contentContainerStyle={styles.pageStyle}>
+            <ScrollView contentContainerStyle={styles.pageStyle} style={{backgroundColor: 'white'}}>
                 {nameField}
                 {descriptionField}
                 {locationField}

@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import AppText from '../global/components/AppText';
-import {View, Dimensions, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import Avatar from '../../components/Avatar';
+import Avatar from '../global/components/Avatar';
 import strings from '../global/localizedStrings';
-import FlexImage from '../../components/FlexImage';
 import ItemSpacer from '../../components/ItemSpacer';
 import colors from '../global/colors';
 import CheckBox from 'react-native-check-box';
@@ -134,7 +133,7 @@ export default class Event extends Component {
         const fullHostName = this.props.hostFirstName + '  ' + this.props.hostLastName;
         return (
             <View style={styles.locationAndDate}>
-                <FlexImage source={require('./../../images/user.png')}/>
+                <Image style={styles.icon} resizeMode="contain" source={require('./../../images/user.png')}/>
                 <AppText style={styles.locationAndDateText}>{fullHostName}</AppText>
             </View>
         );
@@ -143,20 +142,10 @@ export default class Event extends Component {
     _renderLocation() {
         return (
             <View style={styles.locationAndDate}>
-                <FlexImage source={require('./../../images/location.png')}/>
+                <Image style={styles.icon} resizeMode="contain" source={require('./../../images/location.png')}/>
                 <AppText style={styles.locationAndDateText}>{this.props.location}</AppText>
             </View>
         );
-    }
-
-    _goToUserProfile() {
-        this.props.navigator.push({
-            screen:'user.othersProfile',
-            title:'Profil détaillé',
-            passProps: {
-                user: this.props.host
-            }
-        });
     }
 
     _renderMainInfo() {
@@ -236,13 +225,6 @@ const styles = StyleSheet.create({
         flex: 30,
         flexDirection: 'column',
     },
-    hostName: {
-        color: 'black',
-        fontWeight: 'bold',
-        textAlign: 'left',
-        fontSize: 22,
-        flex: 2,
-    },
     locationAndDate: {
         flex: 1,
         flexDirection: 'row',
@@ -301,5 +283,12 @@ const styles = StyleSheet.create({
     secondaryParticipationInfoText: {
         textAlign: 'center',
         fontSize: 16,
+    },
+    icon: {
+        flex: 1,
+        width: null,
+        height: null,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

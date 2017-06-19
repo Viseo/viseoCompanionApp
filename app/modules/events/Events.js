@@ -4,7 +4,7 @@ import VisibleEventList from "../../modules/newsFeed/containers/VisibleEvents";
 import SearchBar from "./../../components/SearchBar";
 import ItemSpacer from "./../../components/ItemSpacer";
 import colors from "../../modules/global/colors";
-import PushController from "../../util/pushController";
+import PushController from "../global/pushController";
 import {defaultNavBarStyle} from "../global/navigatorStyle";
 
 export default class Events extends Component {

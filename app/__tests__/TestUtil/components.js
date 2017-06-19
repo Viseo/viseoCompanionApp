@@ -5,18 +5,18 @@ import ViseoCompanion from "../../index";
 import Home from "../../scenes/home";
 import EditableImage from "../../modules/global/components/ImagePicker";
 import AppText from "../../modules/global/components/AppText";
-import AppTextInput from "../../components/AppTextInput";
-import BackButton from "../../components/BackButton";
-import Button from "../../components/Button";
-import ImageButton from "./../../components/ImageButton";
-import FlexImage from "./../../components/FlexImage";
+import AppTextInput from "../../components/AppTextInput.obsolete";
+import BackButton from "../../components/BackButton.obsolete";
+import Button from "../../components/Button.obsolete";
+import ImageButton from "../../components/ImageButton.obsolete";
+import FlexImage from "../../components/FlexImage.obsolete";
 import Toggle from "./../../components/Toggle";
 import ItemSpacer from "./../../components/ItemSpacer";
 import FilterToggle from "./../../components/FilterToggle";
 import SearchTextInput from "./../../components/SearchTextInput";
 import SearchBar from "./../../components/SearchBar";
-import PushController from "./../../util/pushController";
-import Avatar from "../../components/Avatar";
+import PushController from "../../modules/global/pushController";
+import Avatar from "../../modules/global/components/Avatar";
 
 export function get(componentName, props) {
     switch (componentName) {

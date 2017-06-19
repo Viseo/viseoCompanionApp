@@ -9,10 +9,10 @@ import colors from "../modules/global/colors";
 import DatePicker from "react-native-datepicker";
 import * as util from "../util/util";
 import ItemSpacer from "./ItemSpacer";
-import BackButton from "./BackButton";
+import BackButton from "./BackButton.obsolete";
 import TextField from "react-native-md-textinput";
 import Toggle from "./Toggle";
-import Avatar from "./Avatar";
+import Avatar from "../modules/global/components/Avatar";
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 let defaultImage = require('./../images/userAvatar.jpg');

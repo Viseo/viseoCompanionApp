@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import AppText from '../global/components/AppText';
 import {bindActionCreators} from 'redux';
 import {fetchEventParticipants} from '../../actionCreators/events';
 import ItemSpacer from '../../components/ItemSpacer';
-import FlexImage from '../../components/FlexImage';
+import FlexImage from '../../components/FlexImage.obsolete';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import colors from '../global/colors';
-import Avatar from '../../components/Avatar';
+import Avatar from '../global/components/Avatar';
 import PropTypes from 'prop-types';
 import strings from '../global/localizedStrings';
 import moment from 'moment';
@@ -101,7 +101,7 @@ class PastEvent extends Component {
         );
         const username = (
             <View style={styles.locationAndDate}>
-                <FlexImage source={require('./../../images/user.png')}/>
+                <Image style={styles.icon} resizeMode="contain" source={require('./../../images/user.png')}/>
                 <ItemSpacer/>
                 <AppText style={{flex: 5, textAlign: 'left'}}>
                     {hostFirstName} {hostLastName}
@@ -110,7 +110,7 @@ class PastEvent extends Component {
         );
         const location = (
             <View style={styles.locationAndDate}>
-                <FlexImage source={require('./../../images/location.png')}/>
+                <Image style={styles.icon} resizeMode="contain" source={require('./../../images/location.png')}/>
                 <ItemSpacer/>
                 <AppText style={{flex: 5, textAlign: 'left', textAlignVertical: 'center'}}>
                     {this.props.location}
@@ -422,5 +422,12 @@ const styles = StyleSheet.create({
     secondaryParticipationInfoText: {
         textAlign: 'center',
         fontSize: 16,
+    },
+    icon: {
+        flex: 1,
+        width: null,
+        height: null,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

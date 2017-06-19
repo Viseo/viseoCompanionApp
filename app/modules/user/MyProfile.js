@@ -27,7 +27,7 @@ class MyProfile extends Component {
 
     _goToEditProfile() {
         this.props.navigator.push({
-            screen: 'EditUserProfile',
+            screen: 'user.editProfile',
             title: 'Modifier mon profil',
             navigatorStyle: defaultNavBarStyle,
         });

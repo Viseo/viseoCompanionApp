@@ -2,8 +2,8 @@ import React from "react";
 import {mount} from "enzyme";
 import {Provider} from "react-redux";
 import FilterToggle from "../../containers/FilterToggle";
-import UserProfileInfo from "../../containers/UserProfileInfo";
-import Profile from "../../components/UserProfileInfo";
+import UserProfileInfo from "../../containers/UserProfileInfo.obsolete";
+import Profile from "../../components/UserProfileInfo.obsolete";
 
 export const storeFake = (state) => {
     return {

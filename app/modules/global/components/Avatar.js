@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
-import AppText from '../modules/global/components/AppText';
-import colors from '../modules/global/colors';
+import AppText from './AppText';
+import colors from '../colors';
 import PropTypes from 'prop-types';
 
 export default class Avatar extends Component {
