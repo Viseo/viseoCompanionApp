@@ -6,10 +6,10 @@ export default {
         loggedUser: {
             email: '',
             password: '',
-        }
+        },
     },
-    comments:{
-        items:[],
+    comments: {
+        items: [],
         isFetching: false,
     },
     events: {

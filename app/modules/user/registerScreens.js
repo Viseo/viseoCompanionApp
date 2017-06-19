@@ -1,5 +1,5 @@
-import { Navigation } from 'react-native-navigation';
-import EditProfile from "./EditProfile";
+import {Navigation} from 'react-native-navigation';
+import EditProfile from './EditProfile';
 import MyProfile from './MyProfile';
 import OthersProfile from './OtherProfile';
 import SignOut from './authentication/SignOut';
@@ -8,7 +8,7 @@ import RecoverPassword from './authentication/RecoverPassword';
 import SignUp from './authentication/SignUp';
 import SignUpSuccessfulPopup from './authentication/SignUpSuccessfulPopup';
 
-export default function(store, provider) {
+export default function (store, provider) {
     Navigation.registerComponent('user.authentication.recoverPassword', () => RecoverPassword, store, provider);
     Navigation.registerComponent('user.authentication.signIn', () => SignIn, store, provider);
     Navigation.registerComponent('user.authentication.signUp', () => SignUp, store, provider);

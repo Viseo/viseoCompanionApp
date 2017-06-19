@@ -9,8 +9,8 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
         case 'REMOVE_VISIBILITY_FILTER':
             return 'SHOW_ALL';
         default:
-            return state
+            return state;
     }
 };
 
-export default visibilityFilter
+export default visibilityFilter;

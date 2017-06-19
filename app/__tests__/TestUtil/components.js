@@ -1,22 +1,21 @@
-import React from "react";
-import {shallow} from "enzyme";
-import EventCard from "../../components/events/eventCard";
-import ViseoCompanion from "../../index";
-import Home from "../../scenes/home";
-import EditableImage from "../../modules/global/components/ImagePicker";
-import AppText from "../../modules/global/components/AppText";
-import AppTextInput from "../../components/AppTextInput.obsolete";
-import BackButton from "../../components/BackButton.obsolete";
-import Button from "../../components/Button.obsolete";
-import ImageButton from "../../components/ImageButton.obsolete";
-import FlexImage from "../../components/FlexImage.obsolete";
-import Toggle from "./../../components/Toggle";
-import ItemSpacer from "./../../components/ItemSpacer";
-import FilterToggle from "./../../components/FilterToggle";
-import SearchTextInput from "./../../components/SearchTextInput";
-import SearchBar from "./../../components/SearchBar";
-import PushController from "../../modules/global/pushController";
-import Avatar from "../../modules/global/components/Avatar";
+import React from 'react';
+import {shallow} from 'enzyme';
+import EventCard from '../../components/events/eventCard';
+import ViseoCompanion from '../../index';
+import Home from '../../scenes/home';
+import AppText from '../../modules/global/components/AppText';
+import AppTextInput from '../../components/AppTextInput.obsolete';
+import BackButton from '../../components/BackButton.obsolete';
+import Button from '../../components/Button.obsolete';
+import ImageButton from '../../components/ImageButton.obsolete';
+import FlexImage from '../../components/FlexImage.obsolete';
+import Toggle from './../../components/Toggle';
+import ItemSpacer from '../../modules/global/components/ItemSpacer';
+import FilterToggle from './../../components/FilterToggle';
+import SearchTextInput from './../../components/SearchTextInput';
+import SearchBar from './../../components/SearchBar';
+import PushController from '../../modules/global/pushController';
+import Avatar from '../../modules/global/components/Avatar';
 
 export function get(componentName, props) {
     switch (componentName) {
@@ -72,5 +71,5 @@ function getChildren(parent, childName) {
 
 export default testComponents = {
     get,
-    getChildren
-}
+    getChildren,
+};

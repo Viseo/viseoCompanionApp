@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, Button} from "react-native";
-import AppTextInput from "../../global/components/AppTextInput";
-import {updateComment} from "../../global/db";
-import moment from "moment";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
-import {getComments} from "./comments.actions";
+import {Button, ScrollView, StyleSheet} from 'react-native';
+import AppTextInput from '../../global/components/AppTextInput';
+import {updateComment} from '../../global/db';
+import moment from 'moment';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {getComments} from './comments.actions';
 
 class UpdateComment extends Component {
 
@@ -52,7 +52,7 @@ class UpdateComment extends Component {
         await updateComment(comment);
         this.props.refresh(this.props.comment.eventId);
         this.props.navigator.pop();
-    }
+    };
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -61,13 +61,13 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        getComments
-    }, dispatch)
+        getComments,
+    }, dispatch);
 };
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(UpdateComment);
 
 const styles = StyleSheet.create({

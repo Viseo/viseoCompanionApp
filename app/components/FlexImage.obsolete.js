@@ -1,13 +1,13 @@
 /**
  * Created by AAB3605 on 10/04/2017.
  */
-import React, {Component} from "react";
-import {Image, StyleSheet, View} from "react-native";
+import React, {Component} from 'react';
+import {Image, StyleSheet, View} from 'react-native';
 
 export default class FlexImage extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     render() {
@@ -18,13 +18,13 @@ export default class FlexImage extends Component {
                     resizeMode={this.props.resizeMode || 'contain'}
                     style={[
                         styles.fitImage,
-                        this.props.style
+                        this.props.style,
                     ]}
                 >
                     {this.props.children}
                 </Image>
             </View>
-        )
+        );
     }
 }
 
@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
         width: null,
         height: null,
         justifyContent: 'center',
-        alignItems: 'center'
-    }
+        alignItems: 'center',
+    },
 });

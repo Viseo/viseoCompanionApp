@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View} from "react-native";
-import AppText from "../global/components/AppText";
+import {View} from 'react-native';
+import AppText from '../global/components/AppText';
 
 export default class Notifications extends Component {
 

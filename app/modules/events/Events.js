@@ -1,16 +1,16 @@
-import React, {Component} from "react";
-import {StyleSheet, View} from "react-native";
-import VisibleEventList from "../../modules/newsFeed/containers/VisibleEvents";
-import SearchBar from "./../../components/SearchBar";
-import ItemSpacer from "./../../components/ItemSpacer";
-import colors from "../../modules/global/colors";
-import PushController from "../global/pushController";
-import {defaultNavBarStyle} from "../global/navigatorStyle";
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import VisibleEventList from '../../modules/newsFeed/containers/VisibleEvents';
+import SearchBar from './../../components/SearchBar';
+import ItemSpacer from '../global/components/ItemSpacer';
+import colors from '../../modules/global/colors';
+import PushController from '../global/pushController';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 export default class Events extends Component {
 
     static defaultProps = {
-        user: {id: 1}
+        user: {id: 1},
     };
 
     constructor(props) {
@@ -35,25 +35,25 @@ export default class Events extends Component {
     }
 
     onNavigatorEvent(event) {
-        if(event.id === 'addEvent') {
+        if (event.id === 'addEvent') {
             this._goToAddEvent();
-        } else if(event.id === 'pastEvents') {
+        } else if (event.id === 'pastEvents') {
             this._goToPastEvents();
         }
     }
 
     _goToAddEvent() {
         this.props.navigator.push({
-            screen:'events.createEvent',
-            title:'Nouvel évènement',
+            screen: 'events.createEvent',
+            title: 'Nouvel évènement',
             navigatorStyle: defaultNavBarStyle,
         });
     }
 
     _goToPastEvents() {
         this.props.navigator.push({
-            screen:'events.pastEvents',
-            title:'Evènements passés',
+            screen: 'events.pastEvents',
+            title: 'Evènements passés',
             navigatorStyle: defaultNavBarStyle,
         });
     }
@@ -63,11 +63,11 @@ Events.navigatorButtons = {
     rightButtons: [
         {
             icon: require('../../images/navigation/history.png'),
-            id: 'pastEvents'
+            id: 'pastEvents',
         },
         {
             icon: require('../../images/navigation/add.png'),
-            id: 'addEvent'
+            id: 'addEvent',
         },
     ],
 };
@@ -84,15 +84,15 @@ const styles = StyleSheet.create({
         flex: 0,
         flexDirection: 'column',
         paddingBottom: 10,
-        marginTop:20,
+        marginTop: 20,
     },
     searchBar: {
         flex: 0,
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     icon: {
         fontSize: 24,
         height: 22,
         color: 'white',
-    }
+    },
 });

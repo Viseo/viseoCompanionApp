@@ -1,8 +1,8 @@
 /**
  * Created by AAB3605 on 07/04/2017.
  */
-import React, {Component} from "react";
-import {StyleSheet, TouchableOpacity} from "react-native";
+import React, {Component} from 'react';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
 export default class Toggle extends Component {
 
@@ -10,14 +10,14 @@ export default class Toggle extends Component {
         super(props);
         this.state = {
             isOn: this.props.isOn,
-        }
+        };
     }
 
     toggle = () => {
         this.props.onToggle(!this.state.isOn);
         this.setState({
-            isOn: !this.state.isOn
-        })
+            isOn: !this.state.isOn,
+        });
     };
 
     render() {
@@ -25,14 +25,14 @@ export default class Toggle extends Component {
             <TouchableOpacity
                 style={[
                     styles.main,
-                    this.props.style
+                    this.props.style,
                 ]}
                 onPress={this.toggle}
             >
                 {this.state.isOn ? this.props.on : this.props.off}
                 {this.props.children}
             </TouchableOpacity>
-        )
+        );
     }
 }
 
@@ -50,5 +50,5 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 0,
         backgroundColor: 'transparent',
-    }
+    },
 });

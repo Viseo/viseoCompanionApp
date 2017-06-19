@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {Platform, StyleSheet, Text} from "react-native";
-import colors from "../colors";
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text} from 'react-native';
+import colors from '../colors';
 
 class AppText extends Component {
     setNativeProps(nativeProps) {
@@ -12,7 +12,7 @@ class AppText extends Component {
             <Text
                 style={[
                     style.textStyle,
-                    this.props.style
+                    this.props.style,
                 ]}
                 ref={component => this._root = component}
             >
@@ -31,6 +31,6 @@ const style = StyleSheet.create({
         backgroundColor: 'transparent',
         padding: 0,
         color: colors.mediumGray,
-        textAlignVertical: 'center'
-    }
+        textAlignVertical: 'center',
+    },
 });

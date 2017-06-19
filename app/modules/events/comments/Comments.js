@@ -29,7 +29,9 @@ class Comments extends Component {
                 keyExtractor={(comment, index) => comment.id}
                 renderItem={({item}) => this._renderCommentCard(item)}
                 onRefresh={() => this.props.refresh(this.props.eventId)}
-                ListEmptyComponent={() => {return this._renderEmptyCommentCard()}}
+                ListEmptyComponent={() => {
+                    return this._renderEmptyCommentCard();
+                }}
                 refreshing={this.props.refreshing}
             />
         );

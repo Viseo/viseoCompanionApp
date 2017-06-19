@@ -8,11 +8,11 @@ export function hideTabBar(navigator) {
 
 export function showInvalidFormPopup() {
     Navigation.showLightBox({
-        screen: "global.invalidFormPopup",
+        screen: 'global.invalidFormPopup',
         style: {
-            backgroundBlur: "dark",
-            backgroundColor: "#135caa70"
-        }
+            backgroundBlur: 'dark',
+            backgroundColor: '#135caa70',
+        },
     });
 }
 
@@ -24,10 +24,10 @@ export function showTabBar(navigator) {
 
 export function showUnreachableServerPopup() {
     Navigation.showLightBox({
-        screen: "global.unreachableServerPopup",
+        screen: 'global.unreachableServerPopup',
         style: {
-            backgroundBlur: "dark",
-            backgroundColor: "#135caa70"
-        }
+            backgroundBlur: 'dark',
+            backgroundColor: '#135caa70',
+        },
     });
 }

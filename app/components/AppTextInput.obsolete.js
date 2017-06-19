@@ -1,9 +1,9 @@
 /**
  * Created by AAB3605 on 10/04/2017.
  */
-import React, {Component} from "react";
-import {Platform, StyleSheet, TextInput} from "react-native";
-import colors from "../modules/global/colors";
+import React, {Component} from 'react';
+import {Platform, StyleSheet, TextInput} from 'react-native';
+import colors from '../modules/global/colors';
 
 export default class AppTextInput extends Component {
 
@@ -12,7 +12,7 @@ export default class AppTextInput extends Component {
     }
 
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     render() {
@@ -25,7 +25,7 @@ export default class AppTextInput extends Component {
                 autoCorrect={false}
                 value={this.props.value}
             />
-        )
+        );
     }
 }
 

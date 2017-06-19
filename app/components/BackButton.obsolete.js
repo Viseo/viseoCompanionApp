@@ -1,13 +1,13 @@
 /**
  * Created by AAB3605 on 10/04/2017.
  */
-import React, {Component} from "react";
-import {Image, StyleSheet, TouchableOpacity} from "react-native";
+import React, {Component} from 'react';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 export default class BackButton extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     render() {
@@ -15,7 +15,7 @@ export default class BackButton extends Component {
             <TouchableOpacity
                 style={[
                     styles.button,
-                    this.props.style
+                    this.props.style,
                 ]}
                 onPress={
                     this.props.onPress ||
@@ -34,7 +34,7 @@ export default class BackButton extends Component {
                     style={styles.fitImage}
                 />
             </TouchableOpacity>
-        )
+        );
     }
 }
 
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
     fitImage: {
         flex: 1,
         width: null,
-        height: null
-    }
+        height: null,
+    },
 });

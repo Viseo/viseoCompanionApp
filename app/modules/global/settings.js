@@ -1,4 +1,4 @@
-import {localhostIp, conf} from './localConf';
+import {conf, localhostIp} from './localConf';
 
 /////////// SERVER CONNECTION ////////////////
 
@@ -22,7 +22,7 @@ const restRoutes = {
     uploadImage: serverURL + 'upload',
     authenticate: serverURL + 'authenticate',
     liveEvent: conf === 'PROD' ?
-        serverURL + 'liveEvent':
+        serverURL + 'liveEvent' :
         'ws://' + localhostIp + ':8080/liveEvent',
     addEvent: (userId) => {
         return serverURL + 'events?host=' + userId;
@@ -77,7 +77,7 @@ const restRoutes = {
     },
     removeEvent: eventId => {
         return serverURL + 'events/' + eventId;
-    }
+    },
 };
 
 /////////// EXPORTED SETTINGS ////////////////

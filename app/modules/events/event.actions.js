@@ -74,7 +74,7 @@ export const updateEvent = (event) => {
             event: updatedEvent,
         });
     };
-}
+};
 
 export const UNREGISTER_USER = 'UNREGISTER_USER';
 export const unregisterUser = (event, userId) => {

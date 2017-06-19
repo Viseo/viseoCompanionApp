@@ -1,32 +1,32 @@
 /**
  * Created by VBO3596 on 17/03/2017.
  */
-import React, {Component} from "react";
-import {StyleSheet, TextInput, View} from "react-native";
-import strings from "../modules/global/localizedStrings";
+import React, {Component} from 'react';
+import {StyleSheet, TextInput, View} from 'react-native';
+import strings from '../modules/global/localizedStrings';
 
 export default class EmailInput extends Component {
 
     static defaultProps = {
         placeholder: strings.email,
-        keyboardType: "email-address",
-        underlineColorAndroid: "white",
+        keyboardType: 'email-address',
+        underlineColorAndroid: 'white',
         onSubmitEditing: () => {
         },
         onChangeText: (email) => {
-        }
+        },
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            email: null
+            email: null,
         };
     }
 
     editEmail = (email) => {
         this.setState({
-            email: email
+            email: email,
         });
         this.props.onChangeText(email);
     };
@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
         color: 'brown',
-        fontStyle: 'italic'
+        fontStyle: 'italic',
     },
     invalidFormat: {
         borderColor: 'crimson',
-        borderWidth: 1
+        borderWidth: 1,
     },
     textInput: {
         borderWidth: 0,
@@ -76,5 +76,5 @@ const styles = StyleSheet.create({
         padding: 4,
         height: 40,
         marginBottom: 10,
-    }
+    },
 });

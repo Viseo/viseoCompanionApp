@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import Button from "./Button.obsolete";
-import Image from "./FlexImage.obsolete";
+import React, {Component} from 'react';
+import Button from './Button.obsolete';
+import Image from './FlexImage.obsolete';
 
 export default class ImageButton extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     render() {
@@ -19,7 +19,7 @@ export default class ImageButton extends Component {
                     resizeMode="center"
                 />
             </Button>
-        )
+        );
     }
 }
 

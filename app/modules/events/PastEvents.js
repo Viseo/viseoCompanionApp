@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from "react-native";
-import {connect} from "react-redux";
-import ItemSpacer from "../../components/ItemSpacer";
-import SearchBar from "../../components/SearchBar";
-import colors from "../global/colors";
-import {bindActionCreators} from "redux";
-import {setVisibilityFilter} from "../../actionCreators/visibilityFilter";
-import VisibleEventListExp from "../../containers/VisibleEventsExp";
+import {StyleSheet, View} from 'react-native';
+import {connect} from 'react-redux';
+import ItemSpacer from '../global/components/ItemSpacer';
+import SearchBar from '../../components/SearchBar';
+import colors from '../global/colors';
+import {bindActionCreators} from 'redux';
+import {setVisibilityFilter} from '../../actionCreators/visibilityFilter';
+import VisibleEventListExp from '../../containers/VisibleEventsExp';
 
 class PastEvents extends Component {
 
@@ -32,8 +32,8 @@ class PastEvents extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        setVisibilityFilter
-    }, dispatch)
+        setVisibilityFilter,
+    }, dispatch);
 };
 
 export default connect(
@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         flex: 0,
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     icon: {
         fontSize: 24,
         height: 22,
         color: 'white',
-    }
+    },
 });

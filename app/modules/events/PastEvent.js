@@ -4,7 +4,7 @@ import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from 'react-n
 import AppText from '../global/components/AppText';
 import {bindActionCreators} from 'redux';
 import {fetchEventParticipants} from '../../actionCreators/events';
-import ItemSpacer from '../../components/ItemSpacer';
+import ItemSpacer from '../global/components/ItemSpacer';
 import FlexImage from '../../components/FlexImage.obsolete';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import colors from '../global/colors';

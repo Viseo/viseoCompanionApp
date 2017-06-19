@@ -1,10 +1,10 @@
 /**
  * Created by AAB3605 on 05/04/2017.
  */
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {setWords} from "../actionCreators/searchWords";
-import SearchTextInput from "../components/SearchTextInput";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {setWords} from '../actionCreators/searchWords';
+import SearchTextInput from '../components/SearchTextInput';
 
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps
@@ -12,17 +12,17 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-            onChangeText: setWords
+            onChangeText: setWords,
         },
-        dispatch
-    )
+        dispatch,
+    );
 };
 
 const SearchInput = connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(SearchTextInput);
 
 SearchInput.displayName = 'SearchInput';
 
-export default SearchInput
+export default SearchInput;

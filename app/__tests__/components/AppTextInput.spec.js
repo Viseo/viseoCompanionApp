@@ -1,17 +1,17 @@
-import {checkIsComponent, compareChildren, createComponent} from "../TestUtil/index";
+import {checkIsComponent, compareChildren, createComponent} from '../TestUtil/index';
 
 describe('AppTextInput', () => {
 
     const appTextInput = createComponent('AppTextInput', {
-        children: 'Some lovely child component'
+        children: 'Some lovely child component',
     });
 
     it('should render a text input', () => {
-        checkIsComponent(appTextInput, 'TextInput')
+        checkIsComponent(appTextInput, 'TextInput');
     });
 
     it('should render the child component passed in props', () => {
-        compareChildren(appTextInput, 'Some lovely child component')
-    })
+        compareChildren(appTextInput, 'Some lovely child component');
+    });
 
 });

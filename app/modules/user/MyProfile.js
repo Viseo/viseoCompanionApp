@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
-import {Navigation} from  'react-native-navigation';
+import {Navigation} from 'react-native-navigation';
 import ProfileDetails from './ProfileDetails';
 
 class MyProfile extends Component {
@@ -35,11 +35,11 @@ class MyProfile extends Component {
 
     _signOut() {
         Navigation.showLightBox({
-            screen: "user.authentication.signOut",
+            screen: 'user.authentication.signOut',
             style: {
-                backgroundBlur: "dark",
-                backgroundColor: "#135caa70"
-            }
+                backgroundBlur: 'dark',
+                backgroundColor: '#135caa70',
+            },
         });
     }
 }

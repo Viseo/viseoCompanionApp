@@ -51,7 +51,8 @@ export default class CommentCard extends Component {
     _renderParticipantDate() {
         const date =
             <View style={{flex: .5}}>
-                <Text style={{textAlign: 'right' ,alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
+                <Text style={{textAlign: 'right', alignSelf: 'flex-end', marginRight: 5}}>{this.props.day}
+                    à {this.props.time}</Text>
             </View>;
         return (
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10, marginRight: 10}}>

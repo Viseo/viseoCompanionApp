@@ -1,9 +1,9 @@
-import settings from "../../global/settings";
+import settings from '../../global/settings';
 
 export const types = {
     RECEIVE_COMMENTS: 'RECEIVE_COMMENTS',
     REQUEST_COMMENTS: 'REQUEST_COMMENTS',
-    UPDATE_COMMENT: 'UPDATE_COMMENT'
+    UPDATE_COMMENT: 'UPDATE_COMMENT',
 };
 
 export const requestComments = () => ({
@@ -11,7 +11,7 @@ export const requestComments = () => ({
 });
 export const receiveComments = (comments) => ({
     type: types.RECEIVE_COMMENTS,
-    comments
+    comments,
 });
 
 export const getComments = (eventId) => {
@@ -28,9 +28,9 @@ export const getComments = (eventId) => {
             }
             dispatch(receiveComments(comments));
         } catch (error) {
-            console.warn('ActionCreators/comments::fetchComments ' + error)
+            console.warn('ActionCreators/comments::fetchComments ' + error);
         }
-    }
+    };
 };
 
 

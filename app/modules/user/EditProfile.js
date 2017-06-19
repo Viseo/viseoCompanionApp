@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet} from "react-native";
-import {connect} from "react-redux";
-import AppTextInput from "../global/components/AppTextInput";
+import {ScrollView, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import AppTextInput from '../global/components/AppTextInput';
 import PropTypes from 'prop-types';
-import {updateUser as updateUserDb} from "../global/db";
-import PasswordInput from "./authentication/PasswordInput";
-import PasswordCheckInput from "./authentication/PasswordCheckInput";
-import {bindActionCreators} from "redux";
-import {updateUser} from "./user.actions";
-import {signOut} from "./authentication/authentication.actions";
-import {startLoader} from "../global/navigationLoader";
+import {updateUser as updateUserDb} from '../global/db';
+import PasswordInput from './authentication/PasswordInput';
+import PasswordCheckInput from './authentication/PasswordCheckInput';
+import {bindActionCreators} from 'redux';
+import {updateUser} from './user.actions';
+import {signOut} from './authentication/authentication.actions';
+import {startLoader} from '../global/navigationLoader';
 
 class EditProfile extends Component {
 
@@ -77,12 +77,12 @@ class EditProfile extends Component {
     async submitProfileForm() {
         const passwordWasEdited = this.state.user.password && this.state.passwordCheck;
         const isPasswordValid = this.state.user.password === this.state.passwordCheck;
-        if(!passwordWasEdited) {
+        if (!passwordWasEdited) {
             let updatedPassword = this.props.user.password;
             this._setPassword(updatedPassword);
             await this.updateProfile();
             this.props.navigator.pop();
-        } else if(isPasswordValid) {
+        } else if (isPasswordValid) {
             await this.updateProfile();
             this.props.signOut();
             startLoader();
@@ -100,8 +100,8 @@ class EditProfile extends Component {
             user: {
                 ...this.state.user,
                 firstName,
-            }
-        })
+            },
+        });
     }
 
     _setLastName(lastName) {
@@ -109,8 +109,8 @@ class EditProfile extends Component {
             user: {
                 ...this.state.user,
                 lastName,
-            }
-        })
+            },
+        });
     }
 
     _setPassword(password) {
@@ -118,28 +118,28 @@ class EditProfile extends Component {
             user: {
                 ...this.state.user,
                 password,
-            }
-        })
+            },
+        });
     }
 
     _setPasswordCheck(passwordCheck) {
         this.setState({
             passwordCheck,
-        })
+        });
     }
 }
 
 EditProfile.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
 };
 
 EditProfile.navigatorButtons = {
     rightButtons: [
         {
             title: 'Enregistrer',
-            id: 'save'
-        }
-    ]
+            id: 'save',
+        },
+    ],
 };
 
 const mapStateToProps = ({user}, ownProps) => ({
@@ -151,7 +151,7 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         updateUser,
         signOut,
-    }, dispatch)
+    }, dispatch);
 };
 
 export default connect(
@@ -162,5 +162,5 @@ export default connect(
 const styles = StyleSheet.create({
     mainContainer: {
         paddingHorizontal: 20,
-    }
+    },
 });

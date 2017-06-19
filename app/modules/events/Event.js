@@ -4,7 +4,7 @@ import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import Avatar from '../global/components/Avatar';
 import strings from '../global/localizedStrings';
-import ItemSpacer from '../../components/ItemSpacer';
+import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../global/colors';
 import CheckBox from 'react-native-check-box';
 import {defaultNavBarStyle} from '../global/navigatorStyle';

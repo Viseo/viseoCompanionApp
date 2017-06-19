@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Dimensions, Button} from 'react-native';
+import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import AppText from '../../global/components/AppText';
 import colors from '../../global/colors';
-import {startApp} from '../../global/navigationLoader';
 import PropTypes from 'prop-types';
 
 export default class SignUpSuccessfulPopup extends Component {

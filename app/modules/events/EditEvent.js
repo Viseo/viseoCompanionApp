@@ -65,7 +65,7 @@ class EditEvent extends Component {
             });
             this.props.refresh();
             this.props.navigator.resetTo({
-                screen: "events.events",
+                screen: 'events.events',
                 title: 'Evènements à venir',
                 navigatorStyle: defaultNavBarStyle,
             });

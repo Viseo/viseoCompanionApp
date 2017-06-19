@@ -1,4 +1,4 @@
-import { Navigation } from 'react-native-navigation';
+import {Navigation} from 'react-native-navigation';
 import registerAppLoader from '../appLoader/registerScreens';
 import registerEventsModule from '../events/registerScreens';
 import registerNewsFeedModule from '../newsFeed/registerScreens';

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
-import Avatar from "../global/components/Avatar";
-import AppText from "../global/components/AppText";
-import {ScrollView, View} from "react-native";
+import {ScrollView, StyleSheet, View} from 'react-native';
+import Avatar from '../global/components/Avatar';
+import AppText from '../global/components/AppText';
 import PropTypes from 'prop-types';
 
 export default class ProfileDetails extends Component {
@@ -64,7 +63,7 @@ export default class ProfileDetails extends Component {
     }
 }
 
-ProfileDetails.propTypes= {
+ProfileDetails.propTypes = {
     user: PropTypes.any.isRequired,
 };
 

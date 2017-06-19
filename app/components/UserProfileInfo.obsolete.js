@@ -1,18 +1,14 @@
 /**
  * Created by VBO3596 on 18/04/2017.
  */
-import React, {Component} from "react";
-import {Button, Dimensions, Modal, Platform, ScrollView, StyleSheet, View} from "react-native";
-import AppText from "../modules/global/components/AppText";
-import strings from "../modules/global/localizedStrings";
-import colors from "../modules/global/colors";
-import DatePicker from "react-native-datepicker";
-import * as util from "../util/util";
-import ItemSpacer from "./ItemSpacer";
-import BackButton from "./BackButton.obsolete";
-import TextField from "react-native-md-textinput";
-import Toggle from "./Toggle";
-import Avatar from "../modules/global/components/Avatar";
+import React, {Component} from 'react';
+import {Dimensions, Platform, ScrollView, StyleSheet, View} from 'react-native';
+import AppText from '../modules/global/components/AppText';
+import strings from '../modules/global/localizedStrings';
+import colors from '../modules/global/colors';
+import * as util from '../util/util';
+import TextField from 'react-native-md-textinput';
+import Avatar from '../modules/global/components/Avatar';
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 let defaultImage = require('./../images/userAvatar.jpg');
@@ -51,7 +47,7 @@ export default class Profile extends Component {
                 highlightColor={passwordValid ? '#00BCD4' : '#d41a0e'}
                 value={editedProfile.password}
                 onChangeText={(password) => {
-                    this.setState({editedProfile: {...editedProfile, password}})
+                    this.setState({editedProfile: {...editedProfile, password}});
                 }}
             />
         );
@@ -64,7 +60,7 @@ export default class Profile extends Component {
                 highlightColor={passwordMatch ? '#00BCD4' : '#d41a0e'}
                 value={editedProfile.passwordCheck}
                 onChangeText={(passwordCheck) => {
-                    this.setState({editedProfile: {...editedProfile, passwordCheck}})
+                    this.setState({editedProfile: {...editedProfile, passwordCheck}});
                 }}
             />
         );
@@ -82,7 +78,7 @@ export default class Profile extends Component {
                     {editing && passwordCheck}
                 </ScrollView>
             </View>
-        )
+        );
     }
 
     renderAvatar() {
@@ -91,7 +87,7 @@ export default class Profile extends Component {
                     lastName={this.state.editedProfile.lastName}
                     style={{marginTop: 20}}
             />
-        )
+        );
     }
 
     renderEmail() {
@@ -101,7 +97,7 @@ export default class Profile extends Component {
             <View style={styles.textFieldContainer}>
                 <AppText style={styles.label}>Email</AppText>
                 <AppText style={styles.displayText}>{editedProfile.email}</AppText>
-            </View>
+            </View>;
     }
 
     renderFirstName() {
@@ -125,7 +121,7 @@ export default class Profile extends Component {
                 value={editedProfile.firstName}
             />
         );
-        return editing ? firstNameField : firstNameText
+        return editing ? firstNameField : firstNameText;
     }
 
     renderLastName() {
@@ -149,7 +145,7 @@ export default class Profile extends Component {
                 value={editedProfile.lastName}
             />
         );
-        return editing ? lastNameField : lastNameText
+        return editing ? lastNameField : lastNameText;
     }
 
     validate() {
@@ -161,7 +157,7 @@ export default class Profile extends Component {
     updateImage(selected) {
         const {editedProfile} = this.state;
         let picture = {uri: selected};
-        this.setState({editedProfile: {...editedProfile, picture}})
+        this.setState({editedProfile: {...editedProfile, picture}});
     }
 
     onChangePasswordText(password) {
@@ -170,7 +166,7 @@ export default class Profile extends Component {
         if (isNewPasswordValid) {
             this.setState({
                 editedProfile: {...editedProfile, password},
-                isNewPasswordValid: isNewPasswordValid
+                isNewPasswordValid: isNewPasswordValid,
             });
         }
     }
@@ -227,7 +223,7 @@ const styles = StyleSheet.create({
         flex: 15,
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
     },
 
     organizatorPictureCircle: {
@@ -249,6 +245,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(186, 242, 255, 1)'
-    }
+        backgroundColor: 'rgba(186, 242, 255, 1)',
+    },
 });

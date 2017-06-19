@@ -4,8 +4,8 @@ import {
     REMEMBER_USER,
     REQUEST_AUTHENTICATION,
     SIGN_OUT
-} from "./authentication.actions";
-import {REHYDRATE} from "redux-persist/constants";
+} from './authentication.actions';
+import {REHYDRATE} from 'redux-persist/constants';
 
 export default (state = [], action) => {
     switch (action.type) {
@@ -22,12 +22,12 @@ export default (state = [], action) => {
         case REQUEST_AUTHENTICATION:
             return {
                 ...state,
-                isAuthenticating: true
+                isAuthenticating: true,
             };
         case RECEIVE_AUTHENTICATION:
             return {
                 ...state,
-                isAuthenticating: false
+                isAuthenticating: false,
             };
         case REHYDRATE:
             let {authentication} = action.payload;

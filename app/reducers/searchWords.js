@@ -7,8 +7,8 @@ const searchWords = (state = [], action) => {
         case 'SET_WORDS':
             return action.searchWords;
         default:
-            return state
+            return state;
     }
 };
 
-export default searchWords
+export default searchWords;

@@ -1,4 +1,4 @@
-import {checkHasChildComponent, compareChildren, createComponent, getChildComponent} from "../TestUtil/index";
+import {checkHasChildComponent, compareChildren, createComponent, getChildComponent} from '../TestUtil/index';
 
 describe('FlexImage', () => {
 
@@ -7,11 +7,11 @@ describe('FlexImage', () => {
         const children = 'some lovely children';
         const flexImage = createComponent('FlexImage', {
             source,
-            children
+            children,
         });
         checkHasChildComponent(flexImage, 'Image');
         let image = getChildComponent(flexImage, 'Image');
-        compareChildren(image, children)
-    })
+        compareChildren(image, children);
+    });
 
 });

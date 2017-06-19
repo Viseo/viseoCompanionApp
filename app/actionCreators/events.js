@@ -1,10 +1,15 @@
 /**
  * Created by AAB3605 on 03/04/2017.
  */
-import settings from "../modules/global/settings";
-import {addEvent as pushEvent, deleteEventDb, getEventParticipants, updateEvent as updateEventDb} from "../modules/global/db";
-import PushController from "../modules/global/pushController";
-import moment from "moment";
+import settings from '../modules/global/settings';
+import {
+    addEvent as pushEvent,
+    deleteEventDb,
+    getEventParticipants,
+    updateEvent as updateEventDb,
+} from '../modules/global/db';
+import PushController from '../modules/global/pushController';
+import moment from 'moment';
 
 export const types = {
     ADD_EVENT: 'ADD_EVENT',
@@ -31,8 +36,8 @@ export const addEvent = (event) => {
             type: types.ADD_EVENT,
             ...event
         });
-        await pushEvent(event)
-    }
+        await pushEvent(event);
+    };
 };
 
 //useless
@@ -42,9 +47,9 @@ export const fetchEventParticipants = (id) => {
         dispatch({
             type: types.UPDATE_EVENT_PARTICIPANTS,
             id,
-            participants
-        })
-    }
+            participants,
+        });
+    };
 };
 
 //Ported
@@ -61,10 +66,10 @@ export const fetchEvents = (user) => {
             console.warn('ActionCreators/events::fetchEvents ' + error);
             dispatch({
                 type: types.FETCH_EVENTS_FAILED,
-                error
-            })
+                error,
+            });
         }
-    }
+    };
 };
 
 export const fetchEventsExp = (user) => {
@@ -80,11 +85,11 @@ export const fetchEventsExp = (user) => {
             console.warn('ActionCreators/events::fetchEventsExp' + error);
             dispatch({
                 type: types.FETCH_EVENTS_FAILED,
-                error
-            })
+                error,
+            });
         }
 
-    }
+    };
 };
 
 //Ported
@@ -102,24 +107,24 @@ function getEventsFromJson(json) {
             version: event.version,
             category: event.category,
             host: event.host,
-            imageUrl:event.imageUrl,
+            imageUrl: event.imageUrl,
             participants: event.participants,
-        })
+        });
     }
-    return events
+    return events;
 }
 
 //Ported
 const receiveEvents = (events) => ({
     type: types.RECEIVE_EVENTS,
     events,
-    receivedAt: Date.now()
+    receivedAt: Date.now(),
 });
 
 //Ported
 const receiveEventsExpired = (events) => ({
     type: types.RECEIVE_EVENTS_EXPIRED,
-    events
+    events,
 });
 
 export const registerUser = (event, userId) => {
@@ -130,13 +135,13 @@ export const registerUser = (event, userId) => {
             await fetch(settings.api.addEventParticipant(eventId, userId), {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+                    'Content-Type': 'application/json',
+                },
+            });
         } catch (error) {
-            console.warn('ActionCreators/events::registerUser ' + error)
+            console.warn('ActionCreators/events::registerUser ' + error);
         }
-    }
+    };
 };
 
 const requestEventsExpired = () => ({
@@ -160,41 +165,40 @@ export const unregisterUser = (event, userId) => {
             await fetch(settings.api.removeEventParticipant(eventId, userId), {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+                    'Content-Type': 'application/json',
+                },
+            });
         } catch (error) {
-            console.warn('ActionCreators/events::unregisterUser ' + error)
+            console.warn('ActionCreators/events::unregisterUser ' + error);
         }
-    }
+    };
 };
 
 export const updateEvent = (event) => {
     return async (dispatch) => {
         dispatch({
             type: types.UPDATE_EVENT,
-            event
+            event,
         });
         try {
-            await updateEventDb(event)
+            await updateEventDb(event);
 
         } catch (error) {
-            console.warn('ActionCreators/events::updatedEvent ' + error)
+            console.warn('ActionCreators/events::updatedEvent ' + error);
         }
-    }
+    };
 };
-
 
 export const deleteEvent = (id) => {
     return async (dispatch) => {
         dispatch({
             type: types.REMOVE_EVENT,
-            id
+            id,
         });
         try {
-            await deleteEventDb(id)
+            await deleteEventDb(id);
         } catch (error) {
-            console.warn('ActionCreators/events::deleteEvent ' + error)
+            console.warn('ActionCreators/events::deleteEvent ' + error);
         }
-    }
+    };
 };

@@ -114,7 +114,7 @@ export default class EventListExp extends Component {
                             hostFirstName: event.host ? event.host.firstName || 'Admin' : '',
                             hostLastName: event.host ? event.host.lastName || '' : '',
                             participating: participating,
-                            host: event.host
+                            host: event.host,
                         },
                     });
                 }}
