@@ -51,16 +51,31 @@ export default class CommentCard extends Component {
     _renderParticipantDate() {
         const date =
             <View style={{flex: .5}}>
-                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
+                <Text style={{textAlign: 'right' ,alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
             </View>;
         return (
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10}}>
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10, marginRight: 10}}>
                 <View style={{flex: .5}}>
                     <Text style={{color: colors.blue, fontSize: 14}}>
                         {this.props.writer.firstName + ' ' + this.props.writer.lastName}
                     </Text>
                 </View>
                 {date}
+            </View>
+        );
+    }
+
+    _renderUserAvatar() {
+        const {writer} = this.props;
+        return (
+            <View style={{flex: 0.32}}>
+                <Avatar
+                    lastName={writer.lastName}
+                    firstName={writer.firstName}
+                    style={{paddingTop: 10, paddingLeft: 5}}
+                    navigator={this.props.navigator}
+                    otherProfileId={writer.id}
+                />
             </View>
         );
     }
@@ -74,19 +89,6 @@ export default class CommentCard extends Component {
                 }}
             >
             </View>
-        );
-    }
-
-    _renderUserAvatar() {
-        const {writer} = this.props;
-        return (
-            <Avatar
-                lastName={writer.lastName}
-                firstName={writer.firstName}
-                style={{paddingTop: 10, paddingLeft: 5, flex: 0.25}}
-                navigator={this.props.navigator}
-                otherProfileId={writer.id}
-            />
         );
     }
 

@@ -30,7 +30,7 @@ export default class Avatar extends Component {
             :
             appText;
         return (
-            <View style={[{justifyContent: 'center'}, this.props.style]}>
+            <View style={[{flex: 0.25, justifyContent: 'center'}, this.props.style]}>
                 {avatarCircle}
             </View>
         );
