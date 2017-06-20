@@ -52,6 +52,7 @@ export const registerUser = (event, userId) => {
         PushController.scheduleEventNotifications(event);
         try {
             let event = db.addEventParticipant(eventId, userId);
+            console.warn('event participant added ' + event.version);
             //todo handle the received event
             if (event) {
                 dispatch({

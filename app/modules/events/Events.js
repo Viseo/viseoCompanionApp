@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
-import VisibleEventList from '../../modules/newsFeed/containers/VisibleEvents';
+import VisibleEventList from './VisibleEvents';
 import SearchBar from './../../components/SearchBar';
 import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../../modules/global/colors';

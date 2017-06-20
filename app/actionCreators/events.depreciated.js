@@ -127,23 +127,6 @@ const receiveEventsExpired = (events) => ({
     events,
 });
 
-export const registerUser = (event, userId) => {
-    let eventId = event.id;
-    return async (dispatch) => {
-        PushController.scheduleEventNotifications(event);
-        try {
-            await fetch(settings.api.addEventParticipant(eventId, userId), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-        } catch (error) {
-            console.warn('ActionCreators/events::registerUser ' + error);
-        }
-    };
-};
-
 const requestEventsExpired = () => ({
     type: types.REQUEST_EVENTS_EXPIRED,
 });
@@ -151,28 +134,6 @@ const requestEventsExpired = () => ({
 const requestEvents = () => ({
     type: types.REQUEST_EVENTS,
 });
-
-export const unregisterUser = (event, userId) => {
-    let eventId = event.id;
-    return async (dispatch) => {
-        PushController.unscheduleEventNotifications(event);
-        dispatch({
-            type: types.UNREGISTER_USER,
-            eventId,
-            userId,
-        });
-        try {
-            await fetch(settings.api.removeEventParticipant(eventId, userId), {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-        } catch (error) {
-            console.warn('ActionCreators/events::unregisterUser ' + error);
-        }
-    };
-};
 
 export const updateEvent = (event) => {
     return async (dispatch) => {
