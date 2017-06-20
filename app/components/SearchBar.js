@@ -105,7 +105,7 @@ SearchBar.displayName = 'SearchBar';
 
 export default SearchBar;
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
     searchBar: {
         flex: 0,
         flexDirection: 'column',

@@ -216,6 +216,15 @@ export const users = {
 };
 
 export const comments = {
+    getByEvent: async (eventId) => {
+        try {
+            let response = await fetch(settings.api.getPublishedCommentsByEvent(eventId));
+            return await response.json();
+        } catch (error) {
+            console.log('db::comments.getByEvent ' + error);
+            return [];
+        }
+    },
     add: async (comment) => {
         try {
             await fetch(settings.api.addComment, {
