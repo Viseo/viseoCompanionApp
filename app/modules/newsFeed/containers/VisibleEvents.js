@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {registerUser, unregisterUser} from '../../../actionCreators/events';
+import {registerUser, unregisterUser} from '../../../actionCreators/events.depreciated';
 import EventList from '../../events/EventList';
 import moment from 'moment';
 import {fetchEvents} from '../../events/event.actions';

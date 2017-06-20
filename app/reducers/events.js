@@ -1,4 +1,4 @@
-import {types} from './../actionCreators/events';
+import {types} from '../actionCreators/events.depreciated';
 import {UPDATE_EVENT} from '../modules/events/event.actions';
 
 function formatEvent(event) {
@@ -15,8 +15,7 @@ function formatEvent(event) {
         imageUrl: event.imageUrl,
         version: event.version,
     };
-};
-
+}
 const events = (state = {
     isFetching: false,
     didInvalidate: false,
