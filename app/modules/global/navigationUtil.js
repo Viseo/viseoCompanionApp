@@ -1,5 +1,11 @@
 import {Navigation} from 'react-native-navigation';
 
+export function dismissLightBox() {
+    Navigation.dismissLightBox({
+        animationType: "slide-down",
+    });
+}
+
 export function hideTabBar(navigator) {
     navigator.toggleTabs({
         to: 'hidden',

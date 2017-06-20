@@ -12,6 +12,7 @@ import strings from '../global/localizedStrings';
 import moment from 'moment';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import {Navigation} from 'react-native-navigation';
+import * as db from '../global/db';
 
 const eventIdToImages = {
     '40': require('./../../images/events/formation_securite.jpg'),
@@ -216,7 +217,7 @@ class PastEvent extends Component {
         if (event.id === 'showComments') {
             this._goToComments();
         } else if (event.id === 'showNotationModal') {
-            this._goToNotationModal();
+            this._showNotationPopup();
         }
     }
 
@@ -243,12 +244,19 @@ class PastEvent extends Component {
         });
     }
 
-    _goToNotationModal() {
-        Navigation.showLightBox({
-            screen: "notation.NotationVote",
-            title: "Notation",
-            passProps: {eventName:this.props.name,location: this.props.location, date: this.props.date},
-            animationType: 'slide-up'
+    _showNotationPopup() {
+        this.props.navigator.showLightBox({
+            screen: 'notation.popup',
+            title: 'Multi popup',
+            style: {
+                backgroundBlur: 'dark',
+                backgroundColor: '#135caa70',
+            },
+            passProps: {
+                eventName: this.props.name,
+                location: this.props.location,
+                date: this.props.date,
+            },
         });
     }
 }

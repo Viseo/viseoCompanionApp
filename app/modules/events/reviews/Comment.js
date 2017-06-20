@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import TextField from 'react-native-md-textinput';
-import colors from '../global/colors';
-import {Button, Dimensions, Image, StyleSheet, View} from 'react-native';
-import * as db from '../global/db';
-import {Navigation} from 'react-native-navigation';
+import {Button, View, StyleSheet, Image, Dimensions} from 'react-native';
+import colors from '../../global/colors';
 
 export default class NotationRemark extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            rating: '',
+            comment: '',
         };
     }
 
@@ -18,13 +16,13 @@ export default class NotationRemark extends Component {
         return (
             <View style={styles.container}>
                 <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
-                    <Image source={require('./../../images/sad.png')} style={{width: 50, height: 50}}/>
+                    <Image source={require('./../../../images/sad.png')} style={{width: 50, height: 50}}/>
                 </View>
                 <View style={{flex: 1, flexDirection: 'column'}}>
                     <TextField
                         ref="textInput"
                         label="Dites nous ce qu'il faut améliorer"
-                        value={this.state.rating.toString()}
+                        value={this.state.comment.toString()}
                         multiline={true}
                         style={
                             {
@@ -38,43 +36,22 @@ export default class NotationRemark extends Component {
                         }
                         onChangeText={(text) => {
                             this.setState({
-                                rating: text,
+                                comment: text,
                             });
                         }}/>
                 </View>
                 <View style={{flex: 1, flexDirection: 'column', marginTop: 100}}>
                     <Button
                         title="Envoyer"
-                        onPress={ async () => {
-                            const review = {
-                                ...this.props.notation,
-                                rating: this.state.rating,
-                            };
-                            await db.events.updateReview(review);
-                            this.redirect();
-                        }}
+                        onPress={() => this.props.sendComment(this.state.comment)}
                     />
                 </View>
-            </View>        );
+            </View>
+        );
     }
-
-    redirect = () => {
-
-        Navigation.dismissLightBox({
-            animationType: 'slide-down',
-        });
-        Navigation.showLightBox({
-            screen: 'notation.NotationThanks',
-            title: 'Mercii',
-            passProps: {
-                textContent: 'Merci pour vos remarques !',
-                emotion: 'done',
-            },
-            animationType: 'slide-up',
-        });
-    };
-
 };
+
+// todo set propTypes
 
 const styles = StyleSheet.create({
     container: {
