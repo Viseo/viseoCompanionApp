@@ -4,7 +4,7 @@ import NotationRemark from "./NotationRemark";
 import NotationThanks from "./NotationThanks";
 
 export default function (store, provider) {
-    Navigation.registerComponent("notation.NotationVote", () => NotationVote, store, provider);
+    Navigation.registerComponent("notation.Rating", () => NotationVote, store, provider);
     Navigation.registerComponent("notation.NotationRemark", () => NotationRemark, store, provider);
     Navigation.registerComponent("notation.NotationThanks", () => NotationThanks, store, provider);
 };

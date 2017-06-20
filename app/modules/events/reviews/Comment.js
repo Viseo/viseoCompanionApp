@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import TextField from 'react-native-md-textinput';
-import colors from '../global/colors';
 import {Button, View, StyleSheet, Image, Dimensions} from 'react-native';
+import colors from '../../global/colors';
 
 export default class NotationRemark extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            review: '',
+            comment: '',
         };
     }
 
@@ -16,13 +16,13 @@ export default class NotationRemark extends Component {
         return (
             <View style={styles.container}>
                 <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
-                    <Image source={require('./../../images/sad.png')} style={{width: 50, height: 50}}/>
+                    <Image source={require('./../../../images/sad.png')} style={{width: 50, height: 50}}/>
                 </View>
                 <View style={{flex: 1, flexDirection: 'column'}}>
                     <TextField
                         ref="textInput"
                         label="Dites nous ce qu'il faut améliorer"
-                        value={this.state.review.toString()}
+                        value={this.state.comment.toString()}
                         multiline={true}
                         style={
                             {
@@ -36,22 +36,14 @@ export default class NotationRemark extends Component {
                         }
                         onChangeText={(text) => {
                             this.setState({
-                                review: text,
+                                comment: text,
                             });
                         }}/>
                 </View>
                 <View style={{flex: 1, flexDirection: 'column', marginTop: 100}}>
                     <Button
                         title="Envoyer"
-                        onPress={this.props.onRemarkSent}
-                            // const notation = {
-                            //     ...this.props.notation,
-                            //     avis: this.state.review,
-                            // };
-                            // await db.sendReview(notation);
-                            // console.warn('before');
-                            //this.props.onRemarkSent();
-
+                        onPress={() => this.props.sendComment(this.state.comment)}
                     />
                 </View>
             </View>

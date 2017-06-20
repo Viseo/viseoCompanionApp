@@ -4,28 +4,23 @@ import {
     View,
     StyleSheet, Button,
 } from 'react-native';
-import AppText from '../global/components/AppText';
 import moment from 'moment';
-import * as db from '../global/db';
 import {Navigation} from 'react-native-navigation';
-import {dismissLightBox} from '../global/navigationUtil';
+import AppText from '../../global/components/AppText';
 
-export default class NotationVote extends Component {
+export default class Rating extends Component {
+
     state = {
-        modalVisible: false,
         startAngle: 0,
         angleLength: 0,
-        note: 0,
+        rating: 0,
         notation: {},
         color: '#ffffff',
-
     };
 
     render() {
-        let [date, time] = this.formatDate(this.props.date);
-
+        const [date, time] = this._formatDate(this.props.date);
         return (
-
             <View style={styles.container}>
                 <AppText>{this.props.eventName}</AppText>
                 <AppText>{this.props.location}</AppText>
@@ -34,7 +29,9 @@ export default class NotationVote extends Component {
                     top: 110,
                     fontWeight: 'bold',
                     fontSize: 24,
-                }}>{this.state.rating} %</AppText>
+                }}>
+                    {this.state.rating} %
+                </AppText>
                 <CircularSlider
                     startAngle={this.state.startAngle}
                     segments={2}
@@ -46,8 +43,8 @@ export default class NotationVote extends Component {
                     onUpdate={({startAngle, angleLength}) => this.setState({
                         startAngle: this.state.startAngle,
                         angleLength,
-                        note: Math.round((angleLength * 100) / (2 * Math.PI)),
-                        color: this.getColor(this.state.rating),
+                        rating: Math.round((angleLength * 100) / (2 * Math.PI)),
+                        color: this._getColor(this.state.rating),
                     })}
                     bgCircleColor="#ffffff"
                 />
@@ -67,7 +64,7 @@ export default class NotationVote extends Component {
                         <Button
                             title="Envoyer"
                             style={{backgroundColor: '#C41F06'}}
-                            onPress={() => this.props.sendNotation(this.state.rating)}
+                            onPress={() => this.props.sendReview(this.state.rating)}
                         />
                     </View>
                 </View>
@@ -76,17 +73,24 @@ export default class NotationVote extends Component {
         );
     }
 
-    percentageToHsl(percentage, hue0, hue1) {
-        var hue = (percentage * (hue1 - hue0)) + hue0;
-        return hue;
+    _formatDate(date) {
+        if (!date)
+            return [];
+        let dateTime = moment(date);
+        return dateTime.calendar().split('/');
     }
 
-    getColor(val) {
+    _getColor(val) {
         let hsl = require('hsl-to-hex');
-        let hue = this.percentageToHsl(val / 100, 0, 120);
+        let hue = this._percentageToHsl(val / 100, 0, 120);
         let saturation = 100;
-        var luminosity = 50;
+        let luminosity = 50;
         return hsl(hue, saturation, luminosity);
+    }
+
+    _percentageToHsl(percentage, hue0, hue1) {
+        const hue = (percentage * (hue1 - hue0)) + hue0;
+        return hue;
     }
 
     redirect(notation) {
@@ -106,13 +110,6 @@ export default class NotationVote extends Component {
                 animationType: 'slide-up',
             });
         }
-    }
-
-    formatDate(date) {
-        if (!date)
-            return [];
-        let dateTime = moment(date);
-        return dateTime.calendar().split('/');
     }
 };
 

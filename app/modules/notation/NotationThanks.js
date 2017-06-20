@@ -26,18 +26,10 @@ export default class NotationThanks extends Component {
                 <View style={{flex: 1, flexDirection: "column", marginTop: 50}}>
                     <Button
                         title="Fermer"
-                        onPress={() => {
-                         this.dismiss();
-                        }}/>
+                        onPress={() => {}}/>
                 </View>
             </View>
         );
-    }
-
-    dismiss() {
-        Navigation.dismissLightBox({
-            animationType: "slide-down",
-        });
     }
 };
 

@@ -10,6 +10,7 @@ import CreateComment from './comments/CreateComment';
 import CreateChildComment from './comments/CreateChildComment';
 import Comments from './comments/Comments';
 import EditEvent from './EditEvent';
+import NotationPopup from './reviews/ReviewPopup';
 
 export default function(store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);
@@ -24,4 +25,5 @@ export default function(store, provider) {
     Navigation.registerComponent('events.createEvents', () => CreateEvent, store, provider);
     Navigation.registerComponent('events.liveEvent', () => LiveEvent, store, provider);
     Navigation.registerComponent('CreateChildComment', () => CreateChildComment, store, provider);
+    Navigation.registerComponent('notation.popup', () => NotationPopup, store, provider);
 }
