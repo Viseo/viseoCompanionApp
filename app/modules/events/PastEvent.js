@@ -246,45 +246,7 @@ class PastEvent extends Component {
         });
     }
 
-    _onDismissThanks() {
-        this.props.navigator.dismissLightBox();
-        this.props.navigator.showLightBox({
-            screen: 'notation.NotationThanks',
-            title: 'Merci',
-            passProps: {
-                textContent: 'Merci de nous aider à nous améliorer !',
-                emotion: 'happy',
-            },
-            animationType: 'slide-up',
-        });
-    }
-
-    _onRemarkSent() {
-        this.props.navigator.dismissLightBox();
-        // this.props.navigator.showLightBox({
-        //     screen: 'reviews.NotationThanks',
-        //     title: 'Mercii',
-        //     passProps: {
-        //         textContent: 'Merci pour vos remarques !',
-        //         emotion: 'done',
-        //         onDismissThanks: () => this._onDismissThanks(),
-        //     },
-        //     animationType: 'slide-up',
-        // });
-    }
-
     _showNotationPopup() {
-        // this.props.navigator.showLightBox({
-        //     screen: 'reviews.popup',
-        //     title: 'Notation',
-        //     passProps: {
-        //         eventName: this.props.name,
-        //         location: this.props.location,
-        //         date: this.props.date,
-        //         sendNotation: (reviews) => this._sendNotation(reviews),
-        //     },
-        //     animationType: 'slide-up',
-        // });
         this.props.navigator.showLightBox({
             screen: 'notation.popup',
             title: 'Multi popup',
@@ -296,26 +258,6 @@ class PastEvent extends Component {
                 eventName: this.props.name,
                 location: this.props.location,
                 date: this.props.date,
-            },
-        });
-    }
-
-    async _sendNotation(notation) {
-        const notationObj = {
-            userId: '1',
-            eventId: '2',
-            notation,
-            avis: '',
-        };
-        const updatedNotation = await db.sendNotation(notationObj);
-        this.props.navigator.dismissLightBox();
-        this.props.navigator.showLightBox({
-            screen: 'notation.NotationRemark',
-            title: 'Avis',
-            animationType: 'slide-up',
-            passProps: {
-                notation: updatedNotation,
-                onRemarkSent: () => this._onRemarkSent(),
             },
         });
     }

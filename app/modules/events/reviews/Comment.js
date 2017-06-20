@@ -49,8 +49,9 @@ export default class NotationRemark extends Component {
             </View>
         );
     }
-
 };
+
+// todo set propTypes
 
 const styles = StyleSheet.create({
     container: {

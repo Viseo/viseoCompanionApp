@@ -7,6 +7,7 @@ import {
 import moment from 'moment';
 import {Navigation} from 'react-native-navigation';
 import AppText from '../../global/components/AppText';
+import {dismissLightBox} from '../../global/navigationUtil';
 
 export default class Rating extends Component {
 
@@ -56,8 +57,7 @@ export default class Rating extends Component {
                     <View>
                         <Button
                             title="Plus tard"
-                            onPress={() => {
-                            }}
+                            onPress={dismissLightBox}
                         />
                     </View>
                     <View style={{marginLeft: 100}}>
@@ -92,26 +92,9 @@ export default class Rating extends Component {
         const hue = (percentage * (hue1 - hue0)) + hue0;
         return hue;
     }
-
-    redirect(notation) {
-        const note = notation.notation;
-        if (true) {
-            this.props.showNotationRemarkPopup(notation);
-        }
-        else {
-            dismissLightBox();
-            Navigation.showLightBox({
-                screen: 'notation.NotationThanks',
-                title: 'Merci',
-                passProps: {
-                    textContent: 'Merci de nous aider à nous améliorer !',
-                    emotion: 'happy',
-                },
-                animationType: 'slide-up',
-            });
-        }
-    }
 };
+
+// todo set propTypes
 
 const styles = StyleSheet.create({
     container: {

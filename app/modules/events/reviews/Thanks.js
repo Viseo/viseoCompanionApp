@@ -36,6 +36,8 @@ export default class Thanks extends Component {
     }
 };
 
+// todo set propTypes
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#ede3f2',

@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-import {View, Dimensions, StyleSheet, Button} from 'react-native';
-import AppText from '../../global/components/AppText';
-import {Navigation} from 'react-native-navigation';
-import colors from '../../global/colors';
 import Rating from './Rating';
 import Comment from './Comment';
 import Thanks from './Thanks';
@@ -23,12 +19,22 @@ export default class ReviewPopup extends Component {
                 return this._renderRatingPage();
             case 'comment':
                 return this._renderCommentPage();
-            case 'thanks':
-                return this._renderThanksPage();
+            case 'thanksAfterCommenting':
+                return this._renderThanksAfterCommentingPage();
+            case 'thanksAfterLeavingAGoodRating':
+                return this._renderThanksAfterLeavingAGoodRatingPage();
             default:
                 break;
         }
         return null;
+    }
+
+    _renderCommentPage() {
+        return (
+            <Comment
+                sendComment={(comment) => this._sendComment(comment)}
+            />
+        );
     }
 
     _renderRatingPage() {
@@ -42,39 +48,16 @@ export default class ReviewPopup extends Component {
         );
     }
 
-    async _sendComment(comment) {
-        this.setState({currentPage: 'thanks'});
-    }
-
-    async _sendReview(rating) {
-        const review = {
-            userId: '1',
-            eventId: '2',
-            rating,
-            avis: '',
-        };
-        // const updatedNotation = await db.sendNotation(review);
-        this.setState({currentPage: 'comment'});
-        // this.props.navigator.showLightBox({
-        //     screen: 'notation.NotationRemark',
-        //     title: 'Avis',
-        //     animationType: 'slide-up',
-        //     passProps: {
-        //         notation: updatedNotation,
-        //         onRemarkSent: () => this._onRemarkSent(),
-        //     },
-        // });
-    }
-
-    _renderCommentPage() {
+    _renderThanksAfterCommentingPage() {
         return (
-            <Comment
-                sendComment={(comment) => this._sendComment(comment)}
+            <Thanks
+                textContent="Merci pour vos remarques !"
+                emotion="done"
             />
         );
     }
 
-    _renderThanksPage() {
+    _renderThanksAfterLeavingAGoodRatingPage() {
         return (
             <Thanks
                 textContent="Merci de nous aider à nous améliorer !"
@@ -82,31 +65,24 @@ export default class ReviewPopup extends Component {
             />
         );
     }
+
+    async _sendComment(comment) {
+        // todo send comment to server (with no hardcoded values)
+        this.setState({currentPage: 'thanksAfterCommenting'});
+    }
+
+    async _sendReview(rating) {
+        // todo send review to server (with no hardcoded values)
+        // const review = {
+        //     userId: '1',
+        //     eventId: '2',
+        //     rating,
+        //     avis: '',
+        // };
+        // await db.sendReview(review);
+        const nextPage = rating > 50 ? 'thanksAfterLeavingAGoodRating' : 'comment';
+        this.setState({currentPage: nextPage});
+    }
 }
 
-const styles = StyleSheet.create({
-    button: {
-        flex: 1,
-    },
-    buttonBar: {
-        flex: 2,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    container: {
-        width: Dimensions.get('window').width * 0.7,
-        height: Dimensions.get('window').height * 0.3,
-        backgroundColor: '#ffffff',
-        borderRadius: 5,
-        padding: 16,
-    },
-    content: {
-        marginTop: 8,
-        textAlign: 'center',
-    },
-    title: {
-        fontSize: 17,
-        fontWeight: '700',
-        textAlign: 'center',
-    },
-});
+// todo set propTypes
