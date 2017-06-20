@@ -5,7 +5,7 @@ import ProfileDetails from './ProfileDetails';
 import {bindActionCreators} from 'redux';
 import {getUser} from './user.actions';
 import PropTypes from 'prop-types';
-import AppText from '../global/components/AppText';
+import {ActivityIndicator} from 'react-native';
 
 class OtherProfile extends Component {
 
@@ -21,9 +21,7 @@ class OtherProfile extends Component {
         return !this.props.isFetching ?
             <ProfileDetails user={this.props.otherProfile}/>
             :
-            <AppText>
-                Chargement ...
-            </AppText>;
+            <ActivityIndicator size="large" style={{flex: 1, alignItems: 'center'}}/>;
     }
 }
 

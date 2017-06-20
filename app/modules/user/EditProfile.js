@@ -3,7 +3,7 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import AppTextInput from '../global/components/AppTextInput';
 import PropTypes from 'prop-types';
-import {updateUser as updateUserDb} from '../global/db';
+import * as db from '../global/db';
 import PasswordInput from './authentication/PasswordInput';
 import PasswordCheckInput from './authentication/PasswordCheckInput';
 import {bindActionCreators} from 'redux';
@@ -70,7 +70,7 @@ class EditProfile extends Component {
     }
 
     async updateProfile() {
-        const updatedUser = await updateUserDb(this.state.user);
+        const updatedUser = await db.users.update(this.state.user);
         this.props.updateUser(updatedUser);
     }
 

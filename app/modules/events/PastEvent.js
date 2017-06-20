@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import AppText from '../global/components/AppText';
-import {bindActionCreators} from 'redux';
-import {fetchEventParticipants} from '../../actionCreators/events.depreciated';
 import ItemSpacer from '../global/components/ItemSpacer';
 import FlexImage from '../../components/FlexImage.obsolete';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -38,11 +36,6 @@ class PastEvent extends Component {
             picture,
         };
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-    }
-
-    componentWillMount() {
-        if (this.props.id)
-            this.props.fetchEventParticipants(this.props.id);
     }
 
     formatDate(date) {
@@ -301,16 +294,9 @@ const mapStateToProps = ({events, user}, ownProps) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-            fetchEventParticipants,
-        },
-        dispatch);
-};
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    null,
 )(PastEvent);
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');

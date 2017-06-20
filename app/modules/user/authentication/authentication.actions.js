@@ -1,4 +1,4 @@
-import {authenticate as authenticateDb} from '../../global/db';
+import * as db from '../../global/db';
 import {UPDATE_USER} from '../user.actions';
 
 export const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
@@ -6,7 +6,7 @@ export const authenticate = (email, password) => {
     return async (dispatch) => {
         dispatch(requestAuthentication());
         try {
-            let response = await authenticateDb(email, password);
+            let response = await db.users.authenticate(email, password);
             const wrongCredentials = null;
             if (response !== wrongCredentials) {
                 dispatch({

@@ -1,4 +1,4 @@
-import {getUser as getUserDb} from './../global/db';
+import * as db from './../global/db';
 
 export const UPDATE_USER = 'UPDATE_USER';
 export const updateUser = (user) => ({
@@ -21,7 +21,7 @@ export const getUser = (userId) => {
     return async (dispatch) => {
         dispatch(requestUser());
         try {
-            let user = await getUserDb(userId);
+            let user = await db.users.get(userId);
             dispatch(receiveUser(user));
         } catch (error) {
             console.warn('user.actions::getUser' + error);

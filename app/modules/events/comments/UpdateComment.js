@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, ScrollView, StyleSheet} from 'react-native';
 import AppTextInput from '../../global/components/AppTextInput';
-import {updateComment} from '../../global/db';
+import * as db from '../../global/db';
 import moment from 'moment';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -49,7 +49,7 @@ class UpdateComment extends Component {
             version: this.props.comment.version,
             publish: true,
         };
-        await updateComment(comment);
+        await db.comments.update(comment);
         this.props.refresh(this.props.comment.eventId);
         this.props.navigator.pop();
     };

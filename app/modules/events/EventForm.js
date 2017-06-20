@@ -11,7 +11,7 @@ export default class EventForm extends Component {
 
     dateFormat = 'DD/MM/YYYY [à] HH:mm';
     state = {
-        category: this.props.category,
+        category: this.props.category.toString(),
         description: this.props.description,
         location: this.props.location,
         locationError: 'field not filled',
@@ -212,7 +212,7 @@ EventForm.defaultProps = {
 };
 
 EventForm.propTypes = {
-    category: PropTypes.string,
+    category: PropTypes.number,
     description: PropTypes.string,
     location: PropTypes.string,
     name: PropTypes.string,

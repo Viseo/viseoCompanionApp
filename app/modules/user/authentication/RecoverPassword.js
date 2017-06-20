@@ -3,7 +3,7 @@ import {Alert, Button, ScrollView, StyleSheet, View} from 'react-native';
 import AppText from '../../global/components/AppText';
 import strings from '../../global/localizedStrings';
 import EmailInput from './EmailInput';
-import {sendEmailPassword} from '../../global/db';
+import * as db from '../../global/db';
 import PropTypes from 'prop-types';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 
@@ -74,7 +74,7 @@ export default class RecoverPassword extends Component {
 
     onPressResetPassword = async () => {
         if (this.state.email) {
-            let responseStatus = await sendEmailPassword(this.state.email);
+            let responseStatus = await db.users.sendResetPassword(this.state.email);
             let emailNotFoundCode = 'false';
             switch (responseStatus) {
                 case 404:

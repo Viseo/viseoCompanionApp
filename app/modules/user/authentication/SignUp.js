@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import {authenticate, rememberUser as toggleRememberUser} from './authentication.actions';
 import colors from '../../global/colors';
 import PasswordCheckInput from './PasswordCheckInput';
-import {addUser, getUserByEmail} from '../../global/db';
+import * as db from '../../global/db';
 import {Navigation} from 'react-native-navigation';
 import TextField from 'react-native-md-textinput';
 
@@ -209,12 +209,17 @@ class SignUp extends Component {
         if (this._isFormFilled()) {
             this.setState({errorMessage: ''});
             const {email, password, firstName, lastName} = this.state;
-            const userAlreadyExists = await getUserByEmail(email);
+            const userAlreadyExists = await db.users.getByEmail(email);
             if (userAlreadyExists) {
                 this.setState({errorMessage: strings.emailAlreadyUsed});
             } else {
                 const lowercaseEmail = email.toLowerCase();
-                let userAddedSuccessfully = await addUser(lowercaseEmail, password, firstName, lastName);
+                let userAddedSuccessfully = await db.users.add({
+                    email: lowercaseEmail,
+                    password,
+                    firstName,
+                    lastName,
+                });
                 if (userAddedSuccessfully) {
                     this._showSignUpSuccessfulPopUp(() => this._authenticatedNewUser(email, password));
                 } else {

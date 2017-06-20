@@ -1,75 +1,12 @@
-/**
- * Created by AAB3605 on 03/04/2017.
- */
 import settings from '../modules/global/settings';
-import {
-    addEvent as pushEvent,
-    deleteEventDb,
-    getEventParticipants,
-    updateEvent as updateEventDb,
-} from '../modules/global/db';
-import PushController from '../modules/global/pushController';
 import moment from 'moment';
 
 export const types = {
-    ADD_EVENT: 'ADD_EVENT',
-    FETCH_EVENTS: 'FETCH_EVENTS',
-    FETCH_EVENTS_FAILED: 'FETCH_EVENTS_FAILED',
-    GET_EVENT: 'GET_EVENT',
     GET_EVENT_EXPIRE: 'GET_EVENT_EXPIRE',
     INVALIDATE_EVENTS: 'INVALIDATE_EVENTS',
     REQUEST_EVENTS_EXPIRED: 'REQUEST_EVENTS_EXPIRED',
     RECEIVE_EVENTS_EXPIRED: 'RECEIVE_EVENTS_EXPIRED',
-    REQUEST_EVENTS: 'REQUEST_EVENTS',
-    RECEIVE_EVENTS: 'RECEIVE_EVENTS',
-    REGISTER_USER: 'REGISTER_USER',
     REMOVE_EVENT: 'REMOVE_EVENT',
-    UNREGISTER_USER: 'UNREGISTER_USER',
-    UPDATE_EVENT: 'UPDATE_EVENT',
-    UPDATE_EVENT_PARTICIPANTS: 'UPDATE_EVENT_PARTICIPANTS',
-};
-
-//Ported
-export const addEvent = (event) => {
-    return async (dispatch) => {
-        dispatch({
-            type: types.ADD_EVENT,
-            ...event
-        });
-        await pushEvent(event);
-    };
-};
-
-//useless
-export const fetchEventParticipants = (id) => {
-    return async (dispatch) => {
-        let participants = await getEventParticipants(id);
-        dispatch({
-            type: types.UPDATE_EVENT_PARTICIPANTS,
-            id,
-            participants,
-        });
-    };
-};
-
-//Ported
-export const fetchEvents = (user) => {
-    return async (dispatch) => {
-        dispatch(requestEvents());
-        try {
-            // Fetch all events
-            let eventsResponse = await fetch(settings.api.getEventAfter(moment().toDate().getTime()));
-            let eventsJson = await eventsResponse.json();
-            let events = getEventsFromJson(eventsJson);
-            dispatch(receiveEvents(events));
-        } catch (error) {
-            console.warn('ActionCreators/events::fetchEvents ' + error);
-            dispatch({
-                type: types.FETCH_EVENTS_FAILED,
-                error,
-            });
-        }
-    };
 };
 
 export const fetchEventsExp = (user) => {
@@ -114,14 +51,6 @@ function getEventsFromJson(json) {
     return events;
 }
 
-//Ported
-const receiveEvents = (events) => ({
-    type: types.RECEIVE_EVENTS,
-    events,
-    receivedAt: Date.now(),
-});
-
-//Ported
 const receiveEventsExpired = (events) => ({
     type: types.RECEIVE_EVENTS_EXPIRED,
     events,
@@ -130,36 +59,3 @@ const receiveEventsExpired = (events) => ({
 const requestEventsExpired = () => ({
     type: types.REQUEST_EVENTS_EXPIRED,
 });
-
-const requestEvents = () => ({
-    type: types.REQUEST_EVENTS,
-});
-
-export const updateEvent = (event) => {
-    return async (dispatch) => {
-        dispatch({
-            type: types.UPDATE_EVENT,
-            event,
-        });
-        try {
-            await updateEventDb(event);
-
-        } catch (error) {
-            console.warn('ActionCreators/events::updatedEvent ' + error);
-        }
-    };
-};
-
-export const deleteEvent = (id) => {
-    return async (dispatch) => {
-        dispatch({
-            type: types.REMOVE_EVENT,
-            id,
-        });
-        try {
-            await deleteEventDb(id);
-        } catch (error) {
-            console.warn('ActionCreators/events::deleteEvent ' + error);
-        }
-    };
-};

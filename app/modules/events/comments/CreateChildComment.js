@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, ScrollView, StyleSheet} from 'react-native';
 import AppTextInput from '../../global/components/AppTextInput';
-import {addChildComment} from '../../global/db';
+import * as db from '../../global/db';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -54,7 +54,7 @@ export default class CreateChildComment extends Component {
             eventId: this.props.eventId,
             commentId: this.props.commentId,
         };
-        await addChildComment(childComment);
+        await db.comments.addChild(childComment);
         this.props.navigator.pop();
         this.props.refresh(this.props.eventId);
     }

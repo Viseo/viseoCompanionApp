@@ -4,7 +4,7 @@ import colors from '../../global/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Avatar from '../../global/components/Avatar';
 import AppText from '../../global/components/AppText';
-import {addLike, deleteCommentDb, dislike} from '../../global/db';
+import * as db from '../../global/db';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -171,7 +171,7 @@ export default class CommentCard extends Component {
     }
 
     _filterUser(user) {
-        return user.id == this.props.userId;
+        return user.id === this.props.userId;
     }
 
     _renderLike() {
@@ -201,7 +201,7 @@ export default class CommentCard extends Component {
     }
 
     _updateComment() {
-        if (this.props.userId == this.props.writer.id) {
+        if (this.props.userId === this.props.writer.id) {
             this.props.navigator.push({
                 screen: 'UpdateComment',
                 title: 'Modification du commentaire',
@@ -247,17 +247,17 @@ export default class CommentCard extends Component {
     }
 
     async _likeComment() {
-        await addLike(this.props.id, this.props.userId);
+        await db.comments.addLike(this.props.id, this.props.userId);
         this.props.refresh(this.props.eventId);
     }
 
     async _dislikeComment() {
-        await dislike(this.props.id, this.props.userId);
+        await db.comments.removeLike(this.props.id, this.props.userId);
         this.props.refresh(this.props.eventId);
     }
 
     async _deleteComment() {
-        await deleteCommentDb(this.props.id);
+        await db.comments.delete(this.props.id);
         this.props.refresh(this.props.eventId);
     }
 }

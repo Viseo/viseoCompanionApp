@@ -34,7 +34,7 @@ class EditEvent extends Component {
         const {eventToEdit} = this.props;
         return (
             <EventForm
-                category={eventToEdit.category.toString()}
+                category={eventToEdit.category}
                 description={eventToEdit.description}
                 location={eventToEdit.location}
                 name={eventToEdit.name}
