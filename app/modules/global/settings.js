@@ -42,15 +42,6 @@ const restRoutes = {
     getPublishedCommentsByEvent: (eventId) => {
         return serverURL + 'comments/events/' + eventId + '?filter=published';
     },
-    getEventParticipants: eventId => {
-        return serverURL + 'events/' + eventId + '/users';
-    },
-    getEventParticipant: (eventId, userId) => {
-        return serverURL + 'events/' + eventId + '/users/' + userId;
-    },
-    getEventsWithParticipant: (userId) => {
-        return serverURL + 'events/users/' + userId;
-    },
     getUserByEmail: email => {
         return serverURL + 'users/emails/' + email + '/';
     },
