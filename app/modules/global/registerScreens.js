@@ -8,8 +8,6 @@ import registerUserModule from '../user/registerScreens';
 import registerVizzModule from '../vizz/registerScreens';
 import UnreachableServerPopup from './components/UnreachableServerPopup';
 import InvalidFormPopup from './components/InvalidFormPopup';
-import registerNotationModule from '../notation/registerScreens';
-
 
 export function registerScreens(store, provider) {
     registerAppLoader(store, provider);
@@ -19,7 +17,6 @@ export function registerScreens(store, provider) {
     registerShopModule(store, provider);
     registerUserModule(store, provider);
     registerVizzModule(store, provider);
-    registerNotationModule(store,provider),
 
     Navigation.registerComponent('global.unreachableServerPopup', () => UnreachableServerPopup);
     Navigation.registerComponent('global.invalidFormPopup', () => InvalidFormPopup);

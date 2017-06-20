@@ -73,9 +73,12 @@ export default class ReviewPopup extends Component {
     async _sendReview() {
         // todo send review to server (with no hardcoded values)
         // const review = {
-        //    see new review object definition
+        //     "userId":"1",
+        //     "eventId":"2",
+        //     "rating": // Set rating here
+        //     "comment": // Set Comment here
         // };
-        // await db.sendReview(review);
+        // await db.events.sendReview(review);
     }
 
     _setComment(comment) {
