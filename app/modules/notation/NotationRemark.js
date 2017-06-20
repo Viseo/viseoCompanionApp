@@ -1,27 +1,26 @@
-import React, {Component} from 'react';
-import TextField from 'react-native-md-textinput';
-import colors from '../global/colors';
-import {Button, View, StyleSheet, Image} from 'react-native';
-import * as db from '../global/db';
+import React, {Component} from "react";
+import TextField from "react-native-md-textinput";
+import colors from "../global/colors";
+import {Button, View, StyleSheet, Image, Dimensions} from "react-native";
+import * as db from "../global/db";
+import {Navigation} from "react-native-navigation";
 
 export default class NotationRemark extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            review: "",
+        };
     }
-
-    state = {
-        review: '',
-        notation: this.props.notation,
-    };
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
-                    <Image source={require('./../../images/sad.png')} style={{width: 50, height: 50}}/>
+                <View style={{flex: 1, flexDirection: "column", alignItems: "center"}}>
+                    <Image source={require("./../../images/sad.png")} style={{width: 50, height: 50}}/>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column'}}>
+                <View style={{flex: 1, flexDirection: "column"}}>
                     <TextField
                         ref="textInput"
                         label="Dites nous ce qu'il faut améliorer"
@@ -30,41 +29,48 @@ export default class NotationRemark extends Component {
                         style={
                             {
                                 color: colors.mediumGray,
-                                borderColor: '#d0d0d0',
+                                borderColor: "#d0d0d0",
                                 borderWidth: 1,
                                 borderRadius: 2,
-                                backgroundColor: '#fff',
+                                backgroundColor: "#fff",
                                 height: 100,
                             }
                         }
-                        onChangeText={(text) => () => {
+                        onChangeText={(text) => {
                             this.setState({
                                 review: text,
                             });
-                            this.state.notation.avis = text;
-
                         }}/>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', marginTop: 100}}>
-                    <Button title="Envoyer" onPress={() => {
-                        db.sendReview(this.state.notation);
-                        this.redirect();
-                    }}/>
+                <View style={{flex: 1, flexDirection: "column", marginTop: 100}}>
+                    <Button
+                        title="Envoyer"
+                        onPress={ async() => {
+                            const notation = {
+                                ...this.props.notation,
+                                avis: this.state.review,
+                            };
+                            await db.sendReview(notation);
+                            this.redirect();
+                        }}
+                    />
                 </View>
             </View>        );
     }
 
-    redirect() {
+    redirect = () => {
 
-        this.props.navigator.dismissLightBox({
-            animationType: 'slide-down',
+        Navigation.dismissLightBox({
+            animationType: "slide-down",
         });
-        this.props.navigator.showLightBox({
-            screen: 'notation.NotationThanks',
-            title: 'Merci',
-            navigator: this.props.navigator,
-            passProps: {textContent: 'Merci de vos remarques !', emotion: 'done'},
-            animationType: 'slide-up',
+        Navigation.showLightBox({
+            screen: "notation.NotationThanks",
+            title: "Mercii",
+            passProps: {
+                textContent: "Merci pour vos remarques !",
+                emotion: "done"
+            },
+            animationType: "slide-up",
         });
     }
 
@@ -72,10 +78,8 @@ export default class NotationRemark extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#ede3f2',
-        padding: 10,
-        width: '100%',
-        height: '60%',
-        marginTop: 100,
+        backgroundColor: "#ede3f2",
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height * 0.6,
     },
 });

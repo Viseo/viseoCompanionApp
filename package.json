@@ -8,6 +8,7 @@
     "testEnzyme": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
   },
   "dependencies": {
+    "hsl-to-hex": "^1.0.0",
     "moment": "^2.18.0",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",

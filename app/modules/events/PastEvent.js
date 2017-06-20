@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import strings from '../global/localizedStrings';
 import moment from 'moment';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import {Navigation} from "react-native-navigation";
 
 const eventIdToImages = {
     '40': require('./../../images/events/formation_securite.jpg'),
@@ -246,9 +247,9 @@ class PastEvent extends Component {
     }
 
     _goToNotationModal() {
-        this.props.navigator.showLightBox({
+        Navigation.showLightBox({
             screen: "notation.NotationVote",
-            title: "Modal",
+            title: "Notation",
             passProps: {eventName:this.props.name,location: this.props.location, date: this.props.date},
             animationType: 'slide-up'
         });

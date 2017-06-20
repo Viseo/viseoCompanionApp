@@ -451,8 +451,10 @@ export async function sendNotation(notation) {
             },
             body: JSON.stringify(notation),
         });
-
-        return response;
+        let responseJson = await response.json();
+        if (responseJson) {
+            return responseJson;
+        }
     } catch (error) {
         console.warn('db::SendNotation ' + error);
     }

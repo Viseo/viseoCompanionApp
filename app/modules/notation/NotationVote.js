@@ -7,14 +7,16 @@ import {
 import AppText from '../global/components/AppText';
 import moment from 'moment';
 import * as db from "../global/db"
+import {Navigation} from 'react-native-navigation';
 
 export default class NotationVote extends Component {
     state = {
         modalVisible: false,
-        startAngle: '',
-        angleLength: '',
+        startAngle: 0,
+        angleLength: 0,
         note: 0,
         notation: {},
+        color: '#ffffff'
 
     };
 
@@ -34,65 +36,91 @@ export default class NotationVote extends Component {
                 }}>{this.state.note} %</AppText>
                 <CircularSlider
                     startAngle={this.state.startAngle}
-                    segments={5}
+                    segments={2}
                     strokeWidth={ 20 }
                     radius={ 80 }
-                    gradientColorFrom="#FF0000"
-                    gradientColorTo="#FF9E13"
+                    gradientColorFrom={this.state.color}
+                    gradientColorTo={this.state.color}
                     angleLength={this.state.angleLength}
                     onUpdate={({startAngle, angleLength}) => this.setState({
                         startAngle: this.state.startAngle,
                         angleLength,
                         note: Math.round((angleLength * 100) / (2 * Math.PI)),
-
+                        color: this.getColor(this.state.note)
                     })}
                     bgCircleColor="#ffffff"
                 />
                 <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between', marginTop: 10,
+                    flexDirection: 'row', marginTop: 10,
+                    justifyContent: "space-between",
+                    display: 'flex'
                 }}>
-                    <Button title="Plus tard"/>
-                    <Button title="Envoyer" style={{marginRight: 10, backgroundColor: '#C41F06'}}
-                    onPress={async() => {
-                        let notationObj={
-                            userId: "1",
-                            eventId: "2",
-                            notation: this.state.note,
-                            avis: "",
-                        }
-
-                        this.state.notation = await db.sendNotation(notationObj);
-                        this.redirect();}}
-                    />
-
+                    <View>
+                        <Button
+                            title="Plus tard"
+                            onPress={() => {}}
+                        />
+                    </View>
+                    <View style={{marginLeft: 100}}>
+                        <Button title="Envoyer" style={{ backgroundColor: '#C41F06'}}
+                                onPress={async () => {
+                                    let notationObj = {
+                                        userId: "1",
+                                        eventId: "2",
+                                        notation: this.state.note,
+                                        avis: "",
+                                    }
+                                    const notation = await db.sendNotation(notationObj);
+                                    this.setState({notation});
+                                    this.redirect(notation);
+                                }}
+                        />
+                    </View>
                 </View>
             </View>
 
         );
     }
 
-    redirect() {
-        if (this.state.note <= 50) {
-            this.props.navigator.dismissLightBox({
+    percentageToHsl(percentage, hue0, hue1) {
+        var hue = (percentage * (hue1 - hue0)) + hue0;
+        return hue;
+    }
+
+    getColor(val) {
+        let hsl = require('hsl-to-hex')
+        let hue = this.percentageToHsl(val / 100, 0, 120)
+        let saturation = 100
+        var luminosity = 50
+        return hsl(hue, saturation, luminosity)
+    }
+
+    redirect(notation) {
+        const note = notation.notation;
+        if (note <= 50) {
+            Navigation.dismissLightBox({
                 animationType: 'slide-down'
             });
-            this.props.navigator.showLightBox({
+            Navigation.showLightBox({
                 screen: 'notation.NotationRemark',
                 title: 'Avis',
                 animationType: 'slide-up',
-                navigator:this.props.navigator,
-                notation:this.state.notation,
+                passProps: {
+                    notation: notation,
+                }
             });
         }
         else {
-            this.props.navigator.dismissLightBox({
+            Navigation.dismissLightBox({
                 animationType: 'slide-down'
             });
-            this.props.navigator.showLightBox({
+            Navigation.showLightBox({
                 screen: 'notation.NotationThanks',
                 title: 'Merci',
-                passProps: {textContent:"Merci de nous aider à nous améliorer !",emotion:"happy"},
+                passProps: {
+                    textContent: "Merci de nous aider à nous améliorer !",
+                    emotion: "happy"
+                },
                 animationType: 'slide-up',
             });
         }
@@ -103,7 +131,7 @@ export default class NotationVote extends Component {
             return [];
         let dateTime = moment(date);
         return dateTime.calendar().split('/');
-    }
+    }a
 };
 
 const styles = StyleSheet.create({

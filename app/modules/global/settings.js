@@ -1,4 +1,4 @@
-import {localhostIp, conf} from './localConf';
+import {localhostIp,conf} from './localConf';
 
 /////////// SERVER CONNECTION ////////////////
 
@@ -9,6 +9,7 @@ const localhostURL = 'http://' + localhostIp + ':8080/';
 // The server URL, you usually shouldn't have to change this
 
 const remoteURL = 'http://companion-dev.viseolab.com/';
+
 
 let serverURL = conf === 'DEV' ? localhostURL : remoteURL;
 
