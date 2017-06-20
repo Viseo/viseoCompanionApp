@@ -29,7 +29,7 @@ export default class Thanks extends Component {
                 <View style={{flex: 1, flexDirection: 'column', marginTop: 50}}>
                     <Button
                         title="Fermer"
-                        onPress={() => dismissLightBox()}/>
+                        onPress={this.props.onOk}/>
                 </View>
             </View>
         );

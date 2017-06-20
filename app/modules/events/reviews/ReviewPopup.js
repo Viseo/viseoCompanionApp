@@ -7,6 +7,8 @@ export default class ReviewPopup extends Component {
 
     state = {
         currentPage: 'rating',
+        rating: null,
+        comment: '',
     };
 
     constructor(props) {
@@ -32,7 +34,7 @@ export default class ReviewPopup extends Component {
     _renderCommentPage() {
         return (
             <Comment
-                sendComment={(comment) => this._sendComment(comment)}
+                sendComment={(comment) => this._setComment(comment)}
             />
         );
     }
@@ -43,7 +45,7 @@ export default class ReviewPopup extends Component {
                 date={this.props.date}
                 eventName={this.props.eventName}
                 location={this.props.location}
-                sendReview={(rating) => this._sendReview(rating)}
+                sendReview={(rating) => this._setRating(rating)}
             />
         );
     }
@@ -53,6 +55,7 @@ export default class ReviewPopup extends Component {
             <Thanks
                 textContent="Merci pour vos remarques !"
                 emotion="done"
+                onOk={() => this._sendReview()}
             />
         );
     }
@@ -62,26 +65,32 @@ export default class ReviewPopup extends Component {
             <Thanks
                 textContent="Merci de nous aider à nous améliorer !"
                 emotion="happy"
+                onOk={() => this._sendReview()}
             />
         );
     }
 
-    async _sendComment(comment) {
-        // todo send comment to server (with no hardcoded values)
-        this.setState({currentPage: 'thanksAfterCommenting'});
-    }
-
-    async _sendReview(rating) {
+    async _sendReview() {
         // todo send review to server (with no hardcoded values)
         // const review = {
-        //     userId: '1',
-        //     eventId: '2',
-        //     rating,
-        //     avis: '',
+        //    see new review object definition
         // };
         // await db.sendReview(review);
+    }
+
+    _setComment(comment) {
+        this.setState({
+            currentPage: 'thanksAfterCommenting',
+            comment,
+        });
+    }
+
+    _setRating(rating) {
         const nextPage = rating > 50 ? 'thanksAfterLeavingAGoodRating' : 'comment';
-        this.setState({currentPage: nextPage});
+        this.setState({
+            currentPage: nextPage,
+            rating,
+        });
     }
 }
 
