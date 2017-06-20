@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import strings from '../global/localizedStrings';
 import moment from 'moment';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
-import {Navigation} from "react-native-navigation";
+import {Navigation} from 'react-native-navigation';
 
 const eventIdToImages = {
     '40': require('./../../images/events/formation_securite.jpg'),
@@ -272,7 +272,7 @@ PastEvent.navigatorButtons = {
             id: 'showComments',
         },
         {
-            icon: require('../../images/edit.png'),
+            icon: require('../../images/check.png'),
             iconColor: 'white',
             id: 'showNotationModal',
         },

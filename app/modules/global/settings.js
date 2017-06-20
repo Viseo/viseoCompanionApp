@@ -22,6 +22,7 @@ const restRoutes = {
     updatedComment: serverURL + 'comments',
     uploadImage: serverURL + 'upload',
     authenticate: serverURL + 'authenticate',
+    sendReview: serverURL + 'reviews',
     liveEvent: conf === 'PROD' ?
         serverURL + 'liveEvent' :
         'ws://' + localhostIp + ':8080/liveEvent',
@@ -48,9 +49,6 @@ const restRoutes = {
     },
     getUser: userId => {
         return serverURL + 'users/' + userId;
-    },
-    getEventsByRegisteredUser: userId => {
-        return serverURL + 'events/users/' + userId;
     },
     getEventsBefore: dateBefore => {
         return serverURL + 'events?before=' + dateBefore;

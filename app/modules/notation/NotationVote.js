@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import CircularSlider from 'react-native-circular-slider';
-import {
-    View,
-    StyleSheet, Button,
-} from 'react-native';
+import {Button, StyleSheet, View} from 'react-native';
 import AppText from '../global/components/AppText';
 import moment from 'moment';
-import * as db from "../global/db"
+import * as db from '../global/db';
 import {Navigation} from 'react-native-navigation';
 
 export default class NotationVote extends Component {
@@ -16,7 +13,7 @@ export default class NotationVote extends Component {
         angleLength: 0,
         note: 0,
         notation: {},
-        color: '#ffffff'
+        color: '#ffffff',
 
     };
 
@@ -46,31 +43,32 @@ export default class NotationVote extends Component {
                         startAngle: this.state.startAngle,
                         angleLength,
                         note: Math.round((angleLength * 100) / (2 * Math.PI)),
-                        color: this.getColor(this.state.note)
+                        color: this.getColor(this.state.note),
                     })}
                     bgCircleColor="#ffffff"
                 />
                 <View style={{
                     flexDirection: 'row', marginTop: 10,
-                    justifyContent: "space-between",
-                    display: 'flex'
+                    justifyContent: 'space-between',
+                    display: 'flex',
                 }}>
                     <View>
                         <Button
                             title="Plus tard"
-                            onPress={() => {}}
+                            onPress={() => {
+                            }}
                         />
                     </View>
                     <View style={{marginLeft: 100}}>
-                        <Button title="Envoyer" style={{ backgroundColor: '#C41F06'}}
+                        <Button title="Envoyer" style={{backgroundColor: '#C41F06'}}
                                 onPress={async () => {
-                                    let notationObj = {
-                                        userId: "1",
-                                        eventId: "2",
-                                        notation: this.state.note,
-                                        avis: "",
-                                    }
-                                    const notation = await db.sendNotation(notationObj);
+                                    let review = {
+                                        userId: '1',
+                                        eventId: '2',
+                                        rating: this.state.note,
+                                        avis: '',
+                                    };
+                                    const notation = await db.events.sendReview(review);
                                     this.setState({notation});
                                     this.redirect(notation);
                                 }}
@@ -88,18 +86,18 @@ export default class NotationVote extends Component {
     }
 
     getColor(val) {
-        let hsl = require('hsl-to-hex')
-        let hue = this.percentageToHsl(val / 100, 0, 120)
-        let saturation = 100
-        var luminosity = 50
-        return hsl(hue, saturation, luminosity)
+        let hsl = require('hsl-to-hex');
+        let hue = this.percentageToHsl(val / 100, 0, 120);
+        let saturation = 100;
+        var luminosity = 50;
+        return hsl(hue, saturation, luminosity);
     }
 
     redirect(notation) {
         const note = notation.notation;
         if (note <= 50) {
             Navigation.dismissLightBox({
-                animationType: 'slide-down'
+                animationType: 'slide-down',
             });
             Navigation.showLightBox({
                 screen: 'notation.NotationRemark',
@@ -107,19 +105,19 @@ export default class NotationVote extends Component {
                 animationType: 'slide-up',
                 passProps: {
                     notation: notation,
-                }
+                },
             });
         }
         else {
             Navigation.dismissLightBox({
-                animationType: 'slide-down'
+                animationType: 'slide-down',
             });
             Navigation.showLightBox({
                 screen: 'notation.NotationThanks',
                 title: 'Merci',
                 passProps: {
-                    textContent: "Merci de nous aider à nous améliorer !",
-                    emotion: "happy"
+                    textContent: 'Merci de nous aider à nous améliorer !',
+                    emotion: 'happy',
                 },
                 animationType: 'slide-up',
             });
@@ -131,7 +129,9 @@ export default class NotationVote extends Component {
             return [];
         let dateTime = moment(date);
         return dateTime.calendar().split('/');
-    }a
+    }
+
+    a;
 };
 
 const styles = StyleSheet.create({

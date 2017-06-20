@@ -128,6 +128,36 @@ export const events = {
             return false;
         }
     },
+    sendReview: async (review) => {
+        try {
+            let response = await fetch(settings.api.sendReview, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(review),
+            });
+            return await response.json();
+        } catch (error) {
+            console.log('db::sendReview ' + error);
+            return null;
+        }
+    },
+    updateReview: async (review) => {
+        try {
+            let response = fetch(settings.api.sendReview, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(review),
+            });
+            return await response.json();
+        } catch (error) {
+            console.log('db::updateReview ' + error);
+            return null;
+        }
+    },
 };
 
 export const users = {
@@ -323,37 +353,3 @@ export const comments = {
         }
     },
 };
-
-export async function sendReview(notation) {
-    try {
-        await fetch(settings.api.sendReview, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(notation),
-        });
-    } catch (error) {
-        console.warn('db::SendReview ' + error);
-    }
-    return false;
-}
-
-export async function sendNotation(notation) {
-    try {
-        let response = await fetch(settings.api.sendNotation, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(notation),
-        });
-        let responseJson = await response.json();
-        if (responseJson) {
-            return responseJson;
-        }
-    } catch (error) {
-        console.warn('db::SendNotation ' + error);
-    }
-    return {};
-}
