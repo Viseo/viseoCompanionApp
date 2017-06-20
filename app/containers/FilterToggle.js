@@ -1,10 +1,10 @@
 /**
  * Created by AAB3605 on 05/04/2017.
  */
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {addFilter, removeFilter} from "../actionCreators/filters";
-import Toggle from "../components/FilterToggle";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addFilter, removeFilter} from '../actionCreators/filters';
+import Toggle from '../components/FilterToggle';
 
 const mapStateToProps = (state, ownProps) => ({
     ...ownProps
@@ -15,14 +15,14 @@ const mapDispatchToProps = (dispatch) => {
             onSelect: addFilter,
             onUnselect: removeFilter,
         },
-        dispatch)
+        dispatch);
 };
 
 const FilterToggle = connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(Toggle);
 
 FilterToggle.displayName = 'FilterToggle';
 
-export default FilterToggle
+export default FilterToggle;

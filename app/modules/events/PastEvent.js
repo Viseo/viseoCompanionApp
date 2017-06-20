@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import AppText from '../global/components/AppText';
-import {bindActionCreators} from 'redux';
-import {fetchEventParticipants} from '../../actionCreators/events';
-import ItemSpacer from '../../components/ItemSpacer';
-import FlexImage from '../../components/FlexImage';
+import ItemSpacer from '../global/components/ItemSpacer';
+import FlexImage from '../../components/FlexImage.obsolete';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import colors from '../global/colors';
-import Avatar from '../../components/Avatar';
+import Avatar from '../global/components/Avatar';
 import PropTypes from 'prop-types';
 import strings from '../global/localizedStrings';
 import moment from 'moment';
@@ -39,11 +37,6 @@ class PastEvent extends Component {
             picture,
         };
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-    }
-
-    componentWillMount() {
-        if (this.props.id)
-            this.props.fetchEventParticipants(this.props.id);
     }
 
     formatDate(date) {
@@ -83,10 +76,14 @@ class PastEvent extends Component {
     }
 
     renderMainInfo() {
-        const {hostFirstName, hostLastName} = this.props;
-        // const hostFirstName = this.props.host.firstName;
-        // const hostLastName = this.props.host.lastName;
-        const hostAvatar = <Avatar firstName={hostFirstName} lastName={hostLastName} style={{flex: 3}}/>;
+        const {hostFirstName, hostLastName, host, navigator} = this.props;
+        const hostAvatar = <Avatar
+            firstName={hostFirstName}
+            lastName={hostLastName}
+            style={{flex: 3}}
+            otherProfileId={host.id}
+            navigator={navigator}
+        />;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const category = <AppText>{this.getCategoryNameFromId(this.props.category)}</AppText>;
         const categoryIndicator = (
@@ -98,7 +95,7 @@ class PastEvent extends Component {
         );
         const username = (
             <View style={styles.locationAndDate}>
-                <FlexImage source={require('./../../images/user.png')}/>
+                <Image style={styles.icon} resizeMode="contain" source={require('./../../images/user.png')}/>
                 <ItemSpacer/>
                 <AppText style={{flex: 5, textAlign: 'left'}}>
                     {hostFirstName} {hostLastName}
@@ -107,7 +104,7 @@ class PastEvent extends Component {
         );
         const location = (
             <View style={styles.locationAndDate}>
-                <FlexImage source={require('./../../images/location.png')}/>
+                <Image style={styles.icon} resizeMode="contain" source={require('./../../images/location.png')}/>
                 <ItemSpacer/>
                 <AppText style={{flex: 5, textAlign: 'left', textAlignVertical: 'center'}}>
                     {this.props.location}
@@ -314,16 +311,9 @@ const mapStateToProps = ({events, user}, ownProps) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-            fetchEventParticipants,
-        },
-        dispatch);
-};
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    null,
 )(PastEvent);
 
 let {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
@@ -435,5 +425,12 @@ const styles = StyleSheet.create({
     secondaryParticipationInfoText: {
         textAlign: 'center',
         fontSize: 16,
+    },
+    icon: {
+        flex: 1,
+        width: null,
+        height: null,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

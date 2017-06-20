@@ -1,6 +1,6 @@
-import { Navigation } from 'react-native-navigation';
-import NewsFeed from "./NewsFeed";
+import {Navigation} from 'react-native-navigation';
+import NewsFeed from './NewsFeed';
 
-export default function(store, provider) {
+export default function (store, provider) {
     Navigation.registerComponent('NewsFeed', () => NewsFeed, store, provider);
 }

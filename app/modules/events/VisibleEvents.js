@@ -1,9 +1,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {registerUser, unregisterUser} from '../../../actionCreators/events';
-import EventList from '../../events/EventList';
+import EventList from './EventList';
 import moment from 'moment';
-import {fetchEvents} from '../../events/event.actions';
+import {fetchEvents, registerUser, unregisterUser} from './event.actions';
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
@@ -102,7 +101,7 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         refresh: fetchEvents,
         toggleParticipation: (event, user) => {
-            return event.participating ?
+            event.participating ?
                 unregisterUser(event, user.id) :
                 registerUser(event, user.id);
         },

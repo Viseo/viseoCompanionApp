@@ -200,7 +200,7 @@ export default class EventCard extends Component {
     }
 
     _showEventDetails() {
-        const canEdit = this.props.user.id === this.props.host.id;
+        const canEdit = this.props.host && this.props.user.id === this.props.host.id;
         const navigatorButtons = canEdit ?
             {
                 rightButtons: [
@@ -211,13 +211,18 @@ export default class EventCard extends Component {
                 ],
             } :
             {};
+        const host = this.props.host ||
+            {
+                id: 0,
+                firstName: 'Admin',
+                lastName: '',
+            };
         this.props.navigator.push({
             title: 'Détails de l\'évènement',
             screen: 'events.event',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
-                hostFirstName: this.props.host.firstName || 'Admin',
-                hostLastName: this.props.host.lastName || '',
+                host,
                 id: this.props.id,
                 location: this.props.location,
                 name: this.props.name,

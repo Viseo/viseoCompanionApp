@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View} from "react-native";
+import {Text, View} from 'react-native';
 
 export default class NewsFeed extends Component {
 
@@ -24,8 +24,8 @@ export default class NewsFeed extends Component {
 
     _goToUserProfile() {
         this.props.navigator.push({
-            screen:'user.profile',
-            title:'Mon profil',
+            screen: 'user.myProfile',
+            title: 'Mon profil',
         });
     }
 }
@@ -34,7 +34,7 @@ NewsFeed.navigatorButtons = {
     rightButtons: [
         {
             icon: require('../../images/navigation/profile.png'),
-            id: 'profile'
+            id: 'profile',
         },
     ],
 };

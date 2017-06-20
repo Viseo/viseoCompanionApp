@@ -1,9 +1,9 @@
-import React from "react";
-import {mount} from "enzyme";
-import {Provider} from "react-redux";
-import FilterToggle from "../../containers/FilterToggle";
-import UserProfileInfo from "../../containers/UserProfileInfo";
-import Profile from "../../components/UserProfileInfo";
+import React from 'react';
+import {mount} from 'enzyme';
+import {Provider} from 'react-redux';
+import FilterToggle from '../../containers/FilterToggle';
+import UserProfileInfo from '../../containers/UserProfileInfo.obsolete';
+import Profile from '../../components/UserProfileInfo.obsolete';
 
 export const storeFake = (state) => {
     return {
@@ -26,7 +26,7 @@ export function get(containerName, store = storeFake({}), props = {}) {
             wrapper = mount(
                 <Provider store={store}>
                     <FilterToggle {...props}/>
-                </Provider>
+                </Provider>,
             );
             container = wrapper.find(FilterToggle);
             component = container.find(FilterToggle);
@@ -35,16 +35,16 @@ export function get(containerName, store = storeFake({}), props = {}) {
             wrapper = mount(
                 <Provider store={store}>
                     <UserProfileInfo {...props}/>
-                </Provider>
+                </Provider>,
             );
             container = wrapper.find(UserProfileInfo);
             component = container.find(Profile);
             break;
         default:
-            break
+            break;
     }
     return {
         container,
-        component
-    }
+        component,
+    };
 }

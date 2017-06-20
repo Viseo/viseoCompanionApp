@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, Button} from "react-native";
-import AppTextInput from "../../global/components/AppTextInput";
-import {addComment} from "../../global/db";
-import moment from "moment";
-import PropTypes from "prop-types";
+import {Button, ScrollView, StyleSheet} from 'react-native';
+import AppTextInput from '../../global/components/AppTextInput';
+import * as db from '../../global/db';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 
 export default class CreateComment extends Component {
 
@@ -54,7 +54,7 @@ export default class CreateComment extends Component {
             eventId: this.props.eventId,
             publish: true,
         };
-        await addComment(comment);
+        await db.comments.add(comment);
         this.props.navigator.pop();
         this.props.refresh(this.props.eventId);
     }
@@ -63,8 +63,8 @@ export default class CreateComment extends Component {
 CreateComment.propTypes = {
     user: PropTypes.object.isRequired,
     eventId: PropTypes.number.isRequired,
-    refresh: PropTypes.func.isRequired
-}
+    refresh: PropTypes.func.isRequired,
+};
 
 const styles = StyleSheet.create({
     mainContainer: {

@@ -1,35 +1,29 @@
 /**
  * Created by AAB3605 on 15/03/2017.
  */
-import React, {Component} from "react";
-import {Image, StyleSheet, View} from "react-native";
-import FilterToggle from "../containers/FilterToggle";
-import SearchInput from "../containers/SearchInput";
-import VisibilityToggle from "../containers/VisibilityToggle";
-import Toggle from "./Toggle";
-import colors from "../modules/global/colors";
+import React, {Component} from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import FilterToggle from '../containers/FilterToggle';
+import SearchInput from '../containers/SearchInput';
+import VisibilityToggle from '../containers/VisibilityToggle';
+import Toggle from './Toggle';
+import colors from '../modules/global/colors';
 
 class SearchBar extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            filterBarVisible: false
-        }
+            filterBarVisible: false,
+        };
     }
-
-    toggleFilterBar = (isOn) => {
-        this.setState({
-            filterBarVisible: isOn
-        })
-    };
 
     render() {
         return (
             <View
                 style={[
                     styles.searchBar,
-                    this.props.style
+                    this.props.style,
                 ]}
             >
                 {this.renderSearchBar()}
@@ -37,6 +31,12 @@ class SearchBar extends Component {
             </View>
         );
     }
+
+    _toggleFilterBar = (isOn) => {
+        this.setState({
+            filterBarVisible: isOn,
+        });
+    };
 
     renderSearchBar() {
         return (
@@ -47,7 +47,7 @@ class SearchBar extends Component {
                 />
                 {this.renderFilterToggle()}
             </View>
-        )
+        );
     }
 
     renderFilterBar() {
@@ -56,32 +56,32 @@ class SearchBar extends Component {
                 <VisibilityToggle
                     filter={'SHOW_GOING'}
                     selectedColor={colors.blue}
-                    text={"J'y vais"}
+                    text={'J\'y vais'}
                 />
                 <FilterToggle
                     filter={{category: 0}}
                     selectedColor={colors.red}
-                    text={"important"}
+                    text={'important'}
                 />
                 <FilterToggle
                     filter={{category: 1}}
                     selectedColor={colors.orange}
-                    text={"informatif"}
+                    text={'informatif'}
                 />
                 <FilterToggle
                     filter={{category: 2}}
                     selectedColor={colors.green}
-                    text={"divers"}
+                    text={'divers'}
                 />
             </View>
-        )
+        );
     }
 
     renderFilterToggle() {
         return (
             <Toggle
                 style={styles.filterToggle}
-                onToggle={this.toggleFilterBar}
+                onToggle={this._toggleFilterBar}
                 on={
                     <Image
                         source={require('./../images/upArrow.png')}
@@ -97,7 +97,7 @@ class SearchBar extends Component {
                     />
                 }
             />
-        )
+        );
     }
 }
 
@@ -105,14 +105,14 @@ SearchBar.displayName = 'SearchBar';
 
 export default SearchBar;
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
     searchBar: {
         flex: 0,
         flexDirection: 'column',
         backgroundColor: 'white',
         borderRadius: 4,
         borderWidth: 1.75,
-        borderColor: 'white'
+        borderColor: 'white',
     },
     searchBarInput: {
         flex: 0,
@@ -123,7 +123,7 @@ var styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     filterToggle: {
-        padding: 3
+        padding: 3,
     },
     filterContainer: {
         flexDirection: 'row',
@@ -133,6 +133,6 @@ var styles = StyleSheet.create({
     fitImage: {
         flex: 0,
         width: 20,
-        height: 20
-    }
+        height: 20,
+    },
 });

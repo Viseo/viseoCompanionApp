@@ -5,7 +5,7 @@ import {
     createComponent,
     createTestFunction,
     press
-} from "../TestUtil/index";
+} from '../TestUtil/index';
 
 describe('Button', () => {
 
@@ -14,12 +14,12 @@ describe('Button', () => {
         const children = 'someLovelyChildren';
         const button = createComponent('Button', {
             onPress,
-            children
+            children,
         });
         checkIsComponent(button, 'TouchableOpacity');
         compareChildren(button, children);
         press(button);
         checkTestFunction(onPress);
-    })
+    });
 
 });

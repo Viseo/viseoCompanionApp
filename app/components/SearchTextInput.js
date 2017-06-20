@@ -1,8 +1,8 @@
 /**
  * Created by AAB3605 on 15/03/2017.
  */
-import React, {Component} from "react";
-import {StyleSheet, TextInput} from "react-native";
+import React, {Component} from 'react';
+import {StyleSheet, TextInput} from 'react-native';
 
 class SearchTextInput extends Component {
 
@@ -34,5 +34,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         textAlign: 'center',
         padding: 0,
-    }
+    },
 });

@@ -1,12 +1,12 @@
-import {authenticate as authenticateDb} from "../../global/db";
-import {UPDATE_USER} from "../user.actions";
+import * as db from '../../global/db';
+import {UPDATE_USER} from '../user.actions';
 
 export const AUTHENTICATION_SUCCESS = 'AUTHENTICATION_SUCCESS';
 export const authenticate = (email, password) => {
     return async (dispatch) => {
         dispatch(requestAuthentication());
         try {
-            let response = await authenticateDb(email, password);
+            let response = await db.users.authenticate(email, password);
             const wrongCredentials = null;
             if (response !== wrongCredentials) {
                 dispatch({
@@ -19,9 +19,9 @@ export const authenticate = (email, password) => {
                     user: {
                         ...response,
                         email,
-                        password
-                    }
-                })
+                        password,
+                    },
+                });
             }
         } catch (error) {
             console.warn('authentication.actionCreators::authenticate ' + error);
@@ -32,12 +32,12 @@ export const authenticate = (email, password) => {
 
 export const REQUEST_AUTHENTICATION = 'REQUEST_AUTHENTICATION';
 const requestAuthentication = () => ({
-    type: REQUEST_AUTHENTICATION
+    type: REQUEST_AUTHENTICATION,
 });
 
 export const RECEIVE_AUTHENTICATION = 'RECEIVE_AUTHENTICATION';
 const receiveAuthentication = () => ({
-    type: RECEIVE_AUTHENTICATION
+    type: RECEIVE_AUTHENTICATION,
 });
 
 export const REMEMBER_USER = 'REMEMBER_USER';

@@ -9,4 +9,4 @@ export default {
     highlight: '#c2effc',
     validField: '#00BCD4',
     invalidField: '#d41a0e',
-}
+};

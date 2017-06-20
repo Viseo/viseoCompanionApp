@@ -1,13 +1,11 @@
-import {localhostIp,conf} from './localConf';
+import {conf, localhostIp} from './localConf';
 
 /////////// SERVER CONNECTION ////////////////
 
-// Localhost (set your localhost IP here)
-// The URL you want to use (should be either localhostURL or remoteURL)
+//To change your LocalIp, edit the 'localConf.js' file.
 const localhostURL = 'http://' + localhostIp + ':8080/';
 
 // The server URL, you usually shouldn't have to change this
-
 const remoteURL = 'http://companion-dev.viseolab.com/';
 
 
@@ -15,27 +13,20 @@ let serverURL = conf === 'DEV' ? localhostURL : remoteURL;
 
 /////////// RESTFUL API ////////////////
 const restRoutes = {
+    addUser: serverURL + 'users/',
+    addComment: serverURL + 'comments',
     getEvent: serverURL + 'events/',
     getEvents: serverURL + 'events',
-    addUser: serverURL + 'users/',
     updateUser: serverURL + 'users/',
-    getUsers: serverURL + 'users',
-    getUser: serverURL + 'users/',
-    authenticate: serverURL + 'authenticate',
-    resetPassword: serverURL + 'resetPassword',
+    updatedEvent: serverURL + 'events/',
     updatedComment: serverURL + 'comments',
-    addComment: serverURL + 'comments',
-    liveEvent: conf === 'PROD' ?
-        serverURL + 'liveEvent':
-        'ws://' + localhostIp + ':8080/liveEvent',
     uploadImage: serverURL + 'upload',
-    sendNotation: serverURL + 'notation',
-    sendReview : serverURL + 'notation',
+    authenticate: serverURL + 'authenticate',
+    liveEvent: conf === 'PROD' ?
+        serverURL + 'liveEvent' :
+        'ws://' + localhostIp + ':8080/liveEvent',
     addEvent: (userId) => {
         return serverURL + 'events?host=' + userId;
-    },
-    getPublishedCommentsByEvent: (eventId) => {
-        return serverURL + 'comments/events/' + eventId + '?filter=published';
     },
     addChildComment: (commentId) => {
         return serverURL + 'comments/' + commentId;
@@ -46,32 +37,17 @@ const restRoutes = {
     removeEventParticipant: (eventId, userId) => {
         return serverURL + 'events/' + eventId + '/users/' + userId;
     },
-    getEventParticipants: eventId => {
-        return serverURL + 'events/' + eventId + '/users';
-    },
     likeComment: (commentId, userId) => {
         return serverURL + 'comments/' + commentId + '/like/' + userId;
     },
-    dislikeComment: (commentId, userId) => {
-        return serverURL + 'comments/' + commentId + '/like/' + userId;
-    },
-    deleteComment: (commentId) => {
-        return serverURL + 'comments/' + commentId;
-    },
-    updatedEvent: eventId => {
-        return serverURL + 'events/' + eventId;
-    },
-    removeEvent: eventId => {
-        return serverURL + 'events/' + eventId;
-    },
-    getEventParticipant: (eventId, userId) => {
-        return serverURL + 'events/' + eventId + '/users/' + userId;
-    },
-    getEventsWithParticipant: (userId) => {
-        return serverURL + 'events/users/' + userId;
+    getPublishedCommentsByEvent: (eventId) => {
+        return serverURL + 'comments/events/' + eventId + '?filter=published';
     },
     getUserByEmail: email => {
         return serverURL + 'users/emails/' + email + '/';
+    },
+    getUser: userId => {
+        return serverURL + 'users/' + userId;
     },
     getEventsByRegisteredUser: userId => {
         return serverURL + 'events/users/' + userId;
@@ -82,7 +58,18 @@ const restRoutes = {
     getEventAfter: dateAfter => {
         return serverURL + 'events?after=' + dateAfter;
     },
-
+    resetPassword: email => {
+        return serverURL + 'resetPassword?email=' + email;
+    },
+    dislikeComment: (commentId, userId) => {
+        return serverURL + 'comments/' + commentId + '/like/' + userId;
+    },
+    deleteComment: (commentId) => {
+        return serverURL + 'comments/' + commentId;
+    },
+    removeEvent: eventId => {
+        return serverURL + 'events/' + eventId;
+    },
 };
 
 /////////// EXPORTED SETTINGS ////////////////

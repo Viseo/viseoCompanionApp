@@ -5,13 +5,13 @@ import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import ImagePicker from '../global/components/ImagePicker';
 import PropTypes from 'prop-types';
-import {Picker, ScrollView, View, StyleSheet, Dimensions} from 'react-native';
+import {Dimensions, Picker, ScrollView, StyleSheet, View} from 'react-native';
 
 export default class EventForm extends Component {
 
-    dateFormat = 'YYYY/MM/DD HH:mm';
+    dateFormat = 'DD/MM/YYYY [à] HH:mm';
     state = {
-        category: this.props.category,
+        category: this.props.category.toString(),
         description: this.props.description,
         location: this.props.location,
         locationError: 'field not filled',
@@ -37,7 +37,7 @@ export default class EventForm extends Component {
         const datePicker = this._renderDatePicker();
         const imagePicker = this._renderImagePicker();
         return (
-            <ScrollView contentContainerStyle={styles.pageStyle}>
+            <ScrollView contentContainerStyle={styles.pageStyle} style={{backgroundColor: 'white'}}>
                 {nameField}
                 {descriptionField}
                 {locationField}
@@ -79,7 +79,10 @@ export default class EventForm extends Component {
                 <Picker
                     style={styles.categoryPicker}
                     selectedValue={this.state.category}
-                    onValueChange={(itemValue, itemIndex) => this.props.setCategory(itemValue)}>
+                    onValueChange={(itemValue, itemIndex) => {
+                        this.props.setCategory(itemValue);
+                        this.setState({category: itemValue});
+                    }}>
                     <Picker.Item label="important" value="0"/>
                     <Picker.Item label="informatif" value="1"/>
                     <Picker.Item label="divertissement" value="2"/>
@@ -106,8 +109,9 @@ export default class EventForm extends Component {
                     confirmBtnText="OK"
                     cancelBtnText="Annuler"
                     onDateChange={formattedDate => {
+                        this.setState({formattedDate});
                         const datetime = moment(formattedDate, this.dateFormat).valueOf();
-                        this.props.setDate(datetime)
+                        this.props.setDate(datetime);
                     }}
                 />
             </View>
@@ -214,7 +218,7 @@ EventForm.propTypes = {
     name: PropTypes.string,
     formattedDate: PropTypes.string,
     datetime: PropTypes.number,
-    imageUrl: PropTypes.number,
+    imageUrl: PropTypes.string,
     setName: PropTypes.func.isRequired,
     setDescription: PropTypes.func.isRequired,
     setLocation: PropTypes.func.isRequired,

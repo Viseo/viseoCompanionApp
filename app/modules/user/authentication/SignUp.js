@@ -1,17 +1,17 @@
-import React, {Component} from "react";
-import {Button, Image, ScrollView, StyleSheet, View} from "react-native";
-import EmailInput from "./EmailInput";
-import PasswordInput from "./PasswordInput";
-import strings from "../../global/localizedStrings";
-import AppText from "../../global/components/AppText";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {authenticate, rememberUser as toggleRememberUser} from "./authentication.actions";
-import colors from "../../global/colors";
-import PasswordCheckInput from "./PasswordCheckInput";
-import {addUser, getUserByEmail} from "../../global/db";
-import {Navigation} from "react-native-navigation";
-import TextField from "react-native-md-textinput";
+import React, {Component} from 'react';
+import {Button, Image, ScrollView, StyleSheet, View} from 'react-native';
+import EmailInput from './EmailInput';
+import PasswordInput from './PasswordInput';
+import strings from '../../global/localizedStrings';
+import AppText from '../../global/components/AppText';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {authenticate, rememberUser as toggleRememberUser} from './authentication.actions';
+import colors from '../../global/colors';
+import PasswordCheckInput from './PasswordCheckInput';
+import * as db from '../../global/db';
+import {Navigation} from 'react-native-navigation';
+import TextField from 'react-native-md-textinput';
 
 class SignUp extends Component {
 
@@ -83,13 +83,13 @@ class SignUp extends Component {
                 onChangeText={firstName => {
                     this.setState({firstName});
                 }}
-                returnKeyType={"next"}
+                returnKeyType={'next'}
                 onSubmitEditing={ () => {
                     this._autoSubmitWhenFilled();
                     this.refs.lastName.focus();
                 }}
             />
-        )
+        );
     }
 
     _renderLastNameInput() {
@@ -103,12 +103,12 @@ class SignUp extends Component {
                 onChangeText={lastName => {
                     this.setState({lastName});
                 }}
-                returnKeyType={"done"}
+                returnKeyType={'done'}
                 onSubmitEditing={ () => {
                     this._autoSubmitWhenFilled();
                 }}
             />
-        )
+        );
     }
 
     _authenticatedNewUser(email, password) {
@@ -196,7 +196,7 @@ class SignUp extends Component {
         if (match)
             this.setState({
                 firstName: this._capitalizeFirstLetter(match[1]),
-                lastName: this._capitalizeFirstLetter(match[2])
+                lastName: this._capitalizeFirstLetter(match[2]),
             });
     }
 
@@ -209,12 +209,17 @@ class SignUp extends Component {
         if (this._isFormFilled()) {
             this.setState({errorMessage: ''});
             const {email, password, firstName, lastName} = this.state;
-            const userAlreadyExists = await getUserByEmail(email);
+            const userAlreadyExists = await db.users.getByEmail(email);
             if (userAlreadyExists) {
                 this.setState({errorMessage: strings.emailAlreadyUsed});
             } else {
                 const lowercaseEmail = email.toLowerCase();
-                let userAddedSuccessfully = await addUser(lowercaseEmail, password, firstName, lastName);
+                let userAddedSuccessfully = await db.users.add({
+                    email: lowercaseEmail,
+                    password,
+                    firstName,
+                    lastName,
+                });
                 if (userAddedSuccessfully) {
                     this._showSignUpSuccessfulPopUp(() => this._authenticatedNewUser(email, password));
                 } else {

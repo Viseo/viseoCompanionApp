@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {StyleSheet, TouchableOpacity} from "react-native";
+import React, {Component} from 'react';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
 export default class Button extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     render() {
@@ -13,12 +13,12 @@ export default class Button extends Component {
                 {...this.props}
                 style={[
                     styles.button,
-                    this.props.style
+                    this.props.style,
                 ]}
             >
                 {this.props.children}
             </TouchableOpacity>
-        )
+        );
     }
 
 }

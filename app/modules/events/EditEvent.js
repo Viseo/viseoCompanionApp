@@ -6,6 +6,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {fetchEvents, updateEvent} from './event.actions';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 class EditEvent extends Component {
 
@@ -46,25 +47,28 @@ class EditEvent extends Component {
                 setDate={(date) => this.setState({date})}
                 setImage={(image) => this.setState({image})}
             />
-        )
+        );
     }
 
     async _updateEvent() {
         const isFormValid = this.state.name && this.state.location;
         if (isFormValid) {
-            const {id, version} = this.props;
+            let {eventToEdit} = this.props;
             await this.props.updateEvent({
+                ...eventToEdit,
                 name: this.state.name,
                 description: this.state.description,
                 datetime: moment(this.state.date, this.dateFormat).valueOf(),
                 category: this.state.category,
                 location: this.state.location,
                 image: this.state.image,
-                version,
-                id,
-            }, this.props.user.id);
+            });
             this.props.refresh();
-            this.props.navigator.pop();
+            this.props.navigator.resetTo({
+                screen: 'events.events',
+                title: 'Evènements à venir',
+                navigatorStyle: defaultNavBarStyle,
+            });
         } else {
             showInvalidFormPopup();
         }
@@ -100,5 +104,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(EditEvent);

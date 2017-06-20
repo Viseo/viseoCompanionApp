@@ -1,9 +1,9 @@
-import thunkMiddleware from "redux-thunk";
-import {applyMiddleware, compose, createStore} from "redux";
-import {autoRehydrate, persistStore} from "redux-persist";
-import {AsyncStorage} from "react-native";
+import thunkMiddleware from 'redux-thunk';
+import {applyMiddleware, compose, createStore} from 'redux';
+import {autoRehydrate, persistStore} from 'redux-persist';
+import {AsyncStorage} from 'react-native';
 import initialState from './initialState';
-import rootReducer from "./rootReducer";
+import rootReducer from './rootReducer';
 
 const configureStore = (preloadedState) => {
     preloadedState = {
@@ -16,15 +16,15 @@ const configureStore = (preloadedState) => {
         preloadedState,
         compose(
             applyMiddleware(thunkMiddleware),
-            autoRehydrate()
-        )
+            autoRehydrate(),
+        ),
     );
 
     persistStore(store, {
         storage: AsyncStorage,
         whitelist: [
-            'authentication'
-        ]
+            'authentication',
+        ],
     });
 
     return store;

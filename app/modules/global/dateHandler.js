@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 
 export default function setDateLang(lang) {
     if (lang === 'en-US') {
@@ -18,7 +18,7 @@ export default function setDateLang(lang) {
                 L: 'DD/MM/YYYY',
                 LL: 'D MMMM YYYY',
                 LLL: 'D MMMM YYYY HH:mm',
-                LLLL: 'dddd D MMMM YYYY HH:mm'
+                LLLL: 'dddd D MMMM YYYY HH:mm',
             },
             calendar: {
                 sameDay: '[Aujourd\'hui]/LT',
@@ -26,7 +26,7 @@ export default function setDateLang(lang) {
                 nextWeek: 'dddd/LT',
                 lastDay: '[Hier]/LT',
                 lastWeek: 'ddd [dernier] LT',
-                sameElse: 'ddd Do MMM/LT'
+                sameElse: 'ddd Do MMM/LT',
             },
             relativeTime: {
                 future: 'dans %s',
@@ -47,7 +47,7 @@ export default function setDateLang(lang) {
             week: {
                 dow: 1, // Monday is the first day of the week.
                 doy: 4  // The week that contains Jan 4th is the first week of the year.
-            }
+            },
         });
     }
 }

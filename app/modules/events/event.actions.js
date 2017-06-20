@@ -1,11 +1,11 @@
 import * as db from '../global/db';
-import settings from '../global/settings';
 import moment from 'moment';
+import PushController from './../global/pushController';
 
 export const ADD_EVENT = 'ADD_EVENT';
 export const addEvent = (event, userId) => {
     return async (dispatch) => {
-        const createdEvent = await db.addEvent(event, userId);
+        const createdEvent = await db.events.add(event, userId);
         dispatch({
             type: ADD_EVENT,
             event: createdEvent,
@@ -13,15 +13,12 @@ export const addEvent = (event, userId) => {
     };
 };
 
-export const FETCH_EVENTS = 'FETCH_EVENTS';
 export const FETCH_EVENTS_FAILED = 'FETCH_EVENTS_FAILED';
 export const fetchEvents = () => {
     return async (dispatch) => {
         dispatch(requestEvents());
         try {
-            // Fetch all events
-            let eventsResponse = await fetch(settings.api.getEventAfter(moment().toDate().getTime()));
-            let events = await eventsResponse.json();
+            let events = await db.events.getAfter(moment().toDate().getTime());
             dispatch(receiveEvents(events));
         } catch (error) {
             console.warn('ActionCreators/events::fetchEvents ' + error);
@@ -51,7 +48,8 @@ export const registerUser = (event, userId) => {
     return async (dispatch) => {
         PushController.scheduleEventNotifications(event);
         try {
-            let event = db.addEventParticipant(eventId, userId);
+            let event = db.events.addParticipant(eventId, userId);
+            console.warn('event participant added ' + event.version);
             //todo handle the received event
             if (event) {
                 dispatch({
@@ -65,36 +63,49 @@ export const registerUser = (event, userId) => {
     };
 };
 
-export const UPDATE_EVENT = 'UPDATE_EVENT';
-export const updateEvent = (event) => {
-    return async (dispatch) => {
-        const updatedEvent = await db.updateEvent(event);
-        dispatch({
-            type: UPDATE_EVENT,
-            event: updatedEvent,
-        });
-    };
-}
-
 export const UNREGISTER_USER = 'UNREGISTER_USER';
 export const unregisterUser = (event, userId) => {
     let eventId = event.id;
     return async (dispatch) => {
         PushController.unscheduleEventNotifications(event);
-        dispatch({
-            type: UNREGISTER_USER,
-            eventId,
-            userId,
-        });
         try {
-            await fetch(settings.api.removeEventParticipant(eventId, userId), {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            let event = await db.events.removeParticipant(eventId, userId);
+            //todo handle the received event
+            if (event) {
+                dispatch({
+                    type: UNREGISTER_USER,
+                    eventId,
+                    userId,
+                });
+            }
         } catch (error) {
             console.warn('ActionCreators/events::unregisterUser ' + error);
+        }
+    };
+};
+
+export const UPDATE_EVENT = 'UPDATE_EVENT';
+export const updateEvent = (event) => {
+    return async (dispatch) => {
+        const updatedEvent = await db.events.update(event);
+        dispatch({
+            type: UPDATE_EVENT,
+            event: updatedEvent,
+        });
+    };
+};
+
+export const REMOVE_EVENT = 'REMOVE_EVENT';
+export const deleteEvent = (id) => {
+    return async (dispatch) => {
+        dispatch({
+            type: REMOVE_EVENT,
+            id,
+        });
+        try {
+            await db.events.delete(id);
+        } catch (error) {
+            console.warn('ActionCreators/events::deleteEvent ' + error);
         }
     };
 };

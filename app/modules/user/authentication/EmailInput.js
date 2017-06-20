@@ -1,16 +1,16 @@
-import React, {Component} from "react";
-import {StyleSheet, View} from "react-native";
-import TextField from "react-native-md-textinput";
-import colors from "../../global/colors";
-import AppText from "../../global/components/AppText";
-import strings from "../../global/localizedStrings";
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import TextField from 'react-native-md-textinput';
+import colors from '../../global/colors';
+import AppText from '../../global/components/AppText';
+import strings from '../../global/localizedStrings';
 import PropTypes from 'prop-types';
 
 export default class EmailInput extends Component {
 
     state = {
         isValid: true,
-        email: '',
+        email: this.props.value,
     };
 
     constructor(props) {
@@ -35,7 +35,7 @@ export default class EmailInput extends Component {
                         this.props.onEmailChange(email);
                     }}
                     returnKeyType={this.props.returnKeyType || 'next'}
-                    onSubmitEditing = {this.props.onSubmitEditing}
+                    onSubmitEditing={this.props.onSubmitEditing}
                 />
                 {errorMessage}
             </View>
@@ -62,6 +62,7 @@ EmailInput.propTypes = {
     onEmailChange: PropTypes.func.isRequired,
     returnKeyType: PropTypes.string,
     onSubmitEditing: PropTypes.func,
+    email: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
@@ -69,6 +70,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
         color: 'brown',
-        fontStyle: 'italic'
+        fontStyle: 'italic',
     },
 });

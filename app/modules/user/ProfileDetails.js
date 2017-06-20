@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import {ScrollView, View, StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
-import Avatar from '../../components/Avatar';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import Avatar from '../global/components/Avatar';
 import AppText from '../global/components/AppText';
-import {defaultNavBarStyle} from '../global/navigatorStyle';
-import {Navigation} from  'react-native-navigation';
+import PropTypes from 'prop-types';
 
-class Profile extends Component {
+export default class ProfileDetails extends Component {
 
     constructor(props) {
         super(props);
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     render() {
@@ -19,7 +16,7 @@ class Profile extends Component {
         const lastName = this.renderLastName();
         const email = this.renderEmail();
         return (
-            <ScrollView contentContainerStyle={styles.mainContainer}>
+            <ScrollView contentContainerStyle={styles.mainContainer} style={{backgroundColor: 'white'}}>
                 {avatar}
                 {firstName}
                 {lastName}
@@ -64,57 +61,11 @@ class Profile extends Component {
             </View>
         );
     }
-
-    onNavigatorEvent(event) {
-        if (event.id === 'edit') {
-            this._goToEditProfile();
-        } else if(event.id === 'signOut') {
-            this._signOut();
-        }
-    }
-
-    _goToEditProfile() {
-        this.props.navigator.push({
-            screen: 'EditUserProfile',
-            title: 'Modifier mon profil',
-            navigatorStyle: defaultNavBarStyle,
-        });
-    }
-
-    _signOut() {
-        Navigation.showLightBox({
-            screen: "user.authentication.signOut",
-            style: {
-                backgroundBlur: "dark",
-                backgroundColor: "#135caa70"
-            }
-        });
-    }
 }
 
-Profile.navigatorButtons = {
-    rightButtons: [
-        {
-            icon: require('../../images/navigation/signOut.png'),
-            id: 'signOut',
-        },
-        {
-            icon: require('../../images/navigation/edit.png'),
-            id: 'edit',
-        },
-    ],
+ProfileDetails.propTypes = {
+    user: PropTypes.any.isRequired,
 };
-
-Profile.navigatorStyle = defaultNavBarStyle;
-
-const mapStateToProps = ({user}, ownProps) => ({
-    user,
-    ...ownProps,
-});
-
-export default connect(
-    mapStateToProps,
-)(Profile);
 
 const styles = StyleSheet.create({
     displayText: {

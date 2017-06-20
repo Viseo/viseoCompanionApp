@@ -1,5 +1,5 @@
-import {beforeEach} from "mocha";
-import {createContainer} from "../TestUtil/index";
+import {beforeEach} from 'mocha';
+import {createContainer} from '../TestUtil/index';
 
 describe('FilterToggle container', () => {
     let container;
@@ -8,11 +8,11 @@ describe('FilterToggle container', () => {
     beforeEach(() => {
         let result = createContainer('FilterToggle');
         container = result.container;
-        component = result.component
+        component = result.component;
     });
 
     it('should render', () => {
         expect(container.length).to.equal(1);
-        expect(component.length).to.equal(1)
-    })
+        expect(component.length).to.equal(1);
+    });
 });

@@ -5,7 +5,7 @@ import {
     createComponent,
     createTestFunction,
     press
-} from "../TestUtil/index";
+} from '../TestUtil/index';
 
 describe('ImageButton', () => {
 
@@ -14,12 +14,12 @@ describe('ImageButton', () => {
         let source = require('../../images/BackButton.png');
         let imageButton = createComponent('ImageButton', {
             onPress,
-            source
+            source,
         });
         checkIsComponent(imageButton, 'Button');
         checkHasChildComponent(imageButton, 'FlexImage');
         press(imageButton);
-        checkTestFunction(onPress)
-    })
+        checkTestFunction(onPress);
+    });
 
 });

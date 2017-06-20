@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '../../global/colors';
-import  Icon from 'react-native-vector-icons/FontAwesome';
-import Avatar from '../../../components/Avatar';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Avatar from '../../global/components/Avatar';
 import AppText from '../../global/components/AppText';
-import {addLike, deleteCommentDb, dislike} from '../../global/db';
+import * as db from '../../global/db';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -38,19 +38,45 @@ export default class CommentCard extends Component {
         );
     }
 
+    _goToUserProfile() {
+        this.props.navigator.push({
+            screen: 'user.othersProfile',
+            title: 'Profil détaillé',
+            passProps: {
+                user: this.props.writer,
+            },
+        });
+    }
+
     _renderParticipantDate() {
         const date =
             <View style={{flex: .5}}>
-                <Text style={{alignSelf: 'flex-end', marginRight: 5}}>{this.props.day} à {this.props.time}</Text>
+                <Text style={{textAlign: 'right', alignSelf: 'flex-end', marginRight: 5}}>{this.props.day}
+                    à {this.props.time}</Text>
             </View>;
         return (
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10}}>
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10, marginRight: 10}}>
                 <View style={{flex: .5}}>
                     <Text style={{color: colors.blue, fontSize: 14}}>
                         {this.props.writer.firstName + ' ' + this.props.writer.lastName}
                     </Text>
                 </View>
                 {date}
+            </View>
+        );
+    }
+
+    _renderUserAvatar() {
+        const {writer} = this.props;
+        return (
+            <View style={{flex: 0.32}}>
+                <Avatar
+                    lastName={writer.lastName}
+                    firstName={writer.firstName}
+                    style={{paddingTop: 10, paddingLeft: 5}}
+                    navigator={this.props.navigator}
+                    otherProfileId={writer.id}
+                />
             </View>
         );
     }
@@ -63,19 +89,6 @@ export default class CommentCard extends Component {
                     alignSelf: 'stretch',
                 }}
             >
-            </View>
-        );
-    }
-
-    _renderUserAvatar() {
-        return (
-            <View style={{flex: 0.25}}>
-                <Avatar
-                    lastName={this.props.writer.lastName}
-                    firstName={this.props.writer.firstName}
-                    style={{paddingTop: 10, paddingLeft: 5}}
-                    size={4}
-                />
             </View>
         );
     }
@@ -158,7 +171,7 @@ export default class CommentCard extends Component {
     }
 
     _filterUser(user) {
-        return user.id == this.props.userId;
+        return user.id === this.props.userId;
     }
 
     _renderLike() {
@@ -188,7 +201,7 @@ export default class CommentCard extends Component {
     }
 
     _updateComment() {
-        if (this.props.userId == this.props.writer.id) {
+        if (this.props.userId === this.props.writer.id) {
             this.props.navigator.push({
                 screen: 'UpdateComment',
                 title: 'Modification du commentaire',
@@ -200,6 +213,7 @@ export default class CommentCard extends Component {
                         datetime: moment.valueOf(),
                         version: this.props.version,
                         eventId: this.props.eventId,
+                        publish: true,
                     },
                     refresh: this.props.refresh,
                 },
@@ -233,17 +247,17 @@ export default class CommentCard extends Component {
     }
 
     async _likeComment() {
-        await addLike(this.props.id, this.props.userId);
+        await db.comments.addLike(this.props.id, this.props.userId);
         this.props.refresh(this.props.eventId);
     }
 
     async _dislikeComment() {
-        await dislike(this.props.id, this.props.userId);
+        await db.comments.removeLike(this.props.id, this.props.userId);
         this.props.refresh(this.props.eventId);
     }
 
     async _deleteComment() {
-        await deleteCommentDb(this.props.id);
+        await db.comments.delete(this.props.id);
         this.props.refresh(this.props.eventId);
     }
 }

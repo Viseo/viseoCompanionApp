@@ -1,20 +1,19 @@
-import React, {Component} from "react";
-import {AppState, Platform} from "react-native";
+import React, {Component} from 'react';
+import {AppState, Platform} from 'react-native';
 import FCM, {
     FCMEvent,
     NotificationType,
     RemoteNotificationResult,
     WillPresentNotificationResult
-} from "react-native-fcm";
-import moment from "moment";
-
+} from 'react-native-fcm';
+import moment from 'moment';
 
 export default class PushController extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            appState: AppState.currentState
-        }
+            appState: AppState.currentState,
+        };
     }
 
     componentDidMount() {
@@ -22,9 +21,9 @@ export default class PushController extends Component {
         FCM.getFCMToken();
 
         if (Platform.OS === 'ios') {
-            FCM.subscribeToTopic("/topics/newEventIOS");
+            FCM.subscribeToTopic('/topics/newEventIOS');
         } else {
-            FCM.subscribeToTopic("/topics/newEventAndroid");
+            FCM.subscribeToTopic('/topics/newEventAndroid');
         }
 
         this.notificationListner = FCM.on(FCMEvent.Notification, notif => {
@@ -72,13 +71,13 @@ export default class PushController extends Component {
             body: notif.body,
             title: notif.title,
             status: notif.status,
-            sound: "default",
-            "show_in_foreground": true,
-            priority: "high",
+            sound: 'default',
+            'show_in_foreground': true,
+            priority: 'high',
             vibrate: 300,
-            "lights": true,
-            icon: "ic_notif",
-            "large_icon": "ic_launcher",
+            'lights': true,
+            icon: 'ic_notif',
+            'large_icon': 'ic_launcher',
             id: notif.id,
         });
     }
@@ -92,32 +91,32 @@ PushController.scheduleEventNotifications = (event) => {
     FCM.scheduleLocalNotification(
         {
             fire_date: moment(event.date).hour(8).minute(0),
-            id: event.id + "day",
-            title: "Rappel : " + event.name,
-            body: "Aujourd'hui à " + moment(event.date).format("h[h]mm"),
-            icon: "ic_notif",
-            large_icon: "ic_launcher",
-            "show_in_foreground": true,
-            priority: "high",
-            badge: 1
-        }
+            id: event.id + 'day',
+            title: 'Rappel : ' + event.name,
+            body: 'Aujourd\'hui à ' + moment(event.date).format('h[h]mm'),
+            icon: 'ic_notif',
+            large_icon: 'ic_launcher',
+            'show_in_foreground': true,
+            priority: 'high',
+            badge: 1,
+        },
     );
     FCM.scheduleLocalNotification(
         {
             fire_date: moment(event.date).subtract(15, 'minutes'),
-            id: event.id + "min",
-            title: "Dans 15min : " + event.name,
-            body: "Lieu : " + event.location,
-            icon: "ic_notif",
-            large_icon: "ic_launcher",
-            "show_in_foreground": true,
-            priority: "high",
-            badge: 1
-        }
+            id: event.id + 'min',
+            title: 'Dans 15min : ' + event.name,
+            body: 'Lieu : ' + event.location,
+            icon: 'ic_notif',
+            large_icon: 'ic_launcher',
+            'show_in_foreground': true,
+            priority: 'high',
+            badge: 1,
+        },
     );
 };
 
 PushController.unscheduleEventNotifications = (event) => {
-    FCM.cancelLocalNotification(event.id + "day");
-    FCM.cancelLocalNotification(event.id + "min");
+    FCM.cancelLocalNotification(event.id + 'day');
+    FCM.cancelLocalNotification(event.id + 'min');
 };

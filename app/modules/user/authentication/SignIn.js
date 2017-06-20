@@ -1,18 +1,17 @@
-import React, {Component} from "react";
-import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from "react-native";
-import EmailInput from "./EmailInput";
-import PasswordInput from "./PasswordInput";
-import strings from "../../global/localizedStrings";
-import AppText from "../../global/components/AppText";
-import {authenticate} from "./authentication.actions";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {startApp} from "../../global/navigationLoader";
-import CheckBox from "react-native-check-box";
-import {rememberUser as toggleRememberUser} from "./authentication.actions";
-import {defaultNavBarStyle} from "../../global/navigatorStyle";
-import colors from "../../global/colors";
-import {doServerCall} from "../../global/db";
+import React, {Component} from 'react';
+import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from 'react-native';
+import EmailInput from './EmailInput';
+import PasswordInput from './PasswordInput';
+import strings from '../../global/localizedStrings';
+import AppText from '../../global/components/AppText';
+import {authenticate, rememberUser as toggleRememberUser} from './authentication.actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {startApp} from '../../global/navigationLoader';
+import CheckBox from 'react-native-check-box';
+import {defaultNavBarStyle} from '../../global/navigatorStyle';
+import colors from '../../global/colors';
+import {doServerCall} from '../../global/db';
 
 class SignIn extends Component {
 
@@ -97,6 +96,9 @@ class SignIn extends Component {
             screen: 'user.authentication.recoverPassword',
             title: 'Récupération de mot de passe',
             navigatorStyle: defaultNavBarStyle,
+            passProps: {
+                email: this.state.email,
+            },
         });
     }
 
@@ -105,7 +107,7 @@ class SignIn extends Component {
             screen: 'user.authentication.signUp',
             title: 'Nouvel utilisateur',
             navigatorStyle: defaultNavBarStyle,
-        })
+        });
     }
 
     _renderErrorMessage() {
@@ -177,7 +179,7 @@ class SignIn extends Component {
     _signIn() {
         this.setState({hasSubmittedForm: true});
         if (this._isFormFilled()) {
-            this.setState({errorMessage: ""})
+            this.setState({errorMessage: ''});
             const {email, password} = this.state;
             doServerCall(() => this.props.authenticate(email, password));
         }

@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import AppText from '../global/components/AppText';
-import {View, Dimensions, StyleSheet, ScrollView, Image} from 'react-native';
+import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import Avatar from '../../components/Avatar';
+import Avatar from '../global/components/Avatar';
 import strings from '../global/localizedStrings';
-import FlexImage from '../../components/FlexImage';
-import ItemSpacer from '../../components/ItemSpacer';
+import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../global/colors';
 import CheckBox from 'react-native-check-box';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
@@ -131,10 +130,10 @@ export default class Event extends Component {
     }
 
     _renderHostInfo() {
-        const fullHostName = this.props.hostFirstName + '  ' + this.props.hostLastName;
+        const fullHostName = this.props.host.firstName + '  ' + this.props.host.lastName;
         return (
             <View style={styles.locationAndDate}>
-                <FlexImage source={require('./../../images/user.png')}/>
+                <Image style={styles.icon} resizeMode="contain" source={require('./../../images/user.png')}/>
                 <AppText style={styles.locationAndDateText}>{fullHostName}</AppText>
             </View>
         );
@@ -143,18 +142,21 @@ export default class Event extends Component {
     _renderLocation() {
         return (
             <View style={styles.locationAndDate}>
-                <FlexImage source={require('./../../images/location.png')}/>
+                <Image style={styles.icon} resizeMode="contain" source={require('./../../images/location.png')}/>
                 <AppText style={styles.locationAndDateText}>{this.props.location}</AppText>
             </View>
         );
     }
 
     _renderMainInfo() {
+        const {host, navigator} = this.props;
         const hostAvatar =
             <Avatar
-                firstName={this.props.hostFirstName}
-                lastName={this.props.hostLastName}
-                style={{flex: 3, paddingHorizontal: 10}}
+                firstName={host.firstName}
+                lastName={host.lastName}
+                style={{flex: 2.5, marginLeft: 5}}
+                otherProfileId={host.id}
+                navigator={navigator}
             />;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.category];
@@ -184,8 +186,7 @@ export default class Event extends Component {
 Event.propTypes = {
     category: PropTypes.number.isRequired,
     description: PropTypes.string,
-    hostFirstName: PropTypes.string.isRequired,
-    hostLastName: PropTypes.string.isRequired,
+    host: PropTypes.object.isRequired,
     id: PropTypes.number.isRequired,
     location: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -223,13 +224,6 @@ const styles = StyleSheet.create({
     eventDetails: {
         flex: 30,
         flexDirection: 'column',
-    },
-    hostName: {
-        color: 'black',
-        fontWeight: 'bold',
-        textAlign: 'left',
-        fontSize: 22,
-        flex: 2,
     },
     locationAndDate: {
         flex: 1,
@@ -289,5 +283,12 @@ const styles = StyleSheet.create({
     secondaryParticipationInfoText: {
         textAlign: 'center',
         fontSize: 16,
+    },
+    icon: {
+        flex: 1,
+        width: null,
+        height: null,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

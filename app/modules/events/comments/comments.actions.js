@@ -1,9 +1,9 @@
-import settings from "../../global/settings";
+import * as db from '../../global/db';
 
 export const types = {
     RECEIVE_COMMENTS: 'RECEIVE_COMMENTS',
     REQUEST_COMMENTS: 'REQUEST_COMMENTS',
-    UPDATE_COMMENT: 'UPDATE_COMMENT'
+    UPDATE_COMMENT: 'UPDATE_COMMENT',
 };
 
 export const requestComments = () => ({
@@ -11,26 +11,19 @@ export const requestComments = () => ({
 });
 export const receiveComments = (comments) => ({
     type: types.RECEIVE_COMMENTS,
-    comments
+    comments,
 });
 
 export const getComments = (eventId) => {
     return async (dispatch) => {
         dispatch(requestComments());
         try {
-            let commentsResponse = await fetch(settings.api.getPublishedCommentsByEvent(eventId));
-            let commentsJson = await commentsResponse.json();
-            let comments = [];
-            for (let i = 0; i < commentsJson.length; i++) {
-                comments.push({
-                    ...commentsJson[i]
-                });
-            }
+            let comments = await db.comments.getByEvent(eventId);
             dispatch(receiveComments(comments));
         } catch (error) {
-            console.warn('ActionCreators/comments::fetchComments ' + error)
+            console.warn('ActionCreators/comments::fetchComments ' + error);
         }
-    }
+    };
 };
 
 

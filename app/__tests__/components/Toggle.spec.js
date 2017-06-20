@@ -5,7 +5,7 @@ import {
     createComponent,
     createTestFunction,
     press
-} from "../TestUtil/index";
+} from '../TestUtil/index';
 
 describe('Toggle', () => {
 
@@ -23,7 +23,7 @@ describe('Toggle', () => {
         compareChildren(toggle, renderThisWhenOn);
         press(toggle);
         checkTestFunction(onToggle);
-        compareChildren(toggle, renderThisWhenOff)
-    })
+        compareChildren(toggle, renderThisWhenOff);
+    });
 
 });

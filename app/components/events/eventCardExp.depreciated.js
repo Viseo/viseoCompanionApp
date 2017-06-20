@@ -2,11 +2,11 @@
  * Created by HEL3666 on 11/05/2017.
  */
 
-import React, {Component} from "react";
-import {Dimensions, Platform, StyleSheet, TouchableOpacity, View} from "react-native";
-import Highlighter from "react-native-highlight-words";
-import * as util from "../../util/util";
-import colors from "../../modules/global/colors";
+import React, {Component} from 'react';
+import {Dimensions, Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
+import Highlighter from 'react-native-highlight-words';
+import * as util from '../../util/util';
+import colors from '../../modules/global/colors';
 
 export default class EventCardExp extends Component {
     static defaultProps = {
@@ -22,7 +22,6 @@ export default class EventCardExp extends Component {
     constructor(props) {
         super(props);
     }
-
 
     render() {
 
@@ -47,7 +46,7 @@ export default class EventCardExp extends Component {
             <View
                 style={{
                     flex: 1,
-                    alignSelf: 'stretch'
+                    alignSelf: 'stretch',
                 }}
             >
             </View>
@@ -65,7 +64,7 @@ export default class EventCardExp extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor: (this.props.participating) ? colors.lightBlue : 'white'}
+                    {backgroundColor: (this.props.participating) ? colors.lightBlue : 'white'},
                 ]}/>
             </View>
         );
@@ -153,7 +152,7 @@ export default class EventCardExp extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={'à '+this.props.time || ''}
+                        textToHighlight={'à ' + this.props.time || ''}
                     />
                 </View>
             </View>
@@ -163,7 +162,7 @@ export default class EventCardExp extends Component {
 
 let {
     height: deviceHeight,
-    width: deviceWidth
+    width: deviceWidth,
 } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -179,7 +178,7 @@ const styles = StyleSheet.create({
         flex: 100,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        paddingLeft: 10
+        paddingLeft: 10,
         // borderBottomWidth: 0.5,
         // borderBottomColor: '#999999',
         // borderTopWidth: 0.5,
@@ -188,12 +187,12 @@ const styles = StyleSheet.create({
     firstRow: {
         flex: 3,
         flexDirection: 'row',
-        paddingRight: 10
+        paddingRight: 10,
     },
     secondRow: {
         flex: 6,
         flexDirection: 'column',
-        paddingRight: 10
+        paddingRight: 10,
     },
     name: {
         flex: 6,
@@ -213,7 +212,7 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         fontWeight: '100',
         color: colors.mediumGray,
-        fontSize: 14
+        fontSize: 14,
     },
     description: {
         flex: 1,
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontWeight: '300',
         color: '#8c8c8c',
-        fontSize: 14
+        fontSize: 14,
     },
     dotContainer: {
         flex: 5,
@@ -268,13 +267,12 @@ const styles = StyleSheet.create({
     },
 
     highlightStyle: {
-        backgroundColor: colors.highlight
-    }
+        backgroundColor: colors.highlight,
+    },
 });
-
 
 const styleFont = StyleSheet.create({
     textFont: {
         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-    }
+    },
 });

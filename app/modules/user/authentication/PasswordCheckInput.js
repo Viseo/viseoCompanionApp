@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import TextField from 'react-native-md-textinput';
 import colors from '../../global/colors';
-import {View} from 'react-native';
 import AppText from '../../global/components/AppText';
 import strings from '../../global/localizedStrings';
 import PropTypes from 'prop-types';
@@ -36,7 +35,7 @@ export default class PasswordCheckInput extends Component {
                         this.props.onPasswordCheckChange(passwordCheck);
                     }}
                     returnKeyType={'next'}
-                    onSubmitEditing = {this.props.onSubmitEditing}
+                    onSubmitEditing={this.props.onSubmitEditing}
                 />
                 {errorMessage}
             </View>

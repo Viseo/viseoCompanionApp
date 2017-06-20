@@ -1,8 +1,8 @@
 /**
  * Created by AAB3605 on 07/04/2017.
  */
-import React, {Component} from "react";
-import {View} from "react-native";
+import React, {Component} from 'react';
+import {View} from 'react-native';
 
 export default class ItemSpacer extends Component {
 

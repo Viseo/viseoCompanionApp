@@ -2,14 +2,14 @@
  * Created by HEL3666 on 11/05/2017.
  */
 
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {fetchEventsExp} from "../actionCreators/events";
-import EventListExp from "../components/EventListExp";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {fetchEventsExp} from '../actionCreators/events.depreciated';
+import EventListExp from '../components/EventListExp';
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
-        return false
+        return false;
     }
     let sourceString = caseSensitive ? source.toString() : source.toString().toLowerCase();
     let searchString = caseSensitive ? search.toString() : search.toString().toLowerCase();
@@ -23,12 +23,12 @@ const getFilteredEvents = (events, filters) => {
             for (let key in filter) {
                 let value = filter[key];
                 if (event.hasOwnProperty(key) && event[key] === value) {
-                    acceptEvent = true
+                    acceptEvent = true;
                 }
             }
         });
-        return acceptEvent
-    })
+        return acceptEvent;
+    });
 };
 
 const getSearchedEvents = (events, searchWords) => {
@@ -38,15 +38,15 @@ const getSearchedEvents = (events, searchWords) => {
             let foundWordInAtLeastOneProperty = false;
             for (let key in event) {
                 if (containsString(event[key], word)) {
-                    foundWordInAtLeastOneProperty = true
+                    foundWordInAtLeastOneProperty = true;
                 }
             }
             if (!foundWordInAtLeastOneProperty) {
-                acceptEvent = false
+                acceptEvent = false;
             }
         });
-        return acceptEvent
-    })
+        return acceptEvent;
+    });
 };
 
 const addParticipationInfo = (events, userId) => {
@@ -55,12 +55,12 @@ const addParticipationInfo = (events, userId) => {
         let participating = false;
         if (participants) {
             if (participants.indexOf(userId) !== -1) {
-                participating = true
+                participating = true;
             }
         }
         event.participating = participating;
-        return event
-    })
+        return event;
+    });
 };
 
 const getVisibleEventListExp = (events,
@@ -80,7 +80,7 @@ const getVisibleEventListExp = (events,
         case 'SHOW_NOT_GOING':
             return events.filter(event => !event.participating);
         default:
-            throw new Error('Unknown filter: ' + visibilityFilter)
+            throw new Error('Unknown filter: ' + visibilityFilter);
     }
 };
 
@@ -90,7 +90,7 @@ const mapStateToProps = (state) => ({
         state.visibilityFilter,
         state.filters,
         state.searchWords,
-        state.user
+        state.user,
     ),
     refreshing: state.events.isFetching,
     searchWords: state.searchWords,
@@ -104,14 +104,14 @@ const mapDispatchToProps = (dispatch) => {
         toggleParticipation: (event, user) => {
             return event.participating ?
                 unregisterUser(event, user.id) :
-                registerUser(event, user.id)
-        }
-    }, dispatch)
+                registerUser(event, user.id);
+        },
+    }, dispatch);
 };
 
 const VisibleEventListExp = connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(EventListExp);
 
-export default VisibleEventListExp
+export default VisibleEventListExp;

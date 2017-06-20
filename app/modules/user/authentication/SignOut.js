@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Dimensions, Button} from 'react-native';
+import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import AppText from '../../global/components/AppText';
 import {Navigation} from 'react-native-navigation';
 import colors from '../../global/colors';
@@ -15,7 +15,7 @@ class SignOut extends Component {
     }
 
     componentWillReceiveProps({isAuthenticated}) {
-        if(!isAuthenticated) {
+        if (!isAuthenticated) {
             startAppLoader();
         }
     }
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     buttonBar: {
         flex: 2,
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     },
     container: {
         width: Dimensions.get('window').width * 0.7,

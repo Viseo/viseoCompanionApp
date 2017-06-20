@@ -1,22 +1,20 @@
-import {types} from './../actionCreators/events';
-import {UPDATE_EVENT} from '../modules/events/event.actions';
+import {types} from '../actionCreators/events.depreciated';
+import {
+    ADD_EVENT,
+    FETCH_EVENTS_FAILED,
+    RECEIVE_EVENTS,
+    REGISTER_USER,
+    REQUEST_EVENTS,
+    UNREGISTER_USER,
+    UPDATE_EVENT,
+} from '../modules/events/event.actions';
 
 function formatEvent(event) {
     return {
-        id: event.id,
-        name: event.name,
-        description: event.description,
-        category: event.category,
-        keywords: event.keywords,
-        location: event.place,
+        ...event,
         date: event.datetime,
-        host: event.host,
-        participants: [],
-        imageUrl: event.imageUrl,
-        version: event.version,
     };
-};
-
+}
 const events = (state = {
     isFetching: false,
     didInvalidate: false,
@@ -24,7 +22,7 @@ const events = (state = {
     itemsExpired: [],
 }, action) => {
     switch (action.type) {
-        case types.ADD_EVENT:
+        case ADD_EVENT:
             return {
                 ...state,
                 items: [
@@ -32,7 +30,7 @@ const events = (state = {
                     formatEvent(action.event),
                 ],
             };
-        case types.FETCH_EVENTS_FAILED:
+        case FETCH_EVENTS_FAILED:
             return Object.assign({}, state, {
                 isFetching: false,
             });
@@ -40,7 +38,7 @@ const events = (state = {
             return Object.assign({}, state, {
                 didInvalidate: true,
             });
-        case types.RECEIVE_EVENTS:
+        case RECEIVE_EVENTS:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
@@ -54,7 +52,7 @@ const events = (state = {
                 itemsExpired: action.events,
             });
 
-        case types.REGISTER_USER: {
+        case REGISTER_USER: {
             let eventToRegisterFor = state.items.find(event => event.id === action.eventId);
             if (!eventToRegisterFor) {
                 return state;
@@ -85,7 +83,7 @@ const events = (state = {
                 ],
             });
         }
-        case types.REQUEST_EVENTS:
+        case REQUEST_EVENTS:
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false,
@@ -95,7 +93,7 @@ const events = (state = {
                 isFetching: true,
                 didInvalidate: false,
             });
-        case types.UNREGISTER_USER: {
+        case UNREGISTER_USER: {
             let eventToUnregisterFrom = state.items.find(event => event.id === action.eventId);
             if (!eventToUnregisterFrom) {
                 return state;
