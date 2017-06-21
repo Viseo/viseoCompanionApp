@@ -22,9 +22,23 @@ export default class Rating extends Component {
         const [date, time] = this._formatDate(this.props.date);
         return (
             <View style={styles.container}>
-                <AppText>{this.props.eventName}</AppText>
-                <AppText>{this.props.location}</AppText>
-                <AppText>{date} à {time}</AppText>
+                <View style={{
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                }}>
+                    <AppText style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}> Donnez votre avis</AppText>
+                    <AppText style={{marginBottom: 10,alignSelf:"center"}}>{this.props.eventName}</AppText>
+                </View>
+
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    display: 'flex',alignItems:"stretch"
+                }}>
+                    <View style={{alignSelf:"flex-start",marginRight:150}}><AppText>{this.props.location}</AppText></View>
+                    <View style={{alignSelf:"flex-end"}}><AppText>{date} à {time}</AppText></View>
+
+                </View>
                 <AppText style={{
                     top: 110,
                     fontWeight: 'bold',
@@ -59,13 +73,13 @@ export default class Rating extends Component {
                             onPress={dismissLightBox}
                         />
                     </View>
-                    <View style={{marginLeft: 100}}>
+                    <Views>
                         <Button
                             title="Envoyer"
                             style={{backgroundColor: '#C41F06'}}
                             onPress={() => this.props.sendReview(this.state.rating)}
                         />
-                    </View>
+                    </Views>
                 </View>
             </View>
 

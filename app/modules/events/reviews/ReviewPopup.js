@@ -3,6 +3,7 @@ import Rating from './Rating';
 import Comment from './Comment';
 import Thanks from './Thanks';
 import {dismissLightBox} from '../../global/navigationUtil';
+import * as db from '../../global/db';
 
 export default class ReviewPopup extends Component {
 
@@ -72,22 +73,29 @@ export default class ReviewPopup extends Component {
     }
 
     async _sendReview() {
-        // todo send review to server (with no hardcoded values)
-        // const review = {
-        //     "userId":"1",
-        //     "eventId":"2",
-        //     "rating": // Set rating here
-        //     "comment": // Set Comment here
-        // };
-        // await db.events.sendReview(review);
+        ///  todo send review to server (with no hardcoded values)
+        const review = {
+            'userId': '2',
+            'eventId': '1',
+            'rating': this.state.rating,
+            'comment': this.state.comment,
+        };
+        await db.events.sendReview(review);
         dismissLightBox();
     }
 
-    _setComment(comment) {
+    async _setComment(comment) {
         this.setState({
             currentPage: 'thanksAfterCommenting',
             comment,
         });
+        const review = {
+            'userId': '2',
+            'eventId': '1',
+            'rating': this.state.rating,
+            'comment': this.state.comment,
+        };
+        await db.events.updateReview(review);
     }
 
     _setRating(rating) {
@@ -97,6 +105,6 @@ export default class ReviewPopup extends Component {
             rating,
         });
     }
-}
+};
 
 // todo set propTypes

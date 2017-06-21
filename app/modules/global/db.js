@@ -145,7 +145,7 @@ export const events = {
     },
     updateReview: async (review) => {
         try {
-            let response = fetch(settings.api.sendReview, {
+            let response = fetch(settings.api.updateReview, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

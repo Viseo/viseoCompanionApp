@@ -15,7 +15,7 @@ export default class NotationRemark extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
+                <View style={{flex: 1, flexDirection: 'column', alignItems: 'center',marginTop:10}}>
                     <Image source={require('./../../../images/sad.png')} style={{width: 50, height: 50}}/>
                 </View>
                 <View style={{flex: 1, flexDirection: 'column'}}>
@@ -40,7 +40,7 @@ export default class NotationRemark extends Component {
                             });
                         }}/>
                 </View>
-                <View style={{flex: 1, flexDirection: 'column', marginTop: 100}}>
+                <View style={{flex: 1, flexDirection: 'column', marginTop: 50}}>
                     <Button
                         title="Envoyer"
                         onPress={() => this.props.sendComment(this.state.comment)}
