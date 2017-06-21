@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Rating from './Rating';
 import Comment from './Comment';
 import Thanks from './Thanks';
+import {dismissLightBox} from '../../global/navigationUtil';
 
 export default class ReviewPopup extends Component {
 
@@ -79,6 +80,7 @@ export default class ReviewPopup extends Component {
         //     "comment": // Set Comment here
         // };
         // await db.events.sendReview(review);
+        dismissLightBox();
     }
 
     _setComment(comment) {

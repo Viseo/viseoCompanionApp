@@ -5,7 +5,6 @@ import {
     StyleSheet, Button,
 } from 'react-native';
 import moment from 'moment';
-import {Navigation} from 'react-native-navigation';
 import AppText from '../../global/components/AppText';
 import {dismissLightBox} from '../../global/navigationUtil';
 
