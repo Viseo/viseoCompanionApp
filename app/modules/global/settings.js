@@ -23,6 +23,7 @@ const restRoutes = {
     uploadImage: serverURL + 'upload',
     authenticate: serverURL + 'authenticate',
     sendReview: serverURL + 'reviews',
+    updateReview: serverURL + 'reviews',
     liveEvent: conf === 'PROD' ?
         serverURL + 'liveEvent' :
         'ws://' + localhostIp + ':8080/liveEvent',
