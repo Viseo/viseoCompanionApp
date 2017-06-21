@@ -11,6 +11,10 @@ import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 export default class EventCard extends Component {
 
+    state = {
+        isParticipating: this.props.participating,
+    };
+
     constructor(props) {
         super(props);
     }
@@ -27,7 +31,8 @@ export default class EventCard extends Component {
             </View>,
             onPress: () => {
                 setTimeout(() => {
-                    this.props.onParticipationChange();
+                    this.props.onParticipationChange(this.state.isParticipating);
+                    this.setState({isParticipating: !this.state.isParticipating});
                 }, 300);
             },
             backgroundColor: this.props.participating ? '#ff6d6d' : colors.blue,

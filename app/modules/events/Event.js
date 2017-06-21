@@ -13,6 +13,10 @@ const {height, width} = Dimensions.get('window');
 
 export default class Event extends Component {
 
+    state = {
+        isParticipating: this.props.participating,
+    };
+
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -92,8 +96,11 @@ export default class Event extends Component {
         const checkParticipation = (
             <View style={{alignItems: 'center'}}>
                 <CheckBox
-                    isChecked={this.props.participating}
-                    onClick={() => this.props.onParticipationChange()}
+                    isChecked={this.state.participating}
+                    onClick={() => {
+                        this.props.onParticipationChange(this.state.isParticipating);
+                        this.setState({isParticipating: !this.state.isParticipating});
+                    }}
                 />
                 <AppText>{strings.participationLabel}</AppText>
             </View>

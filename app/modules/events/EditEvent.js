@@ -5,7 +5,7 @@ import {showInvalidFormPopup} from '../global/navigationUtil';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
-import {fetchEvents, updateEvent} from './event.actions';
+import {fetchEvents, updateEvent} from './events.actions';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 class EditEvent extends Component {

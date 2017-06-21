@@ -89,7 +89,7 @@ export default class EventList extends Component {
     }
 
     renderEventCard = (event) => {
-        let [day, time] = this.formatDate(event.date);
+        let [day, time] = this.formatDate(event.datetime);
         let {user} = this.props;
         return (
             <EventCard
@@ -98,8 +98,10 @@ export default class EventList extends Component {
                 time={time}
                 host={event.host}
                 imageUrl={event.imageUrl}
-                onParticipationChange={() => {
-                    this.props.toggleParticipation(event, user);
+                onParticipationChange={(isParticipating) => {
+                    isParticipating ?
+                        this.props.unregisterUser(event, user.id) :
+                        this.props.registerUser(event, user.id);
                 }}
                 searchWords={this.props.searchWords}
                 navigator={this.props.navigator}
