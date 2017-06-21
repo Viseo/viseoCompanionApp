@@ -8,13 +8,19 @@ import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../global/colors';
 import CheckBox from 'react-native-check-box';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import {bindActionCreators} from 'redux';
+import {registerUser, unregisterUser} from './events.actions';
+import {connect} from 'react-redux';
+import moment from 'moment';
 
 const {height, width} = Dimensions.get('window');
 
-export default class Event extends Component {
+class Event extends Component {
 
     state = {
-        isParticipating: this.props.isParticipating,
+        isParticipating: this.props.event.participants.findIndex(participant =>
+            parseInt(participant.id) === parseInt(this.props.user.id),
+        ) !== -1,
     };
 
     constructor(props) {
@@ -59,7 +65,7 @@ export default class Event extends Component {
             title: 'Modifier l\'évènement',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
-                eventId: this.props.id,
+                eventId: this.props.eventId,
             },
         });
     }
@@ -67,7 +73,7 @@ export default class Event extends Component {
     _renderDetails() {
         const eventPicture = this._renderEventPicture();
         const dateAndParticipants = this._renderEventDateAndParticipants();
-        const description = <AppText style={styles.description}>{this.props.description}</AppText>;
+        const description = <AppText style={styles.description}>{this.props.event.description}</AppText>;
         return (
             <View style={styles.eventDetails}>
                 <ScrollView
@@ -83,11 +89,11 @@ export default class Event extends Component {
     }
 
     _renderEventDateAndParticipants() {
-        const {day, time} = this.props;
+        const {event} = this.props;
         const countParticipants =
             <View style={styles.participationInfoItem}>
                 <AppText style={styles.participationInfoContainer}>
-                    {this.props.numberOfParticipants}
+                    {event.participants.length}
                 </AppText>
                 <AppText style={styles.secondaryParticipationInfoText}>
                     {strings.participantsLabel}
@@ -96,15 +102,14 @@ export default class Event extends Component {
         const checkParticipation = (
             <View style={{alignItems: 'center'}}>
                 <CheckBox
-                    isChecked={this.state.participating}
-                    onClick={() => {
-                        this.props.onParticipationChange(this.state.isParticipating);
-                        this.setState({isParticipating: !this.state.isParticipating});
-                    }}
+                    isChecked={this.state.isParticipating}
+                    onClick={() => this._onParticipationChange()}
                 />
                 <AppText>{strings.participationLabel}</AppText>
             </View>
         );
+        const day = moment(event.datetime).format('ddd');
+        const time = moment(event.datetime).format('hh[h] mm');
         return (
             <View style={styles.dateAndParticipantsContainer}>
                 <View style={styles.participationInfoRectangle}>
@@ -126,7 +131,7 @@ export default class Event extends Component {
     }
 
     _renderEventPicture() {
-        const imageUrl = this.props.imageUrl || 'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
+        const imageUrl = this.props.event.imageUrl || 'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
         return (
             <Image
                 style={{height: 200, width: width}}
@@ -137,7 +142,8 @@ export default class Event extends Component {
     }
 
     _renderHostInfo() {
-        const fullHostName = this.props.host.firstName + '  ' + this.props.host.lastName;
+        const {host} = this.props.event;
+        const fullHostName = host.firstName + '  ' + host.lastName;
         return (
             <View style={styles.locationAndDate}>
                 <Image style={styles.icon} resizeMode="contain" source={require('./../../images/user.png')}/>
@@ -150,13 +156,14 @@ export default class Event extends Component {
         return (
             <View style={styles.locationAndDate}>
                 <Image style={styles.icon} resizeMode="contain" source={require('./../../images/location.png')}/>
-                <AppText style={styles.locationAndDateText}>{this.props.location}</AppText>
+                <AppText style={styles.locationAndDateText}>{this.props.event.location}</AppText>
             </View>
         );
     }
 
     _renderMainInfo() {
-        const {host, navigator} = this.props;
+        const {navigator} = this.props;
+        const {host} = this.props.event;
         const hostAvatar =
             <Avatar
                 firstName={host.firstName}
@@ -165,10 +172,10 @@ export default class Event extends Component {
                 otherProfileId={host.id}
                 navigator={navigator}
             />;
-        const name = <AppText style={styles.name}>{this.props.name}</AppText>;
-        const categoryName = strings.categoriesNames[this.props.category];
+        const name = <AppText style={styles.name}>{this.props.event.name}</AppText>;
+        const categoryName = strings.categoriesNames[this.props.event.category];
         const category = <AppText>{categoryName}</AppText>;
-        const categoryColor = this._getCategoryColorFromId(this.props.category);
+        const categoryColor = this._getCategoryColorFromId(this.props.event.category);
         const categoryIndicator = <View style={[styles.categoryIndicator, {borderTopColor: categoryColor}]}/>;
         const hostInfo = this._renderHostInfo();
         const location = this._renderLocation();
@@ -187,19 +194,42 @@ export default class Event extends Component {
             </View>
         );
     }
+
+    _onParticipationChange() {
+        const {isParticipating} = this.state;
+        const {event, user} = this.props;
+        isParticipating ?
+            this.props.unregisterUser(event, user.id) :
+            this.props.registerUser(event, user.id);
+        this.setState({isParticipating: !isParticipating});
+    }
 }
 
 Event.propTypes = {
-    category: PropTypes.number.isRequired,
-    description: PropTypes.string,
-    host: PropTypes.object.isRequired,
-    id: PropTypes.number.isRequired,
-    location: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    numberOfParticipants: PropTypes.number.isRequired,
-    onParticipationChange: PropTypes.func.isRequired,
-    isParticipating: PropTypes.bool.isRequired,
+    eventId: PropTypes.number.isRequired,
+    event: PropTypes.object.isRequired,
+    registerUser: PropTypes.func.isRequired,
+    unregisterUser: PropTypes.func.isRequired,
+    navigator: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = ({events, user}, ownProps) => ({
+    event: events.items.find(event => parseInt(event.id) === ownProps.eventId),
+    user,
+    ...ownProps,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        registerUser,
+        unregisterUser,
+    }, dispatch);
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Event);
 
 const styles = StyleSheet.create({
     categoryIndicator: {

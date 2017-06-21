@@ -16,13 +16,17 @@ import {connect} from 'react-redux';
 class EventCard extends Component {
 
     state = {
-        isParticipating: this.props.event.participants.findIndex(participant =>
-            parseInt(participant.id) === parseInt(this.props.user.id),
-        ) !== -1,
+        isParticipating: this._isCurrentUserParticipating(this.props.event),
     };
 
     constructor(props) {
         super(props);
+    }
+
+    componentWillReceiveProps({event}) {
+        this.setState({
+            isParticipating: this._isCurrentUserParticipating(event),
+        });
     }
 
     getSwipeOption = () => {
@@ -258,8 +262,14 @@ class EventCard extends Component {
 
     _isLive() {
         const startDate = moment(this.props.event.datetime);
-        const endDate = moment(startDate).add(2, 'hours');
+        const endDate = moment(this.props.event.datetime).add(2, 'hours');
         return moment().isBetween(startDate, endDate);
+    }
+
+    _isCurrentUserParticipating(event) {
+        return event.participants.findIndex(participant =>
+                parseInt(participant.id) === parseInt(this.props.user.id),
+            ) !== -1;
     }
 }
 
@@ -268,6 +278,7 @@ EventCard.propTypes = {
     event: PropTypes.object.isRequired,
     registerUser: PropTypes.func.isRequired,
     unregisterUser: PropTypes.func.isRequired,
+    navigator: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = ({events, user, searchWords}, ownProps) => ({
