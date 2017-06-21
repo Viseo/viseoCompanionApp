@@ -93,7 +93,6 @@ const mapStateToProps = (state, ownProps) => ({
     ),
     refreshing: state.events.isFetching,
     searchWords: state.searchWords,
-    loading: state.loading,
     user: state.user,
     ...ownProps,
 });
@@ -106,9 +105,7 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch);
 };
 
-const VisibleEventList = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(EventList);
-
-export default VisibleEventList;

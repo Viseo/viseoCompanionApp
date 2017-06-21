@@ -14,7 +14,7 @@ const {height, width} = Dimensions.get('window');
 export default class Event extends Component {
 
     state = {
-        isParticipating: this.props.participating,
+        isParticipating: this.props.isParticipating,
     };
 
     constructor(props) {
@@ -187,7 +187,6 @@ export default class Event extends Component {
             </View>
         );
     }
-
 }
 
 Event.propTypes = {
@@ -199,7 +198,7 @@ Event.propTypes = {
     name: PropTypes.string.isRequired,
     numberOfParticipants: PropTypes.number.isRequired,
     onParticipationChange: PropTypes.func.isRequired,
-    participating: PropTypes.bool.isRequired,
+    isParticipating: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({

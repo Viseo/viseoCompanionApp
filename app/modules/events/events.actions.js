@@ -47,7 +47,6 @@ export const registerUser = (event, userId) => {
     return async (dispatch) => {
         PushController.scheduleEventNotifications(event);
         try {
-            console.warn('add participant');
             const updatedEvent = await db.events.addParticipant(event.id, userId);
             dispatch({
                 type: UPDATE_EVENT,
@@ -61,12 +60,10 @@ export const registerUser = (event, userId) => {
 
 export const UNREGISTER_USER = 'UNREGISTER_USER';
 export const unregisterUser = (event, userId) => {
-    let eventId = event.id;
     return async (dispatch) => {
         PushController.unscheduleEventNotifications(event);
         try {
-            console.warn('remmove participant');
-            const updatedEvent = await db.events.removeParticipant(eventId, userId);
+            const updatedEvent = await db.events.removeParticipant(event.id, userId);
             dispatch({
                 type: UPDATE_EVENT,
                 event: updatedEvent,
