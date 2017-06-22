@@ -5,15 +5,15 @@ import {bindActionCreators} from "redux";
 import {defaultNavBarStyle} from "../global/navigatorStyle";
 import {connect} from "react-redux";
 import AppText from "../global/components/AppText";
-import PropTypes from "prop-types";
 import NotificationCard from "./NotificationCard";
 import {fetchEventsExp, fetchReviewedEvents} from "../../actionCreators/events.depreciated";
+import moment from "moment";
 
 class Notification extends Component {
 
     constructor(props) {
         super(props);
-        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+
     }
 
     componentWillMount() {
@@ -27,7 +27,10 @@ class Notification extends Component {
                 data={this.props.events}
                 keyExtractor={(event, index) => event.id}
                 renderItem={({item}) => this._renderNotificationCard(item)}
-                onRefresh={() => this.props.refreshPastEvents(this.props.user)}
+                onRefresh={() => {
+                    this.props.refreshPastEvents(this.props.user);
+                    this.props.refreshReviewedEvents(this.props.user.id);
+                }}
                 ListEmptyComponent={() => {
                     return this._renderEmptyNotificationCard();
                 }}
@@ -40,14 +43,21 @@ class Notification extends Component {
             </View>
         );
     }
-
+    _formatDate(date) {
+        if (!date)
+            return [];
+        let dateTime = moment(date);
+        return dateTime.calendar().split('/');
+    }
     _renderNotificationCard(event) {
+        let [day, time] = this._formatDate(event.datetime);
         return (
             <View>
                 <NotificationCard
                     name={event.name}
                     location={event.location}
-                    date={event.date}
+                    day={day}
+                    time={time}
                     eventId={event.id}
                     userId={this.props.user.id}
                     navigator={this.props.navigator}
@@ -81,19 +91,32 @@ class Notification extends Component {
 }
 
 Notification.propTypes = {
-    eventId: PropTypes.number.isRequired,
+    // eventId: PropTypes.number.isRequired,
 };
 
-const getParticipatingEventList = (events, eventsReviewed) => {
+const getParticipatingEventList = (events, eventsReviewed, user) => {
+    if (events && eventsReviewed) {
 
-    let notReviewedEvents = events.filter((item) => {
-        return !eventsReviewed.has(item);
-    });
-    return notReviewedEvents;
+        let eventsByUser = events.filter((event) => {
+            const filter = event.participants.filter((e) => {
+                return e.id === user.id;
+            });
+            return filter.length > 0;
+        });
+
+        if (eventsByUser.length > 0 && eventsReviewed.length > 0) {
+
+            let notReviewedEvents = eventsByUser.filter((item) => {
+                 return !eventsReviewed.includes( JSON.stringify(item) );
+            });
+            return notReviewedEvents;
+        }
+    }
+    return null;
 };
 const mapStateToProps = (state) => ({
     events: getParticipatingEventList(
-        state.events.itemsExpired, state.events.itemsReviewed,
+        state.events.itemsExpired, state.events.itemsReviewed, state.user,
     ),
     refreshing: state.events.isFetching,
     user: state.user,

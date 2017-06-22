@@ -73,13 +73,13 @@ export default class Rating extends Component {
                             onPress={dismissLightBox}
                         />
                     </View>
-                    <Views>
+                    <View>
                         <Button
                             title="Envoyer"
                             style={{backgroundColor: '#C41F06'}}
                             onPress={() => this.props.sendReview(this.state.rating)}
                         />
-                    </Views>
+                    </View>
                 </View>
             </View>
 

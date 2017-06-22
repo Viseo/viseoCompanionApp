@@ -30,7 +30,7 @@ export default class ChatInput extends Component {
                         this._sendMessage();
                     }}
                 >
-                    <Icon name="paper-plane" style={{fontSize: 20}}/>
+
                 </TouchableOpacity>
             </View>
         );

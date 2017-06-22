@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import {Button, Dimensions, Platform, StyleSheet, TouchableOpacity, View} from "react-native";
-import Highlighter from "react-native-highlight-words";
-import * as util from "../../util/util";
+import {Dimensions, Platform, StyleSheet, TouchableOpacity, View} from "react-native";
 import colors from "../../modules/global/colors";
+import AppText from "../global/components/AppText";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class NotificationCard extends Component {
     static defaultProps = {};
@@ -12,12 +12,10 @@ export default class NotificationCard extends Component {
     }
 
     render() {
-
         return (
             <View>
                 <TouchableOpacity
                     style={styles.card}
-                    onPress={this.props.onPress}
                 >
                     {this.renderEventInfo()}
                 </TouchableOpacity>
@@ -25,40 +23,26 @@ export default class NotificationCard extends Component {
         );
     }
 
-    renderSpacer() {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    alignSelf: "stretch",
-                }}
-            >
-            </View>
-        );
-    }
-
     renderEventInfo() {
         return (
             <View style={styles.eventInfo}>
-                {this.renderSpacer()}
+
                 <View style={styles.firstRow}>
                     {this.renderTitle()}
                     {this.renderDate()}
                 </View>
                 <View style={styles.secondRow}>
                     {this.renderLocation()}
-                    {this.renderDescription()}
                 </View>
-                <View>
-                    <Button
-                        title="Redirect"
-                        onPress={this._showNotationPopup(NotificationCard)}
-                        icon='../../images/check.png'
-                        iconColor='#ffffff'
-                        style={{width: 20, height: 20}}
-                    />
+                <View style={{alignItems: "center"}}>
+                    <Icon.Button
+                        name="star"
+                        backgroundColor="#3b5998"
+                        onPress={this._showNotationPopup}>
+                        Note
+                    </Icon.Button>
+
                 </View>
-                {this.renderSpacer()}
             </View>
         );
     }
@@ -66,26 +50,7 @@ export default class NotificationCard extends Component {
     renderTitle() {
         return (
             <View style={styles.name}>
-                <Highlighter
-                    highlightStyle={styles.highlightStyle}
-                    style={[styles.nameText, styleFont.textFont]}
-                    searchWords={this.props.searchWords}
-                    textToHighlight={this.props.name || ""}
-                />
-            </View>
-        );
-    }
-
-    renderDescription() {
-        return (
-            <View style={styles.description}>
-                <Highlighter
-                    numberOfLines={1}
-                    highlightStyle={styles.highlightStyle}
-                    style={[styles.descriptionText, styleFont.textFont]}
-                    searchWords={this.props.searchWords}
-                    textToHighlight={this.props.description || ""}
-                />
+                <AppText>{this.props.name}</AppText>
             </View>
         );
     }
@@ -93,13 +58,7 @@ export default class NotificationCard extends Component {
     renderDate() {
         return (
             <View style={styles.date}>
-                <Highlighter
-                    numberOfLines={1}
-                    highlightStyle={styles.highlightStyle}
-                    style={[styles.dateText, styleFont.textFont]}
-                    searchWords={this.props.searchWords}
-                    textToHighlight={this.props.day || ""}
-                />
+                <AppText>{this.props.day}</AppText>
             </View>
         );
     }
@@ -108,34 +67,16 @@ export default class NotificationCard extends Component {
         return (
             <View style={styles.location}>
                 <View style={{flex: 3}}>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        style={[
-                            styles.locationText,
-                            styleFont.textFont,
-                        ]}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={this.props.location || ""}
-                    />
+                    <AppText>{this.props.location}</AppText>
                 </View>
                 <View style={{flex: 1}}>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        style={[
-                            styles.dateText,
-                            styleFont.textFont,
-                        ]}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={"à " + this.props.time || ""}
-                    />
+                    <AppText>à {this.props.time}</AppText>
                 </View>
             </View>
         );
     }
 
-    _showNotationPopup() {
+    _showNotationPopup=()=> {
         this.props.navigator.showLightBox({
             screen: "notation.popup",
             title: "Multi popup",
@@ -146,7 +87,9 @@ export default class NotificationCard extends Component {
             passProps: {
                 eventName: this.props.name,
                 location: this.props.location,
-                date: this.props.date,
+                day: this.props.day,
+                time: this.props.time,
+                navigator: this.props.navigator,
             },
         });
     }
@@ -165,12 +108,14 @@ const styles = StyleSheet.create({
         height: 100,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
+        marginTop: 10,
     },
     eventInfo: {
         flex: 100,
         flexDirection: "column",
         justifyContent: "space-between",
         paddingLeft: 10,
+
     },
     firstRow: {
         flex: 3,

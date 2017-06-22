@@ -40,7 +40,8 @@ export const fetchReviewedEvents = (userId) => {
                 },
 
             });
-            let events = await response.json();
+            let events = JSON.stringify(await response.json());
+
             dispatch(receiveReviewedEvents(events));
         } catch (error) {
             console.log("db::getReviewedEvents " + error);
@@ -56,7 +57,7 @@ const receiveReviewedEvents = (events) => ({
     events,
 });
 const requestReviewedEvents = () => ({
-    type: types.REQUEST_EVENTS,
+    type: types.REQUEST_EVENTS_REVIEWED,
 });
 
 const receiveEventsExpired = (events) => ({
