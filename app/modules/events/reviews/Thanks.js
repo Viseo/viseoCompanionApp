@@ -41,7 +41,7 @@ export default class Thanks extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#ede3f2',
-        padding: 10,
+        padding: 20,
         width: '100%',
         height: '60%',
         marginTop: 100,
