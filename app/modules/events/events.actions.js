@@ -44,19 +44,14 @@ const receiveEvents = (events) => ({
 
 export const REGISTER_USER = 'REGISTER_USER';
 export const registerUser = (event, userId) => {
-    let eventId = event.id;
     return async (dispatch) => {
         PushController.scheduleEventNotifications(event);
         try {
-            let event = db.events.addParticipant(eventId, userId);
-            console.warn('event participant added ' + event.version);
-            //todo handle the received event
-            if (event) {
-                dispatch({
-                    type: REGISTER_USER,
-                    event,
-                });
-            }
+            const updatedEvent = await db.events.addParticipant(event.id, userId);
+            dispatch({
+                type: UPDATE_EVENT,
+                event: updatedEvent,
+            });
         } catch (error) {
             console.warn('ActionCreators/events::registerUser ' + error);
         }
@@ -65,19 +60,14 @@ export const registerUser = (event, userId) => {
 
 export const UNREGISTER_USER = 'UNREGISTER_USER';
 export const unregisterUser = (event, userId) => {
-    let eventId = event.id;
     return async (dispatch) => {
         PushController.unscheduleEventNotifications(event);
         try {
-            let event = await db.events.removeParticipant(eventId, userId);
-            //todo handle the received event
-            if (event) {
-                dispatch({
-                    type: UNREGISTER_USER,
-                    eventId,
-                    userId,
-                });
-            }
+            const updatedEvent = await db.events.removeParticipant(event.id, userId);
+            dispatch({
+                type: UPDATE_EVENT,
+                event: updatedEvent,
+            });
         } catch (error) {
             console.warn('ActionCreators/events::unregisterUser ' + error);
         }

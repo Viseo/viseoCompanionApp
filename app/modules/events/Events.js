@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
-import VisibleEventList from './VisibleEvents';
+import EventList from './EventList.container';
 import SearchBar from './../../components/SearchBar';
 import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../../modules/global/colors';
@@ -8,10 +8,6 @@ import PushController from '../global/pushController';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 export default class Events extends Component {
-
-    static defaultProps = {
-        user: {id: 1},
-    };
 
     constructor(props) {
         super(props);
@@ -29,7 +25,7 @@ export default class Events extends Component {
                         <ItemSpacer/>
                     </View>
                 </View>
-                <VisibleEventList style={{flex: 22}} navigator={this.props.navigator}/>
+                <EventList style={{flex: 22}} navigator={this.props.navigator}/>
             </View>
         );
     }

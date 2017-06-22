@@ -1,4 +1,4 @@
-import {types} from '../actionCreators/events.depreciated';
+import {types} from '../../actionCreators/events.depreciated';
 import {
     ADD_EVENT,
     FETCH_EVENTS_FAILED,
@@ -7,14 +7,23 @@ import {
     REQUEST_EVENTS,
     UNREGISTER_USER,
     UPDATE_EVENT,
-} from '../modules/events/event.actions';
+} from './events.actions';
 
 function formatEvent(event) {
     return {
         ...event,
-        date: event.datetime,
+        category: parseInt(event.category),
+        datetime: parseInt(event.datetime),
+        id: parseInt(event.id),
+        version: parseInt(event.version),
+        host: {
+            ...event.host,
+            id: parseInt(event.host.id),
+            version: parseInt(event.host.version),
+        },
     };
 }
+
 const events = (state = {
     isFetching: false,
     didInvalidate: false,
@@ -39,12 +48,13 @@ const events = (state = {
                 didInvalidate: true,
             });
         case RECEIVE_EVENTS:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 isFetching: false,
                 didInvalidate: false,
                 items: action.events.map(event => formatEvent(event)),
                 lastUpdated: action.receivedAt,
-            });
+            };
         case types.RECEIVE_EVENTS_EXPIRED:
             return Object.assign({}, state, {
                 isFetching: false,
@@ -120,25 +130,14 @@ const events = (state = {
             });
         }
         case UPDATE_EVENT:
-            return Object.assign({}, state, {
-                items: state.items.map(item => {
-                    return item.id === action.event.id ?
+            return {
+                ...state,
+                items: state.items.map(event => {
+                    return parseInt(event.id) === parseInt(action.event.id) ?
                         action.event :
-                        formatEvent(item);
+                        event;
                 }),
-            });
-
-        case types.UPDATE_EVENT_PARTICIPANTS:
-            return Object.assign({}, state, {
-                items: state.items.map(item => {
-                    return item.id === action.id ?
-                        {
-                            ...item,
-                            participants: action.participants,
-                        } :
-                        item;
-                }),
-            });
+            };
         default:
             return state;
     }

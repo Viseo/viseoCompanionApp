@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Swipeout from 'react-native-swipe-out';
 import strings from '../global/localizedStrings';
 import Highlighter from 'react-native-highlight-words';
@@ -8,16 +8,30 @@ import colors from '../global/colors';
 import AppText from '../global/components/AppText';
 import moment from 'moment';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import PropTypes from 'prop-types';
+import {bindActionCreators} from 'redux';
+import {registerUser, unregisterUser} from './events.actions';
+import {connect} from 'react-redux';
 
-export default class EventCard extends Component {
+class EventCard extends Component {
+
+    state = {
+        isParticipating: this._isCurrentUserParticipating(this.props.event),
+    };
 
     constructor(props) {
         super(props);
     }
 
+    componentWillReceiveProps({event}) {
+        this.setState({
+            isParticipating: this._isCurrentUserParticipating(event),
+        });
+    }
+
     getSwipeOption = () => {
-        let textOption = this.props.participating ? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
-        let icon = this.props.participating ? require('../../images/crossWhite.png') : require('../../images/checkWhite.png');
+        let textOption = this.state.isParticipating ? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
+        let icon = this.state.isParticipating ? require('../../images/crossWhite.png') : require('../../images/checkWhite.png');
         return [{
             component: <View className="participate" style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={icon} style={{width: 33, height: 33}}/>
@@ -27,10 +41,10 @@ export default class EventCard extends Component {
             </View>,
             onPress: () => {
                 setTimeout(() => {
-                    this.props.onParticipationChange();
+                    this._onParticipationChange();
                 }, 300);
             },
-            backgroundColor: this.props.participating ? '#ff6d6d' : colors.blue,
+            backgroundColor: this.state.isParticipating ? '#ff6d6d' : colors.blue,
             color: 'white',
         }];
     };
@@ -75,7 +89,7 @@ export default class EventCard extends Component {
 
     renderTypeIndicator() {
         return (
-            <View style={[styles.eventType, {backgroundColor: util.getCategoryColor(this.props.category)}]}/>
+            <View style={[styles.eventType, {backgroundColor: util.getCategoryColor(this.props.event.category)}]}/>
         );
     }
 
@@ -84,7 +98,7 @@ export default class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor: (this.props.participating) ? colors.lightBlue : 'white'},
+                    {backgroundColor: (this.state.isParticipating) ? colors.lightBlue : 'white'},
                 ]}/>
             </View>
         );
@@ -125,7 +139,7 @@ export default class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.nameText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.name || ''}
+                    textToHighlight={this.props.event.name || ''}
                 />
             </View>
         );
@@ -139,13 +153,15 @@ export default class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.descriptionText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.description || ''}
+                    textToHighlight={this.props.event.description || ''}
                 />
             </View>
         );
     }
 
     renderDate() {
+        const day = moment(this.props.event.datetime)
+            .format('ddd');
         return (
             <View style={styles.date}>
                 <Highlighter
@@ -153,13 +169,15 @@ export default class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.dateText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.day || ''}
+                    textToHighlight={day}
                 />
             </View>
         );
     }
 
     renderLocation() {
+        const time = moment(this.props.event.datetime)
+            .format('[à] hh[h] mm');
         return (
             <View style={styles.location}>
                 <View style={{flex: 3}}>
@@ -171,7 +189,7 @@ export default class EventCard extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={this.props.location || ''}
+                        textToHighlight={this.props.event.location || ''}
                     />
                 </View>
                 <View style={{flex: 1}}>
@@ -183,7 +201,7 @@ export default class EventCard extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={'à ' + this.props.time || ''}
+                        textToHighlight={time}
                     />
                 </View>
             </View>
@@ -199,8 +217,17 @@ export default class EventCard extends Component {
         }
     }
 
+    _onParticipationChange() {
+        const {isParticipating} = this.state;
+        const {event, user} = this.props;
+        isParticipating ?
+            this.props.unregisterUser(event, user.id) :
+            this.props.registerUser(event, user.id);
+        this.setState({isParticipating: !isParticipating});
+    }
+
     _showEventDetails() {
-        const canEdit = this.props.host && this.props.user.id === this.props.host.id;
+        const canEdit = parseInt(this.props.event.host.id) === parseInt(this.props.user.id);
         const navigatorButtons = canEdit ?
             {
                 rightButtons: [
@@ -211,30 +238,12 @@ export default class EventCard extends Component {
                 ],
             } :
             {};
-        const host = this.props.host ||
-            {
-                id: 0,
-                firstName: 'Admin',
-                lastName: '',
-            };
         this.props.navigator.push({
             title: 'Détails de l\'évènement',
             screen: 'events.event',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
-                host,
-                id: this.props.id,
-                location: this.props.location,
-                name: this.props.name,
-                numberOfParticipants: this.props.participants.length,
-                description: this.props.description,
-                imageUrl: this.props.imageUrl,
-                day: this.props.day,
-                time: this.props.time,
-                onParticipationChange: this.props.onParticipationChange,
-                participating: this.props.participating,
-                category: this.props.category,
-                user: this.user,
+                eventId: this.props.eventId,
             },
             navigatorButtons,
         });
@@ -242,28 +251,54 @@ export default class EventCard extends Component {
 
     _showLiveEvent() {
         this.props.navigator.push({
-            title: this.props.name + ' - LIVE',
+            title: this.props.event.name + ' - LIVE',
             screen: 'events.liveEvent',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
-                eventId: this.props.id,
-                name: this.props.name,
-                numberOfParticipants: this.props.participants.length,
+                eventId: this.props.eventId,
             },
         });
     }
 
     _isLive() {
-        const startDate = moment(this.props.date);
-        const endDate = moment(startDate).add(2, 'hours');
+        const startDate = moment(this.props.event.datetime);
+        const endDate = moment(this.props.event.datetime).add(2, 'hours');
         return moment().isBetween(startDate, endDate);
+    }
+
+    _isCurrentUserParticipating(event) {
+        return event.participants.findIndex(participant =>
+                parseInt(participant.id) === parseInt(this.props.user.id),
+            ) !== -1;
     }
 }
 
-let {
-    height: deviceHeight,
-    width: deviceWidth,
-} = Dimensions.get('window');
+EventCard.propTypes = {
+    eventId: PropTypes.number.isRequired,
+    event: PropTypes.object.isRequired,
+    registerUser: PropTypes.func.isRequired,
+    unregisterUser: PropTypes.func.isRequired,
+    navigator: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = ({events, user, searchWords}, ownProps) => ({
+    event: events.items.find(event => parseInt(event.id) === ownProps.eventId),
+    searchWords,
+    user,
+    ...ownProps,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        registerUser,
+        unregisterUser,
+    }, dispatch);
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(EventCard);
 
 const styles = StyleSheet.create({
     card: {

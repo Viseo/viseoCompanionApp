@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import EventList from './EventList';
 import moment from 'moment';
-import {fetchEvents, registerUser, unregisterUser} from './event.actions';
+import {fetchEvents, registerUser, unregisterUser} from './events.actions';
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
@@ -48,7 +48,8 @@ const getSearchedEvents = (events, searchWords) => {
 
 const addParticipationInfo = (events, userId) => {
     return events.map(event => {
-        event.participating = event.participants.findIndex(user => user.id === userId) !== -1;
+        event.participating = event.participants.findIndex(user =>
+            parseInt(user.id) === parseInt(userId)) !== -1;
         return event;
     });
 };
@@ -92,7 +93,6 @@ const mapStateToProps = (state, ownProps) => ({
     ),
     refreshing: state.events.isFetching,
     searchWords: state.searchWords,
-    loading: state.loading,
     user: state.user,
     ...ownProps,
 });
@@ -100,18 +100,12 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         refresh: fetchEvents,
-        toggleParticipation: (event, user) => {
-            event.participating ?
-                unregisterUser(event, user.id) :
-                registerUser(event, user.id);
-        },
-
+        registerUser,
+        unregisterUser,
     }, dispatch);
 };
 
-const VisibleEventList = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(EventList);
-
-export default VisibleEventList;

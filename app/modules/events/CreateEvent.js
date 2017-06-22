@@ -4,7 +4,7 @@ import EventForm from './EventForm';
 import {showInvalidFormPopup} from '../global/navigationUtil';
 import moment from 'moment';
 import {bindActionCreators} from 'redux';
-import {addEvent, fetchEvents} from './event.actions';
+import {addEvent, fetchEvents} from './events.actions';
 
 class CreateEvent extends Component {
 
