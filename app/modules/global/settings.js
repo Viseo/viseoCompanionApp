@@ -69,6 +69,9 @@ const restRoutes = {
     removeEvent: eventId => {
         return serverURL + 'events/' + eventId;
     },
+    getReviewedEvents: userId => {
+        return serverURL + 'reviews/' + userId;
+    },
 };
 
 /////////// EXPORTED SETTINGS ////////////////

@@ -16,6 +16,7 @@ export default {
         isFetching: false,
         items: [],
         itemsExpired: [],
+        itemsReviewed:[]
     },
     filters: [],
     live: {

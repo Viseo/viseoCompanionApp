@@ -1,11 +1,13 @@
-import settings from '../modules/global/settings';
-import moment from 'moment';
+import settings from "../modules/global/settings";
+import moment from "moment";
 
 export const types = {
-    GET_EVENT_EXPIRE: 'GET_EVENT_EXPIRE',
-    REQUEST_EVENTS_EXPIRED: 'REQUEST_EVENTS_EXPIRED',
-    RECEIVE_EVENTS_EXPIRED: 'RECEIVE_EVENTS_EXPIRED',
-    REMOVE_EVENT: 'REMOVE_EVENT',
+    GET_EVENT_EXPIRE: "GET_EVENT_EXPIRE",
+    REQUEST_EVENTS_EXPIRED: "REQUEST_EVENTS_EXPIRED",
+    RECEIVE_EVENTS_EXPIRED: "RECEIVE_EVENTS_EXPIRED",
+    REMOVE_EVENT: "REMOVE_EVENT",
+    RECEIVE_EVENTS_REVIEWED:"RECEIVE_EVENTS_REVIEWED",
+    REQUEST_EVENTS_REVIEWED:"REQUEST_EVENTS_REVIEWED"
 };
 
 export const fetchEventsExp = (user) => {
@@ -17,7 +19,7 @@ export const fetchEventsExp = (user) => {
             let events = await eventsResponse.json();
             dispatch(receiveEventsExpired(events));
         } catch (error) {
-            console.warn('ActionCreators/events::fetchEventsExp' + error);
+            console.warn("ActionCreators/events::fetchEventsExp" + error);
             dispatch({
                 type: types.FETCH_EVENTS_FAILED,
                 error,
@@ -26,6 +28,36 @@ export const fetchEventsExp = (user) => {
 
     };
 };
+
+export const fetchReviewedEvents = (userId) => {
+    return async (dispatch) => {
+        dispatch(requestReviewedEvents());
+        try {
+            let response = await fetch(settings.api.getReviewedEvents(userId), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+
+            });
+            let events = await response.json();
+            dispatch(receiveReviewedEvents(events));
+        } catch (error) {
+            console.log("db::getReviewedEvents " + error);
+            dispatch({
+                type: types.FETCH_EVENTS_FAILED,
+                error,
+            });
+        }
+    };
+};
+const receiveReviewedEvents = (events) => ({
+    type: types.RECEIVE_EVENTS_REVIEWED,
+    events,
+});
+const requestReviewedEvents = () => ({
+    type: types.REQUEST_EVENTS,
+});
 
 const receiveEventsExpired = (events) => ({
     type: types.RECEIVE_EVENTS_EXPIRED,

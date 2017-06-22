@@ -1,19 +1,11 @@
+import React, {Component} from "react";
+import {Button, Dimensions, Platform, StyleSheet, TouchableOpacity, View} from "react-native";
+import Highlighter from "react-native-highlight-words";
+import * as util from "../../util/util";
+import colors from "../../modules/global/colors";
 
-import React, {Component} from 'react';
-import {Button, Dimensions, Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
-import Highlighter from 'react-native-highlight-words';
-import * as util from '../../util/util';
-import colors from '../../modules/global/colors';
-
-export default class  NotificationCard extends Component {
-    static defaultProps = {
-        name: '',
-        description: '',
-        location: '',
-        date: '',
-        categoryId: '',
-
-    };
+export default class NotificationCard extends Component {
+    static defaultProps = {};
 
     constructor(props) {
         super(props);
@@ -23,22 +15,12 @@ export default class  NotificationCard extends Component {
 
         return (
             <View>
-                    <Button
-                        title="Redirect"
-                        onPress={this._showNotationPopup(NotificationCard)}
-                        icon= '../../images/check.png'
-                        iconColor= white
-                        />
-
                 <TouchableOpacity
                     style={styles.card}
                     onPress={this.props.onPress}
                 >
-
-                    {this.renderTypeIndicator()}
                     {this.renderEventInfo()}
                 </TouchableOpacity>
-
             </View>
         );
     }
@@ -48,20 +30,12 @@ export default class  NotificationCard extends Component {
             <View
                 style={{
                     flex: 1,
-                    alignSelf: 'stretch',
+                    alignSelf: "stretch",
                 }}
             >
             </View>
         );
     }
-
-    renderTypeIndicator() {
-        return (
-            <View style={[styles.eventType, {backgroundColor: util.getCategoryColor(this.props.categoryId)}]}/>
-        );
-    }
-
-
 
     renderEventInfo() {
         return (
@@ -75,6 +49,15 @@ export default class  NotificationCard extends Component {
                     {this.renderLocation()}
                     {this.renderDescription()}
                 </View>
+                <View>
+                    <Button
+                        title="Redirect"
+                        onPress={this._showNotationPopup(NotificationCard)}
+                        icon='../../images/check.png'
+                        iconColor='#ffffff'
+                        style={{width: 20, height: 20}}
+                    />
+                </View>
                 {this.renderSpacer()}
             </View>
         );
@@ -87,7 +70,7 @@ export default class  NotificationCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.nameText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.name || ''}
+                    textToHighlight={this.props.name || ""}
                 />
             </View>
         );
@@ -101,7 +84,7 @@ export default class  NotificationCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.descriptionText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.description || ''}
+                    textToHighlight={this.props.description || ""}
                 />
             </View>
         );
@@ -115,7 +98,7 @@ export default class  NotificationCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.dateText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.day || ''}
+                    textToHighlight={this.props.day || ""}
                 />
             </View>
         );
@@ -133,7 +116,7 @@ export default class  NotificationCard extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={this.props.location || ''}
+                        textToHighlight={this.props.location || ""}
                     />
                 </View>
                 <View style={{flex: 1}}>
@@ -145,7 +128,7 @@ export default class  NotificationCard extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={'à ' + this.props.time || ''}
+                        textToHighlight={"à " + this.props.time || ""}
                     />
                 </View>
             </View>
@@ -154,11 +137,11 @@ export default class  NotificationCard extends Component {
 
     _showNotationPopup() {
         this.props.navigator.showLightBox({
-            screen: 'notation.popup',
-            title: 'Multi popup',
+            screen: "notation.popup",
+            title: "Multi popup",
             style: {
-                backgroundBlur: 'dark',
-                backgroundColor: '#135caa70',
+                backgroundBlur: "dark",
+                backgroundColor: "#135caa70",
             },
             passProps: {
                 eventName: this.props.name,
@@ -167,93 +150,85 @@ export default class  NotificationCard extends Component {
             },
         });
     }
-}
-
-
+};
 
 let {
     height: deviceHeight,
     width: deviceWidth,
-} = Dimensions.get('window');
+} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     card: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        backgroundColor: 'white',
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        backgroundColor: "white",
         height: 100,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
     },
     eventInfo: {
         flex: 100,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        flexDirection: "column",
+        justifyContent: "space-between",
         paddingLeft: 10,
-        // borderBottomWidth: 0.5,
-        // borderBottomColor: '#999999',
-        // borderTopWidth: 0.5,
-        // borderTopColor: '#999999',
     },
     firstRow: {
         flex: 3,
-        flexDirection: 'row',
+        flexDirection: "row",
         paddingRight: 10,
     },
     secondRow: {
         flex: 6,
-        flexDirection: 'column',
+        flexDirection: "column",
         paddingRight: 10,
     },
     name: {
         flex: 6,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     nameText: {
-        fontWeight: 'bold',
-        textAlign: 'left',
+        fontWeight: "bold",
+        textAlign: "left",
         fontSize: 16,
-        color: 'black',
+        color: "black",
     },
     date: {
         flex: 3,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     dateText: {
-        textAlign: 'right',
-        fontWeight: '100',
+        textAlign: "right",
+        fontWeight: "100",
         color: colors.mediumGray,
         fontSize: 14,
     },
     description: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: "center",
         paddingRight: 5,
     },
     descriptionText: {
-        textAlign: 'left',
-        fontWeight: '100',
+        textAlign: "left",
+        fontWeight: "100",
         fontSize: 14,
-        overflow: 'hidden',
-        // fontSize: deviceWidth * 0.045,
+        overflow: "hidden",
         color: colors.mediumGray,
-        // textAlignVertical: 'bottom',
     },
     location: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+        flexDirection: "row",
+        justifyContent: "flex-start",
     },
     locationText: {
-        textAlign: 'left',
-        fontWeight: '300',
-        color: '#8c8c8c',
+        textAlign: "left",
+        fontWeight: "300",
+        color: "#8c8c8c",
         fontSize: 14,
     },
     dotContainer: {
         flex: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
     },
     dot: {
         width: 10,
@@ -262,19 +237,19 @@ const styles = StyleSheet.create({
     },
     firstColumn: {
         flex: 3,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        flexDirection: "column",
+        justifyContent: "space-between",
     },
     secondColumn: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
+        flexDirection: "column",
+        justifyContent: "space-around",
     },
     eventType: {
         width: 3,
         flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#ef4954',
+        alignSelf: "stretch",
+        backgroundColor: "#ef4954",
     },
 
     highlightStyle: {
@@ -284,7 +259,7 @@ const styles = StyleSheet.create({
 
 const styleFont = StyleSheet.create({
     textFont: {
-        fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
+        fontFamily: (Platform.OS === "ios") ? "Avenir" : "Roboto",
     },
 });
 
