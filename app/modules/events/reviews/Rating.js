@@ -7,15 +7,18 @@ import {
 import moment from 'moment';
 import AppText from '../../global/components/AppText';
 import {dismissLightBox} from '../../global/navigationUtil';
+import {Circle} from 'react-native-svg';
 
 export default class Rating extends Component {
 
+    defaultRating = 50;
+    defaultRatingAngle = this.defaultRating * 2 * Math.PI / 100;
     state = {
         startAngle: 0,
-        angleLength: 0,
-        rating: 0,
+        angleLength: this.defaultRatingAngle,
+        rating: this.defaultRating,
         notation: {},
-        color: '#ffffff',
+        color: this._getColor(this.defaultRating),
     };
 
     render() {
@@ -27,16 +30,19 @@ export default class Rating extends Component {
                     justifyContent: 'space-between',
                 }}>
                     <AppText style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}> Donnez votre avis</AppText>
-                    <AppText style={{marginBottom: 10,alignSelf:"center"}}>{this.props.eventName}</AppText>
+                    <AppText style={{marginBottom: 10, alignSelf: 'center'}}>{this.props.eventName}</AppText>
                 </View>
 
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    display: 'flex',alignItems:"stretch"
+                    display: 'flex', alignItems: 'stretch',
                 }}>
-                    <View style={{alignSelf:"flex-start",marginRight:150}}><AppText>{this.props.location}</AppText></View>
-                    <View style={{alignSelf:"flex-end"}}><AppText>{date} à {time}</AppText></View>
+                    <View style={{
+                        alignSelf: 'flex-start',
+                        marginRight: 150,
+                    }}><AppText>{this.props.location}</AppText></View>
+                    <View style={{alignSelf: 'flex-end'}}><AppText>{date} à {time}</AppText></View>
 
                 </View>
                 <AppText style={{
@@ -61,6 +67,22 @@ export default class Rating extends Component {
                         color: this._getColor(this.state.rating),
                     })}
                     bgCircleColor="#ffffff"
+                    startIcon={
+                        <Circle
+                            r={10}
+                            fill={this._getColor(this.state.rating)}
+                            stroke={this._getColor(this.state.rating)}
+                            strokeWidth="0"
+                        />
+                    }
+                    stopIcon={
+                        <Circle
+                            r={10}
+                            fill={'transparent'}
+                            stroke={'gray'}
+                            strokeWidth="2"
+                        />
+                    }
                 />
                 <View style={{
                     flexDirection: 'row', marginTop: 10,
@@ -73,13 +95,13 @@ export default class Rating extends Component {
                             onPress={dismissLightBox}
                         />
                     </View>
-                    <Views>
+                    <View>
                         <Button
                             title="Envoyer"
                             style={{backgroundColor: '#C41F06'}}
                             onPress={() => this.props.sendReview(this.state.rating)}
                         />
-                    </Views>
+                    </View>
                 </View>
             </View>
 
