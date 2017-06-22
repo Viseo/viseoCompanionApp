@@ -32,7 +32,6 @@ export default class Rating extends Component {
                     <AppText style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}> Donnez votre avis</AppText>
                     <AppText style={{marginBottom: 10, alignSelf: 'center'}}>{this.props.eventName}</AppText>
                 </View>
-
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -85,23 +84,20 @@ export default class Rating extends Component {
                     }
                 />
                 <View style={{
-                    flexDirection: 'row', marginTop: 10,
+                    flexDirection: 'row', marginTop: 20,
                     justifyContent: 'space-between',
                     display: 'flex',
                 }}>
-                    <View>
-                        <Button
-                            title="Plus tard"
-                            onPress={dismissLightBox}
-                        />
-                    </View>
-                    <View>
-                        <Button
-                            title="Envoyer"
-                            style={{backgroundColor: '#C41F06'}}
-                            onPress={() => this.props.sendReview(this.state.rating)}
-                        />
-                    </View>
+                    <Button
+                        title="Plus tard"
+                        onPress={dismissLightBox}
+                    />
+                    <View style={{width:100}}/>
+                    <Button
+                        title="Envoyer"
+                        style={{backgroundColor: '#C41F06'}}
+                        onPress={() => this.props.sendReview(this.state.rating)}
+                    />
                 </View>
             </View>
 

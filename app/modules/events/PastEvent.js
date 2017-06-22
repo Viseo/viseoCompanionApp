@@ -164,7 +164,7 @@ class PastEvent extends Component {
     }
 
     renderEventDateAndParticipants() {
-        let [day, time] = this.formatDate(this.props.date);
+        let [day, time] = this.formatDate(this.props.datetime);
         const countParticipants =
             <View style={styles.participationInfoItem}>
                 <AppText style={styles.participationInfoContainer}>
@@ -255,7 +255,7 @@ class PastEvent extends Component {
             passProps: {
                 eventName: this.props.name,
                 location: this.props.location,
-                date: this.props.date,
+                date: this.props.datetime,
             },
         });
     }
@@ -265,7 +265,7 @@ PastEvent.propTypes = {
     name: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    date: PropTypes.number.isRequired,
+    datetime: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     participants: PropTypes.number.isRequired,
     hostFirstName: PropTypes.string.isRequired,

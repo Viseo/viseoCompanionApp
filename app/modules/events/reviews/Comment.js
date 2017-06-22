@@ -58,5 +58,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#ede3f2',
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height * 0.6,
+        padding:20,
     },
 });
