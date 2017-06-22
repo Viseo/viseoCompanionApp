@@ -22,7 +22,7 @@ export default class Rating extends Component {
     };
 
     render() {
-        const [date, time] = this._formatDate(this.props.date);
+
         return (
             <View style={styles.container}>
                 <View style={{
@@ -41,7 +41,7 @@ export default class Rating extends Component {
                         alignSelf: 'flex-start',
                         marginRight: 150,
                     }}><AppText>{this.props.location}</AppText></View>
-                    <View style={{alignSelf: 'flex-end'}}><AppText>{date} à {time}</AppText></View>
+                    <View style={{alignSelf: 'flex-end'}}><AppText>{this.props.date}</AppText></View>
 
                 </View>
                 <AppText style={{

@@ -77,6 +77,7 @@ export default class NotificationCard extends Component {
     }
 
     _showNotationPopup=()=> {
+       const date=this.props.day+ " à "+this.props.time;
         this.props.navigator.showLightBox({
             screen: "notation.popup",
             title: "Multi popup",
@@ -87,8 +88,9 @@ export default class NotificationCard extends Component {
             passProps: {
                 eventName: this.props.name,
                 location: this.props.location,
-                day: this.props.day,
-                time: this.props.time,
+                date:date,
+                eventId:this.props.eventId,
+                userId:this.props.userId,
                 navigator: this.props.navigator,
             },
         });

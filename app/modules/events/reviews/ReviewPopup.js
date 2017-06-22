@@ -75,11 +75,12 @@ export default class ReviewPopup extends Component {
     async _sendReview() {
         ///  todo send review to server (with no hardcoded values)
         const review = {
-            'userId': '2',
-            'eventId': '1',
-            'rating': this.state.rating,
-            'comment': this.state.comment,
+            eventId:this.props.eventId,
+            userId:this.props.userId,
+            rating: this.state.rating,
+            comment: this.state.comment,
         };
+
         await db.events.sendReview(review);
         dismissLightBox();
     }
@@ -90,10 +91,10 @@ export default class ReviewPopup extends Component {
             comment,
         });
         const review = {
-            'userId': '2',
-            'eventId': '1',
-            'rating': this.state.rating,
-            'comment': this.state.comment,
+            eventId:this.props.eventId,
+            userId:this.props.userId,
+            rating: this.state.rating,
+            comment: this.state.comment,
         };
         await db.events.updateReview(review);
     }
