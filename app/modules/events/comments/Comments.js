@@ -44,7 +44,7 @@ class Comments extends Component {
     }
 
     onNavigatorEvent(event) {
-        if (event.id === 'addComment' && this.props.participating) {
+        if (event.id === 'addComment') {
             this._goToAddComment();
         }
     }

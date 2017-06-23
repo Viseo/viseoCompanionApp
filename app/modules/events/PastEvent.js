@@ -236,7 +236,6 @@ class PastEvent extends Component {
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 eventId: this.props.eventId,
-                participating: this.props.participating,
             },
             navigatorButtons,
         });

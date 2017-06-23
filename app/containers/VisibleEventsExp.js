@@ -71,7 +71,7 @@ const getVisibleEventListExp = (events,
     let filteredEvents = getFilteredEvents(events, filters);
     events = filteredEvents.length > 0 ? filteredEvents : events;
     events = searchWords.length > 0 ? getSearchedEvents(events, searchWords) : events;
-    events = addParticipationInfo(events, user.id);
+    // events = addParticipationInfo(events, user.id);
     switch (visibilityFilter) {
         case 'SHOW_ALL':
             return events;
@@ -101,11 +101,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         refresh: fetchEventsExp,
-        toggleParticipation: (event, user) => {
-            return event.participating ?
-                unregisterUser(event, user.id) :
-                registerUser(event, user.id);
-        },
     }, dispatch);
 };
 
