@@ -102,6 +102,7 @@ export default class EventListExp extends Component {
                 location={event.location}
                 day={day}
                 time={time}
+                event={event}
                 participating={event.participating}
                 categoryId={event.category}
                 onPress={() => {
@@ -115,6 +116,7 @@ export default class EventListExp extends Component {
                             hostLastName: event.host ? event.host.lastName || '' : '',
                             participating: participating,
                             host: event.host,
+                            event,
                         },
                     });
                 }}

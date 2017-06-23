@@ -7,6 +7,7 @@ import {Dimensions, Platform, StyleSheet, TouchableOpacity, View} from 'react-na
 import Highlighter from 'react-native-highlight-words';
 import * as util from '../../util/util';
 import colors from '../../modules/global/colors';
+import moment from 'moment';
 
 export default class EventCardExp extends Component {
     static defaultProps = {
@@ -115,6 +116,8 @@ export default class EventCardExp extends Component {
     }
 
     renderDate() {
+        const day = moment(this.props.event.datetime)
+            .format('ddd');
         return (
             <View style={styles.date}>
                 <Highlighter
@@ -122,13 +125,15 @@ export default class EventCardExp extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.dateText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.day || ''}
+                    textToHighlight={day}
                 />
             </View>
         );
     }
 
     renderLocation() {
+        const time = moment(this.props.event.datetime)
+            .format('[à] hh[h] mm');
         return (
             <View style={styles.location}>
                 <View style={{flex: 3}}>
@@ -152,7 +157,7 @@ export default class EventCardExp extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={'à ' + this.props.time || ''}
+                        textToHighlight={time}
                     />
                 </View>
             </View>
