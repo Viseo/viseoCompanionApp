@@ -216,8 +216,6 @@ class PastEvent extends Component {
     onNavigatorEvent(event) {
         if (event.id === 'showComments') {
             this._goToComments();
-        } else if (event.id === 'showNotationModal') {
-            this._showNotationPopup();
         }
     }
 
@@ -244,21 +242,7 @@ class PastEvent extends Component {
         });
     }
 
-    _showNotationPopup() {
-        this.props.navigator.showLightBox({
-            screen: 'notation.popup',
-            title: 'Multi popup',
-            style: {
-                backgroundBlur: 'dark',
-                backgroundColor: '#135caa70',
-            },
-            passProps: {
-                eventName: this.props.name,
-                location: this.props.location,
-                date: this.props.datetime,
-            },
-        });
-    }
+
 }
 
 PastEvent.propTypes = {
@@ -279,11 +263,7 @@ PastEvent.navigatorButtons = {
             iconColor: 'white',
             id: 'showComments',
         },
-        {
-            icon: require('../../images/check.png'),
-            iconColor: 'white',
-            id: 'showNotationModal',
-        },
+
     ],
 };
 
