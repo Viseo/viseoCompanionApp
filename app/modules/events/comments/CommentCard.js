@@ -16,9 +16,10 @@ export default class CommentCard extends Component {
     }
 
     render() {
+        const cardStyle = this.props.fullSize ? styles.fullSizeCard : styles.mediumSizeCard;
         return (
             <View>
-                <TouchableOpacity style={[styles.card, this.props.style]}>
+                <TouchableOpacity style={[cardStyle, this.props.style]}>
                     <View style={{
                         flex: 1,
                         flexDirection: 'row',
@@ -51,8 +52,11 @@ export default class CommentCard extends Component {
     _renderParticipantDate() {
         const date =
             <View style={{flex: .5}}>
-                <Text style={{textAlign: 'right', alignSelf: 'flex-end', marginRight: 5}}>{this.props.day}
-                    à {this.props.time}</Text>
+                <Text style={{textAlign: 'right', alignSelf: 'flex-end', marginRight: 5}}>
+                    {this.props.day}
+                    {' à '}
+                    {this.props.time}
+                </Text>
             </View>;
         return (
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10, marginRight: 10}}>
@@ -68,9 +72,12 @@ export default class CommentCard extends Component {
 
     _renderUserAvatar() {
         const {writer} = this.props;
+        const containerSize = this.props.fullSize ? 0.32 : 0.25;
+        const size = this.props.fullSize ? 4 : 6;
         return (
-            <View style={{flex: 0.32}}>
+            <View style={{flex: containerSize}}>
                 <Avatar
+                    size={size}
                     lastName={writer.lastName}
                     firstName={writer.firstName}
                     style={{paddingTop: 10, paddingLeft: 5}}
@@ -265,6 +272,7 @@ export default class CommentCard extends Component {
 CommentCard.defaultProps = {
     style: {},
     allowReply: true,
+    fullSize: true,
 };
 
 CommentCard.propTypes = {
@@ -273,10 +281,11 @@ CommentCard.propTypes = {
     time: PropTypes.string.isRequired,
     userId: PropTypes.number.isRequired,
     writer: PropTypes.object.isRequired,
+    fullSize: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({
-    card: {
+    fullSizeCard: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         backgroundColor: 'rgb(255,255,255)',
@@ -285,6 +294,17 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
         marginTop: 10,
+    },
+    mediumSizeCard: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        backgroundColor: 'rgb(255,255,255)',
+        borderRadius: 8,
+        height: 120,
+        borderBottomWidth: 0.5,
+        borderColor: colors.blue,
+        marginTop: 10,
+        marginLeft: 15,
     },
     icon: {
         backgroundColor: 'rgb(255,255,255)',

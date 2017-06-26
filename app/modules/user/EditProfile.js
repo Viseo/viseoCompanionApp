@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import AppTextInput from '../global/components/AppTextInput';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import {bindActionCreators} from 'redux';
 import {updateUser} from './user.actions';
 import {signOut} from './authentication/authentication.actions';
 import {startLoader} from '../global/navigationLoader';
+import AppText from '../global/components/AppText';
 
 class EditProfile extends Component {
 
@@ -26,10 +27,12 @@ class EditProfile extends Component {
     render() {
         const firstName = this.renderFirstNameField();
         const lastName = this.renderLastNameField();
+        const email = this.renderEmailField();
         return (
             <ScrollView contentContainerStyle={styles.mainContainer}>
                 {firstName}
                 {lastName}
+                {email}
                 <PasswordInput onPasswordChange={password => this._setPassword(password)}/>
                 <PasswordCheckInput
                     password={this.state.user.password}
@@ -62,6 +65,19 @@ class EditProfile extends Component {
                     this._setLastName(lastName);
                 }}
             />
+        );
+    }
+
+    renderEmailField() {
+        return (
+            <View style={{marginBottom : -5}}>
+                <AppText style={{marginLeft: 1,marginTop: 15, fontSize: 12, color: '#A9A9A9'}}>
+                    Email
+                </AppText>
+                <AppText style={{marginLeft: 5}}>
+                    {this.state.user.email}
+                </AppText>
+            </View>
         );
     }
 

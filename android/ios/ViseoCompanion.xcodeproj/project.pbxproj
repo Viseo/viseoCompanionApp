@@ -27,6 +27,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		71D11A4CA45B425FB4FE57F1 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0BA10310284444599F7F8825 /* Ionicons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		8FC55C2E1EFA7A5200105FD8 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC55C2D1EFA7A2900105FD8 /* libReactNativeNavigation.a */; };
 		ABCE0CD5957D463DA6287AE2 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83E63129D242479DA420C38D /* MaterialIcons.ttf */; };
 		B3341B921E89654900378497 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3341B901E89654900378497 /* Fabric.framework */; };
 		B3341B931E89654900378497 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3341B911E89654900378497 /* Crashlytics.framework */; };
@@ -233,6 +234,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		8FC55C2C1EFA7A2900105FD8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FC55C281EFA7A2900105FD8 /* ReactNativeNavigation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
+			remoteInfo = ReactNativeNavigation;
+		};
 		B372B5A81EA6723800F8BC22 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 36460DB370AF41159C0013F6 /* RNFIRMessaging.xcodeproj */;
@@ -279,6 +287,7 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		83E63129D242479DA420C38D /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		8FC55C281EFA7A2900105FD8 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		B3341B901E89654900378497 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		B3341B911E89654900378497 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		B35EE6C21E893B2700112B71 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -311,6 +320,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FC55C2E1EFA7A5200105FD8 /* libReactNativeNavigation.a in Frameworks */,
 				B372B5B81EA755BC00F8BC22 /* FirebaseMessaging.framework in Frameworks */,
 				B372B5B91EA755BC00F8BC22 /* Protobuf.framework in Frameworks */,
 				B372B5B21EA755B200F8BC22 /* FirebaseAnalytics.framework in Frameworks */,
@@ -469,6 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
+				8FC55C281EFA7A2900105FD8 /* ReactNativeNavigation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -513,6 +524,14 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* ViseoCompanion.app */,
 				00E356EE1AD99517003FC87E /* ViseoCompanionTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8FC55C291EFA7A2900105FD8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8FC55C2D1EFA7A2900105FD8 /* libReactNativeNavigation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -621,7 +640,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = C35G5EW7P5;
+						DevelopmentTeam = NGDFBHZ2KP;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -692,6 +711,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 8FC55C291EFA7A2900105FD8 /* Products */;
+					ProjectRef = 8FC55C281EFA7A2900105FD8 /* ReactNativeNavigation.xcodeproj */;
 				},
 				{
 					ProductGroup = B372B58A1EA6723800F8BC22 /* Products */;
@@ -886,6 +909,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		8FC55C2D1EFA7A2900105FD8 /* libReactNativeNavigation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeNavigation.a;
+			remoteRef = 8FC55C2C1EFA7A2900105FD8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		B372B5A91EA6723800F8BC22 /* libRNFIRMessaging.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1067,12 +1097,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = C35G5EW7P5;
+				DEVELOPMENT_TEAM = NGDFBHZ2KP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				"HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/../node_modules/react-native-fcm/ios";
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
+				);
 				INFOPLIST_FILE = ViseoCompanion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1080,7 +1113,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.viseo.ViseoCompanion;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viseo.ViseoCompanionApp;
 				PRODUCT_NAME = ViseoCompanion;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1096,12 +1129,15 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C35G5EW7P5;
+				DEVELOPMENT_TEAM = NGDFBHZ2KP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				"HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/../node_modules/react-native-fcm/ios";
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
+				);
 				INFOPLIST_FILE = ViseoCompanion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1109,7 +1145,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.viseo.ViseoCompanion;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viseo.ViseoCompanionApp;
 				PRODUCT_NAME = ViseoCompanion;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

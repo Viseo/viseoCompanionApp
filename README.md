@@ -13,4 +13,11 @@ Projet Viseo Companion - ReactNative
 
 -> Start the emulator from he emulator, run it in AndroidStudio
 
+## NPM PACKAGE with deep configuration:
+
+  - react-native-fcm OK
+  - react-native-image-picker OK
+  - react-native-navigation OK
+  - react-native-vector-icons OK
+
 

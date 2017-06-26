@@ -61,9 +61,9 @@ export default class CreateChildComment extends Component {
 };
 
 CreateChildComment.propTypes = {
-    userId: PropTypes.string.isRequired,
-    eventId: PropTypes.string.isRequired,
-    commentId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
+    eventId: PropTypes.number.isRequired,
+    commentId: PropTypes.number.isRequired,
     refresh: PropTypes.func.isRequired,
 };
 

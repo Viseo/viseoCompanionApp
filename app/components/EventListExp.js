@@ -36,7 +36,7 @@ export default class EventListExp extends Component {
     }
 
     componentWillMount() {
-        this.props.refresh(this.props.user);
+        //this.props.refresh(this.props.user);
     }
 
     formatDate(date) {

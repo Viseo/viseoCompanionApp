@@ -169,4 +169,8 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
+//dependencies {
+  //  compile 'com.google.android.gms:play-services-ads:9.0.1'
+//}
+// ADD THIS AT THE BOTTOM
 apply plugin: 'com.google.gms.google-services'

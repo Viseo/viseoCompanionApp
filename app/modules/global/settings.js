@@ -61,7 +61,7 @@ const restRoutes = {
         return serverURL + 'resetPassword?email=' + email;
     },
     dislikeComment: (commentId, userId) => {
-        return serverURL + 'comments/' + commentId + '/like/' + userId;
+        return serverURL + 'comments/' + commentId + '/dislike/' + userId;
     },
     deleteComment: (commentId) => {
         return serverURL + 'comments/' + commentId;

@@ -12,8 +12,9 @@ export default class EventList extends Component {
     }
 
     componentWillMount() {
-        this.props.refresh(this.props.user);
+        //this.props.refresh(this.props.user);
     }
+
 
     render() {
         const eventList = (

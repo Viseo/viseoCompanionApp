@@ -117,6 +117,7 @@ class Comments extends Component {
                     likers={childComment.likers}
                     style={styles.childComment}
                     allowReply={false}
+                    fullSize={false}
                 />
             );
         });
@@ -220,14 +221,5 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: colors.blue,
         paddingHorizontal: 15,
-    },
-    childComment: {
-        borderRadius: 8,
-        height: 120,
-        width: 380,
-        borderBottomWidth: 0.5,
-        borderColor: colors.blue,
-        marginTop: 10,
-        marginLeft: 15,
     },
 });
