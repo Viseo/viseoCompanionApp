@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import EventList from './EventList.container';
 import SearchBar from './../../components/SearchBar';
 import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../../modules/global/colors';
 import PushController from '../global/pushController';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 export default class Events extends Component {
 
@@ -16,17 +17,22 @@ export default class Events extends Component {
 
     render() {
         return (
-            <View style={styles.mainContainer}>
-                <PushController/>
-                <View style={styles.body}>
-                    <View style={styles.searchBar}>
-                        <ItemSpacer/>
-                        <SearchBar style={{flex: 22}}/>
-                        <ItemSpacer/>
+            <ScrollableTabView>
+                <View tabLabel="Découvrir" style={styles.mainContainer}>
+                    <PushController/>
+                    <View style={styles.body}>
+                        <View style={styles.searchBar}>
+                            <ItemSpacer/>
+                            <SearchBar style={{flex: 22}}/>
+                            <ItemSpacer/>
+                        </View>
                     </View>
+                    <EventList style={{flex: 22}} navigator={this.props.navigator}/>
                 </View>
-                <EventList style={{flex: 22}} navigator={this.props.navigator}/>
-            </View>
+                <View tabLabel="Calendrier">
+                    <Text>Hello</Text>
+                </View>
+            </ScrollableTabView>
         );
     }
 
