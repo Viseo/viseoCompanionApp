@@ -11,7 +11,6 @@ class NewsFeed extends Component {
     }
 
     render() {
-        // console.warn(this.props.isReviewPopupDismissed);
         let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
         return (
             <View>
@@ -105,7 +104,7 @@ const mapStateToProps = ({events, user, review}) => ({
         user,
     ),
     user,
-    isReviewPopupDismissed : true,
+    isReviewPopupDismissed : review.isReviewPopupDismissed,
 });
 
 export default connect(
