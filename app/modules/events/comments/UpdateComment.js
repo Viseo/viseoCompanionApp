@@ -25,7 +25,7 @@ class UpdateComment extends Component {
                 onPress={() => this.modifyComment()}
             />;
         return (
-            <ScrollView contentContainerStyle={styles.mainContainer}>
+            <ScrollView contentContainerStyle={styles.mainContainer} style={{backgroundColor: 'white'}}>
                 <AppTextInput
                     label="Votre commentaire"
                     validator={(text) => this.isNonEmpty(text)}
