@@ -10,12 +10,6 @@ export default class EventList extends Component {
     constructor(props) {
         super(props);
     }
-
-    componentWillMount() {
-        //this.props.refresh(this.props.user);
-    }
-
-
     render() {
         const eventList = (
             <FlatList

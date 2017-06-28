@@ -34,11 +34,6 @@ export default class EventListExp extends Component {
             dataSource: this.state.dataSource.cloneWithRows(nextProps.events),
         });
     }
-
-    componentWillMount() {
-        //this.props.refresh(this.props.user);
-    }
-
     formatDate(date) {
         if (!date)
             return [];
