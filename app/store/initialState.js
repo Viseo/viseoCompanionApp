@@ -34,4 +34,7 @@ export default {
         otherProfile: '',
     },
     visibilityFilter: 'SHOW_ALL',
+    review:{
+        isReviewPopupDismissed : false
+    },
 };

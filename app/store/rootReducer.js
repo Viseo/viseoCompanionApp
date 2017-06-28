@@ -7,6 +7,7 @@ import searchWords from './../reducers/searchWords';
 import user from '../modules/user/user.reducer';
 import comments from '../modules/events/comments/comments.reducers';
 import live from './../modules/live/live.reducer';
+import review from './../modules/events/reviews/review.reducer';
 
 export default combineReducers({
     authentication,
@@ -17,4 +18,5 @@ export default combineReducers({
     visibilityFilter,
     user,
     comments,
+    review,
 });
