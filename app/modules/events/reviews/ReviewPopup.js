@@ -73,7 +73,6 @@ export default class ReviewPopup extends Component {
     }
 
     async _sendReview() {
-        ///  todo send review to server (with no hardcoded values)
         const review = {
             eventId:this.props.eventId,
             userId:this.props.userId,

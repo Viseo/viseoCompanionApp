@@ -15,12 +15,6 @@ class Notification extends Component {
         super(props);
 
     }
-
-    componentWillMount() {
-        this.props.refreshPastEvents(this.props.user);
-        this.props.refreshReviewedEvents(this.props.user.id);
-    }
-
     render() {
         const reviewList = (
             <FlatList
@@ -95,8 +89,8 @@ Notification.propTypes = {
 };
 
 const getParticipatingEventList = (events, eventsReviewed, user) => {
-    if (events && eventsReviewed) {
 
+    if (events && eventsReviewed) {
         let eventsByUser = events.filter((event) => {
             const filter = event.participants.filter((e) => {
                 return e.id === user.id;
@@ -104,12 +98,15 @@ const getParticipatingEventList = (events, eventsReviewed, user) => {
             return filter.length > 0;
         });
 
-        if (eventsByUser.length > 0 && eventsReviewed.length > 0) {
-
+       if (eventsByUser.length > 0 && eventsReviewed.length > 0) {
             let notReviewedEvents = eventsByUser.filter((item) => {
-                 return !eventsReviewed.includes( JSON.stringify(item) );
+                return !JSON.stringify(eventsReviewed).includes(JSON.stringify(item));
             });
             return notReviewedEvents;
+        }
+        else
+        {
+            return eventsByUser;
         }
     }
     return null;

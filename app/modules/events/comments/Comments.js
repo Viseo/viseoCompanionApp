@@ -1,25 +1,33 @@
-import React, {Component} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import colors from '../../global/colors';
-import {bindActionCreators} from 'redux';
-import {defaultNavBarStyle} from '../../global/navigatorStyle';
-import {getComments} from './comments.actions';
-import {connect} from 'react-redux';
-import AppText from '../../global/components/AppText';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import CommentCard from './CommentCard';
+import React, {Component} from "react";
+import {FlatList, StyleSheet, Text, View} from "react-native";
+import colors from "../../global/colors";
+import {bindActionCreators} from "redux";
+import {defaultNavBarStyle} from "../../global/navigatorStyle";
+import {getComments} from "./comments.actions";
+import {connect} from "react-redux";
+import AppText from "../../global/components/AppText";
+import Icon from "react-native-vector-icons/FontAwesome";
+import moment from "moment";
+import PropTypes from "prop-types";
+import CommentCard from "./CommentCard";
+import * as db from "../../global/db";
 
 class Comments extends Component {
+
+    state = {
+        rating: 0,
+        countReviews:0
+    };
 
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+
     }
 
     componentWillMount() {
-        this.props.refresh(this.props.eventId);
+       this.props.refresh(this.props.eventId);
+       this._getRatingAverage();
     }
 
     render() {
@@ -44,7 +52,7 @@ class Comments extends Component {
     }
 
     onNavigatorEvent(event) {
-        if (event.id === 'addComment') {
+        if (event.id === "addComment") {
             this._goToAddComment();
         }
     }
@@ -53,13 +61,13 @@ class Comments extends Component {
         if (!date)
             return [];
         let dateTime = moment(date);
-        return dateTime.calendar().split('/');
+        return dateTime.calendar().split("/");
     }
 
     _goToAddComment() {
         this.props.navigator.push({
-            screen: 'CreateComment',
-            title: 'Ajouter un commentaire',
+            screen: "CreateComment",
+            title: "Ajouter un commentaire",
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 eventId: this.props.eventId,
@@ -69,34 +77,54 @@ class Comments extends Component {
         });
     }
 
+    async _getRatingAverage() {
+
+        let ratingCountReviews = await db.events.getRatingAverage(this.props.eventId);
+        const [countReviews,rating]=ratingCountReviews;
+        this.setState({countReviews:parseInt(countReviews)});
+        this.setState({rating: rating});
+    }
+
     _renderAvis() {
+        const {rating,countReviews} = this.state;
         return (
-            <View style={{flexDirection: 'row', flex: 3}}>
+            <View style={{flexDirection: "row", flex: 3}}>
                 <Text style={{
-                    fontWeight: 'bold',
-                    textAlign: 'left',
+                    fontWeight: "bold",
+                    textAlign: "left",
                     fontSize: 16,
-                    color: 'white',
+                    color: "white",
                 }}>
-                    75%
+                    {rating} %
                 </Text>
                 <Icon name="star" style={{
-                    backgroundColor: 'transparent',
-                    textAlign: 'left',
+                    backgroundColor: "transparent",
+                    textAlign: "left",
                 }} size={20}
-                      color={colors.green}/>
+                      color={this._getColor(parseInt(rating))} />
                 <Text style={{
-                    fontWeight: 'bold',
-                    textAlign: 'left',
+                    fontWeight: "bold",
+                    textAlign: "left",
                     fontSize: 16,
-                    color: 'white',
+                    color: "white",
                 }}>
-                    (10 avis)
+                      ( {countReviews} Avis )
                 </Text>
             </View>
         );
     }
+    _getColor(val) {
+        let hsl = require('hsl-to-hex');
+        let hue = this._percentageToHsl(val / 100, 0, 120);
+        let saturation = 100;
+        let luminosity = 50;
+        return hsl(hue, saturation, luminosity);
+    }
 
+    _percentageToHsl(percentage, hue0, hue1) {
+        const hue = (percentage * (hue1 - hue0)) + hue0;
+        return hue;
+    }
     _renderCommentCard(comment) {
         const commentChildren = comment.childComments.map(childComment => {
             const [day, time] = this._formatDate(childComment.datetime);
@@ -149,12 +177,12 @@ class Comments extends Component {
             <View>
                 <AppText
                     style={{
-                        textAlign: 'center',
+                        textAlign: "center",
                         color: colors.mediumGray,
-                        backgroundColor: 'white',
+                        backgroundColor: "white",
                         height: 50,
                         borderRadius: 4,
-                        textAlignVertical: 'center',
+                        textAlignVertical: "center",
                         fontSize: 18,
                         marginTop: 10,
                     }}
@@ -167,7 +195,7 @@ class Comments extends Component {
 
     _renderEventInfo() {
         return (
-            <View style={{flexDirection: 'row', flex: 0.05, alignItems: 'stretch'}}>
+            <View style={{flexDirection: "row", flex: 0.05, alignItems: "stretch"}}>
                 {this._renderTitle()}
                 {this._renderAvis()}
             </View>
@@ -179,11 +207,11 @@ class Comments extends Component {
         return (
             <View style={{flex: 7}}>
                 <Text style={{
-                    fontWeight: 'bold',
-                    textAlign: 'left',
+                    fontWeight: "bold",
+                    textAlign: "left",
                     fontSize: 20,
 
-                    color: 'white',
+                    color: "white",
                 }}>
                     {event}
                 </Text>
@@ -218,7 +246,7 @@ export default connect(
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: "column",
         backgroundColor: colors.blue,
         paddingHorizontal: 15,
     },
