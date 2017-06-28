@@ -51,8 +51,12 @@ class EventCard extends Component {
 
     render() {
         let swipeOption = this.getSwipeOption();
+        let imageUrl = this.props.event.imageUrl ? this.props.event.imageUrl
+            :
+            'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
+
         return (
-            <View>
+            <View style={{ flex: 1,flexDirection: 'column'}}>
                 <Swipeout
                     className="swipeout"
                     style={{backgroundColor: 'white'}}
@@ -66,9 +70,18 @@ class EventCard extends Component {
                         style={styles.card}
                         onPress={() => this._goToEvent()}
                     >
-                        {this.renderParticipationIndicator()}
-                        {this.renderTypeIndicator()}
-                        {this.renderEventInfo()}
+                        <View style={{flex: .2}}>
+                            <Image
+                                source={{uri: imageUrl}}
+                                style={{width:900,height:900}}
+                            >
+                            </Image>
+                        </View>
+                        <View style={{flex: .8}}>
+                            {this.renderTypeIndicator()}
+                            {this.renderEventInfo()}
+                            {this.renderParticipationIndicator()}
+                        </View>
                     </TouchableOpacity>
                 </Swipeout>
             </View>

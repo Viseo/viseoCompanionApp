@@ -16,7 +16,7 @@ export default class Events extends Component {
         return (
             <ScrollableTabView>
                 <DiscoverTab tabLabel="discover" navigator={this.props.navigator}/>
-                <Calendar tabLabel="calendar"/>
+                <Calendar tabLabel="calendar" navigator={this.props.navigator}/>
                 <MyEvents tabLabel="myEvents"/>
             </ScrollableTabView>
         );
