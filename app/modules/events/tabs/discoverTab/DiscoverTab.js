@@ -7,6 +7,7 @@ import colors from '../../../global/colors';
 import PushController from '../../../global/pushController';
 import {connect} from 'react-redux';
 import EventCard from '../../EventCard';
+import AppText from '../../../global/components/AppText';
 
 class DiscoverTab extends Component {
 
@@ -39,6 +40,9 @@ class DiscoverTab extends Component {
                         navigator={this.props.navigator}
                     />
                 }
+                renderSectionHeader={({section}) => <AppText>{section.title}</AppText>}
+                SectionSeparatorComponent={() => <View style={{height:20}}/>}
+                keyExtractor={(item, index) => item.id}
                 sections={this.props.events}
             />
         );
