@@ -7,6 +7,8 @@ import colors from '../../modules/global/colors';
 import PushController from '../global/pushController';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+import Calendar from './tabs/CalendarTab';
+import MyEvents from './tabs/MyEventsTab';
 
 export default class Events extends Component {
 
@@ -17,7 +19,7 @@ export default class Events extends Component {
 
     render() {
         return (
-            <ScrollableTabView>
+            <ScrollableTabView styles={{colors: '#000000'}}>
                 <View tabLabel="Découvrir" style={styles.mainContainer}>
                     <PushController/>
                     <View style={styles.body}>
@@ -29,9 +31,8 @@ export default class Events extends Component {
                     </View>
                     <EventList style={{flex: 22}} navigator={this.props.navigator}/>
                 </View>
-                <View tabLabel="Calendrier">
-                    <Text>Hello</Text>
-                </View>
+                <Calendar tabLabel="Calendrier"/>
+                <MyEvents tabLabel="Mes événements"/>
             </ScrollableTabView>
         );
     }
