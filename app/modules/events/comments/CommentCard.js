@@ -18,23 +18,21 @@ export default class CommentCard extends Component {
     render() {
         const cardStyle = this.props.fullSize ? styles.fullSizeCard : styles.mediumSizeCard;
         return (
-            <View>
-                <TouchableOpacity style={[cardStyle, this.props.style]}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}>
-                        {this._renderUserAvatar()}
-                        {this._renderSpacer()}
-                        <View style={{flex: .75, justifyContent: 'space-around'}}>
-                            {this._renderParticipantDate()}
-                            {this._renderComment()}
-                            {this._renderActions()}
-                            {this._renderLikeCount()}
-                        </View>
+            <View style={[cardStyle, this.props.style]}>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}>
+                    {this._renderUserAvatar()}
+                    {this._renderSpacer()}
+                    <View style={{flex: .75, justifyContent: 'space-around'}}>
+                        {this._renderParticipantDate()}
+                        {this._renderComment()}
+                        {this._renderActions()}
+                        {this._renderLikeCount()}
                     </View>
-                </TouchableOpacity>
+                </View>
             </View>
         );
     }
