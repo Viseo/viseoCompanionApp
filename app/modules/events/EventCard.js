@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {Image, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Swipeout from 'react-native-swipe-out';
-import strings from '../global/localizedStrings';
-import Highlighter from 'react-native-highlight-words';
-import * as util from '../../util/util';
-import colors from '../global/colors';
-import AppText from '../global/components/AppText';
-import moment from 'moment';
-import {defaultNavBarStyle} from '../global/navigatorStyle';
-import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {registerUser, unregisterUser} from './events.actions';
-import {connect} from 'react-redux';
+import React, {Component} from "react";
+import {Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import Swipeout from "react-native-swipe-out";
+import strings from "../global/localizedStrings";
+import Highlighter from "react-native-highlight-words";
+import * as util from "../../util/util";
+import colors from "../global/colors";
+import AppText from "../global/components/AppText";
+import moment from "moment";
+import {defaultNavBarStyle} from "../global/navigatorStyle";
+import PropTypes from "prop-types";
+import {bindActionCreators} from "redux";
+import {registerUser, unregisterUser} from "./events.actions";
+import {connect} from "react-redux";
 
 class EventCard extends Component {
 
@@ -31,11 +31,11 @@ class EventCard extends Component {
 
     getSwipeOption = () => {
         let textOption = this.state.isParticipating ? strings.IAmNotGoingToEvent : strings.IAmGoingToEvent;
-        let icon = this.state.isParticipating ? require('../../images/crossWhite.png') : require('../../images/checkWhite.png');
+        let icon = this.state.isParticipating ? require("../../images/crossWhite.png") : require("../../images/checkWhite.png");
         return [{
-            component: <View className="participate" style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            component: <View className="participate" style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
                 <Image source={icon} style={{width: 33, height: 33}}/>
-                <Text style={{color: 'white', fontSize: 14}}>
+                <Text style={{color: "white", fontSize: 14}}>
                     {textOption}
                 </Text>
             </View>,
@@ -44,8 +44,8 @@ class EventCard extends Component {
                     this._onParticipationChange();
                 }, 300);
             },
-            backgroundColor: this.state.isParticipating ? '#ff6d6d' : colors.blue,
-            color: 'white',
+            backgroundColor: this.state.isParticipating ? "#ff6d6d" : colors.blue,
+            color: "white",
         }];
     };
 
@@ -55,12 +55,12 @@ class EventCard extends Component {
             <View>
                 <Swipeout
                     className="swipeout"
-                    style={{backgroundColor: 'white'}}
+                    style={{backgroundColor: "white"}}
                     left={swipeOption}
                     right={swipeOption}
                     autoClose={true}
                     overflow="hidden"
-                    sensitivity={(Platform.OS === 'ios') ? 1 : 2}
+                    sensitivity={(Platform.OS === "ios") ? 1 : 2}
                 >
                     <TouchableOpacity
                         style={styles.card}
@@ -80,7 +80,7 @@ class EventCard extends Component {
             <View
                 style={{
                     flex: 1,
-                    alignSelf: 'stretch',
+                    alignSelf: "stretch",
                 }}
             >
             </View>
@@ -98,7 +98,7 @@ class EventCard extends Component {
             <View style={styles.dotContainer}>
                 <View style={[
                     styles.dot,
-                    {backgroundColor: (this.state.isParticipating) ? colors.lightBlue : 'white'},
+                    {backgroundColor: (this.state.isParticipating) ? colors.lightBlue : "white"},
                 ]}/>
             </View>
         );
@@ -139,7 +139,7 @@ class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.nameText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.event.name || ''}
+                    textToHighlight={this.props.event.name || ""}
                 />
             </View>
         );
@@ -153,15 +153,24 @@ class EventCard extends Component {
                     highlightStyle={styles.highlightStyle}
                     style={[styles.descriptionText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
-                    textToHighlight={this.props.event.description || ''}
+                    textToHighlight={this.props.event.description || ""}
                 />
             </View>
         );
     }
 
     renderDate() {
-        const day = moment(this.props.event.datetime)
-            .format('ddd');
+        const date = moment(this.props.event.datetime).calendar(
+            {
+                sameDay: "[Today]",
+                nextDay: "[Tomorrow]",
+                nextWeek: "dddd",
+                lastDay: "[Yesterday]",
+                lastWeek: "[Last] dddd",
+                sameElse: "DD/MM/YYYY",
+            });
+        let splitDate=date.split('/');
+        const day=splitDate[0];
         return (
             <View style={styles.date}>
                 <Highlighter
@@ -177,7 +186,7 @@ class EventCard extends Component {
 
     renderLocation() {
         const time = moment(this.props.event.datetime)
-            .format('[à] hh[h] mm');
+            .format("[à] hh[h] mm");
         return (
             <View style={styles.location}>
                 <View style={{flex: 3}}>
@@ -189,7 +198,7 @@ class EventCard extends Component {
                             styleFont.textFont,
                         ]}
                         searchWords={this.props.searchWords}
-                        textToHighlight={this.props.event.location || ''}
+                        textToHighlight={this.props.event.location || ""}
                     />
                 </View>
                 <View style={{flex: 1}}>
@@ -232,15 +241,15 @@ class EventCard extends Component {
             {
                 rightButtons: [
                     {
-                        title: 'Modifier',
-                        id: 'edit',
+                        title: "Modifier",
+                        id: "edit",
                     },
                 ],
             } :
             {};
         this.props.navigator.push({
-            title: 'Détails de l\'évènement',
-            screen: 'events.event',
+            title: "Détails de l'évènement",
+            screen: "events.event",
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 eventId: this.props.eventId,
@@ -251,8 +260,8 @@ class EventCard extends Component {
 
     _showLiveEvent() {
         this.props.navigator.push({
-            title: this.props.event.name + ' - LIVE',
-            screen: 'events.liveEvent',
+            title: this.props.event.name + " - LIVE",
+            screen: "events.liveEvent",
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 eventId: this.props.eventId,
@@ -262,7 +271,7 @@ class EventCard extends Component {
 
     _isLive() {
         const startDate = moment(this.props.event.datetime);
-        const endDate = moment(this.props.event.datetime).add(2, 'hours');
+        const endDate = moment(this.props.event.datetime).add(2, "hours");
         return moment().isBetween(startDate, endDate);
     }
 
@@ -302,85 +311,85 @@ export default connect(
 
 const styles = StyleSheet.create({
     card: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        backgroundColor: 'white',
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        backgroundColor: "white",
         height: 100,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
     },
     eventInfo: {
         flex: 100,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        flexDirection: "column",
+        justifyContent: "space-between",
         paddingLeft: 10,
     },
     firstRow: {
         flex: 3,
-        flexDirection: 'row',
+        flexDirection: "row",
         paddingRight: 10,
     },
     liveIndicator: {
         backgroundColor: colors.red,
-        color: 'white',
+        color: "white",
         marginRight: 5,
         paddingHorizontal: 10,
         paddingVertical: 2,
         borderRadius: 2,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     secondRow: {
         flex: 6,
-        flexDirection: 'column',
+        flexDirection: "column",
         paddingRight: 10,
     },
     name: {
         flex: 6,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     nameText: {
-        fontWeight: 'bold',
-        textAlign: 'left',
+        fontWeight: "bold",
+        textAlign: "left",
         fontSize: 16,
-        color: 'black',
+        color: "black",
     },
     date: {
         flex: 3,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     dateText: {
-        textAlign: 'right',
-        fontWeight: '100',
+        textAlign: "right",
+        fontWeight: "100",
         color: colors.mediumGray,
         fontSize: 14,
     },
     description: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: "center",
         paddingRight: 5,
     },
     descriptionText: {
-        textAlign: 'left',
-        fontWeight: '100',
+        textAlign: "left",
+        fontWeight: "100",
         fontSize: 14,
-        overflow: 'hidden',
+        overflow: "hidden",
         color: colors.mediumGray,
     },
     location: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+        flexDirection: "row",
+        justifyContent: "flex-start",
     },
     locationText: {
-        textAlign: 'left',
-        fontWeight: '300',
-        color: '#8c8c8c',
+        textAlign: "left",
+        fontWeight: "300",
+        color: "#8c8c8c",
         fontSize: 14,
     },
     dotContainer: {
         flex: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
     },
     dot: {
         width: 10,
@@ -389,19 +398,19 @@ const styles = StyleSheet.create({
     },
     firstColumn: {
         flex: 3,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        flexDirection: "column",
+        justifyContent: "space-between",
     },
     secondColumn: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
+        flexDirection: "column",
+        justifyContent: "space-around",
     },
     eventType: {
         width: 3,
         flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#ef4954',
+        alignSelf: "stretch",
+        backgroundColor: "#ef4954",
     },
 
     highlightStyle: {
@@ -411,6 +420,6 @@ const styles = StyleSheet.create({
 
 const styleFont = StyleSheet.create({
     textFont: {
-        fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
+        fontFamily: (Platform.OS === "ios") ? "Avenir" : "Roboto",
     },
 });

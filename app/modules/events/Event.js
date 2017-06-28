@@ -108,8 +108,18 @@ class Event extends Component {
                 <AppText>{strings.participationLabel}</AppText>
             </View>
         );
-        const day = moment(event.datetime).format('ddd');
-        const time = moment(event.datetime).format('hh[h] mm');
+        const date = moment(this.props.event.datetime).calendar(
+            {
+                sameDay: "[Today]",
+                nextDay: "[Tomorrow]",
+                nextWeek: "dddd",
+                lastDay: "[Yesterday]",
+                lastWeek: "[Last] dddd",
+                sameElse: "DD/MM/YYYY",
+            });
+        let splitDate=date.split('/');
+        const day=splitDate[0];
+        const time = splitDate[1];
         return (
             <View style={styles.dateAndParticipantsContainer}>
                 <View style={styles.participationInfoRectangle}>
