@@ -3,7 +3,7 @@ import {defaultNavBarStyle} from '../global/navigatorStyle';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Calendar from './tabs/CalendarTab';
 import MyEvents from './tabs/MyEventsTab';
-import DiscoverTab from './tabs/DiscoverTab';
+import DiscoverTab from './tabs/discoverTab/DiscoverTab';
 
 export default class Events extends Component {
 
