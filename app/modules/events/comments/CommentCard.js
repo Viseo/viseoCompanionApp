@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import colors from '../../global/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Avatar from '../../global/components/Avatar';
@@ -37,16 +37,6 @@ export default class CommentCard extends Component {
                 </TouchableOpacity>
             </View>
         );
-    }
-
-    _goToUserProfile() {
-        this.props.navigator.push({
-            screen: 'user.othersProfile',
-            title: 'Profil détaillé',
-            passProps: {
-                user: this.props.writer,
-            },
-        });
     }
 
     _renderParticipantDate() {
