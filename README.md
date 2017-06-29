@@ -40,12 +40,34 @@ Projet Viseo Companion - ReactNative
 
     It will create a "podfile" file.
 
-    In this file, add this 3 pods in the 'ViseoCompanion' section :
+    In this file, under the 'ViseoCompanion' section, add this 3 pods :
 
         pod 'Firebase/Messaging'
         pod 'Fabric'
         pod 'Crashlytics'
 
+    To launch the installation, just run
+
+        pod install
+
+4. Link the dependencies in you project by running : (from your project folder)
+
+        react-native link
+
+   This will create the link between the module file and the XCode project.
+
+5. Open the .xcodeproj in XCode. Right click on the project name (right pannel) and click on **"add files to <...>"**.
+Select the pod.xcodeproj, in your Pods directory.
+
+6. Read the documentation for each "NPM PACKAGE with deep configuration" mentionned above, and add the corresponding configuration in the "appDelegate.m" and "appDelegate.h".
+
+7. Drag and drop the "GoogleService-Info.plist" file into your project in XCode.
+
+8. At this step you should ba able (and you have) to build on the emulator with :
+
+        react-native run-ios
+
+9. You can now, launch XCode and build the project from here.
 
 
 
