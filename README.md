@@ -69,6 +69,11 @@ Select the pod.xcodeproj, in your Pods directory.
 
 9. You can now, launch XCode and build the project from here.
 
+10. When building on XCode, make sure to also add your team account for the test project.
+On the left dock, click on your project name.
+Then click on your project name in the central panel and select <yourProject>Tests.
+In signing -> team, set the appropriate account.
+
 
 
 
