@@ -49,4 +49,7 @@ const mapStateToProps = ({events},ownProps) => ({
 
 export default connect(
     mapStateToProps,
+    null,
+    null,
+    {withRef: true},
 )(CalendarTab);

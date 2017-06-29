@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import Calendar from './tabs/CalendarTab.container';
-import MyEvents from './tabs/MyEventsTab';
+import CalendarTab from './tabs/CalendarTab.container';
+import MyEventsTab from './tabs/MyEventsTab';
 import DiscoverTab from './tabs/DiscoverTab';
 
 export default class Events extends Component {
@@ -14,10 +14,14 @@ export default class Events extends Component {
 
     render() {
         return (
-            <ScrollableTabView>
+            <ScrollableTabView
+                onChangeTab={({i, ref}) => this._onChangeTab(i, ref)}
+            >
                 <DiscoverTab tabLabel="discover" navigator={this.props.navigator}/>
-                <Calendar tabLabel="calendar" navigator={this.props.navigator}/>
-                <MyEvents tabLabel="myEvents"/>
+                <CalendarTab
+                    ref={(ref) => {this.calendarTab = ref;}}
+                    tabLabel="calendar" navigator={this.props.navigator}/>
+                <MyEventsTab tabLabel="myEvents"/>
             </ScrollableTabView>
         );
     }
@@ -34,6 +38,14 @@ export default class Events extends Component {
             title: 'Nouvel évènement',
             navigatorStyle: defaultNavBarStyle,
         });
+    }
+
+    _onChangeTab(tabIndex, tabRef) {
+        const calendarTabIndex = 1;
+        if(tabIndex === calendarTabIndex) {
+            console.warn('here');
+            this.calendarTab.getWrappedInstance().scrollToEvent();
+        }
     }
 }
 

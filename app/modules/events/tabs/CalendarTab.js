@@ -1,4 +1,4 @@
-import {View, StyleSheet, SectionList} from 'react-native';
+import {View, StyleSheet, SectionList, Button} from 'react-native';
 import React, {Component} from 'react';
 import EventCard from '../EventCard';
 import PropTypes from 'prop-types';
@@ -8,37 +8,47 @@ export default class CalendarTab extends Component {
 
     constructor(props) {
         super(props);
-    }
-
-    componentDidMount() {
-        this._scrollToEvent();
+        this.scrollToEvent = this.scrollToEvent.bind(this);
     }
 
     render() {
         const ITEM_HEIGHT = 100;
         const eventList = (
             <SectionList
-                ref={(ref) => { this.sectionList = ref; }}
+                ref={(ref) => {
+                    this.sectionList = ref;
+                }}
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
                     <EventCard
-                        imageUrl = {item.imageUrl}
+                        imageUrl={item.imageUrl}
                         navigator={this.props.navigator}
                         eventId={item.id}
                     />
                 }
-                renderSectionHeader={({section}) => <AppText>{section.title}</AppText>}
+                renderSectionHeader={({section}) => <View style={{backgroundColor:'blue', height:30}}><AppText>{section.title}</AppText></View>}
                 sections={this.props.events}
+                stickySectionHeadersEnabled={true}
                 getItemLayout={(data, index) => (
                     {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
                 )}
             />
         );
-        return <View style={styles.mainContainer}>{eventList}</View>;
+        return (
+            <View style={styles.mainContainer}>
+                <Button title='scroll' onPress={() => this.scrollToEvent()}/>
+                {eventList}
+            </View>
+        );
     }
 
-    _scrollToEvent() {
-        this.sectionList.scrollToLocation({sectionIndex: 6, itemIndex: 0});
+    scrollToEvent() {
+        this.sectionList.scrollToLocation({
+            animated: true,
+            sectionIndex: 4,
+            itemIndex: 0,
+            viewPosition: 0,
+        });
     }
 }
 
