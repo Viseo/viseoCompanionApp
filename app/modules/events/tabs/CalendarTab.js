@@ -2,20 +2,23 @@ import {View, StyleSheet, SectionList} from 'react-native';
 import React, {Component} from 'react';
 import EventCard from '../EventCard';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import AppText from '../../global/components/AppText';
-import moment from 'moment';
 
+export default class CalendarTab extends Component {
 
-class CalendarTab extends Component {
     constructor(props) {
         super(props);
     }
 
-    render() {
-        const eventList = (
+    componentDidMount() {
+        this._scrollToEvent();
+    }
 
+    render() {
+        const ITEM_HEIGHT = 100;
+        const eventList = (
             <SectionList
+                ref={(ref) => { this.sectionList = ref; }}
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
                     <EventCard
@@ -26,63 +29,22 @@ class CalendarTab extends Component {
                 }
                 renderSectionHeader={({section}) => <AppText>{section.title}</AppText>}
                 sections={this.props.events}
+                getItemLayout={(data, index) => (
+                    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
+                )}
             />
         );
         return <View style={styles.mainContainer}>{eventList}</View>;
     }
+
+    _scrollToEvent() {
+        this.sectionList.scrollToLocation({sectionIndex: 6, itemIndex: 0});
+    }
 }
-
-function sortByYearAndMonth(events) {
-    let result = {};
-    events.forEach(event => {
-        const {datetime} = event;
-        const year = moment(datetime).format('YYYY');
-        const month = moment(datetime).format('MMMM');
-        if(!result[year]) {
-            result[year] = {};
-        }
-        if(!result[year][month]) {
-            result[year][month] = [];
-        }
-        result[year][month].push(event);
-    });
-    return result;
-}
-
-function convertIntoSections(events) {
-    let sections = [];
-    Object.keys(events).forEach(year => {
-        sections.push({
-            data: [],
-            title: year,
-        });
-        Object.keys(events[year]).forEach(month => {
-            sections.push({
-                data: events[year][month],
-                title: month,
-            })
-        });
-    });
-    return sections;
-}
-
-function breakDownIntoSections(events){
-    const sortedEvents = sortByYearAndMonth(events);
-    const sections = convertIntoSections(sortedEvents);
-    return sections;
-}
-
-const mapStateToProps = ({events},ownProps) => ({
-    events: breakDownIntoSections(events.items),
-    ...ownProps,
-})
-
-export default connect(
-    mapStateToProps,
-)(CalendarTab);
 
 CalendarTab.propTypes = {
     events: PropTypes.array.isRequired,
+    eventId: PropTypes.number,
 };
 
 const styles = StyleSheet.create({
