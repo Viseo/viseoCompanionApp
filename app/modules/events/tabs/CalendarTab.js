@@ -32,19 +32,43 @@ class CalendarTab extends Component {
     }
 }
 
-function breakDownIntoSections(events){
+function sortByYearAndMonth(events) {
+    let result = {};
+    events.forEach(event => {
+        const {datetime} = event;
+        const year = moment(datetime).format('YYYY');
+        const month = moment(datetime).format('MMMM');
+        if(!result[year]) {
+            result[year] = {};
+        }
+        if(!result[year][month]) {
+            result[year][month] = [];
+        }
+        result[year][month].push(event);
+    });
+    return result;
+}
+
+function convertIntoSections(events) {
     let sections = [];
-    for(let month = 0; month < 12; month++) {
+    Object.keys(events).forEach(year => {
         sections.push({
             data: [],
-            title: moment().month(month).format('MMMM'),
-        })
-    }
-    events.forEach(event => {
-        const month = moment(event.datetime).get('month');
-        sections[month].data.push(event);
+            title: year,
+        });
+        Object.keys(events[year]).forEach(month => {
+            sections.push({
+                data: events[year][month],
+                title: month,
+            })
+        });
     });
-    sections = sections.filter(section => section.data.length > 0);
+    return sections;
+}
+
+function breakDownIntoSections(events){
+    const sortedEvents = sortByYearAndMonth(events);
+    const sections = convertIntoSections(sortedEvents);
     return sections;
 }
 
