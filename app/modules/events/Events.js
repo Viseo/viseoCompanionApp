@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import Calendar from './tabs/CalendarTab';
+import Calendar from './tabs/CalendarTab.container';
 import MyEvents from './tabs/MyEventsTab';
 import DiscoverTab from './tabs/DiscoverTab';
 
