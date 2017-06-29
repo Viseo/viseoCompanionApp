@@ -175,6 +175,15 @@ export const events = {
 
         }
     },
+    getAll: async () => {
+        try {
+            let response = await fetch(settings.api.getEvents);
+            return await response.json();
+        } catch (error) {
+            console.log("db::events.getAll " + error);
+            return [];
+        }
+    }
 };
 
 export const users = {

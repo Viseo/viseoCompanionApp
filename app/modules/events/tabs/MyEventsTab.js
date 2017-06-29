@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import colors from '../../global/colors';
 import AppText from '../../global/components/AppText';
 import EventCard from '../EventCard';
+import moment from 'moment';
 
 class MyEventsTab extends Component {
 
@@ -32,46 +33,29 @@ class MyEventsTab extends Component {
 MyEventsTab.propTypes = {
 }
 
-function breakDownIntoSections(events) {
-    let bbls = events.filter(event => event.userId === 1);
-    let bblsSection = {data: bbls, title: 'BBLs'};
+function breakDownIntoSections(events, user) {
+    let hosted = events.filter(event => event.host.id === user.id);
+    let hostedSection = {data: hosted, title: 'Hosted'};
 
-    let refreshes = events.filter(event => event.userId === 1);
-    let refreshesSection = {data: refreshes, title: 'Refreshes'};
+    let going = events.filter(
+        event => (event.datetime >= moment())
+    );
+    let goingSection = {data: going, title: 'Going'};
 
+    let went = events.filter(
+        event => (event.datetime < moment())
+    );
+    let wentSection = {data: went, title: 'Went'};
     return [
-        bblsSection,
-        refreshesSection,
+        hostedSection,
+        goingSection,
+        wentSection
     ];
 }
 
-const mapStateToProps = ({events}, ownProps) => ({
-    events: breakDownIntoSections(events.items),
+const mapStateToProps = ({events, user}, ownProps) => ({
+    events: breakDownIntoSections(events.items, user),
+    user,
 });
 
 export default connect(mapStateToProps, null)(MyEventsTab);
-
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        backgroundColor: colors.blue,
-        padding: 8,
-        paddingBottom: 0,
-        paddingTop: 0,
-    },
-    body: {
-        flex: 0,
-        flexDirection: 'column',
-        paddingBottom: 10,
-        marginTop: 20,
-    },
-    searchBar: {
-        flex: 0,
-        flexDirection: 'row',
-    },
-    icon: {
-        fontSize: 24,
-        height: 22,
-        color: 'white',
-    },
-});
