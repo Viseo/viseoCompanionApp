@@ -13,9 +13,9 @@ import com.facebook.soloader.SoLoader;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnativenavigation.NavigationApplication;
-//import com.smixx.fabric.FabricPackage;
-//import com.crashlytics.android.Crashlytics;
-//import io.fabric.sdk.android.Fabric;
+import com.smixx.fabric.FabricPackage;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +35,8 @@ public class MainApplication extends NavigationApplication {
             new FIRMessagingPackage(),
             new VectorIconsPackage(),
             new ImagePickerPackage(),
-            new SvgPackage()
+            new SvgPackage(),
+            new FabricPackage()
         );
     }
 
