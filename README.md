@@ -5,22 +5,58 @@ Projet Viseo Companion - ReactNative
 - NPM package manager
 
 
-## Install process :
+## Install process
 
--> npm install
+    npm install
 
--> In Webstorm, set the Android React-native configuration
+## Run in Android
 
--> Start the emulator from he emulator, run it in AndroidStudio
+First launch an emulator or connect a android device.
+Then run :
+
+    react-native run-android
+
+The project is going to be build and deploy on the device/emulator.
+
+## Run in iOS
+
+### Emulator
+
+You have to be on a mac to produce an iOS build.
+
+    react-native run-ios
+
+### Device
+
+You have to run at least once the above command.
+
+1. Open the "ViseoCompanion.xcodeproj" in XCode.
+
+2. **Make sure you have set up the signing properties for the project and the testProject.**
+To do so on the left dock, click on your project name.
+Then click on your project name in the central panel and select <yourProject>Tests.
+In signing -> team, set the appropriate account.
+
+3. Connect your device
+Wait for the downloading of the symbol. (it can takes several minutes)
+
+4. Click on the **play** button.
+For the first time you have to "trust" the developer on your phone.
+
 
 ## NPM PACKAGE with deep configuration
+
+These packages are not only JS package, they also have native code inside. Thus they required to be installed in the Android & iOS project.
+*The detailed instructions are on the git of each package*
 
   - react-native-fcm
   - react-native-image-picker
   - react-native-navigation
   - react-native-vector-icons
 
-## To re-create XCode project from scratch
+## Re-create XCode project from scratch
+
+***Don't do that unless you really want to regenerate the XCode project.***
 
 1. Remove all file in /ios folder EXCEPT "GoogleService-Info.plist"
 2. In the iOS folder :
@@ -56,23 +92,14 @@ Projet Viseo Companion - ReactNative
 
    This will create the link between the module file and the XCode project.
 
-5. Open the .xcodeproj in XCode. Right click on the project name (right pannel) and click on **"add files to <...>"**.
+5. Open the .xcodeproj in XCode. Right click on the project name (right panel) and click on **"add files to <...>"**.
 Select the pod.xcodeproj, in your Pods directory.
 
-6. Read the documentation for each "NPM PACKAGE with deep configuration" mentionned above, and add the corresponding configuration in the "appDelegate.m" and "appDelegate.h".
+6. Read the documentation for each "NPM PACKAGE with deep configuration" mentioned above, and add the corresponding configuration in the "appDelegate.m" and "appDelegate.h".
 
 7. Drag and drop the "GoogleService-Info.plist" file into your project in XCode.
 
-8. At this step you should ba able (and you have) to build on the emulator with :
-
-        react-native run-ios
-
-9. You can now, launch XCode and build the project from here.
-
-10. When building on XCode, make sure to also add your team account for the test project.
-On the left dock, click on your project name.
-Then click on your project name in the central panel and select <yourProject>Tests.
-In signing -> team, set the appropriate account.
+Your XCode project is now ready to be build.
 
 
 
