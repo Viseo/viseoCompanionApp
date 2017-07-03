@@ -1,15 +1,17 @@
 import React, {Component} from "react";
 import AppText from "../global/components/AppText";
-import {Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {Swipeout} from "react-native-swipe-out";
+import {Image, Platform, StyleSheet, Text, TouchableOpacity, View, Dimensions} from "react-native";
+import Swipeout from "react-native-swipe-out";
 import moment from "moment";
 import {defaultNavBarStyle} from "../global/navigatorStyle";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import strings from "../global/localizedStrings";
+import Highlighter from "react-native-highlight-words";
 import colors from "../global/colors";
 import {bindActionCreators} from "redux";
 import {registerUser, unregisterUser} from "./events.actions";
+import * as util from "../../util/util";
 
 class EventCard extends Component {
     state = {
@@ -47,6 +49,7 @@ class EventCard extends Component {
     };
 
     render() {
+
         let {showImage, event} = this.props;
         let swipeOption = this.getSwipeOption();
         let imageUrl = event.imageUrl ? event.imageUrl
@@ -54,10 +57,10 @@ class EventCard extends Component {
             "https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg";
 
         let image = showImage ? (
-            <View style={style.imageEvent}>
+            <View style={styles.imageEvent}>
                 <Image
                     source={{uri: imageUrl}}
-                    style={{width: 900, height: 900}}
+                    style={styles.image}
                 >
                 </Image>
             </View>) :
@@ -68,25 +71,24 @@ class EventCard extends Component {
 
             <View style={styles.container}>
                 <Swipeout
-                className="swipeout"
-                style={{backgroundColor: "white"}}
-                left={swipeOption}
-                right={swipeOption}
-                autoClose={true}
-                overflow="hidden"
-                sensitivity={(Platform.OS === "ios") ? 1 : 2}
+                    className="swipeout"
+                    style={{backgroundColor: "white"}}
+                    left={swipeOption}
+                    right={swipeOption}
+                    autoClose={true}
+                    overflow="hidden"
+                    sensitivity={(Platform.OS === "ios") ? 1 : 2}
                 >
-                <TouchableOpacity
-                style={styles.card}
-                onPress={() => this._goToEvent()}
-                >
-                {image}
-                <View style={style.infosEvent}>
-                {liveIndicator}
-                {this.renderTypeIndicator()}
-                {this.renderEventInfo()}
-                </View>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this._goToEvent()}
+                    >
+                        {image}
+                        <View style={styles.infosEvent}>
+                            {liveIndicator}
+                            {this.renderTypeIndicator()}
+                            {this.renderEventInfo()}
+                        </View>
+                    </TouchableOpacity>
                 </Swipeout>
             </View>
         );
@@ -112,15 +114,14 @@ class EventCard extends Component {
     renderEventInfo() {
         return (
             <View style={styles.eventInfo}>
-                {this.renderSpacer()}
+
                 <View style={{flex: 1}}>
                     {this.renderTitle()}
                 </View>
                 <View style={{flex: 2, flexDirection: "row"}}>
-                    <View>
+                    <View style={{flex: 1, flexDirection: "column"}}>
                         {this.renderLocation()}
                         {this.renderHost()}
-                        {this.renderDescription()}
                     </View>
                     {this.renderParticipationIndicator()}
                 </View>
@@ -130,10 +131,12 @@ class EventCard extends Component {
     }
 
     renderHost() {
-        let host = this.props.user.host;
-        <View>
-            <AppText>{host}</AppText>
-        </View>;
+        let {host} = this.props.event;
+        return (
+            <View>
+                <AppText style={styles.hostText}> {host.firstName} {host.lastName}</AppText>
+            </View>
+        );
     }
 
     renderLiveIndicator() {
@@ -146,11 +149,11 @@ class EventCard extends Component {
 
     renderTitle() {
         return (
-            <View style={styles.name}>
+            <View >
                 <Highlighter
                     numberOfLines={1}
                     highlightStyle={styles.highlightStyle}
-                    style={[styles.nameText, styleFont.textFont]}
+                    style={[styles.titleText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
                     textToHighlight={this.props.event.name || ""}
                 />
@@ -158,32 +161,10 @@ class EventCard extends Component {
         );
     }
 
-    renderDescription() {
-        return (
-            <View style={styles.description}>
-                <Highlighter
-                    numberOfLines={1}
-                    highlightStyle={styles.highlightStyle}
-                    style={[styles.descriptionText, styleFont.textFont]}
-                    searchWords={this.props.searchWords}
-                    textToHighlight={this.props.event.description || ""}
-                />
-            </View>
-        );
-    }
-
     renderDate() {
-        const date = moment(this.props.event.datetime).calendar(
-            {
-                sameDay: "[Today]",
-                nextDay: "[Tomorrow]",
-                nextWeek: "dddd",
-                lastDay: "[Yesterday]",
-                lastWeek: "[Last] dddd",
-                sameElse: "DD/MM/YYYY",
-            });
-        let splitDate = date.split("/");
-        let [day, time] = splitDate;
+        const date = moment(this.props.event.datetime).format("DD MMMM hh:mm")
+        let splitDate = date.split(" ");
+        let [day, month,time] = splitDate;
 
         return (
             <View style={styles.date}>
@@ -194,12 +175,22 @@ class EventCard extends Component {
                         style={[styles.dateText, styleFont.textFont]}
                         searchWords={this.props.searchWords}
                         textToHighlight={day}
-                    /></View>
+                    />
+                </View>
                 <View>
                     <Highlighter
                         numberOfLines={1}
                         highlightStyle={styles.highlightStyle}
-                        style={[styles.dateText, styleFont.textFont]}
+                        style={[styles.monthText, styleFont.textFont]}
+                        searchWords={this.props.searchWords}
+                        textToHighlight={month}
+                    />
+                </View>
+                <View>
+                    <Highlighter
+                        numberOfLines={1}
+                        highlightStyle={styles.highlightStyle}
+                        style={[styles.timeText, styleFont.textFont]}
                         searchWords={this.props.searchWords}
                         textToHighlight={time}
                     />
@@ -210,11 +201,8 @@ class EventCard extends Component {
     }
 
     renderLocation() {
-        const time = moment(this.props.event.datetime)
-            .format("[à] hh[h] mm");
         return (
-            <View style={styles.location}>
-                <View style={{flex: 3}}>
+                <View style={{flex: 1}}>
                     <Highlighter
                         numberOfLines={1}
                         highlightStyle={styles.highlightStyle}
@@ -226,20 +214,6 @@ class EventCard extends Component {
                         textToHighlight={this.props.event.location || ""}
                     />
                 </View>
-                <View style={{flex: 1}}>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        style={[
-                            styles.dateText,
-                            styleFont.textFont,
-                        ]}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={time}
-                    />
-                </View>
-            </View>
-
         );
     }
 
@@ -337,7 +311,7 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(EventCard);
-
+const {width} = Dimensions.get("window");
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -345,24 +319,88 @@ const styles = StyleSheet.create({
     },
     imageEvent: {
         flex: 1,
-
+    },
+    image: {
+        width: width,
+        height: 100,
     },
     infosEvent: {
         flex: 2,
         flexDirection: "row",
+        height: 100,
     },
     date: {
-        flex: 4,
+        flex: 3,
         flexDirection: "column",
+        alignItems: "center",
     },
     eventType: {
-        width: 3,
-        flex: 1,
+        flex: .2,
         alignSelf: "stretch",
+        marginRight: 10,
         backgroundColor: "#ef4954",
     },
     eventInfo: {
         flex: 8,
         flexDirection: "column",
     },
+
+    highlightStyle: {
+        backgroundColor: colors.highlight,
+    },
+    dateText:{
+        fontWeight:'bold',
+        fontSize:24
+    },
+    monthText:{
+        fontWeight:'bold',
+        fontSize:16
+    },
+    timeTest:{
+        fontWeight:'bold',
+        fontSize:16
+    },
+    dotContainer: {
+        flex: .5,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    dot: {
+        width: 20,
+        height: 20,
+        borderRadius: 20,
+    },
+    titleText: {
+        color: 'black',
+        fontSize: 16,
+    },
+    locationText: {
+        color: colors.green,
+        fontWeight:'200',
+        fontSize: 16,
+    },
+    hostText: {
+        color: colors.blue,
+        fontSize: 16,
+        marginTop: 5,
+    },
+    liveIndicator: {
+        backgroundColor: colors.red,
+        color: "white",
+        marginRight: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 2,
+        borderRadius: 2,
+        fontWeight: "bold",
+    },
+    highlightStyle: {
+        backgroundColor: colors.highlight,
+    },
+
 });
+const styleFont = StyleSheet.create({
+    textFont: {
+        fontFamily: (Platform.OS === "ios") ? "Avenir" : "Roboto",
+    },
+});
+

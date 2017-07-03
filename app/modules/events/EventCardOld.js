@@ -13,7 +13,7 @@ import {bindActionCreators} from 'redux';
 import {registerUser, unregisterUser} from './events.actions';
 import {connect} from 'react-redux';
 
-class EventCardOld extends Component {
+class EventCard extends Component {
 
     state = {
         isParticipating: this._isCurrentUserParticipating(this.props.event),
@@ -286,7 +286,7 @@ class EventCardOld extends Component {
     }
 }
 
-EventCardOld.propTypes = {
+EventCard.propTypes = {
     eventId: PropTypes.number.isRequired,
     event: PropTypes.object.isRequired,
     registerUser: PropTypes.func.isRequired,
@@ -311,7 +311,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(EventCardOld);
+)(EventCard);
 
 const styles = StyleSheet.create({
     card: {

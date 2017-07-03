@@ -16,10 +16,7 @@ class NewsFeed extends Component {
             <View>
                 {notationPopup}
                 <Text>All the great stuff in one place!</Text>
-               <EventCard  navigator={this.props.navigator}
-                           eventId={2}
-                           showImage={true}
-               />
+
             </View>
         );
     }
