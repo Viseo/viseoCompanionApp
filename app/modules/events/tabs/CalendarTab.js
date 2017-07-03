@@ -1,6 +1,6 @@
 import {View, StyleSheet, SectionList} from 'react-native';
 import React, {Component} from 'react';
-import EventCard from '../EventCard';
+import EventCard from '../EventCardOld';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import AppText from '../../global/components/AppText';

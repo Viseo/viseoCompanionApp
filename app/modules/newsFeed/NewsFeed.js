@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
+import EventCard from "../events/EventCard";
 
 export default class NewsFeed extends Component {
 
@@ -12,6 +13,10 @@ export default class NewsFeed extends Component {
         return (
             <View>
                 <Text>All the great stuff in one place!</Text>
+               <EventCard  navigator={this.props.navigator}
+                           eventId={2}
+                           showImage={true}
+               />
             </View>
         );
     }

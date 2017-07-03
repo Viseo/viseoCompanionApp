@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import EventCard from './EventCard';
+import EventCard from './EventCardOld';
 import AppText from '../global/components/AppText';
 import colors from '../global/colors';
 import PropTypes from 'prop-types';
@@ -21,10 +21,8 @@ export default class EventList extends Component {
                 data={this.props.events}
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
-                    <EventCard
-                        navigator={this.props.navigator}
-                        eventId={item.id}
-                    />
+
+                    <View/>
                 }
                 onRefresh={this.props.refresh}
                 ListEmptyComponent={() => this._renderEmptyEventCard()}
