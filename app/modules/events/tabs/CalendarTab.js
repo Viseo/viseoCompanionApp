@@ -46,7 +46,9 @@ export default class CalendarTab extends Component {
     _renderSectionHeader = (section) => {
         const today = <AppText style={styles.headerToday}>{section.title}</AppText>;
         const year = <AppText style={styles.headerYear}>{section.title}</AppText>;
-        const month = <AppText style={styles.headerMonth}>{section.title}</AppText>;
+        const month =(
+            <AppText style={styles.headerMonth} >{section.title.substring(0,1).toUpperCase()}{section.title.substring(1,section.title.length)}</AppText>
+        ) ;
         switch (section.type) {
             case 'today':
                 return today;
@@ -81,11 +83,14 @@ styles = StyleSheet.create({
         color: 'red',
         fontSize: 20,
         fontWeight: 'bold',
+        paddingLeft: 10,
     },
     headerMonth: {
-        backgroundColor:'lightgray',
+        backgroundColor: 'lightgray',
         color: 'black',
         fontSize: 20,
         fontWeight: 'bold',
+        paddingLeft: 10,
     },
+
 });
