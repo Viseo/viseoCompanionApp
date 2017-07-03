@@ -18,16 +18,18 @@ export default class CalendarTab extends Component {
         const ITEM_HEIGHT = 100;
         const eventList = (
             <SectionList
-                ref={(ref) => { this.sectionList = ref; }}
+                ref={(ref) => {
+                    this.sectionList = ref;
+                }}
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
                     <EventCard
-                        imageUrl = {item.imageUrl}
+                        imageUrl={item.imageUrl}
                         navigator={this.props.navigator}
                         eventId={item.id}
                     />
                 }
-                renderSectionHeader={({section}) => <AppText>{section.title}</AppText>}
+                renderSectionHeader={({section}) => this._renderSectionHeader(section)}
                 sections={this.props.events}
                 getItemLayout={(data, index) => (
                     {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
@@ -40,16 +42,50 @@ export default class CalendarTab extends Component {
     _scrollToEvent() {
         this.sectionList.scrollToLocation({sectionIndex: 6, itemIndex: 0});
     }
-}
 
-CalendarTab.propTypes = {
+    _renderSectionHeader = (section) => {
+        const today = <AppText style={styles.headerToday}>{section.title}</AppText>;
+        const year = <AppText style={styles.headerYear}>{section.title}</AppText>;
+        const month = <AppText style={styles.headerMonth}>{section.title}</AppText>;
+        switch (section.type) {
+            case 'today':
+                return today;
+            case 'month':
+                return month;
+            case 'year':
+                return year;
+            default :
+                return null;
+        }
+    };
+};
+
+propTypes = {
     events: PropTypes.array.isRequired,
     eventId: PropTypes.number,
 };
 
-const styles = StyleSheet.create({
+styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         flexDirection: 'column',
+    },
+    headerYear: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    headerToday: {
+        borderWidth: 1,
+        borderColor: 'red',
+        color: 'red',
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    headerMonth: {
+        backgroundColor:'lightgray',
+        color: 'black',
+        fontSize: 20,
+        fontWeight: 'bold',
     },
 });
