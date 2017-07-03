@@ -15,7 +15,6 @@ export default class EventList extends Component {
         //this.props.refresh(this.props.user);
     }
 
-
     render() {
         const eventList = (
             <FlatList
