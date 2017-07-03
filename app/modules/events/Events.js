@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import Calendar from './tabs/CalendarTab';
+import Calendar from './tabs/CalendarTab.container';
 import MyEvents from './tabs/MyEventsTab';
 import DiscoverTab from './tabs/DiscoverTab';
 
@@ -14,12 +14,28 @@ export default class Events extends Component {
 
     render() {
         return (
-            <ScrollableTabView>
-                <DiscoverTab tabLabel="discover" navigator={this.props.navigator}/>
-                <Calendar tabLabel="calendar" navigator={this.props.navigator}/>
-                <MyEvents tabLabel="myEvents"/>
+            <ScrollableTabView
+                ref={(tabView) => { this.tabView = tabView; }}
+                tabBarBackgroundColor="#2E9AFE"
+                tabBarActiveTextColor="#FFFFFF"
+                tabBarInactiveTextColor="#FFFFFF"
+            >
+                <DiscoverTab
+                    tabLabel="discover"
+                    navigator={this.props.navigator}
+                    goToTab={(tabIndex) => this.goToTab(tabIndex)}
+                />
+                <Calendar tabLabel="calendar"/>
+                <MyEvents
+                    tabLabel="myEvents"
+                    navigator={this.props.navigator}
+                />
             </ScrollableTabView>
         );
+    }
+
+    goToTab(tabIndex) {
+        this.tabView.goToPage(tabIndex);
     }
 
     onNavigatorEvent(event) {

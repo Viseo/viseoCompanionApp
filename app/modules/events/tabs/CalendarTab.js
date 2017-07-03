@@ -2,68 +2,95 @@ import {View, StyleSheet, SectionList} from 'react-native';
 import React, {Component} from 'react';
 import EventCard from '../EventCardOld';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import AppText from '../../global/components/AppText';
-import moment from 'moment';
 
+export default class CalendarTab extends Component {
 
-class CalendarTab extends Component {
     constructor(props) {
         super(props);
     }
 
-    render() {
-        const eventList = (
+    componentDidMount() {
+        this._scrollToEvent();
+    }
 
+    render() {
+        const ITEM_HEIGHT = 100;
+        const eventList = (
             <SectionList
+                ref={(ref) => {
+                    this.sectionList = ref;
+                }}
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
                     <EventCard
-                        imageUrl = {item.imageUrl}
+                        imageUrl={item.imageUrl}
                         navigator={this.props.navigator}
                         eventId={item.id}
                     />
                 }
-                renderSectionHeader={({section}) => <AppText>{section.title}</AppText>}
+                renderSectionHeader={({section}) => this._renderSectionHeader(section)}
                 sections={this.props.events}
+                getItemLayout={(data, index) => (
+                    {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
+                )}
             />
         );
         return <View style={styles.mainContainer}>{eventList}</View>;
     }
-}
 
-function breakDownIntoSections(events){
-    let sections = [];
-    for(let month = 0; month < 12; month++) {
-        sections.push({
-            data: [],
-            title: moment().month(month).format('MMMM'),
-        })
+    _scrollToEvent() {
+        this.sectionList.scrollToLocation({sectionIndex: 6, itemIndex: 0});
     }
-    events.forEach(event => {
-        const month = moment(event.datetime).get('month');
-        sections[month].data.push(event);
-    });
-    sections = sections.filter(section => section.data.length > 0);
-    return sections;
-}
 
-const mapStateToProps = ({events},ownProps) => ({
-    events: breakDownIntoSections(events.items),
-    ...ownProps,
-})
-
-export default connect(
-    mapStateToProps,
-)(CalendarTab);
-
-CalendarTab.propTypes = {
-    events: PropTypes.array.isRequired,
+    _renderSectionHeader = (section) => {
+        const today = <AppText style={styles.headerToday}>{section.title}</AppText>;
+        const year = <AppText style={styles.headerYear}>{section.title}</AppText>;
+        const month =(
+            <AppText style={styles.headerMonth} >{section.title.substring(0,1).toUpperCase()}{section.title.substring(1,section.title.length)}</AppText>
+        ) ;
+        switch (section.type) {
+            case 'today':
+                return today;
+            case 'month':
+                return month;
+            case 'year':
+                return year;
+            default :
+                return null;
+        }
+    };
 };
 
-const styles = StyleSheet.create({
+propTypes = {
+    events: PropTypes.array.isRequired,
+    eventId: PropTypes.number,
+};
+
+styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         flexDirection: 'column',
     },
+    headerYear: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    headerToday: {
+        borderWidth: 1,
+        borderColor: 'red',
+        color: 'red',
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingLeft: 10,
+    },
+    headerMonth: {
+        backgroundColor: 'lightgray',
+        color: 'black',
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingLeft: 10,
+    },
+
 });

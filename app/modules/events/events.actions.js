@@ -18,7 +18,7 @@ export const fetchEvents = () => {
     return async (dispatch) => {
         dispatch(requestEvents());
         try {
-            let events = await db.events.getAfter(moment().toDate().getTime());
+            let events = await db.events.getAll();
             dispatch(receiveEvents(events));
         } catch (error) {
             console.warn('ActionCreators/events::fetchEvents ' + error);

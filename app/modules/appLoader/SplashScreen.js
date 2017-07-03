@@ -11,6 +11,8 @@ import strings from './../global/localizedStrings';
 import setDateLang from './../global/dateHandler';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import {callWithTimeout} from '../global/db';
+import {fetchEventsExp, fetchReviewedEvents} from "../../actionCreators/events.depreciated";
+import {fetchEvents} from "../events/events.actions";
 
 class SplashScreen extends Component {
 
@@ -84,6 +86,9 @@ class SplashScreen extends Component {
     }
 
     _navigateToHome() {
+         this.props.refreshPastEvents(this.props.user);
+         this.props.refreshEvents(this.props.user);
+         this.props.refreshReviewedEvents(this.props.user.id);
         startApp();
     }
 
@@ -115,14 +120,18 @@ SplashScreen.navigatorStyle = {
     tabBarHidden: true,
 };
 
-const mapStateToProps = ({authentication}) => ({
+const mapStateToProps = ({authentication,user}) => ({
     isAuthenticated: authentication.isAuthenticated,
     loggedUser: authentication.loggedUser,
+    user
 });
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         authenticate,
+        refreshPastEvents: fetchEventsExp,
+        refreshEvents: fetchEvents,
+        refreshReviewedEvents: fetchReviewedEvents,
     }, dispatch);
 };
 

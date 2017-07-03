@@ -1,15 +1,18 @@
-import React, {Component} from 'react';
-import CircularSlider from 'react-native-circular-slider';
+import React, {Component} from "react";
+import CircularSlider from "react-native-circular-slider";
 import {
     View,
     StyleSheet, Button,
-} from 'react-native';
-import moment from 'moment';
-import AppText from '../../global/components/AppText';
-import {dismissLightBox} from '../../global/navigationUtil';
-import {Circle} from 'react-native-svg';
+} from "react-native";
+import moment from "moment";
+import AppText from "../../global/components/AppText";
+import {dismissLightBox} from "../../global/navigationUtil";
+import {Circle} from "react-native-svg";
+import {dismissReviewPopup} from "./review.action";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
-export default class Rating extends Component {
+class Rating extends Component {
 
     defaultRating = 50;
     defaultRatingAngle = this.defaultRating * 2 * Math.PI / 100;
@@ -26,27 +29,27 @@ export default class Rating extends Component {
         return (
             <View style={styles.container}>
                 <View style={{
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                 }}>
-                    <AppText style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}> Donnez votre avis</AppText>
-                    <AppText style={{marginBottom: 10, alignSelf: 'center'}}>{this.props.eventName}</AppText>
+                    <AppText style={{fontWeight: "bold", fontSize: 20, marginBottom: 10}}> Donnez votre avis</AppText>
+                    <AppText style={{marginBottom: 10, alignSelf: "center"}}>{this.props.eventName}</AppText>
                 </View>
                 <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    display: 'flex', alignItems: 'stretch',
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    display: "flex", alignItems: "stretch",
                 }}>
                     <View style={{
-                        alignSelf: 'flex-start',
+                        alignSelf: "flex-start",
                         marginRight: 150,
                     }}><AppText>{this.props.location}</AppText></View>
-                    <View style={{alignSelf: 'flex-end'}}><AppText>{this.props.date}</AppText></View>
+                    <View style={{alignSelf: "flex-end"}}><AppText>{this.props.date}</AppText></View>
 
                 </View>
                 <AppText style={{
                     top: 110,
-                    fontWeight: 'bold',
+                    fontWeight: "bold",
                     fontSize: 24,
                 }}>
                     {this.state.rating} %
@@ -77,25 +80,30 @@ export default class Rating extends Component {
                     stopIcon={
                         <Circle
                             r={10}
-                            fill={'transparent'}
-                            stroke={'gray'}
+                            fill={"transparent"}
+                            stroke={"gray"}
                             strokeWidth="2"
                         />
                     }
                 />
                 <View style={{
-                    flexDirection: 'row', marginTop: 10,
-                    justifyContent: 'space-between',
-                    display: 'flex',
+                    flexDirection: "row", marginTop: 10,
+                    justifyContent: "space-between",
+                    display: "flex",
                 }}>
                     <Button
                         title="Plus tard"
-                        onPress={dismissLightBox}
+                        onPress={() => {
+                            this.props.dismissReviewPopup();
+                            dismissLightBox();
+
+                        }
+                        }
                     />
-                    <View style={{width:100}}/>
+                    <View style={{width: 100}}/>
                     <Button
                         title="Envoyer"
-                        style={{backgroundColor: '#C41F06'}}
+                        style={{backgroundColor: "#C41F06"}}
                         onPress={() => this.props.sendReview(this.state.rating)}
                     />
                 </View>
@@ -108,11 +116,11 @@ export default class Rating extends Component {
         if (!date)
             return [];
         let dateTime = moment(date);
-        return dateTime.calendar().split('/');
+        return dateTime.calendar().split("/");
     }
 
     _getColor(val) {
-        let hsl = require('hsl-to-hex');
+        let hsl = require("hsl-to-hex");
         let hue = this._percentageToHsl(val / 100, 0, 120);
         let saturation = 100;
         let luminosity = 50;
@@ -123,14 +131,26 @@ export default class Rating extends Component {
         const hue = (percentage * (hue1 - hue0)) + hue0;
         return hue;
     }
+}
+;
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        dismissReviewPopup,
+    }, dispatch);
 };
+
+export  default connect(
+    null,
+    mapDispatchToProps,
+)(Rating);
 
 // todo set propTypes
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#ede3f2',
+        backgroundColor: "#ede3f2",
         padding: 100,
-        alignItems: 'center',
+        alignItems: "center",
     },
 });
