@@ -4,6 +4,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Calendar from './tabs/CalendarTab.container';
 import MyEvents from './tabs/MyEventsTab';
 import DiscoverTab from './tabs/DiscoverTab';
+import {StyleSheet, View} from 'react-native';
 
 export default class Events extends Component {
 
@@ -41,6 +42,8 @@ export default class Events extends Component {
     onNavigatorEvent(event) {
         if (event.id === 'addEvent') {
             this._goToAddEvent();
+        } else if (event.id === 'searchBarVisible') {
+            this._goToSearchEvents();
         }
     }
 
@@ -49,6 +52,17 @@ export default class Events extends Component {
             screen: 'events.createEvent',
             title: 'Nouvel évènement',
             navigatorStyle: defaultNavBarStyle,
+        });
+    }
+
+    _goToSearchEvents() {
+        this.props.navigator.push({
+            screen: 'events.searchEvents',
+            navigatorStyle: {
+                navBarHidden: true,
+            },
+            animated: true,
+            animationType: 'slide-horizontal',
         });
     }
 }
@@ -60,4 +74,42 @@ Events.navigatorButtons = {
             id: 'addEvent',
         },
     ],
+    rightButtons: [
+        {
+            icon: require('../../images/search-icon-png.png'),
+            id: 'searchBarVisible',
+        }
+    ],
 };
+
+let styles = StyleSheet.create({
+    searchBar: {
+        flex: 0,
+        flexDirection: 'column',
+        backgroundColor: 'white',
+        borderRadius: 4,
+        borderWidth: 1.75,
+        borderColor: 'white',
+    },
+    searchBarInput: {
+        flex: 0,
+        flexDirection: 'row',
+    },
+    searchInput: {
+        flex: 9,
+        backgroundColor: 'transparent',
+    },
+    filterToggle: {
+        padding: 3,
+    },
+    filterContainer: {
+        flexDirection: 'row',
+        flex: 0,
+        justifyContent: 'center',
+    },
+    fitImage: {
+        flex: 0,
+        width: 20,
+        height: 20,
+    },
+});

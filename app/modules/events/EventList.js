@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import EventCard from './EventCard';
 import AppText from '../global/components/AppText';
 import colors from '../global/colors';
@@ -10,8 +10,9 @@ export default class EventList extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
-        const eventList = (
+        return (
             <FlatList
                 data={this.props.events}
                 keyExtractor={(item, index) => item.id}
@@ -21,12 +22,10 @@ export default class EventList extends Component {
                         eventId={item.id}
                     />
                 }
-                onRefresh={this.props.refresh}
                 ListEmptyComponent={() => this._renderEmptyEventCard()}
-                refreshing={this.props.refreshing}
             />
         );
-        return <View style={styles.mainContainer}>{eventList}</View>;
+
     }
 
     _renderEmptyEventCard() {
@@ -52,12 +51,4 @@ export default class EventList extends Component {
 
 EventList.propTypes = {
     events: PropTypes.array.isRequired,
-    refreshing: PropTypes.bool.isRequired,
 };
-
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-});

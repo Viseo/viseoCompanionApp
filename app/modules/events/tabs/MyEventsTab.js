@@ -34,15 +34,15 @@ MyEventsTab.propTypes = {
 }
 
 function breakDownIntoSections(events, user) {
-    let hosted = events.filter(event => event.host.id === user.id);
+    let hosted = events.items.filter(event => event.host.id === user.id);
     let hostedSection = {data: hosted, title: 'Hosted'};
 
-    let going = events.filter(
+    let going = events.items.filter(
         event => (event.datetime >= moment())
     );
     let goingSection = {data: going, title: 'Going'};
 
-    let went = events.filter(
+    let went = events.itemsExpired.filter(
         event => (event.datetime < moment())
     );
     let wentSection = {data: went, title: 'Went'};
@@ -54,7 +54,7 @@ function breakDownIntoSections(events, user) {
 }
 
 const mapStateToProps = ({events, user}, ownProps) => ({
-    events: breakDownIntoSections(events.items, user),
+    events: breakDownIntoSections(events, user),
     user,
 });
 

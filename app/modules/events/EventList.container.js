@@ -1,8 +1,6 @@
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import EventList from './EventList';
 import moment from 'moment';
-import {fetchEvents, registerUser, unregisterUser} from './events.actions';
 
 const containsString = (source, search, caseSensitive = false) => {
     if (!source || !search) {
@@ -59,8 +57,6 @@ const getVisibleEventList = (events,
                              filters,
                              searchWords,
                              user) => {
-    let filteredEvents = getFilteredEvents(events, filters);
-    events = filteredEvents.length > 0 ? filteredEvents : events;
     events = searchWords.length > 0 ? getSearchedEvents(events, searchWords) : events;
     events = addParticipationInfo(events, user.id);
     switch (visibilityFilter) {
@@ -91,21 +87,9 @@ const mapStateToProps = (state, ownProps) => ({
         state.searchWords,
         state.user,
     ),
-    refreshing: state.events.isFetching,
-    searchWords: state.searchWords,
-    user: state.user,
     ...ownProps,
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-        refresh: fetchEvents,
-        registerUser,
-        unregisterUser,
-    }, dispatch);
-};
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
 )(EventList);

@@ -12,6 +12,7 @@ import Comments from './comments/Comments';
 import EditEvent from './EditEvent';
 import OthersProfile from '../user/OtherProfile';
 import ReviewPopup from './reviews/ReviewPopup';
+import SearchEvents from './SearchEvents';
 
 export default function(store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);
@@ -20,6 +21,7 @@ export default function(store, provider) {
     Navigation.registerComponent('events.pastEvent', () => PastEvent, store, provider);
     Navigation.registerComponent('events.createEvent', () => CreateEvent, store, provider);
     Navigation.registerComponent('events.editEvent', () => EditEvent, store, provider);
+    Navigation.registerComponent('events.searchEvents', () => SearchEvents, store, provider);
     Navigation.registerComponent('Comments', () => Comments, store, provider);
     Navigation.registerComponent('CreateComment', () => CreateComment, store, provider);
     Navigation.registerComponent('UpdateComment', () => UpdateComment, store, provider);
