@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Text, View} from "react-native";
+import React, {Component} from 'react';
+import {Text, View} from 'react-native';
+import EventCard from "../events/EventCard";
 import {connect} from "react-redux";
-import moment from "moment";
 
 class NewsFeed extends Component {
 
@@ -16,6 +16,7 @@ class NewsFeed extends Component {
             <View>
                 {notationPopup}
                 <Text>All the great stuff in one place!</Text>
+
             </View>
         );
     }
@@ -59,8 +60,8 @@ class NewsFeed extends Component {
 
     _goToUserProfile() {
         this.props.navigator.push({
-            screen: "user.myProfile",
-            title: "Mon profil",
+            screen: 'user.myProfile',
+            title: 'Mon profil',
         });
     }
 }
@@ -68,8 +69,8 @@ class NewsFeed extends Component {
 NewsFeed.navigatorButtons = {
     rightButtons: [
         {
-            icon: require("../../images/navigation/profile.png"),
-            id: "profile",
+            icon: require('../../images/navigation/profile.png'),
+            id: 'profile',
         },
     ],
 };
