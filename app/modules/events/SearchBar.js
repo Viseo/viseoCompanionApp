@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
-import colors from '../global/colors';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
@@ -16,7 +15,7 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <View style={styles.mainContainer}>
+            <View style={[styles.mainContainer, this.props.style]}>
                 <TextInput
                     style={styles.input}
                     placeholder="Rechercher ..."
@@ -62,7 +61,6 @@ export default connect(
 
 const styles = StyleSheet.create({
     mainContainer: {
-        backgroundColor: colors.lightBlue,
         height: 60,
     },
     input: {
@@ -73,12 +71,3 @@ const styles = StyleSheet.create({
         padding: 0,
     },
 });
-
-SearchBar.navigatorButtons = {
-    leftButtons: [
-        {
-            icon: require('../../images/navigation/add.png'),
-            id: 'addEvent',
-        },
-    ]
-};

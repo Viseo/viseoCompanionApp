@@ -8,7 +8,8 @@ import PushController from '../../global/pushController';
 import {connect} from 'react-redux';
 import EventCard from '../EventCard';
 import AppText from '../../global/components/AppText';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import moment from 'moment';
 
 class DiscoverTab extends Component {
 
@@ -35,9 +36,9 @@ class DiscoverTab extends Component {
         );
         return (
             <SectionList
+                style={styles.mainContainer}
                 renderItem={({item}) => this._renderEventCard(item)}
-                renderSectionHeader={({section}) => <AppText>{section.title}</AppText>}
-                SectionSeparatorComponent={() => <View style={{height: 20}}/>}
+                renderSectionHeader={({section}) => this._renderSectionHeader(section)}
                 keyExtractor={(item, index) => item.id}
                 sections={this.props.events}
             />
@@ -45,45 +46,76 @@ class DiscoverTab extends Component {
     }
 
     _renderEventCard(item) {
-        if (item === 'seeAll') {
+        const seeAll = (
+            <View style={styles.seeAllContainer}>
+                <Text style={{textAlign: 'center', color: 'white'}}>
+                    see all
+                </Text>
+            </View>
+        );
+        if (item === 'seeAllCalendar') {
             return (
                 <TouchableOpacity onPress={() => this.props.goToTab(1)}>
-                    <Text style={{textAlign: 'center'}}>
-                        see all
-                    </Text>
+                    {seeAll}
+                </TouchableOpacity>
+            );
+        } else if (item === 'seeAllFilter') {
+            return (
+                <TouchableOpacity onPress={() => {
+                    console.warn('filtre');
+                }}>
+                    {seeAll}
                 </TouchableOpacity>
             );
         } else {
             return (
-                <EventCard
-                    eventId={item.id}
-                    navigator={this.props.navigator}
-                />
+                <View style={styles.eventCardContainer}>
+                    <EventCard
+                        eventId={item.id}
+                        navigator={this.props.navigator}
+                    />
+                </View>
             );
         }
+    }
+
+    _renderSectionHeader(section) {
+        return (
+            <View style={styles.sectionContainer}>
+                <AppText style={styles.sectionText}>{section.title}</AppText>
+            </View>
+        );
     }
 }
 
 DiscoverTab.propTypes = {
     goToTab: PropTypes.func.isRequired,
-}
+};
 
 function breakDownIntoSections(events) {
+    let incoming = events.filter(event => event.datetime > moment());
+    if (incoming.length > 3) {
+        incoming = incoming.slice(0, 3);
+        incoming.push('seeAllCalendar');
+    }
+    let incomingSection = {data: incoming, title: 'Incoming'};
+
     let bbls = events.filter(event => event.category === 0);
     if (bbls.length > 3) {
         bbls = bbls.slice(0, 3);
-        bbls.push('seeAll');
+        bbls.push('seeAllFilter');
     }
     let bblsSection = {data: bbls, title: 'BBLs'};
 
     let refreshes = events.filter(event => event.category === 1);
     if (refreshes.length > 3) {
-        refreshes = refreshes.slice(0,3);
-        refreshes.push('seeAll');
+        refreshes = refreshes.slice(0, 3);
+        refreshes.push('seeAllFilter');
     }
     let refreshesSection = {data: refreshes, title: 'Refreshes'};
 
     return [
+        incomingSection,
         bblsSection,
         refreshesSection,
     ];
@@ -95,13 +127,34 @@ const mapStateToProps = ({events}, ownProps) => ({
 
 export default connect(mapStateToProps, null)(DiscoverTab);
 
+const borderWidth = 3;
+const borderRadius = 8;
 const styles = StyleSheet.create({
     mainContainer: {
-        flex: 1,
+        paddingHorizontal: 15,
+        backgroundColor: colors.lighterBlue,
+    },
+    eventCardContainer: {
+        borderLeftWidth: borderWidth,
+        borderRightWidth: borderWidth,
+        borderColor: colors.blue,
+    },
+    seeAllContainer: {
         backgroundColor: colors.blue,
-        padding: 8,
-        paddingBottom: 0,
-        paddingTop: 0,
+        borderBottomLeftRadius: borderRadius,
+        borderBottomRightRadius: borderRadius,
+    },
+    sectionContainer: {
+        backgroundColor: colors.blue,
+        height:30,
+        marginTop:20,
+        borderTopLeftRadius: borderRadius,
+        borderTopRightRadius: borderRadius,
+    },
+    sectionText: {
+        color: 'white',
+        paddingLeft: 20,
+        fontSize: 20,
     },
     body: {
         flex: 0,
