@@ -12,6 +12,7 @@ import colors from "../global/colors";
 import {bindActionCreators} from "redux";
 import {registerUser, unregisterUser} from "./events.actions";
 import * as util from "../../util/util";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class EventCard extends Component {
     state = {
@@ -55,7 +56,10 @@ class EventCard extends Component {
         let imageUrl = event.imageUrl ? event.imageUrl
             :
             "https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg";
-
+        if(event.imageUrl==="")
+        {
+            showImage=false;
+        }
         let image = showImage ? (
             <View style={styles.imageEvent}>
                 <Image
@@ -68,7 +72,6 @@ class EventCard extends Component {
         const liveIndicator = this._isLive() ? this.renderLiveIndicator() : this.renderDate();
 
         return (
-
             <View style={styles.container}>
                 <Swipeout
                     className="swipeout"
@@ -141,7 +144,12 @@ class EventCard extends Component {
 
     renderLiveIndicator() {
         return (
-            <View>
+            <View style={{flex:3}}>
+                <Icon
+                    name='podcast'
+                    size={50}
+                    style={{color:colors.red, textAlign:'center',marginTop:2}}
+                     />
                 <AppText style={styles.liveIndicator}>Live</AppText>
             </View>
         );
@@ -202,7 +210,7 @@ class EventCard extends Component {
 
     renderLocation() {
         return (
-                <View style={{flex: 1}}>
+                <View>
                     <Highlighter
                         numberOfLines={1}
                         highlightStyle={styles.highlightStyle}
@@ -316,6 +324,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
+        marginBottom:2
     },
     imageEvent: {
         flex: 1,
@@ -371,27 +380,23 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     titleText: {
-        color: 'black',
+        color: colors.blue,
         fontSize: 16,
     },
     locationText: {
-        color: colors.green,
+        color: colors.mediumGray,
         fontWeight:'200',
         fontSize: 16,
     },
     hostText: {
-        color: colors.blue,
+        color: colors.mediumGray,
         fontSize: 16,
-        marginTop: 5,
+        marginLeft:-5,
+        marginTop:2,
     },
     liveIndicator: {
-        backgroundColor: colors.red,
-        color: "white",
-        marginRight: 5,
-        paddingHorizontal: 10,
-        paddingVertical: 2,
-        borderRadius: 2,
-        fontWeight: "bold",
+        color:  colors.red,
+        textAlign:'center'
     },
     highlightStyle: {
         backgroundColor: colors.highlight,
