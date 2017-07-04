@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts app/**/*.spec.js",
-    "testEnzyme": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
+    "test": "jest",
+    "testDEPRECIATED": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts app/**/*.spec.js",
+    "testEnzymeDEPRECIATED": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
   },
   "dependencies": {
     "hsl-to-hex": "^1.0.0",
@@ -18,7 +19,7 @@
     "react-native-check-box": "^1.0.4",
     "react-native-circular-slider": "^1.0.1",
     "react-native-datepicker": "^1.4.4",
-    "react-native-fcm": "^6.2.0",
+    "react-native-fcm": "^6.2.3",
     "react-native-highlight-words": "^1.0.0",
     "react-native-image-picker": "^0.26.2",
     "react-native-invertible-scroll-view": "^1.0.0",
@@ -34,22 +35,24 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "babel-jest": "18.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "chai": "^3.5.0",
-    "enzyme": "^2.7.1",
-    "istanbul": "^1.0.0-alpha.2",
-    "jest": "18.1.0",
-    "jest-cli": "^20.0.4",
-    "mocha": "^3.2.0",
-    "react-dom": "^15.4.0",
-    "react-native-babel-jest": "^0.2.1",
-    "react-native-mock": "^0.3.1",
-    "react-test-renderer": "~15.4.0",
-    "redux-devtools": "^3.3.2",
-    "sinon": "^2.0.0-pre.6"
+    "babel-jest": "^20.0.3",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-jest-hoist": "^20.0.3",
+    "babel-preset-react-native": "^2.0.0",
+    "istanbul": "^0.4.5",
+    "jest": "^20.0.4",
+    "react-test-renderer": "^16.0.0-alpha.12",
+    "redux-devtools": "^3.4.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "collectCoverage": true,
+    "coverageDirectory": "/Coverage",
+    "verbose": true,
+    "collectCoverageFrom": [
+      "**/app/**/*.{js,jsx}",
+      "!**/app/__tests__/**",
+      "!**/node_modules/**"
+    ]
   }
 }
