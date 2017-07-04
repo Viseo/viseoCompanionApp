@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {FlatList, View} from 'react-native';
-import EventCard from './EventCard';
-import AppText from '../global/components/AppText';
-import colors from '../global/colors';
+import EventCard from '../EventCard';
+import AppText from '../../global/components/AppText';
+import colors from '../../global/colors';
 import PropTypes from 'prop-types';
 
 export default class EventList extends Component {

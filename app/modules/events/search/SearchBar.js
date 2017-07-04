@@ -1,16 +1,27 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, TextInput} from 'react-native';
+import {StyleSheet, TextInput, View} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+import {setWords} from './search.actions';
 
 class SearchBar extends Component {
 
     constructor(props) {
         super(props);
+
+        const searchWords = this.props.searchWords.length > 0 ?
+            this._arrayToString(this.props.searchWords) :
+            '';
         this.state = {
-            searchWords: '',
+            searchWords,
         };
+    }
+
+    componentWillReceiveProps({searchWords}) {
+        this.setState({
+            searchWords: this._arrayToString(searchWords),
+        });
     }
 
     render() {
@@ -20,11 +31,16 @@ class SearchBar extends Component {
                     style={styles.input}
                     placeholder="Rechercher ..."
                     onChangeText={this.props.setWords}
+                    value={this.state.searchWords}
                     underlineColorAndroid='rgba(0,0,0,0)'
                     returnKeyType="search"
                 />
             </View>
         );
+    }
+
+    _arrayToString(array) {
+        return array.join(' ');
     }
 }
 
@@ -32,17 +48,8 @@ SearchBar.propTypes = {
     setWords: PropTypes.func.isRequired,
 };
 
-const setWords = (searchString = []) => ({
-    type: 'SET_WORDS',
-    searchWords: searchString.length > 0 ?
-        searchString
-            .trim()
-            .replace(/\s+/g, ' ')
-            .split(' ')
-        : [],
-});
-
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = ({searchWords}, ownProps) => ({
+    searchWords,
     ...ownProps
 });
 

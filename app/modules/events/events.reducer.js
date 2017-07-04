@@ -1,14 +1,14 @@
-import {types} from "../../actionCreators/events.depreciated";
+import {types} from '../../actionCreators/events.depreciated';
 import {
     ADD_EVENT,
     FETCH_EVENTS_FAILED,
     RECEIVE_EVENTS,
+    RECEIVE_EVENTS_REVIEWED,
     REGISTER_USER,
     REQUEST_EVENTS,
     UNREGISTER_USER,
     UPDATE_EVENT,
-    RECEIVE_EVENTS_REVIEWED,
-} from "./events.actions";
+} from './events.actions';
 
 function formatEvent(event) {
     return {

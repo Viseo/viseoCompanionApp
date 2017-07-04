@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import AppText from '../global/components/AppText';
 import ItemSpacer from '../global/components/ItemSpacer';
-import FlexImage from '../../components/FlexImage.obsolete';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import colors from '../global/colors';
 import Avatar from '../global/components/Avatar';
@@ -11,8 +10,6 @@ import PropTypes from 'prop-types';
 import strings from '../global/localizedStrings';
 import moment from 'moment';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
-import {Navigation} from 'react-native-navigation';
-import * as db from '../global/db';
 
 const eventIdToImages = {
     '40': require('./../../images/events/formation_securite.jpg'),
@@ -150,7 +147,7 @@ class PastEvent extends Component {
 
     renderEventPicture() {
         const picture =
-            <FlexImage
+            <Image
                 style={{minHeight: height / 3}}
                 source={this.state.picture}
                 resizeMode="cover"

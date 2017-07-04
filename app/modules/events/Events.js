@@ -3,8 +3,8 @@ import {defaultNavBarStyle} from '../global/navigatorStyle';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Calendar from './tabs/CalendarTab.container';
 import MyEvents from './tabs/MyEventsTab';
-import DiscoverTab from './tabs/DiscoverTab';
-import {StyleSheet, View} from 'react-native';
+import DiscoverTab from './tabs/DiscoverTab.container';
+import {StyleSheet} from 'react-native';
 
 export default class Events extends Component {
 
@@ -25,6 +25,7 @@ export default class Events extends Component {
                     tabLabel="discover"
                     navigator={this.props.navigator}
                     goToTab={(tabIndex) => this.goToTab(tabIndex)}
+                    goToSearchEvents={() => this.goToSearchEvents()}
                 />
                 <Calendar tabLabel="calendar"/>
                 <MyEvents
@@ -35,6 +36,17 @@ export default class Events extends Component {
         );
     }
 
+    goToSearchEvents() {
+        this.props.navigator.push({
+            screen: 'events.searchEvents',
+            navigatorStyle: {
+                navBarHidden: true,
+            },
+            animated: true,
+            animationType: 'slide-horizontal',
+        });
+    }
+
     goToTab(tabIndex) {
         this.tabView.goToPage(tabIndex);
     }
@@ -43,7 +55,7 @@ export default class Events extends Component {
         if (event.id === 'addEvent') {
             this._goToAddEvent();
         } else if (event.id === 'searchBarVisible') {
-            this._goToSearchEvents();
+            this.goToSearchEvents();
         }
     }
 
@@ -52,17 +64,6 @@ export default class Events extends Component {
             screen: 'events.createEvent',
             title: 'Nouvel évènement',
             navigatorStyle: defaultNavBarStyle,
-        });
-    }
-
-    _goToSearchEvents() {
-        this.props.navigator.push({
-            screen: 'events.searchEvents',
-            navigatorStyle: {
-                navBarHidden: true,
-            },
-            animated: true,
-            animationType: 'slide-horizontal',
         });
     }
 }
@@ -76,7 +77,7 @@ Events.navigatorButtons = {
     ],
     rightButtons: [
         {
-            icon: require('../../images/search-icon-png.png'),
+            icon: require('../../images/search-icon.png'),
             id: 'searchBarVisible',
         }
     ],

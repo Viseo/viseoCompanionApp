@@ -18,7 +18,6 @@ export default {
         itemsExpired: [],
         itemsReviewed:[]
     },
-    filters: [],
     live: {
         chatMessages: [],
     },

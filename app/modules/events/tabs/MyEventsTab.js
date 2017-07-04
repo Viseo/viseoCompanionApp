@@ -15,9 +15,9 @@ class MyEventsTab extends Component {
     render() {
         return (
             <SectionList
+                style={styles.mainContainer}
                 renderItem={({item}) => this._renderEventCard(item)}
-                renderSectionHeader={({section}) => <AppText>{section.title}</AppText>}
-                SectionSeparatorComponent={() => <View style={{height: 20}}/>}
+                renderSectionHeader={({section}) => this._renderSectionHeader(section)}
                 keyExtractor={(item, index) => item.id}
                 sections={this.props.events}
             />
@@ -28,9 +28,11 @@ class MyEventsTab extends Component {
         if (item === 'seeAll') {
             return (
                 <TouchableOpacity onPress={() => this.props.goToTab(1)}>
-                    <Text style={{textAlign: 'center'}}>
-                        see all
-                    </Text>
+                    <View style={styles.seeAllContainer}>
+                        <Text style={{textAlign: 'center', color: 'white'}}>
+                            see all
+                        </Text>
+                    </View>
                 </TouchableOpacity>
             );
         } else {
@@ -42,10 +44,17 @@ class MyEventsTab extends Component {
             );
         }
     }
+
+    _renderSectionHeader(section) {
+        return (
+            <View style={styles.sectionContainer}>
+                <AppText style={styles.sectionText}>{section.title}</AppText>
+            </View>
+        );
+    }
 }
 
-MyEventsTab.propTypes = {
-}
+MyEventsTab.propTypes = {};
 
 function breakDownIntoSections(events, user) {
 
@@ -73,7 +82,7 @@ function breakDownIntoSections(events, user) {
     return [
         hostedSection,
         goingSection,
-        wentSection
+        wentSection,
     ];
 }
 
@@ -83,3 +92,50 @@ const mapStateToProps = ({events, user}, ownProps) => ({
 });
 
 export default connect(mapStateToProps, null)(MyEventsTab);
+
+const borderWidth = 3;
+const borderRadius = 8;
+const styles = StyleSheet.create({
+    mainContainer: {
+        paddingHorizontal: 15,
+        backgroundColor: colors.lightGray,
+    },
+    eventCardContainer: {
+        borderLeftWidth: borderWidth,
+        borderRightWidth: borderWidth,
+        borderColor: colors.red,
+    },
+    seeAllContainer: {
+        backgroundColor: colors.red,
+        borderBottomLeftRadius: borderRadius,
+        borderBottomRightRadius: borderRadius,
+    },
+    sectionContainer: {
+        backgroundColor: colors.red,
+        height: 30,
+        marginTop: 20,
+        borderTopLeftRadius: borderRadius,
+        borderTopRightRadius: borderRadius,
+    },
+    sectionText: {
+        color: 'white',
+        paddingLeft: 20,
+        fontSize: 20,
+    },
+    body: {
+        flex: 0,
+        flexDirection: 'column',
+        paddingBottom: 10,
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    searchBar: {
+        flex: 0,
+        flexDirection: 'row',
+    },
+    icon: {
+        fontSize: 24,
+        height: 22,
+        color: 'white',
+    },
+});
