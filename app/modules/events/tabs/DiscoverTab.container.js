@@ -4,33 +4,60 @@ import DiscoverTab from './DiscoverTab';
 import {bindActionCreators} from 'redux';
 import {setWords} from '../search/search.actions';
 
-function breakDownIntoSections(events) {
+const categories = [
+    {title: 'BBLs', keywords: ['bbl', 'rex']},
+    {title: 'Formations', keywords: ['formation', 'training']},
+];
+
+function getIncomingEventsSection(events) {
     let incoming = events.filter(event => event.datetime > moment());
     if (incoming.length > 3) {
         incoming = incoming.slice(0, 3);
         incoming.push('seeAllCalendar');
     }
-    let incomingSection = {data: incoming, title: 'Incoming'};
+    return {data: incoming, title: 'Incoming'};
+}
 
-    let bbls = events.filter(event => event.category === 0);
-    if (bbls.length > 3) {
-        bbls = bbls.slice(0, 3);
-        bbls.push('seeAllFilter');
-    }
-    let bblsSection = {data: bbls, title: 'BBLs'};
+function getSectionsFromCategories(events) {
+    let sections = [];
+    categories.forEach(category => {
+        category.keywords.map(keyword => keyword.toLowerCase().trim());
+        let section = {data: [], title: category.title};
+        section.data = events.filter(event => {
+            let didMatch = false;
+            category.keywords.forEach(categoryKeyword => {
+                event.keywords.forEach(eventKeyword => {
+                    if (categoryKeyword === eventKeyword) {
+                        didMatch = true;
+                    }
+                });
+            });
+            return didMatch;
+        });
+        sections.push(section);
+    });
+    return sections;
+}
 
-    let refreshes = events.filter(event => event.category === 1);
-    if (refreshes.length > 3) {
-        refreshes = refreshes.slice(0, 3);
-        refreshes.push('seeAllFilter');
-    }
-    let refreshesSection = {data: refreshes, title: 'Refreshes'};
+function setMaxNumberOfEventsPerSections(sections, maxNumberOfEvents) {
+    sections.forEach(section => {
+        let {data} = section;
+        if (data.length > maxNumberOfEvents) {
+            data = data.slice(0, maxNumberOfEvents);
+            data.push('seeAllFilter');
+        }
+    });
+}
 
-    return [
+function breakDownIntoSections(events) {
+    const incomingSection = getIncomingEventsSection(events);
+    let otherSections = getSectionsFromCategories(events);
+    let sections = [
         incomingSection,
-        bblsSection,
-        refreshesSection,
+        ...otherSections,
     ];
+    setMaxNumberOfEventsPerSections(sections, 3);
+    return sections;
 }
 
 const mapStateToProps = ({events}, ownProps) => ({

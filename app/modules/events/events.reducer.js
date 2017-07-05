@@ -13,6 +13,7 @@ import {
 function formatEvent(event) {
     return {
         ...event,
+        keywords: event.keyWords.split(',').map(keyword => keyword.toLowerCase().trim()),
         category: parseInt(event.category),
         datetime: parseInt(event.datetime),
         id: parseInt(event.id),

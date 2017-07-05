@@ -32,7 +32,6 @@ export default {
         isFetching: false,
         otherProfile: '',
     },
-    visibilityFilter: 'SHOW_ALL',
     review:{
         isReviewPopupDismissed : false
     },
