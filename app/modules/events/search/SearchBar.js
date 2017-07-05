@@ -30,6 +30,8 @@ class SearchBar extends Component {
                 <TextInput
                     style={styles.input}
                     placeholder="Rechercher ..."
+                    placeholderTextColor={'#FFFFFF'}
+                    selectionColor={'#FFFFFF'}
                     onChangeText={this.props.setWords}
                     value={this.state.searchWords}
                     underlineColorAndroid='rgba(0,0,0,0)'
@@ -76,5 +78,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         textAlign: 'center',
         padding: 0,
+        color: '#FFFFFF',
     },
 });

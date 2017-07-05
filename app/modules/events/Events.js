@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Calendar from './tabs/CalendarTab.container';
-import MyEvents from './tabs/MyEventsTab';
+import MyEvents from './tabs/MyEventsTab.container';
 import DiscoverTab from './tabs/DiscoverTab.container';
 import {StyleSheet} from 'react-native';
 
@@ -27,7 +27,10 @@ export default class Events extends Component {
                     goToTab={(tabIndex) => this.goToTab(tabIndex)}
                     goToSearchEvents={() => this.goToSearchEvents()}
                 />
-                <Calendar tabLabel="calendar"/>
+                <Calendar
+                    tabLabel="calendar"
+                    navigator={this.props.navigator}
+                />
                 <MyEvents
                     tabLabel="myEvents"
                     navigator={this.props.navigator}

@@ -5,7 +5,7 @@ import AppText from '../../global/components/AppText';
 import colors from '../../global/colors';
 import PropTypes from 'prop-types';
 
-export default class EventList extends Component {
+export default class SearchResults extends Component {
 
     constructor(props) {
         super(props);
@@ -49,6 +49,6 @@ export default class EventList extends Component {
     }
 }
 
-EventList.propTypes = {
+SearchResults.propTypes = {
     events: PropTypes.array.isRequired,
 };

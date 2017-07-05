@@ -12,17 +12,17 @@ function breakDownIntoSections(events) {
     }
     let incomingSection = {data: incoming, title: 'Incoming'};
 
-    let bbls = events.filter(event => event.category === 0);
+    let bbls = events.filter(event => (event.category === 1 && event.datetime > moment()));
     if (bbls.length > 3) {
         bbls = bbls.slice(0, 3);
-        bbls.push('seeAllFilter');
+        bbls.push('seeAllFilterBbl');
     }
     let bblsSection = {data: bbls, title: 'BBLs'};
 
-    let refreshes = events.filter(event => event.category === 1);
+    let refreshes = events.filter(event => (event.category === 0 && event.datetime > moment()));
     if (refreshes.length > 3) {
         refreshes = refreshes.slice(0, 3);
-        refreshes.push('seeAllFilter');
+        refreshes.push('seeAllFilterRefresh');
     }
     let refreshesSection = {data: refreshes, title: 'Refreshes'};
 

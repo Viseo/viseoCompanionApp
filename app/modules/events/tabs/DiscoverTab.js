@@ -37,10 +37,19 @@ export default class DiscoverTab extends Component {
                     {seeAll}
                 </TouchableOpacity>
             );
-        } else if (item === 'seeAllFilter') {
+        } else if (item === 'seeAllFilterBbl') {
             return (
                 <TouchableOpacity onPress={() => {
-                    this.props.setWords('anni');
+                    this.props.setWords('bbl');
+                    this.props.goToSearchEvents();
+                }}>
+                    {seeAll}
+                </TouchableOpacity>
+            );
+        } else if (item === 'seeAllFilterRefresh') {
+            return (
+                <TouchableOpacity onPress={() => {
+                    this.props.setWords('refresh');
                     this.props.goToSearchEvents();
                 }}>
                     {seeAll}
