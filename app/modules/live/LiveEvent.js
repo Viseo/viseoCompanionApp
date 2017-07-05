@@ -167,6 +167,7 @@ export class LiveEvent extends Component {
 LiveEvent.propTypes = {
     user: PropTypes.object.isRequired,
     lastUpdate: PropTypes.number.isRequired,
+    navigator: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = ({user, live}, ownProps) => {

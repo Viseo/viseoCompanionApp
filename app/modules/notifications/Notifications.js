@@ -93,7 +93,7 @@ export class Notification extends Component {
 }
 
 Notification.propTypes = {
-    events: PropTypes.object.isRequired,
+    events: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     navigator: PropTypes.object.isRequired,
     refreshing: PropTypes.bool.isRequired,

@@ -1,4 +1,5 @@
-import {mockNavigator, renderCompleteComponent} from '../../global/__tests__/utilities';
+import {renderCompleteComponent} from '../../global/__tests__/utilities';
+import {mockNavigator} from '../../global/__tests__/mockLibrary';
 import React from 'react';
 
 import NewsFeed from '../NewsFeed';
