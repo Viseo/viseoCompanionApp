@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import colors from '../../global/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Avatar from '../../global/components/Avatar';
@@ -18,35 +18,23 @@ export default class CommentCard extends Component {
     render() {
         const cardStyle = this.props.fullSize ? styles.fullSizeCard : styles.mediumSizeCard;
         return (
-            <View>
-                <TouchableOpacity style={[cardStyle, this.props.style]}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                    }}>
-                        {this._renderUserAvatar()}
-                        {this._renderSpacer()}
-                        <View style={{flex: .75, justifyContent: 'space-around'}}>
-                            {this._renderParticipantDate()}
-                            {this._renderComment()}
-                            {this._renderActions()}
-                            {this._renderLikeCount()}
-                        </View>
+            <View style={[cardStyle, this.props.style]}>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}>
+                    {this._renderUserAvatar()}
+                    {this._renderSpacer()}
+                    <View style={{flex: .75, justifyContent: 'space-around'}}>
+                        {this._renderParticipantDate()}
+                        {this._renderComment()}
+                        {this._renderActions()}
+                        {this._renderLikeCount()}
                     </View>
-                </TouchableOpacity>
+                </View>
             </View>
         );
-    }
-
-    _goToUserProfile() {
-        this.props.navigator.push({
-            screen: 'user.othersProfile',
-            title: 'Profil détaillé',
-            passProps: {
-                user: this.props.writer,
-            },
-        });
     }
 
     _renderParticipantDate() {

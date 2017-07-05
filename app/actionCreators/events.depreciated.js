@@ -1,5 +1,7 @@
-import settings from "../modules/global/settings";
-import moment from "moment";
+import settings from '../modules/global/settings';
+import moment from 'moment';
+
+// todo refactor: finish importing used methods into events.actions.js, then remove this from project
 
 export const types = {
     GET_EVENT_EXPIRE: "GET_EVENT_EXPIRE",
