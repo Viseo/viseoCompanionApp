@@ -10,8 +10,9 @@ import moment from 'moment';
 import colors from '../global/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AppText from '../global/components/AppText';
+import PropTypes from 'prop-types';
 
-class LiveEvent extends Component {
+export class LiveEvent extends Component {
 
     state = {
         connected: false,
@@ -162,6 +163,11 @@ class LiveEvent extends Component {
         this.setState({participantsNumber});
     }
 }
+
+LiveEvent.propTypes = {
+    user: PropTypes.object.isRequired,
+    lastUpdate: PropTypes.number.isRequired,
+};
 
 const mapStateToProps = ({user, live}, ownProps) => {
     return {

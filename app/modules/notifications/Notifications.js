@@ -1,15 +1,15 @@
-import React, {Component} from "react";
-import {FlatList, StyleSheet, View} from "react-native";
-import colors from "../global/colors";
-import {bindActionCreators} from "redux";
-import {defaultNavBarStyle} from "../global/navigatorStyle";
-import {connect} from "react-redux";
-import AppText from "../global/components/AppText";
-import NotificationCard from "./NotificationCard";
-import {fetchEventsExp, fetchReviewedEvents} from "../../actionCreators/events.depreciated";
-import moment from "moment";
+import React, {Component} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import colors from '../global/colors';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import AppText from '../global/components/AppText';
+import NotificationCard from './NotificationCard';
+import {fetchEventsExp, fetchReviewedEvents} from '../../actionCreators/events.depreciated';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 
-class Notification extends Component {
+export class Notification extends Component {
 
     constructor(props) {
         super(props);
@@ -43,12 +43,14 @@ class Notification extends Component {
             </View>
         );
     }
+
     _formatDate(date) {
         if (!date)
             return [];
-        let dateTime = moment(date);
+        let dateTime = moment(date, 'x');
         return dateTime.calendar().split('/');
     }
+
     _renderNotificationCard(event) {
         let [day, time] = this._formatDate(event.datetime);
         return (
@@ -72,12 +74,12 @@ class Notification extends Component {
             <View>
                 <AppText
                     style={{
-                        textAlign: "center",
+                        textAlign: 'center',
                         color: colors.mediumGray,
-                        backgroundColor: "white",
+                        backgroundColor: 'white',
                         height: 50,
                         borderRadius: 4,
-                        textAlignVertical: "center",
+                        textAlignVertical: 'center',
                         fontSize: 18,
                         marginTop: 10,
                     }}
@@ -91,7 +93,12 @@ class Notification extends Component {
 }
 
 Notification.propTypes = {
-    // eventId: PropTypes.number.isRequired,
+    events: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    navigator: PropTypes.object.isRequired,
+    refreshing: PropTypes.bool.isRequired,
+    refreshPastEvents: PropTypes.func.isRequired,
+    refreshReviewedEvents: PropTypes.func.isRequired,
 };
 
 const getParticipatingEventList = (events, eventsReviewed, user) => {
@@ -107,7 +114,7 @@ const getParticipatingEventList = (events, eventsReviewed, user) => {
         if (eventsByUser.length > 0 && eventsReviewed.length > 0) {
 
             let notReviewedEvents = eventsByUser.filter((item) => {
-                 return !eventsReviewed.includes( JSON.stringify(item) );
+                return !eventsReviewed.includes(JSON.stringify(item));
             });
             return notReviewedEvents;
         }
@@ -137,7 +144,7 @@ export default connect(
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        flexDirection: "column",
+        flexDirection: 'column',
         backgroundColor: colors.blue,
         paddingHorizontal: 15,
     },

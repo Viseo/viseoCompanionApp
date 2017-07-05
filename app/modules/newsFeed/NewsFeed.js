@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
+import PropTypes from 'prop-types';
 
 export default class NewsFeed extends Component {
 
@@ -29,6 +30,10 @@ export default class NewsFeed extends Component {
         });
     }
 }
+
+NewsFeed.propTypes = {
+    navigator: PropTypes.object.isRequired,
+};
 
 NewsFeed.navigatorButtons = {
     rightButtons: [
