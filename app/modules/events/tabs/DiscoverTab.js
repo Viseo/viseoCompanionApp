@@ -4,6 +4,8 @@ import colors from '../../global/colors';
 import EventCard from '../EventCard';
 import AppText from '../../global/components/AppText';
 import PropTypes from 'prop-types';
+import {noEventsForThisCategory} from './DiscoverTab.container';
+import AppTextInput from '../../global/components/AppTextInput';
 
 export default class DiscoverTab extends Component {
 
@@ -46,7 +48,14 @@ export default class DiscoverTab extends Component {
                     {seeAll}
                 </TouchableOpacity>
             );
-        } else {
+        } else if(item === noEventsForThisCategory) {
+            return (
+                <View style={styles.noEventsContainer}>
+                    <AppText>Aucun évènement.</AppText>
+                </View>
+            )
+        }
+        else {
             return (
                 <View style={styles.eventCardContainer}>
                     <EventCard
@@ -83,6 +92,18 @@ const styles = StyleSheet.create({
         borderLeftWidth: borderWidth,
         borderRightWidth: borderWidth,
         borderColor: colors.blue,
+    },
+    noEventsContainer: {
+        borderLeftWidth: borderWidth,
+        borderRightWidth: borderWidth,
+        borderColor: colors.blue,
+        height: 40,
+        paddingLeft: 10,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+    },
+    noEventsText: {
+
     },
     seeAllContainer: {
         backgroundColor: colors.blue,

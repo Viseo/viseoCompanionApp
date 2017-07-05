@@ -7,7 +7,10 @@ import {setWords} from '../search/search.actions';
 const categories = [
     {title: 'BBLs', keywords: ['bbl', 'rex']},
     {title: 'Formations', keywords: ['formation', 'training']},
+    {title: 'Refresh', keywords: ['refresh', 'afterwork']},
 ];
+
+export const noEventsForThisCategory = 'noEventsForThisCategory';
 
 function getIncomingEventsSection(events) {
     let incoming = events.filter(event => event.datetime > moment());
@@ -34,6 +37,9 @@ function getSectionsFromCategories(events) {
             });
             return didMatch;
         });
+        if(section.data.length === 0) {
+            section.data.push(noEventsForThisCategory);
+        }
         sections.push(section);
     });
     return sections;
