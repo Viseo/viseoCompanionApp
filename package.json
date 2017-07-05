@@ -10,6 +10,7 @@
   "dependencies": {
     "hsl-to-hex": "^1.0.0",
     "moment": "^2.18.0",
+    "options": "0.0.6",
     "prop-types": "^15.5.10",
     "react": "^16.0.0-alpha.12",
     "react-localization": "0.0.13",
