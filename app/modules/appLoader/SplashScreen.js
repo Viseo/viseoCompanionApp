@@ -11,8 +11,9 @@ import strings from './../global/localizedStrings';
 import setDateLang from './../global/dateHandler';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import {callWithTimeout} from '../global/db';
+import PropTypes from 'prop-types';
 
-class SplashScreen extends Component {
+export class SplashScreen extends Component {
 
     minSplashScreenDuration = 1500;
     maxSplashScreenDuration = 5000;
@@ -23,21 +24,21 @@ class SplashScreen extends Component {
     };
 
     constructor(props) {
-        super(props);
+        super( props );
     }
 
     componentWillMount() {
-        hideTabBar(this.props.navigator);
+        hideTabBar( this.props.navigator );
         this._setLanguage();
         this._setSplashScreenDuration();
         const {email, password} = this.props.loggedUser;
-        this._authenticateSavedUser(email, password);
+        this._authenticateSavedUser( email, password );
     }
 
     componentWillReceiveProps({isAuthenticated}) {
-        this.setState({
+        this.setState( {
             isAuthenticated,
-        });
+        } );
     }
 
     render() {
@@ -51,17 +52,17 @@ class SplashScreen extends Component {
     async _authenticateSavedUser(email, password) {
         const hasSavedUser = email.length > 0 && password.length > 0;
         if (hasSavedUser && !this.state.isAuthenticatingSavedUser) {
-            this.setState({
+            this.setState( {
                 isAuthenticatingSavedUser: true,
-            });
+            } );
             const onServerTimeout = () => {
-                this.setState({
+                this.setState( {
                     preventSplashScreenFromClosing: true,
-                });
+                } );
                 showUnreachableServerPopup();
             };
             await callWithTimeout(
-                () => this.props.authenticate(email, password),
+                () => this.props.authenticate( email, password ),
                 onServerTimeout,
             );
         }
@@ -75,11 +76,11 @@ class SplashScreen extends Component {
             this._navigateToSignIn();
         } else {
             const remainingLoadingTime = this.maxSplashScreenDuration - this.minSplashScreenDuration;
-            setTimeout(() => {
+            setTimeout( () => {
                 if (!this.state.preventSplashScreenFromClosing) {
                     this._navigateToSignIn();
                 }
-            }, remainingLoadingTime);
+            }, remainingLoadingTime );
         }
     }
 
@@ -89,21 +90,21 @@ class SplashScreen extends Component {
 
     _navigateToSignIn() {
         this.props.navigator.popToRoot();
-        this.props.navigator.push({
+        this.props.navigator.push( {
             screen: 'user.authentication.signIn',
             title: 'Connexion',
             navigatorStyle: defaultNavBarStyle,
             backButtonHidden: true,
-        });
+        } );
     }
 
     _setLanguage() {
-        strings.setLanguage('fr');
-        setDateLang(strings.getLanguage());
+        strings.setLanguage( 'fr' );
+        setDateLang( strings.getLanguage() );
     }
 
     _setSplashScreenDuration() {
-        setTimeout(() => {
+        setTimeout( () => {
                 this._closeSplashScreenIfEverythingIsLoaded();
             }, this.minSplashScreenDuration,
         );
@@ -115,22 +116,29 @@ SplashScreen.navigatorStyle = {
     tabBarHidden: true,
 };
 
+SplashScreen.propTypes = {
+    navigator: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    loggedUser: PropTypes.object.isRequired,
+    authenticate: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = ({authentication}) => ({
     isAuthenticated: authentication.isAuthenticated,
     loggedUser: authentication.loggedUser,
 });
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
+    return bindActionCreators( {
         authenticate,
-    }, dispatch);
+    }, dispatch );
 };
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps)(SplashScreen);
+    mapDispatchToProps )( SplashScreen );
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     navigator: {
         flex: 1,
     },
@@ -144,4 +152,4 @@ const styles = StyleSheet.create({
         color: colors.blue,
         fontWeight: 'bold',
     },
-});
+} );

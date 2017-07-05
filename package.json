@@ -53,13 +53,14 @@
     "collectCoverage": true,
     "coverageDirectory": "./coverage",
     "collectCoverageFrom": [
-      "**/app/**/*.{js,jsx}",
+      "**/app/modules/**/*.{js,jsx}",
       "!**/app/__tests__/**",
       "!**/Root.js",
       "!**/**.spec.js",
       "!**/**.obsolete.js",
       "!**/**.depreciated.js",
-      "!**/registerScreens.js"
+      "!**/registerScreens.js",
+      "!**/**.reducer.js"
     ]
   }
 }
