@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Calendar from './tabs/CalendarTab.container';
-import MyEvents from './tabs/MyEventsTab.container';
+import MyEvents from './tabs/MyEventsTab';
 import DiscoverTab from './tabs/DiscoverTab.container';
-import {StyleSheet} from 'react-native';
 
 export default class Events extends Component {
 
@@ -16,10 +15,7 @@ export default class Events extends Component {
     render() {
         return (
             <ScrollableTabView
-                ref={(tabView) => { this.tabView = tabView; }}
-                tabBarBackgroundColor="#2E9AFE"
-                tabBarActiveTextColor="#FFFFFF"
-                tabBarInactiveTextColor="#FFFFFF"
+                onChangeTab={({i, ref}) => this._onChangeTab(i, ref)}
             >
                 <DiscoverTab
                     tabLabel="discover"
@@ -28,6 +24,7 @@ export default class Events extends Component {
                     goToSearchEvents={() => this.goToSearchEvents()}
                 />
                 <Calendar
+                    ref={(ref) => {this.calendarTab = ref;}}
                     tabLabel="calendar"
                     navigator={this.props.navigator}
                 />
@@ -69,6 +66,14 @@ export default class Events extends Component {
             navigatorStyle: defaultNavBarStyle,
         });
     }
+
+    _onChangeTab(tabIndex, tabRef) {
+        const calendarTabIndex = 1;
+        if(tabIndex === calendarTabIndex) {
+            console.warn('here');
+            this.calendarTab.getWrappedInstance().scrollToEvent();
+        }
+    }
 }
 
 Events.navigatorButtons = {
@@ -85,35 +90,3 @@ Events.navigatorButtons = {
         }
     ],
 };
-
-let styles = StyleSheet.create({
-    searchBar: {
-        flex: 0,
-        flexDirection: 'column',
-        backgroundColor: 'white',
-        borderRadius: 4,
-        borderWidth: 1.75,
-        borderColor: 'white',
-    },
-    searchBarInput: {
-        flex: 0,
-        flexDirection: 'row',
-    },
-    searchInput: {
-        flex: 9,
-        backgroundColor: 'transparent',
-    },
-    filterToggle: {
-        padding: 3,
-    },
-    filterContainer: {
-        flexDirection: 'row',
-        flex: 0,
-        justifyContent: 'center',
-    },
-    fitImage: {
-        flex: 0,
-        width: 20,
-        height: 20,
-    },
-});

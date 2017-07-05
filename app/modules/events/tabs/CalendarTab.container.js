@@ -9,41 +9,41 @@ function sortByYearAndMonth(events) {
         const year = moment(datetime).format('YYYY');
         const month = moment(datetime).format('MMMM');
         const today = moment().format('DD/MM/YYYY');
-        if(!result[year]) {
+        if (!result[year]) {
             result[year] = {};
         }
-        if(!result[year][month]) {
+        if (!result[year][month]) {
             result[year][month] = [];
         }
-        if(today!==moment(datetime).format('DD/MM/YYYY'))
-        result[year][month].push(event);
+        if (today !== moment(datetime).format('DD/MM/YYYY'))
+            result[year][month].push(event);
     });
     return result;
 }
 
-function convertIntoSections(events,eventsByDay) {
+function convertIntoSections(events, eventsByDay) {
     let sections = [];
     const today = moment().format('dddd DD MMMM');
-    const currentMonth=moment().format('MMMM');
-    const currentYear=moment().format('YYYY');
+    const currentMonth = moment().format('MMMM');
+    const currentYear = moment().format('YYYY');
     Object.keys(events).forEach(year => {
         sections.push({
             data: [],
             title: year,
-            type: "year"
+            type: 'year',
         });
         Object.keys(events[year]).forEach(month => {
 
             sections.push({
                 data: events[year][month],
                 title: month,
-                type: "month"
-            })
-            if(month===currentMonth && currentYear===year)
+                type: 'month',
+            });
+            if (month === currentMonth && currentYear === year)
                 sections.push({
-                    data:eventsByDay ,
+                    data: eventsByDay,
                     title: today,
-                    type: "today"
+                    type: 'today',
                 });
         });
 
@@ -56,7 +56,6 @@ function getEventsByCurrentDay(events) {
     let result = [];
     events.forEach(event => {
         const {datetime} = event;
-
         if (moment(datetime).format('DD/MM/YYYY') === today) {
             result.push(event);
         }
@@ -67,8 +66,7 @@ function getEventsByCurrentDay(events) {
 function breakDownIntoSections(events) {
     const sortedEvents = sortByYearAndMonth(events);
     const eventsByDay = getEventsByCurrentDay(events);
-   const sections = convertIntoSections(sortedEvents,eventsByDay);
-
+    const sections = convertIntoSections(sortedEvents, eventsByDay);
     return sections;
 }
 
