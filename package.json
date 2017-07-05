@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts app/**/*.spec.js",
-    "testEnzyme": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
+    "test": "jest",
+    "testDEPRECIATED": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts app/**/*.spec.js",
+    "testEnzymeDEPRECIATED": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
   },
   "dependencies": {
     "hsl-to-hex": "^1.0.0",
@@ -15,55 +16,49 @@
     "react": "^16.0.0-alpha.12",
     "react-localization": "0.0.13",
     "react-native": "^0.45.1",
-    "react-native-action-button": "^2.0.22",
     "react-native-check-box": "^1.0.4",
-    "react-native-checkbox": "^1.1.0",
     "react-native-circular-slider": "^1.0.1",
     "react-native-datepicker": "^1.4.4",
     "react-native-fabric": "^0.4.1",
-    "react-native-fcm": "^6.2.0",
+    "react-native-fcm": "^6.2.3",
     "react-native-highlight-words": "^1.0.0",
-    "react-native-image-button": "^1.0.0",
-    "react-native-image-picker": "^0.26.2",
-    "react-native-img-button": "^1.0.1",
+    "react-native-image-picker": "^0.26.3",
     "react-native-invertible-scroll-view": "^1.0.0",
     "react-native-keyboard-spacer": "^0.3.1",
     "react-native-md-textinput": "git+https://github.com/evblurbs/react-native-md-textinput.git",
-    "react-native-navigation": "^1.1.81",
+    "react-native-navigation": "^1.1.134",
     "react-native-scrollable-tab-view": "^0.6.7",
     "react-native-svg": "^5.2.0",
     "react-native-swipe-out": "git+https://github.com/Volinspire/react-native-swipeout.git",
-    "react-native-vector-icons": "^4.0.0",
+    "react-native-vector-icons": "^4.2.0",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-persist": "^4.7.1",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "babel-jest": "18.0.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-react-native": "1.9.1",
-    "chai": "^3.5.0",
-    "enzyme": "^2.7.1",
-    "fs-extra": "^3.0.1",
-    "image-size": "^0.6.0",
-    "inquirer": "^3.1.1",
-    "istanbul": "^1.0.0-alpha.2",
-    "jest": "18.1.0",
-    "jest-cli": "^20.0.4",
-    "json5": "^0.5.1",
-    "mocha": "^3.2.0",
-    "npmlog": "^4.1.2",
-    "react-dom": "^15.4.0",
-    "react-native-babel-jest": "^0.2.1",
-    "react-native-mock": "^0.3.1",
-    "react-test-renderer": "~15.4.0",
-    "redux-devtools": "^3.3.2",
-    "rx-lite": "^4.0.8",
-    "sax": "^1.2.4",
-    "sinon": "^2.0.0-pre.6"
+    "babel-jest": "^20.0.3",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-jest-hoist": "^20.0.3",
+    "babel-preset-react-native": "^2.0.0",
+    "istanbul": "^0.4.5",
+    "jest": "^20.0.4",
+    "react-test-renderer": "^16.0.0-alpha.12",
+    "redux-devtools": "^3.4.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "testMatch": [
+      "**/?(*.)(test).js?(x)"
+    ],
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
+    "collectCoverageFrom": [
+      "**/app/**/*.{js,jsx}",
+      "!**/app/__tests__/**",
+      "!**/Root.js",
+      "!**/**.spec.js",
+      "!**/registerScreens.js"
+    ]
   }
 }
