@@ -96,25 +96,23 @@ Notification.propTypes = {
 };
 
 const getParticipatingEventList = (events, eventsReviewed, user) => {
+    let notReviewedEvents = [];
     if (events && eventsReviewed) {
-
         let eventsByUser = events.filter((event) => {
             const filter = event.participants.filter((e) => {
                 return e.id === user.id;
             });
             return filter.length > 0;
         });
-
         if (eventsByUser.length > 0 && eventsReviewed.length > 0) {
-
-            let notReviewedEvents = eventsByUser.filter((item) => {
+            notReviewedEvents = eventsByUser.filter((item) => {
                 return !eventsReviewed.includes(JSON.stringify(item));
             });
-            return notReviewedEvents;
         }
     }
-    return null;
+    return notReviewedEvents;
 };
+
 const mapStateToProps = (state) => ({
     events: getParticipatingEventList(
         state.events.itemsExpired, state.events.itemsReviewed, state.user,
