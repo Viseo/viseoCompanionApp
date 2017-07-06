@@ -16,7 +16,8 @@ export default {
         isFetching: false,
         items: [],
         itemsExpired: [],
-        itemsReviewed:[]
+        itemsReviewed:[],
+        selectedItem: null,
     },
     live: {
         chatMessages: [],

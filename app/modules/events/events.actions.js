@@ -58,6 +58,12 @@ export const registerUser = (event, userId) => {
     };
 };
 
+export const SELECT_EVENT = 'SELECT_EVENT';
+export const selectEvent = (eventId) => ({
+    type: SELECT_EVENT,
+    eventId,
+});
+
 export const UNREGISTER_USER = 'UNREGISTER_USER';
 export const unregisterUser = (event, userId) => {
     return async (dispatch) => {

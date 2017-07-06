@@ -5,7 +5,7 @@ import {
     RECEIVE_EVENTS,
     RECEIVE_EVENTS_REVIEWED,
     REGISTER_USER,
-    REQUEST_EVENTS,
+    REQUEST_EVENTS, SELECT_EVENT,
     UNREGISTER_USER,
     UPDATE_EVENT,
 } from './events.actions';
@@ -27,12 +27,12 @@ function formatEvent(event) {
 }
 
 const events = (state = {
-                    isFetching: false,
-                    didInvalidate: false,
-                    items: [],
-                    itemsExpired: [],
-                    itemsReviewed: [],
-                }, action) => {
+    isFetching: false,
+    didInvalidate: false,
+    items: [],
+    itemsExpired: [],
+    itemsReviewed: [],
+}, action) => {
     switch (action.type) {
         case ADD_EVENT:
             return {
@@ -114,12 +114,17 @@ const events = (state = {
                 isFetching: true,
                 didInvalidate: false,
             });
+        case SELECT_EVENT:
+            return {
+                ...state,
+                selectedItem: action.evendId,
+            };
         case UNREGISTER_USER: {
             let eventToUnregisterFrom = state.items.find(event => event.id === action.eventId);
             if (!eventToUnregisterFrom) {
                 return state;
             }
-            let participants = eventToUnregisterFrom.hasOwnProperty("participants") ?
+            let participants = eventToUnregisterFrom.hasOwnProperty('participants') ?
                 eventToUnregisterFrom.participants :
                 [];
             let participantIndex = participants.indexOf(action.userId);

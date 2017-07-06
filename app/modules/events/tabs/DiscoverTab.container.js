@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import DiscoverTab from './DiscoverTab';
 import {bindActionCreators} from 'redux';
 import {setWords} from '../search/search.actions';
+import {selectEvent} from '../events.actions';
 
 const categories = [
     {title: 'BBLs', keywords: ['bbl', 'rex']},
@@ -72,6 +73,7 @@ const mapStateToProps = ({events}, ownProps) => ({
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             setWords,
+            selectEvent,
         },
         dispatch,
     );

@@ -16,7 +16,7 @@ export default class DiscoverTab extends Component {
         return (
             <SectionList
                 style={styles.mainContainer}
-                renderItem={({item}) => this._renderEventCard(item)}
+                renderItem={(info) => this._renderEventCard(info)}
                 renderSectionHeader={({section}) => this._renderSectionHeader(section)}
                 keyExtractor={(item, index) => item.id}
                 sections={this.props.events}
@@ -24,7 +24,7 @@ export default class DiscoverTab extends Component {
         );
     }
 
-    _renderEventCard(item) {
+    _renderEventCard({item, section}) {
         const seeAll = (
             <View style={styles.seeAllContainer}>
                 <Text style={{textAlign: 'center', color: 'white'}}>
@@ -49,11 +49,19 @@ export default class DiscoverTab extends Component {
             )
         }
         else {
+            const showEventInCalendar = () => {
+                this.props.selectEvent(item.id);
+                this.props.goToCalendarTab();
+            };
+            const onPress = section.title === 'Incoming' ?
+                showEventInCalendar :
+                null;
             return (
                 <View style={styles.eventCardContainer}>
                     <EventCard
                         eventId={item.id}
                         navigator={this.props.navigator}
+                        onPress={onPress}
                     />
                 </View>
             );
@@ -70,8 +78,9 @@ export default class DiscoverTab extends Component {
 }
 
 DiscoverTab.propTypes = {
-    goToTab: PropTypes.func.isRequired,
+    goToCalendarTab: PropTypes.func.isRequired,
     goToSearchEvents: PropTypes.func.isRequired,
+    selectEvent: PropTypes.func.isRequired,
 };
 
 const borderWidth = 3;

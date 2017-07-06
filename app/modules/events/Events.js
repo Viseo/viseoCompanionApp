@@ -7,6 +7,8 @@ import DiscoverTab from './tabs/DiscoverTab.container';
 
 export default class Events extends Component {
 
+    calendarTabIndex = 1;
+
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -15,16 +17,20 @@ export default class Events extends Component {
     render() {
         return (
             <ScrollableTabView
-                onChangeTab={({i, ref}) => this._onChangeTab(i, ref)}
+                ref={(ref) => {
+                    this.tabView = ref;
+                }}
             >
                 <DiscoverTab
                     tabLabel="discover"
                     navigator={this.props.navigator}
-                    goToTab={(tabIndex) => this.goToTab(tabIndex)}
+                    goToCalendarTab={() => this.goToCalendarTab()}
                     goToSearchEvents={() => this.goToSearchEvents()}
                 />
                 <Calendar
-                    ref={(ref) => {this.calendarTab = ref;}}
+                    ref={(ref) => {
+                        this.calendarTab = ref;
+                    }}
                     tabLabel="calendar"
                     navigator={this.props.navigator}
                 />
@@ -47,8 +53,8 @@ export default class Events extends Component {
         });
     }
 
-    goToTab(tabIndex) {
-        this.tabView.goToPage(tabIndex);
+    goToCalendarTab() {
+        this.tabView.goToPage(this.calendarTabIndex);
     }
 
     onNavigatorEvent(event) {
@@ -66,14 +72,6 @@ export default class Events extends Component {
             navigatorStyle: defaultNavBarStyle,
         });
     }
-
-    _onChangeTab(tabIndex, tabRef) {
-        const calendarTabIndex = 1;
-        if(tabIndex === calendarTabIndex) {
-            console.warn('here');
-            this.calendarTab.getWrappedInstance().scrollToEvent();
-        }
-    }
 }
 
 Events.navigatorButtons = {
@@ -87,6 +85,6 @@ Events.navigatorButtons = {
         {
             icon: require('../../images/search-icon.png'),
             id: 'searchBarVisible',
-        }
+        },
     ],
 };

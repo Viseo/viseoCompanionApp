@@ -25,7 +25,7 @@ export default class MyEventsTab extends Component {
     _renderEventCard(item) {
         if (item === 'seeAll') {
             return (
-                <TouchableOpacity onPress={() => this.props.goToTab(1)}>
+                <TouchableOpacity onPress={() => this.props.goToCalendarTab(1)}>
                     <View style={styles.seeAllContainer}>
                         <Text style={{textAlign: 'center', color: 'white'}}>
                             see all

@@ -72,10 +72,16 @@ function breakDownIntoSections(events) {
 
 const mapStateToProps = ({events}, ownProps) => ({
     events: breakDownIntoSections(events.items),
+    selectedEvent: events.selectedItem,
     ...ownProps,
 });
 
 export default connect(
     mapStateToProps,
+    null,
+    null,
+    {
+        withRef: true,
+    }
 )(CalendarTab);
 

@@ -10,8 +10,10 @@ export default class CalendarTab extends Component {
         super(props);
     }
 
-    componentDidMount() {
-        this._scrollToEvent();
+    componentWillReceiveProps({selectedEvent}) {
+        if (selectedEvent) {
+            this._scrollToEvent(selectedEvent);
+        }
     }
 
     render() {
@@ -40,7 +42,8 @@ export default class CalendarTab extends Component {
     }
 
     _scrollToEvent() {
-       // this.sectionList.scrollToLocation({sectionIndex: 6, itemIndex: 0});
+        console.warn('just scrolled my man');
+        // this.sectionList.scrollToLocation({sectionIndex: 6, itemIndex: 0});
     }
 
     _renderSectionHeader = (section) => {
@@ -51,11 +54,11 @@ export default class CalendarTab extends Component {
                 style={styles.headerMonth}>{section.title.substring(0, 1).toUpperCase()}{section.title.substring(1, section.title.length)}</AppText>
         );
         switch (section.type) {
-            case "today":
+            case 'today':
                 return today;
-            case "month":
+            case 'month':
                 return month;
-            case "year":
+            case 'year':
                 return year;
             default :
                 return null;
@@ -66,31 +69,32 @@ export default class CalendarTab extends Component {
 CalendarTab.propTypes = {
     events: PropTypes.array.isRequired,
     eventId: PropTypes.number,
+    selectedEvent: PropTypes.number,
 };
 
 styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        flexDirection: "column",
+        flexDirection: 'column',
     },
     headerYear: {
         fontSize: 20,
-        fontWeight: "bold",
-        textAlign: "center",
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     headerToday: {
         borderWidth: 1,
-        borderColor: "red",
-        color: "red",
+        borderColor: 'red',
+        color: 'red',
         fontSize: 20,
-        fontWeight: "bold",
+        fontWeight: 'bold',
         paddingLeft: 10,
     },
     headerMonth: {
-        backgroundColor: "lightgray",
-        color: "black",
+        backgroundColor: 'lightgray',
+        color: 'black',
         fontSize: 20,
-        fontWeight: "bold",
+        fontWeight: 'bold',
         paddingLeft: 10,
     },
 
