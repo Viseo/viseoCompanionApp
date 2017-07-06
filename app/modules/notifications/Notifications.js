@@ -44,15 +44,9 @@ export class Notification extends Component {
         );
     }
 
-    _formatDate(date) {
-        if (!date)
-            return [];
-        let dateTime = moment(date, 'x');
-        return dateTime.calendar().split('/');
-    }
-
     _renderNotificationCard(event) {
-        let [day, time] = this._formatDate(event.datetime);
+        let day = moment(event.datetime).format('ddd D MMM');
+        let time = moment(event.datetime).format('hh') + 'h' + moment(event.datetime).format('mm');
         return (
             <View>
                 <NotificationCard
@@ -148,5 +142,4 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blue,
         paddingHorizontal: 15,
     },
-
 });
