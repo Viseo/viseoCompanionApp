@@ -47,10 +47,9 @@ function getSectionsFromCategories(events) {
 
 function setMaxNumberOfEventsPerSections(sections, maxNumberOfEvents) {
     sections.forEach(section => {
-        let {data} = section;
-        if (data.length > maxNumberOfEvents) {
-            data = data.slice(0, maxNumberOfEvents);
-            data.push('seeAllFilter');
+        if (section.data.length > maxNumberOfEvents) {
+            section.data = section.data.slice(0, maxNumberOfEvents);
+            section.data.push('seeAllFilter');
         }
     });
 }

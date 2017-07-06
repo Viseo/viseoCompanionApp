@@ -5,7 +5,6 @@ import EventCard from '../EventCard';
 import AppText from '../../global/components/AppText';
 import PropTypes from 'prop-types';
 import {noEventsForThisCategory} from './DiscoverTab.container';
-import AppTextInput from '../../global/components/AppTextInput';
 
 export default class DiscoverTab extends Component {
 
@@ -33,25 +32,10 @@ export default class DiscoverTab extends Component {
                 </Text>
             </View>
         );
-        if (item === 'seeAllCalendar') {
-            return (
-                <TouchableOpacity onPress={() => this.props.goToTab(1)}>
-                    {seeAll}
-                </TouchableOpacity>
-            );
-        } else if (item === 'seeAllFilterBbl') {
+        if (item === 'seeAllFilter') {
             return (
                 <TouchableOpacity onPress={() => {
-                    this.props.setWords('bbl');
-                    this.props.goToSearchEvents();
-                }}>
-                    {seeAll}
-                </TouchableOpacity>
-            );
-        } else if (item === 'seeAllFilterRefresh') {
-            return (
-                <TouchableOpacity onPress={() => {
-                    this.props.setWords('refresh');
+                    this.props.setWords('anni');
                     this.props.goToSearchEvents();
                 }}>
                     {seeAll}

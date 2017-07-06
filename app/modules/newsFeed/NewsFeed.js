@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
-import EventCard from "../events/EventCard";
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 
 class NewsFeed extends Component {
 
@@ -65,6 +66,10 @@ class NewsFeed extends Component {
         });
     }
 }
+
+NewsFeed.propTypes = {
+    navigator: PropTypes.object.isRequired,
+};
 
 NewsFeed.navigatorButtons = {
     rightButtons: [

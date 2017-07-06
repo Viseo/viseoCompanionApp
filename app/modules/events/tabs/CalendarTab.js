@@ -1,8 +1,8 @@
-import {View, StyleSheet, SectionList} from "react-native";
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import AppText from "../../global/components/AppText";
-import EventCard from "../EventCard";
+import {SectionList, StyleSheet, View} from 'react-native';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import AppText from '../../global/components/AppText';
+import EventCard from '../EventCard';
 
 export default class CalendarTab extends Component {
 
@@ -63,7 +63,7 @@ export default class CalendarTab extends Component {
     };
 };
 
-propTypes = {
+CalendarTab.propTypes = {
     events: PropTypes.array.isRequired,
     eventId: PropTypes.number,
 };
