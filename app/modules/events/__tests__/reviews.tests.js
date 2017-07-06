@@ -1,0 +1,1 @@
+//todo RenderFullComponent( Comment, Rating, ReviewPopUp, Thanks)

@@ -1,4 +1,4 @@
-import {renderCompleteComponent, renderOneLevelComponent} from '../../global/__tests__/utilities';
+import {renderFullComponent, renderShallowComponent} from '../../global/__tests__/utilities';
 import React from 'react';
 
 import {ChatView} from '../ChatView';
@@ -8,18 +8,18 @@ import {chatMessages, mockFunction, mockNavigator, mockUser} from '../../global/
 
 describe('Live', () => {
     it('should render a SentCard, ReceivedCard and StatusCard', () => {
-        renderCompleteComponent(
+        renderFullComponent(
             <ChatView chatMessages={chatMessages}/>,
         );
     });
     it('should render a ChatInput', () => {
-        renderCompleteComponent(
+        renderFullComponent(
             <ChatInput navigator={mockNavigator} sendMessage={mockFunction}/>,
         );
         //Need to test the changing text -> enzyme to access state
     });
     it('should render a LiveEvent view', () => {
-        renderOneLevelComponent(
+        renderShallowComponent(
             <LiveEvent navigator={mockNavigator} user={mockUser} lastUpdate={123456789}/>,
         );
     });

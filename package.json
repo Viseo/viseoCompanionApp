@@ -51,16 +51,6 @@
       "**/?(*.)(tests).js?(x)"
     ],
     "collectCoverage": true,
-    "coverageDirectory": "./coverage",
-    "collectCoverageFrom": [
-      "**/app/modules/**/*.{js,jsx}",
-      "!**/app/__tests__/**",
-      "!**/Root.js",
-      "!**/**.spec.js",
-      "!**/**.obsolete.js",
-      "!**/**.depreciated.js",
-      "!**/registerScreens.js",
-      "!**/**.reducer.js"
-    ]
+    "coverageDirectory": "./coverage"
   }
 }
