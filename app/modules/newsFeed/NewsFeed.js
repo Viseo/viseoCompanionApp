@@ -12,7 +12,9 @@ class NewsFeed extends Component {
     }
 
     render() {
-        let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
+        // todo take care of this buggy and ugly popup
+        // let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
+        const notationPopup = null;
         return (
             <View>
                 {notationPopup}
