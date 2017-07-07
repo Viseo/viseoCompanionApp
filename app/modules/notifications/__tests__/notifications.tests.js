@@ -1,4 +1,4 @@
-import {renderCompleteComponent} from '../../global/__tests__/utilities';
+import {renderFullComponent} from '../../global/__tests__/utilities';
 import {mockEvents, mockFunction, mockNavigator, mockUser} from '../../global/__tests__/mockLibrary';
 import React from 'react';
 
@@ -6,7 +6,7 @@ import {Notification} from '../Notifications';
 
 describe('Notification', () => {
     it('should render notification cards', () => {
-        renderCompleteComponent(
+        renderFullComponent(
             <Notification
                 events={mockEvents}
                 user={mockUser}
@@ -18,7 +18,7 @@ describe('Notification', () => {
         );
     });
     it('should render emptyNotification card', () => {
-        renderCompleteComponent(
+        renderFullComponent(
             <Notification
                 events={[]}
                 user={mockUser}

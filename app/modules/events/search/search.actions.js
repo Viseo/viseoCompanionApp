@@ -1,9 +1,6 @@
-/**
- * Created by AAB3605 on 05/04/2017.
- */
-
+export const SET_WORDS = 'SET_WORDS';
 export const setWords = (searchString = []) => ({
-    type: 'SET_WORDS',
+    type: SET_WORDS,
     searchWords: searchString.length > 0 ?
         searchString
             .trim()

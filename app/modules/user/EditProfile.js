@@ -12,7 +12,7 @@ import {signOut} from './authentication/authentication.actions';
 import {startLoader} from '../global/navigationLoader';
 import AppText from '../global/components/AppText';
 
-class EditProfile extends Component {
+export class EditProfile extends Component {
 
     state = {
         user: {...this.props.user},
@@ -147,6 +147,9 @@ class EditProfile extends Component {
 
 EditProfile.propTypes = {
     user: PropTypes.object.isRequired,
+    navigator: PropTypes.object.isRequired,
+    updateUser: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired
 };
 
 EditProfile.navigatorButtons = {

@@ -1,5 +1,6 @@
 export const mockNavigator = {
     setOnNavigatorEvent: jest.fn(),
+    toggleTabs: jest.fn(),
 };
 
 export const mockFunction = jest.fn();
@@ -10,6 +11,7 @@ export const mockUser = {
     email: 'leo@gmail.com',
     firstName: 'bob',
     lastName: 'Rasofsky',
+    password: 'tatata',
     roles: null,
 };
 

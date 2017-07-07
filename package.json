@@ -15,7 +15,7 @@
     "prop-types": "^15.5.10",
     "react": "^16.0.0-alpha.12",
     "react-localization": "0.0.13",
-    "react-native": "^0.45.0",
+    "react-native": "^0.45.1",
     "react-native-check-box": "^1.0.4",
     "react-native-circular-slider": "^1.0.1",
     "react-native-datepicker": "^1.4.4",
@@ -27,6 +27,7 @@
     "react-native-keyboard-spacer": "^0.3.1",
     "react-native-md-textinput": "git+https://github.com/evblurbs/react-native-md-textinput.git",
     "react-native-navigation": "^1.1.134",
+    "react-native-scrollable-tab-view": "^0.6.7",
     "react-native-svg": "^5.2.0",
     "react-native-swipe-out": "git+https://github.com/Volinspire/react-native-swipeout.git",
     "react-native-vector-icons": "^4.2.0",
@@ -51,15 +52,6 @@
       "**/?(*.)(tests).js?(x)"
     ],
     "collectCoverage": true,
-    "coverageDirectory": "./coverage",
-    "collectCoverageFrom": [
-      "**/app/**/*.{js,jsx}",
-      "!**/app/__tests__/**",
-      "!**/Root.js",
-      "!**/**.spec.js",
-      "!**/**.obsolete.js",
-      "!**/**.depreciated.js",
-      "!**/registerScreens.js"
-    ]
+    "coverageDirectory": "./coverage"
   }
 }

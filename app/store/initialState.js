@@ -16,9 +16,10 @@ export default {
         isFetching: false,
         items: [],
         itemsExpired: [],
-        itemsReviewed:[]
+        itemsReviewed:[],
+        selectedItem: null,
+        showCurrentDaySection: false,
     },
-    filters: [],
     live: {
         chatMessages: [],
     },
@@ -33,5 +34,7 @@ export default {
         isFetching: false,
         otherProfile: '',
     },
-    visibilityFilter: 'SHOW_ALL',
+    review:{
+        isReviewPopupDismissed : false
+    },
 };

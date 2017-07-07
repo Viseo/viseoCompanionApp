@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import EventCard from './EventCard';
-import AppText from '../global/components/AppText';
-import colors from '../global/colors';
+import {FlatList, View} from 'react-native';
+import EventCard from '../EventCard';
+import AppText from '../../global/components/AppText';
+import colors from '../../global/colors';
 import PropTypes from 'prop-types';
 
-export default class EventList extends Component {
+export default class SearchResults extends Component {
 
     constructor(props) {
         super(props);
     }
 
-    componentWillMount() {
-        //this.props.refresh(this.props.user);
-    }
-
     render() {
-        const eventList = (
+        return (
             <FlatList
                 data={this.props.events}
                 keyExtractor={(item, index) => item.id}
@@ -26,12 +22,10 @@ export default class EventList extends Component {
                         eventId={item.id}
                     />
                 }
-                onRefresh={this.props.refresh}
                 ListEmptyComponent={() => this._renderEmptyEventCard()}
-                refreshing={this.props.refreshing}
             />
         );
-        return <View style={styles.mainContainer}>{eventList}</View>;
+
     }
 
     _renderEmptyEventCard() {
@@ -55,14 +49,6 @@ export default class EventList extends Component {
     }
 }
 
-EventList.propTypes = {
+SearchResults.propTypes = {
     events: PropTypes.array.isRequired,
-    refreshing: PropTypes.bool.isRequired,
 };
-
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-});

@@ -1,26 +1,20 @@
-import React, {Component} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import colors from '../global/colors';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import AppText from '../global/components/AppText';
-import NotificationCard from './NotificationCard';
-import {fetchEventsExp, fetchReviewedEvents} from '../../actionCreators/events.depreciated';
-import moment from 'moment';
-import PropTypes from 'prop-types';
+import React, {Component} from "react";
+import {FlatList, StyleSheet, View} from "react-native";
+import colors from "../global/colors";
+import {bindActionCreators} from "redux";
+import {defaultNavBarStyle} from "../global/navigatorStyle";
+import {connect} from "react-redux";
+import AppText from "../global/components/AppText";
+import NotificationCard from "./NotificationCard";
+import {fetchEventsExp, fetchReviewedEvents} from "../../actionCreators/events.depreciated";
+import moment from "moment";
 
-export class Notification extends Component {
+class Notification extends Component {
 
     constructor(props) {
         super(props);
 
     }
-
-    componentWillMount() {
-        this.props.refreshPastEvents(this.props.user);
-        this.props.refreshReviewedEvents(this.props.user.id);
-    }
-
     render() {
         const reviewList = (
             <FlatList
@@ -43,14 +37,12 @@ export class Notification extends Component {
             </View>
         );
     }
-
     _formatDate(date) {
         if (!date)
             return [];
-        let dateTime = moment(date, 'x');
+        let dateTime = moment(date);
         return dateTime.calendar().split('/');
     }
-
     _renderNotificationCard(event) {
         let [day, time] = this._formatDate(event.datetime);
         return (
@@ -74,12 +66,12 @@ export class Notification extends Component {
             <View>
                 <AppText
                     style={{
-                        textAlign: 'center',
+                        textAlign: "center",
                         color: colors.mediumGray,
-                        backgroundColor: 'white',
+                        backgroundColor: "white",
                         height: 50,
                         borderRadius: 4,
-                        textAlignVertical: 'center',
+                        textAlignVertical: "center",
                         fontSize: 18,
                         marginTop: 10,
                     }}
@@ -93,17 +85,12 @@ export class Notification extends Component {
 }
 
 Notification.propTypes = {
-    events: PropTypes.array.isRequired,
-    user: PropTypes.object.isRequired,
-    navigator: PropTypes.object.isRequired,
-    refreshing: PropTypes.bool.isRequired,
-    refreshPastEvents: PropTypes.func.isRequired,
-    refreshReviewedEvents: PropTypes.func.isRequired,
+    // eventId: PropTypes.number.isRequired,
 };
 
 const getParticipatingEventList = (events, eventsReviewed, user) => {
-    if (events && eventsReviewed) {
 
+    if (events && eventsReviewed) {
         let eventsByUser = events.filter((event) => {
             const filter = event.participants.filter((e) => {
                 return e.id === user.id;
@@ -111,12 +98,15 @@ const getParticipatingEventList = (events, eventsReviewed, user) => {
             return filter.length > 0;
         });
 
-        if (eventsByUser.length > 0 && eventsReviewed.length > 0) {
-
+       if (eventsByUser.length > 0 && eventsReviewed.length > 0) {
             let notReviewedEvents = eventsByUser.filter((item) => {
-                return !eventsReviewed.includes(JSON.stringify(item));
+                return !JSON.stringify(eventsReviewed).includes(JSON.stringify(item));
             });
             return notReviewedEvents;
+        }
+        else
+        {
+            return eventsByUser;
         }
     }
     return null;
@@ -144,7 +134,7 @@ export default connect(
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: "column",
         backgroundColor: colors.blue,
         paddingHorizontal: 15,
     },
