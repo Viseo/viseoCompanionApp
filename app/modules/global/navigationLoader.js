@@ -21,9 +21,9 @@ export const startApp = () => {
                 navigatorStyle: defaultNavBarStyle,
             },
             {
-                label: 'Calendrier',
+                label: 'Evènements',
                 screen: 'events.events',
-                title: 'Evènements à venir',
+                title: 'Evènements',
                 icon: require('../../images/navigation/calendar.png'),
                 navigatorStyle: defaultNavBarStyle,
             },

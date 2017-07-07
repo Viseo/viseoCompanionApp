@@ -22,18 +22,18 @@ export default class Events extends Component {
                 }}
             >
                 <DiscoverTab
-                    tabLabel="discover"
+                    tabLabel="Découvrir"
                     navigator={this.props.navigator}
                     goToCalendarTab={() => this.goToCalendarTab()}
                     goToSearchEvents={() => this.goToSearchEvents()}
                 />
                 <Calendar
-                    tabLabel="calendar"
+                    tabLabel="Calendrier"
                     navigator={this.props.navigator}
                     scrollToCurrentDaySection={false}
                 />
                 <MyEvents
-                    tabLabel="myEvents"
+                    tabLabel="Mes évènements"
                     navigator={this.props.navigator}
                 />
             </ScrollableTabView>
