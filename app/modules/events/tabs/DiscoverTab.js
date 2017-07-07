@@ -28,7 +28,7 @@ export default class DiscoverTab extends Component {
         const seeAll = (
             <View style={styles.seeAllContainer}>
                 <Text style={{textAlign: 'center', color: 'white'}}>
-                    plus
+                    Voir plus...
                 </Text>
             </View>
         );

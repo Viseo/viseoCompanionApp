@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import AppText from '../global/components/AppText';
-import {Image, Platform, StyleSheet, Text, TouchableOpacity, View, Dimensions} from 'react-native';
+import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Swipeout from 'react-native-swipe-out';
 import moment from 'moment';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
@@ -117,7 +117,6 @@ class EventCard extends Component {
     renderEventInfo() {
         return (
             <View style={styles.eventInfo}>
-
                 <View style={{flex: 1}}>
                     {this.renderTitle()}
                 </View>
@@ -128,7 +127,6 @@ class EventCard extends Component {
                     </View>
                     {this.renderParticipationIndicator()}
                 </View>
-
             </View>
         );
     }
@@ -137,7 +135,7 @@ class EventCard extends Component {
         let {host} = this.props.event;
         return (
             <View>
-                <AppText style={styles.hostText}> {host.firstName} {host.lastName}</AppText>
+                <AppText style={styles.hostText}>{host.firstName} {host.lastName}</AppText>
             </View>
         );
     }
@@ -212,7 +210,7 @@ class EventCard extends Component {
         return (
             <View>
                 <Highlighter
-                    numberOfLines={1}
+                    numberOfLines={2}
                     highlightStyle={styles.highlightStyle}
                     style={[
                         styles.locationText,
@@ -352,6 +350,7 @@ const styles = StyleSheet.create({
     eventInfo: {
         flex: 8,
         flexDirection: 'column',
+        marginTop: 5,
     },
 
     highlightStyle: {
@@ -380,8 +379,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     titleText: {
-        color: colors.blue,
-        fontSize: 16,
+        paddingRight: 10,
+        fontWeight: 'bold',
+        fontSize: 20,
     },
     locationText: {
         color: colors.mediumGray,
@@ -390,8 +390,7 @@ const styles = StyleSheet.create({
     },
     hostText: {
         color: colors.mediumGray,
-        fontSize: 16,
-        marginLeft: -5,
+        fontSize: 13,
         marginTop: 2,
     },
     liveIndicator: {

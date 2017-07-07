@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Platform, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, TextInput, View} from 'react-native';
 import TextField from 'react-native-md-textinput';
 import colors from '../colors';
 import AppText from './AppText';
