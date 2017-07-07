@@ -1,19 +1,20 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from 'react-native';
-import EmailInput from './EmailInput';
-import PasswordInput from './PasswordInput';
-import strings from '../../global/localizedStrings';
-import AppText from '../../global/components/AppText';
-import {authenticate, rememberUser as toggleRememberUser} from './authentication.actions';
+import CheckBox from 'react-native-check-box';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {startApp} from '../../global/navigationLoader';
-import CheckBox from 'react-native-check-box';
-import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import colors from '../../global/colors';
+import AppText from '../../global/components/AppText';
 import {doServerCall} from '../../global/db';
+import strings from '../../global/localizedStrings';
+import {startApp} from '../../global/navigationLoader';
+import {defaultNavBarStyle} from '../../global/navigatorStyle';
+import {authenticate, rememberUser as toggleRememberUser} from './authentication.actions';
+import EmailInput from './EmailInput';
+import PasswordInput from './PasswordInput';
 
-class SignIn extends Component {
+export class SignIn extends Component {
 
     state = {
         email: '',
@@ -23,8 +24,8 @@ class SignIn extends Component {
     };
 
     constructor(props) {
-        super(props);
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        super( props );
+        this.props.navigator.setOnNavigatorEvent( this.onNavigatorEvent.bind( this ) );
     }
 
     componentWillReceiveProps({isAuthenticated, isAuthenticating}) {
@@ -33,9 +34,9 @@ class SignIn extends Component {
                 this._navigateToHome();
             }
             else {
-                this.setState({
+                this.setState( {
                     errorMessage: strings.wrongCredentials,
-                });
+                } );
             }
         }
     }
@@ -51,7 +52,7 @@ class SignIn extends Component {
             <ScrollView contentContainerStyle={styles.mainContainer}>
                 {logo}
                 <EmailInput
-                    onEmailChange={email => this._setEmail(email)}
+                    onEmailChange={email => this._setEmail( email )}
                     onSubmitEditing={ () => {
                         this._autoSubmitWhenFilled();
                         this.refs.password.focus();
@@ -59,7 +60,7 @@ class SignIn extends Component {
                 />
                 <PasswordInput
                     ref="password"
-                    onPasswordChange={password => this._setPassword(password)}
+                    onPasswordChange={password => this._setPassword( password )}
                     returnKeyType="done"
                     onSubmitEditing={ () => {
                         this._autoSubmitWhenFilled();
@@ -84,7 +85,7 @@ class SignIn extends Component {
     _isFormFilled() {
         return this.state.email
             && this.state.password
-            || this.setState({errorMessage: strings.missingFormFields});
+            || this.setState( {errorMessage: strings.missingFormFields} );
     }
 
     _navigateToHome() {
@@ -92,22 +93,22 @@ class SignIn extends Component {
     }
 
     _navigateToRecoverPassword() {
-        this.props.navigator.push({
+        this.props.navigator.push( {
             screen: 'user.authentication.recoverPassword',
             title: 'Récupération de mot de passe',
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 email: this.state.email,
             },
-        });
+        } );
     }
 
     _navigateToSignUp() {
-        this.props.navigator.push({
+        this.props.navigator.push( {
             screen: 'user.authentication.signUp',
             title: 'Nouvel utilisateur',
             navigatorStyle: defaultNavBarStyle,
-        });
+        } );
     }
 
     _renderErrorMessage() {
@@ -118,7 +119,7 @@ class SignIn extends Component {
         return (
             <View style={{alignItems: 'center', paddingBottom: 50}}>
                 <Image
-                    source={require('../../../images/user/loginLogo.png')}
+                    source={require( '../../../images/user/loginLogo.png' )}
                     style={{width: 110, height: 110}}
                 />
             </View>
@@ -159,15 +160,15 @@ class SignIn extends Component {
     }
 
     _setEmail(email) {
-        this.setState({
+        this.setState( {
             email,
-        });
+        } );
     }
 
     _setPassword(password) {
-        this.setState({
+        this.setState( {
             password,
-        });
+        } );
     }
 
     _autoSubmitWhenFilled() {
@@ -177,18 +178,27 @@ class SignIn extends Component {
     }
 
     _signIn() {
-        this.setState({hasSubmittedForm: true});
+        this.setState( {hasSubmittedForm: true} );
         if (this._isFormFilled()) {
-            this.setState({errorMessage: ''});
+            this.setState( {errorMessage: ''} );
             const {email, password} = this.state;
-            doServerCall(() => this.props.authenticate(email, password));
+            doServerCall( () => this.props.authenticate( email, password ) );
         }
     }
 
     _toggleRememberUser() {
-        this.props.toggleRememberUser(!this.props.rememberUser);
+        this.props.toggleRememberUser( !this.props.rememberUser );
     }
 }
+
+SignIn.propTypes = {
+    authenticate: PropTypes.func.isRequired,
+    rememberUser: PropTypes.bool.isRequired,
+    toggleRememberUser: PropTypes.func.isRequired,
+    navigator: PropTypes.object.isRequired,
+    isAuthenticating: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
+};
 
 SignIn.navigatorButtons = {
     rightButtons: [
@@ -210,7 +220,7 @@ const mapStateToProps = ({authentication}, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
+    return bindActionCreators( {
             authenticate,
             toggleRememberUser,
         },
@@ -221,9 +231,9 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(SignIn);
+)( SignIn );
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     errorInfo: {
         textAlign: 'center',
         fontSize: 12,
@@ -245,4 +255,4 @@ const styles = StyleSheet.create({
     signInButton: {
         marginTop: 30,
     },
-});
+} );

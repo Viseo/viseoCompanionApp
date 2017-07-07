@@ -7,7 +7,7 @@ import {getUser} from './user.actions';
 import PropTypes from 'prop-types';
 import {ActivityIndicator} from 'react-native';
 
-class OtherProfile extends Component {
+export class OtherProfile extends Component {
 
     constructor(props) {
         super(props);
@@ -29,6 +29,9 @@ OtherProfile.navigatorStyle = defaultNavBarStyle;
 
 OtherProfile.propTypes = {
     otherProfileId: PropTypes.number.isRequired,
+    otherProfile: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    getUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({user}, ownProps) => ({

@@ -14,8 +14,8 @@ export default class SentChatCard extends Component {
     render() {
 
         let datetime = this.props.chatData.datetime ?
-            moment(this.props.chatData.datetime).format('HH[h]mm') :
-            null;
+            moment(this.props.chatData.datetime, 'x').format('HH[h]mm') :
+            moment().format('HH[h]mm');
         return (
             <View style={styles.mainContainer}>
                 <View style={{flex: 1}}/>

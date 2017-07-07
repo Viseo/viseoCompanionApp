@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from "react-native";
-import TextField from "react-native-md-textinput";
-import colors from "../colors";
-import AppText from "./AppText";
+import {StyleSheet, Platform, TextInput, View} from 'react-native';
+import TextField from 'react-native-md-textinput';
+import colors from '../colors';
+import AppText from './AppText';
 import PropTypes from 'prop-types';
 
 class AppTextInput extends Component {
@@ -25,27 +25,47 @@ class AppTextInput extends Component {
         const {validColor, invalidColor, label, validator, onChangeText, secureTextEntry, style} = this.props;
         const errorMessage = this.renderErrorMessage();
         const highlightColor = isValid ? validColor : invalidColor;
+        const textInput = (Platform.OS === 'ios') ?
+            <TextInput
+                ref="textInput"
+                label={label}
+                style={[
+                    {color: colors.mediumGray},
+                    style,
+                ]}
+                value={value || ''}
+                onChangeText={value => {
+                    const isValid = validator(value);
+                    this.setState({value, isValid});
+                    value = isValid ? value : '';
+                    onChangeText(value);
+                }}
+                onSubmitEditing={this.props.onSubmitEditing}
+                {...this.props.passProps}
+            />
+            :
+            <TextField
+                ref="textInput"
+                label={label}
+                highlightColor={highlightColor}
+                style={[
+                    {color: colors.mediumGray},
+                    style,
+                ]}
+                value={value || ''}
+                onChangeText={value => {
+                    const isValid = validator(value);
+                    this.setState({value, isValid});
+                    value = isValid ? value : '';
+                    onChangeText(value);
+                }}
+                secureTextEntry={secureTextEntry}
+                onSubmitEditing={this.props.onSubmitEditing}
+                {...this.props.passProps}
+            />;
         return (
             <View>
-                <TextField
-                    ref="textInput"
-                    label={label}
-                    highlightColor={highlightColor}
-                    style={[
-                        {color: colors.mediumGray},
-                        style,
-                    ]}
-                    value={value || ''}
-                    onChangeText={value => {
-                        const isValid = validator(value);
-                        this.setState({value, isValid});
-                        value = isValid ? value : '';
-                        onChangeText(value);
-                    }}
-                    secureTextEntry={secureTextEntry}
-                    onSubmitEditing={this.props.onSubmitEditing}
-                    {...this.props.passProps}
-                />
+                {textInput}
                 {errorMessage}
             </View>
         );
@@ -59,14 +79,17 @@ class AppTextInput extends Component {
 }
 
 AppTextInput.defaultProps = {
-    passProps: {
-    },
+    passProps: {},
     validColor: colors.validField,
     invalidColor: colors.invalidField,
     label: '',
-    validator: () => {return true;},
-    onChangeText: () => {},
-    onSubmitEditing: () => {},
+    validator: () => {
+        return true;
+    },
+    onChangeText: () => {
+    },
+    onSubmitEditing: () => {
+    },
     invalidTextMessage: 'Veuillez remplir ce champ.',
     value: '',
     secureTextEntry: false,
@@ -83,7 +106,7 @@ AppTextInput.propTypes = {
     secureTextEntry: PropTypes.bool,
     style: PropTypes.object,
     passProps: PropTypes.object,
-    onSubmitEditing: PropTypes.func
+    onSubmitEditing: PropTypes.func,
 };
 
 export default AppTextInput;
@@ -93,6 +116,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 12,
         color: 'brown',
-        fontStyle: 'italic'
+        fontStyle: 'italic',
     },
 });

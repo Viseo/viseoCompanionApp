@@ -13,7 +13,7 @@ export default class ReceivedChatCard extends Component {
 
     render() {
         let datetime = this.props.chatData.datetime ?
-            moment(this.props.chatData.datetime).format('HH[h]mm') :
+            moment(this.props.chatData.datetime, 'x').format('HH[h]mm') :
             moment().format('HH[h]mm');
         return (
             <View style={styles.mainContainer}>

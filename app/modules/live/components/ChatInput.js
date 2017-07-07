@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 
 export default class ChatInput extends Component {
