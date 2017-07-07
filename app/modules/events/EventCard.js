@@ -13,6 +13,7 @@ import {bindActionCreators} from 'redux';
 import {registerUser, unregisterUser} from './events.actions';
 import * as util from '../../util/util';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Navigation} from 'react-native-navigation';
 
 class EventCard extends Component {
     state = {
@@ -251,7 +252,7 @@ class EventCard extends Component {
                 ],
             } :
             {};
-        this.props.navigator.push({
+        Navigation.showModal({
             title: 'Détails de l\'évènement',
             screen: 'events.event',
             navigatorStyle: defaultNavBarStyle,

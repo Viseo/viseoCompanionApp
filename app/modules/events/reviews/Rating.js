@@ -1,16 +1,13 @@
-import React, {Component} from "react";
-import CircularSlider from "react-native-circular-slider";
-import {
-    View,
-    StyleSheet, Button,
-} from "react-native";
-import moment from "moment";
-import AppText from "../../global/components/AppText";
-import {dismissLightBox} from "../../global/navigationUtil";
-import {Circle} from "react-native-svg";
-import {dismissReviewPopup} from "./review.action";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
+import React, {Component} from 'react';
+import CircularSlider from 'react-native-circular-slider';
+import {Button, StyleSheet, View} from 'react-native';
+import moment from 'moment';
+import AppText from '../../global/components/AppText';
+import {dismissLightBox} from '../../global/navigationUtil';
+import {Circle} from 'react-native-svg';
+import {dismissReviewPopup} from './review.action';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 class Rating extends Component {
 
@@ -32,7 +29,7 @@ class Rating extends Component {
                     flexDirection: "column",
                     justifyContent: "space-between",
                 }}>
-                    <AppText style={{fontWeight: "bold", fontSize: 20, marginBottom: 10}}> Donnez votre avis</AppText>
+                    <AppText style={{fontWeight: 'bold', fontSize: 18, marginBottom: 10}}> Donnez votre avis</AppText>
                     <AppText style={{marginBottom: 10, alignSelf: "center"}}>{this.props.eventName}</AppText>
                 </View>
                 <View style={{
@@ -42,8 +39,9 @@ class Rating extends Component {
                 }}>
                     <View style={{
                         alignSelf: "flex-start",
-                        marginRight: 150,
-                    }}><AppText>{this.props.location}</AppText></View>
+                    }}>
+                        <AppText>{this.props.location + ' '}</AppText>
+                    </View>
                     <View style={{alignSelf: "flex-end"}}><AppText>{this.props.date}</AppText></View>
 
                 </View>
@@ -132,8 +130,6 @@ class Rating extends Component {
         return hue;
     }
 }
-;
-
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         dismissReviewPopup,

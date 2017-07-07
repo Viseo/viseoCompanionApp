@@ -4,7 +4,7 @@ import colors from '../../global/colors';
 import EventCard from '../EventCard';
 import AppText from '../../global/components/AppText';
 import PropTypes from 'prop-types';
-import {noEventsForThisCategory} from './DiscoverTab.container';
+import {noEventsForThisCategory} from './util';
 
 export default class DiscoverTab extends Component {
 

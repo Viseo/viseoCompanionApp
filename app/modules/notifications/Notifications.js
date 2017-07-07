@@ -1,13 +1,12 @@
-import React, {Component} from "react";
-import {FlatList, StyleSheet, View} from "react-native";
-import colors from "../global/colors";
-import {bindActionCreators} from "redux";
-import {defaultNavBarStyle} from "../global/navigatorStyle";
-import {connect} from "react-redux";
-import AppText from "../global/components/AppText";
-import NotificationCard from "./NotificationCard";
-import {fetchEventsExp, fetchReviewedEvents} from "../../actionCreators/events.depreciated";
-import moment from "moment";
+import React, {Component} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import colors from '../global/colors';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import AppText from '../global/components/AppText';
+import NotificationCard from './NotificationCard';
+import {fetchEventsExp, fetchReviewedEvents} from '../../actionCreators/events.depreciated';
+import moment from 'moment';
 
 class Notification extends Component {
 
@@ -44,13 +43,22 @@ class Notification extends Component {
         return dateTime.calendar().split('/');
     }
     _renderNotificationCard(event) {
-        let [day, time] = this._formatDate(event.datetime);
+        let date = moment(event.datetime).calendar(null, {
+            sameDay: '[Aujourd\'hui]',
+            nextDay: '[Demain]',
+            nextWeek: 'dddd',
+            lastDay: '[Hier]',
+            lastWeek: 'dddd [dernier]',
+            sameElse: 'DD/MM/YYYY',
+        });
+        let day = moment(event.datetime).format('ddd');
+        let time = moment(event.datetime).format('hh[h] mm');
         return (
             <View>
                 <NotificationCard
                     name={event.name}
                     location={event.location}
-                    day={day}
+                    day={date}
                     time={time}
                     eventId={event.id}
                     userId={this.props.user.id}
