@@ -150,7 +150,7 @@ const events = (state = {
                 ...state,
                 items: state.items.map(event => {
                     return parseInt(event.id) === parseInt(action.event.id) ?
-                        action.event :
+                        formatEvent(action.event) :
                         event;
                 }),
             };
