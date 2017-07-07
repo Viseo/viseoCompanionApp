@@ -33,35 +33,35 @@ export default class DiscoverTab extends Component {
             </View>
         );
         if (item === 'seeAllFilter') {
+            const showCurrentDaySectionInCalendar = () => {
+                this.props.showCurrentDaySection();
+                this.props.goToCalendarTab();
+            };
+            const goToSearchEventsWithSelectedSection = () => {
+                this.props.setWords(section.title);
+                this.props.goToSearchEvents();
+            };
+            const onPress = section.title === 'Incoming' ?
+                showCurrentDaySectionInCalendar :
+                goToSearchEventsWithSelectedSection;
             return (
-                <TouchableOpacity onPress={() => {
-                    this.props.setWords('anni');
-                    this.props.goToSearchEvents();
-                }}>
+                <TouchableOpacity onPress={onPress}>
                     {seeAll}
                 </TouchableOpacity>
             );
-        } else if(item === noEventsForThisCategory) {
+        } else if (item === noEventsForThisCategory) {
             return (
                 <View style={styles.noEventsContainer}>
                     <AppText>Aucun évènement.</AppText>
                 </View>
-            )
+            );
         }
         else {
-            const showEventInCalendar = () => {
-                this.props.selectEvent(item.id);
-                this.props.goToCalendarTab();
-            };
-            const onPress = section.title === 'Incoming' ?
-                showEventInCalendar :
-                null;
             return (
                 <View style={styles.eventCardContainer}>
                     <EventCard
                         eventId={item.id}
                         navigator={this.props.navigator}
-                        onPress={onPress}
                     />
                 </View>
             );
@@ -80,7 +80,7 @@ export default class DiscoverTab extends Component {
 DiscoverTab.propTypes = {
     goToCalendarTab: PropTypes.func.isRequired,
     goToSearchEvents: PropTypes.func.isRequired,
-    selectEvent: PropTypes.func.isRequired,
+    showCurrentDaySection: PropTypes.func.isRequired,
 };
 
 const borderWidth = 3;
@@ -104,9 +104,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
     },
-    noEventsText: {
-
-    },
+    noEventsText: {},
     seeAllContainer: {
         backgroundColor: colors.blue,
         borderBottomLeftRadius: borderRadius,
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
     },
     sectionContainer: {
         backgroundColor: colors.blue,
-        height:30,
+        height: 30,
         marginTop: 10,
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,

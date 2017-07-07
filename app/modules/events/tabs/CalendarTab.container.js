@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import CalendarTab from './CalendarTab';
 
+let currentDaySectionIndex = 0;
+
 function sortByYearAndMonth(events) {
     let result = {};
     events.forEach(event => {
@@ -39,12 +41,14 @@ function convertIntoSections(events, eventsByDay) {
                 title: month,
                 type: 'month',
             });
-            if (month === currentMonth && currentYear === year)
+            if (month === currentMonth && currentYear === year) {
                 sections.push({
                     data: eventsByDay,
                     title: today,
                     type: 'today',
                 });
+                currentDaySectionIndex = sections.length - 1;
+            }
         });
 
     });
@@ -73,15 +77,12 @@ function breakDownIntoSections(events) {
 const mapStateToProps = ({events}, ownProps) => ({
     events: breakDownIntoSections(events.items),
     selectedEvent: events.selectedItem,
+    currentDaySectionIndex,
+    scrollToCurrentDaySection: events.showCurrentDaySection,
     ...ownProps,
 });
 
 export default connect(
     mapStateToProps,
-    null,
-    null,
-    {
-        withRef: true,
-    }
 )(CalendarTab);
 

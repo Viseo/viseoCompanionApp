@@ -10,9 +10,9 @@ export default class CalendarTab extends Component {
         super(props);
     }
 
-    componentWillReceiveProps({selectedEvent}) {
-        if (selectedEvent) {
-            this._scrollToEvent(selectedEvent);
+    componentWillReceiveProps({scrollToCurrentDaySection}) {
+        if (scrollToCurrentDaySection) {
+            this.scrollToCurrentDaySection();
         }
     }
 
@@ -41,9 +41,9 @@ export default class CalendarTab extends Component {
         return <View style={styles.mainContainer}>{eventList}</View>;
     }
 
-    _scrollToEvent() {
+    scrollToCurrentDaySection() {
         console.warn('just scrolled my man');
-        // this.sectionList.scrollToLocation({sectionIndex: 6, itemIndex: 0});
+        this.sectionList.scrollToLocation({sectionIndex: this.props.currentDaySectionIndex, itemIndex: 0});
     }
 
     _renderSectionHeader = (section) => {
@@ -66,10 +66,15 @@ export default class CalendarTab extends Component {
     };
 };
 
+CalendarTab.defaultProps = {
+    scrollToCurrentDaySection: false,
+};
+
 CalendarTab.propTypes = {
     events: PropTypes.array.isRequired,
     eventId: PropTypes.number,
-    selectedEvent: PropTypes.number,
+    scrollToCurrentDaySection: PropTypes.bool,
+    currentDaySectionIndex: PropTypes.number.isRequired,
 };
 
 styles = StyleSheet.create({

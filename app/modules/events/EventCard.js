@@ -82,11 +82,7 @@ class EventCard extends Component {
                     sensitivity={(Platform.OS === 'ios') ? 1 : 2}
                 >
                     <TouchableOpacity
-                        onPress={() => {
-                            this.props.onPress ?
-                                this.props.onPress() :
-                                this._goToEvent();
-                        }}
+                        onPress={() => this._goToEvent()}
                     >
                         {image}
                         <View style={styles.infosEvent}>
@@ -302,7 +298,6 @@ EventCard.propTypes = {
     registerUser: PropTypes.func.isRequired,
     unregisterUser: PropTypes.func.isRequired,
     navigator: PropTypes.object.isRequired,
-    onPress: PropTypes.func,
 };
 
 const mapStateToProps = ({events, user, searchWords}, ownProps) => ({

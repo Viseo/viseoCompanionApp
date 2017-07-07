@@ -58,10 +58,10 @@ export const registerUser = (event, userId) => {
     };
 };
 
-export const SELECT_EVENT = 'SELECT_EVENT';
-export const selectEvent = (eventId) => ({
-    type: SELECT_EVENT,
-    eventId,
+export const SHOW_CURRENT_DAY_SECTION = 'SHOW_CURRENT_DAY_SECTION';
+export const showCurrentDaySection = (shouldShow) => ({
+    type: SHOW_CURRENT_DAY_SECTION,
+    shouldShow,
 });
 
 export const UNREGISTER_USER = 'UNREGISTER_USER';

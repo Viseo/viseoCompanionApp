@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import DiscoverTab from './DiscoverTab';
 import {bindActionCreators} from 'redux';
 import {setWords} from '../search/search.actions';
-import {selectEvent} from '../events.actions';
+import {showCurrentDaySection} from '../events.actions';
 
 const categories = [
     {title: 'BBLs', keywords: ['bbl', 'rex']},
@@ -38,7 +38,7 @@ function getSectionsFromCategories(events) {
             });
             return didMatch;
         });
-        if(section.data.length === 0) {
+        if (section.data.length === 0) {
             section.data.push(noEventsForThisCategory);
         }
         sections.push(section);
@@ -73,7 +73,7 @@ const mapStateToProps = ({events}, ownProps) => ({
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             setWords,
-            selectEvent,
+            showCurrentDaySection,
         },
         dispatch,
     );

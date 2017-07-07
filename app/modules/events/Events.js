@@ -28,11 +28,9 @@ export default class Events extends Component {
                     goToSearchEvents={() => this.goToSearchEvents()}
                 />
                 <Calendar
-                    ref={(ref) => {
-                        this.calendarTab = ref;
-                    }}
                     tabLabel="calendar"
                     navigator={this.props.navigator}
+                    scrollToCurrentDaySection={false}
                 />
                 <MyEvents
                     tabLabel="myEvents"

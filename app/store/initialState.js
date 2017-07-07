@@ -18,6 +18,7 @@ export default {
         itemsExpired: [],
         itemsReviewed:[],
         selectedItem: null,
+        showCurrentDaySection: false,
     },
     live: {
         chatMessages: [],

@@ -3,9 +3,9 @@ import {
     ADD_EVENT,
     FETCH_EVENTS_FAILED,
     RECEIVE_EVENTS,
-    RECEIVE_EVENTS_REVIEWED,
     REGISTER_USER,
-    REQUEST_EVENTS, SELECT_EVENT,
+    REQUEST_EVENTS,
+    SHOW_CURRENT_DAY_SECTION,
     UNREGISTER_USER,
     UPDATE_EVENT,
 } from './events.actions';
@@ -114,10 +114,10 @@ const events = (state = {
                 isFetching: true,
                 didInvalidate: false,
             });
-        case SELECT_EVENT:
+        case SHOW_CURRENT_DAY_SECTION:
             return {
                 ...state,
-                selectedItem: action.evendId,
+                showCurrentDaySection: action.shouldShow,
             };
         case UNREGISTER_USER: {
             let eventToUnregisterFrom = state.items.find(event => event.id === action.eventId);
