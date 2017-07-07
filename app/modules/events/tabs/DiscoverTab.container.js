@@ -41,6 +41,7 @@ function getSectionsFromCategories(events) {
         if (section.data.length === 0) {
             section.data.push(noEventsForThisCategory);
         }
+        section.categoryMainKeyword = category.keywords[0];
         sections.push(section);
     });
     return sections;

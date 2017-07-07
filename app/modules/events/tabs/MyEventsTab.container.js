@@ -9,21 +9,21 @@ function breakDownIntoSections(events, user) {
         hosted = hosted.slice(0, 3);
         hosted.push('seeAll');
     }
-    let hostedSection = {data: hosted, title: 'Hosted'};
+    let hostedSection = {data: hosted, title: "J'organise"};
 
     let going = events.items.filter(event => (event.datetime >= moment()));
     if (going.length > 3) {
         going = going.slice(0, 3);
         going.push('seeAll');
     }
-    let goingSection = {data: going, title: 'Going'};
+    let goingSection = {data: going, title: "J'y vais"};
 
     let went = events.itemsExpired.filter(event => (event.datetime < moment()));
     if (went.length > 3) {
         went = went.slice(0, 3);
         went.push('seeAll');
     }
-    let wentSection = {data: went, title: 'Went'};
+    let wentSection = {data: went, title: "J'y suis allé"};
 
     return [
         hostedSection,

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import colors from '../../global/colors';
 import AppText from '../../global/components/AppText';
 import EventCard from '../EventCard';
+import PropTypes from 'prop-types';
 
 export default class MyEventsTab extends Component {
 
@@ -28,7 +29,7 @@ export default class MyEventsTab extends Component {
                 <TouchableOpacity onPress={() => this.props.goToCalendarTab(1)}>
                     <View style={styles.seeAllContainer}>
                         <Text style={{textAlign: 'center', color: 'white'}}>
-                            see all
+                            plus
                         </Text>
                     </View>
                 </TouchableOpacity>
@@ -52,29 +53,32 @@ export default class MyEventsTab extends Component {
     }
 }
 
-MyEventsTab.propTypes = {};
+MyEventsTab.propTypes = {
+    events: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+};
 
 const borderWidth = 3;
 const borderRadius = 8;
 const styles = StyleSheet.create({
     mainContainer: {
-        paddingHorizontal: 15,
-        backgroundColor: colors.lightGray,
+        paddingHorizontal: 10,
+        backgroundColor: colors.lighterBlue,
     },
     eventCardContainer: {
         borderLeftWidth: borderWidth,
         borderRightWidth: borderWidth,
-        borderColor: colors.red,
+        borderColor: colors.blue,
     },
     seeAllContainer: {
-        backgroundColor: colors.red,
+        backgroundColor: colors.blue,
         borderBottomLeftRadius: borderRadius,
         borderBottomRightRadius: borderRadius,
     },
     sectionContainer: {
-        backgroundColor: colors.red,
+        backgroundColor: colors.blue,
         height: 30,
-        marginTop: 20,
+        marginTop: 10,
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
     },

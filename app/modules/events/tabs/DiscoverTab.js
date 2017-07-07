@@ -28,7 +28,7 @@ export default class DiscoverTab extends Component {
         const seeAll = (
             <View style={styles.seeAllContainer}>
                 <Text style={{textAlign: 'center', color: 'white'}}>
-                    see all
+                    plus
                 </Text>
             </View>
         );
@@ -38,7 +38,7 @@ export default class DiscoverTab extends Component {
                 this.props.goToCalendarTab();
             };
             const goToSearchEventsWithSelectedSection = () => {
-                this.props.setWords(section.title);
+                this.props.setWords(section.categoryMainKeyword);
                 this.props.goToSearchEvents();
             };
             const onPress = section.title === 'Incoming' ?
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     sectionText: {
         color: 'white',
         paddingLeft: 20,
-        fontSize: 16,
+        fontSize: 20,
     },
     body: {
         flex: 0,
