@@ -16,9 +16,9 @@ function getIncomingEventsSection(events) {
     let incoming = events.filter(event => event.datetime > moment());
     if (incoming.length > 3) {
         incoming = incoming.slice(0, 3);
-        incoming.push('seeAllCalendar');
+        incoming.push('seeAllFilter');
     }
-    return {data: incoming, title: 'Incoming'};
+    return {data: incoming, title: 'A venir'};
 }
 
 function getSectionsFromCategories(events) {

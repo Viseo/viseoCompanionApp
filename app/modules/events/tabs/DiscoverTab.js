@@ -41,7 +41,7 @@ export default class DiscoverTab extends Component {
                 this.props.setWords(section.categoryMainKeyword);
                 this.props.goToSearchEvents();
             };
-            const onPress = section.title === 'Incoming' ?
+            const onPress = section.title === 'A venir' ?
                 showCurrentDaySectionInCalendar :
                 goToSearchEventsWithSelectedSection;
             return (
