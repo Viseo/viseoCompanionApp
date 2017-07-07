@@ -95,13 +95,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     noEventsContainer: {
-        borderLeftWidth: borderWidth,
-        borderRightWidth: borderWidth,
-        borderColor: colors.blue,
         height: 40,
         paddingLeft: 10,
         backgroundColor: 'white',
         justifyContent: 'center',
+        alignItems: 'center',
     },
     body: {
         flex: 0,

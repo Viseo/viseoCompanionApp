@@ -96,13 +96,11 @@ const styles = StyleSheet.create({
         borderColor: colors.blue,
     },
     noEventsContainer: {
-        borderLeftWidth: borderWidth,
-        borderRightWidth: borderWidth,
-        borderColor: colors.blue,
         height: 40,
         paddingLeft: 10,
         backgroundColor: 'white',
         justifyContent: 'center',
+        alignItems: 'center',
     },
     noEventsText: {},
     seeAllContainer: {

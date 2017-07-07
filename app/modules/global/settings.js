@@ -8,7 +8,6 @@ const localhostURL = 'http://' + localhostIp + ':8080/';
 // The server URL, you usually shouldn't have to change this
 const remoteURL = 'http://companion-dev.viseolab.com/';
 
-
 let serverURL = conf === 'DEV' ? localhostURL : remoteURL;
 
 /////////// RESTFUL API ////////////////
@@ -73,7 +72,7 @@ const restRoutes = {
         return serverURL + 'reviews/' + userId;
     },
     getRatingAverage: eventId => {
-        return serverURL + '/events/'+eventId+'/rating'
+        return serverURL + '/events/' + eventId + '/rating';
     },
 };
 
