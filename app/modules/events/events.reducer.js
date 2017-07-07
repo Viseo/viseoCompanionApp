@@ -1,18 +1,19 @@
-import {types} from "../../actionCreators/events.depreciated";
+import {types} from '../../actionCreators/events.depreciated';
 import {
     ADD_EVENT,
     FETCH_EVENTS_FAILED,
     RECEIVE_EVENTS,
     REGISTER_USER,
     REQUEST_EVENTS,
+    SHOW_CURRENT_DAY_SECTION,
     UNREGISTER_USER,
     UPDATE_EVENT,
-    RECEIVE_EVENTS_REVIEWED,
-} from "./events.actions";
+} from './events.actions';
 
 function formatEvent(event) {
     return {
         ...event,
+        keywords: event.keyWords.split(',').map(keyword => keyword.toLowerCase().trim()),
         category: parseInt(event.category),
         datetime: parseInt(event.datetime),
         id: parseInt(event.id),
@@ -26,12 +27,12 @@ function formatEvent(event) {
 }
 
 const events = (state = {
-                    isFetching: false,
-                    didInvalidate: false,
-                    items: [],
-                    itemsExpired: [],
-                    itemsReviewed: [],
-                }, action) => {
+    isFetching: false,
+    didInvalidate: false,
+    items: [],
+    itemsExpired: [],
+    itemsReviewed: [],
+}, action) => {
     switch (action.type) {
         case ADD_EVENT:
             return {
@@ -113,12 +114,17 @@ const events = (state = {
                 isFetching: true,
                 didInvalidate: false,
             });
+        case SHOW_CURRENT_DAY_SECTION:
+            return {
+                ...state,
+                showCurrentDaySection: action.shouldShow,
+            };
         case UNREGISTER_USER: {
             let eventToUnregisterFrom = state.items.find(event => event.id === action.eventId);
             if (!eventToUnregisterFrom) {
                 return state;
             }
-            let participants = eventToUnregisterFrom.hasOwnProperty("participants") ?
+            let participants = eventToUnregisterFrom.hasOwnProperty('participants') ?
                 eventToUnregisterFrom.participants :
                 [];
             let participantIndex = participants.indexOf(action.userId);

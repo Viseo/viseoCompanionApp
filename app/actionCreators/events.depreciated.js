@@ -1,5 +1,7 @@
-import settings from "../modules/global/settings";
-import moment from "moment";
+import settings from '../modules/global/settings';
+import moment from 'moment';
+
+// todo refactor: finish importing used methods into events.actions.js, then remove this from project
 
 export const types = {
     GET_EVENT_EXPIRE: "GET_EVENT_EXPIRE",
@@ -17,6 +19,7 @@ export const fetchEventsExp = (user) => {
             // Fetch all events
             let eventsResponse = await fetch(settings.api.getEventsBefore(moment().toDate().getTime()));
             let events = await eventsResponse.json();
+
             dispatch(receiveEventsExpired(events));
         } catch (error) {
             console.warn("ActionCreators/events::fetchEventsExp" + error);
@@ -38,9 +41,8 @@ export const fetchReviewedEvents = (userId) => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-
             });
-            let events = JSON.stringify(await response.json());
+            let events = await response.json();
 
             dispatch(receiveReviewedEvents(events));
         } catch (error) {

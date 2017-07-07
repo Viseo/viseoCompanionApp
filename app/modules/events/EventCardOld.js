@@ -1,20 +1,20 @@
 import React, {Component} from 'react';
-import AppText from '../global/components/AppText';
-import {Image, Platform, StyleSheet, Text, TouchableOpacity, View, Dimensions} from 'react-native';
+import {Image, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Swipeout from 'react-native-swipe-out';
+import strings from '../global/localizedStrings';
+import Highlighter from 'react-native-highlight-words';
+import * as util from '../../util/util';
+import colors from '../global/colors';
+import AppText from '../global/components/AppText';
 import moment from 'moment';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import strings from '../global/localizedStrings';
-import Highlighter from 'react-native-highlight-words';
-import colors from '../global/colors';
 import {bindActionCreators} from 'redux';
 import {registerUser, unregisterUser} from './events.actions';
-import * as util from '../../util/util';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {connect} from 'react-redux';
 
 class EventCard extends Component {
+
     state = {
         isParticipating: this._isCurrentUserParticipating(this.props.event),
     };
@@ -50,28 +50,13 @@ class EventCard extends Component {
     };
 
     render() {
-
-        let {showImage, event} = this.props;
         let swipeOption = this.getSwipeOption();
-        let imageUrl = event.imageUrl ? event.imageUrl
+        let imageUrl = this.props.event.imageUrl ? this.props.event.imageUrl
             :
             'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
-        if (event.imageUrl === '') {
-            showImage = false;
-        }
-        let image = showImage ? (
-            <View style={styles.imageEvent}>
-                <Image
-                    source={{uri: imageUrl}}
-                    style={styles.image}
-                >
-                </Image>
-            </View>) :
-            null;
-        const liveIndicator = this._isLive() ? this.renderLiveIndicator() : this.renderDate();
 
         return (
-            <View style={styles.container}>
+            <View style={{ flex: 1,flexDirection: 'column'}}>
                 <Swipeout
                     className="swipeout"
                     style={{backgroundColor: 'white'}}
@@ -82,16 +67,35 @@ class EventCard extends Component {
                     sensitivity={(Platform.OS === 'ios') ? 1 : 2}
                 >
                     <TouchableOpacity
+                        style={styles.card}
                         onPress={() => this._goToEvent()}
                     >
-                        {image}
-                        <View style={styles.infosEvent}>
-                            {liveIndicator}
+                        <View style={{flex: .2}}>
+                            <Image
+                                source={{uri: imageUrl}}
+                                style={{width:900,height:900}}
+                            >
+                            </Image>
+                        </View>
+                        <View style={{flex: .8}}>
                             {this.renderTypeIndicator()}
                             {this.renderEventInfo()}
+                            {this.renderParticipationIndicator()}
                         </View>
                     </TouchableOpacity>
                 </Swipeout>
+            </View>
+        );
+    }
+
+    renderSpacer() {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    alignSelf: 'stretch',
+                }}
+            >
             </View>
         );
     }
@@ -114,41 +118,27 @@ class EventCard extends Component {
     }
 
     renderEventInfo() {
+        const liveIndicator = this._isLive() ? this.renderLiveIndicator() : null;
         return (
             <View style={styles.eventInfo}>
-
-                <View style={{flex: 1}}>
+                {this.renderSpacer()}
+                <View style={styles.firstRow}>
+                    {liveIndicator}
                     {this.renderTitle()}
+                    {this.renderDate()}
                 </View>
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                    <View style={{flex: 1, flexDirection: 'column'}}>
-                        {this.renderLocation()}
-                        {this.renderHost()}
-                    </View>
-                    {this.renderParticipationIndicator()}
+                <View style={styles.secondRow}>
+                    {this.renderLocation()}
+                    {this.renderDescription()}
                 </View>
-
-            </View>
-        );
-    }
-
-    renderHost() {
-        let {host} = this.props.event;
-        return (
-            <View>
-                <AppText style={styles.hostText}> {host.firstName} {host.lastName}</AppText>
+                {this.renderSpacer()}
             </View>
         );
     }
 
     renderLiveIndicator() {
         return (
-            <View style={{flex: 3}}>
-                <Icon
-                    name='podcast'
-                    size={50}
-                    style={{color: colors.red, textAlign: 'center', marginTop: 2}}
-                />
+            <View>
                 <AppText style={styles.liveIndicator}>Live</AppText>
             </View>
         );
@@ -156,11 +146,11 @@ class EventCard extends Component {
 
     renderTitle() {
         return (
-            <View >
+            <View style={styles.name}>
                 <Highlighter
                     numberOfLines={1}
                     highlightStyle={styles.highlightStyle}
-                    style={[styles.titleText, styleFont.textFont]}
+                    style={[styles.nameText, styleFont.textFont]}
                     searchWords={this.props.searchWords}
                     textToHighlight={this.props.event.name || ''}
                 />
@@ -168,59 +158,67 @@ class EventCard extends Component {
         );
     }
 
-    renderDate() {
-        const date = moment(this.props.event.datetime).format('DD MMMM hh:mm');
-        let splitDate = date.split(' ');
-        let [day, month, time] = splitDate;
+    renderDescription() {
+        return (
+            <View style={styles.description}>
+                <Highlighter
+                    numberOfLines={1}
+                    highlightStyle={styles.highlightStyle}
+                    style={[styles.descriptionText, styleFont.textFont]}
+                    searchWords={this.props.searchWords}
+                    textToHighlight={this.props.event.description || ''}
+                />
+            </View>
+        );
+    }
 
+    renderDate() {
+        const day = moment(this.props.event.datetime)
+            .format('ddd');
         return (
             <View style={styles.date}>
-                <View>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        style={[styles.dateText, styleFont.textFont]}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={day}
-                    />
-                </View>
-                <View>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        style={[styles.monthText, styleFont.textFont]}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={month}
-                    />
-                </View>
-                <View>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        style={[styles.timeText, styleFont.textFont]}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={time}
-                    />
-                </View>
-
+                <Highlighter
+                    numberOfLines={1}
+                    highlightStyle={styles.highlightStyle}
+                    style={[styles.dateText, styleFont.textFont]}
+                    searchWords={this.props.searchWords}
+                    textToHighlight={day}
+                />
             </View>
         );
     }
 
     renderLocation() {
+        const time = moment(this.props.event.datetime)
+            .format('[à] hh[h] mm');
         return (
-            <View>
-                <Highlighter
-                    numberOfLines={1}
-                    highlightStyle={styles.highlightStyle}
-                    style={[
-                        styles.locationText,
-                        styleFont.textFont,
-                    ]}
-                    searchWords={this.props.searchWords}
-                    textToHighlight={this.props.event.location || ''}
-                />
+            <View style={styles.location}>
+                <View style={{flex: 3}}>
+                    <Highlighter
+                        numberOfLines={1}
+                        highlightStyle={styles.highlightStyle}
+                        style={[
+                            styles.locationText,
+                            styleFont.textFont,
+                        ]}
+                        searchWords={this.props.searchWords}
+                        textToHighlight={this.props.event.location || ''}
+                    />
+                </View>
+                <View style={{flex: 1}}>
+                    <Highlighter
+                        numberOfLines={1}
+                        highlightStyle={styles.highlightStyle}
+                        style={[
+                            styles.dateText,
+                            styleFont.textFont,
+                        ]}
+                        searchWords={this.props.searchWords}
+                        textToHighlight={time}
+                    />
+                </View>
             </View>
+
         );
     }
 
@@ -282,13 +280,9 @@ class EventCard extends Component {
     }
 
     _isCurrentUserParticipating(event) {
-        if (event) {
-
-            return event.participants.findIndex(participant =>
-                    parseInt(participant.id) === parseInt(this.props.user.id),
-                ) !== -1;
-        }
-
+        return event.participants.findIndex(participant =>
+                parseInt(participant.id) === parseInt(this.props.user.id),
+            ) !== -1;
     }
 }
 
@@ -318,93 +312,118 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(EventCard);
-const {width} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        marginBottom: 2,
-    },
-    imageEvent: {
-        flex: 1,
-    },
-    image: {
-        width: width,
-        height: 100,
-    },
-    infosEvent: {
-        flex: 2,
+    card: {
         flexDirection: 'row',
+        justifyContent: 'flex-start',
+        backgroundColor: 'white',
         height: 100,
+        borderBottomWidth: 0.5,
+        borderColor: colors.blue,
+    },
+    eventInfo: {
+        flex: 100,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        paddingLeft: 10,
+    },
+    firstRow: {
+        flex: 3,
+        flexDirection: 'row',
+        paddingRight: 10,
+    },
+    liveIndicator: {
+        backgroundColor: colors.red,
+        color: 'white',
+        marginRight: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 2,
+        borderRadius: 2,
+        fontWeight: 'bold',
+    },
+    secondRow: {
+        flex: 6,
+        flexDirection: 'column',
+        paddingRight: 10,
+    },
+    name: {
+        flex: 6,
+        justifyContent: 'flex-end',
+    },
+    nameText: {
+        fontWeight: 'bold',
+        textAlign: 'left',
+        fontSize: 16,
+        color: 'black',
     },
     date: {
         flex: 3,
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    eventType: {
-        flex: .2,
-        alignSelf: 'stretch',
-        marginRight: 10,
-        backgroundColor: '#ef4954',
-    },
-    eventInfo: {
-        flex: 8,
-        flexDirection: 'column',
-    },
-
-    highlightStyle: {
-        backgroundColor: colors.highlight,
+        justifyContent: 'flex-end',
     },
     dateText: {
-        fontWeight: 'bold',
-        fontSize: 24,
+        textAlign: 'right',
+        fontWeight: '100',
+        color: colors.mediumGray,
+        fontSize: 14,
     },
-    monthText: {
-        fontWeight: 'bold',
-        fontSize: 16,
+    description: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingRight: 5,
     },
-    timeTest: {
-        fontWeight: 'bold',
-        fontSize: 16,
+    descriptionText: {
+        textAlign: 'left',
+        fontWeight: '100',
+        fontSize: 14,
+        overflow: 'hidden',
+        color: colors.mediumGray,
+    },
+    location: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+    },
+    locationText: {
+        textAlign: 'left',
+        fontWeight: '300',
+        color: '#8c8c8c',
+        fontSize: 14,
     },
     dotContainer: {
-        flex: .5,
+        flex: 5,
         justifyContent: 'center',
         alignItems: 'center',
     },
     dot: {
-        width: 20,
-        height: 20,
-        borderRadius: 20,
+        width: 10,
+        height: 10,
+        borderRadius: 50,
     },
-    titleText: {
-        color: colors.blue,
-        fontSize: 16,
+    firstColumn: {
+        flex: 3,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
     },
-    locationText: {
-        color: colors.mediumGray,
-        fontWeight: '200',
-        fontSize: 16,
+    secondColumn: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-around',
     },
-    hostText: {
-        color: colors.mediumGray,
-        fontSize: 16,
-        marginLeft: -5,
-        marginTop: 2,
+    eventType: {
+        width: 3,
+        flex: 1,
+        alignSelf: 'stretch',
+        backgroundColor: '#ef4954',
     },
-    liveIndicator: {
-        color: colors.red,
-        textAlign: 'center',
-    },
+
     highlightStyle: {
         backgroundColor: colors.highlight,
     },
-
 });
+
 const styleFont = StyleSheet.create({
     textFont: {
         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
     },
 });
-

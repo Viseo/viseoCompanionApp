@@ -18,7 +18,7 @@ export const fetchEvents = () => {
     return async (dispatch) => {
         dispatch(requestEvents());
         try {
-            let events = await db.events.getAfter(moment().toDate().getTime());
+            let events = await db.events.getAll();
             dispatch(receiveEvents(events));
         } catch (error) {
             console.warn('ActionCreators/events::fetchEvents ' + error);
@@ -57,6 +57,12 @@ export const registerUser = (event, userId) => {
         }
     };
 };
+
+export const SHOW_CURRENT_DAY_SECTION = 'SHOW_CURRENT_DAY_SECTION';
+export const showCurrentDaySection = (shouldShow) => ({
+    type: SHOW_CURRENT_DAY_SECTION,
+    shouldShow,
+});
 
 export const UNREGISTER_USER = 'UNREGISTER_USER';
 export const unregisterUser = (event, userId) => {
