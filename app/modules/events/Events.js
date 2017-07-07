@@ -4,6 +4,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Calendar from './tabs/CalendarTab.container';
 import MyEvents from './tabs/MyEventsTab.container';
 import DiscoverTab from './tabs/DiscoverTab.container';
+import {Navigation} from 'react-native-navigation';
 
 export default class Events extends Component {
 
@@ -41,7 +42,7 @@ export default class Events extends Component {
     }
 
     goToSearchEvents() {
-        this.props.navigator.push({
+        Navigation.showModal({
             screen: 'events.searchEvents',
             navigatorStyle: {
                 navBarHidden: true,
@@ -64,7 +65,7 @@ export default class Events extends Component {
     }
 
     _goToAddEvent() {
-        this.props.navigator.push({
+        Navigation.showModal({
             screen: 'events.createEvent',
             title: 'Nouvel évènement',
             navigatorStyle: defaultNavBarStyle,

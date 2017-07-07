@@ -264,7 +264,7 @@ class EventCard extends Component {
     }
 
     _showLiveEvent() {
-        this.props.navigator.push({
+        Navigation.showModal({
             title: this.props.event.name + ' - LIVE',
             screen: 'events.liveEvent',
             navigatorStyle: defaultNavBarStyle,
