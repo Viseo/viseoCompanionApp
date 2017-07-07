@@ -53,7 +53,7 @@ export const registerUser = (event, userId) => {
                 event: updatedEvent,
             });
         } catch (error) {
-            console.warn('ActionCreators/events::registerUser ' + error);
+            console.warn('events.actions::registerUser ' + error);
         }
     };
 };
@@ -75,7 +75,7 @@ export const unregisterUser = (event, userId) => {
                 event: updatedEvent,
             });
         } catch (error) {
-            console.warn('ActionCreators/events::unregisterUser ' + error);
+            console.warn('events.actions::unregisterUser ' + error);
         }
     };
 };
@@ -101,7 +101,7 @@ export const deleteEvent = (id) => {
         try {
             await db.events.delete(id);
         } catch (error) {
-            console.warn('ActionCreators/events::deleteEvent ' + error);
+            console.warn('events.actions::deleteEvent ' + error);
         }
     };
 };

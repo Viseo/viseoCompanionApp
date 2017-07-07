@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: width,
-        height: 100,
+        height: 200,
     },
     infosEvent: {
         flex: 2,

@@ -41,7 +41,9 @@ function convertIntoSections(events, eventsByDay) {
                 title: month,
                 type: 'month',
             });
-            if (month === currentMonth && currentYear === year) {
+            if (eventsByDay.length > 0
+                && month === currentMonth
+                && currentYear === year) {
                 sections.push({
                     data: eventsByDay,
                     title: today,
@@ -57,14 +59,10 @@ function convertIntoSections(events, eventsByDay) {
 
 function getEventsByCurrentDay(events) {
     const today = moment().format('DD/MM/YYYY');
-    let result = [];
-    events.forEach(event => {
+    return events.filter(event => {
         const {datetime} = event;
-        if (moment(datetime).format('DD/MM/YYYY') === today) {
-            result.push(event);
-        }
+        return moment(datetime).format('DD/MM/YYYY') === today;
     });
-    return result;
 }
 
 function breakDownIntoSections(events) {

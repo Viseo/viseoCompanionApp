@@ -11,14 +11,15 @@ function breakDownIntoSections(events, user) {
     }
     let hostedSection = {data: hosted, title: "J'organise"};
 
-    let going = events.items.filter(event => (event.datetime >= moment()));
+    const isParticipant = (event) => event.participants.find(participant => participant.id === user.id);
+    let going = events.items.filter(event => (event.datetime >= moment() && isParticipant(event)));
     if (going.length > 3) {
         going = going.slice(0, 3);
         going.push('seeAll');
     }
     let goingSection = {data: going, title: "J'y vais"};
 
-    let went = events.itemsExpired.filter(event => (event.datetime < moment()));
+    let went = events.itemsExpired.filter(event => (event.datetime < moment() && isParticipant(event)));
     if (went.length > 3) {
         went = went.slice(0, 3);
         went.push('seeAll');
