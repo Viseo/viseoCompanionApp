@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, View, Dimensions} from 'react-native';
 import EventCard from '../EventCard';
 import AppText from '../../global/components/AppText';
 import colors from '../../global/colors';
 import PropTypes from 'prop-types';
+
+
+const deviceHeight = Dimensions.get('window').height;
 
 export default class SearchResults extends Component {
 
@@ -15,6 +18,7 @@ export default class SearchResults extends Component {
         return (
             <FlatList
                 data={this.props.events}
+                contentContainerStyle={{backgroundColor:colors.lighterBlue, minHeight:deviceHeight}}
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
                     <EventCard
