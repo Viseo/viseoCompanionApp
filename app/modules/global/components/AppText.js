@@ -15,6 +15,7 @@ class AppText extends Component {
                     this.props.style,
                 ]}
                 ref={component => this._root = component}
+                numberOfLines={this.props.numberOfLines}
             >
                 {this.props.children}
             </Text>

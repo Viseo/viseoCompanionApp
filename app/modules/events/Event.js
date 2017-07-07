@@ -156,7 +156,7 @@ class Event extends Component {
         return (
             <View style={styles.locationAndDate}>
                 <Image style={styles.icon} resizeMode="contain" source={require('./../../images/location.png')}/>
-                <AppText style={styles.locationAndDateText}>{this.props.event.location}</AppText>
+                <AppText style={styles.locationAndDateText} numberOfLines={1}>{this.props.event.location}</AppText>
             </View>
         );
     }
