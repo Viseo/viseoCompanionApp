@@ -30,7 +30,7 @@ export default class MyEventsTab extends Component {
                 <TouchableOpacity onPress={() => this.props.goToCalendarTab(1)}>
                     <View style={styles.seeAllContainer}>
                         <Text style={{textAlign: 'center', color: 'white'}}>
-                            plus
+                            Voir plus...
                         </Text>
                     </View>
                 </TouchableOpacity>

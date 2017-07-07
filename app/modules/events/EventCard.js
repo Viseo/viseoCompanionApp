@@ -117,10 +117,10 @@ class EventCard extends Component {
     renderEventInfo() {
         return (
             <View style={styles.eventInfo}>
-                <View style={{flex: 2}}>
+                <View style={{flex: 1}}>
                     {this.renderTitle()}
                 </View>
-                <View style={{flex: 3, flexDirection: 'row'}}>
+                <View style={{flex: 2, flexDirection: 'row'}}>
                     <View style={{flex: 1, flexDirection: 'column'}}>
                         {this.renderLocation()}
                         {this.renderHost()}
