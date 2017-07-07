@@ -172,7 +172,7 @@ class Event extends Component {
                 otherProfileId={host.id}
                 navigator={navigator}
             />;
-        const name = <AppText style={styles.name}>{this.props.event.name}</AppText>;
+        const name = <AppText style={styles.name} numberOfLines={1}>{this.props.event.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.event.category];
         const category = <AppText>{categoryName}</AppText>;
         const categoryColor = this._getCategoryColorFromId(this.props.event.category);
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
         color: 'black',
         fontWeight: 'bold',
         textAlign: 'left',
-        fontSize: 22,
+        fontSize: 20,
         flex: 2,
     },
     participationInfoRectangle: {
