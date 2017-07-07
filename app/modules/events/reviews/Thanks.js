@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, Button} from 'react-native';
+import {Button, Image, StyleSheet, View} from 'react-native';
 import AppText from '../../global/components/AppText';
-import {dismissLightBox} from '../../global/navigationUtil';
 
 export default class Thanks extends Component {
     constructor(props) {
-        super(props);
+        super( props );
         this.state = {
             textContent: '',
         };
@@ -17,8 +16,8 @@ export default class Thanks extends Component {
                 <View style={{flex: 1, flexDirection: 'column', alignItems: 'center'}}>
                     <Image
                         source={this.props.emotion === 'happy' ?
-                            require('./../../../images/happy.png') :
-                            require('./../../../images/check.png')
+                            require( './../../../images/happy.png' ) :
+                            require( './../../../images/check.png' )
                         }
                         style={{width: 50, height: 50}}/>
                     <AppText
@@ -38,7 +37,7 @@ export default class Thanks extends Component {
 
 // todo set propTypes
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     container: {
         backgroundColor: '#ede3f2',
         padding: 20,
@@ -46,5 +45,5 @@ const styles = StyleSheet.create({
         height: '60%',
         marginTop: 100,
     },
-});
+} );
 

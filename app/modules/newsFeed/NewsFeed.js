@@ -1,7 +1,8 @@
-import React, {Component} from "react";
-import {Text, View} from "react-native";
-import {connect} from "react-redux";
-import moment from "moment";
+import React, {Component} from 'react';
+import {Text, View} from 'react-native';
+import {connect} from 'react-redux';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 
 class NewsFeed extends Component {
 
@@ -11,11 +12,14 @@ class NewsFeed extends Component {
     }
 
     render() {
-        let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
+        // todo take care of this buggy and ugly popup
+        // let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
+        const notationPopup = null;
         return (
             <View>
                 {notationPopup}
                 <Text>All the great stuff in one place!</Text>
+
             </View>
         );
     }
@@ -58,17 +62,21 @@ class NewsFeed extends Component {
 
     _goToUserProfile() {
         this.props.navigator.push({
-            screen: "user.myProfile",
-            title: "Mon profil",
+            screen: 'user.myProfile',
+            title: 'Mon profil',
         });
     }
 }
 
+NewsFeed.propTypes = {
+    navigator: PropTypes.object.isRequired,
+};
+
 NewsFeed.navigatorButtons = {
     rightButtons: [
         {
-            icon: require("../../images/navigation/profile.png"),
-            id: "profile",
+            icon: require('../../images/navigation/profile.png'),
+            id: 'profile',
         },
     ],
 };

@@ -86,9 +86,9 @@ class SplashScreen extends Component {
     }
 
     _navigateToHome() {
-         this.props.refreshPastEvents(this.props.user);
-         this.props.refreshEvents(this.props.user);
-         this.props.refreshReviewedEvents(this.props.user.id);
+        this.props.refreshPastEvents(this.props.user);
+        this.props.refreshEvents(this.props.user);
+        this.props.refreshReviewedEvents(this.props.user.id);
         startApp();
     }
 

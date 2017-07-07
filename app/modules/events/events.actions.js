@@ -18,7 +18,7 @@ export const fetchEvents = () => {
     return async (dispatch) => {
         dispatch(requestEvents());
         try {
-            let events = await db.events.getAfter(moment().toDate().getTime());
+            let events = await db.events.getAll();
             dispatch(receiveEvents(events));
         } catch (error) {
             console.warn('ActionCreators/events::fetchEvents ' + error);
@@ -53,10 +53,16 @@ export const registerUser = (event, userId) => {
                 event: updatedEvent,
             });
         } catch (error) {
-            console.warn('ActionCreators/events::registerUser ' + error);
+            console.warn('events.actions::registerUser ' + error);
         }
     };
 };
+
+export const SHOW_CURRENT_DAY_SECTION = 'SHOW_CURRENT_DAY_SECTION';
+export const showCurrentDaySection = (shouldShow) => ({
+    type: SHOW_CURRENT_DAY_SECTION,
+    shouldShow,
+});
 
 export const UNREGISTER_USER = 'UNREGISTER_USER';
 export const unregisterUser = (event, userId) => {
@@ -69,7 +75,7 @@ export const unregisterUser = (event, userId) => {
                 event: updatedEvent,
             });
         } catch (error) {
-            console.warn('ActionCreators/events::unregisterUser ' + error);
+            console.warn('events.actions::unregisterUser ' + error);
         }
     };
 };
@@ -95,7 +101,7 @@ export const deleteEvent = (id) => {
         try {
             await db.events.delete(id);
         } catch (error) {
-            console.warn('ActionCreators/events::deleteEvent ' + error);
+            console.warn('events.actions::deleteEvent ' + error);
         }
     };
 };

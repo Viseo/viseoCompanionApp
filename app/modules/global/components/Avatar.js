@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
 import AppText from './AppText';
-import colors from '../colors';
 import PropTypes from 'prop-types';
+import colors from '../colors';
 
 export default class Avatar extends Component {
 
@@ -30,7 +30,7 @@ export default class Avatar extends Component {
             :
             appText;
         return (
-            <View style={[{flex: 0.25, justifyContent: 'center'}, this.props.style]}>
+            <View style={[{flex: 1, justifyContent: 'center'}, this.props.style]}>
                 {avatarCircle}
             </View>
         );
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         height: deviceWidth / 4,
         width: deviceWidth / 4,
         borderRadius: deviceWidth / 8,
-        backgroundColor: colors.lightGray,
+        backgroundColor: 'lightgray',
         textAlign: 'center',
         color: 'white',
     },

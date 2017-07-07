@@ -1,6 +1,5 @@
 import {checkIsComponent, createComponent} from './TestUtil/';
 
-//TODO: make it works by asking Alex how test worked
 describe('Avatar', () => {
 
     it('should render a Apptext with the initials', () => {

@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
-import EventList from './EventList.container';
-import SearchBar from './../../components/SearchBar';
-import ItemSpacer from '../global/components/ItemSpacer';
-import colors from '../../modules/global/colors';
-import PushController from '../global/pushController';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import Calendar from './tabs/CalendarTab.container';
+import MyEvents from './tabs/MyEventsTab.container';
+import DiscoverTab from './tabs/DiscoverTab.container';
+import {Navigation} from 'react-native-navigation';
 
 export default class Events extends Component {
+
+    calendarTabIndex = 1;
 
     constructor(props) {
         super(props);
@@ -16,79 +17,73 @@ export default class Events extends Component {
 
     render() {
         return (
-            <View style={styles.mainContainer}>
-                <PushController/>
-                <View style={styles.body}>
-                    <View style={styles.searchBar}>
-                        <ItemSpacer/>
-                        <SearchBar style={{flex: 22}}/>
-                        <ItemSpacer/>
-                    </View>
-                </View>
-                <EventList style={{flex: 22}} navigator={this.props.navigator}/>
-            </View>
+            <ScrollableTabView
+                ref={(ref) => {
+                    this.tabView = ref;
+                }}
+            >
+                <DiscoverTab
+                    tabLabel="Découvrir"
+                    navigator={this.props.navigator}
+                    goToCalendarTab={() => this.goToCalendarTab()}
+                    goToSearchEvents={() => this.goToSearchEvents()}
+                />
+                <Calendar
+                    tabLabel="Calendrier"
+                    navigator={this.props.navigator}
+                    scrollToCurrentDaySection={false}
+                />
+                <MyEvents
+                    tabLabel="Mes évènements"
+                    navigator={this.props.navigator}
+                />
+            </ScrollableTabView>
         );
+    }
+
+    goToSearchEvents() {
+        Navigation.showModal({
+            screen: 'events.searchEvents',
+            navigatorStyle: {
+                navBarHidden: true,
+            },
+            animated: true,
+            animationType: 'slide-horizontal',
+        });
+    }
+
+    goToCalendarTab() {
+        this.tabView.goToPage(this.calendarTabIndex);
     }
 
     onNavigatorEvent(event) {
         if (event.id === 'addEvent') {
             this._goToAddEvent();
-        } else if (event.id === 'pastEvents') {
-            this._goToPastEvents();
+        } else if (event.id === 'searchBarVisible') {
+            this.goToSearchEvents();
         }
     }
 
     _goToAddEvent() {
-        this.props.navigator.push({
+        Navigation.showModal({
             screen: 'events.createEvent',
             title: 'Nouvel évènement',
-            navigatorStyle: defaultNavBarStyle,
-        });
-    }
-
-    _goToPastEvents() {
-        this.props.navigator.push({
-            screen: 'events.pastEvents',
-            title: 'Evènements passés',
             navigatorStyle: defaultNavBarStyle,
         });
     }
 }
 
 Events.navigatorButtons = {
-    rightButtons: [
-        {
-            icon: require('../../images/navigation/history.png'),
-            id: 'pastEvents',
-        },
+    leftButtons: [
         {
             icon: require('../../images/navigation/add.png'),
             id: 'addEvent',
         },
     ],
+    rightButtons: [
+        {
+            icon: require('../../images/search-icon.png'),
+            id: 'searchBarVisible',
+        },
+    ],
 };
-
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        backgroundColor: colors.blue,
-        padding: 8,
-        paddingBottom: 0,
-        paddingTop: 0,
-    },
-    body: {
-        flex: 0,
-        flexDirection: 'column',
-        paddingBottom: 10,
-        marginTop: 20,
-    },
-    searchBar: {
-        flex: 0,
-        flexDirection: 'row',
-    },
-    icon: {
-        fontSize: 24,
-        height: 22,
-        color: 'white',
-    },
-});

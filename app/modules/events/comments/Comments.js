@@ -250,4 +250,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blue,
         paddingHorizontal: 15,
     },
+    childComment: {
+        height: 120,
+        marginLeft: 20,
+    },
 });

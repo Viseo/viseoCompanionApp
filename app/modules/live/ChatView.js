@@ -5,8 +5,9 @@ import SentChatCard from './components/SentChatCard';
 import ReceivedChatCard from './components/ReceivedChatCard';
 import {connect} from 'react-redux';
 import StatusChatCard from './components/StatusChatCard';
+import PropTypes from 'prop-types';
 
-class ChatView extends Component {
+export class ChatView extends Component {
 
     constructor(props, context) {
         super(props, context);
@@ -65,6 +66,10 @@ class ChatView extends Component {
         });
     }
 }
+
+ChatView.propTypes = {
+    chatMessages: PropTypes.array.isRequired,
+};
 
 const mapStateToProps = ({live}, ownProps) => ({
     chatMessages: live.chatMessages,
