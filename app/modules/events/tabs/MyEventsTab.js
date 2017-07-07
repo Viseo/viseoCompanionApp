@@ -4,6 +4,7 @@ import colors from '../../global/colors';
 import AppText from '../../global/components/AppText';
 import EventCard from '../EventCard';
 import PropTypes from 'prop-types';
+import {noEventsForThisCategory} from './util';
 
 export default class MyEventsTab extends Component {
 
@@ -33,6 +34,12 @@ export default class MyEventsTab extends Component {
                         </Text>
                     </View>
                 </TouchableOpacity>
+            );
+        } else if (item === noEventsForThisCategory) {
+            return (
+                <View style={styles.noEventsContainer}>
+                    <AppText>Aucun évènement.</AppText>
+                </View>
             );
         } else {
             return (
@@ -86,6 +93,15 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingLeft: 20,
         fontSize: 20,
+    },
+    noEventsContainer: {
+        borderLeftWidth: borderWidth,
+        borderRightWidth: borderWidth,
+        borderColor: colors.blue,
+        height: 40,
+        paddingLeft: 10,
+        backgroundColor: 'white',
+        justifyContent: 'center',
     },
     body: {
         flex: 0,

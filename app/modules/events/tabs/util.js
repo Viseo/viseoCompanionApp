@@ -1,0 +1,1 @@
+export const noEventsForThisCategory = 'noEventsForThisCategory';

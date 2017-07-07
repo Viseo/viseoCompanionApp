@@ -4,14 +4,13 @@ import DiscoverTab from './DiscoverTab';
 import {bindActionCreators} from 'redux';
 import {setWords} from '../search/search.actions';
 import {showCurrentDaySection} from '../events.actions';
+import {noEventsForThisCategory} from './util';
 
 const categories = [
     {title: 'BBLs', keywords: ['bbl', 'rex']},
     {title: 'Formations', keywords: ['formation', 'training']},
     {title: 'Refresh', keywords: ['refresh', 'afterwork']},
 ];
-
-export const noEventsForThisCategory = 'noEventsForThisCategory';
 
 function getIncomingEventsSection(events) {
     let incoming = events.filter(event => event.datetime > moment());

@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import moment from 'moment';
 import MyEventsTab from './MyEventsTab';
+import {noEventsForThisCategory} from './util';
 
 function breakDownIntoSections(events, user) {
 
@@ -8,6 +9,8 @@ function breakDownIntoSections(events, user) {
     if (hosted.length > 3) {
         hosted = hosted.slice(0, 3);
         hosted.push('seeAll');
+    } else if (hosted.length == 0) {
+        hosted.push(noEventsForThisCategory)
     }
     let hostedSection = {data: hosted, title: "J'organise"};
 
@@ -16,6 +19,8 @@ function breakDownIntoSections(events, user) {
     if (going.length > 3) {
         going = going.slice(0, 3);
         going.push('seeAll');
+    } else if (going.length == 0) {
+        going.push(noEventsForThisCategory)
     }
     let goingSection = {data: going, title: "J'y vais"};
 
@@ -23,6 +28,8 @@ function breakDownIntoSections(events, user) {
     if (went.length > 3) {
         went = went.slice(0, 3);
         went.push('seeAll');
+    } else if (went.length == 0) {
+        went.push(noEventsForThisCategory)
     }
     let wentSection = {data: went, title: "J'y suis allé"};
 
