@@ -28,7 +28,7 @@ export default class CalendarTab extends Component {
                     <EventCard
                         navigator={this.props.navigator}
                         eventId={item.id}
-                        showImage={true}
+                        showImage={!!item.imageUrl}
                     />
                 }
                 renderSectionHeader={({section}) => this._renderSectionHeader(section)}
@@ -42,7 +42,6 @@ export default class CalendarTab extends Component {
     }
 
     scrollToCurrentDaySection() {
-        console.warn('just scrolled my man');
         this.sectionList.scrollToLocation({sectionIndex: this.props.currentDaySectionIndex, itemIndex: 0});
     }
 
