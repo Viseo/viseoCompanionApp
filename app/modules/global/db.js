@@ -1,5 +1,5 @@
-import settings from "./settings";
-import {showUnreachableServerPopup} from "./navigationUtil";
+import settings from './settings';
+import {showUnreachableServerPopup} from './navigationUtil';
 
 const serverTimeout = 2000;
 
@@ -171,8 +171,7 @@ export const events = {
                 return responseJson;
             }
         } catch (error) {
-            console.log(error);
-
+            // console.log(error);
         }
     },
     getAll: async () => {

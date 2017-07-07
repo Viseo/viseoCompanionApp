@@ -23,6 +23,11 @@ const comments = (state = {
                         item;
                 }),
             });
+        case types.RECEIVE_RATING:
+            return Object.assign({}, state, {
+                reviewsNumber: action.reviewsNumber,
+                averageRating: action.averageRating,
+            });
         default:
             return state;
     }

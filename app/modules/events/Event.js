@@ -32,6 +32,9 @@ class Event extends Component {
         if (event.id === 'edit') {
             this._goToEditEvent();
         }
+        else if (event.id === 'showComments') {
+            this._goToComments();
+        }
     }
 
     render() {
@@ -203,6 +206,28 @@ class Event extends Component {
             this.props.registerUser(event, user.id);
         this.setState({isParticipating: !isParticipating});
     }
+
+    _goToComments() {
+        const navigatorButtons = this.props.participating ?
+            {
+                rightButtons: [
+                    {
+                        icon: require('../../images/navigation/add.png'),
+                        id: 'addComment',
+                    },
+                ],
+            } :
+            {};
+        this.props.navigator.push({
+            screen: 'Comments',
+            title: 'Commentaires',
+            navigatorStyle: defaultNavBarStyle,
+            passProps: {
+                eventId: this.props.eventId,
+            },
+            navigatorButtons,
+        });
+    }
 }
 
 Event.propTypes = {
@@ -211,6 +236,17 @@ Event.propTypes = {
     registerUser: PropTypes.func.isRequired,
     unregisterUser: PropTypes.func.isRequired,
     navigator: PropTypes.object.isRequired,
+};
+
+Event.navigatorButtons = {
+    rightButtons: [
+        {
+            icon: require('../../images/comments-128x128.png'),
+            iconColor: 'white',
+            id: 'showComments',
+        },
+
+    ],
 };
 
 const mapStateToProps = ({events, user}, ownProps) => ({
