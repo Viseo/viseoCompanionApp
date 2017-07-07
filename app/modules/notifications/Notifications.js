@@ -44,15 +44,9 @@ export class Notification extends Component {
         );
     }
 
-    _formatDate(date) {
-        if (!date)
-            return [];
-        let dateTime = moment(date, 'x');
-        return dateTime.calendar().split('/');
-    }
-
     _renderNotificationCard(event) {
-        let [day, time] = this._formatDate(event.datetime);
+        let day = moment(event.datetime).format('ddd D MMM');
+        let time = moment(event.datetime).format('hh') + 'h' + moment(event.datetime).format('mm');
         return (
             <View>
                 <NotificationCard
@@ -102,25 +96,23 @@ Notification.propTypes = {
 };
 
 const getParticipatingEventList = (events, eventsReviewed, user) => {
+    let notReviewedEvents = [];
     if (events && eventsReviewed) {
-
         let eventsByUser = events.filter((event) => {
             const filter = event.participants.filter((e) => {
                 return e.id === user.id;
             });
             return filter.length > 0;
         });
-
         if (eventsByUser.length > 0 && eventsReviewed.length > 0) {
-
-            let notReviewedEvents = eventsByUser.filter((item) => {
+            notReviewedEvents = eventsByUser.filter((item) => {
                 return !eventsReviewed.includes(JSON.stringify(item));
             });
-            return notReviewedEvents;
         }
     }
-    return null;
+    return notReviewedEvents;
 };
+
 const mapStateToProps = (state) => ({
     events: getParticipatingEventList(
         state.events.itemsExpired, state.events.itemsReviewed, state.user,
@@ -148,5 +140,4 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blue,
         paddingHorizontal: 15,
     },
-
 });
