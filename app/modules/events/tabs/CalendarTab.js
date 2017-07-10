@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppText from '../../global/components/AppText';
 import EventCard from '../EventCard';
+import colors from '../../global/colors';
 
 export default class CalendarTab extends Component {
 
@@ -14,6 +15,14 @@ export default class CalendarTab extends Component {
         if (scrollToCurrentDaySection) {
             this.scrollToCurrentDaySection();
         }
+    }
+
+    _renderEmptyEventList() {
+        return (
+            <View style={styles.emptyEventList}>
+                <AppText>Aucun évènement.</AppText>
+            </View>
+        );
     }
 
     render() {
@@ -36,6 +45,7 @@ export default class CalendarTab extends Component {
                 getItemLayout={(data, index) => (
                     {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
                 )}
+                ListEmptyComponent={this._renderEmptyEventList()}
             />
         );
         return <View style={styles.mainContainer}>{eventList}</View>;
@@ -81,6 +91,14 @@ styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         flexDirection: 'column',
+        backgroundColor: colors.lighterBlue,
+    },
+    emptyEventList: {
+        height: 40,
+        paddingLeft: 10,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     headerYear: {
         fontSize: 20,
