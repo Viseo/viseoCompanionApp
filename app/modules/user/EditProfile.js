@@ -94,8 +94,6 @@ export class EditProfile extends Component {
         const passwordWasEdited = this.state.user.password && this.state.passwordCheck;
         const isPasswordValid = (this.state.user.password === this.state.passwordCheck);
         if (!passwordWasEdited && !isPasswordValid) {
-            //let updatedPassword = this.props.user.password;
-            //this._setPassword(updatedPassword);
             await this.updateProfile();
             this.props.navigator.pop();
         } else if (passwordWasEdited && isPasswordValid) {
