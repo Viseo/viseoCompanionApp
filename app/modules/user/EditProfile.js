@@ -92,13 +92,13 @@ export class EditProfile extends Component {
 
     async submitProfileForm() {
         const passwordWasEdited = this.state.user.password && this.state.passwordCheck;
-        const isPasswordValid = this.state.user.password === this.state.passwordCheck;
-        if (!passwordWasEdited) {
-            let updatedPassword = this.props.user.password;
-            this._setPassword(updatedPassword);
+        const isPasswordValid = (this.state.user.password === this.state.passwordCheck);
+        if (!passwordWasEdited && !isPasswordValid) {
+            //let updatedPassword = this.props.user.password;
+            //this._setPassword(updatedPassword);
             await this.updateProfile();
             this.props.navigator.pop();
-        } else if (isPasswordValid) {
+        } else if (passwordWasEdited && isPasswordValid) {
             await this.updateProfile();
             this.props.signOut();
             startLoader();

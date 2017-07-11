@@ -114,7 +114,7 @@ styles = StyleSheet.create({
         paddingLeft: 10,
     },
     headerMonth: {
-        backgroundColor: 'lightgray',
+        backgroundColor: colors.lightgray,
         color: 'black',
         fontSize: 20,
         fontWeight: 'bold',
