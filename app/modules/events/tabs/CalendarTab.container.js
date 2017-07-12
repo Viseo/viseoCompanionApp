@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import CalendarTab from './CalendarTab';
 import {bindActionCreators} from 'redux';
-import {showCurrentDaySection} from '../events.actions';
+import {fetchEvents, showCurrentDaySection} from '../events.actions';
 
 let currentDaySectionIndex = 0;
 
@@ -84,9 +84,7 @@ const mapStateToProps = ({events}, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-            refresh: getEventsByCurrentDay,
-            sortByYearAndMonth,
-            showCurrentDaySection,
+            refresh: fetchEvents,
         },
         dispatch,
     );
