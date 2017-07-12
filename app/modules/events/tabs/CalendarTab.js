@@ -25,8 +25,6 @@ export default class CalendarTab extends Component {
             this.setState({refreshing: false});
         });
     }
-
-
     render() {
         const ITEM_HEIGHT = 100;
         const eventList = (
