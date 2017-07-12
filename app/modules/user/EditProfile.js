@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Dimensions, ScrollView, StyleSheet, View, Image} from 'react-native';
 import {connect} from 'react-redux';
 import AppTextInput from '../global/components/AppTextInput';
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import {updateUser} from './user.actions';
 import {signOut} from './authentication/authentication.actions';
 import {startLoader} from '../global/navigationLoader';
 import AppText from '../global/components/AppText';
+import ImagePicker from '../global/components/ImagePicker';
 
 export class EditProfile extends Component {
 
@@ -25,11 +26,14 @@ export class EditProfile extends Component {
     }
 
     render() {
+        const image = this._renderImagePicker();
         const firstName = this.renderFirstNameField();
         const lastName = this.renderLastNameField();
         const email = this.renderEmailField();
+
         return (
             <ScrollView contentContainerStyle={styles.mainContainer}>
+                {image}
                 {firstName}
                 {lastName}
                 {email}
@@ -70,8 +74,8 @@ export class EditProfile extends Component {
 
     renderEmailField() {
         return (
-            <View style={{marginBottom : -5}}>
-                <AppText style={{marginLeft: 1,marginTop: 15, fontSize: 12, color: '#A9A9A9'}}>
+            <View style={{marginBottom: -5}}>
+                <AppText style={{marginLeft: 1, marginTop: 15, fontSize: 12, color: '#A9A9A9'}}>
                     Email
                 </AppText>
                 <AppText style={{marginLeft: 5}}>
@@ -81,12 +85,34 @@ export class EditProfile extends Component {
         );
     }
 
+    _renderImagePicker() {
+        const defaultPicture = require('../../images/events/defaultEventImage.jpeg');
+        return (
+            <View>
+                <AppText style={styles.imageLabel}>Image : </AppText>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                    <AppText styles={styles.imagePickerCaption}>Cliquez pour changer d'image</AppText>
+                </View>
+                <ImagePicker
+                    defaultPicture={defaultPicture}
+                    style={styles.image}
+                    onSelected={imageUrl => this.setState({
+                        user: {
+                            ...this.state.user,
+                            imageUrl: imageUrl,
+                        },
+                    })}
+                />
+            </View>
+        );
+    }
+
     isNonEmpty(text) {
         return text.length > 0;
     }
 
     async updateProfile() {
-        const updatedUser = await db.users.update(this.state.user);
+        let updatedUser = await db.users.update(this.state.user);
         this.props.updateUser(updatedUser);
     }
 
@@ -143,13 +169,15 @@ export class EditProfile extends Component {
             passwordCheck,
         });
     }
+
 }
 
 EditProfile.propTypes = {
     user: PropTypes.object.isRequired,
     navigator: PropTypes.object.isRequired,
     updateUser: PropTypes.func.isRequired,
-    signOut: PropTypes.func.isRequired
+    signOut: PropTypes.func.isRequired,
+
 };
 
 EditProfile.navigatorButtons = {
@@ -178,8 +206,24 @@ export default connect(
     mapDispatchToProps,
 )(EditProfile);
 
+const {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
     mainContainer: {
         paddingHorizontal: 20,
     },
+    image: {
+        width,
+        height: height / 5,
+    },
+    imageLabel: {
+        fontWeight: 'bold',
+        marginBottom: 9,
+    },
+    imagePickerCaption: {
+        fontStyle: 'italic',
+    },
 });
+
+
+
+

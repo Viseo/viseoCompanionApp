@@ -206,12 +206,29 @@ export const users = {
     },
     add: async (user) => {
         try {
+            let imageUrl = null;
+            if (user.image) {
+                let formData = new FormData();
+                formData.append("file", {
+                    uri: user.image.uri,
+                    type: "image/jpg",
+                    name: "image.jpg",
+                });
+                let responseImage = await fetch(settings.api.uploadImage, {
+                    method: "POST",
+                    body: formData,
+                });
+                imageUrl = await responseImage.text();
+            }
             let response = await fetch(settings.api.addUser, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(user),
+                    body: JSON.stringify({
+                        ...user,
+                        "imageUrl": imageUrl,
+                    }),
             });
 
             return await response.json();
@@ -222,12 +239,29 @@ export const users = {
     },
     update: async (user) => {
         try {
+            let image = null;
+            if (user.imageUrl) {
+                let formData = new FormData();
+                formData.append("file", {
+                    uri: user.imageUrl.uri,
+                    type: "image/jpg",
+                    name: "image.jpg",
+                });
+                let responseImage = await fetch(settings.api.uploadImage, {
+                    method: "POST",
+                    body: formData,
+                });
+                image = await responseImage.text();
+            }
             let response = await fetch(settings.api.updateUser, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify({
+                    ...user,
+                    "imageUrl": image,
+                }),
             });
             return await response.json();
         } catch (error) {

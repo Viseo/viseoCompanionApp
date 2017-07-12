@@ -1,4 +1,4 @@
-import {SectionList, StyleSheet, View} from 'react-native';
+import {SectionList, StyleSheet, View,RefreshControl} from 'react-native';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppText from '../../global/components/AppText';
@@ -9,6 +9,9 @@ export default class CalendarTab extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            refreshing: false,
+        };
     }
 
     componentWillReceiveProps({scrollToCurrentDaySection}) {
@@ -25,6 +28,14 @@ export default class CalendarTab extends Component {
         );
     }
 
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.props.refresh().then(() => {
+            this.setState({refreshing: false});
+        });
+    }
+
+
     render() {
         const ITEM_HEIGHT = 100;
         const eventList = (
@@ -32,6 +43,13 @@ export default class CalendarTab extends Component {
                 ref={(ref) => {
                     this.sectionList = ref;
                 }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                    />
+                }
+
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
                     <EventCard
