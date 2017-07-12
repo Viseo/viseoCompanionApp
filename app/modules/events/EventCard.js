@@ -241,17 +241,33 @@ class EventCard extends Component {
     }
 
     _showEventDetails() {
-        const canEdit = parseInt(this.props.event.host.id) === parseInt(this.props.user.id);
-        const navigatorButtons = canEdit ?
-            {
-                rightButtons: [
-                    {
-                        title: 'Modifier',
-                        id: 'edit',
-                    },
-                ],
-            } :
-            {};
+        const canEdit = parseInt(this.props.event.host.id) === parseInt(this.props.user.id)
+            && this.props.event.datetime >= moment();
+        const canComment = this.props.event.datetime < moment();
+        let navigatorButtons = {};
+        if (canEdit) {
+            navigatorButtons =
+                {
+                    rightButtons: [
+                        {
+                            title: 'Modifier',
+                            id: 'edit',
+                        },
+                    ],
+                };
+        }
+        if (canComment) {
+            navigatorButtons =
+                {
+                    rightButtons: [
+                        {
+                            icon: require('../../images/comments-128x128.png'),
+                            iconColor: 'white',
+                            id: 'showComments',
+                        },
+                    ],
+                };
+        }
         Navigation.showModal({
             title: 'Détails de l\'évènement',
             screen: 'events.event',

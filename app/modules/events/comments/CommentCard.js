@@ -19,14 +19,10 @@ export default class CommentCard extends Component {
         const cardStyle = this.props.fullSize ? styles.fullSizeCard : styles.mediumSizeCard;
         return (
             <View style={[cardStyle, this.props.style]}>
-                <View style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                }}>
+                <View style={{flex: 1, flexDirection: 'row'}}>
                     {this._renderUserAvatar()}
                     {this._renderSpacer()}
-                    <View style={{flex: .75, justifyContent: 'space-around'}}>
+                    <View style={{flex: .75}}>
                         {this._renderParticipantDate()}
                         {this._renderComment()}
                         {this._renderActions()}
@@ -47,7 +43,7 @@ export default class CommentCard extends Component {
                 </Text>
             </View>;
         return (
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 10, marginRight: 10}}>
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'stretch', marginTop: 5, marginRight: 10}}>
                 <View style={{flex: .5}}>
                     <Text style={{color: colors.blue, fontSize: 14}}>
                         {this.props.writer.firstName + ' ' + this.props.writer.lastName}
@@ -95,10 +91,8 @@ export default class CommentCard extends Component {
         const editButton = canEdit ? this._renderEdit() : null;
         const likeButton = this._renderLike();
         return (
-            <View style={{
-                flex: 1,
-                flexDirection: 'row', alignSelf: 'flex-end', marginRight: 5, marginTop: 5,
-            }}>
+            <View
+                style={{flex: 1, flexDirection: 'row', alignSelf: 'flex-end', marginRight: 5, marginTop: 5}}>
                 {replyButton}
                 {deleteButton}
                 {editButton}
@@ -109,10 +103,7 @@ export default class CommentCard extends Component {
 
     _renderLikeCount() {
         return (
-            <View style={{
-                flex: 1,
-                flexDirection: 'row', alignSelf: 'flex-end', marginRight: 30, marginTop: -30,
-            }}>
+            <View style={{flex: 1, flexDirection: 'row', alignSelf: 'flex-end', marginRight: 27}}>
                 <AppText>{this.props.nbLike}</AppText>
             </View>
         );
@@ -150,7 +141,7 @@ export default class CommentCard extends Component {
     }
 
     _renderDelete() {
-        const reply = (
+        const deleteComment = (
             <Icon.Button
                 style={styles.icon}
                 name="trash" size={20}
@@ -160,7 +151,7 @@ export default class CommentCard extends Component {
         );
         return (
             <View>
-                {reply}
+                {deleteComment}
             </View>
         );
     }
@@ -235,8 +226,9 @@ export default class CommentCard extends Component {
 
     _renderComment() {
         return (
-            <View style={{marginTop: -20, marginRight: 5, flexWrap: 'wrap'}}>
-                <Text>{this.props.content}</Text>
+            <View style={{flex: 1.5, marginRight: 5, marginTop: 10}}>
+                <Text numberOfLines={3}>
+                    {this.props.content}</Text>
             </View>
         );
     }
@@ -288,11 +280,9 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         backgroundColor: 'rgb(255,255,255)',
         borderRadius: 8,
-        height: 120,
         borderBottomWidth: 0.5,
         borderColor: colors.blue,
         marginTop: 10,
-        marginLeft: 15,
     },
     icon: {
         backgroundColor: 'rgb(255,255,255)',

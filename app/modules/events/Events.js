@@ -35,6 +35,7 @@ export default class Events extends Component {
                 />
                 <MyEvents
                     tabLabel="Mes évènements"
+                    goToCalendarTab={() => this.goToCalendarTab()}
                     navigator={this.props.navigator}
                 />
             </ScrollableTabView>

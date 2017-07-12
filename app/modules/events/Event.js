@@ -111,8 +111,8 @@ class Event extends Component {
                 <AppText>{strings.participationLabel}</AppText>
             </View>
         );
-        const day = moment(event.datetime).format('ddd');
-        const time = moment(event.datetime).format('hh[h] mm');
+        const day = moment(event.datetime).format('ddd DD MMM');
+        const time = moment(event.datetime).format('HH:mm');
         return (
             <View style={styles.dateAndParticipantsContainer}>
                 <View style={styles.participationInfoRectangle}>
@@ -208,16 +208,14 @@ class Event extends Component {
     }
 
     _goToComments() {
-        const navigatorButtons = this.props.participating ?
-            {
-                rightButtons: [
-                    {
-                        icon: require('../../images/navigation/add.png'),
-                        id: 'addComment',
-                    },
-                ],
-            } :
-            {};
+        const navigatorButtons = {
+            rightButtons: [
+                {
+                    icon: require('../../images/navigation/add.png'),
+                    id: 'addComment',
+                },
+            ],
+        };
         this.props.navigator.push({
             screen: 'Comments',
             title: 'Commentaires',
@@ -236,17 +234,6 @@ Event.propTypes = {
     registerUser: PropTypes.func.isRequired,
     unregisterUser: PropTypes.func.isRequired,
     navigator: PropTypes.object.isRequired,
-};
-
-Event.navigatorButtons = {
-    rightButtons: [
-        {
-            icon: require('../../images/comments-128x128.png'),
-            iconColor: 'white',
-            id: 'showComments',
-        },
-
-    ],
 };
 
 const mapStateToProps = ({events, user}, ownProps) => ({

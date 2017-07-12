@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     childComment: {
-        height: 120,
+        height: 140,
         marginLeft: 20,
     },
 });

@@ -41,6 +41,8 @@ class AppTextInput extends Component {
                     onChangeText(value);
                 }}
                 onSubmitEditing={this.props.onSubmitEditing}
+                maxLength={this.props.maxLength}
+                multiline={this.props.multiline}
                 {...this.props.passProps}
             />
             :
@@ -61,6 +63,8 @@ class AppTextInput extends Component {
                 }}
                 secureTextEntry={secureTextEntry}
                 onSubmitEditing={this.props.onSubmitEditing}
+                maxLength={this.props.maxLength}
+                multiline={this.props.multiline}
                 {...this.props.passProps}
             />;
         return (
@@ -94,6 +98,8 @@ AppTextInput.defaultProps = {
     value: '',
     secureTextEntry: false,
     style: {},
+    maxLength: 100,
+    multiline: false,
 };
 
 AppTextInput.propTypes = {
@@ -107,6 +113,8 @@ AppTextInput.propTypes = {
     style: PropTypes.object,
     passProps: PropTypes.object,
     onSubmitEditing: PropTypes.func,
+    maxLength: PropTypes.number,
+    multiline: PropTypes.bool,
 };
 
 export default AppTextInput;
