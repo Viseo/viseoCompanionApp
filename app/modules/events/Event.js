@@ -111,6 +111,20 @@ class Event extends Component {
                 <AppText>{strings.participationLabel}</AppText>
             </View>
         );
+
+        const preventCheckParticipation =
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                <Image source={this.props.participating ?
+                    require('./../../images/check_box.png') :
+                    require('./../../images/incheck_box.png')
+                }/>
+                <AppText>
+                    Participation
+                </AppText>
+            </View>
+
+
+        const renderParticipation=this.props.event.datetime >= moment() ? checkParticipation:preventCheckParticipation;
         const day = moment(event.datetime).format('ddd');
         const time = moment(event.datetime).format('hh[h] mm');
         return (
@@ -126,7 +140,8 @@ class Event extends Component {
                         </AppText>
                     </View>
                     <View style={styles.participationInfoItem}>
-                        {checkParticipation}
+
+                        {renderParticipation}
                     </View>
                 </View>
             </View>

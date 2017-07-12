@@ -52,7 +52,7 @@ export default class CalendarTab extends Component {
     }
 
     scrollToCurrentDaySection() {
-        console.warn('scroll to current day section');
+      //  console.warn('scroll to current day section');
         this.sectionList.scrollToLocation({sectionIndex: this.props.currentDaySectionIndex, itemIndex: 0});
     }
 
