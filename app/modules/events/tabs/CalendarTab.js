@@ -70,7 +70,7 @@ export default class CalendarTab extends Component {
     }
 
     scrollToCurrentDaySection() {
-        console.warn('scroll to current day section');
+      //  console.warn('scroll to current day section');
         this.sectionList.scrollToLocation({sectionIndex: this.props.currentDaySectionIndex, itemIndex: 0});
     }
 
@@ -132,7 +132,7 @@ styles = StyleSheet.create({
         paddingLeft: 10,
     },
     headerMonth: {
-        backgroundColor: 'lightgray',
+        backgroundColor: colors.lightgray,
         color: 'black',
         fontSize: 20,
         fontWeight: 'bold',
