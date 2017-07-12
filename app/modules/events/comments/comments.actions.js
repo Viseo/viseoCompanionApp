@@ -35,7 +35,7 @@ export const receiveRating = (averageRating, countReviews) => ({
 export const getRating = (eventId) => {
     return async (dispatch) => {
         try {
-            let [averageRating, countReviews] = await db.events.getRatingAverage(eventId);
+            let [countReviews, averageRating] = await db.events.getRatingAverage(eventId);
             dispatch(receiveRating(averageRating, countReviews));
         } catch (error) {
             console.warn('ActionCreators/comments::fetchComments ' + error);

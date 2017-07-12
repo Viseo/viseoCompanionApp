@@ -25,7 +25,7 @@ function sortByYearAndMonth(events) {
 
 function convertIntoSections(events, eventsByDay) {
     let sections = [];
-    const today = moment().format('dddd DD MMMM');
+
     const currentMonth = moment().format('MMMM');
     const currentYear = moment().format('YYYY');
     Object.keys(events).forEach(year => {
@@ -46,7 +46,7 @@ function convertIntoSections(events, eventsByDay) {
                 && currentYear === year) {
                 sections.push({
                     data: eventsByDay,
-                    title: today,
+                    title: "Aujourd'hui",
                     type: 'today',
                 });
                 currentDaySectionIndex = sections.length - 1;

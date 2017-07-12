@@ -36,12 +36,12 @@ export class LiveEvent extends Component {
         let participantsCounter = this.renderParticipantsNumber();
         return (
             <View style={{flex: 1}}>
-                <View style={{flex: 10}}>
+                <View style={{flex: 2}}>
                     {lostConnexionModal}
                     <ChatView/>
                 </View>
                 <View style={{flexDirection: 'row'}}>
-                    <ChatInput style={{flex: 9}} navigator={this.props.navigator} sendMessage={this.sendMessage}/>
+                    <ChatInput style={{flex: 1}} navigator={this.props.navigator} sendMessage={this.sendMessage}/>
                     {participantsCounter}
                 </View>
             </View>
@@ -49,30 +49,30 @@ export class LiveEvent extends Component {
     }
 
     _initConnection = () => {
-        this.ws = new WebSocket(settings.api.liveEvent);
-        this.ws.onopen = () => {
-            this._joinChatRoom(this.props.eventId);
-            this.setState({connected: true});
-            this._addConnectedMessage();
-        };
-        this.ws.onmessage = (wsMessage) => {
-            this._onReceivedMessage(wsMessage.data);
-        };
-        this.ws.onerror = () => {
-            this.setState({connected: false});
-            this._initConnection();
-        };
-        this.ws.onclose = () => {
-            this._addDisconnectedMessage();
-        };
-    };
+                    this.ws = new WebSocket(settings.api.liveEvent);
+                    this.ws.onopen = () => {
+                        this._joinChatRoom(this.props.eventId);
+                        this.setState({connected: true});
+                        this._addConnectedMessage();
+                    };
+                    this.ws.onmessage = (wsMessage) => {
+                        this._onReceivedMessage(wsMessage.data);
+                    };
+                    this.ws.onerror = () => {
+                        this.setState({connected: false});
+                        this._initConnection();
+                    };
+                    this.ws.onclose = () => {
+                        this._addDisconnectedMessage();
+                    };
+                };
 
-    _joinChatRoom = (eventId) => {
-        const message = {
-            type: 1,
-            payload: {
-                lastUpdated: this.props.lastUpdate,
-                eventId: eventId,
+        _joinChatRoom = (eventId) => {
+            const message = {
+                type: 1,
+                payload: {
+                    lastUpdated: this.props.lastUpdate,
+                    eventId: eventId,
             },
         };
         const jsonMessage = JSON.stringify(message);
@@ -102,6 +102,7 @@ export class LiveEvent extends Component {
             message: chatMessage.content,
             datetime: chatMessage.datetime,
             writerId: chatMessage.writerId,
+            writer: chatMessage.writer,
         });
     };
 
