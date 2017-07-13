@@ -168,7 +168,7 @@ class EventCard extends Component {
     }
 
     renderDate() {
-        const date = moment(this.props.event.datetime).format('DD MMMM HH:mm');
+        const date = moment(this.props.event.datetime).format('DD MMM HH:mm');
         let splitDate = date.split(' ');
         let [day, month, time] = splitDate;
 
