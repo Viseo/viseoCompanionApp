@@ -4,6 +4,7 @@ export default {
     lighterBlue: '#acd3f7',
     lightGray: '#fcffff',
     mediumGray: '#686868',
+    avatarGray: '#969696',
     red: '#f76d79',
     green: '#78D564',
     orange: '#ffc770',

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import AppText from '../global/components/AppText';
-import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
+import {Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
-import Avatar from '../global/components/Avatar';
 import strings from '../global/localizedStrings';
 import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../global/colors';
@@ -12,6 +11,7 @@ import {bindActionCreators} from 'redux';
 import {registerUser, unregisterUser} from './events.actions';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import UserAvatar from 'react-native-user-avatar';
 
 const {height, width} = Dimensions.get('window');
 
@@ -120,10 +120,9 @@ class Event extends Component {
                 <AppText>
                     Participation
                 </AppText>
-            </View>
+            </View>;
 
-
-        const renderParticipation=this.props.event.datetime >= moment() ? checkParticipation:preventCheckParticipation;
+        const renderParticipation = this.props.event.datetime >= moment() ? checkParticipation : preventCheckParticipation;
         const day = moment(event.datetime).format('ddd DD MMM');
         const time = moment(event.datetime).format('HH:mm');
         return (
@@ -181,13 +180,15 @@ class Event extends Component {
         const {navigator} = this.props;
         const {host} = this.props.event;
         const hostAvatar =
-            <Avatar
-                firstName={host.firstName}
-                lastName={host.lastName}
-                style={{flex: 2.5, marginLeft: 5}}
-                otherProfileId={host.id}
-                navigator={navigator}
-            />;
+            <TouchableOpacity>
+                <UserAvatar
+                    style={{marginLeft: 5}}
+                    size="90"
+                    color={colors.avatarGray}
+                    name={host.firstName + ' ' + host.lastName}
+                    navigator={navigator}
+                />
+            </TouchableOpacity>;
         const name = <AppText style={styles.name} numberOfLines={1}>{this.props.event.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.event.category];
         const category = <AppText>{categoryName}</AppText>;
@@ -319,6 +320,7 @@ const styles = StyleSheet.create({
         flex: 15,
     },
     mainInfo: {
+        alignItems: 'center',
         flexDirection: 'row',
         height: height / 5,
     },

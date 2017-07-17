@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Dimensions,ScrollView, StyleSheet, View, Image} from 'react-native';
-import Avatar from '../global/components/Avatar';
+import {Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import AppText from '../global/components/AppText';
 import PropTypes from 'prop-types';
-
+import UserAvatar from 'react-native-user-avatar';
+import colors from '../global/colors';
 
 export default class ProfileDetails extends Component {
 
@@ -38,13 +38,17 @@ export default class ProfileDetails extends Component {
             />
         );
     }
+
     renderAvatar() {
         return (
-            <Avatar
-                firstName={this.props.user.firstName}
-                lastName={this.props.user.lastName}
-                style={{marginTop: 20}}
-            />
+            <TouchableOpacity>
+                <UserAvatar
+                    size="100"
+                    color={colors.avatarGray}
+                    name={this.props.user.firstName + ' ' + this.props.user.lastName}
+                    navigator={navigator}
+                />
+            </TouchableOpacity>
         );
     }
 

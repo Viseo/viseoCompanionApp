@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '../../global/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Avatar from '../../global/components/Avatar';
 import AppText from '../../global/components/AppText';
 import * as db from '../../global/db';
 import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import UserAvatar from 'react-native-user-avatar';
 
 export default class CommentCard extends Component {
 
@@ -19,7 +19,7 @@ export default class CommentCard extends Component {
         const cardStyle = this.props.fullSize ? styles.fullSizeCard : styles.mediumSizeCard;
         return (
             <View style={[cardStyle, this.props.style]}>
-                <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                     {this._renderUserAvatar()}
                     {this._renderSpacer()}
                     <View style={{flex: .75}}>
@@ -56,18 +56,17 @@ export default class CommentCard extends Component {
 
     _renderUserAvatar() {
         const {writer} = this.props;
-        const containerSize = this.props.fullSize ? 0.32 : 0.25;
-        const size = this.props.fullSize ? 4 : 6;
+        const size = this.props.fullSize ? 90 : 60;
         return (
-            <View style={{flex: containerSize}}>
-                <Avatar
-                    size={size}
-                    lastName={writer.lastName}
-                    firstName={writer.firstName}
-                    style={{paddingTop: 10, paddingLeft: 5}}
-                    navigator={this.props.navigator}
-                    otherProfileId={writer.id}
-                />
+            <View style={{alignItems: 'center', marginLeft: 5}}>
+                <TouchableOpacity>
+                    <UserAvatar
+                        size={size}
+                        color={colors.avatarGray}
+                        name={writer.firstName + ' ' + writer.lastName}
+                        navigator={navigator}
+                    />
+                </TouchableOpacity>
             </View>
         );
     }
