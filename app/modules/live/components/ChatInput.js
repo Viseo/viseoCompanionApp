@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 5,
-        height: 40,
     },
     sendButton: {
         flex: 1,

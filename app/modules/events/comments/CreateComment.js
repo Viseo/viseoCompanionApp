@@ -16,26 +16,25 @@ export default class CreateComment extends Component {
     }
 
     render() {
-        const submitButton =
-            (<Button
-                style={{width: 200, height: 100}}
-                title="Envoyer"
-                onPress={() => {
-                    this._sendComment();
-                }}
-            />);
         return (
-            <ScrollView contentContainerStyle={styles.mainContainer}>
+            <ScrollView style={styles.mainContainer}>
                 <AppTextInput
                     label="Votre commentaire"
                     validator={(text) => this._isNonEmpty(text)}
                     value={this.state.comment}
+                    maxLength={100}
                     onChangeText={(comment) => this.setState({comment})}
                     onSubmitEditing={ () => {
                         this._sendComment();
                     }}
                 />
-                {submitButton}
+                <Button
+                    style={{width: 200, height: 100}}
+                    title="Envoyer"
+                    onPress={() => {
+                        this._sendComment();
+                    }}
+                />
             </ScrollView>
         );
     }
@@ -69,6 +68,7 @@ CreateComment.propTypes = {
 const styles = StyleSheet.create({
     mainContainer: {
         backgroundColor: 'white',
-        paddingHorizontal: 15,
+        paddingHorizontal: 30,
+        borderBottomColor: 'white',
     },
 });

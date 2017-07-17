@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppText from '../../global/components/AppText';
 import EventCard from '../EventCard';
+import colors from '../../global/colors';
 
 export default class CalendarTab extends Component {
 
@@ -17,6 +18,14 @@ export default class CalendarTab extends Component {
         if (scrollToCurrentDaySection) {
             this.scrollToCurrentDaySection();
         }
+    }
+
+    _renderEmptyEventList() {
+        return (
+            <View style={styles.emptyEventList}>
+                <AppText>Aucun évènement.</AppText>
+            </View>
+        );
     }
 
     _onRefresh() {
@@ -52,13 +61,14 @@ export default class CalendarTab extends Component {
                 getItemLayout={(data, index) => (
                     {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
                 )}
+                ListEmptyComponent={this._renderEmptyEventList()}
             />
         );
         return <View style={styles.mainContainer}>{eventList}</View>;
     }
 
     scrollToCurrentDaySection() {
-        console.warn('scroll to current day section');
+      //  console.warn('scroll to current day section');
         this.sectionList.scrollToLocation({sectionIndex: this.props.currentDaySectionIndex, itemIndex: 0});
     }
 
@@ -91,13 +101,20 @@ CalendarTab.propTypes = {
     eventId: PropTypes.number,
     scrollToCurrentDaySection: PropTypes.bool,
     currentDaySectionIndex: PropTypes.number.isRequired,
-
 };
 
 styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         flexDirection: 'column',
+        backgroundColor: colors.lighterBlue,
+    },
+    emptyEventList: {
+        height: 40,
+        paddingLeft: 10,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     headerYear: {
         fontSize: 20,
@@ -113,7 +130,7 @@ styles = StyleSheet.create({
         paddingLeft: 10,
     },
     headerMonth: {
-        backgroundColor: 'lightgray',
+        backgroundColor: colors.lightgray,
         color: 'black',
         fontSize: 20,
         fontWeight: 'bold',

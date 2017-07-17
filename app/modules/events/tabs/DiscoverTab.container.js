@@ -17,6 +17,8 @@ function getIncomingEventsSection(events) {
     if (incoming.length > 3) {
         incoming = incoming.slice(0, 3);
         incoming.push('seeAllFilter');
+    } else if (incoming.length === 0) {
+        incoming.push(noEventsForThisCategory);
     }
     return {data: incoming, title: 'A venir'};
 }
