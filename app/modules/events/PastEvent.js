@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Dimensions, Image, Platform, ScrollView, StyleSheet, View} from 'react-native';
+import {Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import AppText from '../global/components/AppText';
 import ItemSpacer from '../global/components/ItemSpacer';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import colors from '../global/colors';
-import Avatar from '../global/components/Avatar';
 import PropTypes from 'prop-types';
 import strings from '../global/localizedStrings';
 import moment from 'moment';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import UserAvatar from 'react-native-user-avatar';
 
 const eventIdToImages = {
     '40': require('./../../images/events/formation_securite.jpg'),
@@ -75,13 +75,16 @@ class PastEvent extends Component {
 
     renderMainInfo() {
         const {hostFirstName, hostLastName, host, navigator} = this.props;
-        const hostAvatar = <Avatar
-            firstName={hostFirstName}
-            lastName={hostLastName}
-            style={{flex: 3}}
-            otherProfileId={host.id}
-            navigator={navigator}
-        />;
+        const hostAvatar =
+            <TouchableOpacity>
+                <UserAvatar
+                    style={{marginLeft: 5}}
+                    size="90"
+                    color={colors.avatarGray}
+                    name={host.firstName + ' ' + host.lastName}
+                    navigator={navigator}
+                />
+            </TouchableOpacity>;
         const name = <AppText style={styles.name}>{this.props.name}</AppText>;
         const category = <AppText>{this.getCategoryNameFromId(this.props.category)}</AppText>;
         const categoryIndicator = (
@@ -237,7 +240,6 @@ class PastEvent extends Component {
             navigatorButtons,
         });
     }
-
 
 }
 
