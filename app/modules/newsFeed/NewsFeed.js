@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Button, Image, StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import AppText from '../global/components/AppText';
+import colors from '../global/colors';
+import UserAvatar from 'react-native-user-avatar';
 
 class NewsFeed extends Component {
 
@@ -16,10 +19,10 @@ class NewsFeed extends Component {
         // let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
         const notationPopup = null;
         return (
-            <View>
-                {notationPopup}
-                <Text>All the great stuff in one place!</Text>
-
+            <View style={{backgroundColor: colors.lightBlue}}>
+                {this._renderHeadband()}
+                {this._renderProfile()}
+                {this._renderLive()}
             </View>
         );
     }
@@ -28,7 +31,7 @@ class NewsFeed extends Component {
         if (!date)
             return [];
         let dateTime = moment(date);
-        return dateTime.calendar().split("/");
+        return dateTime.calendar().split('/');
     }
 
     _showNotationPopup = () => {
@@ -56,16 +59,63 @@ class NewsFeed extends Component {
     };
 
     onNavigatorEvent(event) {
-        if (event.id === "profile") {
-            this._goToUserProfile();
+        if (event.id === 'Notifications') {
+            this._goToNotifications();
         }
     }
 
-    _goToUserProfile() {
+    _goToNotifications() {
         this.props.navigator.push({
-            screen: 'user.myProfile',
-            title: 'Mon profil',
+            screen: 'Notifications',
+            title: 'Notifications',
         });
+    }
+
+    _renderHeadband() {
+        return (
+            <Image
+                source={require('../../images/NIVEAUX_BANDEAU_1.jpg')}
+                style={{alignContent: 'center', width: 800, height: 150}}
+            />
+        );
+    }
+
+    _renderProfile() {
+        return (
+            <View style={styles.profileContainer}>
+                <UserAvatar
+                    style={{alignItems: 'center'}}
+                    name={'Aziz BEN MILED'}
+                    size="100"
+                />
+                <AppText style={{color: '#000000'}}>
+                    Aziz
+                </AppText>
+                <Button
+                    title={'editer'}
+                    onPress={() => {
+                        console.warn('ok');
+                    }}
+                />
+            </View>
+        );
+    }
+
+    _renderLive() {
+        return (
+            <View style={{
+                backgroundColor: colors.white,
+                alignContent: 'center',
+                marginTop: 20,
+                marginRight: 20,
+                marginLeft: 20,
+            }}>
+                <AppText style={{fontSize: 18, color: colors.red}}>
+                    En direct
+                </AppText>
+                <View style={{backgroundColor: colors.red, height: 5}}/>
+            </View>
+        );
     }
 }
 
@@ -76,11 +126,22 @@ NewsFeed.propTypes = {
 NewsFeed.navigatorButtons = {
     rightButtons: [
         {
-            icon: require('../../images/navigation/profile.png'),
-            id: 'profile',
+            icon: require('../../images/navigation/notifications.png'),
+            id: 'Notifications',
         },
     ],
 };
+
+const styles = StyleSheet.create({
+    profileContainer: {
+        marginTop: -50,
+        padding: 50,
+        marginRight: 20,
+        marginLeft: 20,
+        backgroundColor: colors.red,
+        alignContent: 'center',
+    },
+});
 
 const getToReviewEvents = (events, eventsReviewed, user) => {
 
@@ -112,7 +173,7 @@ const mapStateToProps = ({events, user, review}) => ({
         user,
     ),
     user,
-    isReviewPopupDismissed : review.isReviewPopupDismissed,
+    isReviewPopupDismissed: review.isReviewPopupDismissed,
 });
 
 export default connect(
