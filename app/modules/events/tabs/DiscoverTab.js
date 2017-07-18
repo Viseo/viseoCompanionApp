@@ -23,7 +23,6 @@ export default class DiscoverTab extends Component {
             />
         );
     }
-
     _renderEventCard({item, section}) {
         const seeAll = (
             <View style={styles.seeAllContainer}>

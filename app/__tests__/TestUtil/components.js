@@ -15,7 +15,7 @@ import FilterToggle from './../../components/FilterToggle';
 import SearchTextInput from './../../components/SearchTextInput';
 import SearchBar from './../../components/SearchBar';
 import PushController from '../../modules/global/pushController';
-import Avatar from '../../modules/global/components/Avatar';
+import UserAvatar from 'react-native-user-avatar';
 
 export function get(componentName, props) {
     switch (componentName) {
@@ -58,7 +58,7 @@ export function get(componentName, props) {
             return shallow(<PushController {...props}/>);
             break;
         case 'avatar':
-            return shallow(<Avatar {...props}/>);
+            return shallow(<UserAvatar {...props}/>);
             break;
         default:
             return null;

@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
-import Avatar from '../global/components/Avatar';
+import {Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import AppText from '../global/components/AppText';
 import PropTypes from 'prop-types';
+import UserAvatar from 'react-native-user-avatar';
+import colors from '../global/colors';
 
 export default class ProfileDetails extends Component {
 
@@ -15,9 +16,11 @@ export default class ProfileDetails extends Component {
         const firstName = this.renderFirstName();
         const lastName = this.renderLastName();
         const email = this.renderEmail();
+        const image = this._renderUserPicture();
         return (
             <ScrollView contentContainerStyle={styles.mainContainer} style={{backgroundColor: 'white'}}>
                 {avatar}
+                {image}
                 {firstName}
                 {lastName}
                 {email}
@@ -25,13 +28,27 @@ export default class ProfileDetails extends Component {
         );
     }
 
+    _renderUserPicture() {
+        const imageUrl = this.props.user.imageUrl || 'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
+        return (
+            <Image
+                style={{height: 200, width: width}}
+                source={{uri: imageUrl}}
+
+            />
+        );
+    }
+
     renderAvatar() {
         return (
-            <Avatar
-                firstName={this.props.user.firstName}
-                lastName={this.props.user.lastName}
-                style={{marginTop: 20}}
-            />
+            <TouchableOpacity>
+                <UserAvatar
+                    size="100"
+                    color={colors.avatarGray}
+                    name={this.props.user.firstName + ' ' + this.props.user.lastName}
+                    navigator={navigator}
+                />
+            </TouchableOpacity>
         );
     }
 
@@ -67,7 +84,12 @@ ProfileDetails.propTypes = {
     user: PropTypes.any.isRequired,
 };
 
+const {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
+    image: {
+        width,
+        height: height / 2,
+    },
     displayText: {
         fontSize: 18,
     },

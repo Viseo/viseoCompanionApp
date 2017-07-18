@@ -16,26 +16,25 @@ export default class CreateChildComment extends Component {
     }
 
     render() {
-        const submitButton =
-            (<Button
-                style={{width: 200, height: 100}}
-                title="Répondre"
-                onPress={() => {
-                    this._sendChildComment();
-                }}
-            />);
         return (
-            <ScrollView contentContainerStyle={styles.mainContainer}>
+            <ScrollView style={styles.mainContainer}>
                 <AppTextInput
                     label="Votre réponse au commentaire"
                     validator={(text) => this._isNonEmpty(text)}
-                    value={this.props.lastName}
+                    value={this.state.childComment}
+                    maxLength={100}
                     onChangeText={(childComment) => this.setState({childComment})}
                     onSubmitEditing={ () => {
                         this._sendChildComment();
                     }}
                 />
-                {submitButton}
+                <Button
+                    style={{width: 200, height: 100}}
+                    title="Répondre"
+                    onPress={() => {
+                        this._sendChildComment();
+                    }}
+                />
             </ScrollView>
         );
     }

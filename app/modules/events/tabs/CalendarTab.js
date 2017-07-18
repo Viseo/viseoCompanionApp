@@ -1,13 +1,17 @@
-import {SectionList, StyleSheet, View} from 'react-native';
+import {SectionList, StyleSheet, View,RefreshControl} from 'react-native';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppText from '../../global/components/AppText';
 import EventCard from '../EventCard';
+import colors from '../../global/colors';
 
 export default class CalendarTab extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            refreshing: false,
+        };
     }
 
     componentWillReceiveProps({scrollToCurrentDaySection}) {
@@ -16,6 +20,22 @@ export default class CalendarTab extends Component {
         }
     }
 
+    _renderEmptyEventList() {
+        return (
+            <View style={styles.emptyEventList}>
+                <AppText>Aucun évènement.</AppText>
+            </View>
+        );
+    }
+
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.props.refresh().then(() => {
+            this.setState({refreshing: false});
+        });
+    }
+
+
     render() {
         const ITEM_HEIGHT = 100;
         const eventList = (
@@ -23,6 +43,13 @@ export default class CalendarTab extends Component {
                 ref={(ref) => {
                     this.sectionList = ref;
                 }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                    />
+                }
+
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
                     <EventCard
@@ -36,13 +63,14 @@ export default class CalendarTab extends Component {
                 getItemLayout={(data, index) => (
                     {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
                 )}
+                ListEmptyComponent={this._renderEmptyEventList()}
             />
         );
         return <View style={styles.mainContainer}>{eventList}</View>;
     }
 
     scrollToCurrentDaySection() {
-        console.warn('scroll to current day section');
+      //  console.warn('scroll to current day section');
         this.sectionList.scrollToLocation({sectionIndex: this.props.currentDaySectionIndex, itemIndex: 0});
     }
 
@@ -81,6 +109,14 @@ styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         flexDirection: 'column',
+        backgroundColor: colors.lighterBlue,
+    },
+    emptyEventList: {
+        height: 40,
+        paddingLeft: 10,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     headerYear: {
         fontSize: 20,
@@ -96,7 +132,7 @@ styles = StyleSheet.create({
         paddingLeft: 10,
     },
     headerMonth: {
-        backgroundColor: 'lightgray',
+        backgroundColor: colors.lightgray,
         color: 'black',
         fontSize: 20,
         fontWeight: 'bold',

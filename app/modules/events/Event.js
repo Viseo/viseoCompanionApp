@@ -12,6 +12,7 @@ import {bindActionCreators} from 'redux';
 import {registerUser, unregisterUser} from './events.actions';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import UserAvatar from 'react-native-user-avatar';
 
 const {height, width} = Dimensions.get('window');
 
@@ -111,18 +112,32 @@ class Event extends Component {
                 <AppText>{strings.participationLabel}</AppText>
             </View>
         );
-        const date = moment(this.props.event.datetime).calendar(
-            {
-                sameDay: "[Today]",
-                nextDay: "[Tomorrow]",
-                nextWeek: "dddd",
-                lastDay: "[Yesterday]",
-                lastWeek: "[Last] dddd",
-                sameElse: "DD/MM/YYYY",
-            });
-        let splitDate=date.split('/');
-        const day=splitDate[0];
-        const time = splitDate[1];
+        const preventCheckParticipation =
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                <Image source={this.props.participating ?
+                    require('./../../images/check_box.png') :
+                    require('./../../images/incheck_box.png')
+                }/>
+                <AppText>
+                    Participation
+                </AppText>
+            </View>;
+
+        // const renderParticipation = this.props.event.datetime >= moment() ? checkParticipation : preventCheckParticipation;
+        const day = moment(event.datetime).format('ddd DD MMM');
+        const time = moment(event.datetime).format('HH:mm');
+        // const date = moment(this.props.event.datetime).calendar(
+        //     {
+        //         sameDay: "[Today]",
+        //         nextDay: "[Tomorrow]",
+        //         nextWeek: "dddd",
+        //         lastDay: "[Yesterday]",
+        //         lastWeek: "[Last] dddd",
+        //         sameElse: "DD/MM/YYYY",
+        //     });
+        // let splitDate=date.split('/');
+        // const day=splitDate[0];
+        // const time = splitDate[1];
         return (
             <View style={styles.dateAndParticipantsContainer}>
                 <View style={styles.participationInfoRectangle}>
@@ -178,13 +193,15 @@ class Event extends Component {
         const {navigator} = this.props;
         const {host} = this.props.event;
         const hostAvatar =
-            <Avatar
-                firstName={host.firstName}
-                lastName={host.lastName}
-                style={{flex: 2.5, marginLeft: 5}}
-                otherProfileId={host.id}
-                navigator={navigator}
-            />;
+            <TouchableOpacity>
+                <UserAvatar
+                    style={{marginLeft: 5}}
+                    size="90"
+                    color={colors.avatarGray}
+                    name={host.firstName + ' ' + host.lastName}
+                    navigator={navigator}
+                />
+            </TouchableOpacity>;
         const name = <AppText style={styles.name} numberOfLines={1}>{this.props.event.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.event.category];
         const category = <AppText>{categoryName}</AppText>;
@@ -218,16 +235,14 @@ class Event extends Component {
     }
 
     _goToComments() {
-        const navigatorButtons = this.props.participating ?
-            {
-                rightButtons: [
-                    {
-                        icon: require('../../images/navigation/add.png'),
-                        id: 'addComment',
-                    },
-                ],
-            } :
-            {};
+        const navigatorButtons = {
+            rightButtons: [
+                {
+                    icon: require('../../images/navigation/add.png'),
+                    id: 'addComment',
+                },
+            ],
+        };
         this.props.navigator.push({
             screen: 'Comments',
             title: 'Commentaires',
@@ -246,17 +261,6 @@ Event.propTypes = {
     registerUser: PropTypes.func.isRequired,
     unregisterUser: PropTypes.func.isRequired,
     navigator: PropTypes.object.isRequired,
-};
-
-Event.navigatorButtons = {
-    rightButtons: [
-        {
-            icon: require('../../images/comments-128x128.png'),
-            iconColor: 'white',
-            id: 'showComments',
-        },
-
-    ],
 };
 
 const mapStateToProps = ({events, user}, ownProps) => ({
@@ -329,6 +333,7 @@ const styles = StyleSheet.create({
         flex: 15,
     },
     mainInfo: {
+        alignItems: 'center',
         flexDirection: 'row',
         height: height / 5,
     },

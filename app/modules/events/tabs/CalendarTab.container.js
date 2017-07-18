@@ -1,6 +1,8 @@
 import {connect} from 'react-redux';
 import moment from 'moment';
 import CalendarTab from './CalendarTab';
+import {bindActionCreators} from 'redux';
+import {fetchEvents, showCurrentDaySection} from '../events.actions';
 
 let currentDaySectionIndex = 0;
 
@@ -25,7 +27,7 @@ function sortByYearAndMonth(events) {
 
 function convertIntoSections(events, eventsByDay) {
     let sections = [];
-    const today = moment().format('dddd DD MMMM');
+
     const currentMonth = moment().format('MMMM');
     const currentYear = moment().format('YYYY');
     Object.keys(events).forEach(year => {
@@ -46,7 +48,7 @@ function convertIntoSections(events, eventsByDay) {
                 && currentYear === year) {
                 sections.push({
                     data: eventsByDay,
-                    title: today,
+                    title: "Aujourd'hui",
                     type: 'today',
                 });
                 currentDaySectionIndex = sections.length - 1;
@@ -80,7 +82,16 @@ const mapStateToProps = ({events}, ownProps) => ({
     ...ownProps,
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+            refresh: fetchEvents,
+        },
+        dispatch,
+    );
+};
+
 export default connect(
     mapStateToProps,
+    mapDispatchToProps,
 )(CalendarTab);
 

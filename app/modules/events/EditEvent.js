@@ -58,7 +58,7 @@ class EditEvent extends Component {
                 ...eventToEdit,
                 name: this.state.name,
                 description: this.state.description,
-                datetime: moment(this.state.date, this.dateFormat).valueOf(),
+                datetime: moment(this.state.date, this.dateFormat).valueOf() + 7200000,
                 category: this.state.category,
                 location: this.state.location,
                 image: this.state.image,

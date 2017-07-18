@@ -82,8 +82,9 @@ export default connect(
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 8,
         backgroundColor: 'white',
+
     },
     button: {
         padding: 20,
