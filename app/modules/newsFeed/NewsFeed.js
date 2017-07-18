@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import {Button, Image, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, Image, StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import AppText from '../global/components/AppText';
 import colors from '../global/colors';
 import UserAvatar from 'react-native-user-avatar';
+import Svg from 'react-native-svg/elements/Svg';
+import {Defs, LinearGradient, Rect, Stop} from 'react-native-svg';
 
 class NewsFeed extends Component {
 
@@ -19,10 +21,15 @@ class NewsFeed extends Component {
         // let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
         const notationPopup = null;
         return (
-            <View style={{backgroundColor: colors.lightBlue}}>
+            <View style={{height: height, width: width}}>
                 {this._renderHeadband()}
                 {this._renderProfile()}
-                {this._renderLive()}
+                {this._renderAvatar()}
+                <View style={{flexDirection: 'row', backgroundColor: colors.green, marginRight: 20, marginLeft: 20}}>
+                    <AppText style={{flex: 5}}>Solde</AppText>
+                    <AppText style={{flex: 1}}>55 VZ</AppText>
+                </View>
+                {this._renderLiveBand()}
             </View>
         );
     }
@@ -83,37 +90,54 @@ class NewsFeed extends Component {
     _renderProfile() {
         return (
             <View style={styles.profileContainer}>
-                <UserAvatar
-                    style={{alignItems: 'center'}}
-                    name={'Aziz BEN MILED'}
-                    size="100"
-                />
-                <AppText style={{color: '#000000'}}>
-                    Aziz
+                <AppText style={{alignSelf: 'center', marginBottom: 30, color: '#000000', fontSize: 22}}>
+                    {this.props.user.firstName + ' ' + this.props.user.lastName}
                 </AppText>
                 <Button
-                    title={'editer'}
+                    style={{borderRadius: 12,}}
+                    title={'Voir mon profil'}
                     onPress={() => {
-                        console.warn('ok');
+                        console.warn('Voir mon profil');
                     }}
                 />
             </View>
         );
     }
 
-    _renderLive() {
+    _renderAvatar() {
         return (
-            <View style={{
-                backgroundColor: colors.white,
-                alignContent: 'center',
-                marginTop: 20,
-                marginRight: 20,
-                marginLeft: 20,
-            }}>
-                <AppText style={{fontSize: 18, color: colors.red}}>
+            <UserAvatar
+                style={styles.userAvatar}
+                name={this.props.user.firstName + ' ' + this.props.user.lastName}
+                size="100"
+            />
+        );
+    }
+
+    _renderLiveBand() {
+        return (
+            <View style={styles.liveBand}>
+                <AppText style={{
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                    color: colors.red,
+                    marginLeft: 15,
+                    marginTop: 10,
+                    marginBottom: 10,
+                }}>
                     En direct
                 </AppText>
                 <View style={{backgroundColor: colors.red, height: 5}}/>
+                <Svg height="150"
+                     width="400">
+                    <Defs>
+                        <LinearGradient id="grad" x1="0" y1="0" x2="170" y2="0">
+                            <Stop offset="0" stopColor="rgb(255,255,0)" stopOpacity="0"/>
+                            <Stop offset="1" stopColor="red" stopOpacity="1"/>
+                        </LinearGradient>
+                    </Defs>
+                    <Rect x="0" y="0" height="150" width="400" fill="url(#grad)"/>
+                </Svg>
             </View>
         );
     }
@@ -131,15 +155,28 @@ NewsFeed.navigatorButtons = {
         },
     ],
 };
-
+const {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
     profileContainer: {
-        marginTop: -50,
+        flexDirection: 'column',
         padding: 50,
+        marginTop: -50,
         marginRight: 20,
         marginLeft: 20,
-        backgroundColor: colors.red,
+        backgroundColor: colors.lightGray,
         alignContent: 'center',
+    },
+    userAvatar: {
+        alignSelf: 'center',
+        top: -250,
+        position: 'absolute',
+    },
+    liveBand: {
+        backgroundColor: colors.lightGray,
+        alignContent: 'center',
+        marginTop: 20,
+        marginRight: 20,
+        marginLeft: 20,
     },
 });
 
