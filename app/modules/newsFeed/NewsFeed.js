@@ -47,12 +47,11 @@ class NewsFeed extends Component {
                     eventName: events[0].name,
                     location: events[0].location,
                     date: date,
-                    eventId: events[0].eventId,
+                    eventId: events[0].id,
                     userId: this.props.user.id,
                 },
             });
         }
-
     };
 
     onNavigatorEvent(event) {

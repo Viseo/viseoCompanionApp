@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import AppText from '../global/components/AppText';
-import {Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
+import Avatar from '../global/components/Avatar';
 import strings from '../global/localizedStrings';
 import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../global/colors';
@@ -122,9 +123,21 @@ class Event extends Component {
                 </AppText>
             </View>;
 
-        const renderParticipation = this.props.event.datetime >= moment() ? checkParticipation : preventCheckParticipation;
+        // const renderParticipation = this.props.event.datetime >= moment() ? checkParticipation : preventCheckParticipation;
         const day = moment(event.datetime).format('ddd DD MMM');
         const time = moment(event.datetime).format('HH:mm');
+        // const date = moment(this.props.event.datetime).calendar(
+        //     {
+        //         sameDay: "[Today]",
+        //         nextDay: "[Tomorrow]",
+        //         nextWeek: "dddd",
+        //         lastDay: "[Yesterday]",
+        //         lastWeek: "[Last] dddd",
+        //         sameElse: "DD/MM/YYYY",
+        //     });
+        // let splitDate=date.split('/');
+        // const day=splitDate[0];
+        // const time = splitDate[1];
         return (
             <View style={styles.dateAndParticipantsContainer}>
                 <View style={styles.participationInfoRectangle}>

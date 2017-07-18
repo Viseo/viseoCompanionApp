@@ -38,7 +38,7 @@ class EditEvent extends Component {
                 description={eventToEdit.description}
                 location={eventToEdit.location}
                 name={eventToEdit.name}
-                datetime={eventToEdit.date}
+                datetime={eventToEdit.datetime}
                 imageUrl={eventToEdit.imageUrl}
                 setName={(name) => this.setState({name})}
                 setDescription={(description) => this.setState({description})}
