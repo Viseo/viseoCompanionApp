@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dimensions, Image, StyleSheet, TouchableOpacity, View} from "react-native";
+import {Dimensions, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -90,23 +90,11 @@ class NewsFeed extends Component {
                 <AppText style={{alignSelf: 'center', marginBottom: 30, color: '#000000', fontSize: 22}}>
                     {this.props.user.firstName + ' ' + this.props.user.lastName}
                 </AppText>
-                <Button
-                    style={{borderRadius: 12,}}
-                    title={'Voir mon profil'}
-                    onPress={() => {
-                        this.props.navigator.push({
-                            screen: 'user.ProfileDetails',
-                            title: 'Profile',
-                            passProps: {
-                                user:this.props.user
-                            }
-                        });
-                    }}
-                />
                 {this._renderProfileButton()}
             </View>
         );
     }
+
     _renderAvatar() {
         const imageUrl = this.props.user.imageUrl;
         return (
@@ -171,7 +159,7 @@ class NewsFeed extends Component {
         return (
             <Svg height="50"
                  width={width - 40}
-                 style={{alignSelf: 'center'}}>
+                 style={{alignSelf: 'center', marginTop: -100}}>
                 <G>
                     <Defs>
                         <LinearGradient id="grad" x1="0" y1="0" x2={width} y2="0">
@@ -206,12 +194,18 @@ class NewsFeed extends Component {
                 </Defs>
                 <Rect x="0" y="0" rx="8" ry="8" height="40" width="200" fill="url(#grad)"
                       onPress={() => {
-                          console.warn('voir mon profil');
+                          this.props.navigator.push({
+                              screen: 'user.ProfileDetails',
+                              title: 'Profile',
+                              passProps: {
+                                  user: this.props.user,
+                              },
+                          });
                       }}
                 />
                 <Text fontFamily="Times New Roman" fontSize="14"
                       x="55" y="12" fill="#FFFFFF">
-                    Voir mon profil
+                    Voir mon profiil
                 </Text>
             </Svg>
         );
@@ -244,7 +238,6 @@ const styles = StyleSheet.create({
     userAvatar: {
         alignSelf: 'center',
         top: -250,
-        position: 'absolute',
     },
     liveBand: {
         backgroundColor: colors.white,
