@@ -28,7 +28,7 @@ export class OtherProfile extends Component {
 OtherProfile.navigatorStyle = defaultNavBarStyle;
 
 OtherProfile.propTypes = {
-    otherProfileId: PropTypes.number.isRequired,
+   // otherProfileId: PropTypes.number.isRequired,
     otherProfile: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     getUser: PropTypes.func.isRequired

@@ -11,6 +11,7 @@ import EditEvent from './EditEvent';
 import OthersProfile from '../user/OtherProfile';
 import ReviewPopup from './reviews/ReviewPopup';
 import SearchEvents from './search/SearchEvents';
+import ProfileDetails from "../user/ProfileDetails";
 
 export default function(store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);
@@ -25,5 +26,6 @@ export default function(store, provider) {
     Navigation.registerComponent('events.liveEvent', () => LiveEvent, store, provider);
     Navigation.registerComponent('CreateChildComment', () => CreateChildComment, store, provider);
     Navigation.registerComponent('user.othersProfile', () => OthersProfile, store, provider);
+    Navigation.registerComponent('user.ProfileDetails', () => ProfileDetails, store, provider);
     Navigation.registerComponent('notation.popup', () => ReviewPopup, store, provider);
 }

@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import AppText from '../global/components/AppText';
-import PropTypes from 'prop-types';
-import UserAvatar from 'react-native-user-avatar';
-import colors from '../global/colors';
+import React, {Component} from "react";
+import {Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
+import AppText from "../global/components/AppText";
+import PropTypes from "prop-types";
+import UserAvatar from "react-native-user-avatar";
+import colors from "../global/colors";
 
 export default class ProfileDetails extends Component {
 
@@ -16,39 +16,36 @@ export default class ProfileDetails extends Component {
         const firstName = this.renderFirstName();
         const lastName = this.renderLastName();
         const email = this.renderEmail();
-        const image = this._renderUserPicture();
         return (
-            <ScrollView contentContainerStyle={styles.mainContainer} style={{backgroundColor: 'white'}}>
-                {avatar}
-                {image}
-                {firstName}
-                {lastName}
-                {email}
+            <ScrollView contentContainerStyle={styles.mainContainer} style={{backgroundColor: "white"}}>
+                <View style={{flex:1,flexDirection:"row"}}>
+                    <View  style={{flex:.3,marginTop:25,marginRight:20}}>
+                    {avatar}
+                    </View>
+                    <View style={{flex:.7}}>
+                        {firstName}
+                        {lastName}
+                        {email}
+                    </View>
+                </View>
             </ScrollView>
         );
     }
 
-    _renderUserPicture() {
-        const imageUrl = this.props.user.imageUrl || 'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
-        return (
-            <Image
-                style={{height: 200, width: width}}
-                source={{uri: imageUrl}}
-
-            />
-        );
-    }
-
     renderAvatar() {
+        const imageUrl = this.props.user.imageUrl;
         return (
-            <TouchableOpacity>
-                <UserAvatar
-                    size="100"
-                    color={colors.avatarGray}
-                    name={this.props.user.firstName + ' ' + this.props.user.lastName}
-                    navigator={navigator}
-                />
-            </TouchableOpacity>
+            imageUrl ?
+                <UserAvatar size="100" name="AvatarImage" src={imageUrl}/>
+                :
+                <TouchableOpacity>
+                    <UserAvatar
+                        size="100"
+                        color={colors.avatarGray}
+                        name={this.props.user.firstName.toUpperCase() + " " + this.props.user.lastName.toUpperCase() }
+                        navigator={navigator}
+                    />
+                </TouchableOpacity>
         );
     }
 
@@ -78,13 +75,13 @@ export default class ProfileDetails extends Component {
             </View>
         );
     }
-}
+};
 
 ProfileDetails.propTypes = {
     user: PropTypes.any.isRequired,
 };
 
-const {height, width} = Dimensions.get('window');
+const {height, width} = Dimensions.get("window");
 const styles = StyleSheet.create({
     image: {
         width,
@@ -95,7 +92,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     mainContainer: {
         marginHorizontal: 20,

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, Image, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -16,7 +16,6 @@ class NewsFeed extends Component {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
-
     _showNotationPopup = () => {
         let {events} = this.props;
         if (events && events.length > 0) {
@@ -91,18 +90,62 @@ class NewsFeed extends Component {
                 <AppText style={{alignSelf: 'center', marginBottom: 30, color: '#000000', fontSize: 22}}>
                     {this.props.user.firstName + ' ' + this.props.user.lastName}
                 </AppText>
+                <Button
+                    style={{borderRadius: 12,}}
+                    title={'Voir mon profil'}
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.ProfileDetails',
+                            title: 'Profile',
+                            passProps: {
+                                user:this.props.user
+                            }
+                        });
+                    }}
+                />
                 {this._renderProfileButton()}
             </View>
         );
     }
-
     _renderAvatar() {
+        const imageUrl = this.props.user.imageUrl;
         return (
-            <UserAvatar
-                style={styles.userAvatar}
-                name={this.props.user.firstName + ' ' + this.props.user.lastName}
-                size="100"
-            />
+            imageUrl ?
+                <TouchableOpacity
+                    style={styles.userAvatar}
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.ProfileDetails',
+                            title: 'Profile',
+                            passProps: {
+                                user:this.props.user
+                            }
+                        });
+                    }}
+
+                >
+                    <UserAvatar size="100" name="AvatarImage" src={imageUrl} />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity
+                    style={styles.userAvatar}
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.ProfileDetails',
+                            title: 'Profile',
+                            passProps: {
+                                user:this.props.user
+                            }
+                        });
+                    }}
+                >
+                    <UserAvatar
+                       size="100"
+                        color={colors.avatarGray}
+                        name={this.props.user.firstName.toUpperCase() + " " + this.props.user.lastName.toUpperCase() }
+                        navigator={navigator}
+                    />
+                </TouchableOpacity>
         );
     }
 
