@@ -188,20 +188,49 @@ class Event extends Component {
             </View>
         );
     }
+    _renderAvatar(host) {
+        const imageUrl = host.imageUrl;
+        return (
+            imageUrl ?
+                <TouchableOpacity
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.othersProfile',
+                            title: 'Profile',
+                            passProps: {
+                                otherProfile:this.props.event.host
+                            }
+                        });
+                    }}
+                >
+                <UserAvatar size="100" name="AvatarImage" src={imageUrl}/>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.othersProfile',
+                            title: 'Profile',
+                            passProps: {
+                                otherProfile:this.props.event.host
+                            }
+                        });
+                    }}
+                >
+                    <UserAvatar
+                        size="100"
+                        color={colors.avatarGray}
+                        name={this.props.user.firstName.toUpperCase() + " " + this.props.user.lastName.toUpperCase() }
+                        navigator={navigator}
+                    />
+                </TouchableOpacity>
+        );
+    }
 
     _renderMainInfo() {
         const {navigator} = this.props;
         const {host} = this.props.event;
-        const hostAvatar =
-            <TouchableOpacity>
-                <UserAvatar
-                    style={{marginLeft: 5}}
-                    size="90"
-                    color={colors.avatarGray}
-                    name={host.firstName + ' ' + host.lastName}
-                    navigator={navigator}
-                />
-            </TouchableOpacity>;
+        const hostAvatar =this._renderAvatar(host);
         const name = <AppText style={styles.name} numberOfLines={1}>{this.props.event.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.event.category];
         const category = <AppText>{categoryName}</AppText>;

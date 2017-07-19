@@ -17,10 +17,11 @@ export default class CommentCard extends Component {
 
     render() {
         const cardStyle = this.props.fullSize ? styles.fullSizeCard : styles.mediumSizeCard;
+        const {writer}=this.props;
         return (
             <View style={[cardStyle, this.props.style]}>
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                    {this._renderUserAvatar()}
+                    {this._renderUserAvatar(writer)}
                     {this._renderSpacer()}
                     <View style={{flex: .75}}>
                         {this._renderParticipantDate()}
@@ -54,20 +55,42 @@ export default class CommentCard extends Component {
         );
     }
 
-    _renderUserAvatar() {
-        const {writer} = this.props;
-        const size = this.props.fullSize ? 90 : 60;
+    _renderUserAvatar(user) {
+        const imageUrl = user.imageUrl;
         return (
-            <View style={{alignItems: 'center', marginLeft: 5}}>
-                <TouchableOpacity>
+            imageUrl ?
+                <TouchableOpacity
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.othersProfile',
+                            title: 'Profile',
+                            passProps: {
+                                otherProfile:user
+                            }
+                        });
+                    }}
+                >
+                    <UserAvatar size="100" name="AvatarImage" src={imageUrl}/>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.othersProfile',
+                            title: 'Profile',
+                            passProps: {
+                                otherProfile:user
+                            }
+                        });
+                    }}
+                >
                     <UserAvatar
-                        size={size}
+                        size="100"
                         color={colors.avatarGray}
-                        name={writer.firstName + ' ' + writer.lastName}
+                        name={this.props.user.firstName.toUpperCase() + " " + this.props.user.lastName.toUpperCase() }
                         navigator={navigator}
                     />
                 </TouchableOpacity>
-            </View>
         );
     }
 
