@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dimensions, Image, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -24,7 +24,7 @@ class NewsFeed extends Component {
             <View style={{height: height, width: width}}>
                 {this._renderHeadband()}
                 {this._renderProfile()}
-                {this._renderAvatar()}
+                {this._renderUserAvatar()}
                 <View style={{flexDirection: 'row', backgroundColor: colors.green, marginRight: 20, marginLeft: 20}}>
                     <AppText style={{flex: 5}}>Solde</AppText>
                     <AppText style={{flex: 1}}>55 VZ</AppText>
@@ -97,22 +97,61 @@ class NewsFeed extends Component {
                     style={{borderRadius: 12,}}
                     title={'Voir mon profil'}
                     onPress={() => {
-                        console.warn('Voir mon profil');
+                        this.props.navigator.push({
+                            screen: 'user.ProfileDetails',
+                            title: 'Profile',
+                            passProps: {
+                                user:this.props.user
+                            }
+                        });
                     }}
                 />
             </View>
         );
     }
-
-    _renderAvatar() {
+    _renderUserAvatar() {
+        const imageUrl = this.props.user.imageUrl;
         return (
-            <UserAvatar
-                style={styles.userAvatar}
-                name={this.props.user.firstName + ' ' + this.props.user.lastName}
-                size="100"
-            />
+            imageUrl ?
+                <TouchableOpacity
+                    style={styles.userAvatar}
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.ProfileDetails',
+                            title: 'Profile',
+                            passProps: {
+                                user:this.props.user
+                            }
+                        });
+                    }}
+
+                >
+                    <UserAvatar size="100" name="AvatarImage" src={imageUrl} />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity
+                    style={styles.userAvatar}
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'user.ProfileDetails',
+                            title: 'Profile',
+                            passProps: {
+                                user:this.props.user
+                            }
+                        });
+                    }}
+                >
+                    <UserAvatar
+                       size="100"
+                        color={colors.avatarGray}
+                        name={this.props.user.firstName.toUpperCase() + " " + this.props.user.lastName.toUpperCase() }
+                        navigator={navigator}
+                    />
+                </TouchableOpacity>
         );
     }
+
+
 
     _renderLiveBand() {
         return (
@@ -169,7 +208,6 @@ const styles = StyleSheet.create({
     userAvatar: {
         alignSelf: 'center',
         top: -250,
-        position: 'absolute',
     },
     liveBand: {
         backgroundColor: colors.lightGray,
