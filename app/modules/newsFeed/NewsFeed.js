@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dimensions, Image, StyleSheet, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -53,7 +53,7 @@ class NewsFeed extends Component {
         // let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
         const notationPopup = null;
         return (
-            <View style={{height: height, width: width}}>
+            <View style={{backgroundColor: colors.lightGray, height: height, width: width}}>
                 {this._renderHeadband()}
                 {this._renderProfile()}
                 {this._renderAvatar()}
@@ -91,13 +91,7 @@ class NewsFeed extends Component {
                 <AppText style={{alignSelf: 'center', marginBottom: 30, color: '#000000', fontSize: 22}}>
                     {this.props.user.firstName + ' ' + this.props.user.lastName}
                 </AppText>
-                <Button
-                    style={{borderRadius: 12,}}
-                    title={'Voir mon profil'}
-                    onPress={() => {
-                        console.warn('Voir mon profil');
-                    }}
-                />
+                {this._renderProfileButton()}
             </View>
         );
     }
@@ -134,7 +128,7 @@ class NewsFeed extends Component {
         return (
             <Svg height="50"
                  width={width - 40}
-                 style={{marginLeft: 20, marginRight: 20}}>
+                 style={{alignSelf: 'center'}}>
                 <G>
                     <Defs>
                         <LinearGradient id="grad" x1="0" y1="0" x2={width} y2="0">
@@ -143,10 +137,39 @@ class NewsFeed extends Component {
                         </LinearGradient>
                     </Defs>
                     <Rect x="0" y="0" height="50" width={width} fill="url(#grad)"/>
-                    <Text fontFamily="Times New Roman" fontWeight="bold" fontSize="20" x="20" y="12" fill="#FFFFFF">Solde</Text>
-                    <Text fontFamily="Times New Roman" fontWeight="bold" fontSize="20" x="270" y="12" fill="#FFFFFF">98O
-                        VZ</Text>
+                    <Text fontFamily="Times New Roman" fontWeight="bold" fontSize="20"
+                          x="20" y="12" fill="#FFFFFF">
+                        Solde
+                    </Text>
+                    <Text fontFamily="Times New Roman" fontWeight="bold" fontSize="20"
+                          x="270" y="12" fill="#FFFFFF">
+                        98O VZ
+                    </Text>
                 </G>
+            </Svg>
+        );
+    }
+
+    _renderProfileButton() {
+        return (
+            <Svg height="40"
+                 width="200"
+                 style={{alignSelf: 'center'}}>
+                <Defs>
+                    <LinearGradient id="grad" x1="0" y1="0" x2="200" y2="0">
+                        <Stop offset="0" stopColor="#ee6744" stopOpacity="1"/>
+                        <Stop offset="1" stopColor="#f5a442" stopOpacity="1"/>
+                    </LinearGradient>
+                </Defs>
+                <Rect x="0" y="0" rx="8" ry="8" height="40" width="200" fill="url(#grad)"
+                      onPress={() => {
+                          console.warn('voir mon profil');
+                      }}
+                />
+                <Text fontFamily="Times New Roman" fontSize="14"
+                      x="55" y="12" fill="#FFFFFF">
+                    Voir mon profil
+                </Text>
             </Svg>
         );
     }
@@ -172,7 +195,7 @@ const styles = StyleSheet.create({
         marginTop: -50,
         marginRight: 20,
         marginLeft: 20,
-        backgroundColor: colors.lightGray,
+        backgroundColor: colors.white,
         alignContent: 'center',
     },
     userAvatar: {
@@ -181,7 +204,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     liveBand: {
-        backgroundColor: colors.lightGray,
+        backgroundColor: colors.white,
         alignContent: 'center',
         marginTop: 20,
         marginRight: 20,
