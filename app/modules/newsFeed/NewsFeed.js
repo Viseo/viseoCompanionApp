@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import AppText from '../global/components/AppText';
 import colors from '../global/colors';
 import UserAvatar from 'react-native-user-avatar';
-import Svg from 'react-native-svg/elements/Svg';
-import {Defs, LinearGradient, Rect, Stop} from 'react-native-svg';
+import Svg, {Defs, G, LinearGradient, Rect, Stop, Text} from 'react-native-svg';
+
+const {height, width} = Dimensions.get('window');
 
 class NewsFeed extends Component {
 
@@ -16,42 +17,17 @@ class NewsFeed extends Component {
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
-    render() {
-        // todo take care of this buggy and ugly popup
-        // let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
-        const notationPopup = null;
-        return (
-            <View style={{height: height, width: width}}>
-                {this._renderHeadband()}
-                {this._renderProfile()}
-                {this._renderAvatar()}
-                <View style={{flexDirection: 'row', backgroundColor: colors.green, marginRight: 20, marginLeft: 20}}>
-                    <AppText style={{flex: 5}}>Solde</AppText>
-                    <AppText style={{flex: 1}}>55 VZ</AppText>
-                </View>
-                {this._renderLiveBand()}
-            </View>
-        );
-    }
-
-    _formatDate(date) {
-        if (!date)
-            return [];
-        let dateTime = moment(date);
-        return dateTime.calendar().split('/');
-    }
-
     _showNotationPopup = () => {
         let {events} = this.props;
         if (events && events.length > 0) {
             let [day, time] = this._formatDate(events[0].datetime);
-            const date = day + " à " + time;
+            const date = day + ' à ' + time;
             this.props.navigator.showLightBox({
-                screen: "notation.popup",
-                title: "Multi popup",
+                screen: 'notation.popup',
+                title: 'Multi popup',
                 style: {
-                    backgroundBlur: "dark",
-                    backgroundColor: "#135caa70",
+                    backgroundBlur: 'dark',
+                    backgroundColor: '#135caa70',
                 },
                 passProps: {
                     eventName: events[0].name,
@@ -64,6 +40,28 @@ class NewsFeed extends Component {
         }
 
     };
+
+    _formatDate(date) {
+        if (!date)
+            return [];
+        let dateTime = moment(date);
+        return dateTime.calendar().split('/');
+    }
+
+    render() {
+        // todo take care of this buggy and ugly popup
+        // let notationPopup = this.props.isReviewPopupDismissed ? null : this._showNotationPopup();
+        const notationPopup = null;
+        return (
+            <View style={{height: height, width: width}}>
+                {this._renderHeadband()}
+                {this._renderProfile()}
+                {this._renderAvatar()}
+                {this._renderVizzBand()}
+                {this._renderLiveBand()}
+            </View>
+        );
+    }
 
     onNavigatorEvent(event) {
         if (event.id === 'Notifications') {
@@ -128,17 +126,28 @@ class NewsFeed extends Component {
                     En direct
                 </AppText>
                 <View style={{backgroundColor: colors.red, height: 5}}/>
-                <Svg height="150"
-                     width="400">
+            </View>
+        );
+    }
+
+    _renderVizzBand() {
+        return (
+            <Svg height="50"
+                 width={width - 40}
+                 style={{marginLeft: 20, marginRight: 20}}>
+                <G>
                     <Defs>
-                        <LinearGradient id="grad" x1="0" y1="0" x2="170" y2="0">
-                            <Stop offset="0" stopColor="rgb(255,255,0)" stopOpacity="0"/>
-                            <Stop offset="1" stopColor="red" stopOpacity="1"/>
+                        <LinearGradient id="grad" x1="0" y1="0" x2={width} y2="0">
+                            <Stop offset="0" stopColor="#621792" stopOpacity="1"/>
+                            <Stop offset="1" stopColor="#ed6744" stopOpacity="1"/>
                         </LinearGradient>
                     </Defs>
-                    <Rect x="0" y="0" height="150" width="400" fill="url(#grad)"/>
-                </Svg>
-            </View>
+                    <Rect x="0" y="0" height="50" width={width} fill="url(#grad)"/>
+                    <Text fontFamily="Times New Roman" fontWeight="bold" fontSize="20" x="20" y="12" fill="#FFFFFF">Solde</Text>
+                    <Text fontFamily="Times New Roman" fontWeight="bold" fontSize="20" x="270" y="12" fill="#FFFFFF">98O
+                        VZ</Text>
+                </G>
+            </Svg>
         );
     }
 }
@@ -155,7 +164,7 @@ NewsFeed.navigatorButtons = {
         },
     ],
 };
-const {height, width} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     profileContainer: {
         flexDirection: 'column',
