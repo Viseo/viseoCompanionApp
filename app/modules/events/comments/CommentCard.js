@@ -61,13 +61,23 @@ export default class CommentCard extends Component {
             imageUrl ?
                 <TouchableOpacity
                     onPress={() => {
-                        this.props.navigator.push({
-                            screen: 'user.othersProfile',
-                            title: 'Profile',
-                            passProps: {
-                                otherProfile:user
-                            }
-                        });
+                        if (this.props.writer === this.props.user) {
+                            this.props.navigator.push({
+                                screen: 'user.myProfile',
+                                title: 'Mon profil',
+                                passProps: {
+                                    otherProfile: user,
+                                },
+                            });
+                        } else {
+                            this.props.navigator.push({
+                                screen: 'user.othersProfile',
+                                title: 'Profil',
+                                passProps: {
+                                    otherProfile: this.props.writer,
+                                },
+                            });
+                        }
                     }}
                 >
                     <UserAvatar size="100" name="AvatarImage" src={imageUrl}/>
@@ -75,19 +85,29 @@ export default class CommentCard extends Component {
                 :
                 <TouchableOpacity
                     onPress={() => {
-                        this.props.navigator.push({
-                            screen: 'user.othersProfile',
-                            title: 'Profile',
-                            passProps: {
-                                otherProfile:user
-                            }
-                        });
+                        if (this.props.writer.id === this.props.userId) {
+                            this.props.navigator.push({
+                                screen: 'user.myProfile',
+                                title: 'Mon profil',
+                                passProps: {
+                                    otherProfile: user,
+                                },
+                            });
+                        } else {
+                            this.props.navigator.push({
+                                screen: 'user.othersProfile',
+                                title: 'Profil',
+                                passProps: {
+                                    otherProfile: this.props.writer,
+                                },
+                            });
+                        }
                     }}
                 >
                     <UserAvatar
                         size="100"
                         color={colors.avatarGray}
-                        name={this.props.user.firstName.toUpperCase() + " " + this.props.user.lastName.toUpperCase() }
+                        name={this.props.writer.firstName.toUpperCase() + ' ' + this.props.writer.lastName.toUpperCase()}
                         navigator={navigator}
                     />
                 </TouchableOpacity>
