@@ -14,7 +14,7 @@ export default class SearchEvents extends Component {
     render() {
         return (
             <View>
-                <View style={{flexDirection: 'row', backgroundColor: colors.lightBlue}}>
+                <View style={{flexDirection: 'row', backgroundColor: colors.lightGreen}}>
                     <TouchableOpacity
                         style={{flex: 1, alignItems: 'center', marginTop: 12}}
                         onPress={() => {

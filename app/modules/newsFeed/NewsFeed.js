@@ -7,6 +7,7 @@ import AppText from '../global/components/AppText';
 import colors from '../global/colors';
 import UserAvatar from 'react-native-user-avatar';
 import Svg, {Defs, G, LinearGradient, Rect, Stop, Text} from 'react-native-svg';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 const {height, width} = Dimensions.get('window');
 
@@ -58,6 +59,7 @@ class NewsFeed extends Component {
                 {this._renderAvatar()}
                 {this._renderVizzBand()}
                 {this._renderLiveBand()}
+                {this._renderLiveCard()}
             </View>
         );
     }
@@ -103,8 +105,9 @@ class NewsFeed extends Component {
                     style={styles.userAvatar}
                     onPress={() => {
                         this.props.navigator.push({
-                            screen: 'user.ProfileDetails',
-                            title: 'Profile',
+                            screen: 'user.myProfile',
+                            title: 'Mon profil',
+                            navigatorStyle: defaultNavBarStyle,
                             passProps: {
                                 user:this.props.user
                             }
@@ -119,8 +122,9 @@ class NewsFeed extends Component {
                     style={styles.userAvatar}
                     onPress={() => {
                         this.props.navigator.push({
-                            screen: 'user.ProfileDetails',
-                            title: 'Profile',
+                            screen: 'user.myProfile',
+                            title: 'Mon profil',
+                            navigatorStyle: defaultNavBarStyle,
                             passProps: {
                                 user:this.props.user
                             }
@@ -195,17 +199,19 @@ class NewsFeed extends Component {
                 <Rect x="0" y="0" rx="8" ry="8" height="40" width="200" fill="url(#grad)"
                       onPress={() => {
                           this.props.navigator.push({
-                              screen: 'user.ProfileDetails',
-                              title: 'Profile',
+                              screen: 'user.myProfile',
+                              title: 'Mon profil',
+                              navigatorStyle: defaultNavBarStyle,
                               passProps: {
                                   user: this.props.user,
+
                               }
                           });
                       }}
                 />
                 <Text fontFamily="Times New Roman" fontSize="14"
                       x="55" y="12" fill="#FFFFFF">
-                    Voir mon profiil
+                    Voir mon profil
                 </Text>
             </Svg>
         );
