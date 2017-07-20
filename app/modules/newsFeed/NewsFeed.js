@@ -199,7 +199,7 @@ class NewsFeed extends Component {
                               title: 'Profile',
                               passProps: {
                                   user: this.props.user,
-                              },
+                              }
                           });
                       }}
                 />
@@ -208,6 +208,27 @@ class NewsFeed extends Component {
                     Voir mon profiil
                 </Text>
             </Svg>
+        );
+    }
+
+    _renderLiveCard() {
+        return (
+            <View>
+                <AppText
+                    style={{
+                        textAlign: 'center',
+                        color: colors.mediumGray,
+                        backgroundColor: 'white',
+                        height: 50,
+                        borderRadius: 4,
+                        textAlignVertical: 'center',
+                        fontSize: 18,
+                        margin: 20,
+                    }}
+                >
+                    Aucun évènement.
+                </AppText>
+            </View>
         );
     }
 }
