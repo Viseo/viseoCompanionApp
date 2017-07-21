@@ -10,6 +10,7 @@ export const startAppLoader = () => {
     });
 };
 
+
 export const startApp = () => {
     Navigation.startTabBasedApp({
         tabs: [
@@ -30,9 +31,10 @@ export const startApp = () => {
             },
             {
                 screen: 'global.modalButtons',
-                title: 'modal',
+                title: '',
                 icon: require('../../images/navigation/add.png'),
-                navigatorStyle: defaultNavBarStyle
+                navigatorStyle: defaultNavBarStyle,
+                passProps:{show:true}
 
             },
             {
