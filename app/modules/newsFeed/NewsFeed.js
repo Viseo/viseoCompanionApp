@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {Dimensions, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import AppText from '../global/components/AppText';
 import colors from '../global/colors';
 import UserAvatar from 'react-native-user-avatar';
-import Svg, {Defs, G, LinearGradient, Rect, Stop, Text} from 'react-native-svg';
+import Svg, {Defs, G, Image, LinearGradient, Rect, Stop, Text} from 'react-native-svg';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 const {height, width} = Dimensions.get('window');
 
@@ -16,6 +17,7 @@ class NewsFeed extends Component {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
+
     _showNotationPopup = () => {
         let {events} = this.props;
         if (events && events.length > 0) {
@@ -57,6 +59,7 @@ class NewsFeed extends Component {
                 {this._renderAvatar()}
                 {this._renderVizzBand()}
                 {this._renderLiveBand()}
+                {this._renderLiveCard()}
             </View>
         );
     }
@@ -76,10 +79,9 @@ class NewsFeed extends Component {
 
     _renderHeadband() {
         return (
-            <Image
-                source={require('../../images/NIVEAUX_BANDEAU_1.jpg')}
-                style={{alignContent: 'center', width: 800, height: 150}}
-            />
+            <Svg width="550" height="150">
+                <Image width="550" height="150" href={require('../../images/NIVEAUX_BANDEAU_1.jpg')}/>
+            </Svg>
         );
     }
 
@@ -102,34 +104,36 @@ class NewsFeed extends Component {
                     style={styles.userAvatar}
                     onPress={() => {
                         this.props.navigator.push({
-                            screen: 'user.ProfileDetails',
-                            title: 'Profile',
+                            screen: 'user.myProfile',
+                            title: 'Mon profil',
+                            navigatorStyle: defaultNavBarStyle,
                             passProps: {
-                                user:this.props.user
-                            }
+                                user: this.props.user,
+                            },
                         });
                     }}
 
                 >
-                    <UserAvatar size="100" name="AvatarImage" src={imageUrl} />
+                    <UserAvatar size="100" name="AvatarImage" src={imageUrl}/>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity
                     style={styles.userAvatar}
                     onPress={() => {
                         this.props.navigator.push({
-                            screen: 'user.ProfileDetails',
-                            title: 'Profile',
+                            screen: 'user.myProfile',
+                            title: 'Mon profil',
+                            navigatorStyle: defaultNavBarStyle,
                             passProps: {
-                                user:this.props.user
-                            }
+                                user: this.props.user,
+                            },
                         });
                     }}
                 >
                     <UserAvatar
-                       size="100"
+                        size="100"
                         color={colors.avatarGray}
-                        name={this.props.user.firstName.toUpperCase() + " " + this.props.user.lastName.toUpperCase() }
+                        name={this.props.user.firstName.toUpperCase() + ' ' + this.props.user.lastName.toUpperCase()}
                         navigator={navigator}
                     />
                 </TouchableOpacity>
@@ -158,7 +162,7 @@ class NewsFeed extends Component {
         return (
             <Svg height="50"
                  width={width - 40}
-                 style={{alignSelf: 'center', marginTop: -100}}>
+                 style={{alignSelf: 'center', marginTop: -120}}>
                 <G>
                     <Defs>
                         <LinearGradient id="grad" x1="0" y1="0" x2={width} y2="0">
@@ -173,8 +177,9 @@ class NewsFeed extends Component {
                     </Text>
                     <Text fontFamily="Times New Roman" fontWeight="bold" fontSize="20"
                           x="270" y="12" fill="#FFFFFF">
-                        98O VZ
+                        98O
                     </Text>
+                    <Image width="150" height="50" x="285" href={require('../../images/vizz logo.png')}/>
                 </G>
             </Svg>
         );
@@ -194,19 +199,42 @@ class NewsFeed extends Component {
                 <Rect x="0" y="0" rx="8" ry="8" height="40" width="200" fill="url(#grad)"
                       onPress={() => {
                           this.props.navigator.push({
-                              screen: 'user.ProfileDetails',
-                              title: 'Profile',
+                              screen: 'user.myProfile',
+                              title: 'Mon profil',
+                              navigatorStyle: defaultNavBarStyle,
                               passProps: {
                                   user: this.props.user,
+
                               },
                           });
                       }}
                 />
                 <Text fontFamily="Times New Roman" fontSize="14"
                       x="55" y="12" fill="#FFFFFF">
-                    Voir mon profiil
+                    Voir mon profil
                 </Text>
             </Svg>
+        );
+    }
+
+    _renderLiveCard() {
+        return (
+            <View>
+                <AppText
+                    style={{
+                        textAlign: 'center',
+                        color: colors.mediumGray,
+                        backgroundColor: 'white',
+                        height: 50,
+                        borderRadius: 4,
+                        textAlignVertical: 'center',
+                        fontSize: 18,
+                        margin: 20,
+                    }}
+                >
+                    Aucun évènement.
+                </AppText>
+            </View>
         );
     }
 }

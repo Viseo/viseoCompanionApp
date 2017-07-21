@@ -8,6 +8,7 @@ import registerUserModule from '../user/registerScreens';
 import registerVizzModule from '../vizz/registerScreens';
 import UnreachableServerPopup from './components/UnreachableServerPopup';
 import InvalidFormPopup from './components/InvalidFormPopup';
+import ModalButtons from "./ModalButtons";
 
 export function registerScreens(store, provider) {
     registerAppLoader(store, provider);
@@ -17,7 +18,7 @@ export function registerScreens(store, provider) {
     registerShopModule(store, provider);
     registerUserModule(store, provider);
     registerVizzModule(store, provider);
-
+    Navigation.registerComponent('global.modalButtons', () => ModalButtons);
     Navigation.registerComponent('global.unreachableServerPopup', () => UnreachableServerPopup);
     Navigation.registerComponent('global.invalidFormPopup', () => InvalidFormPopup);
 }

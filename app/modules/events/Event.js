@@ -188,39 +188,60 @@ class Event extends Component {
             </View>
         );
     }
+
     _renderAvatar(host) {
         const imageUrl = host.imageUrl;
         return (
             imageUrl ?
                 <TouchableOpacity
                     onPress={() => {
-                        this.props.navigator.push({
-                            screen: 'user.othersProfile',
-                            title: 'Profile',
-                            passProps: {
-                                otherProfile:this.props.event.host
-                            }
-                        });
+                        if (this.props.event.host.id === this.props.user.id) {
+                            this.props.navigator.push({
+                                screen: 'user.myProfile',
+                                title: 'Mon profil',
+                                passProps: {
+                                    otherProfile: this.props.user,
+                                },
+                            });
+                        } else {
+                            this.props.navigator.push({
+                                screen: 'user.othersProfile',
+                                title: 'Profil',
+                                passProps: {
+                                    otherProfile: this.props.event.host,
+                                },
+                            });
+                        }
                     }}
                 >
-                <UserAvatar size="100" name="AvatarImage" src={imageUrl}/>
+                    <UserAvatar size="100" name="AvatarImage" src={imageUrl}/>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity
                     onPress={() => {
-                        this.props.navigator.push({
-                            screen: 'user.othersProfile',
-                            title: 'Profile',
-                            passProps: {
-                                otherProfile:this.props.event.host
-                            }
-                        });
+                        if (this.props.event.host.id === this.props.user.id) {
+                            this.props.navigator.push({
+                                screen: 'user.myProfile',
+                                title: 'Mon profil',
+                                passProps: {
+                                    otherProfile: this.props.user,
+                                },
+                            });
+                        } else {
+                            this.props.navigator.push({
+                                screen: 'user.othersProfile',
+                                title: 'Profil',
+                                passProps: {
+                                    otherProfile: this.props.event.host,
+                                },
+                            });
+                        }
                     }}
                 >
                     <UserAvatar
                         size="100"
                         color={colors.avatarGray}
-                        name={this.props.user.firstName.toUpperCase() + " " + this.props.user.lastName.toUpperCase() }
+                        name={this.props.event.host.firstName.toUpperCase() + ' ' + this.props.event.host.lastName.toUpperCase()}
                         navigator={navigator}
                     />
                 </TouchableOpacity>
@@ -230,7 +251,7 @@ class Event extends Component {
     _renderMainInfo() {
         const {navigator} = this.props;
         const {host} = this.props.event;
-        const hostAvatar =this._renderAvatar(host);
+        const hostAvatar = this._renderAvatar(host);
         const name = <AppText style={styles.name} numberOfLines={1}>{this.props.event.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.event.category];
         const category = <AppText>{categoryName}</AppText>;

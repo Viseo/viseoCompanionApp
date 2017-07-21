@@ -5,7 +5,7 @@ import {Navigation} from 'react-native-navigation';
 import ProfileDetails from './ProfileDetails';
 import PropTypes from 'prop-types';
 
-export class MyProfile extends Component {
+class MyProfile extends Component {
 
     constructor(props) {
         super(props);

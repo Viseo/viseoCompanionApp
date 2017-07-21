@@ -25,13 +25,15 @@ export const startApp = () => {
                 screen: 'VizzManagement',
                 title: 'Gestion de mes vizz',
                 icon: require('../../images/navigation/vizz.png'),
-                navigatorStyle: defaultNavBarStyle,
+                navigatorStyle: defaultNavBarStyle
+
             },
             {
-                screen: 'Notifications',
-                title: 'Mes notifications',
+                screen: 'global.modalButtons',
+                title: 'modal',
                 icon: require('../../images/navigation/add.png'),
-                navigatorStyle: defaultNavBarStyle,
+                navigatorStyle: defaultNavBarStyle
+
             },
             {
                 label: 'Achats',
