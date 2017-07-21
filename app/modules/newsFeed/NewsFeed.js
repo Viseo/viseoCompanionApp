@@ -179,7 +179,7 @@ class NewsFeed extends Component {
                           x="270" y="12" fill="#FFFFFF">
                         98O
                     </Text>
-                    <Image width="150" height="50" x="285" href={require('../../images/vizz logo.png')}/>
+                    <Image width="150" height="50" x="285" href={require('../../images/events/vizz_logo.png')}/>
                 </G>
             </Svg>
         );

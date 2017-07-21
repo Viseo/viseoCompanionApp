@@ -1,16 +1,16 @@
-import React, {Component} from "react";
-import {StyleSheet, View} from "react-native";
-import {connect} from "react-redux";
-import ChatInput from "./components/ChatInput";
-import ChatView from "./ChatView";
-import {addChatMessage} from "./live.actions";
-import {bindActionCreators} from "redux";
-import settings from "../global/settings";
-import moment from "moment";
-import colors from "../global/colors";
-import Icon from "react-native-vector-icons/Ionicons";
-import AppText from "../global/components/AppText";
-import PropTypes from "prop-types";
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {connect} from 'react-redux';
+import ChatInput from './components/ChatInput';
+import ChatView from './ChatView';
+import {addChatMessage} from './live.actions';
+import {bindActionCreators} from 'redux';
+import settings from '../global/settings';
+import moment from 'moment';
+import colors from '../global/colors';
+import Icon from 'react-native-vector-icons/Ionicons';
+import AppText from '../global/components/AppText';
+import PropTypes from 'prop-types';
 
 export class LiveEvent extends Component {
 
@@ -166,7 +166,7 @@ export class LiveEvent extends Component {
 
 LiveEvent.propTypes = {
     user: PropTypes.object.isRequired,
-    lastUpdate: PropTypes.number.isRequired,
+    //lastUpdate: PropTypes.number.isRequired,
     navigator: PropTypes.object.isRequired,
 };
 

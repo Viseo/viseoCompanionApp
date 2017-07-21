@@ -15,11 +15,18 @@ export default class ReceivedChatCard extends Component {
         let datetime = this.props.chatData.datetime ?
             moment(this.props.chatData.datetime, 'x').format('HH[h]mm') :
             moment().format('HH[h]mm');
+        const fullName = this.props.chatData.writer.firstName + ' ' + this.props.chatData.writer.lastName;
+
         return (
             <View style={styles.mainContainer}>
-                <AppText style={styles.textContainer}>{this.props.chatData.message}</AppText>
+                <View style={{flex: 7, flexDirection: 'column'}}>
+                    <AppText style={{textAlign: 'left'}}>
+                        {fullName}
+                    </AppText>
+                    <AppText style={styles.textContainer}>
+                        {this.props.chatData.message}</AppText>
+                </View>
                 <AppText style={styles.timeContainer}>{datetime}</AppText>
-                <View style={{flex: 1}}/>
             </View>
         );
     }

@@ -142,7 +142,7 @@ class EventCard extends Component {
 
     renderLiveIndicator() {
         return (
-            <View style={{flex: 3}}>
+            <View style={{flex: 3, marginVertical: 10}}>
                 <Icon
                     name='podcast'
                     size={50}
@@ -356,6 +356,7 @@ const styles = StyleSheet.create({
         flex: 3,
         flexDirection: 'column',
         alignItems: 'center',
+        marginVertical: 10,
     },
     eventType: {
         flex: .2,
