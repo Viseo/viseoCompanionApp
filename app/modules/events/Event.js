@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import AppText from '../global/components/AppText';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import Avatar from '../global/components/Avatar';
 import strings from '../global/localizedStrings';
 import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../global/colors';
