@@ -10,6 +10,7 @@ export const startAppLoader = () => {
     });
 };
 
+
 export const startApp = () => {
     Navigation.startTabBasedApp({
         tabs: [
@@ -21,11 +22,20 @@ export const startApp = () => {
                 navigatorStyle: defaultNavBarStyle,
             },
             {
-                label: 'Evènements',
-                screen: 'events.events',
-                title: 'Evènements',
-                icon: require('../../images/navigation/calendar.png'),
+                label: 'Portefeuille',
+                screen: 'VizzManagement',
+                title: 'Gestion de mes vizz',
+                icon: require('../../images/navigation/vizz.png'),
+                navigatorStyle: defaultNavBarStyle
+
+            },
+            {
+                screen: 'global.modalButtons',
+                title: '',
+                icon: require('../../images/navigation/add.png'),
                 navigatorStyle: defaultNavBarStyle,
+                passProps:{show:true}
+
             },
             {
                 label: 'Achats',
@@ -35,17 +45,10 @@ export const startApp = () => {
                 navigatorStyle: defaultNavBarStyle,
             },
             {
-                label: 'Portefeuille',
-                screen: 'VizzManagement',
-                title: 'Gestion de mes vizz',
-                icon: require('../../images/navigation/vizz.png'),
-                navigatorStyle: defaultNavBarStyle,
-            },
-            {
-                label: 'Notifications',
-                screen: 'Notifications',
-                title: 'Mes notifications',
-                icon: require('../../images/navigation/notifications.png'),
+                label: 'Evènements',
+                screen: 'events.events',
+                title: 'Evènements',
+                icon: require('../../images/navigation/calendar.png'),
                 navigatorStyle: defaultNavBarStyle,
             },
         ],

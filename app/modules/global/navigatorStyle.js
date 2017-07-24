@@ -1,13 +1,13 @@
 import colors from './colors';
 
 export const tabBarStyle = {
-    tabBarBackgroundColor: colors.lightBlue,
+    tabBarBackgroundColor: colors.lightGreen,
     tabBarButtonColor: 'white',
     tabBarSelectedButtonColor: 'white',
 };
 
 export const defaultNavBarStyle = {
-    navBarBackgroundColor: colors.lightBlue,
+    navBarBackgroundColor: colors.lightGreen,
     navBarButtonColor: 'white',
     navBarTextColor: 'white',
 };

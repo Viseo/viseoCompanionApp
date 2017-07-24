@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dimensions, ScrollView, StyleSheet, View, Image} from 'react-native';
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import AppTextInput from '../global/components/AppTextInput';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ import {signOut} from './authentication/authentication.actions';
 import {startLoader} from '../global/navigationLoader';
 import AppText from '../global/components/AppText';
 import ImagePicker from '../global/components/ImagePicker';
+import colors from '../global/colors';
 
 export class EditProfile extends Component {
 
@@ -208,6 +209,8 @@ const {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
     mainContainer: {
         paddingHorizontal: 20,
+        backgroundColor: colors.white,
+        paddingBottom: 30,
     },
     image: {
         width,

@@ -24,6 +24,7 @@
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
+  self.window.rootViewController.view.backgroundColor = [UIColor colorWithRed:0.05 green:0.39 blue:0.70 alpha:1.0];
   [[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation launchOptions:launchOptions];
   
   

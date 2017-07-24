@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import AppText from "../../global/components/AppText";
-import PropTypes from "prop-types";
-import {StyleSheet, View} from "react-native";
-import colors from "../../global/colors";
-import moment from "moment";
+import React, {Component} from 'react';
+import AppText from '../../global/components/AppText';
+import PropTypes from 'prop-types';
+import {StyleSheet, View} from 'react-native';
+import colors from '../../global/colors';
+import moment from 'moment';
 
 export default class SentChatCard extends Component {
 
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     textContainer: {
-        flex: 1,
+        flex: 7,
         textAlign: "right",
         backgroundColor: colors.green,
         padding: 6,
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     },
     timeContainer: {
         flex: 1,
+        marginRight: -17,
         fontSize: 10,
     },
 });

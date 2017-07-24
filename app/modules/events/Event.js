@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import AppText from '../global/components/AppText';
-import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
+import {Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import PropTypes from 'prop-types';
-import Avatar from '../global/components/Avatar';
 import strings from '../global/localizedStrings';
 import ItemSpacer from '../global/components/ItemSpacer';
 import colors from '../global/colors';
@@ -123,21 +122,9 @@ class Event extends Component {
                 </AppText>
             </View>;
 
-        // const renderParticipation = this.props.event.datetime >= moment() ? checkParticipation : preventCheckParticipation;
+        const renderParticipation = this.props.event.datetime >= moment() ? checkParticipation : preventCheckParticipation;
         const day = moment(event.datetime).format('ddd DD MMM');
         const time = moment(event.datetime).format('HH:mm');
-        // const date = moment(this.props.event.datetime).calendar(
-        //     {
-        //         sameDay: "[Today]",
-        //         nextDay: "[Tomorrow]",
-        //         nextWeek: "dddd",
-        //         lastDay: "[Yesterday]",
-        //         lastWeek: "[Last] dddd",
-        //         sameElse: "DD/MM/YYYY",
-        //     });
-        // let splitDate=date.split('/');
-        // const day=splitDate[0];
-        // const time = splitDate[1];
         return (
             <View style={styles.dateAndParticipantsContainer}>
                 <View style={styles.participationInfoRectangle}>
@@ -151,7 +138,7 @@ class Event extends Component {
                         </AppText>
                     </View>
                     <View style={styles.participationInfoItem}>
-                        {checkParticipation}
+                        {renderParticipation}
                     </View>
                 </View>
             </View>
@@ -189,19 +176,69 @@ class Event extends Component {
         );
     }
 
+    _renderAvatar(host) {
+        const imageUrl = host.imageUrl;
+        return (
+            imageUrl ?
+                <TouchableOpacity
+                    onPress={() => {
+                        if (this.props.event.host.id === this.props.user.id) {
+                            this.props.navigator.push({
+                                screen: 'user.myProfile',
+                                title: 'Mon profil',
+                                passProps: {
+                                    otherProfile: this.props.user,
+                                },
+                            });
+                        } else {
+                            this.props.navigator.push({
+                                screen: 'user.othersProfile',
+                                title: 'Profil',
+                                passProps: {
+                                    otherProfile: this.props.event.host,
+                                },
+                            });
+                        }
+                    }}
+                >
+                    <UserAvatar size="100" name="AvatarImage" src={imageUrl}/>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity
+                    onPress={() => {
+                        if (this.props.event.host.id === this.props.user.id) {
+                            this.props.navigator.push({
+                                screen: 'user.myProfile',
+                                title: 'Mon profil',
+                                passProps: {
+                                    otherProfile: this.props.user,
+                                },
+                            });
+                        } else {
+                            this.props.navigator.push({
+                                screen: 'user.othersProfile',
+                                title: 'Profil',
+                                passProps: {
+                                    otherProfile: this.props.event.host,
+                                },
+                            });
+                        }
+                    }}
+                >
+                    <UserAvatar
+                        size="100"
+                        color={colors.avatarGray}
+                        name={this.props.event.host.firstName.toUpperCase() + ' ' + this.props.event.host.lastName.toUpperCase()}
+                        navigator={navigator}
+                    />
+                </TouchableOpacity>
+        );
+    }
+
     _renderMainInfo() {
         const {navigator} = this.props;
         const {host} = this.props.event;
-        const hostAvatar =
-            <TouchableOpacity>
-                <UserAvatar
-                    style={{marginLeft: 5}}
-                    size="90"
-                    color={colors.avatarGray}
-                    name={host.firstName + ' ' + host.lastName}
-                    navigator={navigator}
-                />
-            </TouchableOpacity>;
+        const hostAvatar = this._renderAvatar(host);
         const name = <AppText style={styles.name} numberOfLines={1}>{this.props.event.name}</AppText>;
         const categoryName = strings.categoriesNames[this.props.event.category];
         const category = <AppText>{categoryName}</AppText>;

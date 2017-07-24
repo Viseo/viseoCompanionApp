@@ -37,7 +37,7 @@ export const events = {
                 formData.append("file", {
                     uri: event.image.uri,
                     type: "image/jpg",
-                    name: "image.jpg",
+                    name: event.name + '_' + event.id + '.jpg',
                 });
                 let responseImage = await fetch(settings.api.uploadImage, {
                     method: "POST",
@@ -212,7 +212,7 @@ export const users = {
                 formData.append("file", {
                     uri: user.image.uri,
                     type: "image/jpg",
-                    name: "image.jpg",
+                    name: user.firstName + '_' + user.lastName + '.jpg',
                 });
                 let responseImage = await fetch(settings.api.uploadImage, {
                     method: "POST",
@@ -245,7 +245,7 @@ export const users = {
                 formData.append("file", {
                     uri: user.imageUrl.uri,
                     type: "image/jpg",
-                    name: "image.jpg",
+                    name: user.firstName + '_' + user.lastName + '.jpg',
                 });
                 let responseImage = await fetch(settings.api.uploadImage, {
                     method: "POST",

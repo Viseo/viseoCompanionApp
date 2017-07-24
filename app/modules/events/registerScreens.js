@@ -11,8 +11,10 @@ import EditEvent from './EditEvent';
 import OthersProfile from '../user/OtherProfile';
 import ReviewPopup from './reviews/ReviewPopup';
 import SearchEvents from './search/SearchEvents';
+import ProfileDetails from '../user/ProfileDetails';
+import MyProfile from '../user/MyProfile';
 
-export default function(store, provider) {
+export default function (store, provider) {
     Navigation.registerComponent('events.event', () => Event, store, provider);
     Navigation.registerComponent('events.events', () => Events, store, provider);
     Navigation.registerComponent('events.createEvent', () => CreateEvent, store, provider);
@@ -25,5 +27,7 @@ export default function(store, provider) {
     Navigation.registerComponent('events.liveEvent', () => LiveEvent, store, provider);
     Navigation.registerComponent('CreateChildComment', () => CreateChildComment, store, provider);
     Navigation.registerComponent('user.othersProfile', () => OthersProfile, store, provider);
+    Navigation.registerComponent('user.myProfile', () => MyProfile, store, provider);
+    Navigation.registerComponent('user.ProfileDetails', () => ProfileDetails, store, provider);
     Navigation.registerComponent('notation.popup', () => ReviewPopup, store, provider);
 }
