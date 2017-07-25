@@ -98,6 +98,12 @@ export default class ModalButtons extends Component {
                                 }}
 
                                 onPress={() => {
+                                    this.props.navigator.push({
+                                        screen: 'actions.CreateAction',
+                                        title: 'Creation action',
+                                        navigatorStyle: defaultNavBarStyle,
+                                        backButtonHidden: true,
+                                    });
                                     {/*this.setState({show: false});*/}
                                     {/*this.props.navigator.switchToTab({*/}
                                         {/*tabIndex: 0*/}
