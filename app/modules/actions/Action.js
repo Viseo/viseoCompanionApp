@@ -1,15 +1,16 @@
-import React, {AppRegistry, Text, View,Component} from 'react-native';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import DropDown, {Select, Option, OptionList,} from 'react-native-selectme';
-import Text from 'react-native-svg/elements/Text';
+import  {AppRegistry, Text, View} from 'react-native';
+//import {bindActionCreators} from 'redux';
+//import {connect} from 'react-redux';
+import  DropDown,{Select, Option, OptionList} from 'react-native-selectme';
+import React, {Component} from 'react';
+import colors from '../global/colors';
 
-class Action extends Component {
+export default  class Action extends Component {
     constructor(props) {
         super(props);
-        this.props.navigator(this.bind(this));
+       // this.props.navigator(this.bind(this));
         this.state = {
-            canada: ''
+            actions: ''
         };
     }
 
@@ -18,23 +19,27 @@ class Action extends Component {
     }
 
 
-    _canada(action) {
+    _select(action) {
 
         this.setState({
             ...this.state,
-            canada: action
+            canada: action.id
         });
     }
 
     render() {
+
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100 }} >
+
                 <Select
-                    width={250}
+                    width={400}
+                    height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
                     defaultValue="Choisir une action ..."
-                    onSelect={this._canada.bind(this)}>
+                    onSelect={(action) => this._select(action)}
+                    >
                     <Option value = {{id : "alberta"}}>Alberta</Option>
                     <Option>British Columbia</Option>
                     <Option>Manitoba</Option>
@@ -52,25 +57,24 @@ class Action extends Component {
 
                 <Text>Selected Canada's province: {this.state.canada}</Text>
 
-                <OptionList ref="OPTIONLIST"/>
+                <OptionList ref="OPTIONLIST"
+                            overlayStyles={{
+                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
+                                padding:0
+                            }}
+                />
             </View>
         );
     }
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        height: '100%',
+        width: '100%'
+    }
+
 }
 
-AppRegistry.registerComponent('App', () => App);
-
-
-
-const mapStateToProps = ({user}, ownProps) => ({
-    user,
-});
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({}, dispatch);
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Action);

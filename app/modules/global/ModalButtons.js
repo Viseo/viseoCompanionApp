@@ -67,6 +67,9 @@ export default class ModalButtons extends Component {
                                     borderRadius: 100,
                                 }}
                                 onPress={() => {
+                                    this.setState({
+                                        show:false
+                                    })
                                     this.props.navigator.push({
                                         screen: 'actions.CreateAction',
                                         title: 'Créer action',
@@ -98,11 +101,14 @@ export default class ModalButtons extends Component {
                                 }}
 
                                 onPress={() => {
+                                    this.setState({
+                                        show:false
+                                    })
                                     this.props.navigator.push({
                                         screen: 'actions.CreateAction',
                                         title: 'Creation action',
                                         navigatorStyle: defaultNavBarStyle,
-                                        backButtonHidden: true,
+                                        //backButtonHidden: true,
                                     });
                                     {/*this.setState({show: false});*/}
                                     {/*this.props.navigator.switchToTab({*/}

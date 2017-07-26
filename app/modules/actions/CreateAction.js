@@ -4,6 +4,7 @@ import Svg from 'react-native-svg/elements/Svg';
 import {Image} from 'react-native-svg';
 import colors from '../global/colors';
 import AppText from '../global/components/AppText';
+import Action from './Action';
 
 export default class CreateAction extends Component {
 
@@ -14,10 +15,17 @@ export default class CreateAction extends Component {
     render() {
         return (
             <View>
-                {this._renderHeadband()}
-                {this._renderCreateAction()}
+              {/*  {this._renderHeadband()}
+                {this._renderCreateAction()}*/}
+                {this._renderAction()}
             </View>
         );
+    }
+
+    _renderAction() {
+        return (
+                <Action/>
+        )
     }
 
     _renderHeadband() {
@@ -43,6 +51,7 @@ export default class CreateAction extends Component {
                     Créer une action
                 </AppText>
                 <View style={{backgroundColor: colors.orange, height: 5}}/>
+
             </View>
         );
     }
@@ -55,5 +64,6 @@ const styles = StyleSheet.create({
         marginTop: -30,
         marginRight: 20,
         marginLeft: 20,
+        marginBottom:50
     },
 });
