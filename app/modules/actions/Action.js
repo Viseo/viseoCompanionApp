@@ -1,9 +1,6 @@
 import  {AppRegistry, Text, View} from 'react-native';
-//import {bindActionCreators} from 'redux';
-//import {connect} from 'react-redux';
 import  DropDown,{Select, Option, OptionList} from 'react-native-selectme';
 import React, {Component} from 'react';
-import colors from '../global/colors';
 
 export default  class Action extends Component {
     constructor(props) {
@@ -17,21 +14,18 @@ export default  class Action extends Component {
     _getOptionList() {
         return this.refs['OPTIONLIST'];
     }
-
-
     _select(action) {
 
         this.setState({
             ...this.state,
-            canada: action.id
+            actions: action.id
         });
     }
 
     render() {
-
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100 }} >
-
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
+                <Text>Choisir une action: {this.state.actions}</Text>
                 <Select
                     width={400}
                     height={50}
@@ -40,23 +34,21 @@ export default  class Action extends Component {
                     defaultValue="Choisir une action ..."
                     onSelect={(action) => this._select(action)}
                     >
-                    <Option value = {{id : "alberta"}}>Alberta</Option>
-                    <Option>British Columbia</Option>
-                    <Option>Manitoba</Option>
-                    <Option>New Brunswick</Option>
-                    <Option>Newfoundland and Labrador</Option>
-                    <Option>Northwest Territories</Option>
-                    <Option>Nova Scotia</Option>
-                    <Option>Nunavut</Option>
-                    <Option>Ontario</Option>
-                    <Option>Prince Edward Island</Option>
-                    <Option>Quebec</Option>
-                    <Option>Saskatchewan</Option>
-                    <Option>Yukon</Option>
+                    <Option value = {{id : "idee"}}>J'ai une idee est je souhaite lancer un projet participatif</Option>
+                    <Option>j'aide à la conception d'une formation</Option>
+                    <Option>j'organise et j'anime un évenement</Option>
+                    <Option>je participe à la rédaction d'un livre blanc</Option>
+                    <Option>je réalise un entretien de recrutement</Option>
+                    <Option>je donne une formation</Option>
+                    <Option>je rédige un billet globe</Option>
+                    <Option>je remonte un lead</Option>
+                    <Option>je dévalorise l'image de viseo en externe</Option>
+                    <Option>je présente au cours d'un évenement</Option>
+                    <Option>je publie en externe Viseo</Option>
+                    <Option>je relie des billet blog avant parution</Option>
+                    <Option>je presente Viseo</Option>
+                    <Option>je  contribue à la revue de presse hebdo ce mois-ci</Option>
                 </Select>
-
-                <Text>Selected Canada's province: {this.state.canada}</Text>
-
                 <OptionList ref="OPTIONLIST"
                             overlayStyles={{
                                 marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
@@ -65,15 +57,6 @@ export default  class Action extends Component {
                 />
             </View>
         );
-    }
-    overlay: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: '100%',
-        width: '100%'
     }
 
 }
