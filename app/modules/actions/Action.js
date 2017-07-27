@@ -42,7 +42,7 @@ export default  class Action extends Component {
                     <Option>je donne une formation</Option>
                     <Option>je rédige un billet globe</Option>
                     <Option>je remonte un lead</Option>
-                    <Option>je dévalorise l'image de viseo en externe</Option>
+                    <Option>je valorise l'image de viseo en externe</Option>
                     <Option>je présente au cours d'un évenement</Option>
                     <Option>je publie en externe Viseo</Option>
                     <Option>je relie des billet blog avant parution</Option>

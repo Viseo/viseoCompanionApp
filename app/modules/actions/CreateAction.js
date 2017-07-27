@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View,Text} from 'react-native';
 import Svg from 'react-native-svg/elements/Svg';
 import {Image} from 'react-native-svg';
 import colors from '../global/colors';
@@ -8,7 +8,7 @@ import Action from './Action';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import AppTextInput from '../global/components/AppTextInput';
-import Text from 'react-native-svg/elements/Text';
+
 import  DropDown, {Select, Option, OptionList} from 'react-native-selectme';
 
 export default class CreateAction extends Component {
@@ -42,16 +42,16 @@ export default class CreateAction extends Component {
         return (
             <View>
                 {this._renderHeadband()}
-                {/* {this._renderCreateAction()}*/}
-                {/*{datePickerEnd}*/}
+                {this._renderCreateAction()}
+                {datePickerEnd}
                 {datePickerStart}
                 {descriptionField}
-                {/*{this._renderAction()}*/}
-                {/*{locationField}*/}
-                {/* {this._renderPractice()}*/}
+                {this._renderAction()}
+                {locationField}
+                {this._renderPractice()}
                 {this._renderRecurrence()}
-                {/*{this._renderTempsDeLecture()}*/}
-                {/*{this._renderTypePublication()}*/}
+                {this._renderReadingTime()}
+                {this._renderTypePublication()}
             </View>
 
         );
@@ -94,7 +94,7 @@ export default class CreateAction extends Component {
     }
 
     _getOptionListPublication() {
-        return this.refs['OPTIONLIST'];
+        return this.refs['OPTIONLISTPublication'];
     }
 
 
@@ -114,7 +114,7 @@ export default class CreateAction extends Component {
                     width={400}
                     height={50}
                     ref="SELECT1"
-                    optionListRef={this._getOptionList.bind(this)}
+                    optionListRef={this._getOptionListPublication.bind(this)}
                     defaultValue="Type de Publication ..."
                     onSelect={(publication) => this._selectTypePublication(publication)}
                 >
@@ -122,7 +122,7 @@ export default class CreateAction extends Component {
                     <Option>Press écrite</Option>
                     <Option>Internet</Option>
                 </Select>
-                <OptionList ref="OPTIONLISTPUBLICATION"
+                <OptionList ref="OPTIONLISTPublication"
                             overlayStyles={{
                                 marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
                                 padding: 0,
@@ -131,18 +131,18 @@ export default class CreateAction extends Component {
             </View>
         );
     }
-    _getOptionListTempsDeLecture() {
-        return this.refs['OPTIONLIST'];
+    _getOptionListReadingTime() {
+        return this.refs['OPTIONLISTTenses'];
     }
-    _selectTempsDeLecture(temps) {
+    _selectReadingTime(time) {
 
         this.setState({
             ...this.state,
-            lecture: temps.id,
+            lecture: time.id,
         });
     }
 
-    _renderTempsDeLecture() {
+    _renderReadingTime() {
         return (
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
                 <Text>temps de Lecture:</Text>
@@ -150,15 +150,15 @@ export default class CreateAction extends Component {
                     width={400}
                     height={50}
                     ref="SELECT1"
-                    optionListRef={this._getOptionList.bind(this)}
+                    optionListRef={this._getOptionListReadingTime.bind(this)}
                     defaultValue="Temps de Lecture ..."
-                    onSelect={(temps) => this._selectTempsDeLecture(temps)}
+                    onSelect={(time) => this. _selectReadingTime(time)}
                 >
                     <Option value={{id: '5mn'}}>5mn</Option>
                     <Option>5mn à 10mn</Option>
                     <Option>plus que 10mn</Option>
                 </Select>
-                <OptionList ref="OPTIONLIST"
+                <OptionList ref="OPTIONLISTTenses"
                             overlayStyles={{
                                 marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
                                 padding: 0,
@@ -183,7 +183,7 @@ export default class CreateAction extends Component {
     _renderRecurrence() {
         return (
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
-                <Text>Reccurence: {this.state.nbr}</Text>
+                <Text>Recurence: {this.state.nbr}</Text>
                 <Select
                     width={400}
                     height={50}
