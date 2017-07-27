@@ -9,7 +9,7 @@ import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import AppTextInput from '../global/components/AppTextInput';
 import Text from 'react-native-svg/elements/Text';
-import  DropDown,{Select, Option, OptionList} from 'react-native-selectme';
+import  DropDown, {Select, Option, OptionList} from 'react-native-selectme';
 
 export default class CreateAction extends Component {
 
@@ -19,7 +19,8 @@ export default class CreateAction extends Component {
         description: this.props.description,
         location: this.props.location,
         locationError: 'field not filled',
-        formattedDate: moment(this.props.datetime).format(this.dateFormat),
+        formattedDateEnd: moment(new Date()).format(this.dateFormat),
+        formattedDateStart: moment(new Date()).format(this.dateFormat),
     };
 
     constructor(props) {
@@ -27,13 +28,11 @@ export default class CreateAction extends Component {
         this.state = {
             practices: '',
             type: '',
-            lecture:'',
-            nbr:'',
+            lecture: '',
+            nbr: '',
         };
     }
-    _getOptionList() {
-        return this.refs['OPTIONLIST'];
-    }
+
 
     render() {
         const descriptionField = this._renderDescriptionField();
@@ -42,63 +41,74 @@ export default class CreateAction extends Component {
         const datePickerEnd = this._renderDateEndPicker();
         return (
             <View>
-                {datePickerEnd}
-                {datePickerStart}
                 {this._renderHeadband()}
-                {this._renderCreateAction()}
+                {/* {this._renderCreateAction()}*/}
+                {/*{datePickerEnd}*/}
+                {datePickerStart}
                 {descriptionField}
-                {this._renderAction()}
-                {locationField}
-                {this. _renderPractice()}
+                {/*{this._renderAction()}*/}
+                {/*{locationField}*/}
+                {/* {this._renderPractice()}*/}
                 {this._renderRecurrence()}
-                {this._renderTempsDeLecture()}
+                {/*{this._renderTempsDeLecture()}*/}
+                {/*{this._renderTypePublication()}*/}
             </View>
 
         );
+    }
+    _getOptionListPractice() {
+        return this.refs['OPTIONLISTPractice'];
     }
 
     _selectPractice(practice) {
 
         this.setState({
             ...this.state,
-            practices: practice.id
+            practices: practice.id,
         });
     }
-   _renderPractice(){
-       return (
-           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
-               <Text>Practice/recencée BT:</Text>
-               <Select
-                   width={400}
-                   height={50}
-                   ref="SELECT1"
-                   optionListRef={this._getOptionList.bind(this)}
-                   defaultValue="Practice/recencée BT ..."
-                   onSelect={(practice) => this._selectPractice(practice)}
-               >
-                   <Option value = {{id : "Oui"}}>Oui</Option>
-                   <Option>Non</Option>
-               </Select>
-               <OptionList ref="OPTIONLIST"
-                           overlayStyles={{
-                               marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
-                               padding:0
-                           }}
-               />
-           </View>
-       );
-   }
+
+    _renderPractice() {
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
+                <Text>Practice/recencée BT:{this.state.practices}</Text>
+                <Select
+                    width={400}
+                    height={50}
+                    ref="SELECT1"
+                    optionListRef={this._getOptionListPractice.bind(this)}
+                    defaultValue="Practice/recencée BT ..."
+                    onSelect={(practice) => this._selectPractice(practice)}
+                >
+                    <Option value={{id: 'Oui'}}>Oui</Option>
+                    <Option>Non</Option>
+                </Select>
+                <OptionList ref="OPTIONLISTPractice"
+                            overlayStyles={{
+                                marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
+                                padding: 0,
+                            }}
+                />
+            </View>
+        );
+    }
+
+    _getOptionListPublication() {
+        return this.refs['OPTIONLIST'];
+    }
+
 
     _selectTypePublication(publication) {
 
         this.setState({
             ...this.state,
-            type: publication.id
+            type: publication.id,
         });
     }
-    _renderPractice(){
+
+    _renderTypePublication() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
                 <Text>Type de Publication:</Text>
                 <Select
                     width={400}
@@ -106,32 +116,35 @@ export default class CreateAction extends Component {
                     ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
                     defaultValue="Type de Publication ..."
-                    onSelect={(publication) => this. _selectTypePublication(publication)}
+                    onSelect={(publication) => this._selectTypePublication(publication)}
                 >
-                    <Option value = {{id : "Blog"}}>Blog</Option>
+                    <Option value={{id: 'Blog'}}>Blog</Option>
                     <Option>Press écrite</Option>
                     <Option>Internet</Option>
                 </Select>
-                <OptionList ref="OPTIONLIST"
+                <OptionList ref="OPTIONLISTPUBLICATION"
                             overlayStyles={{
-                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
-                                padding:0
+                                marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
+                                padding: 0,
                             }}
                 />
             </View>
         );
     }
-
+    _getOptionListTempsDeLecture() {
+        return this.refs['OPTIONLIST'];
+    }
     _selectTempsDeLecture(temps) {
 
         this.setState({
             ...this.state,
-            lecture: temps.id
+            lecture: temps.id,
         });
     }
-    _renderTempsDeLecture(){
+
+    _renderTempsDeLecture() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
                 <Text>temps de Lecture:</Text>
                 <Select
                     width={400}
@@ -139,66 +152,74 @@ export default class CreateAction extends Component {
                     ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
                     defaultValue="Temps de Lecture ..."
-                    onSelect={(temps) => this. _selectTempsDeLecture(temps)}
+                    onSelect={(temps) => this._selectTempsDeLecture(temps)}
                 >
-                    <Option value = {{id : "5mn"}}>5mn</Option>
+                    <Option value={{id: '5mn'}}>5mn</Option>
                     <Option>5mn à 10mn</Option>
                     <Option>plus que 10mn</Option>
                 </Select>
                 <OptionList ref="OPTIONLIST"
                             overlayStyles={{
-                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
-                                padding:0
+                                marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
+                                padding: 0,
                             }}
                 />
             </View>
         );
+    }
+
+    _getOptionListRecurrence() {
+        return this.refs['OPTIONLIST'];
     }
 
     _selectRecurrence(repeated) {
 
         this.setState({
             ...this.state,
-            nbr: repeated.id
+            nbr: repeated.id,
         });
     }
-    _renderRecurrence(){
+
+    _renderRecurrence() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
-                <Text>Reccurence:</Text>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
+                <Text>Reccurence: {this.state.nbr}</Text>
                 <Select
                     width={400}
                     height={50}
                     ref="SELECT1"
-                    optionListRef={this._getOptionList.bind(this)}
+                    optionListRef={this._getOptionListRecurrence.bind(this)}
                     defaultValue="Réccurence ..."
                     onSelect={(repeated) => this._selectRecurrence(repeated)}
                 >
-                    <Option value = {{id : "Reccurence hebdo"}}>Reccurence hebdo</Option>
+                    <Option value={{id: 'Reccurence hebdo'}}>Reccurence hebdo</Option>
                     <Option>une fois</Option>
                 </Select>
                 <OptionList ref="OPTIONLIST"
                             overlayStyles={{
-                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
-                                padding:0
+                                marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
+                                padding: 0,
                             }}
                 />
             </View>
         );
     }
+
+
     _renderDescriptionField() {
         return (
             <AppTextInput
                 ref="description"
                 label="Description"
                 value={this.state.description}
-                onChangeText={description => this.props.setDescription(description)}
+               // onChangeText={description => this.props.setDescription(description)}
                 onSubmitEditing={ () => {
                     this.refs.location.focus();
                 }}
             />
         );
     }
+
     _getLocationError(location) {
         if (location.length < 2) {
             return 'Le lieu doit contenir au moins deux caractères.';
@@ -225,7 +246,7 @@ export default class CreateAction extends Component {
                         location,
                         locationError,
                     });
-                 //   this.props.setLocation(locationError ? null : location);
+                    //   this.props.setLocation(locationError ? null : location);
                 }}
             />
         );
@@ -233,41 +254,12 @@ export default class CreateAction extends Component {
 
     _renderDateStartPicker() {
         const currentDate = moment().toDate();
-        const selectedDate = this.state.formattedDate.length > 0 ?
-            this.state.formattedDate :
-            currentDate;
         return (
             <View style={styles.dateContainer}>
                 <AppText style={styles.dateLabel}>Date : </AppText>
                 <DatePicker
                     style={styles.datePicker}
-                    date={selectedDate}
-                    mode="datetime"
-                    format={this.dateFormat}
-                    minDate={currentDate}
-                    placeholder='Sélectionnez une date..'
-                    confirmBtnText="OK"
-                    cancelBtnText="Annuler"
-                    onDateChange={formattedDate => {
-                        this.setState({formattedDate});
-                        const datetime = moment(formattedDate, this.dateFormat).valueOf();
-                        //this.props.setDate(datetime);
-                    }}
-                />
-            </View>
-        );
-    }
-    _renderDateEndPicker() {
-        const currentDate = moment().toDate();
-        const selectedDate = this.state.formattedDate.length > 0 ?
-            this.state.formattedDate :
-            currentDate;
-        return (
-            <View style={styles.dateContainer}>
-                <AppText style={styles.dateLabel}>Date : </AppText>
-                <DatePicker
-                    style={styles.datePicker}
-                    date={selectedDate}
+                    date={currentDate}
                     mode="datetime"
                     format={this.dateFormat}
                     minDate={currentDate}
@@ -284,11 +276,35 @@ export default class CreateAction extends Component {
         );
     }
 
+    _renderDateEndPicker() {
+        const currentDate = moment().toDate();
+
+        return (
+            <View style={styles.dateContainer}>
+                <AppText style={styles.dateLabel}>Date : </AppText>
+                <DatePicker
+                    style={styles.datePicker}
+                    date={currentDate}
+                    mode="datetime"
+                    format={this.dateFormat}
+                    minDate={currentDate}
+                    placeholder='Sélectionnez une date..'
+                    confirmBtnText="OK"
+                    cancelBtnText="Annuler"
+                    onDateChange={formattedDates => {
+                        this.setState({formattedDates});
+                        const datetime = moment(formattedDates, this.dateFormat).valueOf();
+                        //this.props.setDate(datetime);
+                    }}
+                />
+            </View>
+        );
+    }
 
     _renderAction() {
         return (
-                <Action/>
-        )
+            <Action/>
+        );
     }
 
     _renderHeadband() {
@@ -318,9 +334,7 @@ export default class CreateAction extends Component {
             </View>
         );
     }
-}
-
-
+};
 
 const styles = StyleSheet.create({
     createAction: {
@@ -329,10 +343,10 @@ const styles = StyleSheet.create({
         marginTop: -30,
         marginRight: 20,
         marginLeft: 20,
-        marginBottom:50
+        marginBottom: 50,
     },
-    head: { height: 40, backgroundColor: '#f1f8ff' },
-    text: { marginLeft: 5 },
-    row: { height: 30 },
+    head: {height: 40, backgroundColor: '#f1f8ff'},
+    text: {marginLeft: 5},
+    row: {height: 30},
 
 });
