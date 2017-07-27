@@ -25,7 +25,10 @@ export default class CreateAction extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            practices: ''
+            practices: '',
+            type: '',
+            lecture:'',
+            nbr:'',
         };
     }
     _getOptionList() {
@@ -34,23 +37,27 @@ export default class CreateAction extends Component {
 
     render() {
         const descriptionField = this._renderDescriptionField();
-        const datePicker = this._renderDatePicker();
+        const datePickerStart = this._renderDateStartPicker();
         const locationField = this._renderLocationField();
+        const datePickerEnd = this._renderDateEndPicker();
         return (
             <View>
-                {datePicker}
+                {datePickerEnd}
+                {datePickerStart}
                 {this._renderHeadband()}
                 {this._renderCreateAction()}
                 {descriptionField}
                 {this._renderAction()}
                 {locationField}
                 {this. _renderPractice()}
+                {this._renderRecurrence()}
+                {this._renderTempsDeLecture()}
             </View>
 
         );
     }
 
-    _select(practice) {
+    _selectPractice(practice) {
 
         this.setState({
             ...this.state,
@@ -67,7 +74,7 @@ export default class CreateAction extends Component {
                    ref="SELECT1"
                    optionListRef={this._getOptionList.bind(this)}
                    defaultValue="Practice/recencée BT ..."
-                   onSelect={(practice) => this._select(practice)}
+                   onSelect={(practice) => this._selectPractice(practice)}
                >
                    <Option value = {{id : "Oui"}}>Oui</Option>
                    <Option>Non</Option>
@@ -81,6 +88,104 @@ export default class CreateAction extends Component {
            </View>
        );
    }
+
+    _selectTypePublication(publication) {
+
+        this.setState({
+            ...this.state,
+            type: publication.id
+        });
+    }
+    _renderPractice(){
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
+                <Text>Type de Publication:</Text>
+                <Select
+                    width={400}
+                    height={50}
+                    ref="SELECT1"
+                    optionListRef={this._getOptionList.bind(this)}
+                    defaultValue="Type de Publication ..."
+                    onSelect={(publication) => this. _selectTypePublication(publication)}
+                >
+                    <Option value = {{id : "Blog"}}>Blog</Option>
+                    <Option>Press écrite</Option>
+                    <Option>Internet</Option>
+                </Select>
+                <OptionList ref="OPTIONLIST"
+                            overlayStyles={{
+                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
+                                padding:0
+                            }}
+                />
+            </View>
+        );
+    }
+
+    _selectTempsDeLecture(temps) {
+
+        this.setState({
+            ...this.state,
+            lecture: temps.id
+        });
+    }
+    _renderTempsDeLecture(){
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
+                <Text>temps de Lecture:</Text>
+                <Select
+                    width={400}
+                    height={50}
+                    ref="SELECT1"
+                    optionListRef={this._getOptionList.bind(this)}
+                    defaultValue="Temps de Lecture ..."
+                    onSelect={(temps) => this. _selectTempsDeLecture(temps)}
+                >
+                    <Option value = {{id : "5mn"}}>5mn</Option>
+                    <Option>5mn à 10mn</Option>
+                    <Option>plus que 10mn</Option>
+                </Select>
+                <OptionList ref="OPTIONLIST"
+                            overlayStyles={{
+                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
+                                padding:0
+                            }}
+                />
+            </View>
+        );
+    }
+
+    _selectRecurrence(repeated) {
+
+        this.setState({
+            ...this.state,
+            nbr: repeated.id
+        });
+    }
+    _renderRecurrence(){
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
+                <Text>Reccurence:</Text>
+                <Select
+                    width={400}
+                    height={50}
+                    ref="SELECT1"
+                    optionListRef={this._getOptionList.bind(this)}
+                    defaultValue="Réccurence ..."
+                    onSelect={(repeated) => this._selectRecurrence(repeated)}
+                >
+                    <Option value = {{id : "Reccurence hebdo"}}>Reccurence hebdo</Option>
+                    <Option>une fois</Option>
+                </Select>
+                <OptionList ref="OPTIONLIST"
+                            overlayStyles={{
+                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
+                                padding:0
+                            }}
+                />
+            </View>
+        );
+    }
     _renderDescriptionField() {
         return (
             <AppTextInput
@@ -126,7 +231,33 @@ export default class CreateAction extends Component {
         );
     }
 
-    _renderDatePicker() {
+    _renderDateStartPicker() {
+        const currentDate = moment().toDate();
+        const selectedDate = this.state.formattedDate.length > 0 ?
+            this.state.formattedDate :
+            currentDate;
+        return (
+            <View style={styles.dateContainer}>
+                <AppText style={styles.dateLabel}>Date : </AppText>
+                <DatePicker
+                    style={styles.datePicker}
+                    date={selectedDate}
+                    mode="datetime"
+                    format={this.dateFormat}
+                    minDate={currentDate}
+                    placeholder='Sélectionnez une date..'
+                    confirmBtnText="OK"
+                    cancelBtnText="Annuler"
+                    onDateChange={formattedDate => {
+                        this.setState({formattedDate});
+                        const datetime = moment(formattedDate, this.dateFormat).valueOf();
+                        //this.props.setDate(datetime);
+                    }}
+                />
+            </View>
+        );
+    }
+    _renderDateEndPicker() {
         const currentDate = moment().toDate();
         const selectedDate = this.state.formattedDate.length > 0 ?
             this.state.formattedDate :
