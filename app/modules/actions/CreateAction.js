@@ -41,17 +41,17 @@ export default class CreateAction extends Component {
         const datePickerEnd = this._renderDateEndPicker();
         return (
             <View>
-                {this._renderHeadband()}
-                {this._renderCreateAction()}
-                {datePickerEnd}
+                {/*{this._renderHeadband()}*/}
+                {/*{this._renderCreateAction()}*/}
                 {datePickerStart}
-                {descriptionField}
-                {this._renderAction()}
-                {locationField}
-                {this._renderPractice()}
-                {this._renderRecurrence()}
-                {this._renderReadingTime()}
-                {this._renderTypePublication()}
+                {datePickerEnd}
+                {/*{descriptionField}*/}
+                {/*{this._renderAction()}*/}
+                {/*{locationField}*/}
+                {/*{this._renderPractice()}*/}
+                {/*{this._renderRecurrence()}*/}
+                {/* {this._renderReadingTime()}*/}
+                {/*{this._renderTypePublication()}*/}
             </View>
 
         );
@@ -73,7 +73,8 @@ export default class CreateAction extends Component {
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
                 <Text>Practice/recencée BT:{this.state.practices}</Text>
                 <Select
-                    width={400}
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionListPractice.bind(this)}
@@ -111,7 +112,8 @@ export default class CreateAction extends Component {
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
                 <Text>Type de Publication:</Text>
                 <Select
-                    width={400}
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionListPublication.bind(this)}
@@ -147,7 +149,8 @@ export default class CreateAction extends Component {
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
                 <Text>temps de Lecture:</Text>
                 <Select
-                    width={400}
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionListReadingTime.bind(this)}
@@ -185,7 +188,8 @@ export default class CreateAction extends Component {
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
                 <Text>Recurence: {this.state.nbr}</Text>
                 <Select
-                    width={400}
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionListRecurrence.bind(this)}
@@ -209,6 +213,9 @@ export default class CreateAction extends Component {
     _renderDescriptionField() {
         return (
             <AppTextInput
+                style={{backgroundColor: "#00BFB3"}}
+                width={350}
+                height={50}
                 ref="description"
                 label="Description"
                 value={this.state.description}
@@ -235,6 +242,9 @@ export default class CreateAction extends Component {
     _renderLocationField() {
         return (
             <AppTextInput
+                style={{backgroundColor: "#00BFB3"}}
+                width={350}
+                height={50}
                 ref="location"
                 label="Lieu"
                 validator={(location) => !this._getLocationError(location)}
@@ -256,9 +266,9 @@ export default class CreateAction extends Component {
         const currentDate = moment().toDate();
         return (
             <View style={styles.dateContainer}>
-                <AppText style={styles.dateLabel}>Date : </AppText>
+                <AppText style={styles.dateLabel}>Date Debut: </AppText>
                 <DatePicker
-                    style={styles.datePicker}
+                    style={{flex: 4, alignItems: 'stretch', backgroundColor: "#00BFB3"}}
                     date={currentDate}
                     mode="datetime"
                     format={this.dateFormat}
@@ -281,9 +291,9 @@ export default class CreateAction extends Component {
 
         return (
             <View style={styles.dateContainer}>
-                <AppText style={styles.dateLabel}>Date : </AppText>
+                <AppText style={{alignItems: 'center'}}>Date fin : </AppText>
                 <DatePicker
-                    style={styles.datePicker}
+                    style={{flex: 4, alignItems: 'stretch'}}
                     date={currentDate}
                     mode="datetime"
                     format={this.dateFormat}
@@ -336,6 +346,7 @@ export default class CreateAction extends Component {
     }
 };
 
+const spaceBetweenFields = 10;
 const styles = StyleSheet.create({
     createAction: {
         backgroundColor: colors.white,
@@ -345,8 +356,21 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginBottom: 50,
     },
-    head: {height: 40, backgroundColor: '#f1f8ff'},
+    /*head: {height: 40, backgroundColor: '#f1f8ff'},
     text: {marginLeft: 5},
-    row: {height: 30},
+    row: {height: 30},*/
+
+    dateContainer: {
+        flexDirection: 'row',
+        marginBottom: spaceBetweenFields,
+    },
+     dateLabel: {
+        flexDirection: 'column',
+        flex: 1,
+        fontWeight: 'bold',
+    },
+   datePicker: {
+        justifyContent: 'flex-start',
+    },
 
 });

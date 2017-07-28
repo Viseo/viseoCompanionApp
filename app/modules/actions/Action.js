@@ -27,7 +27,8 @@ export default  class Action extends Component {
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
                 <Text>Choisir une action: {this.state.actions}</Text>
                 <Select
-                    width={400}
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
