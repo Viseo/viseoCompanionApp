@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
-import AppText from '../global/components/AppText';
+import ActionCard from '../actions/ActionCard';
 
 export default class VizzManagement extends Component {
 
@@ -10,9 +9,7 @@ export default class VizzManagement extends Component {
 
     render() {
         return (
-            <View>
-                <AppText>Gestion de mes vizz</AppText>
-            </View>
+            <ActionCard/>
         );
     }
 }

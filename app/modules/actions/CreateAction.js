@@ -1,13 +1,13 @@
-import React, {Component} from "react";
-import {StyleSheet, Text, View} from "react-native";
-import Svg from "react-native-svg/elements/Svg";
-import {Image} from "react-native-svg";
-import colors from "../global/colors";
-import AppText from "../global/components/AppText";
-import Icon from "react-native-vector-icons/FontAwesome";
-import * as db from "../global/db";
-import GridRow from "./GridRow";
-import Action from "./Action";
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import Svg from 'react-native-svg/elements/Svg';
+import {Image} from 'react-native-svg';
+import colors from '../global/colors';
+import AppText from '../global/components/AppText';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as db from '../global/db';
+import GridRow from './GridRow';
+import Action from './Action';
 
 export default class CreateAction extends Component {
 
@@ -17,11 +17,26 @@ export default class CreateAction extends Component {
             meanOptions: [],
             showTable: false,
             means: [],
+            sold: '980',
         };
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentWillMount() {
         this._getMeans();
+    }
+
+    onNavigatorEvent(event) {
+        if (event.id === 'vizz') {
+            this._goToVizzManagement();
+        }
+    }
+
+    _goToVizzManagement() {
+        this.props.navigator.push({
+            screen: 'VizzManagement',
+            title: 'VizzManagement',
+        });
     }
 
     render() {
@@ -129,6 +144,21 @@ export default class CreateAction extends Component {
             </View>
         );
     }
+};
+
+CreateAction.navigatorButtons = {
+    rightButtons: [
+        {
+            icon: require('../../images/events/vizz_logo.png'),
+            id: 'vizz',
+            disabled: 'true',
+        },
+        {
+            title: '980',
+            id: 'vizz',
+            disabled: 'true',
+        },
+    ],
 };
 
 const styles = StyleSheet.create({
