@@ -3,8 +3,9 @@ import {StyleSheet, Text, View} from "react-native";
 import AppText from "../global/components/AppText";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AppTextInput from "../global/components/AppTextInput";
+import PropTypes from "prop-types";
 
-export default  class GridRow extends Component {
+class GridRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,6 +17,7 @@ export default  class GridRow extends Component {
 
     render() {
         const {mean} = this.state;
+        const {onQuantityChange}=this.props;
         return (
             <View style={{flexDirection: "row", alignItems: "center", height: 50, width: 350}}>
                 <View style={{flex: 3,marginLeft:5,flexWrap:"nowrap"}}>
@@ -58,6 +60,7 @@ export default  class GridRow extends Component {
                             this.setState({
                                 quantity: parseInt(quantity),
                             });
+                            onQuantityChange(quantity);
                         }}
                     >
 
@@ -76,4 +79,11 @@ export default  class GridRow extends Component {
         );
     }
 
+};
+
+export default GridRow;
+
+GridRow.propTypes = {
+    onQuantityChange: PropTypes.func,
+    mean: PropTypes.object.isRequired,
 };

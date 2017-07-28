@@ -1,9 +1,10 @@
+import React, {Component} from "react";
 import  {View} from "react-native";
 import   {Select, Option, OptionList} from "react-native-selectme";
-import React, {Component} from "react";
 import * as db from "../global/db";
+import PropTypes from "prop-types";
 
-export default  class Action extends Component {
+class Action extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,17 +31,21 @@ export default  class Action extends Component {
 
     render() {
         const {options} = this.state;
+        const {onSelect}=this.props;
         let actions = options.map(function (option, i) {
-            return ( <Option value={{id: option.id}} key={i}  >{option.name}</Option>);
+            return ( <Option value={{id: option.id}} key={i}>{option.name}</Option>);
         });
         return (
-            <View style={{flex:1, justifyContent: "center", alignItems: "center",marginTop:5 }}>
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 0}}>
                 <Select
                     width={350}
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
-                    onSelect={(action) => this._select(action)}
+                    onSelect={(action) => {
+                        this._select(action);
+                        onSelect(action.id);
+                    }}
                     style={{backgroundColor: "#00BFB3"}}
                     defaultValue="Choisir une action ..."
                 >
@@ -49,7 +54,7 @@ export default  class Action extends Component {
                 <OptionList ref="OPTIONLIST"
                             overlayStyles={{
                                 marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
-                                padding: 0
+                                padding: 0,
                             }}
                 />
             </View>
@@ -63,4 +68,9 @@ export default  class Action extends Component {
 
     };
 
+}
+export default Action;
+
+Action.propTypes = {
+    onSelect: PropTypes.func,
 };
