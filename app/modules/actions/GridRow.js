@@ -9,29 +9,30 @@ export default  class GridRow extends Component {
         super(props);
         this.state = {
             mean: this.props.mean,
-            means: [],
-            quantity:"0"
+            quantity: 0,
         };
 
     }
 
     render() {
-        const {means,mean} = this.state;
+        const {mean} = this.state;
         return (
-            <View style={{flexDirection: "row", alignItems: "center", height: 50, width: 350}} >
-                <View style={{flex: 2, paddingLeft: 3, alignItems: "center"}}>
-                    <AppText>{this.state.mean.name}</AppText>
+            <View style={{flexDirection: "row", alignItems: "center", height: 50, width: 350}}>
+                <View style={{flex: 3,marginLeft:5,flexWrap:"nowrap"}}>
+                    <AppText >{mean.name}</AppText>
                 </View>
                 <View style={{flex: 2, alignItems: "center"}}>
-                    <AppText>{this.state.mean.vizzsPerMean}</AppText>
+                    <AppText>{mean.vizzsPerMean}</AppText>
                 </View>
                 <View style={{flex: 2, flexDirection: "row", alignItems: "center"}}>
-                    <Icon.Button name="minus" backgroundColor="transparent"
-                                 style={{width: 40, height: 10, borderRadius: 0, paddingBottom: 30}}
+                    <Icon.Button name="minus" backgroundColor="rgb(221, 239, 239)"
+                                 style={{width: 40, borderRadius: 0}}
                                  onPress={() => {
-                                     this.setState({
-                                         quantity: parseInt(this.state.quantity)-1
-                                     });
+                                     if (this.state.quantity > 0) {
+                                         this.setState({
+                                             quantity: this.state.quantity - 1,
+                                         });
+                                     }
                                  }}
                     />
                     <AppTextInput
@@ -45,28 +46,27 @@ export default  class GridRow extends Component {
                             marginTop: -20,
                             paddingTop: 0,
                             paddingBottom: 0,
-                            paddingLeft: 10,
-                            paddingRight: 5,
+                            paddingLeft: 8,
+                            paddingRight: 0,
+                            marginTop: -10,
                             color: "dimgrey",
 
                         }}
                         label=""
-                        value={this.state.quantity}
+                        value={this.state.quantity.toString()}
                         onChangeText={quantity => {
-                            quantity.push(mean);
                             this.setState({
-                                mean,
-                                means: means,
+                                quantity: parseInt(quantity),
                             });
                         }}
                     >
 
                     </AppTextInput>
-                    <Icon.Button name="plus" backgroundColor="transparent"
-                                 style={{width: 50, height: 10, borderRadius: 0, paddingBottom: 30}}
+                    <Icon.Button name="plus" backgroundColor="rgb(221, 239, 239)"
+                                 style={{width: 50, borderRadius: 0}}
                                  onPress={() => {
                                      this.setState({
-                                       quantity: parseInt(this.state.quantity)+1
+                                         quantity: this.state.quantity + 1,
                                      });
                                  }}
                     />

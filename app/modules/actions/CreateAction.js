@@ -4,18 +4,18 @@ import Svg from "react-native-svg/elements/Svg";
 import {Image} from "react-native-svg";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as db from "../global/db";
-import colors from '../global/colors';
-import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
-import AppTextInput from '../global/components/AppTextInput';
+import colors from "../global/colors";
+import DatePicker from "react-native-datepicker";
+import moment from "moment";
+import AppTextInput from "../global/components/AppTextInput";
 import GridRow from "./GridRow";
 import Action from "./Action";
-import  {Select, Option, OptionList} from 'react-native-selectme';
-import AppText from '../global/components/AppText';
+import  {Select, Option, OptionList} from "react-native-selectme";
+import AppText from "../global/components/AppText";
 
 export default class CreateAction extends Component {
 
-    dateFormat = 'DD/MM/YYYY [à] HH:mm';
+    dateFormat = "DD/MM/YYYY [à] HH:mm";
 
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ export default class CreateAction extends Component {
             means: [],
             description: this.props.description,
             location: this.props.location,
-            locationError: 'field not filled',
+            locationError: "field not filled",
             formattedDateEnd: moment(new Date()).format(this.dateFormat),
             formattedDateStart: moment(new Date()).format(this.dateFormat),
         };
@@ -44,8 +44,8 @@ export default class CreateAction extends Component {
             <View>
                 {this._renderHeadband()}
                 {this._renderCreateAction()}
-                {/*{datePickerStart}*/}
-                {/*{datePickerEnd}*/}
+                {datePickerStart}
+                {datePickerEnd}
                 {/*{descriptionField} */}
                 {/*{locationField}*/}
                 {/*{this._renderPractice()}*/}
@@ -59,13 +59,14 @@ export default class CreateAction extends Component {
                         this._renderMeans()
                         : null
                     }
-            </View>
+                </View>
             </View>
 
         );
     }
+
     _getOptionListPractice() {
-        return this.refs['OPTIONLISTPractice'];
+        return this.refs["OPTIONLISTPractice"];
     }
 
     _selectPractice(practice) {
@@ -78,7 +79,7 @@ export default class CreateAction extends Component {
 
     _renderPractice() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 100}}>
                 <Text>Practice/recencée BT:{this.state.practices}</Text>
                 <Select
                     style={{backgroundColor: "#00BFB3"}}
@@ -89,12 +90,12 @@ export default class CreateAction extends Component {
                     defaultValue="Practice/recencée BT ..."
                     onSelect={(practice) => this._selectPractice(practice)}
                 >
-                    <Option value={{id: 'Oui'}}>Oui</Option>
+                    <Option value={{id: "Oui"}}>Oui</Option>
                     <Option>Non</Option>
                 </Select>
                 <OptionList ref="OPTIONLISTPractice"
                             overlayStyles={{
-                                marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
                                 padding: 0,
                             }}
                 />
@@ -103,9 +104,8 @@ export default class CreateAction extends Component {
     }
 
     _getOptionListPublication() {
-        return this.refs['OPTIONLISTPublication'];
+        return this.refs["OPTIONLISTPublication"];
     }
-
 
     _selectTypePublication(publication) {
 
@@ -117,7 +117,7 @@ export default class CreateAction extends Component {
 
     _renderTypePublication() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 100}}>
                 <Text>Type de Publication:</Text>
                 <Select
                     style={{backgroundColor: "#00BFB3"}}
@@ -128,22 +128,24 @@ export default class CreateAction extends Component {
                     defaultValue="Type de Publication ..."
                     onSelect={(publication) => this._selectTypePublication(publication)}
                 >
-                    <Option value={{id: 'Blog'}}>Blog</Option>
+                    <Option value={{id: "Blog"}}>Blog</Option>
                     <Option>Press écrite</Option>
                     <Option>Internet</Option>
                 </Select>
                 <OptionList ref="OPTIONLISTPublication"
                             overlayStyles={{
-                                marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
                                 padding: 0,
                             }}
                 />
             </View>
         );
     }
+
     _getOptionListReadingTime() {
-        return this.refs['OPTIONLISTTenses'];
+        return this.refs["OPTIONLISTTenses"];
     }
+
     _selectReadingTime(time) {
 
         this.setState({
@@ -154,7 +156,7 @@ export default class CreateAction extends Component {
 
     _renderReadingTime() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 100}}>
                 <Text>temps de Lecture:</Text>
                 <Select
                     style={{backgroundColor: "#00BFB3"}}
@@ -163,15 +165,15 @@ export default class CreateAction extends Component {
                     ref="SELECT1"
                     optionListRef={this._getOptionListReadingTime.bind(this)}
                     defaultValue="Temps de Lecture ..."
-                    onSelect={(time) => this. _selectReadingTime(time)}
+                    onSelect={(time) => this._selectReadingTime(time)}
                 >
-                    <Option value={{id: '5mn'}}>5mn</Option>
+                    <Option value={{id: "5mn"}}>5mn</Option>
                     <Option>5mn à 10mn</Option>
                     <Option>plus que 10mn</Option>
                 </Select>
                 <OptionList ref="OPTIONLISTTenses"
                             overlayStyles={{
-                                marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
                                 padding: 0,
                             }}
                 />
@@ -180,7 +182,7 @@ export default class CreateAction extends Component {
     }
 
     _getOptionListRecurrence() {
-        return this.refs['OPTIONLIST'];
+        return this.refs["OPTIONLIST"];
     }
 
     _selectRecurrence(repeated) {
@@ -193,7 +195,7 @@ export default class CreateAction extends Component {
 
     _renderRecurrence() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 100}}>
                 <Text>Recurence: {this.state.nbr}</Text>
                 <Select
                     style={{backgroundColor: "#00BFB3"}}
@@ -204,19 +206,18 @@ export default class CreateAction extends Component {
                     defaultValue="Réccurence ..."
                     onSelect={(repeated) => this._selectRecurrence(repeated)}
                 >
-                    <Option value={{id: 'Reccurence hebdo'}}>Reccurence hebdo</Option>
+                    <Option value={{id: "Reccurence hebdo"}}>Reccurence hebdo</Option>
                     <Option>une fois</Option>
                 </Select>
                 <OptionList ref="OPTIONLIST"
                             overlayStyles={{
-                                marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
                                 padding: 0,
                             }}
                 />
             </View>
         );
     }
-
 
     _renderDescriptionField() {
         return (
@@ -227,7 +228,7 @@ export default class CreateAction extends Component {
                 ref="description"
                 label="Description"
                 value={this.state.description}
-               // onChangeText={description => this.props.setDescription(description)}
+                // onChangeText={description => this.props.setDescription(description)}
                 onSubmitEditing={ () => {
                     this.refs.location.focus();
                 }}
@@ -237,11 +238,11 @@ export default class CreateAction extends Component {
 
     _getLocationError(location) {
         if (location.length < 2) {
-            return 'Le lieu doit contenir au moins deux caractères.';
+            return "Le lieu doit contenir au moins deux caractères.";
         } else {
             const regexLocation = /^[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s\-']*$/;
             if (!regexLocation.test(location)) {
-                return 'Le lieu doit seulement contenir des caractères alphanumériques, tiret ou apostrophe.';
+                return "Le lieu doit seulement contenir des caractères alphanumériques, tiret ou apostrophe.";
             }
         }
         return null;
@@ -274,9 +275,9 @@ export default class CreateAction extends Component {
         const currentDate = moment().toDate();
         return (
             <View style={styles.dateContainer}>
-                <AppText style={styles.dateLabel}>Date Debut: </AppText>
-                <DatePicker
-                    style={{flex: 4, alignItems: 'stretch', backgroundColor: "#00BFB3"}}
+              <AppText style={styles.labels}>Date Debut: </AppText>
+                <View><DatePicker
+                    style={styles.calander}
                     date={currentDate}
                     mode="datetime"
                     format={this.dateFormat}
@@ -289,7 +290,7 @@ export default class CreateAction extends Component {
                         const datetime = moment(formattedDate, this.dateFormat).valueOf();
                         //this.props.setDate(datetime);
                     }}
-                />
+                /></View>
             </View>
         );
     }
@@ -299,9 +300,9 @@ export default class CreateAction extends Component {
 
         return (
             <View style={styles.dateContainer}>
-                <AppText style={{alignItems: 'center'}}>Date fin : </AppText>
-                <DatePicker
-                    style={{flex: 4, alignItems: 'stretch'}}
+                <View><AppText style={styles.labels}>Date fin : </AppText></View>
+                <View><DatePicker
+                    style={styles.calander}
                     date={currentDate}
                     mode="datetime"
                     format={this.dateFormat}
@@ -315,27 +316,18 @@ export default class CreateAction extends Component {
                         //this.props.setDate(datetime);
                     }}
                 />
-                {this._renderHeadband()}
-                {this._renderCreateAction()}
-                <View style={{flexDirection: "column"}}>
-                    {this._renderAction()}
-                    {this._renderMeanButton()}
-                    { this.state.showTable ?
-                        this._renderMeans()
-                        : null
-                    }
                 </View>
             </View>
         );
     }
 
     _renderAction() {
-
+        return (
             <View style={{justifyContent: "space-between",}}>
-                <AppText style={{padding: 30}}>Action</AppText>
+                <AppText style={styles.labels}>Action</AppText>
                 <Action/>
             </View>
-
+        );
     }
 
     _renderMeanButton() {
@@ -367,13 +359,13 @@ export default class CreateAction extends Component {
                 marginRight: 20,
             }}>
                 <View style={{flexDirection: "row", justifyContent: "space-between", height: 50, width: 200}}>
-                    <AppText style={{paddingRight: 30, paddingLeft: 30}}>Moyen</AppText>
-                    <AppText style={{paddingRight: 50, paddingLeft: 50}}>Prix</AppText>
-                    <AppText style={{paddingRight: 10, paddingLeft: 10}}>Quantité</AppText>
+                    <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: "bold"}}>Moyen</AppText>
+                    <AppText style={{paddingRight: 80, paddingLeft: 70, fontWeight: "bold"}}>Prix</AppText>
+                    <AppText style={{fontWeight: "bold"}}>Quantité</AppText>
                 </View>
                 {
                     this.state.meanOptions.map((mean, i) =>
-                    <GridRow mean={mean} key={i}></GridRow>
+                        <GridRow mean={mean} key={i}></GridRow>,
                     )
                 }
             </View>
@@ -431,29 +423,26 @@ const styles = StyleSheet.create({
         marginBottom: 50,
 
     },
-    /*head: {height: 40, backgroundColor: '#f1f8ff'},
-    text: {marginLeft: 5},
-    row: {height: 30},*/
-
     dateContainer: {
-        flexDirection: 'row',
+        flexDirection: "column",
         marginBottom: spaceBetweenFields,
     },
-     dateLabel: {
-        flexDirection: 'column',
-        flex: 1,
-        fontWeight: 'bold',
+    labels: {
+        paddingLeft:30,
     },
-   datePicker: {
-        justifyContent: 'flex-start',
+    datePicker: {
+        justifyContent: "flex-start",
     },
 
     componentContainer: {
         flex: 1,
         flexDirection: "column",
     },
-    head: {height: 40},
-    title: {flex: 1},
-    row: {height: 30},
-    text: {textAlign: "center", color: "dimgrey"},
+    calander:{
+        width:350,
+        backgroundColor: "#00BFB3",
+        marginLeft:30,
+        padding:0
+    }
+
 });

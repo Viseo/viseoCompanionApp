@@ -1,4 +1,4 @@
-import  {Text, View, StyleSheet} from "react-native";
+import  {View} from "react-native";
 import   {Select, Option, OptionList} from "react-native-selectme";
 import React, {Component} from "react";
 import * as db from "../global/db";
@@ -6,7 +6,6 @@ import * as db from "../global/db";
 export default  class Action extends Component {
     constructor(props) {
         super(props);
-        // this.props.navigator(this.bind(this));
         this.state = {
             action: "",
             options: [],
@@ -65,4 +64,3 @@ export default  class Action extends Component {
     };
 
 };
-const styles = StyleSheet.create({});
