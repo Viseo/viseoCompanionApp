@@ -1,80 +1,68 @@
-import  {AppRegistry, Text, View} from 'react-native';
-//import {bindActionCreators} from 'redux';
-//import {connect} from 'react-redux';
-import  DropDown,{Select, Option, OptionList} from 'react-native-selectme';
-import React, {Component} from 'react';
-import colors from '../global/colors';
+import  {Text, View, StyleSheet} from "react-native";
+import   {Select, Option, OptionList} from "react-native-selectme";
+import React, {Component} from "react";
+import * as db from "../global/db";
 
 export default  class Action extends Component {
     constructor(props) {
         super(props);
-       // this.props.navigator(this.bind(this));
+        // this.props.navigator(this.bind(this));
         this.state = {
-            actions: ''
+            action: "",
+            options: [],
         };
+
+    }
+
+    componentWillMount() {
+        this._getActions();
     }
 
     _getOptionList() {
-        return this.refs['OPTIONLIST'];
+        return this.refs["OPTIONLIST"];
     }
 
-
     _select(action) {
-
         this.setState({
             ...this.state,
-            canada: action.id
+            action: action.id,
         });
     }
 
     render() {
-
+        const {options} = this.state;
+        let actions = options.map(function (option, i) {
+            return ( <Option value={{id: option.id}} key={i}  >{option.name}</Option>);
+        });
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100 }} >
-
+            <View style={{flex:1, justifyContent: "center", alignItems: "center",marginTop:5 }}>
                 <Select
-                    width={400}
+                    width={350}
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
-                    defaultValue="Choisir une action ..."
                     onSelect={(action) => this._select(action)}
-                    >
-                    <Option value = {{id : "alberta"}}>Alberta</Option>
-                    <Option>British Columbia</Option>
-                    <Option>Manitoba</Option>
-                    <Option>New Brunswick</Option>
-                    <Option>Newfoundland and Labrador</Option>
-                    <Option>Northwest Territories</Option>
-                    <Option>Nova Scotia</Option>
-                    <Option>Nunavut</Option>
-                    <Option>Ontario</Option>
-                    <Option>Prince Edward Island</Option>
-                    <Option>Quebec</Option>
-                    <Option>Saskatchewan</Option>
-                    <Option>Yukon</Option>
+                    style={{backgroundColor: "#00BFB3"}}
+                    defaultValue="Choisir une action ..."
+                >
+                    {actions}
                 </Select>
-
-                <Text>Selected Canada's province: {this.state.canada}</Text>
-
                 <OptionList ref="OPTIONLIST"
                             overlayStyles={{
-                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
-                                padding:0
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
+                                padding: 0
                             }}
                 />
             </View>
         );
     }
-    overlay: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: '100%',
-        width: '100%'
-    }
 
-}
+    _getActions = async () => {
+        this.setState({
+            options: await db.actions.getAll(),
+        });
 
+    };
+
+};
+const styles = StyleSheet.create({});
