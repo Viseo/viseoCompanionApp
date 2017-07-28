@@ -2,31 +2,20 @@ import React, {Component} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import Svg from "react-native-svg/elements/Svg";
 import {Image} from "react-native-svg";
-import AppText from "../global/components/AppText";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as db from "../global/db";
-import GridRow from "./GridRow";
-import Action from "./Action";
-import {StyleSheet, View,Text} from 'react-native';
-import {Image} from 'react-native-svg';
 import colors from '../global/colors';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import AppTextInput from '../global/components/AppTextInput';
-
+import GridRow from "./GridRow";
+import Action from "./Action";
 import  {Select, Option, OptionList} from 'react-native-selectme';
+import AppText from '../global/components/AppText';
 
 export default class CreateAction extends Component {
 
     dateFormat = 'DD/MM/YYYY [à] HH:mm';
-
-    state = {
-        description: this.props.description,
-        location: this.props.location,
-        locationError: 'field not filled',
-        formattedDateEnd: moment(new Date()).format(this.dateFormat),
-        formattedDateStart: moment(new Date()).format(this.dateFormat),
-    };
 
     constructor(props) {
         super(props);
@@ -34,17 +23,16 @@ export default class CreateAction extends Component {
             meanOptions: [],
             showTable: false,
             means: [],
+            description: this.props.description,
+            location: this.props.location,
+            locationError: 'field not filled',
+            formattedDateEnd: moment(new Date()).format(this.dateFormat),
+            formattedDateStart: moment(new Date()).format(this.dateFormat),
         };
     }
 
     componentWillMount() {
         this._getMeans();
-        this.state = {
-            practices: '',
-            type: '',
-            lecture: '',
-            nbr: '',
-        };
     }
 
     render() {
@@ -54,12 +42,11 @@ export default class CreateAction extends Component {
         const datePickerEnd = this._renderDateEndPicker();
         return (
             <View>
-                {/*{this._renderHeadband()}*/}
-                {/*{this._renderCreateAction()}*/}
-                {datePickerStart}
-                {datePickerEnd}
-                {/*{descriptionField}*/}
-                {/*{this._renderAction()}*/}
+                {this._renderHeadband()}
+                {this._renderCreateAction()}
+                {/*{datePickerStart}*/}
+                {/*{datePickerEnd}*/}
+                {/*{descriptionField} */}
                 {/*{locationField}*/}
                 {/*{this._renderPractice()}*/}
                 {/*{this._renderRecurrence()}*/}
