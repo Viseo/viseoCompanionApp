@@ -1,64 +1,68 @@
-import  {AppRegistry, Text, View} from 'react-native';
-import  DropDown,{Select, Option, OptionList} from 'react-native-selectme';
-import React, {Component} from 'react';
+import  {Text, View, StyleSheet} from "react-native";
+import   {Select, Option, OptionList} from "react-native-selectme";
+import React, {Component} from "react";
+import * as db from "../global/db";
 
 export default  class Action extends Component {
     constructor(props) {
         super(props);
-       // this.props.navigator(this.bind(this));
+        // this.props.navigator(this.bind(this));
         this.state = {
-            actions: ''
+            action: "",
+            options: [],
         };
+
+    }
+
+    componentWillMount() {
+        this._getActions();
     }
 
     _getOptionList() {
-        return this.refs['OPTIONLIST'];
+        return this.refs["OPTIONLIST"];
     }
-    _select(action) {
 
+    _select(action) {
         this.setState({
             ...this.state,
-            actions: action.id
+            action: action.id,
         });
     }
 
     render() {
+        const {options} = this.state;
+        let actions = options.map(function (option, i) {
+            return ( <Option value={{id: option.id}} key={i}  >{option.name}</Option>);
+        });
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:100}} >
-                <Text>Choisir une action: {this.state.actions}</Text>
+            <View style={{flex:1, justifyContent: "center", alignItems: "center",marginTop:5 }}>
                 <Select
-                    style={{backgroundColor: "#00BFB3"}}
                     width={350}
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
-                    defaultValue="Choisir une action ..."
                     onSelect={(action) => this._select(action)}
-                    >
-                    <Option value = {{id : "idee"}}>J'ai une idee est je souhaite lancer un projet participatif</Option>
-                    <Option>j'aide à la conception d'une formation</Option>
-                    <Option>j'organise et j'anime un évenement</Option>
-                    <Option>je participe à la rédaction d'un livre blanc</Option>
-                    <Option>je réalise un entretien de recrutement</Option>
-                    <Option>je donne une formation</Option>
-                    <Option>je rédige un billet globe</Option>
-                    <Option>je remonte un lead</Option>
-                    <Option>je valorise l'image de viseo en externe</Option>
-                    <Option>je présente au cours d'un évenement</Option>
-                    <Option>je publie en externe Viseo</Option>
-                    <Option>je relie des billet blog avant parution</Option>
-                    <Option>je presente Viseo</Option>
-                    <Option>je  contribue à la revue de presse hebdo ce mois-ci</Option>
+                    style={{backgroundColor: "#00BFB3"}}
+                    defaultValue="Choisir une action ..."
+                >
+                    {actions}
                 </Select>
                 <OptionList ref="OPTIONLIST"
                             overlayStyles={{
-                                marginTop:15,marginLeft:5,backgroundColor:"#fff",width:400,height:120,
-                                padding:0
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
+                                padding: 0
                             }}
                 />
             </View>
         );
     }
 
-}
+    _getActions = async () => {
+        this.setState({
+            options: await db.actions.getAll(),
+        });
 
+    };
+
+};
+const styles = StyleSheet.create({});

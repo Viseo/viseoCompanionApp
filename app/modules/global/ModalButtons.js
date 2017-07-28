@@ -108,7 +108,7 @@ export default class ModalButtons extends Component {
                                         screen: 'actions.CreateAction',
                                         title: 'Creation action',
                                         navigatorStyle: defaultNavBarStyle,
-                                        //backButtonHidden: true,
+                                   s     //backButtonHidden: true,
                                     });
                                     {/*this.setState({show: false});*/}
                                     {/*this.props.navigator.switchToTab({*/}
