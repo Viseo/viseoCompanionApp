@@ -1,17 +1,17 @@
-import React, {Component} from "react";
-import {ScrollView, StyleSheet, Text, View, Dimensions, Button} from "react-native";
-import Svg from "react-native-svg/elements/Svg";
-import {Image} from "react-native-svg";
-import Icon from "react-native-vector-icons/FontAwesome";
-import * as db from "../global/db";
-import colors from "../global/colors";
-import DatePicker from "react-native-datepicker";
-import moment from "moment";
-import AppTextInput from "../global/components/AppTextInput";
-import GridRow from "./GridRow";
-import Action from "./Action";
-import  {Select, Option, OptionList} from "react-native-selectme";
-import AppText from "../global/components/AppText";
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import Svg from 'react-native-svg/elements/Svg';
+import {Circle, G, Image, Text} from 'react-native-svg';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as db from '../global/db';
+import colors from '../global/colors';
+import DatePicker from 'react-native-datepicker';
+import moment from 'moment';
+import AppTextInput from '../global/components/AppTextInput';
+import GridRow from './GridRow';
+import Action from './Action';
+import {Option, OptionList, Select} from 'react-native-selectme';
+import AppText from '../global/components/AppText';
 
 export default class CreateAction extends Component {
 
@@ -300,7 +300,6 @@ export default class CreateAction extends Component {
     }
 
     _renderLocationField() {
-
         return (
             <View style={styles.containers}>
                 <View>
@@ -451,20 +450,40 @@ export default class CreateAction extends Component {
     _renderCreateAction() {
         return (
             <View style={styles.createAction}>
-                <AppText style={{
-                    fontWeight: "bold",
-                    fontSize: 20,
-                    height: 40,
-                    color: colors.orange,
-                    marginLeft: 25,
-                    marginTop: 10,
-                    marginBottom: 10,
-                }}>
-                    Créer une action
-                </AppText>
+                <View style={{flexDirection: 'row'}}>
+                    <AppText style={{
+                        flex: 6,
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        height: 60,
+                        color: colors.orange,
+                        marginLeft: 25,
+                        marginTop: 10,
+                        marginBottom: 10,
+                    }}>
+                        Créer une action
+                    </AppText>
+                    {this._renderVizzBadge()}
+                </View>
                 <View style={{backgroundColor: colors.orange, height: 5}}/>
-
             </View>
+        );
+    }
+
+    _renderVizzBadge() {
+        return (
+            <Svg width="120" height="80">
+                <G>
+                    <Circle
+                        cx="38"
+                        cy="40"
+                        r="38"
+                        fill="orange"
+                    />
+                    <Text x="13" y="30" fontWeight="bold" fontSize="16" fill="white">980</Text>
+                    <Image height="45" width="45" x="17" y="9" href={require('../../images/events/vizz_logo.png')}/>
+                </G>
+            </Svg>
         );
     }
 };
@@ -483,7 +502,6 @@ const styles = StyleSheet.create({
     containers: {
         flexDirection: "column",
         marginBottom: spaceBetweenFields,
-
     },
     labels: {
         paddingLeft: 30,
