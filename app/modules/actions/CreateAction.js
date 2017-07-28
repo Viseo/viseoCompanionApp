@@ -1,15 +1,21 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Svg from 'react-native-svg/elements/Svg';
-import {Image} from 'react-native-svg';
-import colors from '../global/colors';
-import AppText from '../global/components/AppText';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as db from '../global/db';
-import GridRow from './GridRow';
-import Action from './Action';
+import React, {Component} from "react";
+import {StyleSheet, Text, View} from "react-native";
+import Svg from "react-native-svg/elements/Svg";
+import {Image} from "react-native-svg";
+import Icon from "react-native-vector-icons/FontAwesome";
+import * as db from "../global/db";
+import colors from "../global/colors";
+import DatePicker from "react-native-datepicker";
+import moment from "moment";
+import AppTextInput from "../global/components/AppTextInput";
+import GridRow from "./GridRow";
+import Action from "./Action";
+import  {Select, Option, OptionList} from "react-native-selectme";
+import AppText from "../global/components/AppText";
 
 export default class CreateAction extends Component {
+
+    dateFormat = "DD/MM/YYYY [à] HH:mm";
 
     constructor(props) {
         super(props);
@@ -17,33 +23,35 @@ export default class CreateAction extends Component {
             meanOptions: [],
             showTable: false,
             means: [],
-            sold: '980',
+            description: this.props.description,
+            location: this.props.location,
+            locationError: "field not filled",
+            formattedDateEnd: moment(new Date()).format(this.dateFormat),
+            formattedDateStart: moment(new Date()).format(this.dateFormat),
         };
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentWillMount() {
         this._getMeans();
     }
 
-    onNavigatorEvent(event) {
-        if (event.id === 'vizz') {
-            this._goToVizzManagement();
-        }
-    }
-
-    _goToVizzManagement() {
-        this.props.navigator.push({
-            screen: 'VizzManagement',
-            title: 'VizzManagement',
-        });
-    }
-
     render() {
+        const descriptionField = this._renderDescriptionField();
+        const datePickerStart = this._renderDateStartPicker();
+        const locationField = this._renderLocationField();
+        const datePickerEnd = this._renderDateEndPicker();
         return (
             <View>
                 {this._renderHeadband()}
                 {this._renderCreateAction()}
+                {datePickerStart}
+                {datePickerEnd}
+                {/*{descriptionField} */}
+                {/*{locationField}*/}
+                {/*{this._renderPractice()}*/}
+                {/*{this._renderRecurrence()}*/}
+                {/* {this._renderReadingTime()}*/}
+                {/*{this._renderTypePublication()}*/}
                 <View style={{flexDirection: "column"}}>
                     {this._renderAction()}
                     {this._renderMeanButton()}
@@ -53,13 +61,270 @@ export default class CreateAction extends Component {
                     }
                 </View>
             </View>
+
+        );
+    }
+
+    _getOptionListPractice() {
+        return this.refs["OPTIONLISTPractice"];
+    }
+
+    _selectPractice(practice) {
+
+        this.setState({
+            ...this.state,
+            practices: practice.id,
+        });
+    }
+
+    _renderPractice() {
+        return (
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 100}}>
+                <Text>Practice/recencée BT:{this.state.practices}</Text>
+                <Select
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
+                    height={50}
+                    ref="SELECT1"
+                    optionListRef={this._getOptionListPractice.bind(this)}
+                    defaultValue="Practice/recencée BT ..."
+                    onSelect={(practice) => this._selectPractice(practice)}
+                >
+                    <Option value={{id: "Oui"}}>Oui</Option>
+                    <Option>Non</Option>
+                </Select>
+                <OptionList ref="OPTIONLISTPractice"
+                            overlayStyles={{
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
+                                padding: 0,
+                            }}
+                />
+            </View>
+        );
+    }
+
+    _getOptionListPublication() {
+        return this.refs["OPTIONLISTPublication"];
+    }
+
+    _selectTypePublication(publication) {
+
+        this.setState({
+            ...this.state,
+            type: publication.id,
+        });
+    }
+
+    _renderTypePublication() {
+        return (
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 100}}>
+                <Text>Type de Publication:</Text>
+                <Select
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
+                    height={50}
+                    ref="SELECT1"
+                    optionListRef={this._getOptionListPublication.bind(this)}
+                    defaultValue="Type de Publication ..."
+                    onSelect={(publication) => this._selectTypePublication(publication)}
+                >
+                    <Option value={{id: "Blog"}}>Blog</Option>
+                    <Option>Press écrite</Option>
+                    <Option>Internet</Option>
+                </Select>
+                <OptionList ref="OPTIONLISTPublication"
+                            overlayStyles={{
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
+                                padding: 0,
+                            }}
+                />
+            </View>
+        );
+    }
+
+    _getOptionListReadingTime() {
+        return this.refs["OPTIONLISTTenses"];
+    }
+
+    _selectReadingTime(time) {
+
+        this.setState({
+            ...this.state,
+            lecture: time.id,
+        });
+    }
+
+    _renderReadingTime() {
+        return (
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 100}}>
+                <Text>temps de Lecture:</Text>
+                <Select
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
+                    height={50}
+                    ref="SELECT1"
+                    optionListRef={this._getOptionListReadingTime.bind(this)}
+                    defaultValue="Temps de Lecture ..."
+                    onSelect={(time) => this._selectReadingTime(time)}
+                >
+                    <Option value={{id: "5mn"}}>5mn</Option>
+                    <Option>5mn à 10mn</Option>
+                    <Option>plus que 10mn</Option>
+                </Select>
+                <OptionList ref="OPTIONLISTTenses"
+                            overlayStyles={{
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
+                                padding: 0,
+                            }}
+                />
+            </View>
+        );
+    }
+
+    _getOptionListRecurrence() {
+        return this.refs["OPTIONLIST"];
+    }
+
+    _selectRecurrence(repeated) {
+
+        this.setState({
+            ...this.state,
+            nbr: repeated.id,
+        });
+    }
+
+    _renderRecurrence() {
+        return (
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 100}}>
+                <Text>Recurence: {this.state.nbr}</Text>
+                <Select
+                    style={{backgroundColor: "#00BFB3"}}
+                    width={350}
+                    height={50}
+                    ref="SELECT1"
+                    optionListRef={this._getOptionListRecurrence.bind(this)}
+                    defaultValue="Réccurence ..."
+                    onSelect={(repeated) => this._selectRecurrence(repeated)}
+                >
+                    <Option value={{id: "Reccurence hebdo"}}>Reccurence hebdo</Option>
+                    <Option>une fois</Option>
+                </Select>
+                <OptionList ref="OPTIONLIST"
+                            overlayStyles={{
+                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
+                                padding: 0,
+                            }}
+                />
+            </View>
+        );
+    }
+
+    _renderDescriptionField() {
+        return (
+            <AppTextInput
+                style={{backgroundColor: "#00BFB3"}}
+                width={350}
+                height={50}
+                ref="description"
+                label="Description"
+                value={this.state.description}
+                // onChangeText={description => this.props.setDescription(description)}
+                onSubmitEditing={ () => {
+                    this.refs.location.focus();
+                }}
+            />
+        );
+    }
+
+    _getLocationError(location) {
+        if (location.length < 2) {
+            return "Le lieu doit contenir au moins deux caractères.";
+        } else {
+            const regexLocation = /^[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s\-']*$/;
+            if (!regexLocation.test(location)) {
+                return "Le lieu doit seulement contenir des caractères alphanumériques, tiret ou apostrophe.";
+            }
+        }
+        return null;
+    }
+
+    _renderLocationField() {
+        return (
+            <AppTextInput
+                style={{backgroundColor: "#00BFB3"}}
+                width={350}
+                height={50}
+                ref="location"
+                label="Lieu"
+                validator={(location) => !this._getLocationError(location)}
+                invalidTextMessage={this.state.locationError}
+                value={this.state.location}
+                onChangeText={location => {
+                    const locationError = this._getLocationError(location);
+                    this.setState({
+                        location,
+                        locationError,
+                    });
+                    //   this.props.setLocation(locationError ? null : location);
+                }}
+            />
+        );
+    }
+
+    _renderDateStartPicker() {
+        const currentDate = moment().toDate();
+        return (
+            <View style={styles.dateContainer}>
+              <AppText style={styles.labels}>Date Debut: </AppText>
+                <View><DatePicker
+                    style={styles.calander}
+                    date={currentDate}
+                    mode="datetime"
+                    format={this.dateFormat}
+                    minDate={currentDate}
+                    placeholder='Sélectionnez une date..'
+                    confirmBtnText="OK"
+                    cancelBtnText="Annuler"
+                    onDateChange={formattedDate => {
+                        this.setState({formattedDate});
+                        const datetime = moment(formattedDate, this.dateFormat).valueOf();
+                        //this.props.setDate(datetime);
+                    }}
+                /></View>
+            </View>
+        );
+    }
+
+    _renderDateEndPicker() {
+        const currentDate = moment().toDate();
+
+        return (
+            <View style={styles.dateContainer}>
+                <View><AppText style={styles.labels}>Date fin : </AppText></View>
+                <View><DatePicker
+                    style={styles.calander}
+                    date={currentDate}
+                    mode="datetime"
+                    format={this.dateFormat}
+                    minDate={currentDate}
+                    placeholder='Sélectionnez une date..'
+                    confirmBtnText="OK"
+                    cancelBtnText="Annuler"
+                    onDateChange={formattedDates => {
+                        this.setState({formattedDates});
+                        const datetime = moment(formattedDates, this.dateFormat).valueOf();
+                        //this.props.setDate(datetime);
+                    }}
+                />
+                </View>
+            </View>
         );
     }
 
     _renderAction() {
         return (
             <View style={{justifyContent: "space-between",}}>
-                <AppText style={{padding: 30}}>Action</AppText>
+                <AppText style={styles.labels}>Action</AppText>
                 <Action/>
             </View>
         );
@@ -94,13 +359,13 @@ export default class CreateAction extends Component {
                 marginRight: 20,
             }}>
                 <View style={{flexDirection: "row", justifyContent: "space-between", height: 50, width: 200}}>
-                    <AppText style={{paddingRight: 30, paddingLeft: 30}}>Moyen</AppText>
-                    <AppText style={{paddingRight: 50, paddingLeft: 50}}>Prix</AppText>
-                    <AppText style={{paddingRight: 10, paddingLeft: 10}}>Quantité</AppText>
+                    <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: "bold"}}>Moyen</AppText>
+                    <AppText style={{paddingRight: 80, paddingLeft: 70, fontWeight: "bold"}}>Prix</AppText>
+                    <AppText style={{fontWeight: "bold"}}>Quantité</AppText>
                 </View>
                 {
                     this.state.meanOptions.map((mean, i) =>
-                    <GridRow mean={mean} key={i}></GridRow>
+                        <GridRow mean={mean} key={i}></GridRow>,
                     )
                 }
             </View>
@@ -141,26 +406,13 @@ export default class CreateAction extends Component {
                     Créer une action
                 </AppText>
                 <View style={{backgroundColor: colors.orange, height: 5}}/>
+
             </View>
         );
     }
 };
 
-CreateAction.navigatorButtons = {
-    rightButtons: [
-        {
-            icon: require('../../images/events/vizz_logo.png'),
-            id: 'vizz',
-            disabled: 'true',
-        },
-        {
-            title: '980',
-            id: 'vizz',
-            disabled: 'true',
-        },
-    ],
-};
-
+const spaceBetweenFields = 10;
 const styles = StyleSheet.create({
     createAction: {
         backgroundColor: colors.white,
@@ -168,14 +420,29 @@ const styles = StyleSheet.create({
         marginTop: -30,
         marginRight: 20,
         marginLeft: 20,
+        marginBottom: 50,
 
     },
+    dateContainer: {
+        flexDirection: "column",
+        marginBottom: spaceBetweenFields,
+    },
+    labels: {
+        paddingLeft:30,
+    },
+    datePicker: {
+        justifyContent: "flex-start",
+    },
+
     componentContainer: {
         flex: 1,
         flexDirection: "column",
     },
-    head: {height: 40},
-    title: {flex: 1},
-    row: {height: 30},
-    text: {textAlign: "center", color: "dimgrey"},
+    calander:{
+        width:350,
+        backgroundColor: "#00BFB3",
+        marginLeft:30,
+        padding:0
+    }
+
 });
