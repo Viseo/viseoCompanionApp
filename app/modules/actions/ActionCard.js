@@ -12,6 +12,7 @@ export default class ActionCard extends Component {
         return (
             <View style={{flexDirection: 'row', height: 100}}>
                 <Image style={{height: 100, width: 100}}
+                       source={require('../../images/happy.png')}
                 />
                 <View style={{flexDirection: 'column'}}>
                     <AppText>date</AppText>
