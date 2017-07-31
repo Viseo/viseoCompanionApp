@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {View, Modal, Dimensions, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {Navigation} from "react-native-navigation";
+import {centerNavStyle} from "./navigatorStyle";
+import {iconsMap} from "./appIcons";
 export default class ModalButtons extends Component {
 
     constructor(props) {
@@ -17,6 +19,18 @@ export default class ModalButtons extends Component {
             case "willAppear":
                 this.setState({
                     show: true,
+                });
+
+                this.props.navigator.setTabButton({
+                    tabIndex: 2,
+                    icon: iconsMap['ios-close'],
+                    navigatorStyle: centerNavStyle,
+                });
+                break;
+            case 'willDisappear':
+                this.props.navigator.setTabButton({
+                    tabIndex: 2,
+                    icon: require('../../images/navigation/add.png'),
                 });
                 break;
             case "bottomTabReselected":
@@ -40,6 +54,7 @@ export default class ModalButtons extends Component {
                     this.setState({
                         show: false,
                     });
+
                     this.props.navigator.switchToTab({
                         tabIndex: 0
                     });
@@ -158,7 +173,7 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: "rgb(0,0,0)",
         marginTop:50,
-        marginBottom:50
+        marginBottom:55
     },
 
 });
