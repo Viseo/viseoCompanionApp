@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import CalendarTab from './CalendarTab';
 import {bindActionCreators} from 'redux';
-import {fetchEvents, showCurrentDaySection} from '../events.actions';
+import {fetchEvents} from '../events.actions';
 
 let currentDaySectionIndex = 0;
 

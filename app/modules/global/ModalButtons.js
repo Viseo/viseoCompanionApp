@@ -69,7 +69,7 @@ export default class ModalButtons extends Component {
                                 onPress={() => {
                                     this.setState({
                                         show:false
-                                    })
+                                    });
                                     this.props.navigator.push({
                                         screen: 'actions.CreateAction',
                                         title: 'Créer action',
@@ -103,7 +103,7 @@ export default class ModalButtons extends Component {
                                 onPress={() => {
                                     this.setState({
                                         show:false
-                                    })
+                                    });
                                     this.props.navigator.push({
                                         screen: 'actions.CreateAction',
                                         title: 'Creation action',
@@ -137,10 +137,14 @@ export default class ModalButtons extends Component {
                                     borderRadius: 100,
                                 }}
                                 onPress={() => {
-                                    {/*this.setState({show: false});*/}
-                                    {/*this.props.navigator.switchToTab({*/}
-                                        {/*tabIndex: 0*/}
-                                    {/*});*/}
+                                    this.setState({
+                                        show: false,
+                                    });
+                                    this.props.navigator.push({
+                                        screen: 'actions.Actions',
+                                        title: 'Mes actions',
+                                        navigatorStyle: defaultNavBarStyle,
+                                    });
                                 }}
                             >
                                 <Icon

@@ -11,9 +11,13 @@ import Highlighter from 'react-native-highlight-words';
 import colors from '../global/colors';
 import {bindActionCreators} from 'redux';
 import {registerUser, unregisterUser} from './events.actions';
-import * as util from '../../util/util';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Navigation} from 'react-native-navigation';
+
+function getCategoryColor(categoryId) {
+    let eventCategoriesColors = [colors.red, colors.orange, colors.green];
+    return eventCategoriesColors[categoryId];
+}
 
 class EventCard extends Component {
     state = {
@@ -99,7 +103,7 @@ class EventCard extends Component {
 
     renderTypeIndicator() {
         return (
-            <View style={[styles.eventType, {backgroundColor: util.getCategoryColor(this.props.event.category)}]}/>
+            <View style={[styles.eventType, {backgroundColor: getCategoryColor(this.props.event.category)}]}/>
         );
     }
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import Svg from 'react-native-svg/elements/Svg';
 import {Circle, G, Image, Text} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -15,8 +15,8 @@ import AppText from '../global/components/AppText';
 
 export default class CreateAction extends Component {
 
-    dateFormat = "DD/MM/YYYY [à] HH:mm";
-    deviceHeight = Dimensions.get("window").height;
+    dateFormat = 'DD/MM/YYYY [à] HH:mm';
+    deviceHeight = Dimensions.get('window').height;
 
     constructor(props) {
         super(props);
@@ -24,8 +24,8 @@ export default class CreateAction extends Component {
             meanOptions: [],
             showTable: false,
             means: [],
-            description: "",
-            location: "",
+            description: '',
+            location: '',
             formattedDateEnd: moment(new Date()).format(this.dateFormat),
             formattedDateStart: moment(new Date()).format(this.dateFormat),
             idAction: 0,
@@ -44,11 +44,11 @@ export default class CreateAction extends Component {
                 {this._renderHeadband()}
                 {this._renderCreateAction()}
 
-                <View style={{flexDirection: "column"}}>
+                <View style={{flexDirection: 'column'}}>
                     <ScrollView style={{height: 300}}>
                         {this._renderAction()}
                         {this._renderMeanButton()}
-                        { this.state.showTable ?
+                        {this.state.showTable ?
                             this._renderMeans()
                             : null
                         }
@@ -70,11 +70,10 @@ export default class CreateAction extends Component {
 
         switch (this.state.idAction) {
             case 2:
-                return (   <View>
+                return (
+                    <View>
                         {datePickerStart}
                         {datePickerEnd}
-
-
                         {descriptionField}
                         {locationField}
                         {this._renderPractice()}
@@ -84,14 +83,13 @@ export default class CreateAction extends Component {
                         {this._renderValidate()}
                     </View>
                 );
-
                 break;
         }
 
     };
 
     _getOptionListPractice() {
-        return this.refs["OPTIONLISTPractice"];
+        return this.refs['OPTIONLISTPractice'];
     }
 
     _renderValidate() {
@@ -126,9 +124,9 @@ export default class CreateAction extends Component {
                 <View>
                     <AppText style={styles.labels}>Practice/recencée BT </AppText>
                 </View>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Select
-                        style={{backgroundColor: "#00BFB3"}}
+                        style={{backgroundColor: '#00BFB3'}}
                         width={350}
                         height={50}
                         ref="SELECT1"
@@ -136,12 +134,12 @@ export default class CreateAction extends Component {
                         defaultValue="Practice/recencée BT ..."
                         onSelect={(practice) => this._selectPractice(practice)}
                     >
-                        <Option value={{id: "Oui"}}>Oui</Option>
+                        <Option value={{id: 'Oui'}}>Oui</Option>
                         <Option>Non</Option>
                     </Select>
                     <OptionList ref="OPTIONLISTPractice"
                                 overlayStyles={{
-                                    marginTop: 50, marginLeft: 30, backgroundColor: "#fff", width: 350, height: 120,
+                                    marginTop: 50, marginLeft: 30, backgroundColor: '#fff', width: 350, height: 120,
                                 }}
                     />
                 </View>
@@ -150,7 +148,7 @@ export default class CreateAction extends Component {
     }
 
     _getOptionListPublication() {
-        return this.refs["OPTIONLISTPublication"];
+        return this.refs['OPTIONLISTPublication'];
     }
 
     _selectTypePublication(publication) {
@@ -165,9 +163,9 @@ export default class CreateAction extends Component {
         return (
             <View style={styles.containers}>
                 <View><AppText style={styles.labels}>Type de publication:</AppText></View>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Select
-                        style={{backgroundColor: "#00BFB3"}}
+                        style={{backgroundColor: '#00BFB3'}}
                         width={350}
                         height={50}
                         ref="SELECT1"
@@ -175,13 +173,13 @@ export default class CreateAction extends Component {
                         defaultValue="Type de Publication ..."
                         onSelect={(publication) => this._selectTypePublication(publication)}
                     >
-                        <Option value={{id: "Blog"}}>Blog</Option>
+                        <Option value={{id: 'Blog'}}>Blog</Option>
                         <Option>Press écrite</Option>
                         <Option>Internet</Option>
                     </Select>
                     <OptionList ref="OPTIONLISTPublication"
                                 overlayStyles={{
-                                    marginTop: 50, marginLeft: 30, backgroundColor: "#fff", width: 350, height: 120,
+                                    marginTop: 50, marginLeft: 30, backgroundColor: '#fff', width: 350, height: 120,
                                 }}
                     />
                 </View>
@@ -190,7 +188,7 @@ export default class CreateAction extends Component {
     }
 
     _getOptionListReadingTime() {
-        return this.refs["OPTIONLISTTenses"];
+        return this.refs['OPTIONLISTTenses'];
     }
 
     _selectReadingTime(time) {
@@ -205,9 +203,9 @@ export default class CreateAction extends Component {
         return (
             <View style={styles.containers}>
                 <View><AppText style={styles.labels}>temps de Lecture:</AppText></View>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Select
-                        style={{backgroundColor: "#00BFB3"}}
+                        style={{backgroundColor: '#00BFB3'}}
                         width={350}
                         height={50}
                         ref="SELECT1"
@@ -215,13 +213,13 @@ export default class CreateAction extends Component {
                         defaultValue="Temps de Lecture ..."
                         onSelect={(time) => this._selectReadingTime(time)}
                     >
-                        <Option value={{id: "5mn"}}>5mn</Option>
+                        <Option value={{id: '5mn'}}>5mn</Option>
                         <Option>5mn à 10mn</Option>
                         <Option>plus que 10mn</Option>
                     </Select>
                     <OptionList ref="OPTIONLISTTenses"
                                 overlayStyles={{
-                                    marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
+                                    marginTop: 15, marginLeft: 5, backgroundColor: '#fff', width: 400, height: 120,
                                     padding: 0,
                                 }}
                     />
@@ -231,7 +229,7 @@ export default class CreateAction extends Component {
     }
 
     _getOptionListRecurrence() {
-        return this.refs["OPTIONLISTReccurence"];
+        return this.refs['OPTIONLISTReccurence'];
     }
 
     _selectRecurrence(repeated) {
@@ -246,9 +244,9 @@ export default class CreateAction extends Component {
         return (
             <View style={styles.containers}>
                 <View><AppText style={styles.labels}>Recurence:</AppText></View>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Select
-                        style={{backgroundColor: "#00BFB3"}}
+                        style={{backgroundColor: '#00BFB3'}}
                         width={350}
                         height={50}
                         ref="SELECTRECURRENCE"
@@ -256,12 +254,12 @@ export default class CreateAction extends Component {
                         defaultValue="Réccurence ..."
                         onSelect={(repeated) => this._selectRecurrence(repeated)}
                     >
-                        <Option value={{id: "Reccurence hebdo"}}>Reccurence hebdo</Option>
+                        <Option value={{id: 'Reccurence hebdo'}}>Reccurence hebdo</Option>
                         <Option>une fois</Option>
                     </Select>
                     <OptionList ref="OPTIONLISTReccurence"
                                 overlayStyles={{
-                                    marginTop: 50, marginLeft: 30, backgroundColor: "#fff", width: 350, height: 120,
+                                    marginTop: 50, marginLeft: 30, backgroundColor: '#fff', width: 350, height: 120,
 
                                 }}
                     />
@@ -278,7 +276,7 @@ export default class CreateAction extends Component {
                 </View>
                 <AppTextInput
                     style={{
-                        backgroundColor: "#00BFB3", width: 350,
+                        backgroundColor: '#00BFB3', width: 350,
                         height: 50, marginLeft: 30, marginTop: -20,
                     }}
                 />
@@ -289,11 +287,11 @@ export default class CreateAction extends Component {
 
     _getLocationError(location) {
         if (location.length < 2) {
-            return "Le lieu doit contenir au moins deux caractères.";
+            return 'Le lieu doit contenir au moins deux caractères.';
         } else {
             const regexLocation = /^[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s\-']*$/;
             if (!regexLocation.test(location)) {
-                return "Le lieu doit seulement contenir des caractères alphanumériques, tiret ou apostrophe.";
+                return 'Le lieu doit seulement contenir des caractères alphanumériques, tiret ou apostrophe.';
             }
         }
         return null;
@@ -307,7 +305,7 @@ export default class CreateAction extends Component {
                 </View>
                 <AppTextInput
                     style={{
-                        backgroundColor: "#00BFB3", width: 350,
+                        backgroundColor: '#00BFB3', width: 350,
                         height: 50, marginLeft: 30, marginTop: -25, marginBottom: -25,
                     }}
                 />
@@ -383,7 +381,7 @@ export default class CreateAction extends Component {
     _renderMeanButton() {
         const show = this.state.showTable;
         return (
-            <View style={{flexDirection: "row", marginLeft: 30, marginBottom: 10}}>
+            <View style={{flexDirection: 'row', marginLeft: 30, marginBottom: 10}}>
                 <Icon.Button name="angle-down" backgroundColor="#00BFB3"
                              style={{width: 350, height: 50, borderRadius: 0}}
                              onPress={() => {
@@ -392,7 +390,7 @@ export default class CreateAction extends Component {
                                  });
                              }}
                 >
-                    <AppText style={{fontSize: 15, color: "#005852"}}>Acheter un moyen</AppText>
+                    <AppText style={{fontSize: 15, color: '#005852'}}>Acheter un moyen</AppText>
                 </Icon.Button>
             </View>
         );
@@ -402,16 +400,16 @@ export default class CreateAction extends Component {
 
         return (
             <View style={{
-                flexDirection: "column",
-                backgroundColor: "rgb(221, 239, 239)",
+                flexDirection: 'column',
+                backgroundColor: 'rgb(221, 239, 239)',
                 width: 350,
                 marginLeft: 30,
                 marginRight: 20,
             }}>
-                <View style={{flexDirection: "row", justifyContent: "space-between", height: 50, width: 200}}>
-                    <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: "bold"}}>Moyen</AppText>
-                    <AppText style={{paddingRight: 80, paddingLeft: 70, fontWeight: "bold"}}>Prix</AppText>
-                    <AppText style={{fontWeight: "bold"}}>Quantité</AppText>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', height: 50, width: 200}}>
+                    <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: 'bold'}}>Moyen</AppText>
+                    <AppText style={{paddingRight: 80, paddingLeft: 70, fontWeight: 'bold'}}>Prix</AppText>
+                    <AppText style={{fontWeight: 'bold'}}>Quantité</AppText>
                 </View>
                 {
                     this.state.meanOptions.map((mean, i) =>
@@ -442,7 +440,7 @@ export default class CreateAction extends Component {
     _renderHeadband() {
         return (
             <Svg width="550" height="150">
-                <Image width="550" height="150" href={require("../../images/NIVEAUX_BANDEAU_1.jpg")}/>
+                <Image width="550" height="150" href={require('../../images/NIVEAUX_BANDEAU_1.jpg')}/>
             </Svg>
         );
     }
@@ -492,7 +490,7 @@ const spaceBetweenFields = 20;
 const styles = StyleSheet.create({
     createAction: {
         backgroundColor: colors.white,
-        alignContent: "center",
+        alignContent: 'center',
         marginTop: -30,
         marginRight: 20,
         marginLeft: 20,
@@ -500,30 +498,30 @@ const styles = StyleSheet.create({
 
     },
     containers: {
-        flexDirection: "column",
+        flexDirection: 'column',
         marginBottom: spaceBetweenFields,
     },
     labels: {
         paddingLeft: 30,
-        color: "dimgrey",
+        color: 'dimgrey',
         marginBottom: 0,
         height: 20,
     },
     mainContainer: {
         paddingTop: 0,
-        backgroundColor: "white",
+        backgroundColor: 'white',
     },
     datePicker: {
-        justifyContent: "flex-start",
+        justifyContent: 'flex-start',
     },
 
     componentContainer: {
         flex: 1,
-        flexDirection: "column",
+        flexDirection: 'column',
     },
     calander: {
         width: 350,
-        backgroundColor: "#00BFB3",
+        backgroundColor: '#00BFB3',
         marginLeft: 30,
         padding: 0,
     },
