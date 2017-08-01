@@ -1,16 +1,17 @@
-import React, {Component} from "react";
-import  {View} from "react-native";
-import   {Select, Option, OptionList} from "react-native-selectme";
-import * as db from "../global/db";
-import PropTypes from "prop-types";
-import colors from "../global/colors";
-import AppTextInput from "../global/components/AppTextInput";
-import AppText from "../global/components/AppText";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import {Option, OptionList, Select} from 'react-native-selectme';
+import * as db from '../global/db';
+import PropTypes from 'prop-types';
+import colors from '../global/colors';
+
 class Action extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            action: "",
+            action: {
+                items: [],
+            },
             options: [],
         };
 

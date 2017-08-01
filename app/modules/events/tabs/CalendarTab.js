@@ -1,9 +1,10 @@
-import {SectionList, StyleSheet, View,RefreshControl} from 'react-native';
+import {RefreshControl, SectionList, StyleSheet, View} from 'react-native';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppText from '../../global/components/AppText';
 import EventCard from '../EventCard';
 import colors from '../../global/colors';
+import ActionCard from '../../actions/ActionCard';
 
 export default class CalendarTab extends Component {
 
@@ -35,6 +36,26 @@ export default class CalendarTab extends Component {
         });
     }
 
+    _renderSectionHeader = (section) => {
+        const today = <AppText style={styles.headerToday}>{section.title}</AppText>;
+        const year = <AppText style={styles.headerYear}>{section.title}</AppText>;
+        const month = (
+            <AppText style={styles.headerMonth}>
+                {section.title.substring(0, 1).toUpperCase()}
+                {section.title.substring(1, section.title.length)}
+            </AppText>
+        );
+        switch (section.type) {
+            case 'today':
+                return today;
+            case 'month':
+                return month;
+            case 'year':
+                return year;
+            default :
+                return null;
+        }
+    };
 
     render() {
         const ITEM_HEIGHT = 100;
@@ -66,32 +87,21 @@ export default class CalendarTab extends Component {
                 ListEmptyComponent={this._renderEmptyEventList()}
             />
         );
-        return <View style={styles.mainContainer}>{eventList}</View>;
+        const actionList = (
+            <ActionCard
+                navigator={this.props.navigator}
+            />
+        );
+        return (<View style={styles.mainContainer}>
+            {actionList}
+            {eventList}
+        </View>);
     }
 
     scrollToCurrentDaySection() {
-      //  console.warn('scroll to current day section');
+        //  console.warn('scroll to current day section');
         this.sectionList.scrollToLocation({sectionIndex: this.props.currentDaySectionIndex, itemIndex: 0});
     }
-
-    _renderSectionHeader = (section) => {
-        const today = <AppText style={styles.headerToday}>{section.title}</AppText>;
-        const year = <AppText style={styles.headerYear}>{section.title}</AppText>;
-        const month = (
-            <AppText
-                style={styles.headerMonth}>{section.title.substring(0, 1).toUpperCase()}{section.title.substring(1, section.title.length)}</AppText>
-        );
-        switch (section.type) {
-            case 'today':
-                return today;
-            case 'month':
-                return month;
-            case 'year':
-                return year;
-            default :
-                return null;
-        }
-    };
 };
 
 CalendarTab.defaultProps = {

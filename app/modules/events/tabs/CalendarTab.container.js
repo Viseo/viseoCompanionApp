@@ -25,6 +25,14 @@ function sortByYearAndMonth(events) {
     return result;
 }
 
+function getEventsByCurrentDay(events) {
+    const today = moment().format('DD/MM/YYYY');
+    return events.filter(event => {
+        const {datetime} = event;
+        return moment(datetime).format('DD/MM/YYYY') === today;
+    });
+}
+
 function convertIntoSections(events, eventsByDay) {
     let sections = [];
 
@@ -48,7 +56,7 @@ function convertIntoSections(events, eventsByDay) {
                 && currentYear === year) {
                 sections.push({
                     data: eventsByDay,
-                    title: "Aujourd'hui",
+                    title: 'Aujourd\'hui',
                     type: 'today',
                 });
                 currentDaySectionIndex = sections.length - 1;
@@ -59,12 +67,12 @@ function convertIntoSections(events, eventsByDay) {
     return sections;
 }
 
-function getEventsByCurrentDay(events) {
-    const today = moment().format('DD/MM/YYYY');
-    return events.filter(event => {
-        const {datetime} = event;
-        return moment(datetime).format('DD/MM/YYYY') === today;
+function getAllActions(actions) {
+    let results = [];
+    Object.keys({actions}).forEach(action => {
+        results.push(action);
     });
+    return results;
 }
 
 function breakDownIntoSections(events) {
@@ -74,11 +82,12 @@ function breakDownIntoSections(events) {
     return sections;
 }
 
-const mapStateToProps = ({events}, ownProps) => ({
+const mapStateToProps = ({events}, actions, ownProps) => ({
     events: breakDownIntoSections(events.items),
     selectedEvent: events.selectedItem,
     currentDaySectionIndex,
     scrollToCurrentDaySection: events.showCurrentDaySection,
+    actions: getAllActions(actions.items),
     ...ownProps,
 });
 

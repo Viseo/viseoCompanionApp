@@ -59,7 +59,7 @@ class ActionCard extends Component {
                                 </View>
                                 <View>
                                     <AppText style={{color: colors.mediumGray, fontSize: 13, marginTop: 2,}}>
-                                        {'prenom'} {'nom'}
+                                        {this.props.user.firstName} {this.props.user.lastName}
                                     </AppText>
                                 </View>
                             </View>
@@ -115,8 +115,8 @@ class ActionCard extends Component {
 
 ActionCard.propTypes = {};
 
-const mapStateToProps = ({events, user, searchWords}, ownProps) => ({
-    event: events.items.find(event => parseInt(event.id) === ownProps.eventId),
+const mapStateToProps = ({actions, user, searchWords}, ownProps) => ({
+    actions,
     searchWords,
     user,
     ...ownProps,
