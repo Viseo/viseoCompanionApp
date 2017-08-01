@@ -3,7 +3,9 @@ import  {View} from "react-native";
 import   {Select, Option, OptionList} from "react-native-selectme";
 import * as db from "../global/db";
 import PropTypes from "prop-types";
-
+import colors from "../global/colors";
+import AppTextInput from "../global/components/AppTextInput";
+import AppText from "../global/components/AppText";
 class Action extends Component {
     constructor(props) {
         super(props);
@@ -31,9 +33,13 @@ class Action extends Component {
 
     render() {
         const {options} = this.state;
-        const {onSelect}=this.props;
+        const {onSelect} = this.props;
         let actions = options.map(function (option, i) {
-            return ( <Option value={{id: option.id}} key={i}>{option.name}</Option>);
+            return (<Option value={{id: option.id}} key={i} style={{
+                backgroundColor: "transparent",
+                borderWidth:1,
+                borderColor: colors.mediumGray,
+            }}>{option.name}</Option>);
         });
         return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 0}}>
@@ -53,8 +59,14 @@ class Action extends Component {
                 </Select>
                 <OptionList ref="OPTIONLIST"
                             overlayStyles={{
-                                marginTop: 15, marginLeft: 5, backgroundColor: "#fff", width: 400, height: 120,
+                                backgroundColor: "transparent",
+                                width: 400,
+                                height: 120,
                                 padding: 0,
+                                left: 5,
+                                top: 40,
+                                bottom: 0,
+                                zIndex: 100,
                             }}
                 />
             </View>
