@@ -67,27 +67,21 @@ function convertIntoSections(events, eventsByDay) {
     return sections;
 }
 
-function getAllActions(actions) {
-    let results = [];
-    Object.keys({actions}).forEach(action => {
-        results.push(action);
-    });
-    return results;
-}
+function breakDownIntoSections(events, actions) {
 
-function breakDownIntoSections(events) {
-    const sortedEvents = sortByYearAndMonth(events);
-    const eventsByDay = getEventsByCurrentDay(events);
+    const allEvents = actions.concat(events);
+
+    const sortedEvents = sortByYearAndMonth(allEvents);
+    const eventsByDay = getEventsByCurrentDay(allEvents);
     const sections = convertIntoSections(sortedEvents, eventsByDay);
     return sections;
 }
 
-const mapStateToProps = ({events}, actions, ownProps) => ({
-    events: breakDownIntoSections(events.items),
+const mapStateToProps = ({events, actions}, ownProps) => ({
+    events: breakDownIntoSections(events.items, actions.items),
     selectedEvent: events.selectedItem,
     currentDaySectionIndex,
     scrollToCurrentDaySection: events.showCurrentDaySection,
-    actions: getAllActions(actions.items),
     ...ownProps,
 });
 
@@ -103,4 +97,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(CalendarTab);
-

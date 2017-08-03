@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import AppText from '../../global/components/AppText';
 import EventCard from '../EventCard';
 import colors from '../../global/colors';
-import ActionCard from '../../actions/ActionCard';
 
 export default class CalendarTab extends Component {
 
@@ -25,6 +24,14 @@ export default class CalendarTab extends Component {
         return (
             <View style={styles.emptyEventList}>
                 <AppText>Aucun évènement.</AppText>
+            </View>
+        );
+    }
+
+    _renderEmptyActionList() {
+        return (
+            <View style={styles.emptyEventList}>
+                <AppText>Aucune action.</AppText>
             </View>
         );
     }
@@ -70,14 +77,15 @@ export default class CalendarTab extends Component {
                         onRefresh={this._onRefresh.bind(this)}
                     />
                 }
-
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
-                    <EventCard
-                        navigator={this.props.navigator}
-                        eventId={item.id}
-                        showImage={!!item.imageUrl}
-                    />
+                    <View>
+                        <EventCard
+                            navigator={this.props.navigator}
+                            eventId={item.id}
+                            showImage={!!item.imageUrl}
+                        />
+                    </View>
                 }
                 renderSectionHeader={({section}) => this._renderSectionHeader(section)}
                 sections={this.props.events}
@@ -87,15 +95,11 @@ export default class CalendarTab extends Component {
                 ListEmptyComponent={this._renderEmptyEventList()}
             />
         );
-        const actionList = (
-            <ActionCard
-                navigator={this.props.navigator}
-            />
+        return (
+            <View style={styles.mainContainer}>
+                {eventList}
+            </View>
         );
-        return (<View style={styles.mainContainer}>
-            {actionList}
-            {eventList}
-        </View>);
     }
 
     scrollToCurrentDaySection() {
@@ -110,7 +114,9 @@ CalendarTab.defaultProps = {
 
 CalendarTab.propTypes = {
     events: PropTypes.array.isRequired,
+    //actions: PropTypes.array.isRequired,
     eventId: PropTypes.number,
+    //actionId: PropTypes.number,
     scrollToCurrentDaySection: PropTypes.bool,
     currentDaySectionIndex: PropTypes.number.isRequired,
 };
@@ -148,5 +154,4 @@ styles = StyleSheet.create({
         fontWeight: 'bold',
         paddingLeft: 10,
     },
-
 });

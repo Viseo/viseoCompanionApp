@@ -6,8 +6,8 @@ export const fetchActions = () => {
     return async (dispatch) => {
         dispatch(requestActions());
         try {
-            let actions = await db.actions.getAll();
-            dispatch(receiveActions(actions));
+            let actions = await db.actions.getActivities();
+            dispatch(addActions(actions));
         } catch (error) {
             console.warn('actions.actions::fetchActions ' + error);
             dispatch({
@@ -23,9 +23,9 @@ const requestActions = () => ({
     type: REQUEST_ACTIONS,
 });
 
-export const RECEIVE_ACTIONS = 'RECEIVE_ACTIONS';
-const receiveActions = (events) => ({
-    type: RECEIVE_ACTIONS,
+export const ADD_ACTIONS = 'ADD_ACTIONS';
+const addActions = (actions) => ({
+    type: ADD_ACTIONS,
     actions,
     receivedAt: Date.now(),
 });

@@ -3,6 +3,7 @@ import {Platform, View} from 'react-native';
 import colors from '../global/colors';
 import Highlighter from 'react-native-highlight-words';
 import {bindActionCreators} from 'redux';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import AppText from '../global/components/AppText';
 import moment from 'moment';
@@ -37,7 +38,7 @@ class ActionCard extends Component {
                                         fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
                                     }}
                                     searchWords={this.props.searchWords}
-                                    textToHighlight={'Titre de l\'event' || ''}
+                                    textToHighlight={this.props.action.title || ''}
                                 />
                             </View>
                         </View>
@@ -54,7 +55,7 @@ class ActionCard extends Component {
                                             fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
                                         }}
                                         searchWords={this.props.searchWords}
-                                        textToHighlight={'lieu' || ''}
+                                        textToHighlight={this.props.action.address || ''}
                                     />
                                 </View>
                                 <View>
@@ -113,10 +114,14 @@ class ActionCard extends Component {
 
 }
 
-ActionCard.propTypes = {};
+ActionCard.propTypes = {
+    actionId: PropTypes.number.isRequired,
+    action: PropTypes.object.isRequired,
+    navigator: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = ({actions, user, searchWords}, ownProps) => ({
-    actions,
+    action: actions.items.find(action => parseInt(action.id) === ownProps.actionId),
     searchWords,
     user,
     ...ownProps,

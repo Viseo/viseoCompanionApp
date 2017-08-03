@@ -65,13 +65,13 @@ class EventCard extends Component {
             showImage = false;
         }
         let image = showImage ? (
-            <View style={styles.imageEvent}>
-                <Image
-                    source={{uri: imageUrl}}
-                    style={styles.image}
-                >
-                </Image>
-            </View>) :
+                <View style={styles.imageEvent}>
+                    <Image
+                        source={{uri: imageUrl}}
+                        style={styles.image}
+                    >
+                    </Image>
+                </View>) :
             null;
         const liveIndicator = this._isLive() ? this.renderLiveIndicator() : this.renderDate();
 
@@ -159,7 +159,7 @@ class EventCard extends Component {
 
     renderTitle() {
         return (
-            <View >
+            <View>
                 <Highlighter
                     numberOfLines={1}
                     highlightStyle={styles.highlightStyle}
@@ -304,8 +304,8 @@ class EventCard extends Component {
         if (event) {
 
             return event.participants.findIndex(participant =>
-                    parseInt(participant.id) === parseInt(this.props.user.id),
-                ) !== -1;
+                parseInt(participant.id) === parseInt(this.props.user.id),
+            ) !== -1;
         }
 
     }
@@ -313,7 +313,7 @@ class EventCard extends Component {
 
 EventCard.propTypes = {
     eventId: PropTypes.number.isRequired,
-    event: PropTypes.object.isRequired,
+    event: PropTypes.object,//.isRequired,
     registerUser: PropTypes.func.isRequired,
     unregisterUser: PropTypes.func.isRequired,
     navigator: PropTypes.object.isRequired,

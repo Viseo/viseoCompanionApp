@@ -77,6 +77,9 @@ const restRoutes = {
     getAllActions: () => {
         return serverURL + 'actions';
     },
+    getAllActivities: () => {
+        return serverURL + 'activities';
+    },
     getAllMeans: () => {
         return serverURL + 'means';
     },
