@@ -173,11 +173,12 @@ export default class EventForm extends Component {
 
     _renderLocationField() {
         return (
+
             <GooglePlacesAutocomplete
-                placeholder='Search'
+                placeholder='Location'
                 minLength={2} // minimum length of text to search
                 autoFocus={false}
-                returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                returnKeyType={'location'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
                 listViewDisplayed='auto'    // true/false/undefined
                 fetchDetails={true}
                 renderDescription={(row) => row.description} // custom description render
@@ -191,20 +192,40 @@ export default class EventForm extends Component {
                 query={{
                     // available options: https://developers.google.com/places/web-service/autocomplete
                     key: 'AIzaSyAh7zH3Wh2O7DFysEETBw0mh7xbkxf6X18',
-                    language: 'en', // language of the results
-                    types: '(cities)', // default: 'geocode'
+                    language: 'fr', // language of the results
+                    types: 'geocode',
+                    //types: '(cities)', // default: 'geocode'
                 }}
+
+
                 styles={{
-                    description: {
+                    textInputContainer: {
+                        backgroundColor: 'rgba(0,0,0,0)',
+                        borderTopWidth: 0,
+                        borderBottomWidth:0,
+                    },
+                    textInput: {
+                        marginLeft: 0,
+                        marginRight: 0,
+                        height: 38,
+                        color: '#5d5d5d',
+                        fontSize: 16,
+
+                    },
+                    predefinedPlacesDescription: {
+                        color: '#1faadb'
+                    },
+
+                    /*description: {
                         fontWeight: 'bold',
                     },
                     predefinedPlacesDescription: {
                         color: '#1faadb',
-                    },
+                    },*/
                 }}
 
                 currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-                currentLocationLabel="Current location"
+                currentLocationLabel="VISEO Technologies"
                 nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
                 GoogleReverseGeocodingQuery={{
                     // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
@@ -221,7 +242,7 @@ export default class EventForm extends Component {
                 debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
 
                  />
-                   /* <AppTextInput
+                   /*<AppTextInput
                      ref="location"
                      label="Lieu"
                      validator={(location) => !this._getLocationError(location)}
@@ -345,4 +366,5 @@ const styles = StyleSheet.create({
     pageStyle: {
         paddingHorizontal: 15,
     },
+
 });
