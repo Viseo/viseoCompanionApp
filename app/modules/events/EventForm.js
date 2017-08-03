@@ -5,7 +5,9 @@ import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import ImagePicker from '../global/components/ImagePicker';
 import PropTypes from 'prop-types';
-import {Dimensions, Picker, ScrollView, StyleSheet, View} from 'react-native';
+import {Dimensions, Picker, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+const Permissions = require('react-native-permissions');
 
 export default class EventForm extends Component {
 
@@ -29,7 +31,27 @@ export default class EventForm extends Component {
         this._setDefaultValues();
     }
 
+    //check the status of a single permission
+    componentDidMount() {
+        Permissions.check('location', 'always')
+            .then(response => {
+                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+                this.setState({ locationPermission: response })
+            });
+    }
+
+    //request permission to access location
+    _requestPermission() {
+        Permissions.request('location', 'always')
+            .then(response => {
+                //returns once the user has chosen to 'allow' or to 'not allow' access
+                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+                this.setState({ locationPermission: response })
+            });
+    }
+
     render() {
+
         const nameField = this._renderNameField();
         const descriptionField = this._renderDescriptionField();
         const locationField = this._renderLocationField();
@@ -151,21 +173,69 @@ export default class EventForm extends Component {
 
     _renderLocationField() {
         return (
-            <AppTextInput
-                ref="location"
-                label="Lieu"
-                validator={(location) => !this._getLocationError(location)}
-                invalidTextMessage={this.state.locationError}
-                value={this.state.location}
-                onChangeText={location => {
-                    const locationError = this._getLocationError(location);
-                    this.setState({
-                        location,
-                        locationError,
-                    });
-                    this.props.setLocation(locationError ? null : location);
+            <GooglePlacesAutocomplete
+                placeholder='Search'
+                minLength={2} // minimum length of text to search
+                autoFocus={false}
+                returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                listViewDisplayed='auto'    // true/false/undefined
+                fetchDetails={true}
+                renderDescription={(row) => row.description} // custom description render
+                onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                    console.log(data);
+                    console.log(details);
                 }}
-            />
+                getDefaultValue={() => {
+                    return ''; // text input default value
+                }}
+                query={{
+                    // available options: https://developers.google.com/places/web-service/autocomplete
+                    key: 'AIzaSyAh7zH3Wh2O7DFysEETBw0mh7xbkxf6X18',
+                    language: 'en', // language of the results
+                    types: '(cities)', // default: 'geocode'
+                }}
+                styles={{
+                    description: {
+                        fontWeight: 'bold',
+                    },
+                    predefinedPlacesDescription: {
+                        color: '#1faadb',
+                    },
+                }}
+
+                currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+                currentLocationLabel="Current location"
+                nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                GoogleReverseGeocodingQuery={{
+                    // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                }}
+                GooglePlacesSearchQuery={{
+                    // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                    rankby: 'distance',
+                    types: 'food',
+                }}
+
+
+                filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+                debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+
+                 />
+                   /* <AppTextInput
+                     ref="location"
+                     label="Lieu"
+                     validator={(location) => !this._getLocationError(location)}
+                     invalidTextMessage={this.state.locationError}
+                     value={this.state.location}
+                     onChangeText={location => {
+                     const locationError = this._getLocationError(location);
+                     this.setState({
+                     location,
+                     locationError,
+                     });
+                     this.props.setLocation(locationError ? null : location);
+                     }}
+                     />*/
         );
     }
 
