@@ -7,6 +7,7 @@ import ImagePicker from '../global/components/ImagePicker';
 import PropTypes from 'prop-types';
 import {Dimensions, Picker, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import colors from '../global/colors';
 const Permissions = require('react-native-permissions');
 
 export default class EventForm extends Component {
@@ -29,6 +30,7 @@ export default class EventForm extends Component {
 
     componentWillMount() {
         this._setDefaultValues();
+        console.disableYellowBox = true;
     }
 
     //check the status of a single permission
@@ -178,26 +180,19 @@ export default class EventForm extends Component {
                 placeholder='Location'
                 minLength={2} // minimum length of text to search
                 autoFocus={false}
-                returnKeyType={'location'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                returnKeyType={'location'}
                 listViewDisplayed='auto'    // true/false/undefined
                 fetchDetails={true}
                 renderDescription={(row) => row.description} // custom description render
-                onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                    console.log(data);
-                    console.log(details);
-                }}
+                onPress={(text)=> this.setState({location: text.description})}
                 getDefaultValue={() => {
-                    return ''; // text input default value
+                    return '';
                 }}
                 query={{
-                    // available options: https://developers.google.com/places/web-service/autocomplete
                     key: 'AIzaSyAh7zH3Wh2O7DFysEETBw0mh7xbkxf6X18',
-                    language: 'fr', // language of the results
-                    types: 'geocode',
-                    //types: '(cities)', // default: 'geocode'
+                    language: 'fr',
+                    types: 'establishment',
                 }}
-
-
                 styles={{
                     textInputContainer: {
                         backgroundColor: 'rgba(0,0,0,0)',
@@ -210,53 +205,18 @@ export default class EventForm extends Component {
                         height: 38,
                         color: '#5d5d5d',
                         fontSize: 16,
+                        borderBottomWidth: 1,
+                        borderBottomColor: colors.lightGray
 
                     },
                     predefinedPlacesDescription: {
                         color: '#1faadb'
                     },
 
-                    /*description: {
-                        fontWeight: 'bold',
-                    },
-                    predefinedPlacesDescription: {
-                        color: '#1faadb',
-                    },*/
                 }}
-
-                currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-                currentLocationLabel="VISEO Technologies"
-                nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                GoogleReverseGeocodingQuery={{
-                    // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-                }}
-                GooglePlacesSearchQuery={{
-                    // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                    rankby: 'distance',
-                    types: 'food',
-                }}
-
-
-                filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-
-                debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-
+                currentLocation={false}
+                debounce={200}
                  />
-                   /*<AppTextInput
-                     ref="location"
-                     label="Lieu"
-                     validator={(location) => !this._getLocationError(location)}
-                     invalidTextMessage={this.state.locationError}
-                     value={this.state.location}
-                     onChangeText={location => {
-                     const locationError = this._getLocationError(location);
-                     this.setState({
-                     location,
-                     locationError,
-                     });
-                     this.props.setLocation(locationError ? null : location);
-                     }}
-                     />*/
         );
     }
 
