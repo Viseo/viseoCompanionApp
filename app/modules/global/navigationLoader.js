@@ -1,5 +1,6 @@
 import {Navigation} from 'react-native-navigation';
-import {defaultNavBarStyle, tabBarStyle} from './navigatorStyle';
+import {centerNavStyle, defaultNavBarStyle, tabBarStyle} from "./navigatorStyle";
+import {iconsMap, iconsLoaded} from './appIcons';
 
 export const startAppLoader = () => {
     Navigation.startSingleScreenApp({
@@ -32,8 +33,8 @@ export const startApp = () => {
             {
                 screen: 'global.modalButtons',
                 title: '',
-                icon: require('../../images/navigation/add.png'),
-                navigatorStyle: defaultNavBarStyle,
+                icon: iconsMap['ios-add'],
+                navigatorStyle: centerNavStyle,
                 passProps:{show:true}
 
             },

@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import CalendarTab from './CalendarTab';
 import {bindActionCreators} from 'redux';
-import {fetchEvents, showCurrentDaySection} from '../events.actions';
+import {fetchEvents} from '../events.actions';
 
 let currentDaySectionIndex = 0;
 
@@ -23,6 +23,14 @@ function sortByYearAndMonth(events) {
             result[year][month].push(event);
     });
     return result;
+}
+
+function getEventsByCurrentDay(events) {
+    const today = moment().format('DD/MM/YYYY');
+    return events.filter(event => {
+        const {datetime} = event;
+        return moment(datetime).format('DD/MM/YYYY') === today;
+    });
 }
 
 function convertIntoSections(events, eventsByDay) {
@@ -48,7 +56,7 @@ function convertIntoSections(events, eventsByDay) {
                 && currentYear === year) {
                 sections.push({
                     data: eventsByDay,
-                    title: "Aujourd'hui",
+                    title: 'Aujourd\'hui',
                     type: 'today',
                 });
                 currentDaySectionIndex = sections.length - 1;
@@ -59,23 +67,18 @@ function convertIntoSections(events, eventsByDay) {
     return sections;
 }
 
-function getEventsByCurrentDay(events) {
-    const today = moment().format('DD/MM/YYYY');
-    return events.filter(event => {
-        const {datetime} = event;
-        return moment(datetime).format('DD/MM/YYYY') === today;
-    });
-}
+function breakDownIntoSections(events, actions) {
+//TODO : trouver une solution sur comment injecter l'élément dans le tableau
+    const allEvents = actions.concat(events);
 
-function breakDownIntoSections(events) {
-    const sortedEvents = sortByYearAndMonth(events);
-    const eventsByDay = getEventsByCurrentDay(events);
+    const sortedEvents = sortByYearAndMonth(allEvents);
+    const eventsByDay = getEventsByCurrentDay(allEvents);
     const sections = convertIntoSections(sortedEvents, eventsByDay);
     return sections;
 }
 
-const mapStateToProps = ({events}, ownProps) => ({
-    events: breakDownIntoSections(events.items),
+const mapStateToProps = ({events, actions}, ownProps) => ({
+    events: breakDownIntoSections(events.items, actions.items),
     selectedEvent: events.selectedItem,
     currentDaySectionIndex,
     scrollToCurrentDaySection: events.showCurrentDaySection,
@@ -94,4 +97,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(CalendarTab);
-

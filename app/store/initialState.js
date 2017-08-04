@@ -16,7 +16,7 @@ export default {
         isFetching: false,
         items: [],
         itemsExpired: [],
-        itemsReviewed:[],
+        itemsReviewed: [],
         selectedItem: null,
         showCurrentDaySection: false,
     },
@@ -34,7 +34,10 @@ export default {
         isFetching: false,
         otherProfile: '',
     },
-    review:{
-        isReviewPopupDismissed : false
+    review: {
+        isReviewPopupDismissed: false,
+    },
+    actions: {
+        items: [],
     },
 };

@@ -1,5 +1,5 @@
-import settings from "./settings";
-import {showUnreachableServerPopup} from "./navigationUtil";
+import settings from './settings';
+import {showUnreachableServerPopup} from './navigationUtil';
 
 const serverTimeout = 2000;
 
@@ -428,7 +428,16 @@ export const actions = {
             let response = await fetch(settings.api.getAllMeans());
             return await response.json();
         } catch (error) {
-            console.log("db::means.getAllMeans " + error);
+            console.log('db::actions.getAllMeans ' + error);
+            return [];
+        }
+    },
+    getActivities: async () => {
+        try {
+            let response = await fetch(settings.api.getAllActivities());
+            return await response.json();
+        } catch (error) {
+            console.log('db::actions.getAllActivities ' + error);
             return [];
         }
     },

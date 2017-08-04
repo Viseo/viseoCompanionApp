@@ -74,17 +74,19 @@ const restRoutes = {
     getRatingAverage: eventId => {
         return serverURL + '/events/' + eventId + '/rating';
     },
-    getAllActions:() =>{
-        return serverURL +  'actions';
+    getAllActions: () => {
+        return serverURL + 'actions';
     },
-    getAllMeans:() =>{
-        return serverURL +  'means';
+    getAllActivities: () => {
+        return serverURL + 'activities';
+    },
+    getAllMeans: () => {
+        return serverURL + 'means';
     },
     addActivity:() =>{
         return serverURL +  'activities';
     },
 };
-
 
 /////////// EXPORTED SETTINGS ////////////////
 export default {

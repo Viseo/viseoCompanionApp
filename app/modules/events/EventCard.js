@@ -11,9 +11,13 @@ import Highlighter from 'react-native-highlight-words';
 import colors from '../global/colors';
 import {bindActionCreators} from 'redux';
 import {registerUser, unregisterUser} from './events.actions';
-import * as util from '../../util/util';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Navigation} from 'react-native-navigation';
+
+function getCategoryColor(categoryId) {
+    let eventCategoriesColors = [colors.red, colors.orange, colors.green];
+    return eventCategoriesColors[categoryId];
+}
 
 class EventCard extends Component {
     state = {
@@ -61,13 +65,13 @@ class EventCard extends Component {
             showImage = false;
         }
         let image = showImage ? (
-            <View style={styles.imageEvent}>
-                <Image
-                    source={{uri: imageUrl}}
-                    style={styles.image}
-                >
-                </Image>
-            </View>) :
+                <View style={styles.imageEvent}>
+                    <Image
+                        source={{uri: imageUrl}}
+                        style={styles.image}
+                    >
+                    </Image>
+                </View>) :
             null;
         const liveIndicator = this._isLive() ? this.renderLiveIndicator() : this.renderDate();
 
@@ -99,7 +103,7 @@ class EventCard extends Component {
 
     renderTypeIndicator() {
         return (
-            <View style={[styles.eventType, {backgroundColor: util.getCategoryColor(this.props.event.category)}]}/>
+            <View style={[styles.eventType, {backgroundColor: getCategoryColor(this.props.event.category)}]}/>
         );
     }
 
@@ -155,7 +159,7 @@ class EventCard extends Component {
 
     renderTitle() {
         return (
-            <View >
+            <View>
                 <Highlighter
                     numberOfLines={1}
                     highlightStyle={styles.highlightStyle}
@@ -300,8 +304,8 @@ class EventCard extends Component {
         if (event) {
 
             return event.participants.findIndex(participant =>
-                    parseInt(participant.id) === parseInt(this.props.user.id),
-                ) !== -1;
+                parseInt(participant.id) === parseInt(this.props.user.id),
+            ) !== -1;
         }
 
     }
@@ -309,7 +313,7 @@ class EventCard extends Component {
 
 EventCard.propTypes = {
     eventId: PropTypes.number.isRequired,
-    event: PropTypes.object.isRequired,
+    event: PropTypes.object,//.isRequired,
     registerUser: PropTypes.func.isRequired,
     unregisterUser: PropTypes.func.isRequired,
     navigator: PropTypes.object.isRequired,

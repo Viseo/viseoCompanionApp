@@ -1,4 +1,4 @@
-import {SectionList, StyleSheet, View,RefreshControl} from 'react-native';
+import {RefreshControl, SectionList, StyleSheet, View} from 'react-native';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppText from '../../global/components/AppText';
@@ -28,6 +28,14 @@ export default class CalendarTab extends Component {
         );
     }
 
+    _renderEmptyActionList() {
+        return (
+            <View style={styles.emptyEventList}>
+                <AppText>Aucune action.</AppText>
+            </View>
+        );
+    }
+
     _onRefresh() {
         this.setState({refreshing: true});
         this.props.refresh().then(() => {
@@ -35,6 +43,26 @@ export default class CalendarTab extends Component {
         });
     }
 
+    _renderSectionHeader = (section) => {
+        const today = <AppText style={styles.headerToday}>{section.title}</AppText>;
+        const year = <AppText style={styles.headerYear}>{section.title}</AppText>;
+        const month = (
+            <AppText style={styles.headerMonth}>
+                {section.title.substring(0, 1).toUpperCase()}
+                {section.title.substring(1, section.title.length)}
+            </AppText>
+        );
+        switch (section.type) {
+            case 'today':
+                return today;
+            case 'month':
+                return month;
+            case 'year':
+                return year;
+            default :
+                return null;
+        }
+    };
 
     render() {
         const ITEM_HEIGHT = 100;
@@ -49,14 +77,15 @@ export default class CalendarTab extends Component {
                         onRefresh={this._onRefresh.bind(this)}
                     />
                 }
-
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
-                    <EventCard
-                        navigator={this.props.navigator}
-                        eventId={item.id}
-                        showImage={!!item.imageUrl}
-                    />
+                    <View>
+                        <EventCard
+                            navigator={this.props.navigator}
+                            eventId={item.id}
+                            showImage={!!item.imageUrl}
+                        />
+                    </View>
                 }
                 renderSectionHeader={({section}) => this._renderSectionHeader(section)}
                 sections={this.props.events}
@@ -66,32 +95,17 @@ export default class CalendarTab extends Component {
                 ListEmptyComponent={this._renderEmptyEventList()}
             />
         );
-        return <View style={styles.mainContainer}>{eventList}</View>;
+        return (
+            <View style={styles.mainContainer}>
+                {eventList}
+            </View>
+        );
     }
 
     scrollToCurrentDaySection() {
-      //  console.warn('scroll to current day section');
+        //  console.warn('scroll to current day section');
         this.sectionList.scrollToLocation({sectionIndex: this.props.currentDaySectionIndex, itemIndex: 0});
     }
-
-    _renderSectionHeader = (section) => {
-        const today = <AppText style={styles.headerToday}>{section.title}</AppText>;
-        const year = <AppText style={styles.headerYear}>{section.title}</AppText>;
-        const month = (
-            <AppText
-                style={styles.headerMonth}>{section.title.substring(0, 1).toUpperCase()}{section.title.substring(1, section.title.length)}</AppText>
-        );
-        switch (section.type) {
-            case 'today':
-                return today;
-            case 'month':
-                return month;
-            case 'year':
-                return year;
-            default :
-                return null;
-        }
-    };
 };
 
 CalendarTab.defaultProps = {
@@ -100,7 +114,9 @@ CalendarTab.defaultProps = {
 
 CalendarTab.propTypes = {
     events: PropTypes.array.isRequired,
+    //actions: PropTypes.array.isRequired,
     eventId: PropTypes.number,
+    //actionId: PropTypes.number,
     scrollToCurrentDaySection: PropTypes.bool,
     currentDaySectionIndex: PropTypes.number.isRequired,
 };
@@ -138,5 +154,4 @@ styles = StyleSheet.create({
         fontWeight: 'bold',
         paddingLeft: 10,
     },
-
 });

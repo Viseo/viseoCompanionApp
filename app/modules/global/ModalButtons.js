@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
-import {Dimensions, Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, {Component} from "react";
+import {View, Modal, Dimensions, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import {centerNavStyle} from "./navigatorStyle";
+import {iconsMap} from "./appIcons";
 import {defaultNavBarStyle} from './navigatorStyle';
 
 export default class ModalButtons extends Component {
@@ -18,6 +20,18 @@ export default class ModalButtons extends Component {
             case "willAppear":
                 this.setState({
                     show: true,
+                });
+
+                this.props.navigator.setTabButton({
+                    tabIndex: 2,
+                    icon: iconsMap['ios-close'],
+                    navigatorStyle: centerNavStyle,
+                });
+                break;
+            case 'willDisappear':
+                this.props.navigator.setTabButton({
+                    tabIndex: 2,
+                    icon: require('../../images/navigation/add.png'),
                 });
                 break;
             case "bottomTabReselected":
@@ -69,7 +83,7 @@ export default class ModalButtons extends Component {
                                 onPress={() => {
                                     this.setState({
                                         show:false
-                                    })
+                                    });
                                     this.props.navigator.push({
                                         screen: 'actions.CreateAction',
                                         title: 'Créer action',
@@ -101,15 +115,6 @@ export default class ModalButtons extends Component {
                                 }}
 
                                 onPress={() => {
-                                    this.setState({
-                                        show:false
-                                    })
-                                    this.props.navigator.push({
-                                        screen: 'actions.CreateAction',
-                                        title: 'Creation action',
-                                        navigatorStyle: defaultNavBarStyle,
-                                   s     //backButtonHidden: true,
-                                    });
                                     {/*this.setState({show: false});*/}
                                     {/*this.props.navigator.switchToTab({*/}
                                         {/*tabIndex: 0*/}
@@ -137,10 +142,14 @@ export default class ModalButtons extends Component {
                                     borderRadius: 100,
                                 }}
                                 onPress={() => {
-                                    {/*this.setState({show: false});*/}
-                                    {/*this.props.navigator.switchToTab({*/}
-                                        {/*tabIndex: 0*/}
-                                    {/*});*/}
+                                    this.setState({
+                                        show: false,
+                                    });
+                                    this.props.navigator.push({
+                                        screen: 'actions.Actions',
+                                        title: 'Mes actions',
+                                        navigatorStyle: defaultNavBarStyle,
+                                    });
                                 }}
                             >
                                 <Icon
