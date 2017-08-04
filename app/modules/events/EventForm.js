@@ -33,25 +33,6 @@ export default class EventForm extends Component {
         console.disableYellowBox = true;
     }
 
-    //check the status of a single permission
-    componentDidMount() {
-        Permissions.check('location', 'always')
-            .then(response => {
-                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-                this.setState({ locationPermission: response })
-            });
-    }
-
-    //request permission to access location
-    _requestPermission() {
-        Permissions.request('location', 'always')
-            .then(response => {
-                //returns once the user has chosen to 'allow' or to 'not allow' access
-                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-                this.setState({ locationPermission: response })
-            });
-    }
-
     render() {
 
         const nameField = this._renderNameField();
@@ -184,7 +165,7 @@ export default class EventForm extends Component {
                 listViewDisplayed='auto'    // true/false/undefined
                 fetchDetails={true}
                 renderDescription={(row) => row.description} // custom description render
-                onPress={(text)=> this.setState({location: text.description})}
+                onPress={(text) =>   this.props.setLocation(text.description)}
                 getDefaultValue={() => {
                     return '';
                 }}
@@ -197,7 +178,7 @@ export default class EventForm extends Component {
                     textInputContainer: {
                         backgroundColor: 'rgba(0,0,0,0)',
                         borderTopWidth: 0,
-                        borderBottomWidth:0,
+                        borderBottomWidth: 0,
                     },
                     textInput: {
                         marginLeft: 0,
@@ -206,17 +187,17 @@ export default class EventForm extends Component {
                         color: '#5d5d5d',
                         fontSize: 16,
                         borderBottomWidth: 1,
-                        borderBottomColor: colors.lightGray
+                        borderBottomColor: colors.lightGray,
 
                     },
                     predefinedPlacesDescription: {
-                        color: '#1faadb'
+                        color: '#1faadb',
                     },
 
                 }}
                 currentLocation={false}
                 debounce={200}
-                 />
+            />
         );
     }
 
@@ -243,6 +224,7 @@ export default class EventForm extends Component {
     }
 
     _setDefaultValues() {
+        //console.warn(this.state.location);
         this.props.setLocation(this.state.location);
         this.props.setDate(this.state.datetime);
         this.props.setCategory(this.state.category);
@@ -250,7 +232,7 @@ export default class EventForm extends Component {
         this.props.setDescription(this.state.description);
         this.props.setName(this.state.name);
     }
-}
+};
 
 EventForm.defaultProps = {
     category: 1,
