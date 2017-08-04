@@ -113,8 +113,8 @@ class Event extends Component {
         );
         const preventCheckParticipation =
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={this.props.participating ?
-                    require('./../../images/check_box.png') :
+                <Image source={this.state.isParticipating ?
+                    require('./../../images/checked.png') :
                     require('./../../images/incheck_box.png')
                 }/>
                 <AppText>

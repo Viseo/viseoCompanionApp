@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import {View, Modal, Dimensions, StyleSheet, TouchableOpacity, Text, TouchableWithoutFeedback} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {Navigation} from "react-native-navigation";
 import {centerNavStyle} from "./navigatorStyle";
 import {iconsMap} from "./appIcons";
+import {defaultNavBarStyle} from './navigatorStyle';
+
 export default class ModalButtons extends Component {
 
     constructor(props) {
@@ -36,7 +37,7 @@ export default class ModalButtons extends Component {
             case "bottomTabReselected":
              this.setState({
                  show:true
-             })
+             });
                 break;
         }
     }
@@ -54,7 +55,6 @@ export default class ModalButtons extends Component {
                     this.setState({
                         show: false,
                     });
-
                     this.props.navigator.switchToTab({
                         tabIndex: 0
                     });
@@ -81,10 +81,14 @@ export default class ModalButtons extends Component {
                                     borderRadius: 100,
                                 }}
                                 onPress={() => {
-                                    {/*this.setState({show: false});*/}
-                                    {/*this.props.navigator.switchToTab({*/}
-                                        {/*tabIndex: 0*/}
-                                    {/*});*/}
+                                    this.setState({
+                                        show:false
+                                    });
+                                    this.props.navigator.push({
+                                        screen: 'actions.CreateAction',
+                                        title: 'Créer action',
+                                        navigatorStyle: defaultNavBarStyle,
+                                    });
                                 }}
                             >
                                 <Icon
@@ -138,10 +142,14 @@ export default class ModalButtons extends Component {
                                     borderRadius: 100,
                                 }}
                                 onPress={() => {
-                                    {/*this.setState({show: false});*/}
-                                    {/*this.props.navigator.switchToTab({*/}
-                                        {/*tabIndex: 0*/}
-                                    {/*});*/}
+                                    this.setState({
+                                        show: false,
+                                    });
+                                    this.props.navigator.push({
+                                        screen: 'actions.Actions',
+                                        title: 'Mes actions',
+                                        navigatorStyle: defaultNavBarStyle,
+                                    });
                                 }}
                             >
                                 <Icon
@@ -173,7 +181,7 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: "rgb(0,0,0)",
         marginTop:50,
-        marginBottom:55
+        marginBottom:50
     },
 
 });

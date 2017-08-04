@@ -9,7 +9,7 @@ export default {
     red: '#f76d79',
     green: '#78D564',
     lightGreen: '#00B2A7',
-    orange: '#ffc770',
+    orange: '#f5a242',
     highlight: '#c2effc',
     validField: '#00BCD4',
     invalidField: '#d41a0e',

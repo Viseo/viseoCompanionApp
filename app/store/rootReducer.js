@@ -6,6 +6,7 @@ import comments from '../modules/events/comments/comments.reducers';
 import live from './../modules/live/live.reducer';
 import review from './../modules/events/reviews/review.reducer';
 import searchWords from '../modules/events/search/search.reducer';
+import actions from '../modules/actions/actions.reducers';
 
 export default combineReducers({
     authentication,
@@ -15,4 +16,5 @@ export default combineReducers({
     user,
     comments,
     review,
+    actions,
 });

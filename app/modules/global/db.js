@@ -37,7 +37,7 @@ export const events = {
                 formData.append("file", {
                     uri: event.image.uri,
                     type: "image/jpg",
-                    name: event.name + '_' + event.id + '.jpg',
+                    name: event.name + "_" + event.id + ".jpg",
                 });
                 let responseImage = await fetch(settings.api.uploadImage, {
                     method: "POST",
@@ -182,7 +182,7 @@ export const events = {
             console.log("db::events.getAll " + error);
             return [];
         }
-    }
+    },
 };
 
 export const users = {
@@ -212,7 +212,7 @@ export const users = {
                 formData.append("file", {
                     uri: user.image.uri,
                     type: "image/jpg",
-                    name: user.firstName + '_' + user.lastName + '.jpg',
+                    name: user.firstName + "_" + user.lastName + ".jpg",
                 });
                 let responseImage = await fetch(settings.api.uploadImage, {
                     method: "POST",
@@ -225,10 +225,10 @@ export const users = {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                    body: JSON.stringify({
-                        ...user,
-                        "imageUrl": imageUrl,
-                    }),
+                body: JSON.stringify({
+                    ...user,
+                    "imageUrl": imageUrl,
+                }),
             });
 
             return await response.json();
@@ -245,7 +245,7 @@ export const users = {
                 formData.append("file", {
                     uri: user.imageUrl.uri,
                     type: "image/jpg",
-                    name: user.firstName + '_' + user.lastName + '.jpg',
+                    name: user.firstName + "_" + user.lastName + ".jpg",
                 });
                 let responseImage = await fetch(settings.api.uploadImage, {
                     method: "POST",
@@ -409,6 +409,55 @@ export const comments = {
         } catch (error) {
             console.log(error);
             return false;
+        }
+    },
+};
+
+export const actions = {
+    getAll: async () => {
+        try {
+            let response = await fetch(settings.api.getAllActions());
+            return await response.json();
+        } catch (error) {
+            console.log("db::actions.getAll " + error);
+            return [];
+        }
+    },
+    getMeans: async () => {
+        try {
+            let response = await fetch(settings.api.getAllMeans());
+            return await response.json();
+        } catch (error) {
+            console.log('db::actions.getAllMeans ' + error);
+            return [];
+        }
+    },
+    getActivities: async () => {
+        try {
+            let response = await fetch(settings.api.getAllActivities());
+            return await response.json();
+        } catch (error) {
+            console.log('db::actions.getAllActivities ' + error);
+            return [];
+        }
+    },
+    addActivity: async (activity) => {
+        try {
+            console.warn(Object.keys(activity));
+            console.warn(Object.values(activity));
+            let response = await fetch(settings.api.addActivity(), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...activity
+                }),
+            });
+            return response.json();
+        } catch (error) {
+            console.log("db::addActivity " + error);
+            return null;
         }
     },
 };

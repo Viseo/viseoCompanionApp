@@ -20,6 +20,9 @@ class AppTextInput extends Component {
         this.refs.textInput.focus();
     }
 
+    componentWillReceiveProps({value}) {
+    this.setState({value: value});
+    }
     render() {
         const {value, isValid} = this.state;
         const {validColor, invalidColor, label, validator, onChangeText, secureTextEntry, style} = this.props;

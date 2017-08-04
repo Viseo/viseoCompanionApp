@@ -186,6 +186,7 @@ class NewsFeed extends Component {
     }
 
     _renderProfileButton() {
+
         return (
             <Svg height="40"
                  width="200"
@@ -209,10 +210,8 @@ class NewsFeed extends Component {
                           });
                       }}
                 />
-                <Text fontFamily="Times New Roman" fontSize="14"
-                      x="55" y="12" fill="#FFFFFF">
-                    Voir mon profil
-                </Text>
+                <Text fontSize="15" x="40" y="10" fill="#FFFFFF">VOIR MON PROFIL</Text>
+
             </Svg>
         );
     }
