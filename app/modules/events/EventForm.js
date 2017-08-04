@@ -5,7 +5,10 @@ import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import ImagePicker from '../global/components/ImagePicker';
 import PropTypes from 'prop-types';
-import {Dimensions, Picker, ScrollView, StyleSheet, View} from 'react-native';
+import {Dimensions, Picker, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import colors from '../global/colors';
+const Permissions = require('react-native-permissions');
 
 export default class EventForm extends Component {
 
@@ -27,9 +30,30 @@ export default class EventForm extends Component {
 
     componentWillMount() {
         this._setDefaultValues();
+        console.disableYellowBox = true;
+    }
+
+    //check the status of a single permission
+    componentDidMount() {
+        Permissions.check('location', 'always')
+            .then(response => {
+                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+                this.setState({ locationPermission: response })
+            });
+    }
+
+    //request permission to access location
+    _requestPermission() {
+        Permissions.request('location', 'always')
+            .then(response => {
+                //returns once the user has chosen to 'allow' or to 'not allow' access
+                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+                this.setState({ locationPermission: response })
+            });
     }
 
     render() {
+
         const nameField = this._renderNameField();
         const descriptionField = this._renderDescriptionField();
         const locationField = this._renderLocationField();
@@ -151,21 +175,48 @@ export default class EventForm extends Component {
 
     _renderLocationField() {
         return (
-            <AppTextInput
-                ref="location"
-                label="Lieu"
-                validator={(location) => !this._getLocationError(location)}
-                invalidTextMessage={this.state.locationError}
-                value={this.state.location}
-                onChangeText={location => {
-                    const locationError = this._getLocationError(location);
-                    this.setState({
-                        location,
-                        locationError,
-                    });
-                    this.props.setLocation(locationError ? null : location);
+
+            <GooglePlacesAutocomplete
+                placeholder='Location'
+                minLength={2} // minimum length of text to search
+                autoFocus={false}
+                returnKeyType={'location'}
+                listViewDisplayed='auto'    // true/false/undefined
+                fetchDetails={true}
+                renderDescription={(row) => row.description} // custom description render
+                onPress={(text)=> this.setState({location: text.description})}
+                getDefaultValue={() => {
+                    return '';
                 }}
-            />
+                query={{
+                    key: 'AIzaSyAh7zH3Wh2O7DFysEETBw0mh7xbkxf6X18',
+                    language: 'fr',
+                    types: 'establishment',
+                }}
+                styles={{
+                    textInputContainer: {
+                        backgroundColor: 'rgba(0,0,0,0)',
+                        borderTopWidth: 0,
+                        borderBottomWidth:0,
+                    },
+                    textInput: {
+                        marginLeft: 0,
+                        marginRight: 0,
+                        height: 38,
+                        color: '#5d5d5d',
+                        fontSize: 16,
+                        borderBottomWidth: 1,
+                        borderBottomColor: colors.lightGray
+
+                    },
+                    predefinedPlacesDescription: {
+                        color: '#1faadb'
+                    },
+
+                }}
+                currentLocation={false}
+                debounce={200}
+                 />
         );
     }
 
@@ -275,4 +326,5 @@ const styles = StyleSheet.create({
     pageStyle: {
         paddingHorizontal: 15,
     },
+
 });
