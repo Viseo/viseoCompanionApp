@@ -1,19 +1,19 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {StyleSheet, View, Dimensions, ScrollView, Button, Alert} from "react-native";
-import Svg from "react-native-svg/elements/Svg";
-import {Circle, G, Image, Text} from "react-native-svg";
-import Icon from "react-native-vector-icons/FontAwesome";
-import * as db from "../global/db";
-import colors from "../global/colors";
-import DatePicker from "react-native-datepicker";
-import moment from "moment";
-import AppTextInput from "../global/components/AppTextInput";
-import GridRow from "./GridRow";
-import Action from "./Action";
-import {Option, OptionList, Select} from "react-native-selectme";
-import AppText from "../global/components/AppText";
-import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
+import Svg from 'react-native-svg/elements/Svg';
+import {Circle, G, Image, Text} from 'react-native-svg';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as db from '../global/db';
+import colors from '../global/colors';
+import DatePicker from 'react-native-datepicker';
+import moment from 'moment';
+import AppTextInput from '../global/components/AppTextInput';
+import GridRow from './GridRow';
+import Action from './Action';
+import {Option, OptionList, Select} from 'react-native-selectme';
+import AppText from '../global/components/AppText';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 class CreateAction extends Component {
 
@@ -92,101 +92,11 @@ class CreateAction extends Component {
         const locationField = this._renderLocationField();
         const datePickerEnd = this._renderDateEndPicker();
         switch (this.state.showFields) {
-            case 2:
-                return (
-                    <View>
-                        {this._renderPractice()}
-                        {locationField}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-
-            case 3:
-                return (
-                    <View>
-                        {datePickerStart}
-                        {datePickerEnd}
-                        {locationField}
-                        {this._renderPractice()}
-                        {this._renderRecurrence()}
-                        {this._renderReadingTime()}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 4:
-                return (
-                    <View>
-                        {datePickerStart}
-                        {datePickerEnd}
-                        {locationField}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 5:
-                return (
-                    <View>
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 6:
-                return (
-                    <View>
-                        {datePickerStart}
-                        {datePickerEnd}
-                        {locationField}
-                        {this._renderPractice()}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 7:
-                return (
-                    <View>
-                        {datePickerStart}
-                        {datePickerEnd}
-                        {locationField}
-                        {this._renderPractice()}
-                        {this._renderRecurrence()}
-                        {this._renderReadingTime()}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 8:
-                return (
-                    <View>
-                        {datePickerStart}
-                        {datePickerEnd}
-                        {locationField}
-                        {this._renderPractice()}
-                        {this._renderRecurrence()}
-                        {this._renderReadingTime()}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
             case 9:
                 return (
                     <View>
-                        {this._renderReadingTime()}
+                        {this._renderPractice()}
+                        {locationField}
                         {descriptionField}
                         {this._renderValidate()}
                     </View>
@@ -196,7 +106,12 @@ class CreateAction extends Component {
             case 10:
                 return (
                     <View>
+                        {datePickerStart}
+                        {datePickerEnd}
                         {locationField}
+                        {this._renderPractice()}
+                        {this._renderRecurrence()}
+                        {this._renderReadingTime()}
                         {descriptionField}
                         {this._renderValidate()}
                     </View>
@@ -216,6 +131,90 @@ class CreateAction extends Component {
 
                 break;
             case 12:
+                return (
+                    <View>
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 13:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
+                        {this._renderPractice()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 14:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
+                        {this._renderPractice()}
+                        {this._renderRecurrence()}
+                        {this._renderReadingTime()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 15:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
+                        {this._renderPractice()}
+                        {this._renderRecurrence()}
+                        {this._renderReadingTime()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 16:
+                return (
+                    <View>
+                        {this._renderReadingTime()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 17:
+                return (
+                    <View>
+                        {locationField}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 18:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 19:
                 return (
                     <View>
                         {datePickerStart}
@@ -241,7 +240,7 @@ class CreateAction extends Component {
         const actionSplitted = this.state.action.split("|");
         let activity = {};
         switch (parseInt(actionSplitted[0])) {
-            case 2:
+            case 9:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -265,7 +264,7 @@ class CreateAction extends Component {
                     this._addActivity(activity);
 
                 break;
-            case 3:
+            case 10:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -288,7 +287,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 4:
+            case 11:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -312,7 +311,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 5:
+            case 12:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -335,7 +334,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 6:
+            case 13:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -358,7 +357,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 7:
+            case 14:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -381,7 +380,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 8:
+            case 15:
 
                 activity = {
                     actionId: actionSplitted[0],
@@ -406,7 +405,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 9:
+            case 16:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -429,7 +428,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 10:
+            case 17:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -452,7 +451,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 11:
+            case 18:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -475,8 +474,29 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-                ;
-
+            case 19:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: this.state.readTime,
+                    recurrence: '',
+                    publicationType: this.state.typePublication,
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
         }
         this._emptyFields();
     }
@@ -658,10 +678,11 @@ class CreateAction extends Component {
                         }}
                         value={this.state.description}
                         onChangeText={(text) => {
-                            if (text.length < 2) {
+                            if (text.length <= 2) {
                                 this.setState({
                                     borderDescription: "#d9534f",
                                     isValidDescription: false,
+                                    description: text,
                                 });
                             }
                             else {
@@ -859,7 +880,8 @@ class CreateAction extends Component {
                     <AppText style={styles.labels}>Action</AppText></View>
                 <Action
                     onSelect={action => {
-                        const actionSplit = this.state.action.split("|");
+
+                        const actionSplit = action.split('|');
                         this.setState({
                             action: action,
                             showFields:parseInt(actionSplit[0])

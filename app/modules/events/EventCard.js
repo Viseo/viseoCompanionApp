@@ -61,6 +61,7 @@ class EventCard extends Component {
         let imageUrl = event.imageUrl ? event.imageUrl
             :
             'https://s3-eu-west-1.amazonaws.com/viseo-companion/defaultEventImage.jpeg';
+
         if (event.imageUrl === '') {
             showImage = false;
         }

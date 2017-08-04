@@ -11,6 +11,7 @@ import {
 } from './events.actions';
 
 function formatEvent(event) {
+
     return {
         ...event,
         keywords: event.keyWords.split(',').map(keyword => keyword.toLowerCase().trim()),

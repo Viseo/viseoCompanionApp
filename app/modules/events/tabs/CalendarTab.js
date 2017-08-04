@@ -1,4 +1,4 @@
-import {SectionList, StyleSheet, View,RefreshControl} from 'react-native';
+import {RefreshControl, SectionList, StyleSheet, View} from 'react-native';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppText from '../../global/components/AppText';
@@ -12,6 +12,7 @@ export default class CalendarTab extends Component {
         this.state = {
             refreshing: false,
         };
+        console.disableYellowBox = true;
     }
 
     componentWillReceiveProps({scrollToCurrentDaySection}) {
@@ -24,14 +25,6 @@ export default class CalendarTab extends Component {
         return (
             <View style={styles.emptyEventList}>
                 <AppText>Aucun évènement.</AppText>
-            </View>
-        );
-    }
-
-    _renderEmptyActionList() {
-        return (
-            <View style={styles.emptyEventList}>
-                <AppText>Aucune action.</AppText>
             </View>
         );
     }

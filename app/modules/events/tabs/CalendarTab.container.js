@@ -69,10 +69,12 @@ function convertIntoSections(events, eventsByDay) {
 
 function breakDownIntoSections(events, actions) {
 //TODO : trouver une solution sur comment injecter l'élément dans le tableau
-    const allEvents = actions.concat(events);
 
-    const sortedEvents = sortByYearAndMonth(allEvents);
-    const eventsByDay = getEventsByCurrentDay(allEvents);
+    actions.map((e) => {
+        events.push(e);
+    });
+    const sortedEvents = sortByYearAndMonth(events);
+    const eventsByDay = getEventsByCurrentDay(events);
     const sections = convertIntoSections(sortedEvents, eventsByDay);
     return sections;
 }

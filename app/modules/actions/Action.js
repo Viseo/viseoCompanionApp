@@ -1,9 +1,10 @@
-import React, {Component} from "react";
-import  {View} from "react-native";
-import   {Select, Option, OptionList} from "react-native-selectme";
-import * as db from "../global/db";
-import PropTypes from "prop-types";
-import colors from "../global/colors";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import {Option, OptionList, Select} from 'react-native-selectme';
+import * as db from '../global/db';
+import PropTypes from 'prop-types';
+import colors from '../global/colors';
+
 class Action extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,7 @@ class Action extends Component {
     }
 
     _getOptionList() {
-        return this.refs["OPTIONLIST"];
+        return this.refs['OPTIONLISTACTION'];
     }
 
 
@@ -38,7 +39,7 @@ class Action extends Component {
                 <Select
                     width={350}
                     height={50}
-                    ref="SELECT1"
+                    ref="SELECTACTION"
                     optionListRef={this._getOptionList.bind(this)}
                     onSelect={(val) => {
                         onSelect(val.action);
@@ -48,7 +49,7 @@ class Action extends Component {
                 >
                     {actions}
                 </Select>
-                <OptionList ref="OPTIONLIST"
+                <OptionList ref="OPTIONLISTACTION"
                             overlayStyles={{
                                 backgroundColor: "transparent",
                                 width: 400,
