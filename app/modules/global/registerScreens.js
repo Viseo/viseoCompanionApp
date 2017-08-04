@@ -21,8 +21,8 @@ export function registerScreens(store, provider) {
     registerShopModule(store, provider);
     registerUserModule(store, provider);
     registerVizzModule(store, provider);
-    Navigation.registerComponent('global.modalButtons', () => ModalButtons);
-    Navigation.registerComponent('actions.CreateAction', () => CreateAction);
+    Navigation.registerComponent('global.modalButtons', () => ModalButtons,store, provider);
+    Navigation.registerComponent('actions.CreateAction', () => CreateAction,store, provider);
     Navigation.registerComponent('global.unreachableServerPopup', () => UnreachableServerPopup);
     Navigation.registerComponent('global.invalidFormPopup', () => InvalidFormPopup);
 }

@@ -17,10 +17,10 @@ class GridRow extends Component {
 
     render() {
         const {mean} = this.state;
-        const {onQuantityChange}=this.props;
+        const {onQuantityChange} = this.props;
         return (
             <View style={{flexDirection: "row", alignItems: "center", height: 50, width: 350}}>
-                <View style={{flex: 3,marginLeft:5,flexWrap:"nowrap"}}>
+                <View style={{flex: 3, marginLeft: 5, flexWrap: "nowrap"}}>
                     <AppText >{mean.name}</AppText>
                 </View>
                 <View style={{flex: 2, alignItems: "center"}}>
@@ -34,6 +34,7 @@ class GridRow extends Component {
                                          this.setState({
                                              quantity: this.state.quantity - 1,
                                          });
+                                         onQuantityChange(mean.id, this.state.quantity-1);
                                      }
                                  }}
                     />
@@ -60,7 +61,7 @@ class GridRow extends Component {
                             this.setState({
                                 quantity: parseInt(quantity),
                             });
-                            onQuantityChange(quantity);
+                            onQuantityChange(mean.id, quantity);
                         }}
                     >
 
@@ -71,6 +72,7 @@ class GridRow extends Component {
                                      this.setState({
                                          quantity: this.state.quantity + 1,
                                      });
+                                     onQuantityChange(mean.id, this.state.quantity+1);
                                  }}
                     />
                 </View>
@@ -79,7 +81,8 @@ class GridRow extends Component {
         );
     }
 
-};
+}
+;
 
 export default GridRow;
 

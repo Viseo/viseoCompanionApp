@@ -80,6 +80,9 @@ const restRoutes = {
     getAllMeans:() =>{
         return serverURL +  'means';
     },
+    addActivity:() =>{
+        return serverURL +  'activities';
+    },
 };
 
 

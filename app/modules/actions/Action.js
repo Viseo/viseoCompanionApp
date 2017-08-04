@@ -4,13 +4,10 @@ import   {Select, Option, OptionList} from "react-native-selectme";
 import * as db from "../global/db";
 import PropTypes from "prop-types";
 import colors from "../global/colors";
-import AppTextInput from "../global/components/AppTextInput";
-import AppText from "../global/components/AppText";
 class Action extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            action: "",
             options: [],
         };
 
@@ -24,21 +21,16 @@ class Action extends Component {
         return this.refs["OPTIONLIST"];
     }
 
-    _select(action) {
-        this.setState({
-            ...this.state,
-            action: action.id,
-        });
-    }
 
     render() {
         const {options} = this.state;
         const {onSelect} = this.props;
         let actions = options.map(function (option, i) {
-            return (<Option value={{id: option.id}} key={i} style={{
+            const action=option.id+"|"+option.name;
+            return (<Option value={{action: action}} key={i} style={{
                 backgroundColor: "transparent",
-                borderWidth:1,
-                borderColor: colors.mediumGray,
+                borderWidth: 1,
+                borderColor: colors.lightGray,
             }}>{option.name}</Option>);
         });
         return (
@@ -48,12 +40,11 @@ class Action extends Component {
                     height={50}
                     ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
-                    onSelect={(action) => {
-                        this._select(action);
-                        onSelect(action.id);
+                    onSelect={(val) => {
+                        onSelect(val.action);
                     }}
-                    style={{backgroundColor: "#00BFB3"}}
-                    defaultValue="Choisir une action ..."
+                    style={{backgroundColor: "#00BFB3", borderWidth: 1, borderColor: colors.lightGray}}
+                    defaultValue="Choisir une action"
                 >
                     {actions}
                 </Select>
@@ -64,7 +55,7 @@ class Action extends Component {
                                 height: 120,
                                 padding: 0,
                                 left: 5,
-                                top: 40,
+                                top: 45,
                                 bottom: 0,
                                 zIndex: 100,
                             }}

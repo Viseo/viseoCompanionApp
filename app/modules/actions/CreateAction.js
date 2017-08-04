@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import {StyleSheet, View, Dimensions, ScrollView, Button} from "react-native";
+import {connect} from "react-redux";
+import {StyleSheet, View, Dimensions, ScrollView, Button, Alert} from "react-native";
 import Svg from "react-native-svg/elements/Svg";
 import {Circle, G, Image, Text} from "react-native-svg";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -12,10 +13,11 @@ import GridRow from "./GridRow";
 import Action from "./Action";
 import {Option, OptionList, Select} from "react-native-selectme";
 import AppText from "../global/components/AppText";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 
-export default class CreateAction extends Component {
+class CreateAction extends Component {
 
-    dateFormat = "DD/MM/YYYY [à] HH:mm";
+    dateFormat = "DD-MM-YYYY HH:mm";
     deviceHeight = Dimensions.get("window").height;
 
     constructor(props) {
@@ -26,14 +28,36 @@ export default class CreateAction extends Component {
             means: [],
             description: "",
             location: "",
-            formattedDateEnd: moment(new Date()).format(this.dateFormat),
+            formattedDateEnd: "",
+            typePublication: "blog",
             formattedDateStart: moment(new Date()).format(this.dateFormat),
-            idAction: 0,
+            formattedDateEnd: moment(new Date()).format(this.dateFormat),
+            practice: true,
+            readTime: "5 mn",
+            recurrence: "Récurrence hebdo",
+            action: "",
+            isValidDescription: true,
+            isValidLocation: true,
+            isValidDates: true,
+            borderValidateDate: colors.lightGray,
+            borderDescription: colors.lightGray,
+            borderLocation: colors.lightGray,
+            locationPermission: "undetermined",
+            showFields: 0,
         };
     }
 
     componentWillMount() {
         this._getMeans();
+        console.disableYellowBox = true;
+    }
+
+    _emptyFields() {
+        this.setState({
+            showFields:0,
+            description: "",
+            location: "",
+        });
     }
 
     render() {
@@ -67,11 +91,10 @@ export default class CreateAction extends Component {
         const datePickerStart = this._renderDateStartPicker();
         const locationField = this._renderLocationField();
         const datePickerEnd = this._renderDateEndPicker();
-
-        switch (this.state.idAction) {
+        switch (this.state.showFields) {
             case 2:
-                return (   <View>
-
+                return (
+                    <View>
                         {this._renderPractice()}
                         {locationField}
                         {descriptionField}
@@ -82,7 +105,8 @@ export default class CreateAction extends Component {
                 break;
 
             case 3:
-                return (   <View>
+                return (
+                    <View>
                         {datePickerStart}
                         {datePickerEnd}
                         {locationField}
@@ -96,7 +120,8 @@ export default class CreateAction extends Component {
 
                 break;
             case 4:
-                return (   <View>
+                return (
+                    <View>
                         {datePickerStart}
                         {datePickerEnd}
                         {locationField}
@@ -107,8 +132,8 @@ export default class CreateAction extends Component {
 
                 break;
             case 5:
-                return (   <View>
-
+                return (
+                    <View>
                         {descriptionField}
                         {this._renderValidate()}
                     </View>
@@ -116,7 +141,8 @@ export default class CreateAction extends Component {
 
                 break;
             case 6:
-                return (   <View>
+                return (
+                    <View>
                         {datePickerStart}
                         {datePickerEnd}
                         {locationField}
@@ -128,7 +154,8 @@ export default class CreateAction extends Component {
 
                 break;
             case 7:
-                return (   <View>
+                return (
+                    <View>
                         {datePickerStart}
                         {datePickerEnd}
                         {locationField}
@@ -142,10 +169,11 @@ export default class CreateAction extends Component {
 
                 break;
             case 8:
-                return (   <View>
+                return (
+                    <View>
                         {datePickerStart}
                         {datePickerEnd}
-                       {locationField}
+                        {locationField}
                         {this._renderPractice()}
                         {this._renderRecurrence()}
                         {this._renderReadingTime()}
@@ -166,8 +194,8 @@ export default class CreateAction extends Component {
 
                 break;
             case 10:
-                return (   <View>
-
+                return (
+                    <View>
                         {locationField}
                         {descriptionField}
                         {this._renderValidate()}
@@ -176,7 +204,8 @@ export default class CreateAction extends Component {
 
                 break;
             case 11:
-                return (   <View>
+                return (
+                    <View>
                         {datePickerStart}
                         {datePickerEnd}
                         {locationField}
@@ -187,7 +216,8 @@ export default class CreateAction extends Component {
 
                 break;
             case 12:
-                return (   <View>
+                return (
+                    <View>
                         {datePickerStart}
                         {datePickerEnd}
                         {locationField}
@@ -206,6 +236,251 @@ export default class CreateAction extends Component {
         return this.refs["OPTIONLISTPractice"];
     }
 
+    _validateFieldsAndSubmit() {
+
+        const actionSplitted = this.state.action.split("|");
+        let activity = {};
+        switch (parseInt(actionSplitted[0])) {
+            case 2:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: 0,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: 0,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: "",
+                    recurrence: "",
+                    publicationType: "",
+                };
+                if (this.state.isValidLocation && this.isValidDescription)
+                    this._addActivity(activity);
+
+                break;
+            case 3:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: 0,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: 0,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: this.state.readTime,
+                    recurrence: this.state.recurrence,
+                    publicationType: "",
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 4:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: 0,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: 0,
+                    dateCreation: 0,
+                    address: "",
+                    vizzWon: 0,
+                    practice: "",
+                    readingTime: "",
+                    recurrence: "",
+                    publicationType: "",
+                };
+
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 5:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: "",
+                    recurrence: "",
+                    publicationType: "",
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 6:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: this.state.readTime,
+                    recurrence: this.state.recurrence,
+                    publicationType: "",
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 7:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: 0,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: 0,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: "",
+                    readingTime: this.state.readTime,
+                    recurrence: "",
+                    publicationType: "",
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 8:
+
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: "",
+                    readingTime: this.state.readTime,
+                    recurrence: "",
+                    publicationType: "",
+                };
+
+                if (this.state.isValidLocation && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 9:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: "",
+                    readingTime: "",
+                    recurrence: "",
+                    publicationType: "",
+                };
+                if (this.state.isValidLocation && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 10:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: "",
+                    readingTime: "",
+                    recurrence: "",
+                    publicationType: "",
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 11:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: this.state.readTime,
+                    recurrence: "",
+                    publicationType: this.state.typePublication,
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+                ;
+
+        }
+        this._emptyFields();
+    }
+
     _renderValidate() {
         return (
             <View style={{
@@ -219,6 +494,7 @@ export default class CreateAction extends Component {
                 }}
                         title="Ajouter"
                         onPress={() => {
+                            this._validateFieldsAndSubmit();
                         }}
                 /></View>
         );
@@ -227,8 +503,7 @@ export default class CreateAction extends Component {
     _selectPractice(practice) {
 
         this.setState({
-            ...this.state,
-            practices: practice.id,
+            practices: practice.valPractice,
         });
     }
 
@@ -245,13 +520,13 @@ export default class CreateAction extends Component {
                         height={50}
                         ref="SELECT1"
                         optionListRef={this._getOptionListPractice.bind(this)}
-                        defaultValue="Practice/recencée BT ..."
+                        defaultValue={this.state.practice}
                         onSelect={(practice) => this._selectPractice(practice)}
                     >
-                        <Option value={{valPractice: "Oui"}} style={styles.options}>Oui</Option>
-                        <Option value={{valPractive: "Non"}} style={styles.options}>Non</Option>
+                        <Option value={{valPractice: true}} style={styles.options}>Oui</Option>
+                        <Option value={{valPractive: false}} style={styles.options}>Non</Option>
                     </Select>
-                    <OptionList ref="OPTIONLISTPractice" overlayStyles={styles.optionsLists} />
+                    <OptionList ref="OPTIONLISTPractice" overlayStyles={styles.optionsLists}/>
                 </View>
             </View>
         );
@@ -264,8 +539,7 @@ export default class CreateAction extends Component {
     _selectTypePublication(publication) {
 
         this.setState({
-            ...this.state,
-            type: publication.id,
+            TypePublication: publication.TypePublication,
         });
     }
 
@@ -280,7 +554,7 @@ export default class CreateAction extends Component {
                         height={50}
                         ref="SELECT1"
                         optionListRef={this._getOptionListPublication.bind(this)}
-                        defaultValue="Type de Publication ..."
+                        defaultValue={this.state.typePubication}
                         onSelect={(publication) => this._selectTypePublication(publication)}
                     >
                         <Option value={{TypePublication: "Blog"}} style={styles.options}>Blog</Option>
@@ -301,8 +575,7 @@ export default class CreateAction extends Component {
     _selectReadingTime(time) {
 
         this.setState({
-            ...this.state,
-            lecture: time.id,
+            lecture: time.valTiming,
         });
     }
 
@@ -317,12 +590,12 @@ export default class CreateAction extends Component {
                         height={50}
                         ref="SELECT1"
                         optionListRef={this._getOptionListReadingTime.bind(this)}
-                        defaultValue="Temps de Lecture ..."
+                        defaultValue={this.state.readTime}
                         onSelect={(time) => this._selectReadingTime(time)}
                     >
-                        <Option value={{valTiming: "5mn"}} style={styles.options}>5mn</Option>
-                        <Option value={{valTiming: "5mn à 10mn"}} style={styles.options}>5mn à 10mn</Option>
-                        <Option value={{valTiming: "plus que 10mn"}} style={styles.options}>plus que 10mn</Option>
+                        <Option value={{valTiming: "5 mn"}} style={styles.options}>5mn</Option>
+                        <Option value={{valTiming: "5 mn à 10 mn"}} style={styles.options}>5mn à 10mn</Option>
+                        <Option value={{valTiming: "plus que 10 mn"}} style={styles.options}>plus que 10mn</Option>
                     </Select>
                     <OptionList ref="OPTIONLISTTenses" overlayStyles={styles.optionsLists}
                     />
@@ -336,17 +609,15 @@ export default class CreateAction extends Component {
     }
 
     _selectRecurrence(repeated) {
-
         this.setState({
-            ...this.state,
-            nbr: repeated.id,
+            recurrence: repeated.valReccurence,
         });
     }
 
     _renderRecurrence() {
         return (
             <View style={styles.containers}>
-                <View><AppText style={styles.labels}>Recurence:</AppText></View>
+                <View><AppText style={styles.labels}>Récurrence:</AppText></View>
                 <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
                     <Select
                         style={{backgroundColor: "#00BFB3"}}
@@ -354,14 +625,14 @@ export default class CreateAction extends Component {
                         height={50}
                         ref="SELECTRECURRENCE"
                         optionListRef={this._getOptionListRecurrence.bind(this)}
-                        defaultValue="Réccurence ..."
+                        defaultValue={this.state.recurrence}
                         onSelect={(repeated) => this._selectRecurrence(repeated)}
                     >
-                        <Option value={{valReccurence: "Reccurence hebdo"}} style={styles.options}>Reccurence
+                        <Option value={{valReccurence: "Récurrence hebdo"}} style={styles.options}>Récurrence
                             hebdo</Option>
-                        <Option value={{valReccurence: "une fois"}} style={styles.options}>une fois</Option>
+                        <Option value={{valReccurence: "Une fois"}} style={styles.options}>Une fois</Option>
                     </Select>
-                    <OptionList ref="OPTIONLISTReccurence"   overlayStyles={styles.optionsLists}
+                    <OptionList ref="OPTIONLISTReccurence" overlayStyles={styles.optionsLists}
                     />
                 </View>
             </View>
@@ -374,51 +645,109 @@ export default class CreateAction extends Component {
                 <View>
                     <AppText style={styles.labels}> Description:</AppText>
                 </View>
-                <View style={{width:0}}>
-                <AppTextInput
-                    style={{
-                        backgroundColor: "#00BFB3", width: 350,
-                        height: 50, marginLeft: 30, marginTop: -30,
-                    }}
-                    maxLength={30}
-                    multiline={true}
-                />
+                <View style={{width: 0}}>
+                    <AppTextInput
+                        style={{
+                            backgroundColor: "#00BFB3",
+                            width: 350,
+                            height: 50,
+                            marginLeft: 30,
+                            marginTop: -30,
+                            borderWidth: 1,
+                            borderColor: this.state.borderDescription,
+                        }}
+                        value={this.state.description}
+                        onChangeText={(text) => {
+                            if (text.length < 2) {
+                                this.setState({
+                                    borderDescription: "#d9534f",
+                                    isValidDescription: false,
+                                });
+                            }
+                            else {
+                                this.setState({
+                                    description: text,
+                                    isValidDescription: true,
+                                    borderDescription: colors.lightGray,
+                                });
+                            }
+                        }}
+                        maxLength={30}
+                        multiline={true}
+                    />
                 </View>
             </View>
 
         );
     }
 
-    _getLocationError(location) {
-        if (location.length < 2) {
-            return "Le lieu doit contenir au moins deux caractères.";
-        } else {
-            const regexLocation = /^[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s\-']*$/;
-            if (!regexLocation.test(location)) {
-                return "Le lieu doit seulement contenir des caractères alphanumériques, tiret ou apostrophe.";
-            }
-        }
-        return null;
+    _isValidTextLocation(text) {
+        const regexLocation = /^[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s\-']*$/;
+        if ((text.length < 2 || !regexLocation.test(text)))
+            this.setState({
+                isValidLocation: false,
+                borderLocation: "#d9534f",
+            });
+        else
+            this.setState({
+                isValidLocation: true,
+                borderLocation: colors.lightGray,
+            });
+
     }
 
-    isNonEmpty(text) {
-        return text.length > 0;
-    }
     _renderLocationField() {
         return (
-            <View style={[styles.containers,{marginBottom:-5}]}>
+            <View style={[styles.containers]}>
                 <View>
                     <AppText style={[styles.labels, {marginTop: 5}]}>Location:</AppText>
                 </View>
-                <View style={{width:0}}>
-                <AppTextInput
-                    label=""
-                    validator={(text) => this.isNonEmpty(text)}
-                    style={{
-                        backgroundColor: "#00BFB3",borderWidth:1,borderColor:colors.lightGray, width: 350,
-                        height:50, marginLeft: 30,top:-30
-                    }}
-                />
+                <View style={{width: 390}}>
+                    <GooglePlacesAutocomplete
+                        placeholder=''
+                        minLength={2}
+                        autoFocus={false}
+                        returnKeyType={"search"}
+                        listViewDisplayed='auto'
+                        fetchDetails={true}
+                        textInputProps={{value: this.state.location}}
+                        onPress={(text) =>
+                            this.setState({location: text.description})
+                        }
+                        getDefaultValue={() => {
+                            return "";
+                        }}
+                        query={{
+                            key: "AIzaSyA5mOz3Lz2_O0hpZIkylbRyAV2NWdariZQ",
+                            language: "fr", // language of the results
+                            types: ["establishment", "geocode"] // default: 'geocode'
+                        }}
+                        styles={{
+                            textInputContainer: {
+                                backgroundColor: "transparent",
+                                borderTopWidth: 0,
+                                borderBottomWidth: 0,
+                                height: 50,
+                            },
+                            textInput: {
+                                backgroundColor: "#00BFB3",
+                                height: 50,
+                                marginLeft: 30,
+                                borderWidth: 1,
+                                color: "#005852",
+                                fontSize: 14,
+                                borderColor: colors.lightGray,
+                                borderRadius: 0,
+                            },
+                            predefinedPlacesDescription: {
+                                color: "#1faadb",
+                            },
+                        }}
+                        currentLocation={false}
+                        currentLocationLabel="Current location"
+                        nearbyPlacesAPI='GooglePlacesSearch'
+                        debounce={200}
+                    />
                 </View>
             </View>
         );
@@ -426,49 +755,98 @@ export default class CreateAction extends Component {
 
     _renderDateStartPicker() {
         const currentDate = moment().toDate();
+
         return (
             <View style={styles.containers}>
-                <AppText style={styles.labels}>Date Debut: </AppText>
-                <View><DatePicker
-                    style={styles.calander}
-                    date={currentDate}
-                    mode="datetime"
-                    format={this.dateFormat}
-                    minDate={currentDate}
-                    placeholder='Sélectionnez une date..'
-                    confirmBtnText="OK"
-                    cancelBtnText="Annuler"
-                    onDateChange={formattedDate => {
-                        this.setState({formattedDate});
-                        const datetime = moment(formattedDate, this.dateFormat).valueOf();
-                        //this.props.setDate(datetime);
-                    }}
-                /></View>
+                <AppText style={styles.labels}>Date Début</AppText>
+                <View>
+                    <DatePicker
+                        style={[
+                            styles.calander,
+                            {
+                                borderColor: this.state.borderValidateDate,
+                            }]}
+                        date={this.state.formattedDateStart}
+                        mode="datetime"
+                        format={this.dateFormat}
+                        minDate={currentDate}
+                        placeholder='Sélectionnez une date..'
+                        confirmBtnText="OK"
+                        cancelBtnText="Annuler"
+                        customStyles={{
+                            dateInput: {
+                                marginLeft: 36,
+                                borderColor: "transparent",
+                            },
+                        }}
+                        onDateChange={formattedDateStart => {
+                            if (moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").isSameOrBefore(moment(formattedDateStart, "DD-MM-YYYY hh:mm"))) {
+                                this.setState({
+                                    isValidDates: false,
+                                    borderValidateDate: "#d9534f",
+                                });
+
+                            }
+                            else {
+
+                                this.setState({
+                                    isValidDates: true,
+                                    borderValidateDate: colors.lightGray,
+                                });
+
+                                this.setState({formattedDateStart});
+                            }
+                        }}
+                    />
+                </View>
             </View>
         );
     }
 
     _renderDateEndPicker() {
-        const currentDate = moment().toDate();
 
         return (
             <View style={styles.containers}>
-                <View><AppText style={styles.labels}>Date fin : </AppText></View>
-                <View><DatePicker
-                    style={styles.calander}
-                    date={currentDate}
-                    mode="datetime"
-                    format={this.dateFormat}
-                    minDate={currentDate}
-                    placeholder='Sélectionnez une date..'
-                    confirmBtnText="OK"
-                    cancelBtnText="Annuler"
-                    onDateChange={formattedDates => {
-                        this.setState({formattedDates});
-                        const datetime = moment(formattedDates, this.dateFormat).valueOf();
-                        //this.props.setDate(datetime);
-                    }}
-                />
+                <View><AppText style={styles.labels}>Date fin </AppText></View>
+                <View>
+                    <DatePicker
+                        style={[
+                            styles.calander,
+                            {
+                                borderColor: this.state.borderValidateDate,
+                            }]}
+                        date={this.state.formattedDateEnd}
+                        mode="datetime"
+                        format={this.dateFormat}
+                        minDate={this.state.formattedDateStart}
+                        placeholder='Sélectionnez une date...'
+                        confirmBtnText="OK"
+                        cancelBtnText="Annuler"
+                        customStyles={{
+                            dateInput: {
+                                marginLeft: 36,
+                                borderColor: "transparent",
+                            },
+                        }}
+                        onDateChange={formattedDateEnd => {
+
+                            if (moment(formattedDateEnd, "DD-MM-YYYY hh:mm").isSameOrBefore(moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm"))) {
+                                this.setState({
+                                    isValidDates: false,
+                                    borderValidateDate: "#d9534f",
+                                    formattedDateEnd,
+                                });
+                            }
+                            else {
+                                this.setState({
+                                    isValidDates: true,
+                                    borderValidateDate: colors.lightGray,
+                                });
+                                this.setState({formattedDateEnd});
+                            }
+
+                        }}
+                    />
                 </View>
             </View>
         );
@@ -477,13 +855,17 @@ export default class CreateAction extends Component {
     _renderAction() {
         return (
             <View style={styles.containers}>
-                <View><AppText style={styles.labels}>Action</AppText></View>
+                <View>
+                    <AppText style={styles.labels}>Action</AppText></View>
                 <Action
-                    onSelect={id => {
+                    onSelect={action => {
+                        const actionSplit = this.state.action.split("|");
                         this.setState({
-                            idAction: id,
+                            action: action,
+                            showFields:parseInt(actionSplit[0])
                         });
                     }}
+
                 />
             </View>
         );
@@ -508,7 +890,6 @@ export default class CreateAction extends Component {
     }
 
     _renderMeans() {
-
         return (
             <View style={{
                 flexDirection: "column",
@@ -525,10 +906,16 @@ export default class CreateAction extends Component {
                 {
                     this.state.meanOptions.map((mean, i) =>
                         <GridRow mean={mean} key={i}
-                                 onQuantityChange={quantity => {
+                                 onQuantityChange={(meanId, quantity) => {
+                                     let uniqueMeans = this.state.means;
+
+                                     if (uniqueMeans.indexOf(meanId) === -1)
+                                         uniqueMeans.push(meanId);
+
                                      this.setState({
-                                         meanQuantity: this.state.meanQuantity.push(quantity),
+                                         means: uniqueMeans,
                                      });
+
                                  }}
                         ></GridRow>,
                     )
@@ -537,14 +924,16 @@ export default class CreateAction extends Component {
         );
     }
 
-    _isNonEmpty(text) {
-        return text.length > 0;
-    }
-
     _getMeans = async () => {
         this.setState({
             meanOptions: await db.actions.getMeans(),
         });
+
+    };
+
+    _addActivity = async (activity) => {
+
+        await db.actions.addActivity(activity);
 
     };
 
@@ -595,9 +984,10 @@ export default class CreateAction extends Component {
             </Svg>
         );
     }
-};
+}
 
 const spaceBetweenFields = 20;
+
 const styles = StyleSheet.create({
     createAction: {
         backgroundColor: colors.white,
@@ -611,7 +1001,7 @@ const styles = StyleSheet.create({
     options: {
         backgroundColor: "transparent",
         borderWidth: 1,
-        borderColor: colors.mediumGray,
+        borderColor: colors.lightGray,
     },
     optionsLists: {
         backgroundColor: "transparent",
@@ -620,7 +1010,7 @@ const styles = StyleSheet.create({
         padding: 0,
         left: 5,
         top: 45,
-        zIndex: 100
+        zIndex: 100,
     },
     containers: {
         flexDirection: "column",
@@ -628,7 +1018,7 @@ const styles = StyleSheet.create({
     },
     labels: {
         paddingLeft: 30,
-        color: "dimgrey",
+        color: "#005852",
         marginBottom: 0,
         height: 20,
     },
@@ -647,8 +1037,18 @@ const styles = StyleSheet.create({
     calander: {
         width: 350,
         backgroundColor: "#00BFB3",
+        borderWidth: 1,
         marginLeft: 30,
         padding: 0,
     },
 
 });
+
+const mapStateToProps = ({user}, ownProps) => ({
+    user,
+    ...ownProps,
+});
+
+export default connect(
+    mapStateToProps,
+)(CreateAction);

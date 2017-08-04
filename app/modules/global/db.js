@@ -432,4 +432,23 @@ export const actions = {
             return [];
         }
     },
+    addActivity: async (activity) => {
+        try {
+            console.warn(Object.keys(activity));
+            console.warn(Object.values(activity));
+            let response = await fetch(settings.api.addActivity(), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...activity
+                }),
+            });
+            return response.json();
+        } catch (error) {
+            console.log("db::addActivity " + error);
+            return null;
+        }
+    },
 };
