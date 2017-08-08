@@ -1,20 +1,20 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
-import Svg from 'react-native-svg/elements/Svg';
-import {Circle, G, Image, Text} from 'react-native-svg';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import * as db from '../global/db';
-import colors from '../global/colors';
-import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
-import AppTextInput from '../global/components/AppTextInput';
-import GridRow from './GridRow';
-import Action from './Action';
-import {Option, OptionList, Select} from 'react-native-selectme';
-import AppText from '../global/components/AppText';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {Button, Dimensions, ScrollView, StyleSheet, View} from "react-native";
+import Svg from "react-native-svg/elements/Svg";
+import {Circle, G, Image, Text} from "react-native-svg";
+import Icon from "react-native-vector-icons/FontAwesome";
+import * as db from "../global/db";
+import colors from "../global/colors";
+import DatePicker from "react-native-datepicker";
+import moment from "moment";
+import AppTextInput from "../global/components/AppTextInput";
+import GridRow from "./GridRow";
+import Action from "./Action";
+import {Option, OptionList, Select} from "react-native-selectme";
+import AppText from "../global/components/AppText";
+import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
+import Holidays from "date-holidays";
 class CreateAction extends Component {
 
     dateFormat = "DD-MM-YYYY HH:mm";
@@ -49,12 +49,12 @@ class CreateAction extends Component {
 
     componentWillMount() {
         this._getMeans();
-        console.disableYellowBox = true;
+        //  console.disableYellowBox = true;
     }
 
     _emptyFields() {
         this.setState({
-            showFields:0,
+            showFields: 0,
             description: "",
             location: "",
         });
@@ -92,7 +92,7 @@ class CreateAction extends Component {
         const locationField = this._renderLocationField();
         const datePickerEnd = this._renderDateEndPicker();
         switch (this.state.showFields) {
-            case 9:
+            case 8:
                 return (
                     <View>
                         {this._renderPractice()}
@@ -103,7 +103,7 @@ class CreateAction extends Component {
                 );
 
                 break;
-            case 10:
+            case 4:
                 return (
                     <View>
                         {datePickerStart}
@@ -481,17 +481,17 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
                     readingTime: this.state.readTime,
-                    recurrence: '',
+                    recurrence: "",
                     publicationType: this.state.typePublication,
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
@@ -776,6 +776,8 @@ class CreateAction extends Component {
 
     _renderDateStartPicker() {
         const currentDate = moment().toDate();
+        let hd = new Holidays("fr");
+        let listHolidays = hd.getHolidays(moment().format("YYYY"));
 
         return (
             <View style={styles.containers}>
@@ -801,12 +803,17 @@ class CreateAction extends Component {
                             },
                         }}
                         onDateChange={formattedDateStart => {
-                            if (moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").isSameOrBefore(moment(formattedDateStart, "DD-MM-YYYY hh:mm"))) {
+                            let dayBefore = moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").isBefore(moment(formattedDateStart, "DD-MM-YYYY hh:mm"));
+                            let isHoliday = listHolidays.map((holiday) => {
+                                return moment(holiday.date, "DD-MM-YYYY").isSame(moment(formattedDateStart), "DD-MM-YYYY");
+                            });
+                            console.warn(dayBefore + " " + isHoliday);
+                            if (dayBefore || isHoliday) {
                                 this.setState({
                                     isValidDates: false,
                                     borderValidateDate: "#d9534f",
+                                    formattedDateStart: moment().format(this.dateFormat),
                                 });
-
                             }
                             else {
 
@@ -814,7 +821,6 @@ class CreateAction extends Component {
                                     isValidDates: true,
                                     borderValidateDate: colors.lightGray,
                                 });
-
                                 this.setState({formattedDateStart});
                             }
                         }}
@@ -825,7 +831,9 @@ class CreateAction extends Component {
     }
 
     _renderDateEndPicker() {
-
+        const currentDate = moment().toDate();
+        let hd = new Holidays("fr");
+        let listHolidays = hd.getHolidays(moment().format("YYYY"));
         return (
             <View style={styles.containers}>
                 <View><AppText style={styles.labels}>Date fin </AppText></View>
@@ -851,11 +859,16 @@ class CreateAction extends Component {
                         }}
                         onDateChange={formattedDateEnd => {
 
-                            if (moment(formattedDateEnd, "DD-MM-YYYY hh:mm").isSameOrBefore(moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm"))) {
+                            let dayBefore = (moment(formattedDateEnd, "DD-MM-YYYY hh:mm").isBefore(moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm")));
+                            let isHoliday = listHolidays.map((holiday) => {
+                                return moment(holiday.date, "DD-MM-YYYY").isSame(moment(formattedDateEnd), "DD-MM-YYYY");
+                            });
+
+                            if (dayBefore || isHoliday) {
                                 this.setState({
                                     isValidDates: false,
                                     borderValidateDate: "#d9534f",
-                                    formattedDateEnd,
+                                    formattedDateStart: moment().format(this.dateFormat),
                                 });
                             }
                             else {
@@ -881,10 +894,10 @@ class CreateAction extends Component {
                 <Action
                     onSelect={action => {
 
-                        const actionSplit = action.split('|');
+                        const actionSplit = action.split("|");
                         this.setState({
                             action: action,
-                            showFields:parseInt(actionSplit[0])
+                            showFields: parseInt(actionSplit[0]),
                         });
                     }}
 
