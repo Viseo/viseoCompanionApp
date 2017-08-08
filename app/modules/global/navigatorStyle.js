@@ -16,6 +16,7 @@ export const defaultNavBarStyle = {
 };
 
 export const centerNavStyle={
+    navBarBackgroundColor: colors.lightGreen,
     navBarButtonColor: 'white',
     navBarTextColor: 'white',
-}
+};

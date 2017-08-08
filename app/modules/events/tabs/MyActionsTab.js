@@ -12,6 +12,14 @@ export default class MyActionsTab extends Component {
 
     render() {
         return (
+            <View>
+                <ActionCard/>
+            </View>
+        );
+    }
+
+    _renderSectionList() {
+        return (
             <SectionList
                 renderItem={({item}) => this._renderActionCard(item)}
                 renderSectionHeader={({section}) => null}
