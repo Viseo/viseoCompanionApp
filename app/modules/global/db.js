@@ -443,8 +443,7 @@ export const actions = {
     },
     addActivity: async (activity) => {
         try {
-            console.warn(Object.keys(activity));
-            console.warn(Object.values(activity));
+
             let response = await fetch(settings.api.addActivity(), {
                 method: "POST",
                 headers: {

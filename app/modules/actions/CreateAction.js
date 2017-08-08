@@ -15,6 +15,8 @@ import {Option, OptionList, Select} from "react-native-selectme";
 import AppText from "../global/components/AppText";
 import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
 import Holidays from "date-holidays";
+import {defaultNavBarStyle} from '../global/navigatorStyle';
+
 class CreateAction extends Component {
 
     dateFormat = "DD-MM-YYYY HH:mm";
@@ -36,9 +38,11 @@ class CreateAction extends Component {
             readTime: "5 mn",
             recurrence: "Récurrence hebdo",
             action: "",
-            isValidDescription: true,
+            isValidDescription: false,
             isValidLocation: true,
             isValidDates: true,
+            errorStartDate: "",
+            errorEndDate: "",
             borderValidateDate: colors.lightGray,
             borderDescription: colors.lightGray,
             borderLocation: colors.lightGray,
@@ -49,7 +53,7 @@ class CreateAction extends Component {
 
     componentWillMount() {
         this._getMeans();
-        //  console.disableYellowBox = true;
+        console.disableYellowBox = true;
     }
 
     _emptyFields() {
@@ -92,7 +96,7 @@ class CreateAction extends Component {
         const locationField = this._renderLocationField();
         const datePickerEnd = this._renderDateEndPicker();
         switch (this.state.showFields) {
-            case 8:
+            case 1:
                 return (
                     <View>
                         {this._renderPractice()}
@@ -103,7 +107,7 @@ class CreateAction extends Component {
                 );
 
                 break;
-            case 4:
+            case 2:
                 return (
                     <View>
                         {datePickerStart}
@@ -112,6 +116,102 @@ class CreateAction extends Component {
                         {this._renderPractice()}
                         {this._renderRecurrence()}
                         {this._renderReadingTime()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 3:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 4:
+                return (
+                    <View>
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 5:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
+                        {this._renderPractice()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 6:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
+                        {this._renderPractice()}
+                        {this._renderRecurrence()}
+                        {this._renderReadingTime()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 7:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
+                        {this._renderPractice()}
+                        {this._renderRecurrence()}
+                        {this._renderReadingTime()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 8:
+                return (
+                    <View>
+                        {this._renderReadingTime()}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 9:
+                return (
+                    <View>
+                        {locationField}
+                        {descriptionField}
+                        {this._renderValidate()}
+                    </View>
+                );
+
+                break;
+            case 10:
+                return (
+                    <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
                         {descriptionField}
                         {this._renderValidate()}
                     </View>
@@ -133,6 +233,9 @@ class CreateAction extends Component {
             case 12:
                 return (
                     <View>
+                        {datePickerStart}
+                        {datePickerEnd}
+                        {locationField}
                         {descriptionField}
                         {this._renderValidate()}
                     </View>
@@ -145,7 +248,6 @@ class CreateAction extends Component {
                         {datePickerStart}
                         {datePickerEnd}
                         {locationField}
-                        {this._renderPractice()}
                         {descriptionField}
                         {this._renderValidate()}
                     </View>
@@ -153,68 +255,6 @@ class CreateAction extends Component {
 
                 break;
             case 14:
-                return (
-                    <View>
-                        {datePickerStart}
-                        {datePickerEnd}
-                        {locationField}
-                        {this._renderPractice()}
-                        {this._renderRecurrence()}
-                        {this._renderReadingTime()}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 15:
-                return (
-                    <View>
-                        {datePickerStart}
-                        {datePickerEnd}
-                        {locationField}
-                        {this._renderPractice()}
-                        {this._renderRecurrence()}
-                        {this._renderReadingTime()}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 16:
-                return (
-                    <View>
-                        {this._renderReadingTime()}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 17:
-                return (
-                    <View>
-                        {locationField}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 18:
-                return (
-                    <View>
-                        {datePickerStart}
-                        {datePickerEnd}
-                        {locationField}
-                        {descriptionField}
-                        {this._renderValidate()}
-                    </View>
-                );
-
-                break;
-            case 19:
                 return (
                     <View>
                         {datePickerStart}
@@ -240,7 +280,7 @@ class CreateAction extends Component {
         const actionSplitted = this.state.action.split("|");
         let activity = {};
         switch (parseInt(actionSplitted[0])) {
-            case 9:
+            case 1:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -264,7 +304,7 @@ class CreateAction extends Component {
                     this._addActivity(activity);
 
                 break;
-            case 10:
+            case 2:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -287,7 +327,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 11:
+            case 3:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -311,7 +351,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 12:
+            case 4:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -334,7 +374,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 13:
+            case 5:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -357,7 +397,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 14:
+            case 6:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -380,7 +420,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 15:
+            case 7:
 
                 activity = {
                     actionId: actionSplitted[0],
@@ -405,7 +445,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 16:
+            case 8:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -428,7 +468,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 17:
+            case 9:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -451,7 +491,7 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 18:
+            case 10:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -474,7 +514,76 @@ class CreateAction extends Component {
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
                 break;
-            case 19:
+            case 11:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: this.state.readTime,
+                    recurrence: "",
+                    publicationType: this.state.typePublication,
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 12:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: this.state.readTime,
+                    recurrence: "",
+                    publicationType: this.state.typePublication,
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 13:
+                activity = {
+                    actionId: actionSplitted[0],
+                    userId: this.props.user.id,
+                    means: this.state.means,
+                    title: actionSplitted[1],
+                    description: this.state.description,
+                    etat: "",
+                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateRelease: 0,
+                    dateValidation: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateCreation: 0,
+                    address: this.state.location,
+                    vizzWon: 0,
+                    practice: this.state.practice,
+                    readingTime: this.state.readTime,
+                    recurrence: "",
+                    publicationType: this.state.typePublication,
+                };
+                if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
+                    this._addActivity(activity);
+                break;
+            case 14:
                 activity = {
                     actionId: actionSplitted[0],
                     userId: this.props.user.id,
@@ -499,6 +608,15 @@ class CreateAction extends Component {
                 break;
         }
         this._emptyFields();
+        this.props.navigator.push({
+            screen: 'events.events',
+            title: 'Evénèments',
+            navigatorStyle: defaultNavBarStyle,
+            passProps: {
+                actionId: actionSplitted[0],
+                tabId:3
+            }
+        });
     }
 
     _renderValidate() {
@@ -702,21 +820,6 @@ class CreateAction extends Component {
         );
     }
 
-    _isValidTextLocation(text) {
-        const regexLocation = /^[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s\-']*$/;
-        if ((text.length < 2 || !regexLocation.test(text)))
-            this.setState({
-                isValidLocation: false,
-                borderLocation: "#d9534f",
-            });
-        else
-            this.setState({
-                isValidLocation: true,
-                borderLocation: colors.lightGray,
-            });
-
-    }
-
     _renderLocationField() {
         return (
             <View style={[styles.containers]}>
@@ -804,15 +907,21 @@ class CreateAction extends Component {
                         }}
                         onDateChange={formattedDateStart => {
                             let dayBefore = moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").isBefore(moment(formattedDateStart, "DD-MM-YYYY hh:mm"));
-                            let isHoliday = listHolidays.map((holiday) => {
-                                return moment(holiday.date, "DD-MM-YYYY").isSame(moment(formattedDateStart), "DD-MM-YYYY");
-                            });
-                            console.warn(dayBefore + " " + isHoliday);
-                            if (dayBefore || isHoliday) {
+
+                            let isHoliday = listHolidays.every(holiday =>
+                                moment(holiday.date).format("DD-MM-YYYY") !== moment(formattedDateStart, "DD-MM-YYYY hh:mm").format("DD-MM-YYYY"),
+                            );
+                            let dayName = moment(formattedDateStart, "DD-MM-YYYY hh:mm").format("dddd");
+                            let isWeekEnd = dayName === "Dimanche" || dayName === "Samedi" ? true : false;
+
+                            if (dayBefore || !isHoliday || isWeekEnd) {
+                                if (isWeekEnd || !isHoliday) this.setState({errorStartDate: "Jours non ouvrés"});
+                                if (dayBefore) this.setState({errorStartDate: "Date début inférieure ou égale à date fin"});
                                 this.setState({
                                     isValidDates: false,
-                                    borderValidateDate: "#d9534f",
+                                    borderValidateDate: "#d50000",
                                     formattedDateStart: moment().format(this.dateFormat),
+                                    formattedDateEnd: moment().format(this.dateFormat),
                                 });
                             }
                             else {
@@ -820,18 +929,22 @@ class CreateAction extends Component {
                                 this.setState({
                                     isValidDates: true,
                                     borderValidateDate: colors.lightGray,
+                                    errorStartDate:'',
+                                    errorStartDate:'',
+                                    formattedDateStart:formattedDateStart
                                 });
-                                this.setState({formattedDateStart});
                             }
                         }}
                     />
+
+                    <AppText style={{color: "#d50000", marginLeft: 30}}>{this.state.errorStartDate}</AppText>
                 </View>
             </View>
         );
     }
 
     _renderDateEndPicker() {
-        const currentDate = moment().toDate();
+
         let hd = new Holidays("fr");
         let listHolidays = hd.getHolidays(moment().format("YYYY"));
         return (
@@ -858,29 +971,37 @@ class CreateAction extends Component {
                             },
                         }}
                         onDateChange={formattedDateEnd => {
-
                             let dayBefore = (moment(formattedDateEnd, "DD-MM-YYYY hh:mm").isBefore(moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm")));
-                            let isHoliday = listHolidays.map((holiday) => {
-                                return moment(holiday.date, "DD-MM-YYYY").isSame(moment(formattedDateEnd), "DD-MM-YYYY");
-                            });
+                            let isHoliday = listHolidays.every(holiday =>
+                                moment(holiday.date).format("DD-MM-YYYY") !== moment(formattedDateEnd, "DD-MM-YYYY hh:mm").format("DD-MM-YYYY"),
+                            );
+                            let dayName = moment(formattedDateEnd, "DD-MM-YYYY hh:mm").format("dddd");
+                            let isWeekEnd = dayName === "Dimanche" || dayName === "Samedi" ? true : false;
 
-                            if (dayBefore || isHoliday) {
+                            if (dayBefore || !isHoliday || isWeekEnd) {
+                                if (isWeekEnd || !isHoliday) this.setState({errorEndDate: "Jours non ouvrés"});
+                                if (dayBefore) this.setState({errorEndDate: "Date début inférieure ou égale à date fin"});
                                 this.setState({
                                     isValidDates: false,
-                                    borderValidateDate: "#d9534f",
+                                    borderValidateDate: "#d50000",
                                     formattedDateStart: moment().format(this.dateFormat),
+                                    formattedDateEnd: moment().format(this.dateFormat),
+
                                 });
                             }
                             else {
                                 this.setState({
                                     isValidDates: true,
                                     borderValidateDate: colors.lightGray,
+                                    errorEndDate: '',
+                                    errorStartDate:'',
+                                    formattedDateEnd:formattedDateEnd,
                                 });
-                                this.setState({formattedDateEnd});
                             }
 
                         }}
                     />
+                    <AppText style={{color: "#d50000", marginLeft: 30}}>{this.state.errorEndDate}</AppText>
                 </View>
             </View>
         );
