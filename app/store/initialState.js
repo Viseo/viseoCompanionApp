@@ -39,5 +39,6 @@ export default {
     },
     actions: {
         items: [],
+        myItems: [],
     },
 };

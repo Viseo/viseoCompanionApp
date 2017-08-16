@@ -1,26 +1,25 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {Button, Dimensions, ScrollView, StyleSheet, View} from "react-native";
-import Svg from "react-native-svg/elements/Svg";
-import {Circle, G, Image, Text} from "react-native-svg";
-import Icon from "react-native-vector-icons/FontAwesome";
-import * as db from "../global/db";
-import colors from "../global/colors";
-import DatePicker from "react-native-datepicker";
-import moment from "moment";
-import AppTextInput from "../global/components/AppTextInput";
-import GridRow from "./GridRow";
-import Action from "./Action";
-import {Option, OptionList, Select} from "react-native-selectme";
-import AppText from "../global/components/AppText";
-import {GooglePlacesAutocomplete} from "react-native-google-places-autocomplete";
-import Holidays from "date-holidays";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Button, ScrollView, StyleSheet, View} from 'react-native';
+import Svg from 'react-native-svg/elements/Svg';
+import {Circle, G, Image, Text} from 'react-native-svg';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as db from '../global/db';
+import colors from '../global/colors';
+import DatePicker from 'react-native-datepicker';
+import moment from 'moment';
+import AppTextInput from '../global/components/AppTextInput';
+import GridRow from './GridRow';
+import Action from './Action';
+import {Option, OptionList, Select} from 'react-native-selectme';
+import AppText from '../global/components/AppText';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import Holidays from 'date-holidays';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 class CreateAction extends Component {
 
     dateFormat = "DD-MM-YYYY HH:mm";
-    deviceHeight = Dimensions.get("window").height;
 
     constructor(props) {
         super(props);
