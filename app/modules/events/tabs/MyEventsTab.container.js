@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import MyEventsTab from './MyEventsTab';
 import {noEventsForThisCategory} from './util';
+import {bindActionCreators} from 'redux';
+import {fetchEvents} from '../events.actions';
 
 function breakDownIntoSections(events, user) {
 
@@ -45,4 +47,12 @@ const mapStateToProps = ({events, user}, ownProps) => ({
     user,
 });
 
-export default connect(mapStateToProps, null)(MyEventsTab);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+            refresh: fetchEvents,
+        },
+        dispatch,
+    );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyEventsTab);

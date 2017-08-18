@@ -32,7 +32,9 @@ export default class CalendarTab extends Component {
     _onRefresh() {
         this.setState({refreshing: true});
         this.props.refresh().then(() => {
-            this.setState({refreshing: false});
+            this.props.refreshActions().then(() => {
+                this.setState({refreshing: false});
+            });
         });
     }
 
@@ -119,8 +121,10 @@ styles = StyleSheet.create({
         backgroundColor: colors.lighterBlue,
     },
     emptyEventList: {
+        marginTop: 15,
         height: 40,
-        paddingLeft: 10,
+        marginRight: 20,
+        marginLeft: 20,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',

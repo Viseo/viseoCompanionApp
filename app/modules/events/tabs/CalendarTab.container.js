@@ -3,6 +3,7 @@ import moment from 'moment';
 import CalendarTab from './CalendarTab';
 import {bindActionCreators} from 'redux';
 import {fetchEvents} from '../events.actions';
+import {fetchActions} from '../../actions/actions.actions';
 
 let currentDaySectionIndex = 0;
 
@@ -90,6 +91,7 @@ const mapStateToProps = ({events, actions}, ownProps) => ({
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             refresh: fetchEvents,
+            refreshActions: fetchActions,
         },
         dispatch,
     );

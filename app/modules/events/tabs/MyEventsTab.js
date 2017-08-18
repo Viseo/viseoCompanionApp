@@ -1,4 +1,4 @@
-import {SectionList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {RefreshControl, SectionList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {Component} from 'react';
 import colors from '../../global/colors';
 import AppText from '../../global/components/AppText';
@@ -10,11 +10,20 @@ export default class MyEventsTab extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            refreshing: false,
+        };
     }
 
     render() {
         return (
             <SectionList
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                    />
+                }
                 style={styles.mainContainer}
                 renderItem={({item}) => this._renderEventCard(item)}
                 renderSectionHeader={({section}) => this._renderSectionHeader(section)}
@@ -43,10 +52,12 @@ export default class MyEventsTab extends Component {
             );
         } else {
             return (
-                <EventCard
-                    eventId={item.id}
-                    navigator={this.props.navigator}
-                />
+                <View style={styles.eventCardContainer}>
+                    <EventCard
+                        eventId={item.id}
+                        navigator={this.props.navigator}
+                    />
+                </View>
             );
         }
     }
@@ -57,6 +68,13 @@ export default class MyEventsTab extends Component {
                 <AppText style={styles.sectionText}>{section.title}</AppText>
             </View>
         );
+    }
+
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.props.refresh().then(() => {
+            this.setState({refreshing: false});
+        });
     }
 }
 
@@ -76,16 +94,19 @@ const styles = StyleSheet.create({
         borderLeftWidth: borderWidth,
         borderRightWidth: borderWidth,
         borderColor: colors.blue,
+        marginLeft: 20,
     },
     seeAllContainer: {
         backgroundColor: colors.blue,
         borderBottomLeftRadius: borderRadius,
         borderBottomRightRadius: borderRadius,
+        marginLeft: 20,
     },
     sectionContainer: {
         backgroundColor: colors.blue,
         height: 30,
         marginTop: 10,
+        marginLeft: 20,
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
     },
@@ -97,6 +118,7 @@ const styles = StyleSheet.create({
     noEventsContainer: {
         height: 40,
         paddingLeft: 10,
+        marginLeft: 20,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',

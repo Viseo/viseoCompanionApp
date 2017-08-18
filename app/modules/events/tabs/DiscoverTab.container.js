@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import DiscoverTab from './DiscoverTab';
 import {bindActionCreators} from 'redux';
 import {setWords} from '../search/search.actions';
-import {showCurrentDaySection} from '../events.actions';
+import {fetchEvents, showCurrentDaySection} from '../events.actions';
 import {noEventsForThisCategory} from './util';
 
 const categories = [
@@ -76,6 +76,7 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             setWords,
             showCurrentDaySection,
+            refresh: fetchEvents,
         },
         dispatch,
     );

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SectionList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {RefreshControl, SectionList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import colors from '../../global/colors';
 import EventCard from '../EventCard';
 import AppText from '../../global/components/AppText';
@@ -10,11 +10,20 @@ export default class DiscoverTab extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            refreshing: false,
+        };
     }
 
     render() {
         return (
             <SectionList
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh.bind(this)}
+                    />
+                }
                 style={styles.mainContainer}
                 renderItem={(info) => this._renderEventCard(info)}
                 renderSectionHeader={({section}) => this._renderSectionHeader(section)}
@@ -23,6 +32,7 @@ export default class DiscoverTab extends Component {
             />
         );
     }
+
     _renderEventCard({item, section}) {
         const seeAll = (
             <View style={styles.seeAllContainer}>
@@ -74,7 +84,15 @@ export default class DiscoverTab extends Component {
             </View>
         );
     }
+
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.props.refresh().then(() => {
+            this.setState({refreshing: false});
+        });
+    }
 }
+
 
 DiscoverTab.propTypes = {
     goToCalendarTab: PropTypes.func.isRequired,
@@ -93,10 +111,12 @@ const styles = StyleSheet.create({
         borderLeftWidth: borderWidth,
         borderRightWidth: borderWidth,
         borderColor: colors.blue,
+        marginLeft: 20,
     },
     noEventsContainer: {
         height: 40,
         paddingLeft: 10,
+        marginLeft: 20,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -104,6 +124,7 @@ const styles = StyleSheet.create({
     noEventsText: {},
     seeAllContainer: {
         backgroundColor: colors.blue,
+        marginLeft: 20,
         borderBottomLeftRadius: borderRadius,
         borderBottomRightRadius: borderRadius,
     },
@@ -111,6 +132,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blue,
         height: 30,
         marginTop: 10,
+        marginLeft: 20,
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
         justifyContent: 'center',
