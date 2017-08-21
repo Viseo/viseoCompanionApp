@@ -13,6 +13,7 @@ import {defaultNavBarStyle} from '../global/navigatorStyle';
 import {callWithTimeout} from '../global/db';
 import {fetchEventsExp, fetchReviewedEvents} from '../../actionCreators/events.depreciated';
 import {fetchEvents} from '../events/events.actions';
+import {fetchActions} from '../actions/actions.actions';
 
 class SplashScreen extends Component {
 
@@ -88,6 +89,7 @@ class SplashScreen extends Component {
     _navigateToHome() {
         this.props.refreshPastEvents(this.props.user);
         this.props.refreshEvents(this.props.user);
+        this.props.refreshActions();
         this.props.refreshReviewedEvents(this.props.user.id);
         startApp();
     }
@@ -131,6 +133,7 @@ const mapDispatchToProps = (dispatch) => {
         authenticate,
         refreshPastEvents: fetchEventsExp,
         refreshEvents: fetchEvents,
+        refreshActions: fetchActions,
         refreshReviewedEvents: fetchReviewedEvents,
     }, dispatch);
 };

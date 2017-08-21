@@ -6,7 +6,6 @@ import {Circle, G, Image, Text} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as db from '../global/db';
 import colors from '../global/colors';
-import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import AppTextInput from '../global/components/AppTextInput';
 import GridRow from './GridRow';
@@ -14,7 +13,7 @@ import Action from './Action';
 import {Option, OptionList, Select} from 'react-native-selectme';
 import AppText from '../global/components/AppText';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import Holidays from 'date-holidays';
+//simport Holidays from 'date-holidays';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 class CreateAction extends Component {
@@ -92,9 +91,9 @@ class CreateAction extends Component {
 
     _renderByAction() {
         const descriptionField = this._renderDescriptionField();
-        const datePickerStart = this._renderDateStartPicker();
+        //const datePickerStart = this._renderDateStartPicker();
         const locationField = this._renderLocationField();
-        const datePickerEnd = this._renderDateEndPicker();
+        //const datePickerEnd = this._renderDateEndPicker();
         switch (this.state.showFields) {
             case 1:
                 return (
@@ -110,8 +109,8 @@ class CreateAction extends Component {
             case 2:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*  {datePickerStart}
+                        {datePickerEnd}*/}
                         {locationField}
                         {this._renderPractice()}
                         {this._renderRecurrence()}
@@ -125,8 +124,8 @@ class CreateAction extends Component {
             case 3:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {descriptionField}
                         {this._renderValidate()}
@@ -146,8 +145,8 @@ class CreateAction extends Component {
             case 5:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {this._renderPractice()}
                         {descriptionField}
@@ -159,8 +158,8 @@ class CreateAction extends Component {
             case 6:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {this._renderPractice()}
                         {this._renderRecurrence()}
@@ -174,8 +173,8 @@ class CreateAction extends Component {
             case 7:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {this._renderPractice()}
                         {this._renderRecurrence()}
@@ -209,8 +208,8 @@ class CreateAction extends Component {
             case 10:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {descriptionField}
                         {this._renderValidate()}
@@ -221,8 +220,8 @@ class CreateAction extends Component {
             case 11:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {descriptionField}
                         {this._renderValidate()}
@@ -233,8 +232,8 @@ class CreateAction extends Component {
             case 12:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {descriptionField}
                         {this._renderValidate()}
@@ -245,8 +244,8 @@ class CreateAction extends Component {
             case 13:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {descriptionField}
                         {this._renderValidate()}
@@ -257,8 +256,8 @@ class CreateAction extends Component {
             case 14:
                 return (
                     <View>
-                        {datePickerStart}
-                        {datePickerEnd}
+                        {/*datePickerStart*/}
+                        {/*datePickerEnd*/}
                         {locationField}
                         {descriptionField}
                         {this._renderValidate()}
@@ -877,7 +876,7 @@ class CreateAction extends Component {
         );
     }
 
-    _renderDateStartPicker() {
+    /*_renderDateStartPicker() {
         const currentDate = moment().toDate();
         let hd = new Holidays("fr");
         let listHolidays = hd.getHolidays(moment().format("YYYY"));
@@ -1005,7 +1004,7 @@ class CreateAction extends Component {
                 </View>
             </View>
         );
-    }
+    }*/
 
     _renderAction() {
         return (

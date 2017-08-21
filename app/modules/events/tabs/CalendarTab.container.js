@@ -3,6 +3,7 @@ import moment from 'moment';
 import CalendarTab from './CalendarTab';
 import {bindActionCreators} from 'redux';
 import {fetchEvents} from '../events.actions';
+import {fetchActions} from '../../actions/actions.actions';
 
 let currentDaySectionIndex = 0;
 
@@ -23,6 +24,14 @@ function sortByYearAndMonth(events) {
             result[year][month].push(event);
     });
     return result;
+}
+
+function getEventsByCurrentDay(events) {
+    const today = moment().format('DD/MM/YYYY');
+    return events.filter(event => {
+        const {datetime} = event;
+        return moment(datetime).format('DD/MM/YYYY') === today;
+    });
 }
 
 function convertIntoSections(events, eventsByDay) {
@@ -59,23 +68,20 @@ function convertIntoSections(events, eventsByDay) {
     return sections;
 }
 
-function getEventsByCurrentDay(events) {
-    const today = moment().format('DD/MM/YYYY');
-    return events.filter(event => {
-        const {datetime} = event;
-        return moment(datetime).format('DD/MM/YYYY') === today;
-    });
-}
+function breakDownIntoSections(events, actions) {
+//TODO : trouver une solution sur comment injecter l'élément dans le tableau
 
-function breakDownIntoSections(events) {
+    actions.map((e) => {
+        events.push(e);
+    });
     const sortedEvents = sortByYearAndMonth(events);
     const eventsByDay = getEventsByCurrentDay(events);
     const sections = convertIntoSections(sortedEvents, eventsByDay);
     return sections;
 }
 
-const mapStateToProps = ({events}, ownProps) => ({
-    events: breakDownIntoSections(events.items),
+const mapStateToProps = ({events, actions}, ownProps) => ({
+    events: breakDownIntoSections(events.items, actions.items),
     selectedEvent: events.selectedItem,
     currentDaySectionIndex,
     scrollToCurrentDaySection: events.showCurrentDaySection,
@@ -85,6 +91,7 @@ const mapStateToProps = ({events}, ownProps) => ({
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
             refresh: fetchEvents,
+            refreshActions: fetchActions,
         },
         dispatch,
     );
@@ -94,4 +101,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(CalendarTab);
-

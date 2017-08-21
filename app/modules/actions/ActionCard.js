@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {Platform, View} from 'react-native';
-import colors from '../global/colors';
-import Highlighter from 'react-native-highlight-words';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {View} from 'react-native';
 import AppText from '../global/components/AppText';
-import moment from 'moment';
+import colors from '../global/colors';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class ActionCard extends Component {
 
@@ -15,108 +14,78 @@ class ActionCard extends Component {
 
     render() {
         return (
-            <View style={{flexDirection: 'row', height: 100, borderWidth: 5, borderColor: '#000000'}}>
-                {this._renderDate()}
-                <View style={{flex: 2, flexDirection: 'row', height: 100}}>
-                    <View style={{
-                        flex: .2, alignSelf: 'stretch',
-                        marginRight: 10,
-                        //backgroundColor: getCategoryColor(this.props.event.category),
-                    }}
-                    />
-                    <View style={{flex: 8, flexDirection: 'column', marginTop: 5}}>
-                        <View style={{flex: 1}}>
-                            <View>
-                                <Highlighter
-                                    numberOfLines={1}
-                                    highlightStyle={{backgroundColor: colors.highlight}}
-                                    style={{
-                                        paddingRight: 10,
-                                        fontWeight: 'bold',
-                                        fontSize: 20,
-                                        fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-                                    }}
-                                    searchWords={this.props.searchWords}
-                                    textToHighlight={'Titre de l\'event' || ''}
-                                />
-                            </View>
-                        </View>
-                        <View style={{flex: 2, flexDirection: 'row'}}>
-                            <View style={{flex: 1, flexDirection: 'column'}}>
-                                <View>
-                                    <Highlighter
-                                        numberOfLines={2}
-                                        highlightStyle={{backgroundColor: colors.highlight}}
-                                        style={{
-                                            color: colors.mediumGray,
-                                            fontWeight: '200',
-                                            fontSize: 16,
-                                            fontFamily: (Platform.OS === 'ios') ? 'Avenir' : 'Roboto',
-                                        }}
-                                        searchWords={this.props.searchWords}
-                                        textToHighlight={'lieu' || ''}
-                                    />
-                                </View>
-                                <View>
-                                    <AppText style={{color: colors.mediumGray, fontSize: 13, marginTop: 2,}}>
-                                        {'prenom'} {'nom'}
-                                    </AppText>
-                                </View>
-                            </View>
-                            <View style={{flex: .5, justifyContent: 'center', alignItems: 'center'}}>
-                                <View style={[
-                                    {width: 20, height: 20, borderRadius: 20},
-                                ]}/>
-                            </View>
-                        </View>
+            <View style={{
+                flexDirection: 'column',
+                marginLeft: 15,
+                marginRight: 15,
+                marginBottom: 15,
+                backgroundColor: colors.white,
+            }}>
+                <AppText
+                    style={{alignSelf: 'center', color: colors.red, fontSize: 15, marginTop: 10, marginBottom: 10}}>
+                    {this.props.item.action.name}
+                </AppText>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <AppText style={{
+                        flex: 0.5,
+                        marginTop: 5,
+                        marginBottom: 5,
+                        fontSize: 12,
+                        textAlign: 'left',
+                        marginLeft: 20,
+                    }}>
+                        {this.props.item.etat}
+                    </AppText>
+                    <AppText style={{
+                        flex: 0.5,
+                        marginTop: 5,
+                        marginBottom: 5,
+                        fontSize: 12,
+                        textAlign: 'right',
+                        marginRight: 20,
+                    }}>
+                        {this.props.item.address}
+                    </AppText>
+                </View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View style={{flex: 0.5, flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <Icon name="play-circle-o" style={{flex: 1, alignSelf: 'center', marginLeft: 20}}/>
+                        <AppText
+                            style={{
+                                flex: 15,
+                                fontWeight: 'bold',
+                                marginTop: 5,
+                                marginBottom: 5,
+                                fontSize: 12,
+                                textAlign: 'center',
+                            }}>
+                            {this.props.item.dateStart}
+                        </AppText>
+                    </View>
+                    <View style={{flex: 0.5, flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <Icon name="stop-circle-o" style={{flex: 1, alignSelf: 'center', marginLeft: 20}}/>
+                        <AppText
+                            style={{
+                                flex: 15,
+                                fontWeight: 'bold',
+                                marginTop: 5,
+                                marginBottom: 5,
+                                fontSize: 12,
+                                textAlign: 'center',
+                            }}>
+                            {this.props.item.dateEnd}
+                        </AppText>
                     </View>
                 </View>
             </View>
         );
     }
-
-    _renderDate() {
-        const date = moment().format('DD MMM HH:mm');
-        let splitDate = date.split(' ');
-        let [day, month, time] = splitDate;
-
-        return (
-            <View>
-                <View>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={day}
-                    />
-                </View>
-                <View>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={month}
-                    />
-                </View>
-                <View>
-                    <Highlighter
-                        numberOfLines={1}
-                        highlightStyle={styles.highlightStyle}
-                        searchWords={this.props.searchWords}
-                        textToHighlight={time}
-                    />
-                </View>
-
-            </View>
-        );
-    }
-
 }
 
 ActionCard.propTypes = {};
 
-const mapStateToProps = ({events, user, searchWords}, ownProps) => ({
-    event: events.items.find(event => parseInt(event.id) === ownProps.eventId),
+const mapStateToProps = ({actions, user, searchWords}, ownProps) => ({
+    action: actions.items.find(action => parseInt(action.id) === ownProps.actionId),
     searchWords,
     user,
     ...ownProps,

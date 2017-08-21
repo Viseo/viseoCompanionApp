@@ -9,8 +9,7 @@ import {Navigation} from 'react-native-navigation';
 
 export default class Events extends Component {
 
-
-    calendarTabIndex=1
+    calendarTabIndex = 1;
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -26,6 +25,7 @@ export default class Events extends Component {
                     this.tabView = ref;
                 }}
                 initialPage={this.state.defaultTab}
+                tabBarTextStyle={{fontSize: 13}}
             >
                 <Discover
                     tabLabel="Découvrir"
