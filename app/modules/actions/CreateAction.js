@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, ScrollView, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import Svg from 'react-native-svg/elements/Svg';
 import {Circle, G, Image, Text} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -20,6 +20,7 @@ import {defaultNavBarStyle} from '../global/navigatorStyle';
 class CreateAction extends Component {
 
     dateFormat = "DD-MM-YYYY HH:mm";
+    deviceHeight = Dimensions.get('window').height;
 
     constructor(props) {
         super(props);

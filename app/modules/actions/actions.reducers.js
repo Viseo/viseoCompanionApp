@@ -30,14 +30,12 @@ function formatAction(action) {
 
 const actions = (state = {
     items: [],
-    myItems: [],
 }, action) => {
     switch (action.type) {
         case types.ADD_ACTIONS:
             return {
                 ...state,
                 items: action.actions.map(action => formatAction(action)),
-                myItems: action.actions,
             };
         default:
             return state;
