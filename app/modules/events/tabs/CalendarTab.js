@@ -12,7 +12,6 @@ export default class CalendarTab extends Component {
         this.state = {
             refreshing: false,
         };
-        console.disableYellowBox = true;
     }
 
     componentWillReceiveProps({scrollToCurrentDaySection}) {
@@ -38,14 +37,13 @@ export default class CalendarTab extends Component {
         });
     }
 
+
     _renderSectionHeader = (section) => {
         const today = <AppText style={styles.headerToday}>{section.title}</AppText>;
         const year = <AppText style={styles.headerYear}>{section.title}</AppText>;
         const month = (
-            <AppText style={styles.headerMonth}>
-                {section.title.substring(0, 1).toUpperCase()}
-                {section.title.substring(1, section.title.length)}
-            </AppText>
+            <AppText
+                style={styles.headerMonth}>{section.title.substring(0, 1).toUpperCase()}{section.title.substring(1, section.title.length)}</AppText>
         );
         switch (section.type) {
             case 'today':
@@ -72,6 +70,7 @@ export default class CalendarTab extends Component {
                         onRefresh={this._onRefresh.bind(this)}
                     />
                 }
+
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item}) =>
                     <EventCard
@@ -88,11 +87,7 @@ export default class CalendarTab extends Component {
                 ListEmptyComponent={this._renderEmptyEventList()}
             />
         );
-        return (
-            <View style={styles.mainContainer}>
-                {eventList}
-            </View>
-        );
+        return <View style={styles.mainContainer}>{eventList}</View>;
     }
 
     scrollToCurrentDaySection() {
@@ -107,9 +102,7 @@ CalendarTab.defaultProps = {
 
 CalendarTab.propTypes = {
     events: PropTypes.array.isRequired,
-    //actions: PropTypes.array.isRequired,
     eventId: PropTypes.number,
-    //actionId: PropTypes.number,
     scrollToCurrentDaySection: PropTypes.bool,
     currentDaySectionIndex: PropTypes.number.isRequired,
 };

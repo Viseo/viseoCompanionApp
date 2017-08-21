@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {View} from 'react-native';
 import AppText from '../global/components/AppText';
@@ -15,10 +14,16 @@ class ActionCard extends Component {
 
     render() {
         return (
-            <View style={{flexDirection: 'column', marginLeft: 15, marginRight: 15, backgroundColor: colors.lightGray}}>
+            <View style={{
+                flexDirection: 'column',
+                marginLeft: 15,
+                marginRight: 15,
+                marginBottom: 15,
+                backgroundColor: colors.white,
+            }}>
                 <AppText
                     style={{alignSelf: 'center', color: colors.red, fontSize: 15, marginTop: 10, marginBottom: 10}}>
-                    J'ai une idée et je souhaite lancer un projet participatif
+                    {this.props.item.action.name}
                 </AppText>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <AppText style={{
@@ -29,7 +34,7 @@ class ActionCard extends Component {
                         textAlign: 'left',
                         marginLeft: 20,
                     }}>
-                        Brouillon
+                        {this.props.item.etat}
                     </AppText>
                     <AppText style={{
                         flex: 0.5,
@@ -39,7 +44,7 @@ class ActionCard extends Component {
                         textAlign: 'right',
                         marginRight: 20,
                     }}>
-                        Boulogne-Billancourt
+                        {this.props.item.address}
                     </AppText>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -54,7 +59,7 @@ class ActionCard extends Component {
                                 fontSize: 12,
                                 textAlign: 'center',
                             }}>
-                            08-08-2017 15:45
+                            {this.props.item.dateStart}
                         </AppText>
                     </View>
                     <View style={{flex: 0.5, flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -68,7 +73,7 @@ class ActionCard extends Component {
                                 fontSize: 12,
                                 textAlign: 'center',
                             }}>
-                            19-08-2017 10:00
+                            {this.props.item.dateEnd}
                         </AppText>
                     </View>
                 </View>
@@ -77,11 +82,7 @@ class ActionCard extends Component {
     }
 }
 
-ActionCard.propTypes = {
-    actionId: PropTypes.number.isRequired,
-    action: PropTypes.object.isRequired,
-    navigator: PropTypes.object.isRequired,
-};
+ActionCard.propTypes = {};
 
 const mapStateToProps = ({actions, user, searchWords}, ownProps) => ({
     action: actions.items.find(action => parseInt(action.id) === ownProps.actionId),
