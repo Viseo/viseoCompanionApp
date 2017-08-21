@@ -25,14 +25,6 @@ function sortByYearAndMonth(events) {
     return result;
 }
 
-function getEventsByCurrentDay(events) {
-    const today = moment().format('DD/MM/YYYY');
-    return events.filter(event => {
-        const {datetime} = event;
-        return moment(datetime).format('DD/MM/YYYY') === today;
-    });
-}
-
 function convertIntoSections(events, eventsByDay) {
     let sections = [];
 
@@ -67,20 +59,23 @@ function convertIntoSections(events, eventsByDay) {
     return sections;
 }
 
-function breakDownIntoSections(events, actions) {
-//TODO : trouver une solution sur comment injecter l'élément dans le tableau
-
-    actions.map((e) => {
-        events.push(e);
+function getEventsByCurrentDay(events) {
+    const today = moment().format('DD/MM/YYYY');
+    return events.filter(event => {
+        const {datetime} = event;
+        return moment(datetime).format('DD/MM/YYYY') === today;
     });
+}
+
+function breakDownIntoSections(events) {
     const sortedEvents = sortByYearAndMonth(events);
     const eventsByDay = getEventsByCurrentDay(events);
     const sections = convertIntoSections(sortedEvents, eventsByDay);
     return sections;
 }
 
-const mapStateToProps = ({events, actions}, ownProps) => ({
-    events: breakDownIntoSections(events.items, actions.items),
+const mapStateToProps = ({events}, ownProps) => ({
+    events: breakDownIntoSections(events.items),
     selectedEvent: events.selectedItem,
     currentDaySectionIndex,
     scrollToCurrentDaySection: events.showCurrentDaySection,
@@ -99,3 +94,4 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(CalendarTab);
+

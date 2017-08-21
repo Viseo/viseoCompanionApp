@@ -9,6 +9,7 @@ class Action extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            action: '',
             options: [],
         };
 
@@ -19,19 +20,24 @@ class Action extends Component {
     }
 
     _getOptionList() {
-        return this.refs['OPTIONLISTACTION'];
+        return this.refs['OPTIONLIST'];
     }
 
+    _select(action) {
+        this.setState({
+            ...this.state,
+            action: action.id,
+        });
+    }
 
     render() {
         const {options} = this.state;
         const {onSelect} = this.props;
         let actions = options.map(function (option, i) {
-            const action=option.id+"|"+option.name;
-            return (<Option value={{action: action}} key={i} style={{
+            return (<Option value={{id: option.id}} key={i} style={{
                 backgroundColor: "transparent",
                 borderWidth: 1,
-                borderColor: colors.lightGray,
+                borderColor: colors.mediumGray,
             }}>{option.name}</Option>);
         });
         return (
@@ -39,24 +45,25 @@ class Action extends Component {
                 <Select
                     width={350}
                     height={50}
-                    ref="SELECTACTION"
+                    ref="SELECT1"
                     optionListRef={this._getOptionList.bind(this)}
-                    onSelect={(val) => {
-                        onSelect(val.action);
+                    onSelect={(action) => {
+                        this._select(action);
+                        onSelect(action.id);
                     }}
-                    style={{backgroundColor: "#00BFB3", borderWidth: 1, borderColor: colors.lightGray}}
-                    defaultValue="Choisir une action"
+                    style={{backgroundColor: '#00BFB3'}}
+                    defaultValue="Choisir une action ..."
                 >
                     {actions}
                 </Select>
-                <OptionList ref="OPTIONLISTACTION"
+                <OptionList ref="OPTIONLIST"
                             overlayStyles={{
                                 backgroundColor: "transparent",
                                 width: 400,
                                 height: 120,
                                 padding: 0,
                                 left: 5,
-                                top: 45,
+                                top: 40,
                                 bottom: 0,
                                 zIndex: 100,
                             }}
