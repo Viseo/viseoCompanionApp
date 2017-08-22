@@ -13,8 +13,9 @@ import Action from './Action';
 import {Option, OptionList, Select} from 'react-native-selectme';
 import AppText from '../global/components/AppText';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-//simport Holidays from 'date-holidays';
+import Holidays from 'date-holidays';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import DatePicker from "react-native-datepicker";
 
 class CreateAction extends Component {
 
@@ -91,9 +92,9 @@ class CreateAction extends Component {
 
     _renderByAction() {
         const descriptionField = this._renderDescriptionField();
-        //const datePickerStart = this._renderDateStartPicker();
+        const datePickerStart = this._renderDateStartPicker();
         const locationField = this._renderLocationField();
-        //const datePickerEnd = this._renderDateEndPicker();
+        const datePickerEnd = this._renderDateEndPicker();
         switch (this.state.showFields) {
             case 1:
                 return (
@@ -876,7 +877,7 @@ class CreateAction extends Component {
         );
     }
 
-    /*_renderDateStartPicker() {
+    _renderDateStartPicker() {
         const currentDate = moment().toDate();
         let hd = new Holidays("fr");
         let listHolidays = hd.getHolidays(moment().format("YYYY"));
@@ -1004,7 +1005,7 @@ class CreateAction extends Component {
                 </View>
             </View>
         );
-    }*/
+    }
 
     _renderAction() {
         return (
