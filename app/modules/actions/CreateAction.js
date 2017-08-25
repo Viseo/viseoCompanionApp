@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import Svg from 'react-native-svg/elements/Svg';
-import {Circle, G, Image, Text} from 'react-native-svg';
+import {Circle, G,Image, Text} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as db from '../global/db';
 import colors from '../global/colors';
@@ -13,39 +13,47 @@ import Action from './Action';
 import {Option, OptionList, Select} from 'react-native-selectme';
 import AppText from '../global/components/AppText';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-//simport Holidays from 'date-holidays';
+//import Holidays from 'date-holidays';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import {Card, CardTitle, CardContent, CardAction} from 'react-native-material-cards';
+import PropTypes from 'prop-types';
+import bindActionCreators from 'redux/es/bindActionCreators';
+import {fetchActions} from './actions.actions';
 
 class CreateAction extends Component {
 
-    dateFormat = "DD-MM-YYYY HH:mm";
+    dateFormat = 'DD-MM-YYYY HH:mm';
     deviceHeight = Dimensions.get('window').height;
 
     constructor(props) {
         super(props);
         this.state = {
+
+            quantity:0,
+            maxGain:0 ,
+            vizzsPerMean: 0,
             meanOptions: [],
             showTable: false,
             means: [],
-            description: "",
-            location: "",
-            formattedDateEnd: "",
-            typePublication: "blog",
+            description: '',
+            location: '',
+            formattedDateEnd: '',
+            typePublication: 'blog',
             formattedDateStart: moment(new Date()).format(this.dateFormat),
             formattedDateEnd: moment(new Date()).format(this.dateFormat),
             practice: true,
-            readTime: "5 mn",
-            recurrence: "Récurrence hebdo",
-            action: "",
+            readTime: '5 mn',
+            recurrence: 'Récurrence hebdo',
+            action: '',
             isValidDescription: false,
             isValidLocation: true,
             isValidDates: true,
-            errorStartDate: "",
-            errorEndDate: "",
+            errorStartDate: '',
+            errorEndDate: '',
             borderValidateDate: colors.lightGray,
             borderDescription: colors.lightGray,
             borderLocation: colors.lightGray,
-            locationPermission: "undetermined",
+            locationPermission: 'undetermined',
             showFields: 0,
         };
     }
@@ -58,27 +66,29 @@ class CreateAction extends Component {
     _emptyFields() {
         this.setState({
             showFields: 0,
-            description: "",
-            location: "",
+            description: '',
+            location: '',
         });
     }
 
     render() {
 
         return (
-            <View>
+            <View  >
 
-                {this._renderHeadband()}
-                {this._renderCreateAction()}
-
-                <View style={{flexDirection: "column"}}>
+                 {this._renderHeadband()}
+                 {this._renderCreateAction()}
+                {/*{this._renderVizzCard()}*/}
+                <View style={{flexDirection: 'column'}} >
                     <ScrollView style={{height: 300}}>
+
                         {this._renderAction()}
                         {this._renderMeanButton()}
                         { this.state.showTable ?
                             this._renderMeans()
                             : null
                         }
+                         {this._renderVizzCard()}
                         {this._renderByAction()}
 
                     </ScrollView>
@@ -89,13 +99,62 @@ class CreateAction extends Component {
         );
     }
 
+   _getActions = async () => {
+     this.setState({
+     ActionOptions: await db.actions.getAll(),
+     });
+
+     };
+
+    renderMaxGain() {
+        this._getActions();
+     return (
+     <View style={styles.textFieldContainer}>
+     <AppText style={styles.label}>MaxGain</AppText>
+     <AppText style={styles.displayText}>{this.state.action.maxGain}</AppText>
+     </View>
+     );
+     }
+
+    _renderAverage() {
+        let result;
+        result = this.state.means.vizzsPerMean * this.state.means.quantity;
+        console.log("it work");
+        return result;
+    }
+
+    _renderVizzCard() {
+        return (
+            <Card style={styles.card}>
+                <CardTitle title="Gain" subtitle="Vizz">
+                    <AppText>{this.state.action.maxGain}</AppText>
+                    <Image
+                        source={require('../../images/events/vizz_logo.png')}
+                        style={{width: 45, height: 45}}
+                    />
+                </CardTitle>
+                <CardContent text="Dépenses Immédiates:">
+                    {this._renderAverage()}
+                    <Image
+                        source={require('../../images/events/vizz_logo.png')}
+                        style={{width: 45, height: 45}}
+                    />
+
+                </CardContent>
+                <CardAction seperator={true} inColumn={false}>
+                </CardAction>
+            </Card>
+        );
+    }
+
     _renderByAction() {
         const descriptionField = this._renderDescriptionField();
         //const datePickerStart = this._renderDateStartPicker();
         const locationField = this._renderLocationField();
         //const datePickerEnd = this._renderDateEndPicker();
         switch (this.state.showFields) {
-            case 1:
+
+    case 1:
                 return (
                     <View>
                         {this._renderPractice()}
@@ -110,7 +169,7 @@ class CreateAction extends Component {
                 return (
                     <View>
                         {/*  {datePickerStart}
-                        {datePickerEnd}*/}
+                         {datePickerEnd}*/}
                         {locationField}
                         {this._renderPractice()}
                         {this._renderRecurrence()}
@@ -271,12 +330,12 @@ class CreateAction extends Component {
     };
 
     _getOptionListPractice() {
-        return this.refs["OPTIONLISTPractice"];
+        return this.refs['OPTIONLISTPractice'];
     }
 
     _validateFieldsAndSubmit() {
 
-        const actionSplitted = this.state.action.split("|");
+        const actionSplitted = this.state.action.split('|');
         let activity = {};
         switch (parseInt(actionSplitted[0])) {
             case 1:
@@ -286,7 +345,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
+                    etat: '',
                     dateStart: 0,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -295,9 +354,9 @@ class CreateAction extends Component {
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
-                    readingTime: "",
-                    recurrence: "",
-                    publicationType: "",
+                    readingTime: '',
+                    recurrence: '',
+                    publicationType: '',
                 };
                 if (this.state.isValidLocation && this.isValidDescription)
                     this._addActivity(activity);
@@ -310,7 +369,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
+                    etat: '',
                     dateStart: 0,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -321,7 +380,7 @@ class CreateAction extends Component {
                     practice: this.state.practice,
                     readingTime: this.state.readTime,
                     recurrence: this.state.recurrence,
-                    publicationType: "",
+                    publicationType: '',
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
@@ -333,18 +392,18 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
+                    etat: '',
                     dateStart: 0,
                     dateRelease: 0,
                     dateValidation: 0,
                     dateEnd: 0,
                     dateCreation: 0,
-                    address: "",
+                    address: '',
                     vizzWon: 0,
-                    practice: "",
-                    readingTime: "",
-                    recurrence: "",
-                    publicationType: "",
+                    practice: '',
+                    readingTime: '',
+                    recurrence: '',
+                    publicationType: '',
                 };
 
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
@@ -357,18 +416,18 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
-                    readingTime: "",
-                    recurrence: "",
-                    publicationType: "",
+                    readingTime: '',
+                    recurrence: '',
+                    publicationType: '',
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
@@ -380,18 +439,18 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
                     readingTime: this.state.readTime,
                     recurrence: this.state.recurrence,
-                    publicationType: "",
+                    publicationType: '',
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
@@ -403,7 +462,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
+                    etat: '',
                     dateStart: 0,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -411,10 +470,10 @@ class CreateAction extends Component {
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
-                    practice: "",
+                    practice: '',
                     readingTime: this.state.readTime,
-                    recurrence: "",
-                    publicationType: "",
+                    recurrence: '',
+                    publicationType: '',
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
@@ -427,18 +486,18 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
-                    practice: "",
+                    practice: '',
                     readingTime: this.state.readTime,
-                    recurrence: "",
-                    publicationType: "",
+                    recurrence: '',
+                    publicationType: '',
                 };
 
                 if (this.state.isValidLocation && this.state.isValidDescription)
@@ -451,18 +510,18 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
-                    practice: "",
-                    readingTime: "",
-                    recurrence: "",
-                    publicationType: "",
+                    practice: '',
+                    readingTime: '',
+                    recurrence: '',
+                    publicationType: '',
                 };
                 if (this.state.isValidLocation && this.state.isValidDescription)
                     this._addActivity(activity);
@@ -474,18 +533,18 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
-                    practice: "",
-                    readingTime: "",
-                    recurrence: "",
-                    publicationType: "",
+                    practice: '',
+                    readingTime: '',
+                    recurrence: '',
+                    publicationType: '',
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
                     this._addActivity(activity);
@@ -497,17 +556,17 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
                     readingTime: this.state.readTime,
-                    recurrence: "",
+                    recurrence: '',
                     publicationType: this.state.typePublication,
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
@@ -520,17 +579,17 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
                     readingTime: this.state.readTime,
-                    recurrence: "",
+                    recurrence: '',
                     publicationType: this.state.typePublication,
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
@@ -543,17 +602,17 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
                     readingTime: this.state.readTime,
-                    recurrence: "",
+                    recurrence: '',
                     publicationType: this.state.typePublication,
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
@@ -566,17 +625,17 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
                     readingTime: this.state.readTime,
-                    recurrence: "",
+                    recurrence: '',
                     publicationType: this.state.typePublication,
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
@@ -589,17 +648,17 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: "",
-                    dateStart: moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    etat: '',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").unix() * 1000,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
                     practice: this.state.practice,
                     readingTime: this.state.readTime,
-                    recurrence: "",
+                    recurrence: '',
                     publicationType: this.state.typePublication,
                 };
                 if (this.state.isValidLocation && this.state.isValidDates && this.state.isValidDescription)
@@ -613,8 +672,8 @@ class CreateAction extends Component {
             navigatorStyle: defaultNavBarStyle,
             passProps: {
                 actionId: actionSplitted[0],
-                tabId:3
-            }
+                tabId: 3,
+            },
         });
     }
 
@@ -650,9 +709,9 @@ class CreateAction extends Component {
                 <View>
                     <AppText style={styles.labels}>Practice/recencée BT </AppText>
                 </View>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Select
-                        style={{backgroundColor: "#00BFB3"}}
+                        style={{backgroundColor: '#00BFB3'}}
                         width={350}
                         height={50}
                         ref="SELECT1"
@@ -670,7 +729,7 @@ class CreateAction extends Component {
     }
 
     _getOptionListPublication() {
-        return this.refs["OPTIONLISTPublication"];
+        return this.refs['OPTIONLISTPublication'];
     }
 
     _selectTypePublication(publication) {
@@ -684,9 +743,9 @@ class CreateAction extends Component {
         return (
             <View style={styles.containers}>
                 <View><AppText style={styles.labels}>Type de publication:</AppText></View>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Select
-                        style={{backgroundColor: "#00BFB3"}}
+                        style={{backgroundColor: '#00BFB3'}}
                         width={350}
                         height={50}
                         ref="SELECT1"
@@ -694,9 +753,9 @@ class CreateAction extends Component {
                         defaultValue={this.state.typePubication}
                         onSelect={(publication) => this._selectTypePublication(publication)}
                     >
-                        <Option value={{TypePublication: "Blog"}} style={styles.options}>Blog</Option>
-                        <Option value={{TypePublication: "Press écrite"}} style={styles.options}>Press écrite</Option>
-                        <Option value={{TypePublication: "Internet"}} style={styles.options}>Internet</Option>
+                        <Option value={{TypePublication: 'Blog'}} style={styles.options}>Blog</Option>
+                        <Option value={{TypePublication: 'Press écrite'}} style={styles.options}>Press écrite</Option>
+                        <Option value={{TypePublication: 'Internet'}} style={styles.options}>Internet</Option>
                     </Select>
                     <OptionList ref="OPTIONLISTPublication" overlayStyles={styles.optionsLists}
                     />
@@ -706,7 +765,7 @@ class CreateAction extends Component {
     }
 
     _getOptionListReadingTime() {
-        return this.refs["OPTIONLISTTenses"];
+        return this.refs['OPTIONLISTTenses'];
     }
 
     _selectReadingTime(time) {
@@ -720,9 +779,9 @@ class CreateAction extends Component {
         return (
             <View style={styles.containers}>
                 <View><AppText style={styles.labels}>temps de Lecture:</AppText></View>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Select
-                        style={{backgroundColor: "#00BFB3"}}
+                        style={{backgroundColor: '#00BFB3'}}
                         width={350}
                         height={50}
                         ref="SELECT1"
@@ -730,9 +789,9 @@ class CreateAction extends Component {
                         defaultValue={this.state.readTime}
                         onSelect={(time) => this._selectReadingTime(time)}
                     >
-                        <Option value={{valTiming: "5 mn"}} style={styles.options}>5mn</Option>
-                        <Option value={{valTiming: "5 mn à 10 mn"}} style={styles.options}>5mn à 10mn</Option>
-                        <Option value={{valTiming: "plus que 10 mn"}} style={styles.options}>plus que 10mn</Option>
+                        <Option value={{valTiming: '5 mn'}} style={styles.options}>5mn</Option>
+                        <Option value={{valTiming: '5 mn à 10 mn'}} style={styles.options}>5mn à 10mn</Option>
+                        <Option value={{valTiming: 'plus que 10 mn'}} style={styles.options}>plus que 10mn</Option>
                     </Select>
                     <OptionList ref="OPTIONLISTTenses" overlayStyles={styles.optionsLists}
                     />
@@ -742,7 +801,7 @@ class CreateAction extends Component {
     }
 
     _getOptionListRecurrence() {
-        return this.refs["OPTIONLISTReccurence"];
+        return this.refs['OPTIONLISTReccurence'];
     }
 
     _selectRecurrence(repeated) {
@@ -755,9 +814,9 @@ class CreateAction extends Component {
         return (
             <View style={styles.containers}>
                 <View><AppText style={styles.labels}>Récurrence:</AppText></View>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Select
-                        style={{backgroundColor: "#00BFB3"}}
+                        style={{backgroundColor: '#00BFB3'}}
                         width={350}
                         height={50}
                         ref="SELECTRECURRENCE"
@@ -765,9 +824,9 @@ class CreateAction extends Component {
                         defaultValue={this.state.recurrence}
                         onSelect={(repeated) => this._selectRecurrence(repeated)}
                     >
-                        <Option value={{valReccurence: "Récurrence hebdo"}} style={styles.options}>Récurrence
+                        <Option value={{valReccurence: 'Récurrence hebdo'}} style={styles.options}>Récurrence
                             hebdo</Option>
-                        <Option value={{valReccurence: "Une fois"}} style={styles.options}>Une fois</Option>
+                        <Option value={{valReccurence: 'Une fois'}} style={styles.options}>Une fois</Option>
                     </Select>
                     <OptionList ref="OPTIONLISTReccurence" overlayStyles={styles.optionsLists}
                     />
@@ -785,7 +844,7 @@ class CreateAction extends Component {
                 <View style={{width: 0}}>
                     <AppTextInput
                         style={{
-                            backgroundColor: "#00BFB3",
+                            backgroundColor: '#00BFB3',
                             width: 350,
                             height: 50,
                             marginLeft: 30,
@@ -797,7 +856,7 @@ class CreateAction extends Component {
                         onChangeText={(text) => {
                             if (text.length <= 2) {
                                 this.setState({
-                                    borderDescription: "#d9534f",
+                                    borderDescription: '#d9534f',
                                     isValidDescription: false,
                                     description: text,
                                 });
@@ -830,7 +889,7 @@ class CreateAction extends Component {
                         placeholder=''
                         minLength={2}
                         autoFocus={false}
-                        returnKeyType={"search"}
+                        returnKeyType={'search'}
                         listViewDisplayed='auto'
                         fetchDetails={true}
                         textInputProps={{value: this.state.location}}
@@ -838,32 +897,32 @@ class CreateAction extends Component {
                             this.setState({location: text.description})
                         }
                         getDefaultValue={() => {
-                            return "";
+                            return '';
                         }}
                         query={{
-                            key: "AIzaSyA5mOz3Lz2_O0hpZIkylbRyAV2NWdariZQ",
-                            language: "fr", // language of the results
-                            types: ["establishment", "geocode"] // default: 'geocode'
+                            key: 'AIzaSyA5mOz3Lz2_O0hpZIkylbRyAV2NWdariZQ',
+                            language: 'fr', // language of the results
+                            types: ['establishment', 'geocode'] // default: 'geocode'
                         }}
                         styles={{
                             textInputContainer: {
-                                backgroundColor: "transparent",
+                                backgroundColor: 'transparent',
                                 borderTopWidth: 0,
                                 borderBottomWidth: 0,
                                 height: 50,
                             },
                             textInput: {
-                                backgroundColor: "#00BFB3",
+                                backgroundColor: '#00BFB3',
                                 height: 50,
                                 marginLeft: 30,
                                 borderWidth: 1,
-                                color: "#005852",
+                                color: '#005852',
                                 fontSize: 14,
                                 borderColor: colors.lightGray,
                                 borderRadius: 0,
                             },
                             predefinedPlacesDescription: {
-                                color: "#1faadb",
+                                color: '#1faadb',
                             },
                         }}
                         currentLocation={false}
@@ -877,134 +936,134 @@ class CreateAction extends Component {
     }
 
     /*_renderDateStartPicker() {
-        const currentDate = moment().toDate();
-        let hd = new Holidays("fr");
-        let listHolidays = hd.getHolidays(moment().format("YYYY"));
+     const currentDate = moment().toDate();
+     let hd = new Holidays("fr");
+     let listHolidays = hd.getHolidays(moment().format("YYYY"));
 
-        return (
-            <View style={styles.containers}>
-                <AppText style={styles.labels}>Date Début</AppText>
-                <View>
-                    <DatePicker
-                        style={[
-                            styles.calander,
-                            {
-                                borderColor: this.state.borderValidateDate,
-                            }]}
-                        date={this.state.formattedDateStart}
-                        mode="datetime"
-                        format={this.dateFormat}
-                        minDate={currentDate}
-                        placeholder='Sélectionnez une date..'
-                        confirmBtnText="OK"
-                        cancelBtnText="Annuler"
-                        customStyles={{
-                            dateInput: {
-                                marginLeft: 36,
-                                borderColor: "transparent",
-                            },
-                        }}
-                        onDateChange={formattedDateStart => {
-                            let dayBefore = moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").isBefore(moment(formattedDateStart, "DD-MM-YYYY hh:mm"));
+     return (
+     <View style={styles.containers}>
+     <AppText style={styles.labels}>Date Début</AppText>
+     <View>
+     <DatePicker
+     style={[
+     styles.calander,
+     {
+     borderColor: this.state.borderValidateDate,
+     }]}
+     date={this.state.formattedDateStart}
+     mode="datetime"
+     format={this.dateFormat}
+     minDate={currentDate}
+     placeholder='Sélectionnez une date..'
+     confirmBtnText="OK"
+     cancelBtnText="Annuler"
+     customStyles={{
+     dateInput: {
+     marginLeft: 36,
+     borderColor: "transparent",
+     },
+     }}
+     onDateChange={formattedDateStart => {
+     let dayBefore = moment(this.state.formattedDateEnd, "DD-MM-YYYY hh:mm").isBefore(moment(formattedDateStart, "DD-MM-YYYY hh:mm"));
 
-                            let isHoliday = listHolidays.every(holiday =>
-                                moment(holiday.date).format("DD-MM-YYYY") !== moment(formattedDateStart, "DD-MM-YYYY hh:mm").format("DD-MM-YYYY"),
-                            );
-                            let dayName = moment(formattedDateStart, "DD-MM-YYYY hh:mm").format("dddd");
-                            let isWeekEnd = dayName === "Dimanche" || dayName === "Samedi" ? true : false;
+     let isHoliday = listHolidays.every(holiday =>
+     moment(holiday.date).format("DD-MM-YYYY") !== moment(formattedDateStart, "DD-MM-YYYY hh:mm").format("DD-MM-YYYY"),
+     );
+     let dayName = moment(formattedDateStart, "DD-MM-YYYY hh:mm").format("dddd");
+     let isWeekEnd = dayName === "Dimanche" || dayName === "Samedi" ? true : false;
 
-                            if (dayBefore || !isHoliday || isWeekEnd) {
-                                if (isWeekEnd || !isHoliday) this.setState({errorStartDate: "Jours non ouvrés"});
-                                if (dayBefore) this.setState({errorStartDate: "Date début inférieure ou égale à date fin"});
-                                this.setState({
-                                    isValidDates: false,
-                                    borderValidateDate: "#d50000",
-                                    formattedDateStart: moment().format(this.dateFormat),
-                                    formattedDateEnd: moment().format(this.dateFormat),
-                                });
-                            }
-                            else {
+     if (dayBefore || !isHoliday || isWeekEnd) {
+     if (isWeekEnd || !isHoliday) this.setState({errorStartDate: "Jours non ouvrés"});
+     if (dayBefore) this.setState({errorStartDate: "Date début inférieure ou égale à date fin"});
+     this.setState({
+     isValidDates: false,
+     borderValidateDate: "#d50000",
+     formattedDateStart: moment().format(this.dateFormat),
+     formattedDateEnd: moment().format(this.dateFormat),
+     });
+     }
+     else {
 
-                                this.setState({
-                                    isValidDates: true,
-                                    borderValidateDate: colors.lightGray,
-                                    errorStartDate:'',
-                                    errorStartDate:'',
-                                    formattedDateStart:formattedDateStart
-                                });
-                            }
-                        }}
-                    />
+     this.setState({
+     isValidDates: true,
+     borderValidateDate: colors.lightGray,
+     errorStartDate:'',
+     errorStartDate:'',
+     formattedDateStart:formattedDateStart
+     });
+     }
+     }}
+     />
 
-                    <AppText style={{color: "#d50000", marginLeft: 30}}>{this.state.errorStartDate}</AppText>
-                </View>
-            </View>
-        );
-    }
+     <AppText style={{color: "#d50000", marginLeft: 30}}>{this.state.errorStartDate}</AppText>
+     </View>
+     </View>
+     );
+     }
 
-    _renderDateEndPicker() {
+     _renderDateEndPicker() {
 
-        let hd = new Holidays("fr");
-        let listHolidays = hd.getHolidays(moment().format("YYYY"));
-        return (
-            <View style={styles.containers}>
-                <View><AppText style={styles.labels}>Date fin </AppText></View>
-                <View>
-                    <DatePicker
-                        style={[
-                            styles.calander,
-                            {
-                                borderColor: this.state.borderValidateDate,
-                            }]}
-                        date={this.state.formattedDateEnd}
-                        mode="datetime"
-                        format={this.dateFormat}
-                        minDate={this.state.formattedDateStart}
-                        placeholder='Sélectionnez une date...'
-                        confirmBtnText="OK"
-                        cancelBtnText="Annuler"
-                        customStyles={{
-                            dateInput: {
-                                marginLeft: 36,
-                                borderColor: "transparent",
-                            },
-                        }}
-                        onDateChange={formattedDateEnd => {
-                            let dayBefore = (moment(formattedDateEnd, "DD-MM-YYYY hh:mm").isBefore(moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm")));
-                            let isHoliday = listHolidays.every(holiday =>
-                                moment(holiday.date).format("DD-MM-YYYY") !== moment(formattedDateEnd, "DD-MM-YYYY hh:mm").format("DD-MM-YYYY"),
-                            );
-                            let dayName = moment(formattedDateEnd, "DD-MM-YYYY hh:mm").format("dddd");
-                            let isWeekEnd = dayName === "Dimanche" || dayName === "Samedi" ? true : false;
+     let hd = new Holidays("fr");
+     let listHolidays = hd.getHolidays(moment().format("YYYY"));
+     return (
+     <View style={styles.containers}>
+     <View><AppText style={styles.labels}>Date fin </AppText></View>
+     <View>
+     <DatePicker
+     style={[
+     styles.calander,
+     {
+     borderColor: this.state.borderValidateDate,
+     }]}
+     date={this.state.formattedDateEnd}
+     mode="datetime"
+     format={this.dateFormat}
+     minDate={this.state.formattedDateStart}
+     placeholder='Sélectionnez une date...'
+     confirmBtnText="OK"
+     cancelBtnText="Annuler"
+     customStyles={{
+     dateInput: {
+     marginLeft: 36,
+     borderColor: "transparent",
+     },
+     }}
+     onDateChange={formattedDateEnd => {
+     let dayBefore = (moment(formattedDateEnd, "DD-MM-YYYY hh:mm").isBefore(moment(this.state.formattedDateStart, "DD-MM-YYYY hh:mm")));
+     let isHoliday = listHolidays.every(holiday =>
+     moment(holiday.date).format("DD-MM-YYYY") !== moment(formattedDateEnd, "DD-MM-YYYY hh:mm").format("DD-MM-YYYY"),
+     );
+     let dayName = moment(formattedDateEnd, "DD-MM-YYYY hh:mm").format("dddd");
+     let isWeekEnd = dayName === "Dimanche" || dayName === "Samedi" ? true : false;
 
-                            if (dayBefore || !isHoliday || isWeekEnd) {
-                                if (isWeekEnd || !isHoliday) this.setState({errorEndDate: "Jours non ouvrés"});
-                                if (dayBefore) this.setState({errorEndDate: "Date début inférieure ou égale à date fin"});
-                                this.setState({
-                                    isValidDates: false,
-                                    borderValidateDate: "#d50000",
-                                    formattedDateStart: moment().format(this.dateFormat),
-                                    formattedDateEnd: moment().format(this.dateFormat),
+     if (dayBefore || !isHoliday || isWeekEnd) {
+     if (isWeekEnd || !isHoliday) this.setState({errorEndDate: "Jours non ouvrés"});
+     if (dayBefore) this.setState({errorEndDate: "Date début inférieure ou égale à date fin"});
+     this.setState({
+     isValidDates: false,
+     borderValidateDate: "#d50000",
+     formattedDateStart: moment().format(this.dateFormat),
+     formattedDateEnd: moment().format(this.dateFormat),
 
-                                });
-                            }
-                            else {
-                                this.setState({
-                                    isValidDates: true,
-                                    borderValidateDate: colors.lightGray,
-                                    errorEndDate: '',
-                                    errorStartDate:'',
-                                    formattedDateEnd:formattedDateEnd,
-                                });
-                            }
+     });
+     }
+     else {
+     this.setState({
+     isValidDates: true,
+     borderValidateDate: colors.lightGray,
+     errorEndDate: '',
+     errorStartDate:'',
+     formattedDateEnd:formattedDateEnd,
+     });
+     }
 
-                        }}
-                    />
-                    <AppText style={{color: "#d50000", marginLeft: 30}}>{this.state.errorEndDate}</AppText>
-                </View>
-            </View>
-        );
-    }*/
+     }}
+     />
+     <AppText style={{color: "#d50000", marginLeft: 30}}>{this.state.errorEndDate}</AppText>
+     </View>
+     </View>
+     );
+     }*/
 
     _renderAction() {
         return (
@@ -1014,7 +1073,7 @@ class CreateAction extends Component {
                 <Action
                     onSelect={action => {
 
-                        const actionSplit = action.split("|");
+                        const actionSplit = action.split('|');
                         this.setState({
                             action: action,
                             showFields: parseInt(actionSplit[0]),
@@ -1029,7 +1088,7 @@ class CreateAction extends Component {
     _renderMeanButton() {
         const show = this.state.showTable;
         return (
-            <View style={{flexDirection: "row", marginLeft: 30, marginBottom: 20}}>
+            <View style={{flexDirection: 'row', marginLeft: 30, marginBottom: 20}}>
                 <Icon.Button name="angle-down" backgroundColor="#00BFB3"
                              style={{width: 350, height: 50, borderRadius: 0}}
                              onPress={() => {
@@ -1038,7 +1097,7 @@ class CreateAction extends Component {
                                  });
                              }}
                 >
-                    <AppText style={{fontSize: 15, color: "#005852"}}>Acheter un moyen</AppText>
+                    <AppText style={{fontSize: 15, color: '#005852'}}>Acheter un moyen</AppText>
                 </Icon.Button>
             </View>
         );
@@ -1047,16 +1106,16 @@ class CreateAction extends Component {
     _renderMeans() {
         return (
             <View style={{
-                flexDirection: "column",
-                backgroundColor: "rgb(221, 239, 239)",
+                flexDirection: 'column',
+                backgroundColor: 'rgb(221, 239, 239)',
                 width: 350,
                 marginLeft: 30,
                 marginRight: 20,
             }}>
-                <View style={{flexDirection: "row", justifyContent: "space-between", height: 50, width: 200}}>
-                    <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: "bold"}}>Moyen</AppText>
-                    <AppText style={{paddingRight: 80, paddingLeft: 70, fontWeight: "bold"}}>Prix</AppText>
-                    <AppText style={{fontWeight: "bold"}}>Quantité</AppText>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', height: 50, width: 200}}>
+                    <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: 'bold'}}>Moyen</AppText>
+                    <AppText style={{paddingRight: 80, paddingLeft: 70, fontWeight: 'bold'}}>Prix</AppText>
+                    <AppText style={{fontWeight: 'bold'}}>Quantité</AppText>
                 </View>
                 {
                     this.state.meanOptions.map((mean, i) =>
@@ -1072,7 +1131,7 @@ class CreateAction extends Component {
                                      });
 
                                  }}
-                        ></GridRow>,
+                        ></GridRow>
                     )
                 }
             </View>
@@ -1095,7 +1154,7 @@ class CreateAction extends Component {
     _renderHeadband() {
         return (
             <Svg width="550" height="150">
-                <Image width="550" height="150" href={require("../../images/NIVEAUX_BANDEAU_1.jpg")}/>
+                <Image width="550" height="150" href={require('../../images/NIVEAUX_BANDEAU_1.jpg')}/>
             </Svg>
         );
     }
@@ -1103,10 +1162,10 @@ class CreateAction extends Component {
     _renderCreateAction() {
         return (
             <View style={styles.createAction}>
-                <View style={{flexDirection: "row"}}>
+                <View style={{flexDirection: 'row'}}>
                     <AppText style={{
                         flex: 6,
-                        fontWeight: "bold",
+                        fontWeight: 'bold',
                         fontSize: 20,
                         height: 60,
                         color: colors.orange,
@@ -1134,7 +1193,7 @@ class CreateAction extends Component {
                         fill="orange"
                     />
                     <Text x="13" y="30" fontWeight="bold" fontSize="16" fill="white">980</Text>
-                    <Image height="45" width="45" x="17" y="9" href={require("../../images/events/vizz_logo.png")}/>
+                    <Image height="45" width="45" x="17" y="9" href={require('../../images/events/vizz_logo.png')}/>
                 </G>
             </Svg>
         );
@@ -1146,7 +1205,7 @@ const spaceBetweenFields = 20;
 const styles = StyleSheet.create({
     createAction: {
         backgroundColor: colors.white,
-        alignContent: "center",
+        alignContent: 'center',
         marginTop: -30,
         marginRight: 20,
         marginLeft: 20,
@@ -1154,12 +1213,12 @@ const styles = StyleSheet.create({
 
     },
     options: {
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: colors.lightGray,
     },
     optionsLists: {
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
         width: 400,
         height: 120,
         padding: 0,
@@ -1168,36 +1227,51 @@ const styles = StyleSheet.create({
         zIndex: 100,
     },
     containers: {
-        flexDirection: "column",
+        flexDirection: 'column',
         marginBottom: spaceBetweenFields,
     },
     labels: {
         paddingLeft: 30,
-        color: "#005852",
+        color: '#005852',
         marginBottom: 0,
         height: 20,
     },
     mainContainer: {
         paddingTop: 0,
-        backgroundColor: "white",
+        backgroundColor: 'white',
     },
     datePicker: {
-        justifyContent: "flex-start",
+        justifyContent: 'flex-start',
     },
 
     componentContainer: {
         flex: 1,
-        flexDirection: "column",
+        flexDirection: 'column',
     },
     calander: {
         width: 350,
-        backgroundColor: "#00BFB3",
+        backgroundColor: '#00BFB3',
         borderWidth: 1,
         marginLeft: 30,
         padding: 0,
     },
+    card: {
+        backgroundColor: '#00BFB3',
+        borderRadius: 2,
+        shadowColor: '#000000',
+        shadowOpacity: 0.3,
+        shadowRadius: 1,
+        shadowOffset: {
+            height: 1,
+            width: 0.3,
+        },
+    },
 
 });
+
+CreateAction.propTypes = {
+ action: PropTypes.object.isRequired,
+ };
 
 const mapStateToProps = ({user}, ownProps) => ({
     user,
