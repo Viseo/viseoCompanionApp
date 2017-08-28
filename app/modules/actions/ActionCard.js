@@ -41,7 +41,8 @@ class ActionCard extends Component {
                         marginTop: 5,
                         marginBottom: 5,
                         fontSize: 12,
-                        textAlign: 'right',
+                        textAlign: 'left',
+                        marginLeft: 38,
                         marginRight: 20,
                     }}>
                         {this.props.item.address}
