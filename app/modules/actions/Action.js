@@ -9,7 +9,6 @@ class Action extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            action: '',
             options: [],
         };
 
@@ -20,24 +19,19 @@ class Action extends Component {
     }
 
     _getOptionList() {
-        return this.refs['OPTIONLIST'];
+        return this.refs['OPTIONLISTACTION'];
     }
 
-    _select(action) {
-        this.setState({
-            ...this.state,
-            action: action.id,
-        });
-    }
 
     render() {
         const {options} = this.state;
         const {onSelect} = this.props;
         let actions = options.map(function (option, i) {
-            return (<Option value={{id: option.id}} key={i} style={{
+            const action=option.id+"|"+option.name;
+            return (<Option value={{action: action}} key={i} style={{
                 backgroundColor: "transparent",
                 borderWidth: 1,
-                borderColor: colors.mediumGray,
+                borderColor: colors.lightGray,
             }}>{option.name}</Option>);
         });
         return (
@@ -45,25 +39,27 @@ class Action extends Component {
                 <Select
                     width={350}
                     height={50}
-                    ref="SELECT1"
+                    ref="SELECTACTION"
                     optionListRef={this._getOptionList.bind(this)}
-                    onSelect={(action) => {
-                        this._select(action);
-                        onSelect(action.id);
+                    onSelect={(val) => {
+
+                        const actionSplit = val.action.split("|");
+                        const selectedAction=options.find(item => parseInt(item.id) === parseInt(actionSplit[0]));
+                        onSelect(val.action,selectedAction.means);
                     }}
-                    style={{backgroundColor: '#00BFB3'}}
-                    defaultValue="Choisir une action ..."
+                    style={{backgroundColor: "#00BFB3", borderWidth: 1, borderColor: colors.lightGray}}
+                    defaultValue="Choisir une action"
                 >
                     {actions}
                 </Select>
-                <OptionList ref="OPTIONLIST"
+                <OptionList ref="OPTIONLISTACTION"
                             overlayStyles={{
                                 backgroundColor: "transparent",
                                 width: 400,
                                 height: 120,
                                 padding: 0,
                                 left: 5,
-                                top: 40,
+                                top: 45,
                                 bottom: 0,
                                 zIndex: 100,
                             }}
