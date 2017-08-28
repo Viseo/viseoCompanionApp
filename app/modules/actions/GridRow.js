@@ -11,6 +11,7 @@ class GridRow extends Component {
         this.state = {
             mean: this.props.mean,
             quantity: this.props.mean.quantity,
+
         };
     }
 
