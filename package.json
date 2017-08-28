@@ -9,8 +9,11 @@
     "testEnzymeDEPRECIATED": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
   },
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react-native": "^2.1.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
     "date-holidays": "^1.0.1",
     "fixed-data-table-2": "^0.7.17",
     "hsl-to-hex": "^1.0.0",
@@ -55,7 +58,7 @@
     "babel-jest": "^20.0.3",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-jest-hoist": "^20.0.3",
-    "babel-preset-react-native": "^2.0.0",
+    "babel-preset-react-native": "^2.1.0",
     "istanbul": "^0.4.5",
     "jest": "^20.0.4",
     "react-test-renderer": "^16.0.0-alpha.12",

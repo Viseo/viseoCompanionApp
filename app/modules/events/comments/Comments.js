@@ -188,7 +188,7 @@ class Comments extends Component {
                         borderRadius: 4,
                         textAlignVertical: 'center',
                         fontSize: 18,
-                        marginTop: 10,
+                        marginTop: 30,
                     }}
                 >
                     Aucun commentaire.
@@ -214,7 +214,6 @@ class Comments extends Component {
                     fontWeight: 'bold',
                     textAlign: 'left',
                     fontSize: 20,
-
                     color: 'white',
                 }}>
                     {event}
