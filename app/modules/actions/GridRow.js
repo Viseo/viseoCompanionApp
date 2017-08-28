@@ -1,32 +1,33 @@
-import React, {Component} from "react";
-import {StyleSheet, Text, View} from "react-native";
-import AppText from "../global/components/AppText";
-import Icon from "react-native-vector-icons/FontAwesome";
-import AppTextInput from "../global/components/AppTextInput";
-import PropTypes from "prop-types";
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import AppText from '../global/components/AppText';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AppTextInput from '../global/components/AppTextInput';
+import PropTypes from 'prop-types';
 
 class GridRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
             mean: this.props.mean,
-            quantity: 0,
-        };
+            quantity: this.props.mean.quantity,
 
+        };
     }
 
     render() {
         const {mean} = this.state;
         const {onQuantityChange} = this.props;
+        const multiQuantityVizz = this.state.quantity === 0 ? mean.vizzsPerMean : mean.vizzsPerMean * this.state.quantity;
         return (
-            <View style={{flexDirection: "row", alignItems: "center", height: 50, width: 350}}>
-                <View style={{flex: 3, marginLeft: 5, flexWrap: "nowrap"}}>
+            <View style={{flexDirection: 'row', alignItems: 'center', height: 50, width: 350}}>
+                <View style={{flex: 3, marginLeft: 5, flexWrap: 'nowrap'}}>
                     <AppText >{mean.name}</AppText>
                 </View>
-                <View style={{flex: 2, alignItems: "center"}}>
-                    <AppText>{mean.vizzsPerMean}</AppText>
+                <View style={{flex: 2, alignItems: 'center'}}>
+                    <AppText>{multiQuantityVizz}</AppText>
                 </View>
-                <View style={{flex: 2, flexDirection: "row", alignItems: "center"}}>
+                <View style={{flex: 2, flexDirection: 'row', alignItems: 'center'}}>
                     <Icon.Button name="minus" backgroundColor="rgb(221, 239, 239)"
                                  style={{width: 40, borderRadius: 0}}
                                  onPress={() => {
@@ -34,17 +35,18 @@ class GridRow extends Component {
                                          this.setState({
                                              quantity: this.state.quantity - 1,
                                          });
-                                         onQuantityChange(mean.id, this.state.quantity-1);
+                                         const vizz=(this.state.quantity - 1)*mean.vizzsPerMean;
+                                         onQuantityChange(mean.id, vizz);
                                      }
                                  }}
                     />
                     <AppTextInput
                         style={{
-                            borderColor: "dimgrey",
+                            borderColor: 'dimgrey',
                             borderWidth: 1,
                             height: 30,
                             width: 30,
-                            backgroundColor: "#fff",
+                            backgroundColor: '#fff',
                             fontSize: 15,
                             marginTop: -20,
                             paddingTop: 0,
@@ -52,7 +54,7 @@ class GridRow extends Component {
                             paddingLeft: 8,
                             paddingRight: 0,
                             marginTop: -10,
-                            color: "dimgrey",
+                            color: 'dimgrey',
 
                         }}
                         label=""
@@ -72,7 +74,9 @@ class GridRow extends Component {
                                      this.setState({
                                          quantity: this.state.quantity + 1,
                                      });
-                                     onQuantityChange(mean.id, this.state.quantity+1);
+
+                                     const vizz=(this.state.quantity + 1)*mean.vizzsPerMean;
+                                     onQuantityChange(mean.id, vizz);
                                  }}
                     />
                 </View>
@@ -89,4 +93,5 @@ export default GridRow;
 GridRow.propTypes = {
     onQuantityChange: PropTypes.func,
     mean: PropTypes.object.isRequired,
+
 };
