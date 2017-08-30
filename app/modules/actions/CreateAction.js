@@ -15,8 +15,6 @@ import AppText from '../global/components/AppText';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import Holidays from 'date-holidays';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
-//import {Card, CardTitle, CardContent, CardAction} from "react-native-material-cards";
-import PropTypes from 'prop-types';
 import DatePicker from 'react-native-datepicker';
 
 class CreateAction extends Component {
@@ -29,7 +27,6 @@ class CreateAction extends Component {
         this.state = {
 
             quantity: 0,
-            maxGain: 0,
             vizzsPerMean: 0,
             meanOptions: [],
             showTable: false,
@@ -78,7 +75,6 @@ class CreateAction extends Component {
 
                 {this._renderHeadband()}
                 {this._renderCreateAction()}
-                {/*{this._renderVizzCard()}*/}
                 <View style={{flexDirection: 'column'}}>
                     <ScrollView style={{height: 300}}>
 
@@ -88,7 +84,6 @@ class CreateAction extends Component {
                             this._renderMeans()
                             : null
                         }
-                        {/*{this._renderVizzCard()}*/}
                         {this._renderByAction()}
 
                     </ScrollView>
@@ -98,54 +93,6 @@ class CreateAction extends Component {
 
         );
     }
-
-    _getActions = async () => {
-        this.setState({
-            ActionOptions: await db.actions.getAll(),
-        });
-
-    };
-
-    renderMaxGain() {
-        this._getActions();
-        return (
-            <View style={styles.textFieldContainer}>
-                <AppText style={styles.label}>MaxGain</AppText>
-                <AppText style={styles.displayText}>{this.state.action.maxGain}</AppText>
-            </View>
-        );
-    }
-
-    _renderAverage() {
-        let result;
-        result = this.state.means.vizzsPerMean * this.state.means.quantity;
-        console.log('it work');
-        return result;
-    }
-
-    // _renderVizzCard() {
-    //     return (
-    //         <Card style={styles.card}>
-    //             <CardTitle title="Gain" subtitle="Vizz">
-    //                 <AppText>{this.state.action.maxGain}</AppText>
-    //                 <Image
-    //                     source={require("../../images/events/vizz_logo.png")}
-    //                     style={{width: 45, height: 45}}
-    //                 />
-    //             </CardTitle>
-    //             <CardContent text="Dépenses Immédiates:">
-    //                 {this._renderAverage()}
-    //                 <Image
-    //                     source={require("../../images/events/vizz_logo.png")}
-    //                     style={{width: 45, height: 45}}
-    //                 />
-    //
-    //             </CardContent>
-    //             <CardAction seperator={true} inColumn={false}>
-    //             </CardAction>
-    //         </Card>
-    //     );
-    // }
 
     _renderByAction() {
         const descriptionField = this._renderDescriptionField();
@@ -1151,10 +1098,9 @@ class CreateAction extends Component {
                     arrayMeans.map((mean, i) =>
                         <GridRow mean={mean} key={i}
                                  onQuantityChange={(meanId, vizz) => {
-                                     let uniqueMeans = [];
+                                     let uniqueMeans = this.state.means;
                                      let mean = {id: meanId, vizz: vizz};
-
-                                     if (this.state.means.find(m => parseInt(m.id) === parseInt(meanId)) != 'undefined') {
+                                     if (this.state.means.find(m => parseInt(m.id) === parseInt(meanId)) != undefined) {
 
                                          uniqueMeans = this.state.means.map(m => {
 
@@ -1181,14 +1127,15 @@ class CreateAction extends Component {
 
 
                 <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: 'bold'}}>Dépenses
-                    Immédiates: {this._renderAverage()}</AppText>
+                    Immédiates: {this._renderSumExpense()}</AppText>
 
 
             </View>
         );
     }
 
-    _renderAverage() {
+
+    _renderSumExpense() {
 
         let sumDepense = 0;
         this.state.means.map(mean =>
@@ -1265,7 +1212,8 @@ class CreateAction extends Component {
                         r="38"
                         fill="orange"
                     />
-                    <Text x="13" y="30" fontWeight="bold" fontSize="16" fill="white">980</Text>
+                    <Text x="13" y="30" fontWeight="bold" fontSize="16"
+                          fill="white">390</Text>
                     <Image height="45" width="45" x="17" y="9" href={require('../../images/events/vizz_logo.png')}/>
                 </G>
             </Svg>
@@ -1342,9 +1290,7 @@ const styles = StyleSheet.create({
 
 });
 
-CreateAction.propTypes = {
-    action: PropTypes.object.isRequired,
-};
+
 
 const mapStateToProps = ({user}, ownProps) => ({
     user,

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {Image, View} from 'react-native';
 import {Option, OptionList, Select} from 'react-native-selectme';
 import * as db from '../global/db';
 import PropTypes from 'prop-types';
@@ -26,13 +26,15 @@ class Action extends Component {
     render() {
         const {options} = this.state;
         const {onSelect} = this.props;
+
         let actions = options.map(function (option, i) {
             const action=option.id+"|"+option.name;
+            const textOption=option.name+'   '+option.minGain+' Vizz';
             return (<Option value={{action: action}} key={i} style={{
                 backgroundColor: "transparent",
                 borderWidth: 1,
                 borderColor: colors.lightGray,
-            }}>{option.name}</Option>);
+            }}>{textOption}</Option>);
         });
         return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 0}}>
@@ -46,6 +48,7 @@ class Action extends Component {
                         const actionSplit = val.action.split("|");
                         const selectedAction=options.find(item => parseInt(item.id) === parseInt(actionSplit[0]));
                         onSelect(val.action,selectedAction.means);
+
                     }}
                     style={{backgroundColor: "#00BFB3", borderWidth: 1, borderColor: colors.lightGray}}
                     defaultValue="Choisir une action"
