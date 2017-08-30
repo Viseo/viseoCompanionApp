@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {View} from 'react-native';
 import AppText from '../global/components/AppText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AppTextInput from '../global/components/AppTextInput';
@@ -11,18 +11,27 @@ class GridRow extends Component {
         this.state = {
             mean: this.props.mean,
             quantity: this.props.mean.quantity,
-
+            onQuantityChange: this.props.onQuantityChange,
         };
+    }
+
+    componentWillReceiveProps() {
+        this.setState(
+            {
+                mean: this.props.mean,
+                quantity: this.props.mean.quantity,
+                onQuantityChange: this.props.onQuantityChange,
+            },
+        );
     }
 
     render() {
         const {mean} = this.state;
-        const {onQuantityChange} = this.props;
         const multiQuantityVizz = this.state.quantity === 0 ? mean.vizzsPerMean : mean.vizzsPerMean * this.state.quantity;
         return (
             <View style={{flexDirection: 'row', alignItems: 'center', height: 50, width: 350}}>
                 <View style={{flex: 3, marginLeft: 5, flexWrap: 'nowrap'}}>
-                    <AppText >{mean.name}</AppText>
+                    <AppText>{mean.name}</AppText>
                 </View>
                 <View style={{flex: 2, alignItems: 'center'}}>
                     <AppText>{multiQuantityVizz}</AppText>
@@ -31,12 +40,12 @@ class GridRow extends Component {
                     <Icon.Button name="minus" backgroundColor="rgb(221, 239, 239)"
                                  style={{width: 40, borderRadius: 0}}
                                  onPress={() => {
-                                     if (this.state.quantity > 0) {
+                                     if (this.state.quantity > this.props.mean.quantity) {
                                          this.setState({
                                              quantity: this.state.quantity - 1,
                                          });
-                                         const vizz=(this.state.quantity - 1)*mean.vizzsPerMean;
-                                         onQuantityChange(mean.id, vizz);
+                                         const vizz = (this.state.quantity - 1) * mean.vizzsPerMean;
+                                         this.state.onQuantityChange(mean.id, vizz);
                                      }
                                  }}
                     />
@@ -51,7 +60,7 @@ class GridRow extends Component {
                             marginTop: -20,
                             paddingTop: 0,
                             paddingBottom: 0,
-                            paddingLeft: 8,
+                            paddingLeft: 10,
                             paddingRight: 0,
                             marginTop: -10,
                             color: 'dimgrey',
@@ -63,7 +72,7 @@ class GridRow extends Component {
                             this.setState({
                                 quantity: parseInt(quantity),
                             });
-                            onQuantityChange(mean.id, quantity);
+                            this.state.onQuantityChange(mean.id, quantity);
                         }}
                     >
 
@@ -75,8 +84,8 @@ class GridRow extends Component {
                                          quantity: this.state.quantity + 1,
                                      });
 
-                                     const vizz=(this.state.quantity + 1)*mean.vizzsPerMean;
-                                     onQuantityChange(mean.id, vizz);
+                                     const vizz = (this.state.quantity + 1) * mean.vizzsPerMean;
+                                     this.state.onQuantityChange(mean.id, vizz);
                                  }}
                     />
                 </View>
@@ -86,7 +95,6 @@ class GridRow extends Component {
     }
 
 }
-;
 
 export default GridRow;
 

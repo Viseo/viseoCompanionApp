@@ -33,6 +33,7 @@ export default {
         version: 1,
         isFetching: false,
         otherProfile: '',
+        solde: 0,
     },
     review: {
         isReviewPopupDismissed: false,

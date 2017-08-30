@@ -71,7 +71,7 @@ class CreateAction extends Component {
     render() {
 
         return (
-            <View  >
+            <View>
 
                 {this._renderHeadband()}
                 {this._renderCreateAction()}
@@ -80,10 +80,7 @@ class CreateAction extends Component {
 
                         {this._renderAction()}
                         {this._renderMeanButton()}
-                        { this.state.showTable ?
-                            this._renderMeans()
-                            : null
-                        }
+                        {this._renderMeans()}
                         {this._renderByAction()}
 
                     </ScrollView>
@@ -1029,10 +1026,32 @@ class CreateAction extends Component {
 
                         });
 
+                        let arrayMeans = [];
+                        if (means.length > 0) {
+                            arrayMeans = this.state.meanOptions.map(m => {
+
+                                    let mean = means.find(mba => parseInt(mba.meanId) === parseInt(m.id));
+                                    const newMean = mean ? {
+                                            id: m.id,
+                                            name: m.name,
+                                            vizzsPerMean: m.vizzsPerMean,
+                                            quantity: mean.quantity,
+                                        }
+                                        :
+                                        m;
+                                    return newMean;
+
+                                },
+                            );
+                        }
+                        else {
+                            arrayMeans = this.state.meanOptions;
+                        }
+
                         this.setState({
                             action: action,
                             showFields: parseInt(actionSplit[0]),
-                            meansByAction: means,
+                            meansByAction: arrayMeans,
                             means: arrayDipense,
 
                         });
@@ -1062,27 +1081,11 @@ class CreateAction extends Component {
     }
 
     _renderMeans() {
-        let arrayMeans = [];
-        if (this.state.meansByAction.length > 0)
-            arrayMeans = this.state.meanOptions.map(m => {
 
-                    let mean = this.state.meansByAction.find(mba => parseInt(mba.meanId) === parseInt(m.id));
-
-                    const newMean = mean ? {
-                        id: m.id,
-                        name: m.name,
-                        vizzsPerMean: m.vizzsPerMean,
-                        quantity: mean.quantity,
-                    }
-                        :
-                        m;
-                    return newMean;
-
-                },
-            );
-
+        const displayGrid = this.state.showTable ? 'flex' : 'none';
         return (
             <View style={{
+                display: displayGrid,
                 flexDirection: 'column',
                 backgroundColor: 'rgb(221, 239, 239)',
                 width: 350,
@@ -1095,21 +1098,16 @@ class CreateAction extends Component {
                     <AppText style={{fontWeight: 'bold'}}>Quantité</AppText>
                 </View>
                 {
-                    arrayMeans.map((mean, i) =>
+                    this.state.meansByAction.map((mean, i) =>
                         <GridRow mean={mean} key={i}
                                  onQuantityChange={(meanId, vizz) => {
                                      let uniqueMeans = this.state.means;
                                      let mean = {id: meanId, vizz: vizz};
                                      if (this.state.means.find(m => parseInt(m.id) === parseInt(meanId)) != undefined) {
-
                                          uniqueMeans = this.state.means.map(m => {
-
-                                                 const newMean = parseInt(m.id) === parseInt(meanId) ? mean
-                                                     :
-                                                     m;
-
+                                             const newMean = parseInt(m.id) === parseInt(meanId) ?
+                                                 mean : m;
                                                  return newMean;
-
                                              },
                                          );
                                      }
@@ -1124,16 +1122,11 @@ class CreateAction extends Component {
                         ></GridRow>,
                     )
                 }
-
-
                 <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: 'bold'}}>Dépenses
                     Immédiates: {this._renderSumExpense()}</AppText>
-
-
             </View>
         );
     }
-
 
     _renderSumExpense() {
 
@@ -1213,14 +1206,13 @@ class CreateAction extends Component {
                         fill="orange"
                     />
                     <Text x="13" y="30" fontWeight="bold" fontSize="16"
-                          fill="white">390</Text>
+                          fill="white">{this.props.user.solde}</Text>
                     <Image height="45" width="45" x="17" y="9" href={require('../../images/events/vizz_logo.png')}/>
                 </G>
             </Svg>
         );
     }
 }
-
 
 const spaceBetweenFields = 20;
 
@@ -1290,8 +1282,6 @@ const styles = StyleSheet.create({
     },
 
 });
-
-
 
 const mapStateToProps = ({user}, ownProps) => ({
     user,
