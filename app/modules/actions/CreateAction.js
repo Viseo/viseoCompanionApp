@@ -1221,6 +1221,7 @@ class CreateAction extends Component {
     }
 }
 
+
 const spaceBetweenFields = 20;
 
 const styles = StyleSheet.create({
