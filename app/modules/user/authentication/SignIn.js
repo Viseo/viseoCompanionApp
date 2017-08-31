@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
-import {Button, Image, ScrollView, StyleSheet, TouchableHighlight, View} from 'react-native';
+import {Button, Dimensions, Image, ScrollView, StyleSheet, TouchableHighlight, View} from 'react-native';
 import CheckBox from 'react-native-check-box';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -13,6 +13,8 @@ import {defaultNavBarStyle} from '../../global/navigatorStyle';
 import {authenticate, rememberUser as toggleRememberUser} from './authentication.actions';
 import EmailInput from './EmailInput';
 import PasswordInput from './PasswordInput';
+
+const {height, width} = Dimensions.get('window');
 
 export class SignIn extends Component {
 
@@ -66,7 +68,7 @@ export class SignIn extends Component {
                         this._autoSubmitWhenFilled();
                     }}
                 />
-                <View style={{flexDirection: 'row', flex: 1}}>
+                <View style={{flexDirection: 'row'}}>
                     {rememberUserCheckBox}
                     {recoverPasswordLink}
                 </View>
@@ -244,6 +246,7 @@ const styles = StyleSheet.create( {
         paddingHorizontal: 60,
         paddingTop: 30,
         backgroundColor: 'white',
+        height: height,
     },
     rememberPasswordLink: {
         textAlign: 'right',
