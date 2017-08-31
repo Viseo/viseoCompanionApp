@@ -1082,7 +1082,7 @@ class CreateAction extends Component {
 
     _renderMeans() {
 
-        const displayGrid = this.state.showTable ? 'flex' : 'none';
+        let displayGrid = this.state.showTable ? 'flex' : 'none';
         return (
             <View style={{
                 display: displayGrid,

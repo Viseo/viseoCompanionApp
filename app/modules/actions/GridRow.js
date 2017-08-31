@@ -11,7 +11,6 @@ class GridRow extends Component {
         this.state = {
             mean: this.props.mean,
             quantity: this.props.mean.quantity,
-            onQuantityChange: this.props.onQuantityChange,
         };
     }
 
@@ -20,14 +19,15 @@ class GridRow extends Component {
             {
                 mean: this.props.mean,
                 quantity: this.props.mean.quantity,
-                onQuantityChange: this.props.onQuantityChange,
             },
         );
     }
 
     render() {
-        const {mean} = this.state;
-        const multiQuantityVizz = this.state.quantity === 0 ? mean.vizzsPerMean : mean.vizzsPerMean * this.state.quantity;
+        let {mean} = this.state;
+        let {onQuantityChange} = this.props;
+
+        const multiQuantityVizz = /*this.state.quantity === 0 ? mean.vizzsPerMean :*/ mean.vizzsPerMean;// * this.state.quantity;
         return (
             <View style={{flexDirection: 'row', alignItems: 'center', height: 50, width: 350}}>
                 <View style={{flex: 3, marginLeft: 5, flexWrap: 'nowrap'}}>
@@ -44,9 +44,11 @@ class GridRow extends Component {
                                          this.setState({
                                              quantity: this.state.quantity - 1,
                                          });
-                                         const vizz = (this.state.quantity - 1) * mean.vizzsPerMean;
-                                         this.state.onQuantityChange(mean.id, vizz);
+                                         let vizz = (this.state.quantity - 1) * mean.vizzsPerMean;
+                                         onQuantityChange(mean.id, vizz);
+                                         console.warn(mean.id + ' ' + vizz + ' ' + this.state.quantity);
                                      }
+
                                  }}
                     />
                     <AppTextInput
@@ -72,7 +74,7 @@ class GridRow extends Component {
                             this.setState({
                                 quantity: parseInt(quantity),
                             });
-                            this.state.onQuantityChange(mean.id, quantity);
+                            onQuantityChange(mean.id, quantity);
                         }}
                     >
 
@@ -81,11 +83,12 @@ class GridRow extends Component {
                                  style={{width: 50, borderRadius: 0}}
                                  onPress={() => {
                                      this.setState({
-                                         quantity: this.state.quantity + 1,
+                                         quantity: parseInt(this.state.quantity) + 1,
                                      });
 
-                                     const vizz = (this.state.quantity + 1) * mean.vizzsPerMean;
-                                     this.state.onQuantityChange(mean.id, vizz);
+                                     let vizz = (this.state.quantity + 1) * mean.vizzsPerMean;
+                                     onQuantityChange(mean.id, vizz);
+                                     console.warn(mean.id + ' ' + vizz + ' ' + this.state.quantity);
                                  }}
                     />
                 </View>
