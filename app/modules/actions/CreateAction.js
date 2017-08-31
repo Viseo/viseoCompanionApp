@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import Svg from 'react-native-svg/elements/Svg';
 import {Circle, G, Image, Text} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -25,7 +25,7 @@ class CreateAction extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            solde: this.props.user.solde,
             quantity: 0,
             vizzsPerMean: 0,
             meanOptions: [],
@@ -288,11 +288,11 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: 0,
+                    etat: 'brouillon',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
@@ -301,7 +301,7 @@ class CreateAction extends Component {
                     recurrence: '',
                     publicationType: '',
                 };
-                if (this.state.isValidLocation && this.isValidDescription)
+                if (this.state.isValidLocation && this.state.isValidDescription)
                     this._addActivity(activity);
 
                 break;
@@ -312,11 +312,11 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: 0,
+                    etat: 'brouillon',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
@@ -335,11 +335,11 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: 0,
+                    etat: 'brouillon',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: '',
                     vizzWon: 0,
@@ -359,7 +359,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -382,7 +382,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -405,11 +405,11 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: 0,
+                    etat: 'brouillon',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
@@ -429,7 +429,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -453,7 +453,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -476,7 +476,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -499,7 +499,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -522,7 +522,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -545,7 +545,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -568,7 +568,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -591,7 +591,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -621,6 +621,7 @@ class CreateAction extends Component {
     }
 
     _renderValidate() {
+        const newSolde = this.props.user.solde - this._renderSumExpense();
         return (
             <View style={{
                 width: 350, height: 50,
@@ -633,7 +634,22 @@ class CreateAction extends Component {
                 }}
                         title="Ajouter"
                         onPress={() => {
-                            this._validateFieldsAndSubmit();
+                            if (newSolde < 0) {
+                                Alert.alert(
+                                    'Attention',
+                                    'Vous n\'avez pas assez de solde',
+                                    [
+                                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                                    ],
+                                    {cancelable: false},
+                                );
+                            }
+                            else {
+                                this.setState({
+                                    solde: this.state.solde,
+                                });
+                                this._validateFieldsAndSubmit();
+                            }
                         }}
                 /></View>
         );
@@ -830,7 +846,7 @@ class CreateAction extends Component {
                 <View style={{width: 390}}>
                     <GooglePlacesAutocomplete
                         placeholder=''
-                        minLength={2}
+                        minLength={0}
                         autoFocus={false}
                         returnKeyType={'search'}
                         listViewDisplayed='auto'
@@ -1206,7 +1222,7 @@ class CreateAction extends Component {
                         fill="orange"
                     />
                     <Text x="13" y="30" fontWeight="bold" fontSize="16"
-                          fill="white">{this.props.user.solde}</Text>
+                          fill="white">{this.state.solde}</Text>
                     <Image height="45" width="45" x="17" y="9" href={require('../../images/events/vizz_logo.png')}/>
                 </G>
             </Svg>
