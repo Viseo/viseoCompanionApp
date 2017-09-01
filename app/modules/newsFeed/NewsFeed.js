@@ -177,7 +177,7 @@ class NewsFeed extends Component {
                     </Text>
                     <Text fontFamily="Times New Roman" fontWeight="bold" fontSize="20"
                           x="270" y="12" fill="#FFFFFF">
-                        98O
+                        {this.props.user.solde}
                     </Text>
                     <Image width="150" height="50" x="285" href={require('../../images/events/vizz_logo.png')}/>
                 </G>

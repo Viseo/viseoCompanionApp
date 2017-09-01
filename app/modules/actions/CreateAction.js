@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import Svg from 'react-native-svg/elements/Svg';
 import {Circle, G, Image, Text} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,6 +16,8 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import Holidays from 'date-holidays';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import DatePicker from 'react-native-datepicker';
+import {fetchActions} from './actions.actions';
+import {bindActionCreators} from 'redux';
 
 class CreateAction extends Component {
 
@@ -25,7 +27,8 @@ class CreateAction extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            user: {...this.props.user},
+            solde: this.props.user.solde,
             quantity: 0,
             vizzsPerMean: 0,
             meanOptions: [],
@@ -71,7 +74,7 @@ class CreateAction extends Component {
     render() {
 
         return (
-            <View  >
+            <View>
 
                 {this._renderHeadband()}
                 {this._renderCreateAction()}
@@ -80,10 +83,7 @@ class CreateAction extends Component {
 
                         {this._renderAction()}
                         {this._renderMeanButton()}
-                        { this.state.showTable ?
-                            this._renderMeans()
-                            : null
-                        }
+                        {this._renderMeans()}
                         {this._renderByAction()}
 
                     </ScrollView>
@@ -291,11 +291,11 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: 0,
+                    etat: 'brouillon',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
@@ -304,9 +304,9 @@ class CreateAction extends Component {
                     recurrence: '',
                     publicationType: '',
                 };
-                if (this.state.isValidLocation && this.isValidDescription)
+                if (this.state.isValidLocation && this.state.isValidDescription) {
                     this._addActivity(activity);
-
+                }
                 break;
             case 2:
                 activity = {
@@ -315,11 +315,11 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: 0,
+                    etat: 'brouillon',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
@@ -338,11 +338,11 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: 0,
+                    etat: 'brouillon',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: '',
                     vizzWon: 0,
@@ -362,7 +362,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -385,7 +385,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -408,11 +408,11 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
-                    dateStart: 0,
+                    etat: 'brouillon',
+                    dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
-                    dateEnd: 0,
+                    dateEnd: moment(this.state.formattedDateEnd, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateCreation: 0,
                     address: this.state.location,
                     vizzWon: 0,
@@ -432,7 +432,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -456,7 +456,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -479,7 +479,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -502,7 +502,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -525,7 +525,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -548,7 +548,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -571,7 +571,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -594,7 +594,7 @@ class CreateAction extends Component {
                     means: this.state.means,
                     title: actionSplitted[1],
                     description: this.state.description,
-                    etat: '',
+                    etat: 'brouillon',
                     dateStart: moment(this.state.formattedDateStart, 'DD-MM-YYYY hh:mm').unix() * 1000,
                     dateRelease: 0,
                     dateValidation: 0,
@@ -612,6 +612,7 @@ class CreateAction extends Component {
                 break;
         }
         this._emptyFields();
+        this.props.refreshActions();
         this.props.navigator.push({
             screen: 'events.events',
             title: 'Evénèments',
@@ -624,6 +625,7 @@ class CreateAction extends Component {
     }
 
     _renderValidate() {
+        const newSolde = this.props.user.solde - this._renderSumExpense();
         return (
             <View style={{
                 width: 350, height: 50,
@@ -636,7 +638,24 @@ class CreateAction extends Component {
                 }}
                         title="Ajouter"
                         onPress={() => {
-                            this._validateFieldsAndSubmit();
+                            if (newSolde < 0) {
+                                Alert.alert(
+                                    'Attention',
+                                    'Vous n\'avez pas assez de solde',
+                                    [
+                                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                                    ],
+                                    {cancelable: false},
+                                );
+                            }
+                            else {
+                                const user = {
+                                    ...this.props.user,
+                                    solde: newSolde,
+                                };
+                                this.updateProfile(user);
+                                this._validateFieldsAndSubmit();
+                            }
                         }}
                 /></View>
         );
@@ -833,22 +852,20 @@ class CreateAction extends Component {
                 <View style={{width: 390}}>
                     <GooglePlacesAutocomplete
                         placeholder=''
-                        minLength={2}
+                        minLength={2} // minimum length of text to search
                         autoFocus={false}
-                        returnKeyType={'search'}
-                        listViewDisplayed='auto'
+                        returnKeyType={'location'}
+                        listViewDisplayed='auto'    // true/false/undefined
                         fetchDetails={true}
-                        textInputProps={{value: this.state.location}}
-                        onPress={(text) =>
-                            this.setState({location: text.description})
-                        }
+                        renderDescription={(row) => row.description} // custom description render
+                        onPress={(text) => this.setState({location: text.description})}
                         getDefaultValue={() => {
                             return '';
                         }}
                         query={{
-                            key: 'AIzaSyA5mOz3Lz2_O0hpZIkylbRyAV2NWdariZQ',
-                            language: 'fr', // language of the results
-                            types: ['establishment', 'geocode'] // default: 'geocode'
+                            key: 'AIzaSyAh7zH3Wh2O7DFysEETBw0mh7xbkxf6X18',
+                            language: 'fr',
+                            types: 'establishment',
                         }}
                         styles={{
                             textInputContainer: {
@@ -872,8 +889,6 @@ class CreateAction extends Component {
                             },
                         }}
                         currentLocation={false}
-                        currentLocationLabel="Current location"
-                        nearbyPlacesAPI='GooglePlacesSearch'
                         debounce={200}
                     />
                 </View>
@@ -1029,10 +1044,32 @@ class CreateAction extends Component {
 
                         });
 
+                        let arrayMeans = [];
+                        if (means.length > 0) {
+                            arrayMeans = this.state.meanOptions.map(m => {
+
+                                    let mean = means.find(mba => parseInt(mba.meanId) === parseInt(m.id));
+                                    const newMean = mean ? {
+                                            id: m.id,
+                                            name: m.name,
+                                            vizzsPerMean: m.vizzsPerMean,
+                                            quantity: mean.quantity,
+                                        }
+                                        :
+                                        m;
+                                    return newMean;
+
+                                },
+                            );
+                        }
+                        else {
+                            arrayMeans = this.state.meanOptions;
+                        }
+
                         this.setState({
                             action: action,
                             showFields: parseInt(actionSplit[0]),
-                            meansByAction: means,
+                            meansByAction: arrayMeans,
                             means: arrayDipense,
 
                         });
@@ -1062,27 +1099,11 @@ class CreateAction extends Component {
     }
 
     _renderMeans() {
-        let arrayMeans = [];
-        if (this.state.meansByAction.length > 0)
-            arrayMeans = this.state.meanOptions.map(m => {
 
-                    let mean = this.state.meansByAction.find(mba => parseInt(mba.meanId) === parseInt(m.id));
-
-                    const newMean = mean ? {
-                        id: m.id,
-                        name: m.name,
-                        vizzsPerMean: m.vizzsPerMean,
-                        quantity: mean.quantity,
-                    }
-                        :
-                        m;
-                    return newMean;
-
-                },
-            );
-
+        let displayGrid = this.state.showTable ? 'flex' : 'none';
         return (
             <View style={{
+                display: displayGrid,
                 flexDirection: 'column',
                 backgroundColor: 'rgb(221, 239, 239)',
                 width: 350,
@@ -1095,45 +1116,36 @@ class CreateAction extends Component {
                     <AppText style={{fontWeight: 'bold'}}>Quantité</AppText>
                 </View>
                 {
-                    arrayMeans.map((mean, i) =>
+                    this.state.meansByAction.map((mean, i) =>
                         <GridRow mean={mean} key={i}
-                                 onQuantityChange={(meanId, vizz) => {
+                                 onQuantityChange={(meanId, vizz, quantity) => {
                                      let uniqueMeans = this.state.means;
-                                     let mean = {id: meanId, vizz: vizz};
+                                     let mean = {meanId: meanId, vizz: vizz, quantity: quantity};
                                      if (this.state.means.find(m => parseInt(m.id) === parseInt(meanId)) != undefined) {
-
                                          uniqueMeans = this.state.means.map(m => {
-
-                                                 const newMean = parseInt(m.id) === parseInt(meanId) ? mean
-                                                     :
-                                                     m;
-
+                                             const newMean = parseInt(m.id) === parseInt(meanId) ?
+                                                 mean : m;
                                                  return newMean;
-
                                              },
                                          );
                                      }
                                      else
                                          uniqueMeans.push(mean);
-
                                      this.setState({
                                          means: uniqueMeans,
                                      });
-
+                                     this.state.means.map((m) => {
+                                         console.warn(Object.keys(m) + Object.values(m));
+                                     });
                                  }}
                         ></GridRow>,
                     )
                 }
-
-
                 <AppText style={{paddingRight: 30, paddingLeft: 30, fontWeight: 'bold'}}>Dépenses
                     Immédiates: {this._renderSumExpense()}</AppText>
-
-
             </View>
         );
     }
-
 
     _renderSumExpense() {
 
@@ -1164,10 +1176,13 @@ class CreateAction extends Component {
 
     };
 
+    async updateProfile(user) {
+
+        let updatedUser = await db.users.update(user);
+    }
+
     _addActivity = async (activity) => {
-
         await db.actions.addActivity(activity);
-
     };
 
     _renderHeadband() {
@@ -1213,14 +1228,13 @@ class CreateAction extends Component {
                         fill="orange"
                     />
                     <Text x="13" y="30" fontWeight="bold" fontSize="16"
-                          fill="white">390</Text>
+                          fill="white">{this.state.solde}</Text>
                     <Image height="45" width="45" x="17" y="9" href={require('../../images/events/vizz_logo.png')}/>
                 </G>
             </Svg>
         );
     }
 }
-
 
 const spaceBetweenFields = 20;
 
@@ -1291,13 +1305,18 @@ const styles = StyleSheet.create({
 
 });
 
-
-
 const mapStateToProps = ({user}, ownProps) => ({
     user,
     ...ownProps,
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        refreshActions: fetchActions,
+    }, dispatch);
+};
+
 export default connect(
     mapStateToProps,
+    mapDispatchToProps,
 )(CreateAction);

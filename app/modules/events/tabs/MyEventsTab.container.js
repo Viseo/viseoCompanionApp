@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import {fetchEvents} from '../events.actions';
 
 function breakDownIntoSections(events, user) {
-
     let hosted = events.items.filter(event => event.host.id === user.id);
     if (hosted.length > 3) {
         hosted = hosted.slice(0, 3);
