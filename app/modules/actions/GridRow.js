@@ -86,7 +86,6 @@ class GridRow extends Component {
                                      this.setState({
                                          quantity: parseInt(this.state.quantity) + 1,
                                      });
-
                                      let vizz = (this.state.quantity + 1) * mean.vizzsPerMean;
                                      this.state.onQuantityChange(mean.id, vizz, this.state.quantity + 1);
                                  }}
