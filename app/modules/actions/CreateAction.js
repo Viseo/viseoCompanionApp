@@ -16,6 +16,8 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import Holidays from 'date-holidays';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
 import DatePicker from 'react-native-datepicker';
+import {fetchActions} from './actions.actions';
+import {bindActionCreators} from 'redux';
 
 class CreateAction extends Component {
 
@@ -25,6 +27,7 @@ class CreateAction extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: {...this.props.user},
             solde: this.props.user.solde,
             quantity: 0,
             vizzsPerMean: 0,
@@ -301,9 +304,9 @@ class CreateAction extends Component {
                     recurrence: '',
                     publicationType: '',
                 };
-                if (this.state.isValidLocation && this.state.isValidDescription)
+                if (this.state.isValidLocation && this.state.isValidDescription) {
                     this._addActivity(activity);
-
+                }
                 break;
             case 2:
                 activity = {
@@ -609,6 +612,7 @@ class CreateAction extends Component {
                 break;
         }
         this._emptyFields();
+        this.props.refreshActions();
         this.props.navigator.push({
             screen: 'events.events',
             title: 'Evénèments',
@@ -645,9 +649,11 @@ class CreateAction extends Component {
                                 );
                             }
                             else {
-                                this.setState({
-                                    solde: this.state.solde,
-                                });
+                                const user = {
+                                    ...this.props.user,
+                                    solde: newSolde,
+                                };
+                                this.updateProfile(user);
                                 this._validateFieldsAndSubmit();
                             }
                         }}
@@ -846,22 +852,20 @@ class CreateAction extends Component {
                 <View style={{width: 390}}>
                     <GooglePlacesAutocomplete
                         placeholder=''
-                        minLength={0}
+                        minLength={2} // minimum length of text to search
                         autoFocus={false}
-                        returnKeyType={'search'}
-                        listViewDisplayed='auto'
+                        returnKeyType={'location'}
+                        listViewDisplayed='auto'    // true/false/undefined
                         fetchDetails={true}
-                        textInputProps={{value: this.state.location}}
-                        onPress={(text) =>
-                            this.setState({location: text.description})
-                        }
+                        renderDescription={(row) => row.description} // custom description render
+                        onPress={(text) => this.setState({location: text.description})}
                         getDefaultValue={() => {
                             return '';
                         }}
                         query={{
-                            key: 'AIzaSyA5mOz3Lz2_O0hpZIkylbRyAV2NWdariZQ',
-                            language: 'fr', // language of the results
-                            types: ['establishment', 'geocode'] // default: 'geocode'
+                            key: 'AIzaSyAh7zH3Wh2O7DFysEETBw0mh7xbkxf6X18',
+                            language: 'fr',
+                            types: 'establishment',
                         }}
                         styles={{
                             textInputContainer: {
@@ -885,8 +889,6 @@ class CreateAction extends Component {
                             },
                         }}
                         currentLocation={false}
-                        currentLocationLabel="Current location"
-                        nearbyPlacesAPI='GooglePlacesSearch'
                         debounce={200}
                     />
                 </View>
@@ -1116,9 +1118,9 @@ class CreateAction extends Component {
                 {
                     this.state.meansByAction.map((mean, i) =>
                         <GridRow mean={mean} key={i}
-                                 onQuantityChange={(meanId, vizz) => {
+                                 onQuantityChange={(meanId, vizz, quantity) => {
                                      let uniqueMeans = this.state.means;
-                                     let mean = {id: meanId, vizz: vizz};
+                                     let mean = {meanId: meanId, vizz: vizz, quantity: quantity};
                                      if (this.state.means.find(m => parseInt(m.id) === parseInt(meanId)) != undefined) {
                                          uniqueMeans = this.state.means.map(m => {
                                              const newMean = parseInt(m.id) === parseInt(meanId) ?
@@ -1129,11 +1131,12 @@ class CreateAction extends Component {
                                      }
                                      else
                                          uniqueMeans.push(mean);
-
                                      this.setState({
                                          means: uniqueMeans,
                                      });
-
+                                     this.state.means.map((m) => {
+                                         console.warn(Object.keys(m) + Object.values(m));
+                                     });
                                  }}
                         ></GridRow>,
                     )
@@ -1173,10 +1176,13 @@ class CreateAction extends Component {
 
     };
 
+    async updateProfile(user) {
+
+        let updatedUser = await db.users.update(user);
+    }
+
     _addActivity = async (activity) => {
-
         await db.actions.addActivity(activity);
-
     };
 
     _renderHeadband() {
@@ -1304,6 +1310,13 @@ const mapStateToProps = ({user}, ownProps) => ({
     ...ownProps,
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        refreshActions: fetchActions,
+    }, dispatch);
+};
+
 export default connect(
     mapStateToProps,
+    mapDispatchToProps,
 )(CreateAction);

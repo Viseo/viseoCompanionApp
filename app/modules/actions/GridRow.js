@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import {View} from "react-native";
-import AppText from "../global/components/AppText";
-import Icon from "react-native-vector-icons/FontAwesome";
-import AppTextInput from "../global/components/AppTextInput";
-import PropTypes from "prop-types";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import AppText from '../global/components/AppText';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AppTextInput from '../global/components/AppTextInput';
+import PropTypes from 'prop-types';
 
 class GridRow extends Component {
     constructor(props) {
@@ -29,8 +29,7 @@ class GridRow extends Component {
     render() {
         let {mean} = this.state;
 
-
-        const multiQuantityVizz = /*this.state.quantity === 0 ? mean.vizzsPerMean :*/ mean.vizzsPerMean;// * this.state.quantity;
+        const multiQuantityVizz = mean.vizzsPerMean;
         return (
             <View style={{flexDirection: "row", alignItems: "center", height: 50, width: 350}}>
                 <View style={{flex: 3, marginLeft: 5, flexWrap: "nowrap"}}>
@@ -48,7 +47,7 @@ class GridRow extends Component {
                                              quantity: this.state.quantity - 1,
                                          });
                                          let vizz = (this.state.quantity - 1) * mean.vizzsPerMean;
-                                         this.state.onQuantityChange(mean.id, vizz);
+                                         this.state.onQuantityChange(mean.id, vizz, this.state.quantity - 1);
                                      }
 
                                  }}
@@ -68,7 +67,6 @@ class GridRow extends Component {
                             paddingRight: 0,
                             marginTop: -10,
                             color: "dimgrey",
-
                         }}
                         label=""
                         value={this.state.quantity.toString()}
@@ -76,7 +74,8 @@ class GridRow extends Component {
                             this.setState({
                                 quantity: parseInt(quantity),
                             });
-                            this.state.onQuantityChange(mean.id, quantity);
+                            let vizz = (this.state.quantity - 1) * mean.vizzsPerMean;
+                            this.state.onQuantityChange(mean.id, vizz, quantity);
                         }}
                     >
 
@@ -89,7 +88,7 @@ class GridRow extends Component {
                                      });
 
                                      let vizz = (this.state.quantity + 1) * mean.vizzsPerMean;
-                                     this.state.onQuantityChange(mean.id, vizz);
+                                     this.state.onQuantityChange(mean.id, vizz, this.state.quantity + 1);
                                  }}
                     />
                 </View>
