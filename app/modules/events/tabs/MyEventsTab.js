@@ -51,6 +51,7 @@ export default class MyEventsTab extends Component {
                 </View>
             );
         } else {
+
             return (
                 <View style={styles.eventCardContainer}>
                     <EventCard
@@ -76,7 +77,7 @@ export default class MyEventsTab extends Component {
             this.setState({refreshing: false});
         });
     }
-}
+};
 
 MyEventsTab.propTypes = {
     events: PropTypes.array.isRequired,

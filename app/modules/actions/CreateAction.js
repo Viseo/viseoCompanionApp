@@ -1134,9 +1134,6 @@ class CreateAction extends Component {
                                      this.setState({
                                          means: uniqueMeans,
                                      });
-                                     this.state.means.map((m) => {
-                                         console.warn(Object.keys(m) + Object.values(m));
-                                     });
                                  }}
                         ></GridRow>,
                     )

@@ -11,7 +11,6 @@ import {
 } from './events.actions';
 
 function formatEvent(event) {
-
     return {
         ...event,
         keywords: event.keyWords.split(',').map(keyword => keyword.toLowerCase().trim()),
@@ -28,12 +27,12 @@ function formatEvent(event) {
 }
 
 const events = (state = {
-    isFetching: false,
-    didInvalidate: false,
-    items: [],
-    itemsExpired: [],
-    itemsReviewed: [],
-}, action) => {
+                    isFetching: false,
+                    didInvalidate: false,
+                    items: [],
+                    itemsExpired: [],
+                    itemsReviewed: [],
+                }, action) => {
     switch (action.type) {
         case ADD_EVENT:
             return {
