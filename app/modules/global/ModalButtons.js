@@ -37,7 +37,7 @@ export default class ModalButtons extends Component {
                 break;
             case 'bottomTabReselected':
                 this.setState({
-                    show: true,
+                    show: false,
                 });
                 break;
         }

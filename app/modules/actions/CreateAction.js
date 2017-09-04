@@ -1145,12 +1145,10 @@ class CreateAction extends Component {
     }
 
     _renderSumExpense() {
-
         let sumDepense = 0;
         this.state.means.map(mean =>
             sumDepense += mean.vizz);
         return sumDepense;
-
     }
 
     _getMeans = async () => {

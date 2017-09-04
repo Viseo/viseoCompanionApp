@@ -44,7 +44,7 @@ class GridRow extends Component {
                                  onPress={() => {
                                      if (this.state.quantity > this.props.mean.quantity) {
                                          this.setState({
-                                             quantity: this.state.quantity - 1,
+                                             quantity: parseInt(this.state.quantity) - 1,
                                          });
                                          let vizz = (this.state.quantity - 1) * mean.vizzsPerMean;
                                          this.state.onQuantityChange(mean.id, vizz, this.state.quantity - 1);
