@@ -42,7 +42,7 @@ class CreateEvent extends Component {
     }
 
     async _saveEvent() {
-        const isFormValid = this.state.name && this.state.location;
+        const isFormValid = this.state.name && this.state.location && this.state.description;
         if (isFormValid) {
             await this.props.addEvent({
                 name: this.state.name,

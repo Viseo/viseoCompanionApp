@@ -5,9 +5,10 @@ import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import ImagePicker from '../global/components/ImagePicker';
 import PropTypes from 'prop-types';
-import {Dimensions, Picker, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Picker, ScrollView, StyleSheet, View} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import colors from '../global/colors';
+
 const Permissions = require('react-native-permissions');
 
 export default class EventForm extends Component {
@@ -126,10 +127,15 @@ export default class EventForm extends Component {
     _renderDescriptionField() {
         return (
             <AppTextInput
-                ref="description"
                 label="Description"
+                validator={(description) => this._isValidLength(description)}
                 value={this.state.description}
-                onChangeText={description => this.props.setDescription(description)}
+                onChangeText={description => {
+                    this.setState({
+                        description,
+                    });
+                    this.props.setDescription(description);
+                }}
                 onSubmitEditing={ () => {
                     this.refs.location.focus();
                 }}
@@ -205,7 +211,7 @@ export default class EventForm extends Component {
         return (
             <AppTextInput
                 label="Nom"
-                validator={(name) => !this._getNameError(name)}
+                validator={(name) => this._isValidLength(name)}
                 invalidTextMessage={this.state.nameError}
                 value={this.state.name}
                 onChangeText={name => {
@@ -224,13 +230,16 @@ export default class EventForm extends Component {
     }
 
     _setDefaultValues() {
-        //console.warn(this.state.location);
         this.props.setLocation(this.state.location);
         this.props.setDate(this.state.datetime);
         this.props.setCategory(this.state.category);
         this.props.setImage(this.state.imageUrl);
         this.props.setDescription(this.state.description);
         this.props.setName(this.state.name);
+    }
+
+    _isValidLength(text) {
+        return text.length > 0;
     }
 };
 
