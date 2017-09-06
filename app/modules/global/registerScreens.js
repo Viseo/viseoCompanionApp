@@ -11,6 +11,7 @@ import UnreachableServerPopup from './components/UnreachableServerPopup';
 import InvalidFormPopup from './components/InvalidFormPopup';
 import ModalButtons from './ModalButtons';
 import CreateAction from '../actions/CreateAction';
+import CreateEvent from '../events/CreateEvent';
 
 export function registerScreens(store, provider) {
     registerAppLoader(store, provider);
@@ -23,6 +24,7 @@ export function registerScreens(store, provider) {
     registerVizzModule(store, provider);
     Navigation.registerComponent('global.modalButtons', () => ModalButtons,store, provider);
     Navigation.registerComponent('actions.CreateAction', () => CreateAction,store, provider);
+    Navigation.registerComponent('events.createEvent', () => CreateEvent, store, provider);
     Navigation.registerComponent('global.unreachableServerPopup', () => UnreachableServerPopup);
     Navigation.registerComponent('global.invalidFormPopup', () => InvalidFormPopup);
 }

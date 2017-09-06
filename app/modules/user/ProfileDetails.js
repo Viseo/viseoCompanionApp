@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import {Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
-import AppText from "../global/components/AppText";
-import PropTypes from "prop-types";
-import UserAvatar from "react-native-user-avatar";
-import colors from "../global/colors";
+import React, {Component} from 'react';
+import {Dimensions, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import AppText from '../global/components/AppText';
+import PropTypes from 'prop-types';
+import UserAvatar from 'react-native-user-avatar';
+import colors from '../global/colors';
 
 export default class ProfileDetails extends Component {
 
@@ -61,7 +61,7 @@ export default class ProfileDetails extends Component {
     renderFirstName() {
         return (
             <View style={styles.textFieldContainer}>
-                <AppText style={styles.label}>Nom</AppText>
+                <AppText style={styles.label}>Prénom</AppText>
                 <AppText style={styles.displayText}>{this.props.user.firstName}</AppText>
             </View>
         );
@@ -70,7 +70,7 @@ export default class ProfileDetails extends Component {
     renderLastName() {
         return (
             <View style={styles.textFieldContainer}>
-                <AppText style={styles.label}>Prénom</AppText>
+                <AppText style={styles.label}>Nom</AppText>
                 <AppText style={styles.displayText}>{this.props.user.lastName}</AppText>
             </View>
         );

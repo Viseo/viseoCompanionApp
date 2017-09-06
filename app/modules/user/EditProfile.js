@@ -50,7 +50,7 @@ export class EditProfile extends Component {
     renderFirstNameField() {
         return (
             <AppTextInput
-                label="Nom"
+                label="Prénom"
                 validator={(text) => this.isNonEmpty(text)}
                 value={this.state.user.firstName}
                 onChangeText={firstName => {
@@ -63,7 +63,7 @@ export class EditProfile extends Component {
     renderLastNameField() {
         return (
             <AppTextInput
-                label="Prénom"
+                label="Nom"
                 validator={(text) => this.isNonEmpty(text)}
                 value={this.state.user.lastName}
                 onChangeText={lastName => {
@@ -176,7 +176,6 @@ EditProfile.propTypes = {
     navigator: PropTypes.object.isRequired,
     updateUser: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired,
-
 };
 
 EditProfile.navigatorButtons = {

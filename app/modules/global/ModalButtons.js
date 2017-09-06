@@ -115,14 +115,14 @@ export default class ModalButtons extends Component {
                                         }}
 
                                         onPress={() => {
-                                            {/*this.setState({show: false});*/
-                                            }
-                                            {/*this.props.navigator.switchToTab({*/
-                                            }
-                                            {/*tabIndex: 0*/
-                                            }
-                                            {/*});*/
-                                            }
+                                            this.setState({
+                                                show: false,
+                                            });
+                                            this.props.navigator.push({
+                                                screen: 'events.createEvent',
+                                                title: 'Créer évènement',
+                                                navigatorStyle: defaultNavBarStyle,
+                                            });
                                         }}
                                     >
                                         <Icon
