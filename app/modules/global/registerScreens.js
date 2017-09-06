@@ -12,6 +12,7 @@ import InvalidFormPopup from './components/InvalidFormPopup';
 import ModalButtons from './ModalButtons';
 import CreateAction from '../actions/CreateAction';
 import CreateEvent from '../events/CreateEvent';
+import Events from '../events/Events';
 
 export function registerScreens(store, provider) {
     registerAppLoader(store, provider);
@@ -25,6 +26,7 @@ export function registerScreens(store, provider) {
     Navigation.registerComponent('global.modalButtons', () => ModalButtons,store, provider);
     Navigation.registerComponent('actions.CreateAction', () => CreateAction,store, provider);
     Navigation.registerComponent('events.createEvent', () => CreateEvent, store, provider);
+    Navigation.registerComponent('events.events', () => Events, store, provider);
     Navigation.registerComponent('global.unreachableServerPopup', () => UnreachableServerPopup);
     Navigation.registerComponent('global.invalidFormPopup', () => InvalidFormPopup);
 }

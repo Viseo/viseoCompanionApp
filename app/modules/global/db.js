@@ -239,8 +239,8 @@ export const users = {
     },
     update: async (user) => {
         try {
-            let image = null;
-            if (user.imageUrl) {
+            if (!user.imageUrl) {
+                let image = null;
                 let formData = new FormData();
                 formData.append("file", {
                     uri: user.imageUrl.uri,
@@ -252,6 +252,7 @@ export const users = {
                     body: formData,
                 });
                 image = await responseImage.text();
+                user.imageUrl = image;
             }
             let response = await fetch(settings.api.updateUser, {
                 method: "PUT",
@@ -259,8 +260,7 @@ export const users = {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    ...user,
-                    "imageUrl": image,
+                    ...user
                 }),
             });
             return await response.json();

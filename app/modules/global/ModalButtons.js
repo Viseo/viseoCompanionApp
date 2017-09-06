@@ -150,9 +150,12 @@ export default class ModalButtons extends Component {
                                                 show: false,
                                             });
                                             this.props.navigator.push({
-                                                screen: 'actions.Actions',
-                                                title: 'Mes actions',
+                                                screen: 'events.events',
+                                                title: 'Evénèments',
                                                 navigatorStyle: defaultNavBarStyle,
+                                                passProps: {
+                                                    tabId: 3,
+                                                },
                                             });
                                         }}
                                     >
