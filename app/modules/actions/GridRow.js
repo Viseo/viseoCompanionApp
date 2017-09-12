@@ -91,11 +91,9 @@ class GridRow extends Component {
                                  }}
                     />
                 </View>
-
             </View>
         );
     }
-
 }
 
 export default GridRow;
