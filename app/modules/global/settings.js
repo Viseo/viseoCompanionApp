@@ -19,6 +19,7 @@ const restRoutes = {
     updateUser: serverURL + 'users/',
     updatedEvent: serverURL + 'events/',
     updatedComment: serverURL + 'comments',
+    updatedActivity: serverURL + 'activities',
     uploadImage: serverURL + 'upload',
     authenticate: serverURL + 'authenticate',
     sendReview: serverURL + 'reviews',
@@ -86,6 +87,7 @@ const restRoutes = {
     addActivity:() =>{
         return serverURL +  'activities';
     },
+
 };
 
 /////////// EXPORTED SETTINGS ////////////////

@@ -459,4 +459,19 @@ export const actions = {
             return null;
         }
     },
+    update: async (activity) => {
+        try {
+            let response = await fetch(settings.api.updatedActivity, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(activity),
+            });
+            return await response.json();
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    },
 };

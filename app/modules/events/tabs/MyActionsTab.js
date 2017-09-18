@@ -5,6 +5,7 @@ import ActionCard from '../../actions/ActionCard';
 import {noActionsForThisCategory} from './util';
 import colors from '../../global/colors';
 
+
 const deviceHeight = Dimensions.get('window').height;
 
 export default class MyActionsTab extends Component {
@@ -52,7 +53,7 @@ export default class MyActionsTab extends Component {
             );
         } else {
             return (
-                <ActionCard item={item}/>
+                <ActionCard item={item} navigator={this.props.navigator}/>
             );
         }
     }
@@ -66,3 +67,4 @@ export default class MyActionsTab extends Component {
 }
 
 MyActionsTab.propTypes = {};
+

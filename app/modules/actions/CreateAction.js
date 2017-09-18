@@ -58,7 +58,7 @@ class CreateAction extends Component {
 
     componentWillMount() {
         this._getMeans();
-        //  console.disableYellowBox = true;
+        console.disableYellowBox = true;
     }
 
     render() {
@@ -1166,6 +1166,7 @@ class CreateAction extends Component {
             passProps: {
                 actionId: actionSplitted[0],
                 tabId: 3,
+                navigator:this.props.navigator
             },
         });
     }

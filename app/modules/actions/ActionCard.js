@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import AppText from '../global/components/AppText';
 import colors from '../global/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {defaultNavBarStyle} from '../global/navigatorStyle';
 
 class ActionCard extends Component {
 
@@ -21,6 +22,7 @@ class ActionCard extends Component {
                 marginBottom: 15,
                 backgroundColor: colors.white,
             }}>
+                { /*{this. _renderActionEdit()}*/}
                 <AppText
                     style={{alignSelf: 'center', color: colors.red, fontSize: 15, marginTop: 10, marginBottom: 10}}>
                     {this.props.item.action.name}
@@ -76,11 +78,132 @@ class ActionCard extends Component {
                             }}>
                             {this.props.item.dateEnd}
                         </AppText>
+
                     </View>
+
+                </View>
+                <View style={{
+                    flex: 0.5,
+                    backgroundColor: colors.red,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                <Icon.Button
+                    style={[styles.icon, {
+                        paddingRight: 80
+                    }]}
+                    name="edit"
+                    size={40}
+                    color={colors.white}
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: 'actions.CreateAction',
+                            title: 'Ajouter une action',
+                            navigatorStyle: defaultNavBarStyle,
+                            passProps: {
+                                actionId: this.props.item.id,
+                                userId: this.props.userId,
+                                refresh: this.props.refresh,
+                            },
+
+                        });
+                    }}
+                />
+                <Icon.Button
+                    name="trash"
+                    style={[styles.icon, {
+                        paddingLeft: 80
+                    }]}
+                    size={40}
+                    color={colors.white}
+                />
                 </View>
             </View>
         );
     }
+
+    /*_renderActionEdit() {
+        const deleteButton = canEdit ? this._renderDelete() : null;
+        const canEdit = this.props.actionId.userId === this.props.item.id.userId;
+        const editButton = canEdit ? this._renderEdit() : null;
+
+        return (
+
+            <View style={{
+                flex: 0.5,
+                backgroundColor: colors.red,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
+                {editButton}
+                {deleteButton}
+            </View>
+        );
+    }
+    _renderEdit() {
+        const reply = (
+
+            <Icon.Button
+                style={[styles.icon, {
+                    paddingRight: 80
+                }]}
+                name="edit"
+                size={40}
+                color={colors.white}
+                onPress={() => {
+                    this.props.navigator.push({
+                        screen: 'actions.CreateAction',
+                        title: 'Ajouter une action',
+                        navigatorStyle: defaultNavBarStyle,
+                        passProps: {
+                            actionId: this.props.item.id,
+                            userId: this.props.userId,
+                            refresh: this.props.refresh,
+                        },
+
+                    });
+                }}
+            />
+        );
+        return (
+
+            <View style={{
+                flex: 0.5,
+                backgroundColor: colors.red,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
+                {reply}
+            </View>
+
+        );
+    }
+    _renderDelete() {
+        const deleteAction = (
+            <Icon.Button
+                name="trash"
+                style={[styles.icon, {
+                    paddingLeft: 80
+                }]}
+                size={40}
+                color={colors.white}
+            />
+        );
+        return (
+            <View style={{
+                flex: 0.5,
+                backgroundColor: colors.red,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
+                {deleteAction}
+            </View>
+        );
+    }*/
 }
 
 ActionCard.propTypes = {};
@@ -100,3 +223,15 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(ActionCard);
+
+
+const styles = StyleSheet.create({
+
+    icon: {
+        backgroundColor: colors.red,
+        fontWeight: 'bold',
+        flex: 15,
+        textAlign: 'center',
+
+    },
+});
