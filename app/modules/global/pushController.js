@@ -18,7 +18,14 @@ export default class PushController extends Component {
 
     componentDidMount() {
         FCM.requestPermissions();
-        FCM.getFCMToken();
+
+        FCM.getFCMToken().then(token => {
+            console.log("TOKEN (getFCMToken)", token);
+        });
+
+        FCM.getInitialNotification().then(notif => {
+            console.log("INITIAL NOTIFICATION", notif)
+        });
 
         if (Platform.OS === 'ios') {
             FCM.subscribeToTopic('/topics/newEventIOS');

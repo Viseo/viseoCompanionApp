@@ -8,6 +8,7 @@ import colors from '../global/colors';
 import UserAvatar from 'react-native-user-avatar';
 import Svg, {Defs, G, Image, LinearGradient, Rect, Stop, Text} from 'react-native-svg';
 import {defaultNavBarStyle} from '../global/navigatorStyle';
+import PushController from "../global/pushController";
 
 const {height, width} = Dimensions.get('window');
 
@@ -54,6 +55,7 @@ class NewsFeed extends Component {
         const notationPopup = null;
         return (
             <View style={{backgroundColor: colors.lightGray, height: height, width: width}}>
+                <PushController />
                 {this._renderHeadband()}
                 {this._renderProfile()}
                 {this._renderAvatar()}

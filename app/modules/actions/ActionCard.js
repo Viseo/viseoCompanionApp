@@ -204,6 +204,7 @@ class ActionCard extends Component {
             </View>
         );
     }*/
+
 }
 
 ActionCard.propTypes = {};
