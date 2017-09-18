@@ -87,6 +87,9 @@ const restRoutes = {
     addActivity:() =>{
         return serverURL +  'activities';
     },
+    deleteActivity: (activityId) => {
+        return serverURL + 'activities/' + activityId;
+    },
 
 };
 

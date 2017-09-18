@@ -22,7 +22,7 @@ class ActionCard extends Component {
                 marginBottom: 15,
                 backgroundColor: colors.white,
             }}>
-                { /*{this. _renderActionEdit()}*/}
+
                 <AppText
                     style={{alignSelf: 'center', color: colors.red, fontSize: 15, marginTop: 10, marginBottom: 10}}>
                     {this.props.item.action.name}
@@ -89,43 +89,16 @@ class ActionCard extends Component {
                     justifyContent: 'space-between',
                     alignItems: 'center'
                 }}>
-                <Icon.Button
-                    style={[styles.icon, {
-                        paddingRight: 80
-                    }]}
-                    name="edit"
-                    size={40}
-                    color={colors.white}
-                    onPress={() => {
-                        this.props.navigator.push({
-                            screen: 'actions.CreateAction',
-                            title: 'Ajouter une action',
-                            navigatorStyle: defaultNavBarStyle,
-                            passProps: {
-                                actionId: this.props.item.id,
-                                userId: this.props.userId,
-                                refresh: this.props.refresh,
-                            },
-
-                        });
-                    }}
-                />
-                <Icon.Button
-                    name="trash"
-                    style={[styles.icon, {
-                        paddingLeft: 80
-                    }]}
-                    size={40}
-                    color={colors.white}
-                />
+                    {this. _renderActionEdit()}
                 </View>
             </View>
         );
     }
 
-    /*_renderActionEdit() {
+    _renderActionEdit() {
+
+        const canEdit = this.props.user.id=== this.props.item.user.id;
         const deleteButton = canEdit ? this._renderDelete() : null;
-        const canEdit = this.props.actionId.userId === this.props.item.id.userId;
         const editButton = canEdit ? this._renderEdit() : null;
 
         return (
@@ -147,7 +120,7 @@ class ActionCard extends Component {
 
             <Icon.Button
                 style={[styles.icon, {
-                    paddingRight: 80
+                    paddingLeft: 80
                 }]}
                 name="edit"
                 size={40}
@@ -190,6 +163,20 @@ class ActionCard extends Component {
                 }]}
                 size={40}
                 color={colors.white}
+                onPress={() => {
+                    this.props.navigator.showLightBox({
+                        screen: "actions.DeleteLightBox",
+                        passProps: {
+                            actionId:this.props.item.id
+                        },
+                        style: {
+                            backgroundBlur: "xlight",
+                            backgroundColor: "#ff000080"
+                        },
+                        adjustSoftInput: "resize",
+                    });
+
+                }}
             />
         );
         return (
@@ -203,7 +190,7 @@ class ActionCard extends Component {
                 {deleteAction}
             </View>
         );
-    }*/
+    }
 
 }
 

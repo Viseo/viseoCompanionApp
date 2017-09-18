@@ -58,7 +58,7 @@ class CreateAction extends Component {
 
     componentWillMount() {
         this._getMeans();
-        console.disableYellowBox = true;
+      //  console.disableYellowBox = true;
     }
 
     render() {

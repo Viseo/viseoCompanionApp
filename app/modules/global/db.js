@@ -474,4 +474,22 @@ export const actions = {
             return null;
         }
     },
+    delete: async (activityId) => {
+        try {
+            console.warn(activityId)
+            let response = await fetch(settings.api.deleteActivity(activityId), {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            let responseJson = await response.json();
+            if (responseJson) {
+                return true;
+            }
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    },
 };
