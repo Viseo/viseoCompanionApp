@@ -2,8 +2,12 @@ import React, {Component} from "react";
 import {Button, View, Dimensions} from "react-native";
 import AppText from "../global/components/AppText";
 import * as db from "../global/db";
-
-export default class DeleteAction extends Component {
+import {connect} from 'react-redux';
+import moment from "moment";
+import {noActionsForThisCategory} from "../events/tabs/util";
+import {fetchActions} from "./actions.actions";
+import {bindActionCreators} from 'redux';
+class DeleteAction extends Component {
     constructor(props) {
         super(props);
     }
@@ -32,6 +36,7 @@ export default class DeleteAction extends Component {
                     <View style={{flex: .5, alignSelf: "center", marginRight: 5}}>
                         <Button onPress={() => {
                             db.actions.delete(this.props.actionId);
+                            this.props.refresh();
                             this.props.navigator.dismissLightBox();
                         }}
                                 title="Oui"/>
@@ -47,3 +52,36 @@ export default class DeleteAction extends Component {
         );
     }
 };
+
+
+DeleteAction.propTypes = {};
+
+function filterActionsByUser(actions, userId) {
+    let hostedActions = actions.myItems.filter((action) => {
+        return action.user.id === userId;
+    });
+    if (hostedActions.length === 0) {
+        hostedActions.push(noActionsForThisCategory);
+    }
+    return hostedActions.sort((action1, action2) => {
+        return moment(action1.dateStart) - moment(action2.dateStart);
+    });
+}
+
+const mapStateToProps = ({actions, user}, ownProps) => ({
+    actions: filterActionsByUser(actions, user.id),
+    user,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+            refresh: fetchActions,
+        },
+        dispatch,
+    );
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DeleteAction);
